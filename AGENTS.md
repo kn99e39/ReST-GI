@@ -1,6 +1,6 @@
 # Working On This Repo
 
-## Selective_Recompute research gate — Surface-Owned Transport Units (2026-10-13; updated 2026-10-14, worklog 32)
+## Selective_Recompute research gate — Surface-Owned Transport Units (2026-10-13; updated 2026-10-18, worklog 36)
 
 **User-confirmed definition:** Selective recomputation means **recompute the COMPLETE owned learned state of every transport unit whose learned transport was invalidated by a geometry edit**, while keeping the complete state of every still-valid unit unchanged. A unit U_i = (S_i, Θ_i) owns a surface domain S_i and all of its trainable parameters Θ_i. Units **may be finer than a scene object** (the user's decision of 2026-10-13); a whole object is the coarsest unit, and **object-level full recomputation remains a valid coarse comparison**.
 
@@ -29,7 +29,9 @@ Full list: docs/RESEARCH_CENTRIC_TOPIC.md §2.
 - C1 is an RNA representation limit on near-mirror conductors;
 - the C2 gate miss is dominated by 128-spp target noise.
 
-Batch 2 (worklog 34) attributed the P16 seams to independent per-unit error fields exposed by hard selection. P16-PU composition removes most of the seam excess; the interior per-unit fidelity loss remains. **Batch 3 is not authorised** (docs/RESEARCH_ROADMAP.md §3). Worklog 35 qualified native RNA on the official Lego: it reproduces the released checkpoints, and the gap to the paper is validation-target noise (classification: comparable). Static gates must use converged references.
+Batch 2 (worklog 34) attributed the P16 seams to independent per-unit error fields exposed by hard selection. P16-PU composition removes most of the seam excess; the interior per-unit fidelity loss remains. Worklog 35 qualified native RNA on the official Lego: it reproduces the released checkpoints, and the gap to the paper is validation-target noise (classification: comparable). Static gates must use converged references.
+
+Batch 3 (worklog 36, native Lego, user-authorised 2026-10-18) passed the predeclared static screening (Case A). 16 independent complete RNA units score −0.32 dB vs native RNA HQ on held-out 4096-spp views (logL1 1.05×, interior unchanged; 1.54× parameters, capacity-confounded). PU removes 91% of the seam excess, and one-unit REINIT is exact in parameters and output influence (S_i ∪ B_i). Radiometric validity after a geometry edit is untested. **Batch 4 is not authorised**; the recommended next question is physical geometry-edit reconstruction on Lego (docs/RESEARCH_ROADMAP.md §3).
 
 **Historical scope:**
 - Worklog 30 validly tested triplane-cell masking inside one 8DNA asset with shared layers frozen; its negative result is not a test of owned units.

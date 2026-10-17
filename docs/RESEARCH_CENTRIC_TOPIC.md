@@ -1,7 +1,7 @@
 # Research Centric Topic — Surface-Owned Selective Neural Transport Recomputation
 
-**Last updated:** 2026-10-17 (worklog 35)  
-**Status:** Active problem; Surface-Owned Transport Units are the active representation hypothesis (Batch 1 of ≥ 5 architecture batches reported); full method not validated  
+**Last updated:** 2026-10-18 (worklog 36)  
+**Status:** Active problem; Surface-Owned Transport Units are the active representation hypothesis (Batches 1–3 of ≥ 5 reported; static ownership feasibility holds on the native Lego); full method not validated  
 **Target:** SIGGRAPH 2027 (official Technical Papers deadline to be verified separately)  
 **Superseded framing:** object-level-only selection (2026-10-12), archived at docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
 
@@ -89,10 +89,16 @@ Also prior art (not the starting point): hierarchical/line-space dependency stru
   - The remaining gap to the paper is validation-target noise.
   - RNA is a credible substrate when evaluated against converged targets.
 
+- Worklog 36 (Batch 3, native Lego):
+  - 16 independent complete RNA units keep static fidelity within the predeclared screening (Case A): −0.32 dB, logL1 1.05× vs native RNA HQ, interior error unchanged. The comparison is capacity-confounded upward (1.54× parameters).
+  - PU composition removes 91% of the seam excess.
+  - One-unit REINIT is exact in parameters and output influence and recovers the unit.
+  - Radiometric validity after a geometry edit is still untested.
+
 ## 7. Immediate Scientific Frontier
 
 Representation feasibility first (decision 10). Open questions, in order:
-1. a credible static baseline under a predeclared protocol (worklog 32's stop condition);
+1. ~~a credible static baseline under a predeclared protocol~~ — met on the native Lego (worklogs 35–36);
 2. unit-level reconstruction after a **physically grounded** geometry edit (radiometric validity, not just ownership semantics);
 3. whether D_T is sparse at unit granularity on a scene where that is physically plausible;
 4. seam/composition quality and capacity cost of ownership;

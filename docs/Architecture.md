@@ -1,7 +1,7 @@
 # Architecture — Surface-Owned Neural Transport Units
 
-**Updated:** 2026-10-17 (worklog 35)  
-**Status:** Batch 1 of ≥ 5 reported. Ownership contract demonstrated exactly on an RNA-based candidate; static-fidelity verdict NOT adjudicated (baseline-credibility stop condition); radiometric recovery after a real edit NOT YET TESTED  
+**Updated:** 2026-10-18 (worklog 36)  
+**Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); radiometric recovery after a real edit NOT YET TESTED  
 **Branch:** Selective_Recompute  
 **Historical architectures:** docs/history/ARCHITECTURE_LIFECYCLE_SEPARATION_2026-10-07.md, docs/history/ARCHITECTURE_INTRA_OBJECT_FEATURE_REFIT_2026-10-08.md, docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
 
@@ -159,6 +159,7 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
   - whole-object refit degrades unaffected regions inside dirty objects (MC noise), which motivates finer ownership;
   - no wall-clock saving in that implementation.
 - Worklog 32: section 4.
+- Worklog 36: section 8 (Batch 3, native Lego).
 
 ## 8. Implementation Frontier and Non-Goals
 
@@ -171,6 +172,13 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
 2. Then either:
    - radiometric validity of unit recompute under a physical T0 → T3 edit (recommended in worklog 32); or
    - a representation variant from §5.
+
+**Batch 3 (worklog 36), native Lego.**
+- **Partition L16:** a rendered point is identified on its mesh triangle; its unit is the k-means cell (K = 16) of the on-surface point, and PU blending is allowed only within the triangle's connected component.
+- **Static fidelity:** B −0.32 dB, C −0.31 dB vs A on 16 held-out 4096-spp views; logL1 1.05×, hf 1.06×, off-band 0.996×; PU removes 91% of the seam excess. B has 1.54× A's parameters (capacity-confounded upward).
+- **REINIT:** parameter preservation exact; composed output changes exactly on S_i ∪ B_i; the unit recovers its quality.
+- **Teaset contrast:** the Teaset interior loss does not recur; the remaining cost is boundary-local and high-frequency, plus a material dependence.
+- **Recommended next (user decision):** physical geometry-edit reconstruction on Lego (oracle D_T units vs all units vs object level), preserving valid units.
 
 **Baseline qualification (worklog 35).** Native RNA reproduces its published Lego quality: released and retrained checkpoints agree within 0.2 dB, and against 4096-spp targets they reach the Table 1 level. RNA is therefore a credible substrate on its material class. Future static gates use converged references (≥ 4096 spp or 8× the training spp) and state the aggregation and checkpoint rule.
 

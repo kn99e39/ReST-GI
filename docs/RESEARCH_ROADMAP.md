@@ -1,8 +1,8 @@
 # Research Roadmap — Surface-Owned Selective Neural Transport Recomputation
 
-**Updated:** 2026-10-17 (worklog 35)  
+**Updated:** 2026-10-18 (worklog 36)  
 **Branch:** Selective_Recompute  
-**Status:** Architecture Batch 1 (RNA-based independent units) reported — ownership contract exact; stopped on the baseline-credibility precondition; Batch 2 NOT authorised  
+**Status:** Architecture Batches 1–3 reported. Batch 3 (native RNA Lego, worklog 36): independent owned units pass static screening (Case A) with exact ownership and unit reconstruction; Batch 4 NOT authorised  
 **Venue planning:** SIGGRAPH 2027, official paper deadline to be separately verified.
 
 ## 0. Decision Record
@@ -38,6 +38,7 @@ Active contracts: docs/RESEARCH_CENTRIC_TOPIC.md, docs/Architecture.md, docs/BAS
 | 35 | RNA qualified on its published asset (Lego). Native generation and training with unchanged upstream code. Retraining matches the released checkpoints within 0.2 dB on the same val set. The gap to Table 1 (−1.9 HQ / −0.8 small) is explained by 1024- vs 4096-spp validation targets (+1.7 / +0.6 dB). Overall COMPARABLE | performance claims (production renderer unreleased) |
 | 34 | Batch 2: seams = independent per-unit error fields (decorrelated across cuts) exposed by hard selection; not supervision starvation. P16-PU composition removes 86% of the seam excess on held-out C2 with lower boundary error, exact output-influence accounting (S_i ∪ B_i), and REINIT intact | recovery of P16's interior fidelity loss (−0.20 dB, logL1 1.18×); C1 accuracy gain |
 | 33 | RNA baseline audit: integration and evaluation faithful to upstream (no defect); C1 failure = RNA representation limit on near-mirror Ni (by exclusion: not noise, estimator, distribution, capacity, resolution, convergence or data density 100-200 views); C2 gate miss dominated by 128-spp target noise (A vs converged ref 26.7 dB on 4 views) | a credible static reference (needs a prospective protocol); a positive test of the C1 representation limit |
+| 36 | Batch 3 on the credible native Lego: 16 independent complete RNA units (1.54× A's parameters, capacity-confounded upward) score −0.32 dB vs native RNA HQ on 16 held-out 4096-spp views (logL1 1.05×, hf 1.06×, off-band 0.996×); PU removes 91% of the seam excess; REINIT of one unit: 15 others bit-identical, output change exactly S_i ∪ B_i (1.1% in neighbour bands), unit recovered. Screening Case A. Teaset interior loss does not recur | radiometric recovery after a physical edit; D_T sparsity; capacity-equal B; seed variance; the residual hf/band mechanism |
 | 32 | RNA split into complete independent units: exact parameter/output preservation and full-state unit reconstruction; P16 costs 1.15× HDR log error and visible seam steps vs RNA (C2), not fixed by 16× capacity | static fidelity under a credible baseline (gate failed: 17.97 / 24.92 dB); recovery after a physical edit; cost |
 
 ## 3. Architecture Batch Program (≥ 5 batches before a broad viability judgment)
@@ -46,8 +47,9 @@ Active contracts: docs/RESEARCH_CENTRIC_TOPIC.md, docs/Architecture.md, docs/BAS
 |---|---|---|---|
 | 1 — RNA independent units (worklog 32) | **REPORTED; stopped on the baseline-credibility condition** | Can RNA be split into independently owned units with full-state reconstruction and preservation, without unacceptable static-GI loss? | Ownership exact; fidelity verdict not adjudicated; costs: HDR log +12–15%, seam steps |
 | 2 — boundary fidelity (worklog 34) | **REPORTED** | Why do independent units lose fidelity at boundaries, and can one representation change fix it without breaking reconstruction? | H2 + H3 supported, H1 starvation contradicted; P16-PU fixes seams, not interior loss; Batch 3 needs a user decision (recommended: immutable shared decoder + owned features under PU) |
+| 3 — native Lego generalisation (worklog 36) | **REPORTED: Case A** | Does the independent architecture keep credible static fidelity and reconstructible ownership on a native, paper-comparable RNA asset? | B −0.32 / C −0.31 dB, logL1 1.05×, off-band unchanged, seams fixed by PU, REINIT exact. Batch 4 needs a user decision (recommended: physical geometry-edit reconstruction on Lego, oracle D_T units vs all units vs object) |
 | 2 (original plan) | superseded by the above | Recommended, after resolving credibility: radiometric validity of unit-level full recompute under a physical T0 → T3 edit (oracle dirty units vs all units vs whole objects). Alternative: a representation variant (frozen shared decoder + owned features; or blended overlapping units) | — |
-| 3–5 | FUTURE | Chosen from evidence: representation variants, D_T sparsity on scenes where it is physically plausible, non-RNA substrates | — |
+| 4–5 | FUTURE | Chosen from evidence: representation variants, D_T sparsity on scenes where it is physically plausible, non-RNA substrates | — |
 | After feasibility | FUTURE | Dependency/invalidation discovery (deployable), hierarchy as an optional accelerator, efficiency and scaling (decision 10) | requires feasibility evidence and a user decision |
 
 Gates retained from the object-level framing:
@@ -58,6 +60,8 @@ Gates retained from the object-level framing:
 - **O0/O1:** object-level feasibility and oracle refit. Worklog 31 answered them on an explicit substrate (O0 pass; O1 dense at object granularity). They remain a coarse comparison for unit-level results.
 
 ## 4. Precondition Before Batch 2: Static Credibility
+
+**Resolved for Lego (worklogs 35–36):** native RNA on the official Lego is qualified (worklog 35), and Batch 3 used it with converged (4096-spp) held-out references under the predeclared protocol `b3_v1`. The Teaset history below is kept as the record.
 
 Worklog 32's original RNA failed the predeclared 25 dB static-credibility bar:
 - C1 (canonical near-mirror teaset): 17.97 dB;

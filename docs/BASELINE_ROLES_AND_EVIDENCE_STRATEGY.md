@@ -1,7 +1,7 @@
 # Baseline Roles and Evidence Strategy — Surface-Owned Selective Neural Transport Recomputation
 
-**Updated:** 2026-10-17 (worklog 35)  
-**Status:** Active interpretation/control contract. Owned-unit recomputation is NOT validated; Batch 1 established the ownership contract on RNA but stopped on baseline credibility  
+**Updated:** 2026-10-18 (worklog 36)  
+**Status:** Active interpretation/control contract. Owned-unit recomputation after an edit is NOT validated. Static ownership feasibility is established on one credible native asset (Lego, worklog 36, single seed)  
 **Project:** NeuralShaderDemo / Selective_Recompute
 
 ## 1. Scope
@@ -25,6 +25,7 @@
 | WL28–29 | sparse K=32 dynamic-state candidates negative | owned-unit recompute negative |
 | WL30 | **intra-object** triplane-cell-only refit negative (8DNA, flows frozen) | complete-unit or whole-object refit negative |
 | WL31 | explicit per-part surface units: O0 pass, T3 recovered by refit, object-level D_T = all objects | neural units; unit-level D_T sparsity; cost advantage |
+| WL36 | Batch 3 on the native Lego (A = WL35 reproduced HQ): independent L16 units within the static screening (−0.32 dB, logL1 1.05×, off-band 0.996×; 1.54× parameters); PU removes 91% of the seam excess; REINIT exact | edit-time radiometric validity; D_T sparsity; capacity-equal comparison; seed variance; other assets/materials |
 | WL35 | native RNA on the official Lego reproduces the released checkpoints. Released checkpoints and native retraining score 32.16/31.99 (HQ) and 27.96/27.97 (small) on a native 1024-spp val set. Against 4096-spp targets the released models reach the Table 1 level (34.39/29.22 vs 34.09/28.77, 8 views); classification COMPARABLE (small training REPRODUCED) | rendering-performance claims (renderer unreleased); exact paper val set |
 | WL34 | P16 seams = decorrelated independent unit errors exposed by hard selection; P16-PU composition (no learned-state change) removes most of the excess with exact output-influence accounting | interior per-unit fidelity recovery; a shared-decoder ownership variant |
 | WL33 | integrated RNA pipeline = faithful upstream RNA (eval identical, contract audited, estimator clamping not explanatory); teaset C1 = RNA representation-limited; C2 gate measurement noise-limited | that RNA cannot be credible on rough conductors; a positive proof of the C1 representation limit |
@@ -37,7 +38,7 @@ Do not delete, overwrite, reinterpret, or silently merge these questions.
 | Role | Current instance | Use |
 |---|---|---|
 | **Implementation / quality control (A)** | original RNA (`66b5b098`, upstream config, seed 0) on the same data. **Qualified by worklog 35**: the native pipeline reproduces the released Lego checkpoints, and the gap to the paper is attributed to validation-target noise | the static-fidelity reference that every owned candidate is compared with; must first pass a predeclared credibility bar |
-| **Owned candidate (B)** | worklog 32: K complete RNA units (P1/P4/P16 matched, P16w full-size) | change only the ownership boundary |
+| **Owned candidate (B)** | worklog 32: K complete RNA units (P1/P4/P16 matched, P16w full-size); worklog 36: L16 on the native Lego (triangle-identified k-means cells) | change only the ownership boundary |
 | **Capacity control** | matched-texel units (P16) and full-size units (P16w); P1 isolates local framing | separate capacity from ownership effects |
 | **Composition control** | the same learned units under hard selection vs P16-PU (worklog 34) | isolates composition effects from learned-function effects |
 | **Ownership-semantics control** | REINIT: re-initialise one unit, retrain it fully with all others frozen | parameter and output preservation; reconstruction to prior quality |
