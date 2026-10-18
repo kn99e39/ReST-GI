@@ -1,0 +1,21 @@
+{
+ "protocol": "b4_smoke_meeting_v1",
+ "declared": "2026-10-18 20:30 KST, before any T0/T1 training data, model or smoke run exists",
+ "request": "Urgent lab-meeting smoke test (user prompt 2026-10-18): earliest defensible positive/negative evidence of selective neural GI reconstruction before 2026-10-19 14:00 KST; isolated from Architecture Batch 4, which it does not replace",
+ "question": "Does re-learning only the oracle-dirty units (complete owned state) reduce T1 reconstruction error relative to the frozen T0 model, while unselected units stay bit-identical?",
+ "T0_model": "SO_T0 of the main batch (17 owned units, full 400-image T0 training set, 250 epochs, seed 0); the smoke run only reads it",
+ "T1_supervision": "separate smoke subset train_T1_smoke: 128 images, upstream training mode (per-pixel random lights), 1024 spp, 1024^2, Cycles seed 0, RR_SEED 4705 (independent of the main train_T1 = RR_SEED 4701 and of the held-out views = 4702). Reason: the main 400-image T1 set is one h5 written sequentially and cannot be read safely before it completes",
+ "updated_units": "D* of the oracle (b4_v1.1) = {0, 2, 3, 6, 7, 8, 13, 16}: all eight (no subset needed; GT-only selection, fixed before training)",
+ "reconstruction": "cold re-initialisation of the eight units and training of only them (requires_grad False elsewhere) with the unchanged worklog-32/36 trainer, loss, optimiser and per-epoch schedule, 250 epochs over the 128-image subset (32,000 optimisation steps = 32 % of the formal 100,000), seed 0, final weights. Formal-protocol semantics except the data volume; NOT a warm start",
+ "frozen_control": "SO_T0 evaluated on T1 (canonical frames), no update",
+ "evaluation": "b4_eval on the 16 held-out T1 views (RR_SEED 4702, 4096-spp references = mean of Cycles seeds 1, 2), paired T0 references for the physical regions; owned arms under PU (primary) and hard selection",
+ "ROI_predeclared": "A_changed (physically changed persistent A pixels from the paired references, b4_eval rule), D*-owned pixels, V*-owned pixels, B pixels; whole image",
+ "metrics": "display MSE / PSNR (code tonemap) and HDR logL1 per region; paired per-view difference selective - frozen with 90% bootstrap CI over views (2000 resamples, seed 0); parameter preservation (digests); output-change support",
+ "verdicts": {
+  "positive": "A_changed display MSE lower than frozen with the 90% CI of the per-view paired difference excluding 0, and V* parameters bit-identical -> 'preliminary evidence of effective selective Neural Transport State reconstruction under oracle target selection'",
+  "negative": "A_changed MSE not lower, or CI includes 0 -> reported as is; short-budget / reduced-data limitation distinguished from architecture failure",
+  "blocked": "if SO_T0, the smoke subset or the held-out T1 references are not ready in time"
+ },
+ "not_claimed": "full-recompute parity, convergence, the Batch 4 verdict, any cost/speed-up claim (the smoke timing overlaps a concurrent render)",
+ "isolation": "outputs in results/rna_selective_reconstruction_lego/smoke/; main-batch configs, checkpoints and directories untouched; main schedule delay reported"
+}
