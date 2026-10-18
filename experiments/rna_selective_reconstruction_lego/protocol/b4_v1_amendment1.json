@@ -1,0 +1,10 @@
+{
+ "protocol": "b4_v1.1 (amendment 1 to b4_v1)",
+ "date": "2026-10-18",
+ "status": "POST-HOC: written after the pilot result was seen; user decision (Q&A in session, option 'amend and proceed')",
+ "observed_under_b4_v1": "pilot P4 FAILED as written: owner on-surface distance q99.9 over all covered rendered pixels = 1.46 / 1.39 / 1.68 mm (T0 / T1 / T1b) > 1.125 mm; correspondence rate A 0.999999, B 1.0 (pass). P1, P2, P3, P5 passed. The chain stopped before training data as predeclared.",
+ "diagnosis": "results/.../launcher/p4_diag.json (LabServer63): pixels above 1.125 mm are 0.09-0.12 % of covered pixels, 76-79 % of them on depth edges where the pixel filter averages AOV positions of different surfaces; non-edge q99.9 = 0.59-0.60 mm (= the worklog-36 on-mesh contract value 0.55 mm). The 1.125 mm tolerance was derived from exact on-mesh samples (worklog-36 test) and applying it to all rendered pixels was a mis-specification; the same rule fails on the worklog-36 1024^2 data too (1.7 mm).",
+ "change": "P4 distance criterion is evaluated on non-depth-edge covered pixels (b4_oracle.depth_edge: a 4-neighbour uncovered or more than 3 x the view's median neighbour spacing away). Tolerance 1.125 mm and the correspondence criterion (>= 90 %) unchanged.",
+ "unchanged": "scene, P1-P3, P5, oracle definition (tau, rule, counted pixels), arms, outcome rules, every threshold",
+ "reporting": "worklog 37 reports that b4_v1's P4 failed as written and that the batch proceeded under this post-hoc amendment"
+}

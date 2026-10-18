@@ -55,6 +55,18 @@ def accumulate(d1, d2, unit, cnt, S, NOISE, NAIVE, NPX):
     np.add.at(NPX, unit[cnt], 3)
 
 
+def depth_edge(P, m, res):
+    """Amendment b4_v1.1: a covered pixel is a depth-edge pixel when a 4-neighbour is uncovered or its AOV position is
+    more than 3 x the view's median nearest-neighbour spacing away (the pixel filter then averages positions of
+    different surfaces, so the AOV position lies off every surface)."""
+    Pi = P.reshape(res, res, 3); ai = m.reshape(res, res); nb = []
+    for dy, dx in ((0, 1), (1, 0), (0, -1), (-1, 0)):
+        an = np.roll(ai, (dy, dx), (0, 1))
+        nb.append(np.where(an, np.linalg.norm(Pi - np.roll(Pi, (dy, dx), (0, 1)), axis=-1), 1e3))
+    nb = np.stack(nb); fp = np.median(nb.min(0)[ai])
+    return (nb.max(0) > 3 * fp).ravel()
+
+
 def box_dist(p, lo, hi):
     return np.linalg.norm(p - np.clip(p, lo, hi), axis=1)
 
@@ -96,6 +108,7 @@ def main() -> int:
     near = {"T1": np.zeros((nv, 2)), "T0": np.zeros((nv, 2))}
     ident = {"A": np.zeros((nv, 2)), "B": np.zeros((nv, 2))}
     dists = {s: [] for s in owners}
+    dists_int = {s: [] for s in owners}  # amendment b4_v1.1: non-depth-edge pixels
     tiles = {i: [] for i in range(K)}
     keep = {}
     for v in range(nv):
@@ -107,6 +120,7 @@ def main() -> int:
             P, N, vis = g(1, "position").astype(np.float64), g(1, "normal").astype(np.float64), g(1, "diffuse_direct")[:, 0] > 0
             lab = -np.ones(res * res, np.int64); can = np.full((res * res, 3), np.nan)
             l_, d_ = owners[s](P[m], N[m]); lab[m] = l_; can[m] = owners[s].canonical(P[m], l_); dists[s].append(d_)
+            dists_int[s].append(d_[~depth_edge(P, m, res)[m]])
             st[s] = {"m": m, "lab": lab, "can": can, "vis": vis, "u3": uniform3(vis, res), "c1": g(1, "color"), "c2": g(2, "color"), "P": P}
         for obj, s1 in (("A", "T1"), ("B", "T1b")):
             a, b = st["T0"], st[s1]
@@ -177,11 +191,16 @@ def main() -> int:
          "P4_identity": {"owner_dist_q999_m": dq, "correspondence_rate": idr, "pass": max(dq.values()) <= 1.125e-3 and min(idr.values()) >= 0.9},
          "P5_coverage": {"units_with_min_px": int((px >= MIN_PX).sum()), "pass": int((px >= MIN_PX).sum()) >= 15}}
     P["all_pass"] = all(v["pass"] for v in P.values() if isinstance(v, dict))
+    dqi = {s: float(np.quantile(np.concatenate(dists_int[s]), 0.999)) for s in dists_int}
+    P11 = {k: v for k, v in P.items() if k != "all_pass"}
+    P11["P4_identity"] = {"owner_dist_q999_m_non_depth_edge": dqi, "correspondence_rate": idr, "pass": max(dqi.values()) <= 1.125e-3 and min(idr.values()) >= 0.9,
+                          "amendment": "b4_v1.1 (user decision 2026-10-18 after the pilot): distance criterion on non-depth-edge pixels"}
+    P11["all_pass"] = all(v["pass"] for v in P11.values() if isinstance(v, dict))
     Dstar = [u["unit"] for u in units if u["dirty"]]
     pa = np.load(E.ROOT / "results/rna_surface_ownership_lego/partition_L16.npz")
     area = np.concatenate([pa["unit_area"].astype(float), [scene["B_mesh"]["area"]]])
     allpx = px.sum()
-    rec.update({"views": nv, "resolution": res, "pilot": P, "units": units, "D_star": Dstar, "V_star": [i for i in range(K) if i not in Dstar],
+    rec.update({"views": nv, "resolution": res, "pilot": P, "pilot_b4_v1_1": P11, "units": units, "D_star": Dstar, "V_star": [i for i in range(K) if i not in Dstar],
                 "dirty_area_fraction": float(area[Dstar].sum() / area.sum()), "dirty_pixel_fraction": float(px[Dstar].sum() / max(allpx, 1)),
                 "energy_fraction_in_D_star": float(sum(units[i]["energy"] for i in Dstar) / max(sum(u["energy"] for u in units), 1e-30)),
                 "ambiguous_units": [u["unit"] for u in units if u["ambiguous"]],
@@ -189,7 +208,7 @@ def main() -> int:
                 "missed_candidates": [u["unit"] for u in units if (not u["dirty"]) and (u["ci90"][1] > TAU or u["locally_changed_but_valid"])],
                 "seconds": time.time() - t0})
     (out / "oracle.json").write_text(json.dumps(rec, indent=1))
-    print(json.dumps({"pilot": {k: v.get("pass") if isinstance(v, dict) else v for k, v in P.items()}, "D_star": Dstar}, indent=None))
+    print(json.dumps({"pilot": {k: v.get("pass") if isinstance(v, dict) else v for k, v in P.items()}, "pilot_b4_v1_1": {k: v.get("pass") if isinstance(v, dict) else v for k, v in P11.items()}, "D_star": Dstar}, indent=None))
     for u in units:
         print(u["unit"], u["object"], u["counted_px"], round(u["rms_change"], 5), [round(x, 5) for x in u["ci90"]], "dirty" if u["dirty"] else "valid",
               "visch", round(u["vis_change_fraction"], 3), "q99tile", round(u["tile_rms_q99"], 4))

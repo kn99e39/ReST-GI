@@ -18,8 +18,8 @@ gen() { bash $H/b4_gen_server.sh $1 $2 2>&1 | grep -v "^Fra:\|bgl\|gvfs" | tail 
 log "chain start"
 until [ -f $L/oracle.status ]; do sleep 60; done
 $PY $X/b4_oracle.py --data $D --out $R/oracle > $L/oracle_analysis.log 2>&1; log "oracle analysis rc=$?"
-PASS=$($PY -c "import json; print(json.load(open('$R/oracle/oracle.json'))['pilot']['all_pass'])")
-log "pilot all_pass=$PASS"
+PASS=$($PY -c "import json; print(json.load(open('$R/oracle/oracle.json'))['pilot_b4_v1_1']['all_pass'])")
+log "pilot (b4_v1.1, post-hoc P4 amendment) all_pass=$PASS"
 if [ "$PASS" != "True" ]; then st "pilot_failed"; exit 0; fi
 until [ -f $L/heldout.status ]; do sleep 60; done; log "heldout done"
 gen train_T0 4701
