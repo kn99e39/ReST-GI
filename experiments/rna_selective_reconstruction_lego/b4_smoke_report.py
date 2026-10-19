@@ -150,11 +150,25 @@ def main() -> int:
     if full:
         ax[1].bar(xs + bw, [regions[r]["mse_full"] for r in names], bw, color="#52514e", label="full recompute")
     ax[1].set_xticks(xs, names, rotation=20); ax[1].set_ylabel("display MSE (16 held-out T1 views)"); ax[1].legend(frameon=False)
-    ax[1].set_title("frozen vs selective by predeclared region")
+    ax[1].set_title("frozen vs selective" + (" vs full recompute" if full else "") + " by predeclared region")
     fig.tight_layout(); f2 = out / "02_mask_and_regions.png"; fig.savefig(f2, dpi=120); plt.close(fig)
+    files = [f1, f2]
+    if "recompute_cost" in rec:
+        c = rec["recompute_cost"]
+        fig, ax = plt.subplots(1, 3, figsize=(12, 3.6))
+        for a_, (key, lab, scale) in zip(ax, (("fit_s", "reconstruction wall-clock (min)", 1 / 60), ("median_epoch_s", "median epoch time (s)", 1.0),
+                                               ("trained_params", "trained parameters (M)", 1e-6))):
+            vals = [c["selective"][key] * scale, c["full"][key] * scale]
+            a_.bar([0, 1], vals, color=["#c0392b", "#52514e"], width=0.6); a_.set_xticks([0, 1], ["selective\n(8 D* units)", "full recompute\n(17 units)"])
+            a_.set_title(lab, fontsize=9)
+            for i_, v_ in enumerate(vals):
+                a_.text(i_, v_, f"{v_:.1f}" if scale != 1e-6 else f"{v_:.2f}", ha="center", va="bottom", fontsize=9)
+            a_.text(0.5, 0.92, f"ratio {vals[0] / vals[1]:.2f}", transform=a_.transAxes, ha="center", fontsize=9, color=INK2)
+        fig.suptitle(f"Same 128-image T1 subset, 250 epochs, same cores and concurrent render; D* owns {100 * c['dirty_pixel_share_of_T1_training_data']:.0f}% of training pixels. Oracle cost not included.", fontsize=9)
+        fig.tight_layout(); f3 = out / "03_recompute_cost.png"; fig.savefig(f3, dpi=120); plt.close(fig); files.append(f3)
     man = {"protocol": "experiments/rna_selective_reconstruction_lego/protocol/b4_smoke_meeting_v1.json", "view": v, "crop_yx": [int(y), int(x)], "crop_size": W,
-           "files": [{"file": f.name, "sha256_16": sha(f)} for f in (f1, f2, out / "smoke_metrics.json")],
-           "sources": [{"file": str(p), "sha256_16": sha(p)} for p in (ed / "eval.json", res / "smoke/B_sel_smoke/train.json", res / "oracle/oracle.json")]}
+           "files": [{"file": f.name, "sha256_16": sha(f)} for f in files + [out / "smoke_metrics.json"]],
+           "sources": [{"file": str(p), "sha256_16": sha(p)} for p in (ed / "eval.json", res / "smoke/B_sel_smoke/train.json", res / "smoke/A_full_smoke/train.json", res / "oracle/oracle.json") if p.exists()]}
     (out / "manifest.json").write_text(json.dumps(man, indent=1))
     print(json.dumps({"verdict": verdict, "A_changed": ach, "all": regions["all"], "Vstar": regions["Vstar_owned"], "A_unchanged": regions["A_unchanged"],
                       "params": rec["parameters"], "recompute_cost": rec.get("recompute_cost")}, indent=1))

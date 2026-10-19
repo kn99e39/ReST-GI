@@ -1,17 +1,24 @@
 # Lab Meeting 2026-10-19 — Early Evidence: Selective Neural GI Reconstruction (Smoke Test)
 
 **Status:** preliminary smoke test. It is not the Architecture Batch 4 result, which is still running (Worklog 37).
-**Protocol:** `experiments/rna_selective_reconstruction_lego/protocol/b4_smoke_meeting_v1.json`, committed before the run.
+**Protocols:**
+- `experiments/rna_selective_reconstruction_lego/protocol/b4_smoke_meeting_v1.json`;
+- amendment 1, which adds the full-recompute arm. It was declared before that arm was trained.
+
+**Full numbers and figures:** `results/evaluation/37/smoke_meeting/` (README, `smoke_metrics.json`, `01`–`03` PNG).
 
 ## Question
 
 After a geometry edit, does re-learning **only the oracle-dirty Surface-Owned Neural Transport Units** recover the
-edited scene's indirect illumination better than reusing the unchanged T0 model, while every other unit stays bit-identical?
+edited scene's indirect illumination, compared with reusing the unchanged T0 model and with recomputing every unit?
+Every other unit must stay bit-identical.
 
-**Answer: preliminary positive** (all numbers are on held-out views):
-- **Physically changed persistent surfaces:** display MSE −86%, from 23.1 to 31.6 dB. All 16 views improved, and the 90% CI excludes 0.
-- **Unselected units:** all 9 have bit-identical parameters.
-- **Whole image:** 30.1 → 32.1 dB.
+**Answer: preliminary positive** (held-out views):
+- **Against frozen:** on physically changed persistent surfaces the error drops by 86% (23.1 → 31.6 dB). All 16 views improve, and the CI excludes 0.
+- **Against full recompute:** on the same surfaces the two are statistically indistinguishable (31.6 vs 31.8 dB).
+- **Whole image:** selective 32.1 dB against 30.2 dB for full recompute under the same T1 data budget.
+- **Preservation:** the 9 unselected units are bit-identical.
+- **Recompute cost:** 0.76× the full-recompute wall-clock, measured under identical conditions. The trainer was not optimised for selectivity, so this ratio is conservative.
 
 ## Setup
 
@@ -28,66 +35,79 @@ edited scene's indirect illumination better than reusing the unchanged T0 model,
 **Oracle target set D\*:**
 - D\* = {0, 2, 3, 6, 7, 8, 13, B}: 8 of 17 units, 46% of the parameters.
 - It comes from ground-truth T0/T1 renders: a visibility-matched, noise-debiased radiance change above τ = 0.005 (32 views, 4096 spp).
-- It was chosen before any training.
+- It was fixed before any training.
 
 **Arms:**
-- **C — frozen transfer:** the T0 model (SO_T0: full 400-image T0 set, 250 epochs) evaluated on T1 without updates.
-- **B — selective update:** start from the same T0 model; cold re-initialise the 8 D\* units and train only them. All other units have `requires_grad False`.
-  - Trainer, loss, optimiser and per-epoch schedule are unchanged from the formal protocol.
-  - 250 epochs on a **128-image T1 subset**, i.e. 32% of the formal optimisation steps.
-  - Wall-clock: 68 min (14.9 s/epoch), overlapped with a CPU render, so this is **not** a cost measurement.
+- **C — frozen transfer:** the T0 model (SO_T0: full 400-image T0 set, 250 epochs), evaluated on T1 without updates.
+- **B — selective:** SO_T0 with the 8 D\* units cold re-initialised and trained alone; all other units have `requires_grad False`.
+- **A — full recompute:** all 17 units trained from scratch.
 
-**Evaluation:**
-- 16 held-out T1 views (4096-spp path-traced references) that no training saw.
-- Regions are fixed in advance from the paired T0/T1 references.
+B and A share the same budget:
+- the same **128-image T1 subset**;
+- 250 epochs, i.e. 32% of the formal optimisation steps;
+- the unchanged trainer, loss, optimiser and schedule;
+- the same CPU cores and the same concurrent render.
+
+**Evaluation:** 16 held-out T1 views (4096-spp path-traced references) that no training saw. Regions were fixed in advance from the paired T0/T1 references.
 
 ## Results (held-out T1, PU composition)
 
-| region | pixels | frozen MSE (PSNR) | selective MSE (PSNR) | change | 90% CI of Δ MSE | views improved |
-|---|---|---|---|---|---|---|
-| **physically changed A surfaces** | 287 k | 0.00494 (23.06 dB) | 0.00069 (31.61 dB) | **−86%** | [−0.00504, −0.00303] | **16/16** |
-| D\*-owned | 1.47 M | 0.00168 | 0.00073 | −56% | — | — |
-| moved box B | 156 k | 0.00298 | 0.00020 | −93% | — | — |
-| V\*-owned (preserved units) | 2.39 M | 0.000546 | 0.000547 | +0.16% (PU band only) | [+3e-7, +1.4e-6] | — |
-| physically unchanged A surfaces | 3.20 M | 0.000527 | 0.000636 | **+21%** | — | — |
-| whole image | 3.86 M | 30.10 dB | 32.10 dB | −37% MSE | [−0.00059, −0.00016] | 13/16 |
-
-Whole-image HDR logL1 (no composition): 0.0113 (frozen) → 0.0107 (selective).
+| region | C frozen | **B selective** | A full | B vs C | B vs A |
+|---|---|---|---|---|---|
+| **physically changed A surfaces** (287 k px) | 23.06 dB | **31.61 dB** | 31.79 dB | −86% MSE, 16/16 views | not distinguishable (CI includes 0) |
+| D\*-owned (re-learned units) | 27.75 dB | 31.36 dB | 31.18 dB | better | slightly better |
+| moved box B | 25.27 dB | 37.05 dB | 36.20 dB | better | slightly better |
+| V\*-owned (reused units) | 32.63 dB | 32.62 dB | 29.66 dB | +0.16% MSE (PU band only) | **better: reuse keeps 400-image quality** |
+| physically unchanged A surfaces | 32.78 dB | 31.96 dB | 29.80 dB | **worse (+21% MSE)** | better |
+| whole image | 30.10 dB | **32.10 dB** | 30.18 dB | better | better |
 
 **State preservation:**
-- Changed units = exactly D\*; the other 9 units are bit-identical (parameter digests).
-- Composed outputs changed on 1,478,240 pixels, exactly the predicted support:
-  - 1,468,459 pixels owned by D\* units;
-  - 9,781 pixels in V\* units' PU bands;
-  - 0 pixels outside the predicted support.
+- Changed units = exactly D\*; the other 9 units are bit-identical.
+- Composed outputs changed on 1,478,240 pixels, exactly the predicted support (D\*-owned pixels plus 9,781 V\* PU-band pixels), and **0 outside** it.
+
+**Recompute cost** (same subset, epochs, cores and concurrent render):
+
+| | selective | full | ratio |
+|---|---|---|---|
+| wall-clock | 68.0 min | 89.8 min | **0.76** |
+| median epoch | 14.9 s | 18.8 s | 0.79 |
+| trained parameters | 5.28 M | 11.59 M | 0.46 |
+| share of training pixels owned by trained units | 39% | 100% | 0.39 |
+
+- Rendering/inference cost is identical: both arms produce the same composed model.
+- **0.76 is conservative.** The unchanged trainer still runs the frozen units' forward pass and validates every epoch. The parameter and pixel shares (0.39–0.46) are the idealised range; a trainer that reaches them has not been built or measured.
+- Not included: the oracle's own cost and data generation.
 
 ## Visual
 
-- `results/evaluation/37/smoke_meeting/01_meeting_comparison.png`:
-  - held-out view 6, showing T0 reference, T1 reference, frozen, selective and both error maps;
-  - a crop at the strongest ground-truth change.
-  - The frozen model still paints B's old **red reflection and shadow ghost** on the sand plate where B stood at T0. The selective update removes it.
-- `02_mask_and_regions.png`: the updated-unit mask and region bars.
-- `smoke_metrics.json`, `manifest.json`: numbers and hashes.
+`results/evaluation/37/smoke_meeting/01_meeting_comparison.png`:
+- held-out view 6, showing T0 reference, T1 reference, frozen, selective, full and the three error maps;
+- a crop at the strongest ground-truth change.
+- The frozen model still paints B's old **red reflection and shadow ghost** on the sand plate where B stood at T0. Selective and full recomputation both remove it.
 
 ## Interpretation and limits
 
-**What this shows:** under oracle target selection, re-learning the complete state of only the dirty units removes most of the stale indirect light on persistent surfaces, and leaves the reused units untouched. This is preliminary evidence of effective selective Neural Transport State reconstruction under oracle target selection.
+**What this shows:**
+- Under oracle target selection, re-learning the complete state of only the dirty units recovers the changed GI as well as recomputing everything does, on the surfaces that changed.
+- The reused units are untouched and keep the quality of their larger T0 training set.
+- Recomputation is cheaper even with an unoptimised trainer.
 
-**Cost visible already:**
-- Physically unchanged parts **inside** the re-learned units got worse: +21% MSE on unchanged A pixels.
-- This is expected with only 128 T1 images (dirty units cover 39% of the surface). The formal 400-image run will show whether it is a data-budget effect or something more.
+This is preliminary evidence of effective selective Neural Transport State reconstruction under oracle target selection.
+
+**Costs and caveats:**
+- **Inside the re-learned units, quality drops on surfaces that did not change** (+21% MSE vs frozen). These units re-learn everything from only 128 T1 images.
+- **The whole-image advantage over full recompute is a limited-data effect.** Full recompute must re-learn the valid units from the same 128 images. With all 400 T1 images (the formal batch), that gap is expected to shrink.
 
 **Not shown:**
-- parity with full recompute (arm A_full is still running);
+- parity under the full data budget;
 - convergence;
 - original-RNA representability on T1;
-- any speed-up or system cost;
+- cost under exclusive conditions;
 - automatic target selection (Mechanism 1). The dirty set here is an oracle.
 
 **Protocol note:** the GT pilot's identity criterion P4 failed as written. The cause was a mis-specified tolerance on anti-aliased depth-edge pixels. The batch proceeded under a post-hoc amendment (b4_v1.1, user decision); see `protocol/b4_v1_amendment1.json`.
 
-**Main batch:** the full 250-epoch, 400-image arms are running:
+**Main batch:** the full 400-image arms are running:
 - full recompute (A_full);
 - selective reconstruction (B_sel);
 - frozen transfer (C);
