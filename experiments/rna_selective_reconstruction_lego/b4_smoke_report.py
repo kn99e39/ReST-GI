@@ -26,7 +26,7 @@ SURF, INK, INK2 = "#fcfcfb", "#0b0b0b", "#52514e"
 SEQ = LinearSegmentedColormap.from_list("seq_blue", ["#fcfcfb", "#cde2fb", "#86b6ef", "#2a78d6", "#1c5cab", "#0d366b"])
 plt.rcParams.update({"figure.facecolor": SURF, "axes.facecolor": SURF, "text.color": INK, "axes.labelcolor": INK2, "font.size": 9})
 EMAX = 0.08
-FR, SE = "SO_T0-PU", "B_sel_smoke-PU"
+FR, SE, FU = "SO_T0-PU", "B_sel_smoke-PU", "A_full_smoke-PU"
 
 
 def off(ax):
@@ -48,16 +48,18 @@ def sha(p):
 def main() -> int:
     ap = argparse.ArgumentParser(); ap.add_argument("--res", required=True); ap.add_argument("--out", required=True)
     a = ap.parse_args(); res, out = Path(a.res), Path(a.out); out.mkdir(parents=True, exist_ok=True)
-    ev = json.loads((res / "smoke/eval_smoke/eval.json").read_text()); z = np.load(res / "smoke/eval_smoke/views.npz")
+    ed = res / "smoke/eval_smoke2" if (res / "smoke/eval_smoke2/eval.json").exists() else res / "smoke/eval_smoke"
+    ev = json.loads((ed / "eval.json").read_text()); z = np.load(ed / "views.npz")
     tr = json.loads((res / "smoke/B_sel_smoke/train.json").read_text()); orc = json.loads((res / "oracle/oracle.json").read_text())
     D = set(orc["D_star"]); S = ev["sets"]["heldout_T1"]; nv = S["views"]
     regions = {}
-    per = {r: {FR: [], SE: [], "n": []} for r in ("all", "A_changed", "A_unchanged", "Dstar_owned", "Vstar_owned", "B")}
+    ARMS = [FR, SE] + ([FU] if f"heldout_T1_v0_{FU}" in z.files else [])
+    per = {r: {**{a_: [] for a_ in ARMS}, "n": []} for r in ("all", "A_changed", "A_unchanged", "Dstar_owned", "Vstar_owned", "B")}
     for v in range(nv):
         k = f"heldout_T1_v{v}"; ref = z[k + "_ref"].astype(np.float32); own = z[k + "_own"]
         masks = {"all": own >= 0, "A_changed": z[k + "_reg_A_changed"], "A_unchanged": z[k + "_reg_A_unchanged"],
                  "Dstar_owned": (own >= 0) & np.isin(own, list(D)), "Vstar_owned": (own >= 0) & ~np.isin(own, list(D)), "B": own == 16}
-        for arm in (FR, SE):
+        for arm in ARMS:
             sq = ((z[k + "_" + arm].astype(np.float32) - ref) ** 2).mean(-1)
             for r, m in masks.items():
                 per[r][arm].append(float(sq[m].sum()))
@@ -75,6 +77,10 @@ def main() -> int:
                       "psnr_selective": float(-10 * np.log10(mse(s))), "mse_diff_sel_minus_frozen": mse(s) - mse(f),
                       "ci90": [float(np.quantile(diff, 0.05)), float(np.quantile(diff, 0.95))], "relative_change": (mse(s) - mse(f)) / mse(f),
                       "views_improved": int(sum(1 for v in range(nv) if n[v] and s[v] / n[v] < f[v] / n[v])), "views_with_px": int((n > 0).sum())}
+        if FU in ARMS:
+            u = np.array(d[FU], float); dfu = [mse(s, i) - mse(u, i) for i in idx]
+            regions[r].update({"mse_full": mse(u), "psnr_full": float(-10 * np.log10(mse(u))), "mse_diff_sel_minus_full": mse(s) - mse(u),
+                               "ci90_sel_minus_full": [float(np.quantile(dfu, 0.05)), float(np.quantile(dfu, 0.95))]})
     ach = regions["A_changed"]
     verdict = "positive" if (ach["ci90"][1] < 0 and tr.get("frozen_units_bit_identical")) else "negative"
     rows = S["rows"]
@@ -85,7 +91,21 @@ def main() -> int:
                           "params_updated": int(sum(tr["parameters_per_unit"][u] for u in tr["init"]["reinitialised_units"]))},
            "training": {"epochs": len(tr["epochs"]), "seconds_fit_incl_data_setup": tr["seconds"]["fit_including_data_setup"],
                         "median_epoch_s": float(np.median([e["seconds"] for e in tr["epochs"]])), "note": "overlapped with a concurrent CPU render (cores 0-23); not a cost measurement"},
-           "output_support": S["influence"]}
+           "output_support": S["influence"], "eval_dir": str(ed)}
+    if FU in ARMS:
+        tf = json.loads((res / "smoke/A_full_smoke/train.json").read_text())
+        cnt = np.array(tr["owner_pixel_counts_train"], float)
+        rec["recompute_cost"] = {
+            "selective": {"fit_s": tr["seconds"]["fit_including_data_setup"], "median_epoch_s": float(np.median([e["seconds"] for e in tr["epochs"]])),
+                          "trained_params": rec["parameters"]["params_updated"]},
+            "full": {"fit_s": tf["seconds"]["fit_including_data_setup"], "median_epoch_s": float(np.median([e["seconds"] for e in tf["epochs"]])),
+                     "trained_params": tf["parameters_total"]},
+            "dirty_pixel_share_of_T1_training_data": float(cnt[list(D)].sum() / cnt.sum()),
+            "conditions": "same 128-image T1 subset, 250 epochs, seed 0, cores 24-31, both with the same concurrent CPU render on cores 0-23; epoch time includes forward passes of frozen units and per-epoch validation; the oracle's own cost is not included"}
+        c = rec["recompute_cost"]; c["ratio_fit_selective_over_full"] = c["selective"]["fit_s"] / c["full"]["fit_s"]
+        c["ratio_epoch_selective_over_full"] = c["selective"]["median_epoch_s"] / c["full"]["median_epoch_s"]
+        c["ratio_trained_params"] = c["selective"]["trained_params"] / c["full"]["trained_params"]
+        rec["whole_image"][FU] = {k: rows[FU][k] for k in ("view_mean_psnr", "pooled_psnr", "logl1", "hf_abs")}
     (out / "smoke_metrics.json").write_text(json.dumps(rec, indent=1))
     # figure
     chg = [int(z[f"heldout_T1_v{v}_reg_A_changed"].sum()) for v in range(nv)]; v = int(np.argmax(chg)); k = f"heldout_T1_v{v}"
@@ -96,10 +116,18 @@ def main() -> int:
     gd = np.abs(z[k + "_gtdelta"].astype(np.float32)).mean(-1); gd[own < 0] = 0
     W = 192; y, x = window(gd, W); sl = (slice(y, y + W), slice(x, x + W))
     pv = lambda arm: S["rows"][arm]["per_view_psnr"][v]
-    fig, axs = plt.subplots(2, 6, figsize=(19, 7.2))
+    full = FU in ARMS
+    fu = z[k + "_" + FU].astype(np.float32) if full else None
+    eu = np.abs(fu - ref).mean(-1) if full else None
+    if full:
+        eu[own < 0] = np.nan
+    ncol = 8 if full else 6
+    fig, axs = plt.subplots(2, ncol, figsize=(3.2 * ncol, 7.2))
     panels = [(np.clip(z[k + "_refT0"].astype(np.float32), 0, 1), "T0 reference (same camera/light)"), (np.clip(ref, 0, 1), "T1 path-traced reference"),
               (np.clip(fr, 0, 1), f"C: frozen T0 model\n{pv(FR):.2f} dB (view)"), (np.clip(se, 0, 1), f"B: selective update (8 units)\n{pv(SE):.2f} dB (view)"),
               (ef, "|error| frozen"), (es, "|error| selective")]
+    if full:
+        panels.insert(4, (np.clip(fu, 0, 1), f"A: full recompute (17 units)\n{pv(FU):.2f} dB (view)")); panels.append((eu, "|error| full"))
     for j, (img, t) in enumerate(panels):
         for i, crop in ((0, False), (1, True)):
             im = img[sl] if crop else img
@@ -110,22 +138,26 @@ def main() -> int:
             axs[i, j].set_title(t if i == 0 else "crop: strongest GT change", fontsize=9)
             off(axs[i, j])
     axs[0, 1].add_patch(plt.Rectangle((x, y), W, W, fill=False, ec="#c0392b", lw=1.2))
-    fig.colorbar(h, ax=axs[:, 4:], fraction=0.02, pad=0.01, label=f"|display error| 0-{EMAX}")
+    fig.colorbar(h, ax=axs[:, -3:] if full else axs[:, 4:], fraction=0.02, pad=0.01, label=f"|display error| 0-{EMAX}")
     fig.suptitle(f"Held-out T1 view {v} (4096 spp). Updated units D* (red), all other units bit-identical. Smoke budget: 128 T1 images, 250 epochs, cold re-init.", fontsize=10)
     f1 = out / "01_meeting_comparison.png"; fig.savefig(f1, dpi=110); plt.close(fig)
     fig, ax = plt.subplots(1, 2, figsize=(11, 4.2))
     ax[0].imshow(upd); ax[0].set_title("updated units: D* (red), PU band in V* (amber), V* grey", fontsize=9); off(ax[0])
     names = ["A_changed", "Dstar_owned", "Vstar_owned", "A_unchanged", "B", "all"]
     xs = np.arange(len(names)); fz = [regions[r]["mse_frozen"] for r in names]; sz = [regions[r]["mse_selective"] for r in names]
-    ax[1].bar(xs - 0.2, fz, 0.4, color="#86b6ef", label="frozen"); ax[1].bar(xs + 0.2, sz, 0.4, color="#c0392b", label="selective")
+    bw = 0.27 if full else 0.4
+    ax[1].bar(xs - bw, fz, bw, color="#86b6ef", label="frozen"); ax[1].bar(xs, sz, bw, color="#c0392b", label="selective")
+    if full:
+        ax[1].bar(xs + bw, [regions[r]["mse_full"] for r in names], bw, color="#52514e", label="full recompute")
     ax[1].set_xticks(xs, names, rotation=20); ax[1].set_ylabel("display MSE (16 held-out T1 views)"); ax[1].legend(frameon=False)
     ax[1].set_title("frozen vs selective by predeclared region")
     fig.tight_layout(); f2 = out / "02_mask_and_regions.png"; fig.savefig(f2, dpi=120); plt.close(fig)
     man = {"protocol": "experiments/rna_selective_reconstruction_lego/protocol/b4_smoke_meeting_v1.json", "view": v, "crop_yx": [int(y), int(x)], "crop_size": W,
            "files": [{"file": f.name, "sha256_16": sha(f)} for f in (f1, f2, out / "smoke_metrics.json")],
-           "sources": [{"file": str(p), "sha256_16": sha(p)} for p in (res / "smoke/eval_smoke/eval.json", res / "smoke/B_sel_smoke/train.json", res / "oracle/oracle.json")]}
+           "sources": [{"file": str(p), "sha256_16": sha(p)} for p in (ed / "eval.json", res / "smoke/B_sel_smoke/train.json", res / "oracle/oracle.json")]}
     (out / "manifest.json").write_text(json.dumps(man, indent=1))
-    print(json.dumps({"verdict": verdict, "A_changed": ach, "all": regions["all"], "Vstar": regions["Vstar_owned"], "params": rec["parameters"]}, indent=1))
+    print(json.dumps({"verdict": verdict, "A_changed": ach, "all": regions["all"], "Vstar": regions["Vstar_owned"], "A_unchanged": regions["A_unchanged"],
+                      "params": rec["parameters"], "recompute_cost": rec.get("recompute_cost")}, indent=1))
     return 0
 
 
