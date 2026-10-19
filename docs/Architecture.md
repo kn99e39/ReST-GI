@@ -1,7 +1,7 @@
 # Architecture — Surface-Owned Neural Transport Units
 
-**Updated:** 2026-10-18 (worklog 36)  
-**Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); radiometric recovery after a real edit NOT YET TESTED  
+**Updated:** 2026-10-19 (future relation/selector direction; worklog 36 latest reviewed)  
+**Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); radiometric recovery after a real edit NOT YET VERIFIED (user reports Batch 4 running; results not reviewed)  
 **Branch:** Selective_Recompute  
 **Historical architectures:** docs/history/ARCHITECTURE_LIFECYCLE_SEPARATION_2026-10-07.md, docs/history/ARCHITECTURE_INTRA_OBJECT_FEATURE_REFIT_2026-10-08.md, docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
 
@@ -55,6 +55,23 @@ edit G0 -> G1
 ~~~
 
 **D_G ≠ D_T** (worklogs 21–25, confirmed in worklog 31). Whether D_T is sparse at unit granularity is an open empirical question. At object granularity on the compact teaset it was all objects (worklog 31).
+
+## 3a. Future Interreflection-Aware Relation/Selector Layer (direction only, unvalidated)
+
+**Reason for the layer.** Under a geometry edit, locally unchanged surfaces can carry stale learned indirect radiance. Multi-bounce interreflection, glossy directional coupling and third-party occluder motion make distance, normal similarity and spatial adjacency unreliable as sufficient invalidation criteria. The architecture must separate learned-state validity from a changed outgoing-radiance value, and separate changed transport coupling from propagation of radiance through an otherwise reusable response. No specific baked-radiance versus transport-response representation is selected yet.
+
+**Long-term design preference (user discussion, 2026-10-19):** form the candidate relation hierarchy through explainable geometric/transport algorithms, *not* by requiring a network to invent the full scene tree; consider a learned scorer for difficult influence/invalidation decisions on the discovered candidates. Neither the need for learning nor a particular hierarchy algorithm has been demonstrated.
+
+Proposed layer decomposition (roles, not an implementation prescription):
+
+1. **Algorithmic candidate index:** organize surface elements spatially, retaining node bounding regions, directional bounds such as normal cones, material/BRDF summaries and references to owning transport units. Normal-only grouping is inadequate; spatial-first and joint spatial-directional partitions are competing designs, not a prematurely fixed choice.
+2. **Transport-relation candidates:** cross-node / cross-unit relations informed by relative position and direction, occlusion and scattering. The index tree is *not* itself the transport graph; physical relations can be nonlocal, directed, cyclic and multi-bounce. Edits to a third-party occluder can change the coupling of two untouched surfaces.
+3. **Optional learned selection:** infer candidate influence, state invalidation or recoverable radiometric error from observable pre/post-edit features. Compare against an algorithm-only selector; neural inference must justify its errors and cost. Learning the hierarchy end-to-end is not the adopted default.
+4. **Owned-state reconstruction:** map selected transport-dirty receivers to their existing full owned neural parameter sets Θ_i. Preserve Θ_j exactly for every unselected j; separately quantify whether the preserved states remain radiometrically valid and any composition-band output influence.
+
+**Candidate discovery is a coverage contract, not an accuracy afterthought.** A missed receiver cannot be restored by downstream learning. No pruning based only on normal cones, distance, or hierarchy membership may be called safe without physical-oracle coverage evidence. Distinguish false-negative stale-GI error from false-positive computation; include selector traversal/inference in end-to-end cost. Training targets, tolerance semantics and fallback policies require a future predeclared batch.
+
+**Phase boundary:** Batch 4's already-running oracle physical-edit protocol is unchanged. Do not train a selector, alter dirty-unit labels, add a hierarchy to production, or modify baseline ownership in this documentation-only decision. Await the oracle D_T, recovery and sparsity results, then obtain an explicit subsequent-batch decision.
 
 ## 4. Batch 1 Candidate (worklog 32): Independent Complete RNA Units
 
@@ -163,15 +180,7 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
 
 ## 8. Implementation Frontier and Non-Goals
 
-**Next decision (user):**
-1. How to meet the static-credibility precondition (a predeclared scene/material where RNA clears the bar, or a prospectively revised criterion). Worklog 33 found no integration defect:
-   - near-mirror C1 is an RNA representation limit, which only a different substrate would lift (decision 1);
-   - the C2 regime is viable if scored against converged targets.
-
-   Against converged targets, Batch-1 ownership costs on C2 are slightly larger (P16 −0.67 dB, logL1 1.28×; 4 views).
-2. Then either:
-   - radiometric validity of unit recompute under a physical T0 → T3 edit (recommended in worklog 32); or
-   - a representation variant from §5.
+**Current execution frontier (user report, 2026-10-19):** Architecture Batch 4 is running: physical Lego geometry-edit reconstruction with oracle transport-dirty unit selection. Its protocol and candidate behavior are not modified by this direction record. Results have not been reviewed. The previous static-baseline gate was qualified by worklog 35 and Batch 3 (worklog 36). After Batch 4, decide whether radiometric recovery and D_T sparsity justify a later relation-observability/selector experiment (§3a), or whether the representation itself needs revision.
 
 **Batch 3 (worklog 36), native Lego.**
 - **Partition L16:** a rendered point is identified on its mesh triangle; its unit is the k-means cell (K = 16) of the on-surface point, and PU blending is allowed only within the triangle's connected component.
@@ -182,11 +191,10 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
 
 **Baseline qualification (worklog 35).** Native RNA reproduces its published Lego quality: released and retrained checkpoints agree within 0.2 dB, and against 4096-spp targets they reach the Table 1 level. RNA is therefore a credible substrate on its material class. Future static gates use converged references (≥ 4096 spp or 8× the training spp) and state the aggregation and checkpoint rule.
 
-**Not before feasibility (decision 10):**
-- dependency tracking;
-- dirty-unit detection;
-- hierarchy;
-- efficiency/scaling claims;
+**Do not implement before feasibility is evidenced and the user authorises a new batch (decision 10):**
+- deployable dependency tracking or dirty-unit detection;
+- the proposed algorithmic hierarchy or learned selector (§3a);
+- efficiency/scaling claims without measured end-to-end costs;
 - automatic advance to the next batch.
 
 ## 9. Completion Condition (per batch)
