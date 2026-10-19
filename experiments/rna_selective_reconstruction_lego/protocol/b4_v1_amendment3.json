@@ -1,0 +1,16 @@
+{
+ "protocol": "b4_v1.1 operational amendment 3 (execution only)",
+ "date": "2026-10-20",
+ "status": "PROSPECTIVE for every arm: written before any A_full, B_sel, RNA_T1 or main-batch evaluation output exists; user decision in session (stop A_full, finish RNA_T0 first, keep the original order)",
+ "events": [
+  "2026-10-20 00:53:08 KST: Windows System log, nvlddmkm id 13 'Graphics FECS Exception: UCODE Fatal Error' and id 14 'GPU recovery action changed to GPU Reset Required', followed by 62 id-153 events. A single id-153 event at 2026-10-19 23:57:55 did not stop training. Driver 32.0.15.9649. Cause not established (candidates: VRAM saturation with a Windows-side GPU client, driver fault).",
+  "00:53:23: chain v5's resumed RNA_T0 exited with torch.AcceleratorError 'CUDA error: unknown error' (log train_RNA_T0_resumed.log). Its last.ckpt (00:51:14, epoch 104, global_step 42000, optimiser + LR scheduler) predates the fault and was copied byte-identically to version_1/checkpoints/last_pre_tdr.ckpt.",
+  "00:53:24: chain v5 did not check the return code and started A_full. It was stopped at 00:56 during data loading (no epoch completed) and set aside as A_full_aborted_tdr_0056 (log train_A_full_aborted_tdr_0056.log). It is not evidence."
+ ],
+ "change": [
+  "RNA_T0 resumes a second time from last_pre_tdr.ckpt (RR_RESUME_CKPT). Segments: epochs 0-89 (version_0), 90-104 (version_1), 105-249 (version_2). Labelled 'resumed (2 resumptions)'; shuffle RNG not restored.",
+  "Chain v6 stops on any failed step (return code, RNA 'max_epochs=250 reached', owned-run state.pt and train.json) instead of continuing."
+ ],
+ "unchanged": "everything listed as unchanged in amendment 2; step order of chain v4/v5; A_full and B_sel run uninterrupted from scratch, so their wall-clock remains the predeclared recompute-cost measurement. If a GPU reset interrupts A_full or B_sel, that arm is rerun from scratch rather than resumed.",
+ "reporting": "worklog 37 reports the GPU reset, the second RNA_T0 resumption and the discarded A_full start"
+}
