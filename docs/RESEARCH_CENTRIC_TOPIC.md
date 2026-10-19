@@ -1,7 +1,7 @@
 # Research Centric Topic — Surface-Owned Selective Neural Transport Recomputation
 
-**Last updated:** 2026-10-18 (worklog 36)  
-**Status:** Active problem; Surface-Owned Transport Units are the active representation hypothesis (Batches 1–3 of ≥ 5 reported; static ownership feasibility holds on the native Lego); full method not validated  
+**Last updated:** 2026-10-19 (long-horizon relation/selector direction; worklog 36 remains the latest reviewed evidence)  
+**Status:** Active problem; Batches 1–3 of ≥ 5 reported, static ownership feasibility established on native Lego; user reports physical-edit Batch 4 in progress (results not reviewed). Hierarchical relation/learned selection is a future direction, not an implemented or validated method.  
 **Target:** SIGGRAPH 2027 (official Technical Papers deadline to be verified separately)  
 **Superseded framing:** object-level-only selection (2026-10-12), archived at docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
 
@@ -26,6 +26,8 @@ A single large object can contain regions whose learned transport has become inv
 9. The 1997 line-space hierarchy (Drettakis & Sillion) is **not** the primary architectural starting point.
 10. Full efficiency and scaling validation come **after representation feasibility**.
 
+**2026-10-19 direction decision (not an implementation approval):** Make interreflection, including nonlocal and multi-bounce dependencies, a first-class requirement of future representation/selection contracts. Favor a physically interpretable, algorithmically constructed spatio-directional hierarchy for candidate discovery over asking a network to learn the entire scene hierarchy end-to-end; investigate learned transport-relation scoring / invalidation selection on top. The specific hierarchy, features, and learner remain unvalidated hypotheses. Preserve the current oracle-based physical-edit Batch 4 controls.
+
 Never reinterpret "selective" as a mask over triplane cells, feature channels or MLP layers inside one jointly owned model (worklog 30's tested and negative hypothesis). Selection is over **owned units**, each of which is recomputed whole.
 
 ## 3. Transport Unit Contract
@@ -48,6 +50,21 @@ The first two are contracts of the representation; the third depends on the scen
 - D_T: units whose **learned transport is invalid under G1**, including stationary receivers whose indirect light changed.
 
 D_G ≠ D_T. Worklog 31 measured this on the canonical teaset: mover-only refit left the stationary receivers as stale as the frozen model; at object granularity every object was transport-dirty, so whole-object selection could save nothing there. Finer ownership is the motivation for the current hypothesis — whether D_T becomes usefully sparse at unit granularity is an open empirical question.
+
+## 4a. Long-Horizon Interreflection and Relation-Selection Direction (2026-10-19; unvalidated)
+
+The central research goal remains *selective reconstruction of invalid learned transport*, not merely predicting an image change or declaring adjacent surfaces dirty. Interreflection is a required target phenomenon for later tests: geometry edits can affect distant stationary receivers, including through glossy/multi-bounce transport and third-party occluders. A unit's learned-parameter validity and its current output radiance must remain distinct.
+
+**Design preference, not a fixed data structure:** construct a physically interpretable candidate-discovery hierarchy algorithmically. A plausible starting point is spatial bounding regions containing normal-direction bounds (e.g., normal cones), surface-unit references, and material/BRDF bounds. Position, relative direction, extent, orientation, visibility/occlusion and directional scattering play different roles; normal-only clustering is insufficient. A spatial-first tree plus directional summaries is a candidate, **not** a proven or mandatory architecture. Joint spatial-directional alternatives remain open if evidence favors them.
+
+- **Hierarchy vs transport graph:** a tree organizes geometry/search; transport relations connect nodes or units across branches and can be directed, nonlocal, cyclic and multi-bounce. Never treat parent/child adjacency as physical transport dependency.
+- **Candidate discovery vs learned decision:** algorithmic traversal proposes potentially affected relations/receivers; a learned scorer *may* predict radiometric influence, invalidation probability, or expected error reduction. Learnability and the need for a neural scorer must be established against an algorithm-only control.
+- **Coverage risk:** a receiver omitted at candidate discovery cannot be recovered by an accurate downstream network. Include edited-occluder effects on otherwise unchanged sender/receiver pairs; compare candidate recall against physically grounded oracle transport changes before permitting pruning.
+- **Separate representations:** surface/parameter ownership, scene transport relation, learned-state validity, output contribution and recomputation schedule are distinct contracts. Hierarchy nodes need not correspond one-to-one to neural ownership units.
+- **Selection objectives:** false negatives leave stale GI; false positives waste recomputation. Report radiance-error-weighted misses, oracle coverage, selected-unit count and total selector+recompute cost, not classification accuracy alone.
+- **Evidence order:** complete the in-progress physical-edit oracle Batch 4 without changing its protocol. First determine radiometric recoverability and whether D_T can be usefully sparse. Only then consider a separately approved, controlled relation-observability / algorithm-only-vs-learned selection batch. Do not claim learned hierarchy/selection validity or start implementation from this direction record.
+
+Historical 2007–2013 dynamic-GI methods are references for *how they changed the computational and reuse contract*, not algorithms to import unchanged. Prior sparse K=32 relational radiance-residual failures (worklogs 28–29) do not directly test learned dirty-unit selection; they do caution against assuming sparse directional samples suffice for glossy transport.
 
 ## 5. Prior Art and Historical Design References
 
@@ -102,7 +119,7 @@ Representation feasibility first (decision 10). Open questions, in order:
 2. unit-level reconstruction after a **physically grounded** geometry edit (radiometric validity, not just ownership semantics);
 3. whether D_T is sparse at unit granularity on a scene where that is physically plausible;
 4. seam/composition quality and capacity cost of ownership;
-5. only then dependency discovery, hierarchy, efficiency and scaling.
+5. only then dependency observability, interpretable algorithmic hierarchy, optional learned relation scoring/selection, and measured efficiency and scaling (see §4a).
 
 ## 8. Research Conduct / Stop Conditions
 
