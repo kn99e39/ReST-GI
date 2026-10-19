@@ -1,0 +1,16 @@
+{
+ "protocol": "b4_v1.1 operational amendment 2 (execution only)",
+ "date": "2026-10-19",
+ "status": "PROSPECTIVE for every arm: written before A_full, B_sel, RNA_T1 or any main-batch evaluation started; user decision in session (pause for a PC reboot without affecting results, then continue on the 5080 PC)",
+ "events": [
+  "2026-10-19 18:38:37 KST: chain v4 stopped right after an RNA_T0 last.ckpt save (epoch 89, global_step 36000; optimiser and LR-scheduler state present). The checkpoint was copied byte-identically to rna_ctrl/T0/checkpoints/b4-lego-T0/version_0/checkpoints/last_pre_reboot.ckpt. Chain v4 status exit=137.",
+  "The user then renamed the project folder C:\\Projects\\NeuralShaderDemo -> C:\\Projects\\ReST-GI; nothing else changed (user statement)."
+ ],
+ "change": [
+  "RNA_T0 resumes from last_pre_reboot.ckpt through rr_run.py RR_RESUME_CKPT (Lightning fit(ckpt_path); worklog-35 amendment-3 mechanism). The shuffle RNG is not restored, so RNA_T0 is labelled 'resumed' and is not bit-identical to an uninterrupted run. The resumed segment logs to version_1; ck() selects its last.ckpt as before.",
+  "Configs are read from results/rna_selective_reconstruction_lego/config_restgi/: copies of config/ with only the path prefix /mnt/c/Projects/NeuralShaderDemo/ replaced by /mnt/c/Projects/ReST-GI/ (verified: no other difference). config/ is kept as the record of the completed runs.",
+  "RNA_T0's resumed segment runs without the taskset 24-31 pin that chain v4 used while the train_T1 render shared the CPU; that render has finished and the GPU queue is otherwise idle. Speed only."
+ ],
+ "unchanged": "scene, data, oracle and D*, owner caches (content-hashed), arms A_full / B_sel / RNA_T1 and their configs' values, evaluation sets and commands, every threshold and outcome rule. A_full and B_sel run uninterrupted on the same PC, so their wall-clock remains the predeclared recompute-cost measurement.",
+ "reporting": "worklog 37 reports RNA_T0 as a resumed run (epochs 0-89 segment 1, 90-249 segment 2) and the folder rename as a path-only change"
+}
