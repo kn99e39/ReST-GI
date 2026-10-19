@@ -1,8 +1,8 @@
 # Baseline Roles and Evidence Strategy — Surface-Owned Selective Neural Transport Recomputation
 
-**Updated:** 2026-10-18 (worklog 36)  
+**Updated:** 2026-10-19 (future relation/selector evidence contract; worklog 36 latest reviewed)  
 **Status:** Active interpretation/control contract. Owned-unit recomputation after an edit is NOT validated. Static ownership feasibility is established on one credible native asset (Lego, worklog 36, single seed)  
-**Project:** NeuralShaderDemo / Selective_Recompute
+**Project:** ReST-GI (formerly NeuralShaderDemo) / Selective_Recompute
 
 ## 1. Scope
 
@@ -76,6 +76,21 @@ Bitwise preservation never implies physical validity under a changed scene.
 
 Oracle dirty sets are scientific upper bounds. Predeclare their noise floor, criterion, coverage and split; report their cost separately. Dense dirty closure is a valid negative result.
 
+## 6a. Future Interreflection / Hierarchical Selector Evidence (2026-10-19 direction; not authorised)
+
+Long-horizon design preference: generate a candidate transport relation hierarchy with interpretable geometric/spatial/directional algorithms, optionally followed by a learned relation scorer / invalidation selector. Normal-vector clustering alone cannot capture position, distance, occlusion or nonlocal glossy interreflection. Node search hierarchy, cross-node transport dependency, Surface Unit parameter ownership and learned selection are distinct contracts. This is not an established architecture result.
+
+**Required comparisons when a future user-approved experiment exists:**
+
+- Preserve the same physically grounded pre/post-edit scenes, ownership units, supervision, oracle D_T labels, error thresholds and test split across selectors. Distinguish direct geometry dirty D_G from transport dirty D_T; include stationary receivers, indirect occlusion and multi-bounce effects.
+- Report **candidate discovery oracle coverage/recall** before testing a learned scorer. Missed candidates are irrecoverable downstream; explicitly include edits where a third-party blocker changes transport between two unchanged surfaces.
+- Compare an algorithm-only hierarchy/selector with learned scoring on identical candidates. Do not infer a learned predictor is needed merely because one can be trained; compare with simple geometric baselines and oracle selection.
+- Report radiometrically weighted false negatives (stale-GI error), false positives (unnecessary update), quality of the post-refit render, per-unit and cross-unit dependency errors, and totals for hierarchy build/update, traversal, model inference, supervision generation and reconstruction. Classification accuracy alone is insufficient.
+- Prevent reference/selection label leakage, including oracle radiance at runtime; physically expensive oracle labels are for offline supervision/evaluation only unless separately justified. Predeclare tolerance, recall target and fallback rules.
+- If Batch 4 shows dense D_T, failed recovery, or uninformative oracle labels, stop and revisit the representation/assumptions rather than tuning a learned selector to rescue feasibility.
+
+Do not change the in-progress Batch 4 oracle protocol, add selector training, or claim speedups based on this direction record.
+
 ## 7. Metrics
 
 - **Quality:**
@@ -138,4 +153,4 @@ A defensible contribution must concern the validity and reconstruction of learne
 
 > On a scene where the original substrate is credible, can recomputing the complete state of only the transport-invalid owned units recover the physical GI change of a geometry edit, while preserved units stay valid, and is the dirty-unit set meaningfully smaller than the whole asset?
 
-This awaits the user's Batch-2 decision.
+The user reports Architecture Batch 4 (physical Lego edit/oracle D_T) in progress as of 2026-10-19; its evidence has not yet been reviewed. Future selector work depends on that outcome and requires a separate user decision.
