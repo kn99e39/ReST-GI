@@ -1,0 +1,8 @@
+{
+ "protocol": "b4_smoke_meeting_v1, amendment 1",
+ "declared": "2026-10-19 ~08:50 KST, after the smoke B-vs-C result, before the arm below is trained (user request: show the recomputation-time difference to full recomputation)",
+ "added_arm": "A_full_smoke: all 17 units initialised from scratch (no --init) and trained on the same 128-image T1 subset with the same trainer, schedule (250 epochs), seed 0, the same CPU cores (24-31) and the same concurrent CPU render on cores 0-23 as B_sel_smoke had; evaluated on the same 16 held-out T1 views",
+ "cost_quantity": "reconstruction wall-clock: fit time (incl. data setup) and median epoch time from train.json, selective (B_sel_smoke) vs full (A_full_smoke); plus the idealised share: trained parameters and the share of training pixels owned by D* (owner counts). Both runs overlap the same concurrent render, so the RATIO is the meaningful number, not the absolute times. Rendering/inference cost is identical for both (same composed model)",
+ "quality": "B_sel_smoke vs A_full_smoke per predeclared region (same ROI and bootstrap as the smoke protocol); reported, no new pass/fail threshold",
+ "main_batch": "RNA_T0 (started 08:39) is stopped and re-run after this arm so that no two trainings share the GPU; main-batch order otherwise unchanged; expected main delay ~2 h"
+}
