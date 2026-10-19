@@ -74,7 +74,9 @@ B and A share the same budget:
 | trained parameters | 5.28 M | 11.59 M | 0.46 |
 | share of training pixels owned by trained units | 39% | 100% | 0.39 |
 
-- Rendering/inference cost is identical: both arms produce the same composed model.
+- **These are recompute times** (updating the learned state after the edit).
+- **Frame rendering (inference) time does not differ** after recomputation: both arms are the same 17-unit composed model. Measured: frozen 0.52 s/view, selective 0.41 s, full 0.44 s.
+- **Not measured: incremental re-rendering for a fixed camera.** Only the predicted 38% of pixels changed under selective recomputation (100% under full). Only this pixel share is known; no time has been measured.
 - **0.76 is conservative.** The unchanged trainer still runs the frozen units' forward pass and validates every epoch. The parameter and pixel shares (0.39–0.46) are the idealised range; a trainer that reaches them has not been built or measured.
 - Not included: the oracle's own cost and data generation.
 
@@ -84,6 +86,20 @@ B and A share the same budget:
 - held-out view 6, showing T0 reference, T1 reference, frozen, selective, full and the three error maps;
 - a crop at the strongest ground-truth change.
 - The frozen model still paints B's old **red reflection and shadow ghost** on the sand plate where B stood at T0. Selective and full recomputation both remove it.
+
+## Post-hoc: the frozen error is mostly not out-of-distribution
+
+This analysis was not predeclared; details are in `results/evaluation/37/smoke_meeting/README.md`. It splits the frozen error on physically changed surfaces into three parts:
+
+| part | share of frozen error |
+|---|---|
+| **visibility same as T0** (inputs in-distribution) | **63%** |
+| visibility changed (shadow head extrapolates) | 29% |
+| surfaces not corresponded to the same T0 view | 8% |
+
+- **The dominant part is target shift, not OOD.** The query inputs are unchanged; the indirect light they should map to changed.
+- Only recomputing the owning units' learned state repairs it.
+- Selective recomputation repairs all three parts as well as full recomputation does.
 
 ## Interpretation and limits
 
