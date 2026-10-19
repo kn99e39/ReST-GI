@@ -1,8 +1,8 @@
 # Research Roadmap — Surface-Owned Selective Neural Transport Recomputation
 
-**Updated:** 2026-10-18 (worklog 36)  
+**Updated:** 2026-10-19 (long-horizon relation/selector decision; worklog 36 latest reviewed)  
 **Branch:** Selective_Recompute  
-**Status:** Architecture Batches 1–3 reported. Batch 3 (native RNA Lego, worklog 36): independent owned units pass static screening (Case A) with exact ownership and unit reconstruction; Batch 4 NOT authorised  
+**Status:** Architecture Batches 1–3 reported. Batch 3 (native RNA Lego, worklog 36): independent owned units pass static screening (Case A) with exact ownership and unit reconstruction; Batch 4 user-reported IN PROGRESS (physical Lego edit/oracle D_T; results not reviewed)  
 **Venue planning:** SIGGRAPH 2027, official paper deadline to be separately verified.
 
 ## 0. Decision Record
@@ -19,6 +19,9 @@
   - 2007–2013 dynamic GI is the priority design reference;
   - the 1997 line-space hierarchy is not the starting point;
   - efficiency and scaling come after feasibility.
+
+- **2026-10-19 (long-horizon design direction, not implementation approval):** treat interreflection, including nonlocal/multi-bounce dependencies, as a future representation/selector requirement. Prefer an algorithmically constructed, interpretable spatio-directional candidate hierarchy with explicit position and directional bounds over learning an entire scene hierarchy from scratch. Investigate learned relation scoring/dirty-unit selection only after validating candidate coverage and against algorithm-only controls. The specific tree, features and model remain hypotheses. The user reports Batch 4 already running; do not alter its protocol.
+- **2026-10-19 (documentation policy):** record substantive user-approved research-direction decisions in the relevant living documents immediately, without waiting for a Worklog or batch close. Preserve historical records and label unvalidated proposals explicitly.
 
 Active contracts: docs/RESEARCH_CENTRIC_TOPIC.md, docs/Architecture.md, docs/BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md.
 
@@ -49,8 +52,9 @@ Active contracts: docs/RESEARCH_CENTRIC_TOPIC.md, docs/Architecture.md, docs/BAS
 | 2 — boundary fidelity (worklog 34) | **REPORTED** | Why do independent units lose fidelity at boundaries, and can one representation change fix it without breaking reconstruction? | H2 + H3 supported, H1 starvation contradicted; P16-PU fixes seams, not interior loss; Batch 3 needs a user decision (recommended: immutable shared decoder + owned features under PU) |
 | 3 — native Lego generalisation (worklog 36) | **REPORTED: Case A** | Does the independent architecture keep credible static fidelity and reconstructible ownership on a native, paper-comparable RNA asset? | B −0.32 / C −0.31 dB, logL1 1.05×, off-band unchanged, seams fixed by PU, REINIT exact. Batch 4 needs a user decision (recommended: physical geometry-edit reconstruction on Lego, oracle D_T units vs all units vs object) |
 | 2 (original plan) | superseded by the above | Recommended, after resolving credibility: radiometric validity of unit-level full recompute under a physical T0 → T3 edit (oracle dirty units vs all units vs whole objects). Alternative: a representation variant (frozen shared decoder + owned features; or blended overlapping units) | — |
-| 4–5 | FUTURE | Chosen from evidence: representation variants, D_T sparsity on scenes where it is physically plausible, non-RNA substrates | — |
-| After feasibility | FUTURE | Dependency/invalidation discovery (deployable), hierarchy as an optional accelerator, efficiency and scaling (decision 10) | requires feasibility evidence and a user decision |
+| 4 — physical Lego geometry edit | **IN PROGRESS (user report, results not reviewed)** | Can oracle-selected transport-dirty units recover physical post-edit radiance, and is D_T meaningfully sparse vs full/object recomputation? | Preserve the running protocol; await Worklog/evidence; no automatic successor |
+| 5 and later | FUTURE (requires user decision) | Select from observed failure/success: representation variant, controlled interreflection relation observability, or additional assets/materials | No precommitted mechanism |
+| After feasibility | FUTURE (direction adopted; implementation not authorised) | Algorithmic spatio-directional candidate hierarchy plus optional learned transport-relation scoring/dirty-unit selection; measure candidate coverage, stale-GI false negatives, and full selector+recompute cost vs oracle and algorithm-only controls | Requires Batch 4 interpretation, physical-oracle evidence and a user-approved bounded batch |
 
 Gates retained from the object-level framing:
 - **P:** phenomenon, CLOSED.
@@ -58,6 +62,16 @@ Gates retained from the object-level framing:
 - **H:** compact state, CLOSED NEGATIVE for the tested cases.
 - **X:** intra-object masking, CLOSED NEGATIVE and off-target.
 - **O0/O1:** object-level feasibility and oracle refit. Worklog 31 answered them on an explicit substrate (O0 pass; O1 dense at object granularity). They remain a coarse comparison for unit-level results.
+
+## 3a. Future Relation-Selection Decision Frontier (direction adopted 2026-10-19)
+
+Interreflection is an intended stress capability: static spatial neighborhoods and normal similarity do not guarantee transport dependency. Algorithmic geometric hierarchy and an optional learned selector have different scientific roles:
+
+- **Index/candidate stage:** physically interpretable spatial and directional bounds (e.g., node regions, normal cones, BRDF summaries) discover transport-relevant candidates, including nonlocal receiver changes and third-party occlusion. A search tree is not the multi-bounce dependency graph. The design must not assume normal-only or position-only grouping is sufficient.
+- **Selection stage:** test whether a learned relation/invalidation scorer reduces cost or stale-radiance error relative to an algorithm-only selector on the *same candidate set*. The model should not be required to learn the whole scene hierarchy. Nothing is implemented or guaranteed yet.
+- **Attribution:** first oracle dirty-set sparsity and radiometric recovery (Batch 4); then physically grounded relation coverage, candidate-recall failure accounting, algorithmic-only baseline, learned-selection ablation, total traversal/inference/refit cost and false-negative radiometric penalties. If oracle D_T is dense or candidate discovery misses important receivers, report the limitation before fitting the predictor.
+
+A later work batch should derive its architecture hypothesis from the Batch 4 evidence; this decision record does **not** authorise selector or hierarchy implementation and does not modify the active Batch 4 experiment.
 
 ## 4. Precondition Before Batch 2: Static Credibility
 
@@ -101,6 +115,6 @@ Replan durations from measured training and reference wall-clock. For reference,
 
 ## 8. Document Synchronisation
 
-Update this file, docs/Architecture.md and docs/BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md when a batch closes, a hypothesis is adopted or rejected, a baseline role changes, or implementation is authorised.
+Update this file, docs/Architecture.md, docs/RESEARCH_CENTRIC_TOPIC.md and docs/BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md when a substantive architecture hypothesis/direction is adopted or rejected, a baseline role changes, a batch closes, or implementation is authorised. **Do this as soon as the user makes the direction decision, not only on Worklog completion.** Label decisions vs hypotheses vs evidence, and never revise the currently running experiment by documentation alone.
 
-This document does not authorise Batch 2.
+This document does not authorise any additional batch or change to the ongoing Batch 4.
