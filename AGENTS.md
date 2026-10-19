@@ -1,6 +1,6 @@
 # Working On This Repo
 
-## Selective_Recompute research gate — Surface-Owned Transport Units (2026-10-13; updated 2026-10-18, worklog 36)
+## Selective_Recompute research gate — Surface-Owned Transport Units (2026-10-13; updated 2026-10-19, future selector direction)
 
 **User-confirmed definition:** Selective recomputation means **recompute the COMPLETE owned learned state of every transport unit whose learned transport was invalidated by a geometry edit**, while keeping the complete state of every still-valid unit unchanged. A unit U_i = (S_i, Θ_i) owns a surface domain S_i and all of its trainable parameters Θ_i. Units **may be finer than a scene object** (the user's decision of 2026-10-13); a whole object is the coarsest unit, and **object-level full recomputation remains a valid coarse comparison**.
 
@@ -24,14 +24,16 @@ Full list: docs/RESEARCH_CENTRIC_TOPIC.md §2.
 
 **Unit-level preservation:** report parameter preservation, output preservation and radiometric validity separately. They are different properties.
 
-**Current frontier:** Batch 1 (worklog 32) showed exact ownership and full-state unit reconstruction on independent RNA units, but stopped because original RNA failed the predeclared static-credibility gate (17.97 / 24.92 dB vs 25 dB). **Batch 2 is not authorised.** Worklog 33 audited the RNA baseline:
+**Current frontier:** Batch 1 (worklog 32) showed exact ownership and full-state unit reconstruction on independent RNA units, but stopped because original RNA failed the predeclared static-credibility gate (17.97 / 24.92 dB vs 25 dB). Worklog 33 audited the RNA baseline:
 - no integration defect;
 - C1 is an RNA representation limit on near-mirror conductors;
 - the C2 gate miss is dominated by 128-spp target noise.
 
 Batch 2 (worklog 34) attributed the P16 seams to independent per-unit error fields exposed by hard selection. P16-PU composition removes most of the seam excess; the interior per-unit fidelity loss remains. Worklog 35 qualified native RNA on the official Lego: it reproduces the released checkpoints, and the gap to the paper is validation-target noise (classification: comparable). Static gates must use converged references.
 
-Batch 3 (worklog 36, native Lego, user-authorised 2026-10-18) passed the predeclared static screening (Case A). 16 independent complete RNA units score −0.32 dB vs native RNA HQ on held-out 4096-spp views (logL1 1.05×, interior unchanged; 1.54× parameters, capacity-confounded). PU removes 91% of the seam excess, and one-unit REINIT is exact in parameters and output influence (S_i ∪ B_i). Radiometric validity after a geometry edit is untested. **Batch 4 is not authorised**; the recommended next question is physical geometry-edit reconstruction on Lego (docs/RESEARCH_ROADMAP.md §3).
+Batch 3 (worklog 36, native Lego, user-authorised 2026-10-18) passed the predeclared static screening (Case A). 16 independent complete RNA units score −0.32 dB vs native RNA HQ on held-out 4096-spp views (logL1 1.05×, interior unchanged; 1.54× parameters, capacity-confounded). PU removes 91% of the seam excess, and one-unit REINIT is exact in parameters and output influence (S_i ∪ B_i). Radiometric validity after a geometry edit is untested. **The user reports Batch 4 now running** (physical Lego geometry edit/oracle D_T); results have not been reviewed. Do not modify the running experimental protocol through a documentation change or proceed to another batch automatically.
+
+**Long-horizon research direction adopted 2026-10-19 (not implementation approval):** interreflection and nonlocal/multi-bounce influence must be considered in future representation/selector contracts. Favor an interpretable algorithmically constructed spatio-directional hierarchy for transport-relation candidates (position/bounds, normal-direction ranges, material/BRDF support) over expecting a neural model to learn the whole scene hierarchy; investigate learned relation scoring/dirty-unit selection only after physical-oracle feasibility and coverage evidence. Hierarchy/tree nodes are search indices, not the physical cross-node transport graph. Normal-only clustering is insufficient, and a missed candidate cannot be recovered by a downstream selector. No specific hierarchy, feature set, model or threshold is yet validated or authorised. See docs/RESEARCH_CENTRIC_TOPIC.md §4a and docs/Architecture.md §3a.
 
 **Historical scope:**
 - Worklog 30 validly tested triplane-cell masking inside one 8DNA asset with shared layers frozen; its negative result is not a test of owned units.
@@ -43,7 +45,7 @@ Batch 3 (worklog 36, native Lego, user-authorised 2026-10-18) passed the predecl
 - resume intra-model feature masking as the main experiment;
 - treat a single jointly owned asset model as several owned units;
 - ignore stationary transport-dirty receivers;
-- build a dependency hierarchy or dirty detector before unit-level feasibility;
+- implement a dependency hierarchy or learned dirty detector before physical-edit feasibility is reviewed and the user separately authorises that experiment;
 - move scenes, gates or thresholds after seeing results;
 - automatically advance to the next batch after a result.
 
@@ -66,7 +68,7 @@ In particular, do not confuse implementation/development baselines with scientif
 
 Worklogs are historical evidence; the central documents above are the current research state.
 
-When a substantive batch causes a **major decision** or **phase transition**—for example a gate closes, a working hypothesis is adopted or rejected, a baseline role changes, a kill condition is triggered, the next architecture question changes, or implementation is authorized—update the relevant living document(s) in the same batch after the evidence is interpreted.
+When the user and assistant reach a **substantive long-term research-direction decision**—for example adopting a future architecture hypothesis, changing the representation/selection contract, elevating an evaluation requirement, or changing the next scientific question—**update the relevant living documents immediately in that conversation**; do not wait for the next Worklog, experiment completion, or Agent prompt. Also update them when a batch closes, a gate closes, a baseline role changes, a kill condition is triggered or implementation is authorized. Interpret the evidence and preserve the difference between *user decision*, *candidate hypothesis*, *measured evidence*, and *implementation authorisation*.
 
 At minimum consider:
 
@@ -76,7 +78,7 @@ At minimum consider:
 
 Do not rewrite prior worklogs to make them agree with the new interpretation. Preserve them as append-only history and record the new current interpretation in the living documents.
 
-Do not update living documents for trivial implementation details or every diagnostic result; update them when the durable research direction or decision state actually changes.
+Do not update living documents for trivial implementation details or every diagnostic result. Do not use an immediate direction-document update to alter an experiment already in progress, claim validation of a proposed architecture, or advance implementation without approval. Avoid starting a new numbered Worklog solely to record a documentation update when that number may be reserved for an ongoing batch; the dated decision record in central documents is sufficient until the owning batch reports.
 
 ## Worklog conventions
 
