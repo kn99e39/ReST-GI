@@ -1,0 +1,15 @@
+{
+ "protocol": "b4_v1.1 operational amendment 4 (execution only)",
+ "date": "2026-10-20",
+ "status": "Written before RNA_T1 finished and before the final evaluation; user decision in session (pause right after a checkpoint save, release GPU and memory, later resume RNA_T1 and reschedule the final evaluation). The core evaluation (eval_core, 16:34) existed but had not been reviewed.",
+ "events": [
+  "Chain v6 completed RNA_T0 (12:08:21, 250 epochs), A_full (12:08:22-14:35:33), B_sel (14:35:33-16:31:04) and the core evaluation (16:34:25), all rc=0, uninterrupted.",
+  "2026-10-20 18:53:51 KST: RNA_T1 was stopped by SIGTERM right after a last.ckpt save (epoch 33, global_step 13600; optimiser + LR scheduler), copied byte-identically to version_0/checkpoints/last_pre_pause.ckpt. Lightning exited rc=0; v6's 250-epoch check stopped the chain before the final evaluation (status exit=1). WSL was then shut down to release memory."
+ ],
+ "change": [
+  "RNA_T1 resumes from last_pre_pause.ckpt (RR_RESUME_CKPT); segments: epochs 0-33 (version_0), 34-249 (version_1). Labelled 'resumed'; shuffle RNG not restored.",
+  "Chain v7 runs only RNA_T1 (resumed) and v6's final evaluation command unchanged, after checking that RNA_T0 completed and SO_T0 / A_full / B_sel states exist."
+ ],
+ "unchanged": "everything listed as unchanged in amendments 2 and 3; A_full, B_sel and the core evaluation are not rerun.",
+ "reporting": "worklog 37 reports RNA_T1 as a resumed run and this pause"
+}
