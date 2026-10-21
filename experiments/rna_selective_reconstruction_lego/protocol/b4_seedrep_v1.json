@@ -1,0 +1,34 @@
+{
+ "protocol": "b4_seedrep_v1",
+ "worklog": 38,
+ "declared": "2026-10-21, before any seed-1/2 training, data transfer or server evaluation; user decision in session ('run it on the server') after the worklog-37 recommendation",
+ "question": "Is Batch 4's whole-image shortfall of oracle-selective recompute vs full recompute (B_sel - A_full = -0.313 dB view-mean at seed 0, rule >= -0.26) systematic, or within run-to-run variance? Is the re-learned unit-3 degradation (1.54x A_full, 1.40x its frozen state) systematic?",
+ "relation_to_b4": "supplementary replication of b4_v1.1's decisive comparison. It does not change worklog 37's predeclared verdict (CONDITIONAL); it reports whether that verdict's miss replicates.",
+ "fixed_from_b4": "scene, edit, training data (train_T1, PC renders), held-out references (PC renders), oracle D* = {0,2,3,6,7,8,13,16}, partition L16 + B rule, unit specs, SO_T0 state (seed 0, PC) as the B_sel init and the frozen arm, trainer (b4_train.py -> rso_train.py) and every hyper-parameter, 250 epochs, PU h = 4.5 mm, evaluation code and metrics, every threshold",
+ "arms": {
+  "A_full_s1, A_full_s2": "all 17 units from initialisation on T1 data, --seed 1 / 2",
+  "B_sel_s1, B_sel_s2": "init = SO_T0 (seed 0); D* units re-initialised and trained on T1 data, V* frozen, --seed 1 / 2",
+  "seed 0": "worklog-37 A_full and B_sel (trained on the 5080 PC), re-evaluated on the server with the same command"
+ },
+ "seed_semantics": "--seed sets pl.seed_everything before model construction: it changes unit initialisation and data order. B_sel draws its D* re-initialisations after constructing all units, so A_full_s and B_sel_s do not share D* initial values (as in worklog 37).",
+ "machine": {
+  "training": "LabServer63 (RTX 3080 Ti 12 GB, 125 GB RAM) for seeds 1 and 2; seed 0 was trained on the RTX 5080 PC (labelled). All four new runs are started concurrently on the server (user placement rule 2026-10-21: long jobs on the server; never in parallel across the PC and the server).",
+  "wall_clock": "recorded but NOT reported as recompute cost: concurrent runs share one GPU. Worklog 37's cost measurement stands alone.",
+  "data": "the PC-rendered files are copied byte-identically (sha256 checked on both machines before training); no server-rendered reference or training image is used.",
+  "evaluation": "all evaluation (seeds 0, 1, 2) runs on the server in one b4_eval call on held-out T1 (pair set held-out T0 for regions)"
+ },
+ "cross_machine_eval_check": "the server evaluation of the seed-0 arms (A_full-PU, B_sel-PU, SO_T0-PU) is compared with worklog 37's PC evaluation; |delta view-mean PSNR| <= 0.01 dB per arm is expected. A larger difference is reported and the seed-0 gap is reported from both evaluations.",
+ "statistics": {
+  "per_seed": "g_s = view-mean PSNR(B_sel_s-PU) - view-mean PSNR(A_full_s-PU); R_s (changed-region recovery vs the common frozen SO_T0); V*-owned MSE ratio; V* bit-identity; influence support; unit-3 MSE ratios B_sel_s / A_full_s and B_sel_s / frozen",
+  "summary": "mean g over s = 0, 1, 2 (server evaluation); range; A_full seed spread (max - min view-mean over seeds) and B_sel seed spread"
+ },
+ "outcome_rules": {
+  "within_margin": "mean g >= -0.26 dB: the worklog-37 miss is consistent with run-to-run variance at this margin",
+  "systematic_shortfall": "g_s < -0.26 dB for all three seeds: selective recompute has a systematic whole-image cost beyond the margin",
+  "unresolved": "otherwise (mixed seeds with mean below -0.26)",
+  "unit3": "'systematic' if B_sel_s unit-3 MSE > A_full_s unit-3 MSE in all three seeds; 'not systematic' if in at most one seed; else 'mixed'",
+  "flags": "report any seed with g_s < -1.0 dB, R_s < 0.5, V* not bit-identical, or output change outside the predicted support"
+ },
+ "do_not_tune": ["tau or D*", "seeds (1 and 2 only, fixed here)", "epochs, optimiser, schedule, capacity, partition, PU h", "thresholds above", "which arms are evaluated"],
+ "not_in_scope": "any weakly-dirty-unit policy, alternative D*, selector, or a new scene; those need a separate user decision"
+}
