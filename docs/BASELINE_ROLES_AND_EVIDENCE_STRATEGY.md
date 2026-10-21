@@ -153,4 +153,4 @@ A defensible contribution must concern the validity and reconstruction of learne
 
 > On a scene where the original substrate is credible, can recomputing the complete state of only the transport-invalid owned units recover the physical GI change of a geometry edit, while preserved units stay valid, and is the dirty-unit set meaningfully smaller than the whole asset?
 
-The user reports Architecture Batch 4 (physical Lego edit/oracle D_T) in progress as of 2026-10-19; its evidence has not yet been reviewed. Future selector work depends on that outcome and requires a separate user decision.
+Architecture Batch 4 (worklog 37, 2026-10-21) partly answers it: CONDITIONAL on one scene, one edit and one seed. Recovery of the changed region and preservation of V* hold; the whole-image gap to full recompute (−0.31 dB) misses the predeclared −0.26 dB margin. Not a project-level verdict. Future selector work requires a separate user decision.

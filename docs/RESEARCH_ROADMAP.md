@@ -1,8 +1,8 @@
 # Research Roadmap — Surface-Owned Selective Neural Transport Recomputation
 
-**Updated:** 2026-10-19 (long-horizon relation/selector decision; worklog 36 latest reviewed)  
+**Updated:** 2026-10-21 (Batch 4 reported; worklog 37 latest reviewed)  
 **Branch:** Selective_Recompute  
-**Status:** Architecture Batches 1–3 reported. Batch 3 (native RNA Lego, worklog 36): independent owned units pass static screening (Case A) with exact ownership and unit reconstruction; Batch 4 user-reported IN PROGRESS (physical Lego edit/oracle D_T; results not reviewed)  
+**Status:** Architecture Batches 1–3 reported. Batch 3 (native RNA Lego, worklog 36): independent owned units pass static screening (Case A) with exact ownership and unit reconstruction; Batch 4 (worklog 37, physical Lego edit, oracle D_T): **CONDITIONAL** — D* = 8/17 units (7 stationary receivers + the moved box), selective recompute recovers R = 0.98 of the changed-region error, V* bit-identical and valid (1.03× full), output change exactly on the predicted support; whole-image −0.31 dB vs full recompute misses the −0.26 dB criterion, 69% of it from one weakly dirty unit (single seed)  
 **Venue planning:** SIGGRAPH 2027, official paper deadline to be separately verified.
 
 ## 0. Decision Record
@@ -52,7 +52,7 @@ Active contracts: docs/RESEARCH_CENTRIC_TOPIC.md, docs/Architecture.md, docs/BAS
 | 2 — boundary fidelity (worklog 34) | **REPORTED** | Why do independent units lose fidelity at boundaries, and can one representation change fix it without breaking reconstruction? | H2 + H3 supported, H1 starvation contradicted; P16-PU fixes seams, not interior loss; Batch 3 needs a user decision (recommended: immutable shared decoder + owned features under PU) |
 | 3 — native Lego generalisation (worklog 36) | **REPORTED: Case A** | Does the independent architecture keep credible static fidelity and reconstructible ownership on a native, paper-comparable RNA asset? | B −0.32 / C −0.31 dB, logL1 1.05×, off-band unchanged, seams fixed by PU, REINIT exact. Batch 4 needs a user decision (recommended: physical geometry-edit reconstruction on Lego, oracle D_T units vs all units vs object) |
 | 2 (original plan) | superseded by the above | Recommended, after resolving credibility: radiometric validity of unit-level full recompute under a physical T0 → T3 edit (oracle dirty units vs all units vs whole objects). Alternative: a representation variant (frozen shared decoder + owned features; or blended overlapping units) | — |
-| 4 — physical Lego geometry edit | **IN PROGRESS (user report, results not reviewed)** | Can oracle-selected transport-dirty units recover physical post-edit radiance, and is D_T meaningfully sparse vs full/object recomputation? | Preserve the running protocol; await Worklog/evidence; no automatic successor |
+| 4 — physical Lego geometry edit (worklog 37) | **REPORTED: CONDITIONAL** | Can oracle-selected transport-dirty units recover physical post-edit radiance, and is D_T meaningfully sparse vs full/object recomputation? | D_T ≠ D_G (7 of 8 dirty units stationary); D* 8/17 units, 39% of surface, 99% of change energy; R = 0.98; V* exact and valid; B_sel −0.313 dB vs A_full (rule ≥ −0.26), gap concentrated in weakly dirty unit 3; cost 0.785× wall-clock for 45.5% of parameters. Batch 5 needs a user decision (recommended: seed replicate of B_sel vs A_full on LabServer63 before any selector work) |
 | 5 and later | FUTURE (requires user decision) | Select from observed failure/success: representation variant, controlled interreflection relation observability, or additional assets/materials | No precommitted mechanism |
 | After feasibility | FUTURE (direction adopted; implementation not authorised) | Algorithmic spatio-directional candidate hierarchy plus optional learned transport-relation scoring/dirty-unit selection; measure candidate coverage, stale-GI false negatives, and full selector+recompute cost vs oracle and algorithm-only controls | Requires Batch 4 interpretation, physical-oracle evidence and a user-approved bounded batch |
 
@@ -117,4 +117,4 @@ Replan durations from measured training and reference wall-clock. For reference,
 
 Update this file, docs/Architecture.md, docs/RESEARCH_CENTRIC_TOPIC.md and docs/BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md when a substantive architecture hypothesis/direction is adopted or rejected, a baseline role changes, a batch closes, or implementation is authorised. **Do this as soon as the user makes the direction decision, not only on Worklog completion.** Label decisions vs hypotheses vs evidence, and never revise the currently running experiment by documentation alone.
 
-This document does not authorise any additional batch or change to the ongoing Batch 4.
+This document does not authorise any additional batch.

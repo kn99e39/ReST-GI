@@ -1,7 +1,7 @@
 # Architecture — Surface-Owned Neural Transport Units
 
-**Updated:** 2026-10-19 (future relation/selector direction; worklog 36 latest reviewed)  
-**Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); radiometric recovery after a real edit NOT YET VERIFIED (user reports Batch 4 running; results not reviewed)  
+**Updated:** 2026-10-21 (Batch 4 reported; worklog 37 latest reviewed)  
+**Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); after a real edit (worklog 37, oracle D*) complete-state recompute of the dirty units recovers the changed-region radiance (R = 0.98) with V* bit-identical and valid, but the whole image is −0.31 dB vs full recompute (CONDITIONAL; one seed)  
 **Branch:** Selective_Recompute  
 **Historical architectures:** docs/history/ARCHITECTURE_LIFECYCLE_SEPARATION_2026-10-07.md, docs/history/ARCHITECTURE_INTRA_OBJECT_FEATURE_REFIT_2026-10-08.md, docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
 
@@ -71,7 +71,7 @@ Proposed layer decomposition (roles, not an implementation prescription):
 
 **Candidate discovery is a coverage contract, not an accuracy afterthought.** A missed receiver cannot be restored by downstream learning. No pruning based only on normal cones, distance, or hierarchy membership may be called safe without physical-oracle coverage evidence. Distinguish false-negative stale-GI error from false-positive computation; include selector traversal/inference in end-to-end cost. Training targets, tolerance semantics and fallback policies require a future predeclared batch.
 
-**Phase boundary:** Batch 4's already-running oracle physical-edit protocol is unchanged. Do not train a selector, alter dirty-unit labels, add a hierarchy to production, or modify baseline ownership in this documentation-only decision. Await the oracle D_T, recovery and sparsity results, then obtain an explicit subsequent-batch decision.
+**Phase boundary:** Batch 4 (worklog 37) ran its oracle physical-edit protocol unchanged except for execution-only amendments 2–4. Do not train a selector, alter dirty-unit labels, add a hierarchy to production, or modify baseline ownership in this documentation-only decision. Await the oracle D_T, recovery and sparsity results, then obtain an explicit subsequent-batch decision.
 
 ## 4. Batch 1 Candidate (worklog 32): Independent Complete RNA Units
 
@@ -180,7 +180,7 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
 
 ## 8. Implementation Frontier and Non-Goals
 
-**Current execution frontier (user report, 2026-10-19):** Architecture Batch 4 is running: physical Lego geometry-edit reconstruction with oracle transport-dirty unit selection. Its protocol and candidate behavior are not modified by this direction record. Results have not been reviewed. The previous static-baseline gate was qualified by worklog 35 and Batch 3 (worklog 36). After Batch 4, decide whether radiometric recovery and D_T sparsity justify a later relation-observability/selector experiment (§3a), or whether the representation itself needs revision.
+**Current execution frontier (2026-10-21):** Architecture Batch 4 (worklog 37) is reported as CONDITIONAL. Measured: D_T ≠ D_G (7 of the 8 oracle-dirty units are stationary receivers); D* is sparse for this edit (8/17 units); complete-state recompute of D* recovers R = 0.98 of the changed-region error; V* parameters bit-identical and V* error 1.03× full recompute; composed output changes exactly on the predicted support. Not resolved: the −0.31 dB whole-image gap (69% from weakly dirty unit 3, re-learned worse than its own frozen state; single seed). No successor batch is authorised. Recommended next: seed replicate of B_sel vs A_full, then decide between a predeclared weakly-dirty-unit policy and the relation-observability question (§3a).
 
 **Batch 3 (worklog 36), native Lego.**
 - **Partition L16:** a rendered point is identified on its mesh triangle; its unit is the k-means cell (K = 16) of the on-surface point, and PU blending is allowed only within the triangle's connected component.
