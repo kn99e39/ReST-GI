@@ -45,6 +45,15 @@ Do not delete, overwrite, reinterpret, or silently merge these questions.
 | **Coarse comparison** | whole-object full recompute (worklog 31 on an explicit substrate) | the granularity that finer units must beat or match |
 | **Physical reference** | Mitsuba full-scene path-traced radiance (worklog-22 producer), T0 and T3 | supervision and evaluation; never simplified to local transport |
 
+**Batch 5 (SPT-1, worklog 39) roles:**
+- **A:** original RNA (RNA_T1 as the per-state reference; RNA_T0 for static credibility).
+- **B:** Surface-Owned full and selective reconstruction plus the frozen control, reused from worklogs 37–38 because the evaluation regime matches: held-out T1/T0, the same 4096-spp PC references and regions.
+- **C:** SPT-1 with the updated relation state.
+- **D:** SPT-1 with the stale (T0) relation state, every learned parameter identical. This is the factorization control.
+- **C_full:** SPT-1 retrained on T1 data. It is the candidate's own full-reconstruction reference and separates representability from reuse.
+
+The SPT-1 operator never sees T1 data; T1 is the held-out edit.
+
 Implementation baselines are not scientific replications. A credibility failure of A is a **baseline limitation**, reported as such, and never read as a candidate failure.
 
 ## 4. Static-Credibility Precondition

@@ -1,6 +1,6 @@
 # Research Centric Topic — Surface-Owned Selective Neural Transport Recomputation
 
-**Last updated:** 2026-10-22 (Batch 4 seed replicate reported; worklog 38 is the latest reviewed evidence)  
+**Last updated:** 2026-10-22 (Batch 5 SPT-1 authorised; contract recorded before results; worklog 38 is the latest reviewed evidence)  
 **Status:** Active problem; Batches 1–4 of ≥ 5 reported. Static ownership feasibility is established on native Lego. The physical-edit Batch 4 (worklog 37) is CONDITIONAL: oracle-dirty units are sparse and include stationary receivers, their recompute recovers the changed region, and preserved units are exact and valid, At seed 0 the whole image is 0.05 dB short of the predeclared margin to full recompute. The 3-seed replicate (worklog 38) is within the margin (mean −0.08 dB). Hierarchical relation/learned selection is a future direction, not an implemented or validated method.  
 **Target:** SIGGRAPH 2027 (official Technical Papers deadline to be verified separately)  
 **Superseded framing:** object-level-only selection (2026-10-12), archived at docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
@@ -120,6 +120,15 @@ Representation feasibility first (decision 10). Open questions, in order:
 3. whether D_T is sparse at unit granularity on a scene where that is physically plausible;
 4. seam/composition quality and capacity cost of ownership;
 5. only then dependency observability, interpretable algorithmic hierarchy, optional learned relation scoring/selection, and measured efficiency and scaling (see §4a).
+
+**2026-10-22, Batch 5 (user brief):** the project now also evaluates a **factorized** representation, SPT-1 (docs/Architecture.md §9a).
+- **Persistent learned state:** canonical neural surface fields and shared heads, never re-learned after an edit.
+- **Dynamic transport state:** incident SH computed from current-geometry relations and persistent sender properties.
+- **Reusable operator:** linear in the incident state.
+
+Motivation: complete-unit reconstruction (worklogs 37–38) works but re-learns configuration-specific transport with target supervision. SPT-1 asks whether an edit can be absorbed by state recomputation alone.
+
+The new properties are hypotheses. Glossy and broader generalisation tests are evaluation targets of the batch, not prerequisites for design.
 
 ## 8. Research Conduct / Stop Conditions
 

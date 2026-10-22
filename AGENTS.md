@@ -43,7 +43,12 @@ Batch 3 (worklog 36, native Lego, user-authorised 2026-10-18) passed the predecl
 - The A_full seed spread alone is 0.23 dB.
 - Every seed keeps V\* bit-identical, output change on the predicted support, and R ≥ 0.98.
 
-Worklog 37's CONDITIONAL verdict is unchanged; its miss does not replicate. Two observations are consistent across seeds and unattributed: frozen V\* unit 9 is 1.22–1.32× A_full, and the re-learned box unit is 1.12–1.18×. Scope: one scene, one diffuse-dominant edit. **Batch 5 is not authorised.** Do not proceed to another batch automatically.
+Worklog 37's CONDITIONAL verdict is unchanged; its miss does not replicate. Two observations are consistent across seeds and unattributed: frozen V\* unit 9 is 1.22–1.32× A_full, and the re-learned box unit is 1.12–1.18×. Scope: one scene, one diffuse-dominant edit.
+
+**Batch 5 (authorised by the user's brief, 2026-10-22; worklog 39): Spatial-Perspective Transport Factorization, SPT-1.** This is a new architecture hypothesis. It has persistent learned surface fields and heads, a current relation-dependent incident-transport state recomputed from geometry, and a reusable operator that is linear in that state. Edits are absorbed by state recomputation, not parameter updates. Contract: docs/Architecture.md §9a; code: `experiments/spt_lego/`.
+- The Surface-Owned complete-unit contract and its results remain the historical baseline. Do not redefine or retrain them for convenience.
+- Do not switch architecture families or rescue a negative result.
+- Do not proceed to Batch 6 without a new user decision.
 
 **Long-horizon research direction adopted 2026-10-19 (not implementation approval):** interreflection and nonlocal/multi-bounce influence must be considered in future representation/selector contracts. Favor an interpretable algorithmically constructed spatio-directional hierarchy for transport-relation candidates (position/bounds, normal-direction ranges, material/BRDF support) over expecting a neural model to learn the whole scene hierarchy; investigate learned relation scoring/dirty-unit selection only after physical-oracle feasibility and coverage evidence. Hierarchy/tree nodes are search indices, not the physical cross-node transport graph. Normal-only clustering is insufficient, and a missed candidate cannot be recovered by a downstream selector. No specific hierarchy, feature set, model or threshold is yet validated or authorised. See docs/RESEARCH_CENTRIC_TOPIC.md §4a and docs/Architecture.md §3a.
 

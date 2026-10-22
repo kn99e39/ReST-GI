@@ -1,6 +1,6 @@
 # Architecture — Surface-Owned Neural Transport Units
 
-**Updated:** 2026-10-22 (Batch 4 seed replicate reported; worklog 38 latest reviewed)  
+**Updated:** 2026-10-22 (Batch 5 SPT-1 contract recorded before results, §9a; worklog 38 latest reviewed)  
 **Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); after a real edit (worklog 37, oracle D*) complete-state recompute of the dirty units recovers the changed-region radiance (R = 0.98) with V* bit-identical and valid, the whole image is −0.31 dB vs full recompute at seed 0 (CONDITIONAL), and a 3-seed replicate puts the mean gap at −0.08 dB, within the margin (worklog 38)  
 **Branch:** Selective_Recompute  
 **Historical architectures:** docs/history/ARCHITECTURE_LIFECYCLE_SEPARATION_2026-10-07.md, docs/history/ARCHITECTURE_INTRA_OBJECT_FEATURE_REFIT_2026-10-08.md, docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
@@ -180,7 +180,7 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
 
 ## 8. Implementation Frontier and Non-Goals
 
-**Current execution frontier (2026-10-21):** Architecture Batch 4 (worklog 37) is reported as CONDITIONAL. Measured: D_T ≠ D_G (7 of the 8 oracle-dirty units are stationary receivers); D* is sparse for this edit (8/17 units); complete-state recompute of D* recovers R = 0.98 of the changed-region error; V* parameters bit-identical and V* error 1.03× full recompute; composed output changes exactly on the predicted support. Not resolved: the −0.31 dB whole-image gap (69% from weakly dirty unit 3, re-learned worse than its own frozen state; single seed). The seed replicate (worklog 38) is WITHIN_MARGIN: mean B_sel − A_full −0.082 dB over seeds 0–2, unit 3 not systematic, V\* and support exact in every seed. Consistent but unattributed: frozen unit 9 is 1.22–1.32× A_full, and the re-learned box unit is 1.12–1.18×. No successor batch is authorised. Next, decide between a predeclared weakly-dirty-unit policy and the relation-observability question (§3a).
+**Current execution frontier (2026-10-21):** Architecture Batch 4 (worklog 37) is reported as CONDITIONAL. Measured: D_T ≠ D_G (7 of the 8 oracle-dirty units are stationary receivers); D* is sparse for this edit (8/17 units); complete-state recompute of D* recovers R = 0.98 of the changed-region error; V* parameters bit-identical and V* error 1.03× full recompute; composed output changes exactly on the predicted support. Not resolved: the −0.31 dB whole-image gap (69% from weakly dirty unit 3, re-learned worse than its own frozen state; single seed). The seed replicate (worklog 38) is WITHIN_MARGIN: mean B_sel − A_full −0.082 dB over seeds 0–2, unit 3 not systematic, V\* and support exact in every seed. Consistent but unattributed: frozen unit 9 is 1.22–1.32× A_full, and the re-learned box unit is 1.12–1.18×. **Batch 5 (user brief 2026-10-22): authorised.** It tests a new representation hypothesis, Spatial-Perspective Transport Factorization (SPT-1, §9a), against these baselines.
 
 **Batch 3 (worklog 36), native Lego.**
 - **Partition L16:** a rendered point is identified on its mesh triangle; its unit is the k-means cell (K = 16) of the on-surface point, and PU blending is allowed only within the triangle's connected component.
@@ -196,6 +196,45 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
 - the proposed algorithmic hierarchy or learned selector (§3a);
 - efficiency/scaling claims without measured end-to-end costs;
 - automatic advance to the next batch.
+
+## 9a. Batch 5 Candidate (worklog 39): Spatial-Perspective Transport Factorization, SPT-1 (new architecture; hypothesis)
+
+**Status (2026-10-22):** authorised by the user's Batch 5 brief. Contract recorded before any SPT-1 result. This is a **new architecture hypothesis**, separate from the Surface-Owned complete-unit contract above, which stays the validated reconstruction baseline and is not redefined.
+
+**Why now.** Worklogs 32–38 showed that complete owned states can be preserved and selectively rebuilt, but every rebuild re-learns configuration-specific transport with target-scene supervision. Each owned unit (like RNA) compresses *persistent appearance* and *current inter-surface transport* into one learned function. SPT-1 tests whether separating them lets a held-out geometry edit be absorbed by **recomputing state, not re-learning parameters**. This realises the archived 2026-10-07 contract (persistent appearance + current incident-transport state + shared operator; docs/history/ARCHITECTURE_LIFECYCLE_SEPARATION_2026-10-07.md), reinterpreted after worklogs 28–29 and 32–38.
+
+**Representation contract v1:**
+
+| category | SPT-1 realisation | changes after a geometry edit? |
+|---|---|---|
+| A. Persistent local state | per-object canonical neural feature fields φ_o (triplanes in the object's T0 frame; Lego A, box B) and three shared heads: sender albedo a_θ(φ), direct response d_θ(φ, n, ω_o, ω_L), and local transfer t_θ(φ, n, ω_o) → 9×3 linear weights on incident SH | no: bit-identical; inputs are canonical position, local normal and directions only |
+| B. Spatial-perspective dependency | relation table R^t built by ray queries in the **current** geometry: surface anchors (canonical position, normal, object); per anchor K = 128 cosine-distributed gather directions → hit sender anchor or miss; per anchor sun visibility over 512 light-direction bins | yes: recomputed from geometry (no radiance, no reference) |
+| C. Dynamic transport state | per anchor and current light: cosine-weighted incident radiance projected to real SH order 2 (9 × RGB). Sender radiance = a_θ(φ(s))/π · (E_dir(s) + E_ind(s)), with E_dir = E_sun·max(0, n_s·ω_L)·vis_bin and E_ind from Jacobi iterations over the same relations (multi-bounce). Per pixel: inverse-distance interpolation of ≤ 4 normal-compatible same-object anchors | yes: recomputed (no optimisation) |
+| D. Reusable operator | L_o = v · d_θ(...) + Σ t_θ(...) ⊙ g(x): the indirect term is linear in the current incident state | no |
+| E. Update semantics | edit → rebuild R^t (rays) → recompute anchor states per light → render. No parameter update and no target-scene supervision. Learned-parameter ownership: Θ = {φ_A, φ_B, heads}, all persistent; Surface ownership: per-object canonical fields; Transport dependency: R^t; Radiance propagation: Jacobi over R^t; Invalidation: every relation entry whose hit or visibility changed; Reconstruction: state recomputation only; Composition: per-pixel interpolation + operator | — |
+
+**Intentionally cannot represent:**
+- incident angular detail beyond SH order 2 (sharp glossy reflections of other objects);
+- non-Lambertian senders;
+- rotation or non-rigid edits (world-frame SH, translation-only edits);
+- indirect variation finer than the anchor spacing (~1.5 cm);
+- sender sun visibility finer than the 512 light bins.
+
+**Falsifiers:**
+- (i) static fidelity far below RNA at T0, i.e. representability;
+- (ii) the updated relation state does not move held-out T1 radiance toward the reference (updated ≈ stale);
+- (iii) recovery requires changing persistent parameters.
+
+**Leakage risk.** The direct head sees (x, ω_L) and could absorb canonical indirect light. It is trained on T0 only and measured by the stale-state control.
+
+**Supported already (worklogs 32–38):**
+- stale indirect light at stationary receivers (D_T ≠ D_G);
+- the physical Lego edit and its references;
+- the Surface-Owned baselines.
+
+**New and unvalidated:** every SPT-1 property. Glossy and other generalisation experiments are **evaluation targets of this batch, not prerequisites** for designing it.
+
+**Code:** `experiments/spt_lego/` (new; no historical module is modified).
 
 ## 9. Completion Condition (per batch)
 
