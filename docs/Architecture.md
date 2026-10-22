@@ -1,9 +1,25 @@
-# Architecture — Surface-Owned Neural Transport Units
+# Architecture — Surface-Owned Baseline and FNTO Candidate
 
-**Updated:** 2026-10-22 (Batch 5 SPT-1 reported: NOT SUPPORTED, §9a; worklog 39 latest reviewed)  
+**Updated:** 2026-10-23 (FNTO v0.1 design decision; worklog 39 remains latest measured evidence)  
 **Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); after a real edit (worklog 37, oracle D*) complete-state recompute of the dirty units recovers the changed-region radiance (R = 0.98) with V* bit-identical and valid, the whole image is −0.31 dB vs full recompute at seed 0 (CONDITIONAL), and a 3-seed replicate puts the mean gap at −0.08 dB, within the margin (worklog 38)  
 **Branch:** Selective_Recompute  
 **Historical architectures:** docs/history/ARCHITECTURE_LIFECYCLE_SEPARATION_2026-10-07.md, docs/history/ARCHITECTURE_INTRA_OBJECT_FEATURE_REFIT_2026-10-08.md, docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
+
+## 0. Primary Next Representation — FNTO (Design Only, 2026-10-23)
+
+**Design source:** [FNTO Architecture Contract v0.1](FNTO_ARCHITECTURE_CONTRACT_V0_1.md). The user requested that architecture choices be made explicitly by the assistant, rather than delegated as an unconstrained decision to an implementation Agent.
+
+**Current architecture decision:** Do not repair SPT-1 with ad-hoc SSS/Transmission branches. Instead, adopt **Factorized Neural Transport Operator (FNTO)** as the *primary next hypothesis*. The learned object-local boundary transport kernel K_a maps spatially/directionally varying incident radiance to outgoing radiance, including SSS, transmission, high-angular-frequency scattering and self-interreflection. A current-geometry inter-object coupling operator C_ab(R_ab^t) transfers compressed boundary radiance between local domains. K and its learned coupling rule remain fixed across a **supported rigid-body geometry edit** while external illumination, coupling coefficients and solved radiance state change.
+
+Conceptual equation: `b_a^t = K_a[e_a^t + sum_{b!=a} C_ab(R_ab^t) b_b^t]`.
+
+**Crucial physics boundary:** K_a includes within-domain scattering (not a frozen radiance texture). C_ab is cross-domain free flight; this boundary prevents double counting paths. Local SSS cannot be gated by queried-pixel direct visibility as in SPT-1. A conditional response to spatially varying incident illumination requires new object-local illumination-probe training, not RNA's fixed per-directional-light interface.
+
+**Candidate and baseline distinction:** The Surface-Owned L16 full-model reconstruction contract below remains intact and supported by WL32–38. FNTO is a new learned **operator-state reuse** hypothesis with different update semantics. SPT-1 (WL39) remains a negative historical prototype. This document does not claim FNTO implementation, validation or new batch authorisation.
+
+**Architectural unknowns to test, not excuses to defer design:** boundary-port/source/receiver compression fidelity (especially SSS/glass), angular bandwidth, runtime observable coupling, operator generalisation to held-out incident fields/edits, sparse graph coverage and full cost.
+
+---
 
 ## 1. The Architecture Question
 
