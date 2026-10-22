@@ -11,7 +11,7 @@ Read [FNTO Architecture Contract v0.1](FNTO_ARCHITECTURE_CONTRACT_V0_1.md) befor
 - **RNA:** static full-material fidelity control including shadow-side SSS/glass.
 - **Surface-Owned:** existing complete-unit relearning baseline, with post-edit supervision, held-out quality and exact parameter-preservation evidence (WL37–38).
 - **SPT-1:** negative free-space-only low-bandwidth operator prototype (WL39), retained to demonstrate the danger of dropping internal transport semantics.
-- **FNTO:** unvalidated primary next representation candidate. Separate source/receiver object-local learned transport K from geometry-dependent inter-object coupling C. Do not claim it retains RNA fidelity until SSS/transmission and per-material response are shown on actual held-out data.
+- **FNTO:** unvalidated primary next representation candidate. Separate learned **intrinsic optical-domain** scattering K from geometry-dependent **editable free-space** coupling C, including exposed same-asset self-interreflection; do not equate Object ID with K ownership. Do not claim it retains RNA fidelity until SSS/transmission and per-material response are shown on actual held-out data.
 
 Required prospective comparisons: isolated-domain probes under unseen *spatial* incidence, not only unseen directional lights; fixed learned operators with stale/current relations on a held-out edit; exact transport path ownership avoiding double counts; per-material shadow-side fidelity, angular/gloss stress, parameter hashes, updated-state fraction and all runtime/offline compute. Use a predeclared quality and selection rule before training. A failure of K expressivity must stop before scene-level selector work. Do not silently re-label SPT-1's negative outcome.
 
