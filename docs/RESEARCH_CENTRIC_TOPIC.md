@@ -1,9 +1,24 @@
 # Research Centric Topic — Surface-Owned Selective Neural Transport Recomputation
 
-**Last updated:** 2026-10-22 (Batch 5 SPT-1 reported NOT SUPPORTED; worklog 39 is the latest reviewed evidence)  
+**Last updated:** 2026-10-23 (FNTO design decision; worklog 39 latest measured evidence)  
 **Status:** Active problem; Batches 1–4 of ≥ 5 reported. Static ownership feasibility is established on native Lego. The physical-edit Batch 4 (worklog 37) is CONDITIONAL: oracle-dirty units are sparse and include stationary receivers, their recompute recovers the changed region, and preserved units are exact and valid, At seed 0 the whole image is 0.05 dB short of the predeclared margin to full recompute. The 3-seed replicate (worklog 38) is within the margin (mean −0.08 dB). Hierarchical relation/learned selection is a future direction, not an implemented or validated method.  
 **Target:** SIGGRAPH 2027 (official Technical Papers deadline to be verified separately)  
 **Superseded framing:** object-level-only selection (2026-10-12), archived at docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
+
+## Primary Representation Direction (2026-10-23; design, not evidence)
+
+At the user's request, FNTO is now the explicitly designed primary *next architecture hypothesis*, replacing SPT-1 as a candidate (not replacing its preserved negative Worklog). See [FNTO Architecture Contract v0.1](FNTO_ARCHITECTURE_CONTRACT_V0_1.md).
+
+- **What is learned:** a reusable object-local source-to-receiver light-transport operator which accepts spatially and directionally varying illumination and covers SSS, transmission, self-interreflection and sharp scattering.
+- **What changes after a supported rigid edit:** external incidence, cross-object spatial-perspective / visibility couplings, and compact incoming/outgoing radiance coefficients. Reusable learned operator parameters do not need refitting in the hypothesis.
+- **Why this differs from SPT-1:** SPT-1's free-space-only low-bandwidth relation state omitted important object-internal paths and scored −11.33 dB vs RNA; FNTO moves those paths inside the learned reusable *transport response*, not into ad-hoc residual shading.
+- **Why this differs from Surface-Owned reconstruction:** the validated historical baseline rebuilds whole owned neural units given post-edit supervision; FNTO seeks update of dynamic boundary state with learned source/receiver kernels and no post-edit training.
+- **Scope:** rigid motion of locally invariant domains initially. Internal deformation/self-contact may invalidate K, so do not claim nonrigid generality before evidence.
+- **Research novelty remains open:** existing neural BSSRDF, learned neural light transport, radiosity compression and geometry-conditioned interreflection prior art must be compared; the candidate's specific compression/reuse/coupling claim is unproven.
+
+Designing FNTO does not retroactively change Batch 5's `NOT SUPPORTED` verdict or authorise unbounded implementation.
+
+---
 
 ## 1. Fundamental Research Problem
 
