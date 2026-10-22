@@ -1,5 +1,15 @@
 # Working On This Repo
 
+## Current architecture design owner and candidate (2026-10-23)
+
+The user explicitly requested that the assistant take responsibility for choosing and specifying the research **Architecture**, rather than asking an implementation Agent to invent the core abstraction. The assistant-authored design is `docs/FNTO_ARCHITECTURE_CONTRACT_V0_1.md` (FNTO: learned object-local source-to-receiver transport kernels + current geometry-dependent inter-object compressed coupling).
+
+**FNTO is DESIGNED, NOT IMPLEMENTED, NOT VALIDATED.** SPT-1 (worklog 39) remains NOT SUPPORTED and must not be patched into FNTO. Preserve complete-unit Surface-Owned reconstruction (worklogs 32–38) as a separate baseline. A future implementation Agent must implement the user-approved specified architecture; it must not silently replace this with a free-space radiosity solver, SH2-only Lambertian model, a scene-baked monolithic MLP or an SPT-1+SSS patch. If FNTO's contract is infeasible, report the conflict before proceeding outside scope.
+
+Research invariants: learned transport **response**, not canonical baked radiance; SSS, transmission, internal self-interreflection and directional scattering must have viable information paths; spatially varying incident illumination is part of the operator input; parameter reuse and dynamic coupling are separate ownership contracts; strict no-claim of nonrigid validity for a kernel whose internal geometry has changed. No new batch is authorised by recording the FNTO design.
+
+---
+
 ## Selective_Recompute research gate — Surface-Owned Transport Units (2026-10-13; updated 2026-10-19, future selector direction)
 
 **User-confirmed definition:** Selective recomputation means **recompute the COMPLETE owned learned state of every transport unit whose learned transport was invalidated by a geometry edit**, while keeping the complete state of every still-valid unit unchanged. A unit U_i = (S_i, Θ_i) owns a surface domain S_i and all of its trainable parameters Θ_i. Units **may be finer than a scene object** (the user's decision of 2026-10-13); a whole object is the coarsest unit, and **object-level full recomputation remains a valid coarse comparison**.
