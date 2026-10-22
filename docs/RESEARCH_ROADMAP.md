@@ -1,6 +1,6 @@
 # Research Roadmap — Surface-Owned Selective Neural Transport Recomputation
 
-**Updated:** 2026-10-22 (Batch 5 SPT-1 reported NOT SUPPORTED; worklog 39 latest reviewed)  
+**Updated:** 2026-10-23 (FNTO v0.1 designed; WL39 remains latest completed architecture experiment)  
 **Branch:** Selective_Recompute  
 **Status:** Architecture Batches 1–3 reported. Batch 3 (native RNA Lego, worklog 36): independent owned units pass static screening (Case A) with exact ownership and unit reconstruction; Batch 4 (worklog 37, physical Lego edit, oracle D_T): **CONDITIONAL** — D* = 8/17 units (7 stationary receivers + the moved box), selective recompute recovers R = 0.98 of the changed-region error, V* bit-identical and valid (1.03× full), output change exactly on the predicted support; whole-image −0.31 dB vs full recompute misses the −0.26 dB criterion at seed 0. The seed replicate (worklog 38) is WITHIN_MARGIN: mean −0.08 dB over 3 seeds, and the unit-3 effect is not systematic  
 **Venue planning:** SIGGRAPH 2027, official paper deadline to be separately verified.
@@ -23,6 +23,8 @@
 - **2026-10-19 (long-horizon design direction, not implementation approval):** treat interreflection, including nonlocal/multi-bounce dependencies, as a future representation/selector requirement. Prefer an algorithmically constructed, interpretable spatio-directional candidate hierarchy with explicit position and directional bounds over learning an entire scene hierarchy from scratch. Investigate learned relation scoring/dirty-unit selection only after validating candidate coverage and against algorithm-only controls. The specific tree, features and model remain hypotheses. The user reports Batch 4 already running; do not alter its protocol.
 - **2026-10-22 (Batch 5, user brief):** design and implement a factorized Spatial-Perspective Neural Transport representation: persistent learned state + configuration-dependent transport state + reusable operator, with explicit update semantics and a held-out physical edit. This is not another prerequisite diagnostic. The Surface-Owned contract stays the historical baseline. The candidate SPT-1 contract is in docs/Architecture.md §9a (worklog 39).
 - **2026-10-19 (documentation policy):** record substantive user-approved research-direction decisions in the relevant living documents immediately, without waiting for a Worklog or batch close. Preserve historical records and label unvalidated proposals explicitly.
+
+**2026-10-23 architecture decision (DESIGN, NOT IMPLEMENTATION):** After reviewing SPT-1's transport-completeness failure and the 2026-10-07 lifecycle contract, the assistant designed **FNTO** — learned object-local boundary transport kernels (including SSS/transmission/self-interreflection and directionally sharp response) combined with dynamic, compressed inter-object coupling. Its update goal is to reuse learned kernel parameters and update spatial-perspective relation/radiance state under rigid motion. See `docs/FNTO_ARCHITECTURE_CONTRACT_V0_1.md`. SPT-1 (WL39) remains NOT SUPPORTED, Surface-Owned (WL32–38) remains historical reconstruction baseline. No FNTO result or follow-on experimental authorization is implied.
 
 Active contracts: docs/RESEARCH_CENTRIC_TOPIC.md, docs/Architecture.md, docs/BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md.
 
@@ -64,6 +66,12 @@ Gates retained from the object-level framing:
 - **H:** compact state, CLOSED NEGATIVE for the tested cases.
 - **X:** intra-object masking, CLOSED NEGATIVE and off-target.
 - **O0/O1:** object-level feasibility and oracle refit. Worklog 31 answered them on an explicit substrate (O0 pass; O1 dense at object granularity). They remain a coarse comparison for unit-level results.
+
+## 3b. FNTO Architectural Frontier (designed 2026-10-23; untested)
+
+Next representation hypothesis: source-to-receiver learned object-local response K_a + current-geometry learned/compressed coupling C_ab. The scientifically decisive first question is **transport completeness under arbitrary boundary incidence** (SSS, transmission, local glossy response) with invariant K under supported rigid edits. The next question is whether the same learned K plus updated C reproduces held-out stationary-receiver GI changes without T1 target-supervised retraining. Preserve the whole-scene quality gate and report the cost of relation construction. A purely synthetic pass, SPT-1 patch or incomplete low-order free-space solver is not a viable substitute.
+
+The algorithmic hierarchy and optional *learned target selector* are later complementary components; they do not replace the representation hypothesis. An implementation batch must be separately bounded and accepted; design completion is recorded now.
 
 ## 3a. Future Relation-Selection Decision Frontier (direction adopted 2026-10-19)
 
