@@ -1,0 +1,8 @@
+{
+ "protocol": "spt_v1 amendment 1 (execution only)",
+ "date": "2026-10-22",
+ "status": "written after SPT_T1's launch failure and before any SPT result (SPT_T0 at epoch 2, no evaluation run)",
+ "event": "SPT_T1, started 60 s after SPT_T0 on the same LabServer63 RTX 3080 Ti (12 GB), failed at start with torch.OutOfMemoryError (SPT_T0 holds ~8.3 GB at 131,072 pixels per step). SPT_T0 is unaffected and continues.",
+ "change": "SPT_T1 runs after SPT_T0 on the same server with the identical command, data and settings (spt_server_t1_after.sh). The failed start's log is kept as train_SPT_T1_oom_concurrent.log.",
+ "unchanged": "everything else in spt_v1; wall-clock was never a cost claim for these runs"
+}
