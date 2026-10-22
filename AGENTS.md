@@ -46,6 +46,8 @@ Batch 3 (worklog 36, native Lego, user-authorised 2026-10-18) passed the predecl
 Worklog 37's CONDITIONAL verdict is unchanged; its miss does not replicate. Two observations are consistent across seeds and unattributed: frozen V\* unit 9 is 1.22–1.32× A_full, and the re-learned box unit is 1.12–1.18×. Scope: one scene, one diffuse-dominant edit.
 
 **Batch 5 (authorised by the user's brief, 2026-10-22; worklog 39): Spatial-Perspective Transport Factorization, SPT-1.** This is a new architecture hypothesis. It has persistent learned surface fields and heads, a current relation-dependent incident-transport state recomputed from geometry, and a reusable operator that is linear in that state. Edits are absorbed by state recomputation, not parameter updates. Contract: docs/Architecture.md §9a; code: `experiments/spt_lego/`.
+
+**Reported (worklog 39): NOT SUPPORTED.** Static representability is −11.3 dB vs RNA. The dominant cause is object-internal transport (subsurface yellow 70×, transmission 4×), which the free-space relation state cannot express. Descriptively, the state-only edit update moved stationary receivers correctly with bit-identical parameters and no T1 supervision (F = 1.67, R = 0.82; sand R = 0.92). **Batch 6 is not authorised**; the recommended question is a persistent object-internal transport channel alongside the relation channel.
 - The Surface-Owned complete-unit contract and its results remain the historical baseline. Do not redefine or retrain them for convenience.
 - Do not switch architecture families or rescue a negative result.
 - Do not proceed to Batch 6 without a new user decision.

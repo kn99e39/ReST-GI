@@ -1,6 +1,6 @@
 # Architecture — Surface-Owned Neural Transport Units
 
-**Updated:** 2026-10-22 (Batch 5 SPT-1 contract recorded before results, §9a; worklog 38 latest reviewed)  
+**Updated:** 2026-10-22 (Batch 5 SPT-1 reported: NOT SUPPORTED, §9a; worklog 39 latest reviewed)  
 **Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); after a real edit (worklog 37, oracle D*) complete-state recompute of the dirty units recovers the changed-region radiance (R = 0.98) with V* bit-identical and valid, the whole image is −0.31 dB vs full recompute at seed 0 (CONDITIONAL), and a 3-seed replicate puts the mean gap at −0.08 dB, within the margin (worklog 38)  
 **Branch:** Selective_Recompute  
 **Historical architectures:** docs/history/ARCHITECTURE_LIFECYCLE_SEPARATION_2026-10-07.md, docs/history/ARCHITECTURE_INTRA_OBJECT_FEATURE_REFIT_2026-10-08.md, docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
@@ -180,7 +180,7 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
 
 ## 8. Implementation Frontier and Non-Goals
 
-**Current execution frontier (2026-10-21):** Architecture Batch 4 (worklog 37) is reported as CONDITIONAL. Measured: D_T ≠ D_G (7 of the 8 oracle-dirty units are stationary receivers); D* is sparse for this edit (8/17 units); complete-state recompute of D* recovers R = 0.98 of the changed-region error; V* parameters bit-identical and V* error 1.03× full recompute; composed output changes exactly on the predicted support. Not resolved: the −0.31 dB whole-image gap (69% from weakly dirty unit 3, re-learned worse than its own frozen state; single seed). The seed replicate (worklog 38) is WITHIN_MARGIN: mean B_sel − A_full −0.082 dB over seeds 0–2, unit 3 not systematic, V\* and support exact in every seed. Consistent but unattributed: frozen unit 9 is 1.22–1.32× A_full, and the re-learned box unit is 1.12–1.18×. **Batch 5 (user brief 2026-10-22): authorised.** It tests a new representation hypothesis, Spatial-Perspective Transport Factorization (SPT-1, §9a), against these baselines.
+**Current execution frontier (2026-10-21):** Architecture Batch 4 (worklog 37) is reported as CONDITIONAL. Measured: D_T ≠ D_G (7 of the 8 oracle-dirty units are stationary receivers); D* is sparse for this edit (8/17 units); complete-state recompute of D* recovers R = 0.98 of the changed-region error; V* parameters bit-identical and V* error 1.03× full recompute; composed output changes exactly on the predicted support. Not resolved: the −0.31 dB whole-image gap (69% from weakly dirty unit 3, re-learned worse than its own frozen state; single seed). The seed replicate (worklog 38) is WITHIN_MARGIN: mean B_sel − A_full −0.082 dB over seeds 0–2, unit 3 not systematic, V\* and support exact in every seed. Consistent but unattributed: frozen unit 9 is 1.22–1.32× A_full, and the re-learned box unit is 1.12–1.18×. **Batch 5 (worklog 39): SPT-1 is NOT SUPPORTED** (static representability; §9a). The factorization mechanism moved stationary receivers correctly without re-learning. **No successor batch is authorised.**
 
 **Batch 3 (worklog 36), native Lego.**
 - **Partition L16:** a rendered point is identified on its mesh triangle; its unit is the k-means cell (K = 16) of the on-surface point, and PU blending is allowed only within the triangle's connected component.
@@ -235,6 +235,13 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
 **New and unvalidated:** every SPT-1 property. Glossy and other generalisation experiments are **evaluation targets of this batch, not prerequisites** for designing it.
 
 **Code:** `experiments/spt_lego/` (new; no historical module is modified).
+
+**Result (worklog 39, 2026-10-22): NOT SUPPORTED** under spt_v1. Static representability fails: held-out T0 is 22.23 dB vs RNA_T0 33.57 dB (−11.3 dB; fail line −2 dB).
+- **Attribution:** shadowed (indirect-only) pixels are 17.7 vs 32.4 dB. Per material, the yellow subsurface plastic (41.6% of pixels) is 70× RNA's error and the two transmissive materials 4–4.5×. The free-space relation state has no path for object-internal transport. Reflective materials are 1.4–3.8× worse (unresolved).
+- **Factorization mechanism (descriptive):** with bit-identical persistent parameters and no T1 supervision, recomputing only the T1 relation state gives F = 1.67 and R = 0.82 vs the candidate's own retraining on the changed region, and F = 2.9 / R = 0.92 on stationary sand receivers. The update costs about 7 s of relation rebuild plus 0.12 s per frame.
+- **Absolute quality:** post-edit quality stays far below the Surface-Owned and RNA baselines.
+- **Next open question (not authorised):** a persistent configuration-invariant channel for object-internal transport alongside the relation-dependent channel.
+
 
 ## 9. Completion Condition (per batch)
 

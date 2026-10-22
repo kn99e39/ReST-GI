@@ -54,6 +54,8 @@ Do not delete, overwrite, reinterpret, or silently merge these questions.
 
 The SPT-1 operator never sees T1 data; T1 is the held-out edit.
 
+**Outcome (worklog 39):** NOT SUPPORTED, because A's static level was not approached (−11.3 dB). This is a candidate limitation of one realisation on one scene and material mix. It is not a project-level falsification of factorized representations.
+
 Implementation baselines are not scientific replications. A credibility failure of A is a **baseline limitation**, reported as such, and never read as a candidate failure.
 
 ## 4. Static-Credibility Precondition
