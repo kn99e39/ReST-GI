@@ -37,7 +37,13 @@ Batch 3 (worklog 36, native Lego, user-authorised 2026-10-18) passed the predecl
 - V* units are bit-identical and remain valid (1.03× full recompute), and output changes lie exactly on the predicted support.
 - The whole image is −0.313 dB vs full recompute, missing the −0.26 dB criterion. 69% of that gap comes from weakly dirty unit 3 (single seed; cause not isolated).
 
-**Seed replicate authorised by the user (2026-10-21), running on LabServer63:** protocol `experiments/rna_selective_reconstruction_lego/protocol/b4_seedrep_v1.json` (worklog 38). It runs A_full and B_sel at seeds 1 and 2 on the PC-rendered data, then evaluates seeds 0–2 on the server. Do not modify it while it runs. It is a replication of Batch 4's decisive comparison, not Batch 5. **Batch 5 is not authorised.** Do not proceed to another batch automatically.
+**Seed replicate (worklog 38, protocol b4_seedrep_v1, LabServer63; reported 2026-10-22): WITHIN_MARGIN.**
+- Mean B_sel − A_full over seeds 0–2 is −0.082 dB (per seed −0.313 / +0.113 / −0.047).
+- The unit-3 degradation is not systematic (1 of 3 seeds).
+- The A_full seed spread alone is 0.23 dB.
+- Every seed keeps V\* bit-identical, output change on the predicted support, and R ≥ 0.98.
+
+Worklog 37's CONDITIONAL verdict is unchanged; its miss does not replicate. Two observations are consistent across seeds and unattributed: frozen V\* unit 9 is 1.22–1.32× A_full, and the re-learned box unit is 1.12–1.18×. Scope: one scene, one diffuse-dominant edit. **Batch 5 is not authorised.** Do not proceed to another batch automatically.
 
 **Long-horizon research direction adopted 2026-10-19 (not implementation approval):** interreflection and nonlocal/multi-bounce influence must be considered in future representation/selector contracts. Favor an interpretable algorithmically constructed spatio-directional hierarchy for transport-relation candidates (position/bounds, normal-direction ranges, material/BRDF support) over expecting a neural model to learn the whole scene hierarchy; investigate learned relation scoring/dirty-unit selection only after physical-oracle feasibility and coverage evidence. Hierarchy/tree nodes are search indices, not the physical cross-node transport graph. Normal-only clustering is insufficient, and a missed candidate cannot be recovered by a downstream selector. No specific hierarchy, feature set, model or threshold is yet validated or authorised. See docs/RESEARCH_CENTRIC_TOPIC.md §4a and docs/Architecture.md §3a.
 

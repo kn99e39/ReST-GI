@@ -1,7 +1,7 @@
 # Architecture — Surface-Owned Neural Transport Units
 
-**Updated:** 2026-10-21 (Batch 4 reported; worklog 37 latest reviewed)  
-**Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); after a real edit (worklog 37, oracle D*) complete-state recompute of the dirty units recovers the changed-region radiance (R = 0.98) with V* bit-identical and valid, but the whole image is −0.31 dB vs full recompute (CONDITIONAL; one seed)  
+**Updated:** 2026-10-22 (Batch 4 seed replicate reported; worklog 38 latest reviewed)  
+**Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); after a real edit (worklog 37, oracle D*) complete-state recompute of the dirty units recovers the changed-region radiance (R = 0.98) with V* bit-identical and valid, the whole image is −0.31 dB vs full recompute at seed 0 (CONDITIONAL), and a 3-seed replicate puts the mean gap at −0.08 dB, within the margin (worklog 38)  
 **Branch:** Selective_Recompute  
 **Historical architectures:** docs/history/ARCHITECTURE_LIFECYCLE_SEPARATION_2026-10-07.md, docs/history/ARCHITECTURE_INTRA_OBJECT_FEATURE_REFIT_2026-10-08.md, docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
 
@@ -180,7 +180,7 @@ The 1997 line-space hierarchy is prior art, not the starting point. See docs/RES
 
 ## 8. Implementation Frontier and Non-Goals
 
-**Current execution frontier (2026-10-21):** Architecture Batch 4 (worklog 37) is reported as CONDITIONAL. Measured: D_T ≠ D_G (7 of the 8 oracle-dirty units are stationary receivers); D* is sparse for this edit (8/17 units); complete-state recompute of D* recovers R = 0.98 of the changed-region error; V* parameters bit-identical and V* error 1.03× full recompute; composed output changes exactly on the predicted support. Not resolved: the −0.31 dB whole-image gap (69% from weakly dirty unit 3, re-learned worse than its own frozen state; single seed). The seed replicate of B_sel vs A_full (protocol b4_seedrep_v1, worklog 38) was authorised on 2026-10-21 and is running on LabServer63. No successor batch is authorised. After it reports, decide between a predeclared weakly-dirty-unit policy and the relation-observability question (§3a).
+**Current execution frontier (2026-10-21):** Architecture Batch 4 (worklog 37) is reported as CONDITIONAL. Measured: D_T ≠ D_G (7 of the 8 oracle-dirty units are stationary receivers); D* is sparse for this edit (8/17 units); complete-state recompute of D* recovers R = 0.98 of the changed-region error; V* parameters bit-identical and V* error 1.03× full recompute; composed output changes exactly on the predicted support. Not resolved: the −0.31 dB whole-image gap (69% from weakly dirty unit 3, re-learned worse than its own frozen state; single seed). The seed replicate (worklog 38) is WITHIN_MARGIN: mean B_sel − A_full −0.082 dB over seeds 0–2, unit 3 not systematic, V\* and support exact in every seed. Consistent but unattributed: frozen unit 9 is 1.22–1.32× A_full, and the re-learned box unit is 1.12–1.18×. No successor batch is authorised. Next, decide between a predeclared weakly-dirty-unit policy and the relation-observability question (§3a).
 
 **Batch 3 (worklog 36), native Lego.**
 - **Partition L16:** a rendered point is identified on its mesh triangle; its unit is the k-means cell (K = 16) of the on-surface point, and PU blending is allowed only within the triangle's connected component.
