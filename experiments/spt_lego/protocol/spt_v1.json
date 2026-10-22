@@ -1,0 +1,48 @@
+{
+ "protocol": "spt_v1",
+ "batch": "Architecture Batch 5 - Spatial-Perspective Transport Factorization (SPT-1)",
+ "worklog": 39,
+ "declared": "2026-10-22, after building relations/pixel maps, 5 passing synthetic contract tests and a 60-step smoke run (speed/memory only; it exposed a slow advanced-index backward, replaced by index_select with identical math: 11 s -> 0.05 s per backward), before any full SPT training or any SPT evaluation on held-out data",
+ "contract": "docs/Architecture.md 9a (recorded in commit 8a1b403 before implementation)",
+ "hypothesis": "With persistent canonical surface fields + shared heads trained on ONE geometry state (T0, per-pixel random sun), a held-out rigid edit (T1: box B moved +0.44 m) is absorbed by recomputing the relation table and the incident SH state from T1 geometry, with every learned parameter bit-identical and no T1 radiance supervision.",
+ "why_more_reusable": "configuration-dependent inter-surface transport enters only through the incident state g, which is recomputed from current geometry and persistent sender albedo; learned parameters see canonical position, local normal and directions. The training lights excite g (indirect light varies with the sun direction), so the operator's dependence on g is supervised without multi-configuration data.",
+ "cannot_represent": ["incident angular detail beyond SH order 2 (sharp glossy inter-reflections)", "non-Lambertian senders", "rotations / non-rigid edits", "indirect variation finer than the 1.2 cm anchor cells", "sender sun visibility finer than 512 light bins", "transport changes outside the incident-state path (e.g. canonical indirect light absorbed by the direct head: leakage)"],
+ "falsifiers": ["static representability at T0 far below RNA (rule below)", "updated state does not move held-out T1 radiance toward the reference (E_stale / E_upd < 1.1 on changed surfaces)", "recovery needs changes to persistent parameters (not attempted: parameters are frozen by construction; any recovery must come from state)"],
+ "scene_and_data": {
+  "scene": "worklog-37 Diffuse Interaction Variant A (official Lego + red box B); T0 and T1 unchanged",
+  "training": "train_T0 (400 images, 1024 spp, per-pixel random sun; PC renders) for SPT_T0; train_T1 for SPT_T1 (= C_full only)",
+  "evaluation": "held-out T1 and T0 (16 views, mean of Cycles seeds 1/2 = 4096 spp; inputs from seed 1; PC renders); regions from worklog-37 eval/views.npz",
+  "anchors": "184,883 (A 183,257 observed T0 surface cells of 1.2 cm, split by signed dominant normal axis; B 1,626 analytic face grid)",
+  "relations": "K = 128 cosine gather rays per anchor, 512 sun-direction bins; built per state by Mitsuba cuda (results/spt_lego/rel_T0/T1)"
+ },
+ "model": {
+  "fields": "A: triplanes 512^2 x 8 + 64^2 x 8 per plane; B: 64^2 x 8 + 16^2 x 8 (canonical frames: A dataset AABB, B box AABB +2%)",
+  "heads": "albedo 2x64 sigmoid; direct 3x256 softplus x visibility; transfer 3x256 -> 9x3 weights, indirect = relu(sum t*g)",
+  "state": "anchor incident cosine-weighted SH9 per light; first bounce differentiable in albedo; multi-bounce cache (4 Jacobi iterations, no gradient) refreshed every 2 epochs (training: per light bin; evaluation: exact view light)"
+ },
+ "training": {"epochs": 150, "pixels_per_step": 131072, "steps_per_epoch": 400, "loss": "L2 on log(1+x)", "optimiser": "Adam 1e-3, StepLR(50, 0.5)", "seed": 0, "final_weights": true, "machine": "LabServer63 (RTX 3080 Ti); SPT_T0 and SPT_T1 concurrently; wall-clock reported, not a cost claim"},
+ "arms": {
+  "A_RNA": "RNA_T1 on held-out T1, RNA_T0 on held-out T0 (worklog 37 eval.json; per-state supervised references)",
+  "B_SO": "Surface-Owned A_full, B_sel (seeds 0-2, worklogs 37-38) and frozen SO_T0 on held-out T1 (T1-supervised reconstruction except frozen)",
+  "C_upd": "SPT_T0 + relations(T1): the edit applied by state recomputation; no parameter change, no T1 supervision",
+  "D_stale": "SPT_T0 + relations(T0) on held-out T1 inputs: the factorization control (identical parameters, stale state)",
+  "D_zero": "SPT_T0 with g = 0 (diagnostic: what the persistent direct path carries alone)",
+  "C_full": "SPT_T1 trained on train_T1 + relations(T1): the candidate's own full reconstruction",
+  "S_T0": "SPT_T0 + relations(T0) on held-out T0 (static representability)"
+ },
+ "metrics": "worklog-37 definitions: view-mean and pooled display PSNR, HDR logL1, hf |e| (top-10% reference gradient), display MSE per region (all, A_changed, A_unchanged, A_weak, A_vis_changed, A_uncorresponded, B, D*-owned, V*-owned)",
+ "outcome_rules": {
+  "static": "S = view-mean(S_T0) - view-mean(RNA_T0 = 33.569): credible >= -1.0 dB; weak in [-2.0, -1.0); fail < -2.0 (representability failure: the edit result is reported descriptively only)",
+  "factorization_effect": "F = E_stale / E_upd on A_changed (display MSE)",
+  "recovery": "R = (E_stale - E_upd) / (E_stale - E_full) on A_changed, E_full from C_full",
+  "whole_image": "W = view-mean(C_upd) - view-mean(C_full)",
+  "SUPPORTED": "static credible AND F >= 1.5 AND R >= 0.7 AND W >= -0.5 dB AND SPT_T0 parameters bit-identical across C_upd / D_stale evaluation",
+  "NOT_SUPPORTED": "static fail OR F < 1.1 OR R < 0.3",
+  "CONDITIONAL": "otherwise",
+  "descriptive_only": "comparison with RNA and Surface-Owned arms (they use T1 supervision); B-region error; costs; hf error; per-region leakage indicators (D_zero, direct/indirect split)"
+ },
+ "cost_accounting": "relation rebuild per edit (gather + visibility rays, hit-to-anchor mapping), changed-anchor fraction, per-view state solve and decode, training time; oracle/physical rendering cost separately (references only, never used by C_upd)",
+ "stress": "directional: synthetic contract test 4 (SH2 vs Phong n = 200, measured) and the Lego hf / changed-region errors; no near-mirror real scene in this batch",
+ "do_not_tune": ["anchor density, K, light bins", "model sizes, epochs, pixels per step after declaration", "loss/optimiser/schedule", "thresholds above", "which arms are evaluated"],
+ "stop": "report and stop on static fail, F < 1.1, or a violated ownership/correspondence contract; no rescue heuristics, no second architecture family"
+}
