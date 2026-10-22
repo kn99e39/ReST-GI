@@ -9,8 +9,8 @@
 
 At the user's request, FNTO is now the explicitly designed primary *next architecture hypothesis*, replacing SPT-1 as a candidate (not replacing its preserved negative Worklog). See [FNTO Architecture Contract v0.1](FNTO_ARCHITECTURE_CONTRACT_V0_1.md).
 
-- **What is learned:** a reusable object-local source-to-receiver light-transport operator which accepts spatially and directionally varying illumination and covers SSS, transmission, self-interreflection and sharp scattering.
-- **What changes after a supported rigid edit:** external incidence, cross-object spatial-perspective / visibility couplings, and compact incoming/outgoing radiance coefficients. Reusable learned operator parameters do not need refitting in the hypothesis.
+- **What is learned:** a reusable **intrinsic optical-domain** source-to-receiver transport kernel accepting spatially/directionally varying illumination (local sharp scattering, SSS, medium-internal transmission); exposed free-space self-interreflection, even within one asset, belongs to **dynamic coupling**.
+- **What changes after a supported rigid edit:** external incidence, spatial-perspective / visibility couplings along **all editable free-space paths (including same-asset paths)**, and compact incoming/outgoing radiance coefficients. Reusable learned operator parameters do not need refitting in the hypothesis.
 - **Why this differs from SPT-1:** SPT-1's free-space-only low-bandwidth relation state omitted important object-internal paths and scored −11.33 dB vs RNA; FNTO moves those paths inside the learned reusable *transport response*, not into ad-hoc residual shading.
 - **Why this differs from Surface-Owned reconstruction:** the validated historical baseline rebuilds whole owned neural units given post-edit supervision; FNTO seeks update of dynamic boundary state with learned source/receiver kernels and no post-edit training.
 - **Scope:** rigid motion of locally invariant domains initially. Internal deformation/self-contact may invalidate K, so do not claim nonrigid generality before evidence.
