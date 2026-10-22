@@ -14,34 +14,40 @@ Evidence from the repo:
 - WL32–38: complete owned learned-unit reconstruction and parameter preservation work. On diffuse-interaction Lego edit, oracle D* was 8/17 (7 stationary receivers), radiometric recovery ~0.98 and three-seed mean PSNR gap −0.082 dB versus full. Existing update requires target-state supervision and training.
 - WL39: SPT-1 explicitly rebuilt free-space relations and changed radiance without updating 6.80M learned parameters. Its static T0 quality was 22.23 dB versus RNA 33.57 dB; a missing object-internal scattering/transmission channel, very-low-order angular basis and Lambertian sender assumption compromised transport completeness.
 
-Architecture-level interpretation: the correct factorization is **object-local reusable transport response + current inter-object transport coupling**. Do not compress all physical effects into a single fixed-scene radiance MLP, but also do not replace learned complex shading with a limited explicit radiosity solver.
+Architecture-level interpretation: the correct factorization is **intrinsic material/medium-local reusable transport response + current-geometry free-space coupling, including exposed self-interreflection**. Do not compress all physical effects into a single fixed-scene radiance MLP, but also do not replace learned complex shading with a limited explicit radiosity solver.
 
 ## 2. Exact conceptual transport boundary
 
-Partition the current scene into **transport-closed local domains** a. Initial scope: rigid objects with unchanged local geometry/material; the official Lego asset and moving red box are separate domains. A domain is not the same thing as an arbitrary Surface-Owned L16 region. If a domain deforms in a way that changes its internal transport, its local operator is **not** assumed valid; this is a declared limitation, not a hidden claim of nonrigid invariance.
+Partition the current scene into **intrinsic optical domains** a: material surface interfaces and connected optical media (plus protected microgeometry where no external edit can penetrate). In particular, the official Lego asset must **not** automatically be treated as one transport-closed domain: the open air between its bucket and baseplate is accessible to the moving box and is therefore a **dynamic free-space transport path**, even though both endpoints belong to the same asset. Domains are not identical to Object IDs or the historical L16 Surface-Owned units. The red box and the relevant local Lego media/surfaces have their own optical domains. If a medium deforms and changes its internal optical paths, its learned domain operator is not assumed invariant.
 
 For each domain, define:
 - i_a^t(s,ω): incoming radiance at its boundary under current scene configuration;
 - b_a^t(x,ω_o): outgoing boundary radiance;
-- K_{θa}: reusable learned **object-internal transport operator** mapping arbitrary spatially/directionally varying incoming illumination to outgoing radiance;
+- K_{θa}: reusable learned **intrinsic optical-domain scattering operator** mapping spatially/directionally varying incident radiance to outgoing radiance; it includes local surface response, nonlocal transport *within a material/medium* and protected subgeometry, but excludes editable open-air loops;
 - e_a^t: current external light incident on this domain, including actual external occlusion;
-- C_{φ,ab}(R_ab^t): inter-domain free-flight transport operator conditioned on current spatial/directional/occlusion relations R_ab^t.
+- C_{φ,ab}(R_ab^t): free-flight transport operator conditioned on current spatial/directional/occlusion relations R_ab^t, including **same-domain exit-and-reentry through editable free space** (a=b).
 
 **Primary equation:**
 
-    i_a^t = e_a^t + Σ_{b≠a} C_{φ,ab}(R_ab^t) b_b^t
+    i_a^t = e_a^t + Σ_b C_{φ,ab}(R_ab^t) b_b^t
     b_a^t = K_{θa}[i_a^t]
 
 The equation is understood as an operator equation over spatial/directional boundary fields, approximated in compressed coefficient space. It is NOT merely a scalar formula or a single feature-vector concatenation.
 
 **Path semantics:**
-- K_a includes any scattering, refraction, subsurface diffusion, transmission and self-interreflection **whose scattering vertices remain inside the same local domain**; it maps an incoming boundary crossing to an outgoing boundary crossing. It also handles direct/local directional response. This is a conditional *response*, not fixed incident radiance.
-- C_ab transfers outgoing radiance between **different** domains through the current geometry/free space, including visibility and transport direction. It must not silently absorb material-dependent internal scattering.
-- Cross-domain sequences A→B→A are represented by applying K and C repeatedly; do not double count paths between K and C.
+- K_a includes the learned local BRDF/BSDF (a surface-interface interaction), SSS/volume scattering and refraction/transmission through unchanged **material interior**, and any truly protected subgeometry microtransport. K_a must NOT bake free-space interreflection paths that an external edit can occlude.
+- C_ab transfers outgoing radiance through **editable free space** to the next scattering/medium boundary, with visibility and direction dependence. This includes reflection paths between two surfaces of the **same asset**, and may include a=b for an exit-and-reentry path. C cannot consume scattering inside a medium; K cannot absorb editable free-flight loops.
+- A→B→A and A→free space→A are represented by repeated K/C composition, with path-family disjointness and no double counting. Place the moving box in a Lego cavity to test this exact distinction.
 - Current external illumination and shadows enter through e_a^t. Do **not** gate the entire object-internal response at the queried receiving pixel by that pixel's direct-sun visibility: this would erase shadow-side SSS (SPT-1's major failure mode).
 - Reflective/refractive events are not assumed Lambertian. Transparent domains must allow entering one boundary port and exiting a different one.
 
-**Object-local invariance claim:** K_a can be reused under a rigid transform of the *whole local domain* and unchanged material, with port directions converted to its canonical frame. Relative movement, new occluders, and changed external illumination affect e and C, not K. Internal deformation, fracture, topology changes or parameter-changing materials invalidate some or all K and are future scope.
+**Intrinsic-domain invariance claim:** K_a can be reused under a rigid transform of an unchanged *optical domain*, with port directions converted to its canonical frame. Even under rigid motion of an entire asset, new occluders may change free-space coupling between two surfaces of that **same asset**; that change belongs in C, never in K. Internal deformation, fracture, topology changes or changed material invalidate the affected K and are future scope.
+
+### Critical domain-validity counterexample (must be tested)
+
+The official Lego asset has physically exposed space between the bucket and the baseplate. The moving red box can obstruct a light path from one Lego surface to another. **Never store that exposed self-interreflection path in a fixed whole-Lego K merely because it has the same asset ID at both endpoints.** If a learned RNA-style whole-asset operator contains it, that operator is configuration dependent and cannot serve as an invariant K in this scene. K stores only local interface, volume/internal-medium and genuinely edit-inaccessible transport; all editable free-flight segments are in C regardless of asset identity.
+
+Partitioning the Lego into optical domains and boundary ports is therefore an architectural requirement, not an optional optimisation. The path boundary is *transport physics* (internal scattering versus editable free flight), not the artist's object hierarchy.
 
 ## 3. Concrete learned representation
 
@@ -57,9 +63,9 @@ An object domain maintains spatially indexed boundary ports and an orientation-a
 
 ### 3.2 Two learned response families inside K
 
-**K^sharp — learned directional/near-diagonal response.** Handles directionally concentrated local reflection/refraction and narrow path families. Learned angular lobes or equivalent sparse directional support are conditioned on material/local geometry and entry/exit directions. It must have the representational *possibility* of sharp specular variation and cannot be routed only through SH2.
+**K^sharp — learned local interface scattering.** Handles directionally concentrated reflection and other same-interface scattering; high-angular-frequency transport must have sufficient directional support. Learned angular lobes or equivalent sparse directional support are conditioned on material/local geometry and entry/exit directions. It must have the representational *possibility* of sharp specular variation and cannot be routed only through SH2.
 
-**K^internal — learned nonlocal object-internal response.** Covers SSS, medium transmission and self-interreflection across different locations of the same domain. Its working factorization is:
+**K^internal — learned nonlocal *material-internal* response.** Covers SSS, transmission/refraction through a medium, and paths remaining inside protected intrinsic microgeometry. Crucially, *exposed* self-interreflection via editable free space is NOT in this kernel; it belongs to C even when both endpoints are on one asset. Its working factorization is:
 
     K^internal_a(x,ω_o ; s,ω_i) ≈ Σ_m V_{a,m}(x,ω_o) U_{a,m}(s,ω_i)
 
@@ -110,7 +116,7 @@ A single canonical full-scene lighting configuration cannot identify the propose
 
 **Stage A: object-local operator supervision.**
 - Generate physically grounded isolated-domain reference responses under spatially *localized*, angularly varied incident illumination, including probe patterns illuminating different locations independently.
-- Include shadow-side SSS, entrance-to-exit glass/transmission, smooth and sharp reflection, and self-interreflection. Preserve full reference semantics and known material graphs.
+- Include shadow-side SSS, entrance-to-exit glass/transmission, smooth and sharp local reflection, and physically valid isolated-domain response. Separate any exposed self-interreflection through free space and use C for it. Preserve full reference semantics and known material graphs.
 - Train K_a under these probes with a linear-response/superposition check and hold out unseen *spatial incidence patterns*, not just camera/light directions.
 - These data are expensive offline training supervision and must be accounted for. A released RNA per-directional-light model cannot be reused unchanged as a spatially varying boundary operator.
 
@@ -163,12 +169,12 @@ Do not claim novelty merely for neural operator compression, BSSRDF approximatio
 - Neural Local Inter-reflection Modeling for Garment Fold Rendering (CGF 2026; DOI 10.1111/cgf.70348): geometry-conditioned factorized fold interreflection and directional SH response.
 - Differentiable Light Transport with Gaussian Surfels via Adapted Radiosity (TOG / SIGGRAPH Asia 2025; arXiv 2509.18497): radiosity-inspired coefficient-space transport, including specular capability.
 
-Potential **research claim**, conditional on comparison: an object-local learned boundary transport kernel with full material/path semantics, combined with dynamic compressed inter-domain coupling that permits geometry-edit updates without refitting reusable parameters at quality comparable to a scene-baked neural asset. This claim is NOT established by this document.
+Potential **research claim**, conditional on comparison: an intrinsic optical-domain learned scattering kernel with full material/path semantics, combined with dynamic compressed free-space coupling (including same-asset visible paths) that permits geometry-edit updates without refitting reusable parameters at quality comparable to a scene-baked neural asset. This claim is NOT established by this document.
 
 ## 9. Decision boundaries and next work
 
 **Architecture decision NOW:** FNTO is the primary candidate to implement and falsify; SPT-1 remains historical negative evidence. This is a representation **design**, not a measured success or silent implementation authorization for subsequent batch work.
 
-**First bounded implementation unit:** demonstrate object-local K on the official Lego material semantics under spatially varied boundary-light probes; verify linearity and the SSS/glass/angular contracts. Only if that gate is credible, wire current-geometry compressed coupling C and a held-out rigid box edit in the same major architecture investigation, keeping source/receiver and training tests separate. Avoid subdividing the research into trivial diagnostic-only Worklogs; stop at the declared architecture decision gate.
+**First bounded implementation unit:** demonstrate optical-domain K on the official Lego material semantics under spatially varied boundary-light probes; verify linearity and the SSS/glass/angular contracts. Only if that gate is credible, wire current-geometry compressed coupling C and a held-out rigid box edit in the same major architecture investigation, keeping source/receiver and training tests separate. Avoid subdividing the research into trivial diagnostic-only Worklogs; stop at the declared architecture decision gate.
 
-**COMPLETION CONDITION:** Can a learned object-local source-to-receiver transport kernel plus current inter-domain coupling retain RNA-class complex material transport while responding correctly to a held-out geometry edit with no reusable-parameter retraining? Report evidence even if negative.
+**COMPLETION CONDITION:** Can a learned intrinsic-domain source-to-receiver transport kernel plus current free-space coupling retain RNA-class complex material transport while responding correctly to a held-out geometry edit with no reusable-parameter retraining? Report evidence even if negative.
