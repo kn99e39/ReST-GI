@@ -5,8 +5,8 @@ historical references (clamp_direct 20, clamp_indirect 5, point-sampled) are not
 
 views.json (made on the PC from the historical held-out H5 / JSON): per set, per view the camera matrix, the single sun
 direction and the alpha > 0 pixel indices (so r1 pixels align with the historical inputs and regions).
-  full  : full GI, max_bounces 32 (the generator's override; per-type 128 from the blend), NO clamp, box 0.01 px filter
-          (point samples, as the historical held-out renders), 4096 spp, Cycles seed = view index
+  full  : full GI, max_bounces 32 (the generator's override; per-type 128 from the blend), NO clamp, GAUSSIAN 0.01 px filter
+          (point samples, as the historical held-out renders; amendment 2 - BOX 0.01 was a 1 px box), 4096 spp, Cycles seed = view index
   first : intrinsic-all (free-space hits absorbed; glass internal paths kept), same filter / clamp, 1024 spp
 Output <out>/<set>_<mode>.npz: v<k>_rgb at the historical alpha > 0 pixels, and the r1 alpha agreement.
 """
@@ -49,13 +49,13 @@ def main():
     r.image_settings.file_format = "OPEN_EXR"; r.image_settings.color_depth = "32"; r.image_settings.color_mode = "RGBA"
     r.film_transparent = True; r.filepath = f"temp_{set_name}_{mode}"
     c = sc.cycles; c.samples = spp; c.use_adaptive_sampling = False; c.use_denoising = False; c.device = "CPU"
-    c.sample_clamp_direct = 0.0; c.sample_clamp_indirect = 0.0; c.pixel_filter_type = "BOX"; c.filter_width = 0.01
+    c.sample_clamp_direct = 0.0; c.sample_clamp_indirect = 0.0; c.pixel_filter_type = "GAUSSIAN"; c.filter_width = 0.01  # amendment 2 (r1_filter_check)
     c.use_light_tree = False; sc.world.cycles.query_filename = ""
     if mode == "full":
         c.max_bounces = 32
     else:
         c.max_bounces = 128; c.diffuse_bounces = 128; c.glossy_bounces = 128; c.transmission_bounces = 128; c.transparent_max_bounces = 128
-    store, rec = {}, {"set": set_name, "mode": mode, "spp": spp, "clamp": [0, 0], "filter": "BOX 0.01", "views": []}
+    store, rec = {}, {"set": set_name, "mode": mode, "spp": spp, "clamp": [0, 0], "filter": "GAUSSIAN 0.01 (amendment 2)", "views": []}
     out.mkdir(parents=True, exist_ok=True)
     for v, view in enumerate(views[set_name]):
         loc, rot, sca = Matrix(view["mtx"]).decompose(); cam.location = loc; cam.rotation_euler = rot.to_euler(); cam.scale = sca

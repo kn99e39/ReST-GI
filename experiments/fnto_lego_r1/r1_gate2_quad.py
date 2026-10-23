@@ -6,6 +6,8 @@ the representative's aggregate (1.5 cm band sources / 8 cm mid sources), exactly
 Field: the sun of held-out T0 view 6 on the T0 geometry (port visible fractions). Test kernels k(r) = exp(-r/d)/(r + 5 mm),
 band d = 1 cm (R 5 cm), mid d = 10 cm (R 30 cm). 20,000 random Lego receiver ports with a non-zero truth.
 Predeclared pass (before measurement): median per-receiver |relative error| <= 0.15 for both.
+
+    python r1_gate2_quad.py [out name]     # a0 run: quadrature.json; amendment-1 re-run: quadrature_a1.json
 """
 import json, sys
 from pathlib import Path
@@ -35,6 +37,8 @@ for name, R_, d, rep, rA, f2x, xpos, xarea in (("band", C.R_LOCAL, 0.01, A["nbr"
     m = truth > 1e-3 * truth.max()
     rel = np.abs(est[m] - truth[m]) / truth[m]
     rec[name] = {"receivers": int(m.sum()), "median_rel_err": float(np.median(rel)), "q90_rel_err": float(np.quantile(rel, 0.9)),
-                 "pooled_ratio_est_over_truth": float(est[m].sum() / truth[m].sum()), "pass": bool(np.median(rel) <= 0.15)}
+                 "pooled_ratio_est_over_truth": float(est[m].sum() / truth[m].sum()), "pass": bool(np.median(rel) <= 0.15),
+                 "descriptive_truth_weighted_mean_rel_err": float((rel * truth[m]).sum() / truth[m].sum()), "descriptive_frac_est_zero": float((est[m] == 0).mean())}
     print(name, rec[name], flush=True)
-out = C.OUT1 / "gate2"; out.mkdir(parents=True, exist_ok=True); (out / "quadrature.json").write_text(json.dumps(rec, indent=1))
+out = C.OUT1 / "gate2"; out.mkdir(parents=True, exist_ok=True); rec["anchors_sha16"] = C.sha16(C.OUT1 / "anchors.npz")
+(out / (sys.argv[1] if len(sys.argv) > 1 else "quadrature.json")).write_text(json.dumps(rec, indent=1))

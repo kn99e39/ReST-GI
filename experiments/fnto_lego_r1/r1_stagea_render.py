@@ -8,7 +8,7 @@ Differences to the Batch 6 Stage A renderer (audit findings in brackets):
     BSDF at the camera hit, Burley SSS, every path that stays inside a glass solid incl. internal reflection and TIR.
     Removed: all editable free-space transport (C)                                                  [#5 / F4]
   * no sample clamping (direct 0, indirect 0)                                                      [#8 / F5]
-  * point-sampled pixels: box filter 0.01 px, like the point-sampled held-out references              [#9]
+  * point-sampled pixels: GAUSSIAN 0.01 px (amendment 2; BOX ignores the width in Cycles = 1 px box)              [#9]
   * probe families (independent spatial / directional excitation)                                    [#2 / F2]
       sun       one sun (70 % upper / 30 % lower hemisphere) x 0-10 shadow-only mask spheres     (train 25 %)
       spot      1-3 spot lights (cone 10-40 deg, hard edge) at 4-40 cm from a random Lego surface point, aimed at it;
@@ -91,7 +91,8 @@ class Scene:
         r.film_transparent = True; r.filepath = "temp_beauty"; r.threads_mode = "AUTO"
         c = sc.cycles
         c.samples = spp; c.use_adaptive_sampling = False; c.use_denoising = False; c.sample_clamp_direct = 0.0; c.sample_clamp_indirect = 0.0
-        c.pixel_filter_type = "BOX"; c.filter_width = 0.01; c.use_light_tree = False; c.device = "CPU"; sc.world.cycles.query_filename = ""
+        c.pixel_filter_type = "GAUSSIAN"; c.filter_width = 0.01  # amendment 2: Cycles BOX ignores the width (= 1 px); GAUSSIAN 0.01 point-samples (r1_filter_check)
+        c.use_light_tree = False; c.device = "CPU"; sc.world.cycles.query_filename = ""
         c.max_bounces = 128; c.diffuse_bounces = 128; c.glossy_bounces = 128; c.transmission_bounces = 128; c.transparent_max_bounces = 128
         c.volume_bounces = 0; c.caustics_reflective = True; c.caustics_refractive = True
         self.masks = []; self.mask_mat = bpy.data.materials.new("r1_mask")
@@ -241,7 +242,7 @@ def main():
         cfgs.append(cfg); (od / "configs.json").write_text(json.dumps(cfgs))
         print(f"img {i} {cfg['family']} lights={len(cfg['lights'])} {cfg['render_s']:.1f}s px={int(m.sum())} total={time.time() - t0:.0f}s", flush=True)
     meta = {"split": split, "n": n, "seed": seed, "res": res, "spp": spp, "blend": str(BLEND), "paths": "intrinsic-all (free-space hits absorbed)",
-            "clamp": [0, 0], "filter": "BOX 0.01 px", "max_bounces": 128, "radiometry": "sun S -> E = S; point/spot P -> I = P/(4 pi) W/sr (r1_calib)",
+            "clamp": [0, 0], "filter": "GAUSSIAN 0.01 px (amendment 2)", "max_bounces": 128, "radiometry": "sun S -> E = S; point/spot P -> I = P/(4 pi) W/sr (r1_calib)",
             "families": FAMILY.get(split, FAMILY["train"]), "seconds": time.time() - t0}
     (od / "meta.json").write_text(json.dumps(meta, indent=1)); print("done", json.dumps(meta))
 
