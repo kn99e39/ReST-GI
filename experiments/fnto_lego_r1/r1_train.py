@@ -26,6 +26,7 @@ from pathlib import Path
 import numpy as np
 import torch
 import torch.nn.functional as F
+from torch.utils.checkpoint import checkpoint
 
 import r1_common as C
 import fnto_model as M
@@ -142,6 +143,14 @@ def predict(K, P, tab, o, px, L, nl):
     return out
 
 
+def predict_ckpt(K, P, tab, o, px, L, nl, chunk):
+    """predict() over pixel chunks with activation checkpointing (amendment 1: K 96 / 128 representatives do not fit 12 GB in
+    one pass). Same values and gradients as one predict() call; only memory changes."""
+    n = len(px["port"])
+    return torch.cat([checkpoint(predict, K, P, tab, o, {k: v[s:s + chunk] for k, v in px.items()}, L, nl, use_reentrant=False)
+                      for s in range(0, n, chunk)])
+
+
 def uniform_albedo_penalty(K, P, o, gen, n=32768):
     """Effective albedo pi I / E of sampled ports under a uniform unit radiance field (E = pi, bins by cosine-weighted
     solid angle), all four components; returns mean(relu(albedo - 0.98))."""
@@ -228,7 +237,7 @@ def main():
     ap.add_argument("--imgs", type=int, default=4); ap.add_argument("--px", type=int, default=16384)
     ap.add_argument("--seed", type=int, default=0); ap.add_argument("--eval-every", type=int, default=4000)
     ap.add_argument("--passivity", type=float, default=0.0); ap.add_argument("--max-steps", type=int, default=0)
-    ap.add_argument("--train-split", default="train"); ap.add_argument("--holdout-split", default="holdout")
+    ap.add_argument("--chunk", type=int, default=16384); ap.add_argument("--train-split", default="train"); ap.add_argument("--holdout-split", default="holdout")
     a = ap.parse_args()
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     torch.manual_seed(a.seed); rng = np.random.default_rng(a.seed); dev = torch.device("cuda")
@@ -257,7 +266,7 @@ def main():
             if not m.any():
                 continue
             px = {k: v[m] for k, v in d.items()}
-            pred = predict(Ks[o], P, tabs[o], o, px, L, nl)
+            pred = predict_ckpt(Ks[o], P, tabs[o], o, px, L, nl, a.chunk)
             l_ = ((torch.log1p(pred.clamp(min=0)) - torch.log1p(px["col"])) ** 2).sum()
             total = l_ if total is None else total + l_; cnt += int(m.sum())
         loss = total / (3 * cnt)

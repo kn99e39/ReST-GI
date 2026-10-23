@@ -71,7 +71,7 @@ class Tables:
                 self.hs[o] = Kk.src_desc(torch.where(self.bobj == 0, self.bmat, 0) if o == 0 else torch.zeros_like(self.bmat))
                 self.hc[o] = Kk.src_desc(torch.where(self.cobj == 0, self.cmat, 0) if o == 0 else torch.zeros_like(self.cmat))
         self.rho, self.kap, self.alpha, self.hp = rho, kap, alpha, hp
-        self.Wm = torch.zeros(self.N, C.K_MID, 3, device=dev, dtype=torch.float16)
+        self.Wm = torch.zeros(self.N, self.mid.shape[1], 3, device=dev, dtype=torch.float16)
         with torch.no_grad():
             for o, Kk in enumerate(self.Ks):
                 ii = self.dom[o]

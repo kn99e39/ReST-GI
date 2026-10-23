@@ -1,0 +1,57 @@
+{
+ "protocol": "fnto_r1",
+ "batch": "WL42 FNTO validity restoration (post-Batch-6 corrective implementation and re-evaluation)",
+ "worklog": 42,
+ "authorisation": "user brief 'ReST-GI - FNTO Validity Restoration, Post-Batch-6 Controlled Implementation & Re-evaluation' (2026-10-23)",
+ "start_commit": "7ba0848",
+ "contract": "docs/FNTO_ARCHITECTURE_CONTRACT_V0_1.md (unchanged); Batch 6 code, protocol fnto_v1, artefacts and worklog 41 are preserved unchanged",
+ "audit_source": "BATCH6_INDEPENDENT_FNTO_VALIDITY_AUDIT.md (session scratchpad 205cd7bb...; 23 findings); every finding used here was re-measured on the Batch 6 code (results/fnto_lego_r1/audit/, render_checks/)",
+ "declared": "before the r1 Stage A preprocessing of the training split, before any r1 kernel training and before any r1 evaluation on held-out Lego data. Already measured at declaration and reported as such: Gate 1 (r1 ports), Gate 2a (support reach), relation build and incremental comparison, light calibration, solver detection test, renderer superposition under no clamp (render_checks), Gate 2b quadrature (its file was written 19:08 KST, before this protocol file; its criterion was fixed in r1_gate2_quad.py before the run and is copied here unchanged; result FAIL, see G2b). Process note: r1_gate2_quad.py ran on the PC while the server render chain was running, against the standing no-cross-machine-parallel rule; it reads no rendered data and does not affect the server outputs.",
+ "candidate_r1": {
+  "ports": "clusters keyed by (1.2 cm tangential voxel, 3 mm plane bin along the dominant signed axis, material, connected component); origin = medoid surface sample; up to 4 surface samples per port for visibility fractions and gathers (EPS 0.1 mm off a real surface); 852,358 Lego + 1,702 box ports",
+  "pixel_and_hit_identity": "pixels and gather hits are attached to ports by surface identity (the hit triangle's cluster key, facing side); Batch 6 used the nearest normal-compatible port",
+  "support": "(a0, superseded by amendment 1 = K 96 / 128 near-exact + orientation-stratified area-proportional picks) K_band: all 1.5 cm aggregate sources within the full 5 cm ball, 48 equal-count distance strata, one seeded representative each carrying the stratum area; K_mid: 8 cm aggregate sources within the full 30 cm ball, 64 strata; realised reach median 4.996 cm / 29.99 cm (Batch 6: 1.4 / 5.0 cm)",
+  "kernel_family": "fnto_model.DomainKernel unchanged (K_loc 2 GGX + diffuse, K_glob rank 64 (A) / 8 (B), K_band 19 bins, K_mid); linear in radiance, non-negative coefficients",
+  "coupling": "dense ray-cast relation table (128 gathers per port, 109.3 M rays) = an explicit diagnostic-grade C; it is NOT compressed and NOT learned (C_phi empty); no efficiency claim follows from it",
+  "solver": "Jacobi on per-port incident samples; converged when relative change < 1e-3; DIVERGED when the median of the last 5 successive-residual ratios is >= 1 after iteration 8 or values are non-finite; UNCONVERGED at 100 iterations otherwise; spectral radius of the homogeneous map by power iteration (40 iterations)"
+ },
+ "stage_a_r1": {
+  "renderer": "r1_stagea_render.py on LabServer63 (bpy 3.5.1 CPU): intrinsic-all paths (free-space hits absorbed; glass internal reflection / TIR kept), max bounces 128, clamp direct 0 / indirect 0, box filter 0.01 px, 512^2, 512 spp",
+  "families": "sun x masks 25 %, spot (1-3, cone 5-20 deg half-angle, 4-40 cm from an area-sampled Lego surface point) 35 %, broad (6-20 free-space point lights) 25 %, multisun (2-5 suns, both hemispheres, masks) 15 %; box random (not within 0.25 m of T1) or absent 25 %",
+  "splits": "train 1,000 (seed 1101), holdout 120 (seed 2102, independent configurations of all families). Reduced from Batch 6's 1,400 because each image now carries more independent excitation and the server renders ~16 s per image",
+  "radiometry": "r1_calib: sun S -> E = S; point / spot P -> I = P / (4 pi) W/sr; spot hard cone",
+  "excluded_from_training": "every full-scene image, the T1 geometry, all held-out T0/T1 references"
+ },
+ "reference_regime_r1": "held-out T0/T1 16 views each, same cameras / suns / pixels as worklog 37, rendered on LabServer63: full GI (max_bounces 32 as the generator), NO clamp, box 0.01 px, 4096 spp, seed = view; and intrinsic-all first-event references (1,024 spp). Historical references (clamp_direct 20 / clamp_indirect 5) stay unchanged and are reported separately; the pixel inputs (position / normal / visibility AOVs) are the historical PC renders (geometry, not compared radiance)",
+ "training": {"script": "r1_train.py", "steps": 24000, "images_per_step": 4, "pixels_per_image": 16384, "loss": "L2 on log(1 + radiance)", "optimiser": "Adam 1e-3 cosine to 1e-5", "seed": 0, "final_weights": true, "machine": "LabServer63 RTX 3080 Ti", "passivity": 0.0},
+ "conditional_variant_r1P": "ONLY if Gate 4c fails for K_r1 (spectral radius at T0 >= 1): train r1-P = identical run with --passivity 1.0 (hinge on uniform-field effective albedo > 0.98 over 32,768 sampled ports per domain). Both are reported; Gate 5 uses the first kernel that passes Gate 4c; if neither passes, stop at Gate 4 with attribution (no other change)",
+ "gates": {
+  "G1_boundary_state": {"criteria": "r1 origins within 0.2 mm of a surface >= 99 %; first hit along +n an inside face < 1 %; port vs renderer pixel sun-visibility agreement >= 0.97; pooled port/pixel direct irradiance in [0.95, 1.05]", "status_at_declaration": "measured: 99.998 % PASS; 4.93 % FAIL as declared (4.933 % are surfaces inside ANOTHER component's closed solid = enclosed geometry, 0.002 % same component); agreement 0.962 FAIL as declared (residual: away from shadow edges 6.3 % lit-pixel ports read < 0.5, 2.4 % the reverse; Batch 6 24.7 % / 3.3 %); irradiance ratio 1.001 PASS"},
+  "G2_intrinsic_and_coverage": {"a_support": "realised reach median >= 0.98 R (measured: PASS)", "b_quadrature": "median per-receiver |rel err| <= 0.15 for band (d 1 cm) and mid (d 10 cm) test kernels on the real Lego, T0 view-6 sun", "b_status_at_declaration": "measured FAIL: band median 0.62 (q90 1.41, pooled ratio 0.99), mid median 0.45 (q90 1.49, pooled ratio 1.34); attribution by r1_gate2_attrib.py (diagnostic) pending", "c_coverage": "effective rank (99 % energy) of the r1 training incident fields in the 8 cm coarse-port basis reported; the indirect-like field (one Lambertian bounce, albedo 0.5, T0 coupling graph, view-6 sun) has <= 0.10 of its energy outside the span of the training fields (Batch 6: 0.52)", "d_kernel_fidelity": "held-out r1 probes pooled display PSNR >= 28 dB and K_only vs first-event r1 references (held-out T0, view mean) >= 28 dB; per family and per material reported"},
+  "G3_reference_consistency": {"a_linearity": "renderer two-sun superposition with no clamp: |signed energy| <= 1 % (measured in render_checks: -0.05 %, PASS; with the historical clamp -8.8 %)", "b_light_table_radiometry": "on held-out r1 probes, box pixels (single diffuse material): the red-channel ratio of the render to (1/pi) x reconstructed irradiance has family medians within +-3 % of each other (sun / spot / broad / multisun)"},
+  "G4_coupling_and_solver": {"a_incremental": "incremental vs full rebuild differ only at equal hit distance (measured: 1,435 entries, all equal distance, 0 share material and component); output effect |view-mean(E_upd) - view-mean(E_relfull)| <= 0.05 dB", "b_detection": "solver detection test PASS (measured)", "c_passivity": "spectral radius of the homogeneous composed map at T0 < 1"},
+  "G5_end_to_end": {
+   "arms": "K_only (coupling off, vs first-event r1), S_T0, D_stale, E_upd, E_relfull; targets hist and r1 labelled separately; historical RNA / Surface-Owned / SPT-1 records unchanged",
+   "static": "S = view-mean(S_T0 | hist) - 33.569 (RNA_T0, hist): credible >= -1.0, weak [-2, -1), fail < -2.0; S_T0 | r1 reported (no RNA in that regime: RNA was trained on clamped data)",
+   "edit_error": "F = E_stale / E_upd on A_changed (hist); R_RNA as fnto_v1",
+   "edit_signed": "on A_changed Lego pixels present in both views: corr(d_pred, d_ref) and LS slope of d_pred on d_ref (hist and r1)",
+   "solver": "status per view; every view must converge for SUPPORTED"
+  }
+ },
+ "verdict_rules": {
+  "SUPPORTED": "G2d pass AND G3 pass AND G4 pass (incl. 4c with K_r1 or K_r1P) AND every view converged AND S credible AND F >= 1.5 AND R_RNA >= 0.7 AND corr >= 0.5 AND slope in [0.5, 1.5] (hist)",
+  "NOT_SUPPORTED": "G4c fails for both K_r1 and K_r1P, OR any view diverges, OR S fail, OR F < 1.1, OR corr < 0.2",
+  "LIMITED": "otherwise (the brief: do not force a binary verdict); the report states which K/C property is and is not supported",
+  "G1_note": "G1 failed as declared on two criteria, both attributed above to geometry (enclosed surfaces) and port resolution; the verdict text must carry this"
+ },
+ "do_not_tune": ["ports, samples, support, representatives, bins", "kernel sizes, steps, batch, loss, optimiser", "solver tolerance, iteration cap, divergence rule", "probe families and counts", "thresholds above", "arms and targets"],
+ "stop": "report and stop at the verdict; no other architecture, no automatic next batch",
+ "amendments": [
+  {"id": 1, "date": "2026-10-23", "when": "after the Gate 2b FAIL, before any r1 Stage A preprocessing, kernel training or held-out evaluation",
+   "diagnosis": "r1_gate2_attrib.py (synthetic fields: uniform, cos(view-6 sun), cos x 4 cm checker; 4,000 receivers): aggregation (all aggregates vs fine truth) 3-7 % median, uniform-pick bias <= 8 % (mid pooled +5-7 %), single-sample variance 25-40 % = the dominant part. Classified (brief section 4): numerical approximation of the r1 quadrature, not the K/C contract",
+   "correction": "band / mid representatives only (r1_reps_a1.py): K/2 nearest aggregates exactly with their own area; the rest ordered by (8 distance shells, dominant normal axis, distance), K/2 equal-count strata, one representative drawn proportional to area carrying the stratum area (unbiased; tests/test_r1_reps_a1.py PASS). Sources, radii, bins and kernel code unchanged",
+   "K_rule": "smallest swept K (band 48/96/128/192, mid 64/128/192/256) whose sampling error vs all aggregates on the adverse synthetic field (cos x checker) is <= 0.075 = half the Gate 2b threshold (r1_gate2_ksweep.py: band K 96 -> 0.075, mid K 128 -> 0.049). The declared Gate 2b field (real T0 view-6 sun with shadows) was not used to choose K",
+   "consequences": "K_BAND 48 -> 96, K_MID 64 -> 128; anchors_a0.npz kept; training predict runs in 16,384-pixel chunks with activation checkpointing (r1_train --chunk; identical values and gradients; measured peak of the band+mid weights alone at 65,536 pixels: 5.3 GB at a0, 10.6 GB at a1 on the 12.5 GB GPU)",
+   "gate2b_rerun": "the declared Gate 2b test (r1_gate2_quad.py, threshold 0.15 unchanged) is re-run on the a1 anchors on the PC after the server render chain finishes; both the a0 FAIL and the a1 result are reported"}
+ ]
+}

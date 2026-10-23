@@ -165,14 +165,14 @@ def main():
     # band representatives (fine ports, same domain), mid representatives (coarse ports, same domain)
     f2c, cpos, cnrm, carea, cmat, cobj = coarse(pos, nrm, area, mat, obj)
     f2b, bpos, bnrm, barea, bmat, bobj = coarse(pos, nrm, area, mat, obj, C.H_BAND1)       # band source aggregates
-    nbr = np.full((NA + NB, C.K_BAND), -1, np.int32); nbrA = np.zeros((NA + NB, C.K_BAND), np.float32)
-    mid = np.full((NA + NB, C.K_MID), -1, np.int32); midA = np.zeros((NA + NB, C.K_MID), np.float32)
+    nbr = np.full((NA + NB, C.K_BAND_A0), -1, np.int32); nbrA = np.zeros((NA + NB, C.K_BAND_A0), np.float32)
+    mid = np.full((NA + NB, C.K_MID_A0), -1, np.int32); midA = np.zeros((NA + NB, C.K_MID_A0), np.float32)
     sup = {}
     for o in (0, 1):
         g = np.flatnonzero(obj == o); gc = np.flatnonzero(cobj == o); gb = np.flatnonzero(bobj == o)
-        r_, A_, n_, reach = stratified(pos[g], bpos[gb], barea[gb], C.R_LOCAL, C.K_BAND, rng)
+        r_, A_, n_, reach = stratified(pos[g], bpos[gb], barea[gb], C.R_LOCAL, C.K_BAND_A0, rng)
         nbr[g] = np.where(r_ >= 0, gb[np.clip(r_, 0, None)], -1); nbrA[g] = A_
-        rm, Am, nm_, reachm = stratified(pos[g], cpos[gc], carea[gc], C.R_MID, C.K_MID, rng)
+        rm, Am, nm_, reachm = stratified(pos[g], cpos[gc], carea[gc], C.R_MID, C.K_MID_A0, rng)
         mid[g] = np.where(rm >= 0, gc[np.clip(rm, 0, None)], -1); midA[g] = Am
         sup[o] = {"band_ball_count_q10_q50_q90": np.quantile(n_, [0.1, 0.5, 0.9]).tolist(), "band_reach_q10_q50_q90_m": np.quantile(reach, [0.1, 0.5, 0.9]).tolist(),
                   "mid_ball_count_q10_q50_q90": np.quantile(nm_, [0.1, 0.5, 0.9]).tolist(), "mid_reach_q10_q50_q90_m": np.quantile(reachm, [0.1, 0.5, 0.9]).tolist(),
