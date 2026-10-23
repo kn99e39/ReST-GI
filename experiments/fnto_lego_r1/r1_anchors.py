@@ -11,8 +11,8 @@ Ports of domain A (official Lego):
   * port ORIGIN = the medoid surface sample of its cluster (a real surface point with its own triangle normal), plus up
     to S_PORT surface samples for visibility averaging and gather origins. Rays start EPS1 = 0.1 mm off a real surface.
 Domain B (box): analytic grid as Batch 6, S_PORT samples per cell.
-Kernel support (audit #4): for every port, ALL same-domain ports within R_LOCAL (band) and ALL coarse ports within
-R_MID (mid) are found; they are split into K_BAND / K_MID distance strata of equal count and one seeded representative
+Kernel support (audit #4): for every port, ALL same-domain band-source ports (H_BAND1 = 1.5 cm aggregates of fine
+ports, area-mean incident) within R_LOCAL and ALL coarse ports (H_MID1 = 8 cm) within R_MID are found; they are split into K_BAND / K_MID distance strata of equal count and one seeded representative
 per stratum carries the stratum's total area (represented-area weight), so the quadrature covers the declared radius.
 Coarse ports: H_MID1 = 8 cm clusters of fine ports (voxel, signed axis, material).
 """
@@ -143,8 +143,9 @@ def stratified(query_pos, src_pos, src_area, R, K, rng, self_offset=None):
     return rep, Arep, nball, reach
 
 
-def coarse(pos, nrm, area, mat, obj):
-    ijk = np.floor(pos / C.H_MID1).astype(np.int64) + 1024
+def coarse(pos, nrm, area, mat, obj, h=None):
+    h = C.H_MID1 if h is None else h
+    ijk = np.floor(pos / h).astype(np.int64) + 1024
     key = ((((ijk[:, 0] * 2048 + ijk[:, 1]) * 2048 + ijk[:, 2]) * 6 + A0.axis_key(nrm)) * 16 + mat.astype(np.int64)) * 2 + obj.astype(np.int64)
     u, inv = np.unique(key, return_inverse=True); inv = inv.ravel(); a = np.bincount(inv, area, len(u))
     cp = np.stack([np.bincount(inv, area * pos[:, j], len(u)) for j in range(3)], 1) / a[:, None]
@@ -163,13 +164,14 @@ def main():
     rot = rng.uniform(0, 2 * np.pi, NA + NB)
     # band representatives (fine ports, same domain), mid representatives (coarse ports, same domain)
     f2c, cpos, cnrm, carea, cmat, cobj = coarse(pos, nrm, area, mat, obj)
+    f2b, bpos, bnrm, barea, bmat, bobj = coarse(pos, nrm, area, mat, obj, C.H_BAND1)       # band source aggregates
     nbr = np.full((NA + NB, C.K_BAND), -1, np.int32); nbrA = np.zeros((NA + NB, C.K_BAND), np.float32)
     mid = np.full((NA + NB, C.K_MID), -1, np.int32); midA = np.zeros((NA + NB, C.K_MID), np.float32)
     sup = {}
     for o in (0, 1):
-        g = np.flatnonzero(obj == o); gc = np.flatnonzero(cobj == o)
-        r_, A_, n_, reach = stratified(pos[g], pos[g], area[g], C.R_LOCAL, C.K_BAND, rng)
-        nbr[g] = np.where(r_ >= 0, g[np.clip(r_, 0, None)], -1); nbrA[g] = A_
+        g = np.flatnonzero(obj == o); gc = np.flatnonzero(cobj == o); gb = np.flatnonzero(bobj == o)
+        r_, A_, n_, reach = stratified(pos[g], bpos[gb], barea[gb], C.R_LOCAL, C.K_BAND, rng)
+        nbr[g] = np.where(r_ >= 0, gb[np.clip(r_, 0, None)], -1); nbrA[g] = A_
         rm, Am, nm_, reachm = stratified(pos[g], cpos[gc], carea[gc], C.R_MID, C.K_MID, rng)
         mid[g] = np.where(rm >= 0, gc[np.clip(rm, 0, None)], -1); midA[g] = Am
         sup[o] = {"band_ball_count_q10_q50_q90": np.quantile(n_, [0.1, 0.5, 0.9]).tolist(), "band_reach_q10_q50_q90_m": np.quantile(reach, [0.1, 0.5, 0.9]).tolist(),
@@ -180,8 +182,9 @@ def main():
     np.savez(C.OUT1 / "anchors.npz", pos=pos.astype(np.float32), nrm=nrm.astype(np.float32), area=area.astype(np.float32), mat=mat, obj=obj,
              comp=np.concatenate([a["comp"], np.full(NB, -1, np.int32)]), spos=spos, snrm=snrm, rot=rot.astype(np.float32),
              nbr=nbr, nbrA=nbrA, mid=mid, midA=midA, f2c=f2c, cpos=cpos, cnrm=cnrm, carea=carea, cmat=cmat, cobj=cobj,
+             f2b=f2b, bpos=bpos, bnrm=bnrm, barea=barea, bmat=bmat, bobj=bobj,
              keys=a["keys"], n_A=NA, n_B=NB, **tri)
-    rec = {"A": recA, "B": {"ports": NB, "faces": faces}, "coarse_ports": int(len(cpos)), "support": sup,
+    rec = {"A": recA, "B": {"ports": NB, "faces": faces}, "coarse_ports": int(len(cpos)), "band_source_ports": int(len(bpos)), "support": sup,
            "h_vox": C.H_VOX, "h_plane": C.H_PLANE, "s_port": C.S_PORT, "seconds": time.time() - t0}
     (C.OUT1 / "anchors.json").write_text(json.dumps(rec, indent=1)); print(json.dumps({k: v for k, v in rec.items() if k != "B"}, indent=1))
 

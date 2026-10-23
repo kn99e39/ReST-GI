@@ -23,5 +23,6 @@ H_PLANE = 0.003          # plane-offset quantisation along the dominant normal a
 S_PORT = 4               # surface samples per port (visibility average, gather origins)
 EPS1 = 1e-4              # ray offset from an ON-SURFACE sample along its own triangle normal [m]
 H_MID1 = 0.08            # coarse source ports of the mid-range kernel (r1) [m]
-K_BAND = 32              # band representatives over the full R_LOCAL ball
+H_BAND1 = 0.015          # band source ports: 1.5 cm aggregates of fine ports (area-mean incident) [m]
+K_BAND = 48              # band representatives over the full R_LOCAL ball
 K_MID = 64               # mid representatives over the full R_MID ball
