@@ -24,6 +24,7 @@ from scipy.spatial import cKDTree
 
 import r1_common as C
 import fnto_relations as R
+import r1_map as M
 
 HO = C.OUT / "stagea/holdout"
 
@@ -64,11 +65,18 @@ def g1b(A, r1):
         m = dom == 0
         w = np.asarray(c["sun"], np.float64); w /= np.linalg.norm(w)
         cp = np.clip(nn[m] @ w, 0, None); keep = cp > 0.1
-        tree, g = trees[0]
-        _, ii = tree.query(p[m][keep], k=8, workers=-1); cand = g[ii]
-        ok = (A["nrm"][cand] * nn[m][keep][:, None, :]).sum(-1) > 0.5
-        port = cand[np.arange(len(cand)), np.where(ok.any(1), np.argmax(ok, 1), 0)]
+        if keep.sum() < 100:                                   # sun below every visible pixel: nothing to compare
+            continue
         geo = R.Geo(np.zeros(3), bo, masks=c["masks"])
+        if r1:                                                 # surface identity: the triangle the camera ray hits
+            port, okp = M.pixels_to_ports(A, geo, p[m][keep], cam[m][keep].astype(np.float64))
+            sel_ = okp & (port >= 0); keep_idx = np.flatnonzero(keep)[sel_]; keep = np.zeros_like(keep); keep[keep_idx] = True; port = port[sel_]
+            cp = np.clip(nn[m] @ w, 0, None)
+        else:
+            tree, g = trees[0]
+            _, ii = tree.query(p[m][keep], k=8, workers=-1); cand = g[ii]
+            ok = (A["nrm"][cand] * nn[m][keep][:, None, :]).sum(-1) > 0.5
+            port = cand[np.arange(len(cand)), np.where(ok.any(1), np.argmax(ok, 1), 0)]
         up = np.unique(port)
         if r1:
             sp = A["spos"][up].astype(np.float64); sn = A["snrm"][up].astype(np.float64); valid = np.isfinite(sp[..., 0])
