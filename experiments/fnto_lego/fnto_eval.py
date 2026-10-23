@@ -86,6 +86,23 @@ def prep():
                             res=int(f1.attrs["resolution"][0]))
 
 
+def vis_prep():
+    """Port sun visibility per held-out view and geometry state (Mitsuba, PC); lets `run` execute without Mitsuba."""
+    A = R.load_anchors(); out = {}; tim = {}
+    geos = {st: R.Geo(*C.offsets(st)) for st in ("T0", "T1")}
+    idx = np.arange(len(A["obj"]))
+    for set_name, state in SETS.items():
+        D = np.load(PX / f"{set_name}.npz")
+        for v in range(int(D["nv"])):
+            light = D[f"v{v}_light"]; lit = idx[(A["nrm"] @ light) > 0]
+            for st in (("T0", "T1") if set_name == "heldout_T1" else ("T0",)):
+                t = time.time(); V = np.zeros(len(idx), bool); V[lit] = R.sun_visible(A, geos[st], lit, light); tim[f"{set_name}_v{v}_{st}"] = time.time() - t
+                out[f"{set_name}_v{v}_{st}"] = np.packbits(V)
+    np.savez_compressed(C.OUT / "eval_vis.npz", **out)
+    (C.OUT / "eval_vis.json").write_text(json.dumps({"seconds": tim, "mean_s": float(np.mean(list(tim.values())))}, indent=1))
+    print("port visibility", len(out), "mean s", float(np.mean(list(tim.values()))))
+
+
 def load_kernels(path, dev):
     KA, KB = M.make_kernels(dev)
     s = torch.load(path, map_location=dev)
@@ -109,8 +126,15 @@ def run(a):
     t = time.time(); T = SV.Tables(KA, KB, dev); torch.cuda.synchronize(); t_tables = time.time() - t
     A = R.load_anchors()
     rel = {k: np.load(C.OUT / f"rel_{k}.npz")["hit"] for k in ("T0", "T1", "T1_inc")}
-    geos = {st: R.Geo(*C.offsets(st)) for st in ("T0", "T1")}
+    pre = np.load(C.OUT / "eval_vis.npz") if (C.OUT / "eval_vis.npz").exists() else None
+    pre_t = json.loads((C.OUT / "eval_vis.json").read_text())["seconds"] if pre is not None else {}
+    geos = {} if pre is not None else {st: R.Geo(*C.offsets(st)) for st in ("T0", "T1")}
     z = np.load(C.B4 / "eval/views.npz")
+    first = None
+    if a.first:
+        first = {sn: dict(np.load(Path(a.first) / f"{sn}_first.npz")) for sn in SETS if (Path(a.first) / f"{sn}_first.npz").exists()}
+        for sn in SETS:
+            first.setdefault(sn, {})
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     record = {"kernels": str(a.kernels), "tables_s": t_tables, "sets": {}, "per_view": {}}
     keep = {}
@@ -137,12 +161,28 @@ def run(a):
             hf = hf_mask(tgt, mk, res); ref = C.ldr3(tgt)
             for n, (rk, vk) in arms.items():
                 tv = time.time()
-                Vp = np.zeros(len(A["obj"]), bool); idx = np.arange(len(A["obj"]))
-                cosv = A["nrm"] @ light; lit = idx[cosv > 0]
-                Vp[lit] = R.sun_visible(A, geos[vk], lit, light); t_vis = time.time() - tv
+                if pre is not None:                       # precomputed on the PC (Mitsuba); its measured time is used
+                    Vp = np.unpackbits(pre[f"{set_name}_v{v}_{vk}"])[:len(A["obj"])].astype(bool); t_vis = pre_t[f"{set_name}_v{v}_{vk}"]
+                else:
+                    Vp = np.zeros(len(A["obj"]), bool); idx = np.arange(len(A["obj"]))
+                    cosv = A["nrm"] @ light; lit = idx[cosv > 0]
+                    Vp[lit] = R.sun_visible(A, geos[vk], lit, light); t_vis = time.time() - tv
                 S = SV.State(T, rel[rk], Vp, light).solve()
                 tr = time.time(); pr, parts = SV.render_pixels(T, S, px); torch.cuda.synchronize(); t_r = time.time() - tr
                 pr = pr.cpu().numpy(); parts = parts.cpu().numpy()
+                if n in ("S_T0", "E_upd") and first is not None and f"v{v}_rgb" in first[set_name]:
+                    # attribution: the same K with the coupling switched off (K applied to the delta sun only)
+                    S0 = SV.State(T, rel[rk], Vp, light)
+                    Eind0, h0 = S0.incident_aggregates(); S0.h, S0.Eind = h0, Eind0; _, S0.gamma = S0.outgoing_iso(Eind0, h0)
+                    p0 = SV.render_pixels(T, S0, px)[0].cpu().numpy(); del S0
+                    fr = first[set_name][f"v{v}_rgb"]
+                    Fq = acc[n].setdefault("first", {"k_sq": 0.0, "n": 0, "rem_sq": 0.0, "ref_first_E": 0.0, "ref_rem_E": 0.0, "pred_first_E": 0.0,
+                                                      "pred_rem_E": 0.0, "mat_k": np.zeros((9, 2)), "mat_rem": np.zeros((9, 2))})
+                    ek = ((C.ldr3(p0) - C.ldr3(fr)) ** 2).mean(1); er = ((pr - p0) - (tgt - fr)) ** 2
+                    Fq["k_sq"] += float(ek.sum()); Fq["n"] += len(ek); Fq["rem_sq"] += float(er.mean(1).sum())
+                    Fq["ref_first_E"] += float(fr.sum()); Fq["ref_rem_E"] += float((tgt - fr).sum()); Fq["pred_first_E"] += float(p0.sum()); Fq["pred_rem_E"] += float((pr - p0).sum())
+                    np.add.at(Fq["mat_k"][:, 0], mat, ek); np.add.at(Fq["mat_k"][:, 1], mat, 1)
+                    np.add.at(Fq["mat_rem"][:, 0], mat, (pr - p0 - (tgt - fr)).mean(1)); np.add.at(Fq["mat_rem"][:, 1], mat, (tgt - fr).mean(1))
                 dl = C.ldr3(pr) - ref; sq = (dl ** 2).mean(1); Q = acc[n]
                 Q["sq"].append(float(sq.mean())); Q["logl1"] += float(np.abs(np.log1p(np.clip(pr, 0, None)) - np.log1p(tgt)).sum()); Q["n3"] += pr.size
                 Q["hf"].append(float(np.abs(dl).mean(1)[hf].mean())); Q["solve_s"].append(S.solve_s); Q["iters"].append(S.iters)
@@ -171,6 +211,14 @@ def run(a):
                        "lit_px": Q["lit"][1], "shadow_px": Q["shadow"][1],
                        "solve_s_mean": float(np.mean(Q["solve_s"])), "iters_mean": float(np.mean(Q["iters"])), "iters_max": int(np.max(Q["iters"])),
                        "render_s_mean": float(np.mean(Q["render_s"])), "port_sun_vis_s_mean": float(np.mean(Q["vis_s"]))}
+            if "first" in Q:
+                Fq = Q["first"]
+                rows[n]["first_event_decomposition"] = {
+                    "K_only_vs_first_event_ref_display_psnr": float(10 * np.log10(Fq["n"] / Fq["k_sq"])),
+                    "remainder_hdr_mse": Fq["rem_sq"] / Fq["n"], "ref_first_energy": Fq["ref_first_E"], "ref_remainder_energy": Fq["ref_rem_E"],
+                    "pred_first_energy": Fq["pred_first_E"], "pred_remainder_energy": Fq["pred_rem_E"],
+                    "per_material_K_only_mse": {(C.MATERIALS[i] if i < 8 else "B"): (float(Fq["mat_k"][i, 0] / Fq["mat_k"][i, 1]) if Fq["mat_k"][i, 1] else None) for i in range(9)},
+                    "per_material_remainder_pred_minus_ref_over_ref": {(C.MATERIALS[i] if i < 8 else "B"): (float(Fq["mat_rem"][i, 0] / Fq["mat_rem"][i, 1]) if Fq["mat_rem"][i, 1] else None) for i in range(9)}}
         record["sets"][set_name] = rows
     record["kernel_parameters_bit_identical"] = M.digest(KA, KB) == dig0
     record["kernel_parameters"] = {"A": sum(p.numel() for p in KA.parameters()), "B": sum(p.numel() for p in KB.parameters())}
@@ -184,5 +232,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("cmd")
     ap.add_argument("--kernels"); ap.add_argument("--out"); ap.add_argument("--views", type=int, nargs="*", default=[])
     ap.add_argument("--arms", nargs="*", default=[]); ap.add_argument("--keep", type=int, nargs="*", default=[6, 15])
+    ap.add_argument("--first", default="", help="dir with <set>_first.npz first-event references (attribution only)")
     a = ap.parse_args()
-    prep() if a.cmd == "prep" else run(a)
+    {"prep": prep, "vis": vis_prep}.get(a.cmd, lambda: run(a))()

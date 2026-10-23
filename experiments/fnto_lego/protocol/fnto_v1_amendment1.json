@@ -1,0 +1,13 @@
+{
+ "protocol": "fnto_v1",
+ "amendment": 1,
+ "date": "2026-10-23, before the main Stage A training started and before any FNTO evaluation on held-out Lego data",
+ "kind": "execution only",
+ "changes": [
+  "training machine LabServer63 (user decision, recorded in fnto_v1.json before the declaring commit); fnto_train.to_t / image_sun transfer native dtypes and convert on the GPU (identical values)",
+  "fnto_eval: port sun visibility may be precomputed per view on the PC (Mitsuba; fnto_eval.py vis -> eval_vis.npz) so that the solve/render evaluation can run without Mitsuba; the measured precompute time per view is the reported visibility cost",
+  "fnto_eval: the declared first-event decomposition is implemented (--first <dir>): K with the coupling switched off vs fnto_firstevent_render references; descriptive only",
+  "fnto_exports.py added (reviewer images; no metric)"
+ ],
+ "unchanged": "all model, data, training hyper-parameters, solver settings, arms, metrics and outcome rules"
+}
