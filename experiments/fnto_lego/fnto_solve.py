@@ -203,7 +203,7 @@ class State:
 
 @torch.no_grad()
 def render_pixels(T: Tables, S: State, px, chunk=1 << 14):
-    """px: dict(pos canonical, nrm, cam, vis, dom, port [N], ports4 [N, 4], w4 [N, 4]) -> radiance [N, 3] and parts."""
+    """px: dict(pos canonical, nrm, cam, vis, dom, port [N], port4 [N, 4], w4 [N, 4]) -> radiance [N, 3] and parts."""
     out = torch.zeros(px["pos"].shape[0], 3, device=T.dev); parts = torch.zeros(px["pos"].shape[0], 4, 3, device=T.dev)
     for o in (0, 1):
         K = T.Ks[o]; m = torch.nonzero(px["dom"] == o)[:, 0]
@@ -221,8 +221,8 @@ def render_pixels(T: Tables, S: State, px, chunk=1 << 14):
             Ls = (C.E_SUN * (n * S.w).sum(-1).clamp(min=0) * px["vis"][ii])[:, None, None].expand(-1, 1, 3)
             loc = K.loc_response(n, wo, rho, kap, alpha, S.w.expand_as(n)[:, None], Ls)
             ind = torch.zeros_like(loc)
-            for q in range(px["ports4"].shape[1]):
-                pq = px["ports4"][ii, q]; wq = px["w4"][ii, q]
+            for q in range(px["port4"].shape[1]):
+                pq = px["port4"][ii, q]; wq = px["w4"][ii, q]
                 use = pq >= 0
                 if not use.any():
                     continue
@@ -239,3 +239,17 @@ def render_pixels(T: Tables, S: State, px, chunk=1 << 14):
             parts[ii, 0], parts[ii, 1], parts[ii, 2], parts[ii, 3] = loc, ind, glob, band + midt
             out[ii] = loc + ind + glob + band + midt
     return out, parts
+
+
+@torch.no_grad()
+def uniform_albedo(T: Tables):
+    """Passivity diagnostic: effective hemispherical albedo pi * I_s / E of every port under a uniform, isotropic unit
+    incident radiance field on all ports of its domain (E = pi per port, spread uniformly over the 19 bins by solid
+    angle of the cosine-weighted bins). Values > 1 mark ports whose learned response amplifies energy."""
+    H = np.full((T.N, C.K_GATHER), -1, np.int64)
+    S = State(T, H, np.zeros(T.N, bool), np.array([0.0, 0.0, 1.0]))
+    S.L = torch.ones(T.N, C.K_GATHER, 3, device=T.dev, dtype=torch.float16)          # unit radiance from every gather direction
+    Eind, h = S.incident_aggregates()
+    I, _ = S.outgoing_iso(Eind, h)
+    return (math.pi * I / Eind.clamp(min=1e-9)).cpu().numpy()
+

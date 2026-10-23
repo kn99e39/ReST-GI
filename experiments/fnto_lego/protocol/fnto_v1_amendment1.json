@@ -7,7 +7,9 @@
   "training machine LabServer63 (user decision, recorded in fnto_v1.json before the declaring commit); fnto_train.to_t / image_sun transfer native dtypes and convert on the GPU (identical values)",
   "fnto_eval: port sun visibility may be precomputed per view on the PC (Mitsuba; fnto_eval.py vis -> eval_vis.npz) so that the solve/render evaluation can run without Mitsuba; the measured precompute time per view is the reported visibility cost",
   "fnto_eval: the declared first-event decomposition is implemented (--first <dir>): K with the coupling switched off vs fnto_firstevent_render references; descriptive only",
-  "fnto_exports.py added (reviewer images; no metric)"
+  "fnto_exports.py added (reviewer images; no metric)",
+  "fnto_solve.render_pixels reads px['port4'] (key-name bug found in the server evaluation smoke run with the discarded smoke kernels; no semantic change)",
+  "fnto_solve.uniform_albedo added as a descriptive passivity diagnostic (effective albedo pi I / E under a uniform unit incident field); the discarded smoke kernels diverged in the server evaluation smoke run and showed 26 % of ports > 1"
  ],
  "unchanged": "all model, data, training hyper-parameters, solver settings, arms, metrics and outcome rules"
 }
