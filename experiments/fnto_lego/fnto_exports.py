@@ -126,5 +126,70 @@ def main(evdir, sdir=None):
     print(json.dumps(manifest, indent=1))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and sys.argv[1] != "outcome":
     main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else None)
+
+
+def outcome(arrays_path):
+    """Panels for the measured outcome (the full FNTO composition diverged on every held-out view; K-only evidence)."""
+    Z = np.load(arrays_path); B = np.load(C.B4 / "eval/views.npz"); Sp = np.load(C.SPT / "eval/views.npz")
+    EV.mkdir(parents=True, exist_ok=True); res = 1024
+    manifest = {"display": "x/(1+x)^(1/2.2)", "error_scale": ESCALE, "files": {}, "sources": {"arrays": str(arrays_path)}}
+
+    def img(set_name, v, key, ch=3):
+        x = np.zeros((res * res, ch), np.float32); x[Z[f"{set_name}_v{v}_mk"]] = Z[f"{set_name}_v{v}_{key}"].astype(np.float32).reshape(len(Z[f"{set_name}_v{v}_mk"]), -1)[:, :ch]
+        return x.reshape(res, res, ch)
+    for set_name, tag in (("heldout_T0", "T0"), ("heldout_T1", "T1")):
+        for v in (6, 15):
+            first, kon, full = (C.ldr3(img(set_name, v, k)) for k in ("first", "konly", "full"))
+            m = (full.sum(-1) > 0).astype(np.float32)
+            rem = C.ldr3(np.clip(img(set_name, v, "full") - img(set_name, v, "first"), 0, None) * 2)
+            grid([([first, kon, err(kon, first, m) if False else err_rgb(np.abs(kon - first).mean(-1) * m)], ["first-event reference (1024 spp)", "FNTO K only (frozen, coupling off)", "|error| 0..0.15"]),
+                  ([full, rem, np.zeros_like(full)], ["full-GI reference (4096 spp)", "reference remainder (full - first) x2", "FNTO full composition: diverged (no image)"])],
+                 EV / f"01_K_only_vs_first_event_{tag}_view{v}.png")
+    alb = img("heldout_T0", 6, "albedo", 1)[..., 0]; chg = img("heldout_T1", 6, "relchg", 1)[..., 0]
+    acol = np.stack([np.clip(alb / 3, 0, 1), np.clip(1 - np.abs(alb - 1) * 2, 0, 1) * 0.6, np.clip(1 - alb / 1.0, 0, 1)], -1) * (alb[..., None] > 0)
+    parts = img("heldout_T0", 6, "parts", 12)
+    grid([([acol, np.stack([chg] * 3, -1), C.ldr3(parts[..., 0:3])], ["port albedo under uniform light (blue <1, green ~1, red >=3)", "ports with an updated relation row (T1)", "K_loc delta sun"]),
+          ([C.ldr3(parts[..., 6:9]), C.ldr3(parts[..., 9:12]), C.ldr3(img("heldout_T0", 6, "first"))], ["K_glob (sun only)", "K_band + K_mid (sun only)", "first-event reference"])],
+         EV / "02_passivity_and_components_T0_view6.png")
+    rows = []
+    for j in sorted({int(k.split("_")[1]) for k in Z.files if k.startswith("stagea_")}):
+        pix = Z[f"stagea_{j}_pix"]
+        def to_img(a):
+            x = np.zeros((512 * 512, 3), np.float32); x[pix] = a.astype(np.float32); return x.reshape(512, 512, 3)
+        r, p = C.ldr3(to_img(Z[f"stagea_{j}_ref"])), C.ldr3(to_img(Z[f"stagea_{j}_pred"]))
+        m = (r.sum(-1) > 0).astype(np.float32)
+        rows.append(([r, p, err_rgb(np.abs(p - r).mean(-1) * m)], [f"Stage A holdout probe {j} (512 spp)", "FNTO K prediction", "|error| 0..0.15"]))
+    grid(rows, EV / "03_stage_a_holdout_probes.png", scale=0.8)
+    dg = json.loads((C.OUT / "diag/diag.json").read_text())["D2_growth_T0_view6"]
+    W_, H_ = 900, 420; canvas = Image.new("RGB", (W_, H_), (255, 255, 255)); d = ImageDraw.Draw(canvas)
+    cols = [(0, 0, 0), (60, 120, 220), (220, 60, 60), (40, 160, 70), (160, 60, 200), (230, 140, 20)]
+    ymax = 13.0; x0, y0, x1, y1 = 60, 20, 860, 380
+    d.rectangle([x0, y0, x1, y1], outline=(0, 0, 0)); d.line([x0, y1 - (1 / ymax) * (y1 - y0), x1, y1 - (1 / ymax) * (y1 - y0)], fill=(150, 150, 150))
+    d.text((x0 - 50, y1 - (1 / ymax) * (y1 - y0) - 6), "1.0", fill=(0, 0, 0)); d.text((x0, y1 + 8), "Jacobi iteration (T0 coupling graph, held-out T0 view 6)", fill=(0, 0, 0))
+    d.text((x0 - 55, y0), f"{ymax:.0f}x", fill=(0, 0, 0))
+    for k, (name, g) in enumerate(dg.items()):
+        pts = [(x0 + i * (x1 - x0) / 11, y1 - min(r, ymax) / ymax * (y1 - y0)) for i, r in enumerate(g) if r is not None]
+        if len(pts) > 1:
+            d.line(pts, fill=cols[k], width=3)
+        d.text((x1 - 230, y0 + 10 + 16 * k), f"{name}" + (" (diverged)" if None in g[1:] else ""), fill=cols[k])
+    d.text((x0 + 10, y0 + 6), "growth of incident energy per iteration (ratio)", fill=(0, 0, 0))
+    canvas.save(EV / "04_multibounce_growth_by_component.png")
+    r0 = C.ldr3(np.zeros((res, res, 3)))
+    t0 = np.zeros((res * res, 3), np.float32); t0[Z["heldout_T0_v6_mk"]] = Z["heldout_T0_v6_full"].astype(np.float32); t0 = C.ldr3(t0.reshape(res, res, 3))
+    grid([([t0, B["heldout_T0_v6_RNA_T0"].astype(np.float32).reshape(res, res, 3), C.ldr3(Sp["heldout_T0_v6_S_T0"].astype(np.float32)[..., :3]), r0],
+           ["T0 reference", "RNA_T0 (historical)", "SPT-1 S_T0 (historical, NOT SUPPORTED)", "FNTO S_T0: diverged"])], EV / "05_static_T0_view6_arms.png")
+    for f in sorted(EV.glob("*.png")):
+        manifest["files"][f.name] = hashlib.sha256(f.read_bytes()).hexdigest()[:16]
+    for f in ("verdict.json", "eval.json"):
+        src = C.OUT / "eval_main" / f
+        if src.exists():
+            (EV / f).write_bytes(src.read_bytes()); manifest["files"][f] = C.sha16(src)
+    for f in ("diag/diag.json", "eval_main/stagea/stagea_eval.json", "eval_main/passivity.json", "contracts.json"):
+        src = C.OUT / f; (EV / Path(f).name).write_bytes(src.read_bytes()); manifest["files"][Path(f).name] = C.sha16(src)
+    (EV / "manifest.json").write_text(json.dumps(manifest, indent=1)); print(json.dumps(manifest, indent=1))
+
+
+if __name__ == "__main__" and sys.argv[1] == "outcome":
+    outcome(sys.argv[2])
