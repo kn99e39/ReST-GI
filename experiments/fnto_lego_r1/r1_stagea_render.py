@@ -169,7 +169,7 @@ def free_space_ok(p, depsgraph, sc):
 
 
 def sample_config(S, i, split, rng, depsgraph, sc):
-    fams, w = zip(*FAMILY[split]); fam = fams[int(np.searchsorted(np.cumsum(w), rng.random()))]
+    fams, w = zip(*FAMILY.get(split, FAMILY["train"])); fam = fams[int(np.searchsorted(np.cumsum(w), rng.random()))]
     z = rng.uniform(0, 0.9999) if rng.random() < 0.7 else -rng.uniform(0, 0.9999); ph = rng.uniform(0, 2 * np.pi)
     cam = (np.array([math.sqrt(1 - z * z) * math.cos(ph), math.sqrt(1 - z * z) * math.sin(ph), z]) * 2.75).tolist()
     box = None
@@ -242,7 +242,7 @@ def main():
         print(f"img {i} {cfg['family']} lights={len(cfg['lights'])} {cfg['render_s']:.1f}s px={int(m.sum())} total={time.time() - t0:.0f}s", flush=True)
     meta = {"split": split, "n": n, "seed": seed, "res": res, "spp": spp, "blend": str(BLEND), "paths": "intrinsic-all (free-space hits absorbed)",
             "clamp": [0, 0], "filter": "BOX 0.01 px", "max_bounces": 128, "radiometry": "sun S -> E = S; point/spot P -> I = P/(4 pi) W/sr (r1_calib)",
-            "families": FAMILY[split], "seconds": time.time() - t0}
+            "families": FAMILY.get(split, FAMILY["train"]), "seconds": time.time() - t0}
     (od / "meta.json").write_text(json.dumps(meta, indent=1)); print("done", json.dumps(meta))
 
 
