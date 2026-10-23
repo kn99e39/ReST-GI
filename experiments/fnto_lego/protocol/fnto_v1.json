@@ -1,0 +1,89 @@
+{
+ "protocol": "fnto_v1",
+ "batch": "Architecture Batch 6 - Factorized Neural Transport Operator (FNTO) v0.1 implementation and physical-edit validation",
+ "worklog": 41,
+ "authorisation": "user brief 'ReST-GI - Architecture Batch 6, FNTO v0.1 Initial Implementation & Physical-Edit Validation' (2026-10-23)",
+ "contract": "docs/FNTO_ARCHITECTURE_CONTRACT_V0_1.md (authoritative); implementation mapping experiments/fnto_lego/IMPLEMENTATION_DESIGN.md",
+ "declared": "2026-10-23, after the renderer-semantics study, the relation build (T0, T1, incremental), the synthetic contract tests A-F on the production code, a 100-step training smoke run on the Stage A holdout split (pipeline / speed only; its numbers are not evidence and it is discarded) and a 1-view evaluation smoke run with those smoke kernels (aborted, timing only); BEFORE the main Stage A training and before any FNTO evaluation on held-out Lego data.",
+ "pre_declaration_changes": [
+  "hit mapping: triangle-centroid ports -> hit-point cluster keys (q99 hit->port distance 0.42 m -> 9 mm); inside faces of closed solids are blocked",
+  "hit points recomputed in float64 from (o, t, d) for deterministic mapping",
+  "K_mid (mid-range coarse-port kernel) added after contract B (first run, without K_mid) showed 70-140 % errors on the unlit side at 3-25 cm: a representation gap between K_band (5 cm) and the low-rank K_glob",
+  "band source bins 7 -> 19 while diagnosing contract C; contract C training steps 1500 -> 4000 after its first run under-fitted (loss still falling; FAIL 0.223 -> PASS 0.160 in the diagnostic); contract B criterion per-channel -> energy-weighted (blue reference ~0); both first-run outcomes are kept in contracts.json",
+  "solver: sender-side indirect glossy folded into the isotropic part (cost); delta-sun glossy kept exact; band sender weights evaluated on the fly"
+ ],
+ "hypothesis": "A learned intrinsic optical-domain operator K (per domain, trained only on isolated-domain first-intrinsic-event probes with spatially localised incident light) composed with current-geometry free-space coupling C (ray-cast relations incl. same-asset exposed paths) reproduces the full-GI held-out Lego at near-RNA fidelity and recovers the held-out T1 box edit with every learned parameter bit-identical and no T1 supervision.",
+ "renderer_semantics": "results/fnto_lego/semantics/{semantics.json, semantics_glass.json}: Burley SSS object-scoped and material-agnostic at entry; not across objects; not a bounce; first intrinsic event = max 1 / diffuse 0 / glossy 0 / transmission 1",
+ "domains_and_ports": "A = official Lego object (intrinsic: local BSDF events, object-wide Burley, glass-solid traversal), B = red box; ports 463,614 + 1,702 (1.2 cm clusters, mesh-complete); coarse ports 38,090 (4 cm)",
+ "kernel": {
+  "K_loc": "learned per-point diffuse + 2 GGX lobes (alpha in [0.01, 1]), delta sun exact, indirect per gather direction",
+  "K_glob": "rank 64 per colour (A), 8 (B), non-negative p, q, cosine-weighted entry, isotropic exit",
+  "K_band": "32 ports within 5 cm, 19 hemispherical source bins, w_o-dependent non-negative weights",
+  "K_mid": "64 coarse ports within 30 cm, irradiance entry, w_o-dependent non-negative weights",
+  "fields": "A: TriField 512^2 + 64^2, 8 channels; B: 64^2 + 16^2; material embedding 8; heads width 128 (2 hidden), band/mid MLPs width 64 (2 hidden)",
+  "linearity": "no nonlinearity after the contraction with radiance (contract F: superposition 1.4e-7, scaling by -2.5 6.2e-7, zero input 0)",
+  "parameters": "A 6,531,047; B 202,335 (all persistent, all owned by their domain)"
+ },
+ "coupling": "ray-cast relation tables (128 cosine gathers per port, 59.6 M rays); hits -> facing-side cluster port, inside-solid hits blocked, misses dark; incremental update after a rigid move (slab test on the moved domain's old/new bounds, 1 mm margin) used for the decisive arm; learned coupling rule C_phi = empty set in this implementation (declared; contract section 6 question 3 is not answered)",
+ "solve": "Jacobi over per-port incident samples; stop at relative L1 change < 1e-3, max 100 iterations; divergence detection; sender outgoing = isotropic part + exact delta-sun glossy (declared approximations: indirect glossy folded isotropically with lobe albedo 1, band/mid at w_o = n)",
+ "stage_a_data": {
+  "renders": "fnto_stagea_render.py, 512^2, 512 spp, clamp_direct 20, first intrinsic event; train 1,400 (seed 1001), holdout 120 (seed 2002), superposition 12 triples (seed 3003)",
+  "stimuli": "one sun (70 % upper / 30 % lower hemisphere), 0-10 shadow-only mask spheres (70 % of images), box translated randomly (25 % absent), never within 0.25 m of T1; cameras radius 2.75, 70 % above / 30 % below",
+  "never_used_for_training": "any full-scene (free-space interreflection) image, any T1 geometry or reference, the held-out T0/T1 sets"
+ },
+ "training": {
+  "script": "fnto_train.py",
+  "steps": 24000,
+  "images_per_step": 4,
+  "pixels_per_image": 16384,
+  "loss": "L2 on log(1 + radiance)",
+  "optimiser": "Adam 1e-3, cosine to 1e-5",
+  "gamma": "unbiased importance sampling of 32,768 ports per domain per step (training only)",
+  "seed": 0,
+  "final_weights": true,
+  "holdout_monitor": "every 4000 steps on 40 holdout images, monitoring only, nothing selected",
+  "machine": "LabServer63 (RTX 3080 Ti 12 GB; user decision 2026-10-23 after the PC GPU was occupied by an unrelated process); smoke peak memory 5.4 GiB; wall-clock reported as measured"
+ },
+ "evaluation": {
+  "sets": "worklog-37 held-out T0 and T1 (16 views, 1024^2, reference = mean of Cycles seeds 1/2 = 4096 spp, inputs from seed 1), regions from results/rna_selective_reconstruction_lego/eval/views.npz, box pixels = owner label 16, material = traced triangle",
+  "arms": {
+   "A_RNA": "historical RNA_T0 / RNA_T1 (worklog 37 eval.json), fidelity controls (per-state supervised)",
+   "B_SO": "historical Surface-Owned A_full-PU / B_sel-PU / SO_T0-PU (worklogs 37-38), T1-supervised except frozen",
+   "C_SPT1": "historical SPT-1 (worklog 39 eval.json), negative representation control, unchanged",
+   "S_T0": "FNTO K + T0 coupling state on held-out T0 (static representability)",
+   "D_stale": "FNTO K + T0 coupling state (relations rel_T0, T0 port sun visibility) on held-out T1 inputs (pixel sun visibility from the T1 inputs, as for SPT-1 D_stale)",
+   "E_upd": "FNTO K + T1 coupling state (incremental relations rel_T1_inc, T1 port sun visibility): no parameter change, no T1 supervision",
+   "E_full": "E_upd with a full T1 relation rebuild (check of the incremental update)",
+   "F_oracle": "not run unless the first-event decomposition cannot separate K from C errors"
+  },
+  "metrics": "worklog-37 definitions (view-mean and pooled display PSNR, HDR logL1, hf |e|, display MSE per region), per material (traced triangle), lit / shadowed (pixel sun visibility), solve iterations / residual / divergence, timing"
+ },
+ "outcome_rules": {
+  "static": "S = view-mean(S_T0) - view-mean(RNA_T0 = 33.569): credible >= -1.0 dB; weak in [-2.0, -1.0); fail < -2.0",
+  "material_screen": "held-out T0 display MSE ratio FNTO / RNA_T0 (RNA per material and lit/shadow from worklog 39 diag files): yellow, reflective pooled (Gray, Black, Light_brown, Sand, Brown), shadowed pixels: each <= 3.0 for SUPPORTED; glass pooled (0.6 % of pixels) reported, flagged if > 5",
+  "factorization_effect": "F = E_stale / E_upd on A_changed (display MSE)",
+  "recovery": "R_RNA = (E_stale - E_upd) / (E_stale - E_RNA_T1) on A_changed with E_RNA_T1 = 0.000598 (worklog 37); undefined if E_stale <= E_RNA_T1. R_Afull with A_full-PU = 0.000431 reported",
+  "whole_image": "W = view-mean(E_upd) - view-mean(RNA_T1 = 33.495)",
+  "SUPPORTED": "static credible AND material screen passes AND F >= 1.5 AND R_RNA >= 0.7 AND W >= -1.0 dB AND kernel parameters bit-identical across all arms AND every view converged without divergence AND contracts A-F pass",
+  "NOT_SUPPORTED": "static fail OR F < 1.1 OR R_RNA < 0.3 OR divergence on any held-out view (non-passive composed operator) OR an information-path contract (B, C, D) fails",
+  "CONDITIONAL": "otherwise",
+  "descriptive_only": "comparison with RNA / Surface-Owned (T1-supervised) and SPT-1; B region; hf; per-view; costs; first-event decomposition; superposition probes; Stage A holdout"
+ },
+ "attribution_diagnostics": [
+  "Stage A holdout: first-event fidelity of K alone under unseen spatial patterns, per material and lit/shadow",
+  "superposition probes: Cycles(two suns) vs Cycles(sun 1) + Cycles(sun 2) (renderer linearity incl. the direct clamp) and FNTO(i1 + i2)",
+  "first-event decomposition of held-out T0/T1: fnto_firstevent_render.py references (same cameras / suns, first intrinsic event) vs FNTO K[e] (coupling off); remainder (full - first) vs FNTO (full - first)",
+  "E_full vs E_upd output difference (incremental relation ties)",
+  "solve residual decay rate per view (spectral-radius estimate)"
+ ],
+ "cost_accounting": "Stage A render (CPU) and prep, training (GPU), kernel tables, relation full build and incremental update (selection + trace/map), port sun visibility per view, state solve per view, pixel render per view, end-to-end edit-to-render (incremental relations + visibility + solve + render), parameter bytes and state bytes; reference rendering separately (never used by E_upd)",
+ "do_not_tune": [
+  "port resolution, gather count, bins, neighbour counts and radii",
+  "model sizes, ranks, steps, batch, loss, optimiser, schedule",
+  "solver tolerance and iteration cap",
+  "thresholds above",
+  "which arms are evaluated",
+  "Stage A data"
+ ],
+ "stop": "report and stop at the verdict; no rescue heuristics, no second architecture family, no automatic next batch"
+}

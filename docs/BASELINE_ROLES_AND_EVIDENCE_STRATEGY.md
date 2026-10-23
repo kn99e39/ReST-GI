@@ -6,6 +6,8 @@
 
 ## FNTO Evidence and Baseline Separation (2026-10-23)
 
+**2026-10-23 (Batch 6, user brief "FNTO v0.1 Initial Implementation & Physical-Edit Validation"): IMPLEMENTATION AUTHORISED.** The user authorised one bounded architecture batch that implements `docs/FNTO_ARCHITECTURE_CONTRACT_V0_1.md` (authoritative for the representation; intrinsic optical-domain K with exposed same-asset free-space paths in C, a=b allowed) and evaluates it on the official Lego + red box held-out T0/T1 edit (worklog 41; exports `results/evaluation/41/`). Required: reference-renderer semantics study (Christensen-Burley SSS scope) before main kernel training, isolated-domain spatial/directional probe supervision of K, synthetic contracts A-F on the production code, predeclared screening rules, arms A-F (historical RNA / Surface-Owned / SPT-1 unchanged; FNTO stale / updated / optional oracle diagnostic), full cost accounting and a SUPPORTED / CONDITIONAL / NOT SUPPORTED verdict. Not authorised: a learned dirty-unit selector, a second architecture family after a failure, SPT-1 modification, changes to historical baselines, automatic start of a later batch. No FNTO result exists yet. Historical RNA, Surface-Owned and SPT-1 arms are reused as recorded; their roles do not change.
+
 Read [FNTO Architecture Contract v0.1](FNTO_ARCHITECTURE_CONTRACT_V0_1.md) before designing new representation comparisons.
 
 - **RNA:** static full-material fidelity control including shadow-side SSS/glass.
