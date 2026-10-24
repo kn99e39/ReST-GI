@@ -72,7 +72,8 @@ K_band 19 bins, K_mid; linear in radiance, non-negative).
 - **Solver (`r1_solve.py`):** Jacobi on per-port incident samples; converged at relative change < 1e-3; diverged when the
   median of the last 5 successive-residual ratios ≥ 1 after iteration 8 or values are non-finite; unconverged at 100.
 - **References r1 (`r1_refs_render.py`, LabServer63):** full GI max_bounces 32, 4096 spp; first_r1 1024 spp; same
-  cameras / suns / pixel lists as worklog 37; GAUSSIAN 0.01 (amendment 2). **[pending: a2 refs]**
+  cameras / suns / pixel lists as worklog 37; GAUSSIAN 0.01 (amendment 2); rendered 12:28–19:25 KST 2026-10-24 (full
+  ≈ 680 s per view, first ≈ 97 s); alpha agreement with the historical masks 99.91 % (full) / 99.95 % (first).
 - **Protocol:** `experiments/fnto_lego_r1/protocol/fnto_r1.json` (cc2827d) with amendments 1 (cc2827d) and 2 (4d5525d),
   both recorded before any r1 training; verdict rules fixed in `r1_verdict.py` before results.
 
