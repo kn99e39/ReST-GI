@@ -88,19 +88,19 @@ class Tables:
             for s in range(0, len(ii), chunk):
                 jj = ii[s:s + chunk]; nb = self.nbr[jj]; nbc = nb.clamp(min=0)
                 W = Kk.band_w(self.hp[jj], self.hs[o][nbc], self.nrm[jj], self.bnrm[nbc], (self.bpos[nbc] - self.pos[jj][:, None]) / C.R_LOCAL, self.nrm[jj])
-                out[jj] = torch.einsum("pkbc,pkb->pc", W * (self.nbrA[jj] * (nb >= 0))[..., None, None], hB[nbc])
+                out[jj] = torch.einsum("pkbc,pkbc->pc", W * (self.nbrA[jj] * (nb >= 0))[..., None, None], hB[nbc])
         return out
 
 
 class State:
     def __init__(self, T: Tables, H, Vfrac, w_sun, sun_strength=C.E_SUN):
         dev = T.dev; self.T = T
-        self.H = torch.as_tensor(np.asarray(H).astype(np.int64), device=dev); self.Hc = self.H.clamp(min=0); self.valid = self.H >= 0
+        H = torch.as_tensor(np.asarray(H).astype(np.int64), device=dev); self.Hc = H.clamp(min=0); self.valid = H >= 0; del H
         self.w = torch.as_tensor(w_sun, dtype=torch.float32, device=dev)
         self.Esun = sun_strength * (T.nrm @ self.w).clamp(min=0) * torch.as_tensor(Vfrac, dtype=torch.float32, device=dev)
         td, bd = T.detf; self.sunbin = M.hemi_bin(torch.stack([td @ self.w, bd @ self.w, T.nrm @ self.w], -1))
         self.L = torch.zeros(T.N, C.K_GATHER, 3, device=dev, dtype=torch.float16)
-        self.spec = torch.empty_like(self.L)
+        self.spec = torch.empty_like(self.L); self.spec_max = 0.0; self.spec_clamped = 0   # fp16 storage guard (recorded per view)
         with torch.no_grad():
             for s in range(0, T.N, 1 << 14):
                 sl = slice(s, s + (1 << 14)); hit = self.Hc[sl]; wq = -T.dirs[sl].float(); n_s = T.nrm[hit]
@@ -108,7 +108,8 @@ class State:
                 for l in range(2):
                     g = M.ggx(n_s, self.w.expand_as(wq), wq, T.alpha[hit][..., l:l + 1])
                     sp += T.kap[hit][..., l, :] * g * self.Esun[hit][..., None]
-                self.spec[sl] = (sp * self.valid[sl][..., None]).half()
+                sp = sp * self.valid[sl][..., None]; self.spec_max = max(self.spec_max, float(sp.max())); self.spec_clamped += int((sp > 65000.0).sum())
+                self.spec[sl] = sp.clamp(max=65000.0).half()
 
     def aggregates(self, chunk=1 << 15):
         T = self.T; w = math.pi / C.K_GATHER
@@ -139,12 +140,12 @@ class State:
         if not sun_on:
             h[torch.arange(self.T.N, device=self.T.dev), self.sunbin] -= self.Esun[:, None]
         I = self.outgoing(Eind, h, sun_on).half()
-        Ln = torch.empty_like(self.L)
+        Ln = torch.empty_like(self.L); dn2 = nn2 = 0.0                       # norms chunk-wise: no full fp32 copies of L
         for s in range(0, self.T.N, 1 << 16):
             sl = slice(s, s + (1 << 16)); Ln[sl] = I[self.Hc[sl]] * self.valid[sl][..., None] + (self.spec[sl] if sun_on else 0)
-        dn = float((Ln.float() - self.L.float()).norm()); nn = float(Ln.float().norm())
+            a = Ln[sl].float(); dn2 += float((a - self.L[sl].float()).square().sum()); nn2 += float(a.square().sum())
         self.L = Ln
-        return dn, nn
+        return math.sqrt(dn2), math.sqrt(nn2)
 
     @torch.no_grad()
     def solve(self, tol=TOL, max_it=MAX_IT):
@@ -173,13 +174,13 @@ def spectral_radius(T, H, iters=40, seed=0):
     """Power iteration of the homogeneous composed map (no sun): rho = lim ||L_{k+1}|| / ||L_k||."""
     S = State(T, H, np.zeros(T.N), np.array([0.0, 0.0, 1.0]))
     g = torch.Generator(device=T.dev); g.manual_seed(seed)
-    S.L = (torch.rand(S.L.shape, generator=g, device=T.dev) * S.valid[..., None]).half()
+    S.L = torch.rand(S.L.shape, generator=g, device=T.dev, dtype=torch.float16); S.L.mul_(S.valid[..., None])
     rates = []
     for _ in range(iters):
         n0 = float(S.L.float().norm()); S.step(sun_on=False); n1 = float(S.L.float().norm())
         if not np.isfinite(n1) or n1 == 0:
             rates.append(float("inf") if not np.isfinite(n1) else 0.0); break
-        rates.append(n1 / n0); S.L = (S.L.float() / n1 * 1e3).half()
+        rates.append(n1 / n0); S.L.mul_(1e3 / n1)
     return {"rho_estimate": float(np.median(rates[-10:])) if rates else None, "rates": rates}
 
 

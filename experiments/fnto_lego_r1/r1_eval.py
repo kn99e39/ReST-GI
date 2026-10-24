@@ -26,6 +26,7 @@ from __future__ import annotations
 import argparse
 import json
 import time
+import traceback
 from pathlib import Path
 
 import numpy as np
@@ -104,6 +105,7 @@ def metrics(pr, tgt, masks, mat, vis, hf):
 def run(a):
     import r1_solve as SV
     import fnto_model as M
+    from scipy.spatial import cKDTree
     dev = torch.device("cuda"); KA, KB = load_kernels(a.kernels, dev); dig0 = M.digest(KA, KB)
     T = SV.Tables(KA, KB, dev)
     rel = {k: np.load(C.OUT1 / f"rel_{k}.npz")["hit"] for k in ("T0", "T1", "T1_inc")}
@@ -119,10 +121,13 @@ def run(a):
             "heldout_T1": {"K_only": (None, "T1"), "D_stale": ("T0", "T0"), "E_upd": ("T1_inc", "T1"), "E_relfull": ("T1", "T1")}}
     preds = {}; views = {}
     for set_name, arms in plan.items():
-        D = np.load(PX / f"{set_name}.npz"); res = int(D["res"]); nv = int(D["nv"]); acc = {}
+        D = np.load(PX / f"{set_name}.npz"); res = int(D["res"]); nv = int(D["nv"]); acc = {}; acc_all = {}
         for v in range(nv):
             g = lambda k: D[f"v{v}_{k}"]  # noqa: E731
             valid = g("valid").astype(bool); mk = g("mk")
+            rec.setdefault("pixels", {}).setdefault(set_name, []).append({"v": v, "alpha": int(len(mk)), "valid": int(valid.sum())})
+            yx = np.stack([mk // res, mk % res], 1)                                           # nearest traced pixel for the all-pixel row
+            nn_idx = cKDTree(yx[valid]).query(yx[~valid])[1] if (~valid).any() else np.zeros(0, np.int64)
             px = {k: torch.as_tensor(g(k)[valid].astype(np.float32 if k in ("pos", "nrm", "cam", "vis") else np.int64), device=dev)
                   for k in ("pos", "nrm", "cam", "vis", "dom", "port")}
             tg = {"hist": g("tgt")[valid]}
@@ -148,6 +153,9 @@ def run(a):
                 preds[(set_name, n, v)] = pr
                 views[f"{set_name}_v{v}_{n}"] = np.concatenate([pr, parts.reshape(len(pr), -1).cpu().numpy()], 1).astype(np.float16)
                 views[f"{set_name}_v{v}_vidx"] = mk[valid].astype(np.int32)                 # for r1_exports (reviewer panels)
+                if n != "K_only":                                                           # declared extra row: all alpha>0 pixels, hist target
+                    pr_all = np.empty((len(mk), 3), np.float32); pr_all[valid] = pr; pr_all[~valid] = pr[nn_idx]
+                    e_all = ((C.ldr3(pr_all) - C.ldr3(g("tgt"))) ** 2).mean(1); acc_all.setdefault(n, []).append((float(e_all.sum()), int(len(e_all)), float(e_all.mean())))
                 for t_name, tgt in tg.items():
                     if n == "K_only" and t_name != "first_r1":
                         continue
@@ -155,26 +163,42 @@ def run(a):
                         continue
                     q = acc.setdefault((n, t_name), []); q.append(metrics(pr, tgt, masks, mat, vis, hf))
                 rec["per_view"].setdefault(set_name, {}).setdefault(n, []).append({"v": v, "status": S.status, "iters": S.iters, "solve_s": S.solve_s, "render_s": tr,
-                                                                                   "resid_hist": S.hist, "ratio_hist": S.ratio})
+                                                                                   "resid_hist": S.hist, "ratio_hist": S.ratio,
+                                                                                   "spec_max": getattr(S, "spec_max", 0.0), "spec_clamped": getattr(S, "spec_clamped", 0)})
                 print(set_name, v, n, S.status, S.iters, flush=True)
                 del S
         rows = {}
-        for (n, t_name), lst in acc.items():
-            sq = np.array([x["mse"] for x in lst])
+        for (n, t_name), lst_all in acc.items():
+            sq_all = np.array([x["mse"] for x in lst_all]); ok = np.isfinite(sq_all); lst = [x for x, o_ in zip(lst_all, ok) if o_]
+            pv_psnr = [float(10 * np.log10(1 / q)) if np.isfinite(q) and q > 0 else None for q in sq_all]
+            if not lst:                                                                     # every view non-finite (diverged): nothing to pool
+                rows[f"{n}|{t_name}"] = {"view_mean_psnr": float("nan"), "per_view_psnr": pv_psnr, "views_pooled": 0, "views_excluded_nonfinite": int((~ok).sum())}
+                continue
+            sq = sq_all[ok]
             reg = {k: [sum(x["reg"][k][0] for x in lst), sum(x["reg"][k][1] for x in lst)] for k in lst[0]["reg"]}
             matt = np.array([x["mat"] for x in lst]).sum(0)
-            rows[f"{n}|{t_name}"] = {"view_mean_psnr": float(np.mean(10 * np.log10(1 / sq))), "per_view_psnr": (10 * np.log10(1 / sq)).tolist(),
+            rows[f"{n}|{t_name}"] = {"view_mean_psnr": float(np.mean(10 * np.log10(1 / sq))), "per_view_psnr": pv_psnr,
+                                     "views_pooled": int(ok.sum()), "views_excluded_nonfinite": int((~ok).sum()),
                                      "pooled_psnr": float(10 * np.log10(reg["all"][1] / reg["all"][0])),
                                      "logl1": sum(x["logl1_sum"] for x in lst) / sum(x["n3"] for x in lst), "hf_abs": float(np.mean([x["hf"] for x in lst])),
                                      "regions": {k: {"mse": (v_[0] / v_[1]) if v_[1] else None, "px": v_[1]} for k, v_ in reg.items()},
                                      "materials": {(C.MATERIALS[i] if i < 8 else "B"): {"mse": float(matt[i, 0] / matt[i, 1]) if matt[i, 1] else None, "px": int(matt[i, 1])} for i in range(9)},
                                      "lit_mse": sum(x["lit"][0] for x in lst) / max(sum(x["lit"][1] for x in lst), 1),
                                      "shadow_mse": sum(x["shadow"][0] for x in lst) / max(sum(x["shadow"][1] for x in lst), 1)}
+        for n, lst in acc_all.items():
+            m = np.array([x[2] for x in lst]); ok = np.isfinite(m)
+            rows[f"{n}|hist_allpx_nnfill"] = {"view_mean_psnr": float(np.mean(10 * np.log10(1 / m[ok]))) if ok.any() else float("nan"),
+                                              "pooled_psnr": float(10 * np.log10(sum(x[1] for x, o_ in zip(lst, ok) if o_) / max(sum(x[0] for x, o_ in zip(lst, ok) if o_), 1e-30))),
+                                              "views_pooled": int(ok.sum()), "note": "all alpha>0 pixels; untraced pixels take the prediction of the nearest traced pixel (declared extra row, not a protocol input)"}
         rec["sets"][set_name] = rows
+        out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
+        (out / "eval_partial.json").write_text(json.dumps(rec, indent=1, default=float))
+    np.savez_compressed(out / "views.npz", **views)
     # signed change on Lego pixels present in both views
     D0 = np.load(PX / "heldout_T0.npz"); D1 = np.load(PX / "heldout_T1.npz")
     for t_name in ("hist", "r1"):
-        acc = {"A_changed": [], "stationary": []}
+      try:
+        acc = {"A_changed": [], "stationary": []}; skipped = []
         for v in range(int(D1["nv"])):
             mk0, mk1 = D0[f"v{v}_mk"], D1[f"v{v}_mk"]; va0, va1 = D0[f"v{v}_valid"].astype(bool), D1[f"v{v}_valid"].astype(bool)
             lego0 = (D0[f"v{v}_dom"] == 0) & va0; lego1 = (D1[f"v{v}_dom"] == 0) & va1
@@ -187,29 +211,33 @@ def run(a):
                 r0 = refs["r1"]["heldout_T0"][f"v{v}_rgb"][lego0][i0]; r1_ = refs["r1"]["heldout_T1"][f"v{v}_rgb"][lego1][i1]
             p0 = preds[("heldout_T0", "S_T0", v)][np.cumsum(va0)[lego0] - 1][i0]          # predictions exist only for valid pixels
             pu = preds[("heldout_T1", "E_upd", v)][np.cumsum(va1)[lego1] - 1][i1]; ps = preds[("heldout_T1", "D_stale", v)][np.cumsum(va1)[lego1] - 1][i1]
+            if not (np.isfinite(p0).all() and np.isfinite(pu).all() and np.isfinite(ps).all()):
+                skipped.append(v); continue                                                 # a non-finite (diverged) view would poison the pools
             chg = z[f"heldout_T1_v{v}_reg_A_changed"].ravel()[common]
             lum = lambda x: x @ np.array([0.2126, 0.7152, 0.0722])  # noqa: E731
             dr, du, ds = lum(r1_ - r0), lum(pu - p0), lum(ps - p0)
             for key, m in (("A_changed", chg), ("stationary", ~chg)):
                 acc[key].append((dr[m], du[m], ds[m]))
-        out = {}
+        sc = {}
+        drs = np.concatenate([x[0] for x in acc["stationary"]]) if acc["stationary"] else np.zeros(0)
+        sigma = float(1.4826 * np.median(np.abs(drs - np.median(drs)))) if len(drs) else 0.0; thr = 3 * sigma   # T0/T1 reference noise: MAD of the stationary pool
         for key, lst in acc.items():
             if not lst:
                 continue
             dr = np.concatenate([x[0] for x in lst]); du = np.concatenate([x[1] for x in lst]); ds = np.concatenate([x[2] for x in lst])
-            thr = 3 * np.std(dr[np.abs(dr) < np.quantile(np.abs(dr), 0.5)]) if len(dr) else 0
             big = np.abs(dr) > thr
             f = lambda d: {"corr": float(np.corrcoef(d, dr)[0, 1]) if np.std(d) > 0 else None,  # noqa: E731
                            "slope": float((d * dr).sum() / max((dr * dr).sum(), 1e-30)),
                            "sign_agree_where_ref_change_gt_noise": float((np.sign(d[big]) == np.sign(dr[big])).mean()) if big.any() else None,
                            "explained_fraction": float(1 - ((d - dr) ** 2).sum() / max((dr ** 2).sum(), 1e-30))}
-            out[key] = {"px": int(len(dr)), "ref_change_threshold": float(thr), "px_ref_change_gt_threshold": int(big.sum()),
-                        "E_upd": f(du), "D_stale": f(ds)}
-        rec["signed_change"][t_name] = out
+            sc[key] = {"px": int(len(dr)), "noise_sigma_stationary_mad": sigma, "ref_change_threshold": float(thr), "px_ref_change_gt_threshold": int(big.sum()),
+                       "E_upd": f(du), "D_stale": f(ds)}
+        sc["skipped_views_nonfinite"] = skipped
+        rec["signed_change"][t_name] = sc
+      except Exception:                                                                     # keep the arms' results even if this block fails
+        rec["signed_change"][t_name] = {"error": traceback.format_exc()}
     rec["kernel_parameters_bit_identical"] = M.digest(KA, KB) == dig0
     rec["peak_mem_gib"] = torch.cuda.max_memory_allocated() / 2 ** 30
-    out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
-    np.savez_compressed(out / "views.npz", **views)
     (out / "eval.json").write_text(json.dumps(rec, indent=1, default=float))
     for s_, rows in rec["sets"].items():
         print(s_, {n: round(r["view_mean_psnr"], 3) for n, r in rows.items()})
