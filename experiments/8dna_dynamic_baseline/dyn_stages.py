@@ -288,7 +288,7 @@ def stage_design() -> None:
     s = chosen[0]
     st = {"T1_in": {"centre": chosen[2], "placement": chosen[1]}}
     t0_tries = []
-    for cx, cz in ((0.45, -0.90), (0.85, -0.50), (0.90, -0.20)):
+    for cx, cz in ((0.85, -0.30), (0.90, -0.20), (0.95, 0.0)):  # flat-top spots checked by the code review (spread < 0.008)
         c, info = _place(scene, verts, cx, cz, s, ["table"], 0.05 + s + 0.05, inside=False, aabb=aabb)
         t0_tries.append({"xz": [cx, cz], "ok": c is not None, **info})
         if c is not None:

@@ -63,7 +63,7 @@
       "size_rule": "first valid (placement, s) for T1_in in the order (centre, 0.12), (centre, 0.10), (centre, 0.08), (front_left, 0.12); all E2 states use that s",
       "in_envelope_placements": {"centre": "(0.01, rest on tray, -0.03): the free cell between milk pot, tea pot and tin", "front_left": "(-0.33, rest on tray, 0.33)"},
       "states": {
-        "T0": "first valid of centre (0.45, rest on table, -0.90) and (0.90, rest on table, -0.20): on the flat table top behind the tea pot (the cloth is flat only to radius about 1.1)",
+        "T0": "first valid of centre (0.85, rest on table, -0.30), (0.90, rest, -0.20), (0.95, rest, 0.0): on the flat table top on the far (+x) side, outside the teaset AABB (the cloth is flat only to radius about 1.1 and rises near r = 1.0)",
         "T1_out": "centre x = aabb.min.x - 0.03 - s/2, z = -0.33 (beside the milk pot, outside the tray), on the table",
         "T1_in": "the chosen in-envelope placement, on the tray (inside the teaset AABB, between parts)"
       },
