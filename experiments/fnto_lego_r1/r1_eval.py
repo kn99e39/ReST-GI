@@ -117,7 +117,7 @@ def run(a):
         print("spectral radius", k, rec["spectral_radius"][k]["rho_estimate"], flush=True)
     plan = {"heldout_T0": {"K_only": (None, "T0"), "S_T0": ("T0", "T0")},
             "heldout_T1": {"K_only": (None, "T1"), "D_stale": ("T0", "T0"), "E_upd": ("T1_inc", "T1"), "E_relfull": ("T1", "T1")}}
-    preds = {}
+    preds = {}; views = {}
     for set_name, arms in plan.items():
         D = np.load(PX / f"{set_name}.npz"); res = int(D["res"]); nv = int(D["nv"]); acc = {}
         for v in range(nv):
@@ -146,6 +146,8 @@ def run(a):
                 t = time.time(); pr, parts = SV.render_pixels(T, S, px); torch.cuda.synchronize(); tr = time.time() - t
                 pr = pr.cpu().numpy()
                 preds[(set_name, n, v)] = pr
+                views[f"{set_name}_v{v}_{n}"] = np.concatenate([pr, parts.reshape(len(pr), -1).cpu().numpy()], 1).astype(np.float16)
+                views[f"{set_name}_v{v}_vidx"] = mk[valid].astype(np.int32)                 # for r1_exports (reviewer panels)
                 for t_name, tgt in tg.items():
                     if n == "K_only" and t_name != "first_r1":
                         continue
@@ -205,7 +207,9 @@ def run(a):
                         "E_upd": f(du), "D_stale": f(ds)}
         rec["signed_change"][t_name] = out
     rec["kernel_parameters_bit_identical"] = M.digest(KA, KB) == dig0
+    rec["peak_mem_gib"] = torch.cuda.max_memory_allocated() / 2 ** 30
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
+    np.savez_compressed(out / "views.npz", **views)
     (out / "eval.json").write_text(json.dumps(rec, indent=1, default=float))
     for s_, rows in rec["sets"].items():
         print(s_, {n: round(r["view_mean_psnr"], 3) for n, r in rows.items()})

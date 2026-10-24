@@ -18,6 +18,7 @@ sys.path.insert(0, str(HERE.parent / "fnto_lego"))
 from fnto_common import *  # noqa: E402,F401,F403
 import fnto_common as C0  # noqa: E402
 
+HERE1 = Path(__file__).resolve().parent   # this directory (HERE is fnto_lego's after the star import)
 OUT1 = C0.ROOT / "results/fnto_lego_r1"
 H_PLANE = 0.003          # plane-offset quantisation along the dominant normal axis [m]
 S_PORT = 4               # surface samples per port (visibility average, gather origins)
