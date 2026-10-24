@@ -27,6 +27,20 @@ Labels used throughout: **[PAPER]** claim of arXiv 2604.25129v1 (section/figure/
   are session artefacts; every load-bearing claim below was re-checked against code or paper text.
 - **Lego geometry check** [MEAS, numpy on `lego_mesh.npz`, server CPU] (§E.1).
 - **Protocol `8dna_dyn_v1`** written before any render of its scenes (`experiments/8dna_dynamic_baseline/protocol/dyn_v1.json`).
+- **Code review before any render** (3 lenses: API, protocol consistency, metrics/orchestration; adversarial verification):
+  18 findings confirmed and fixed, 9 rejected. Two would have stopped the chain at the design stage (the seal OBJ contains a
+  closed cuboid pedestal filling the AABB footprint up to y = 0.1218, so the in-envelope box now sits on the pedestal top
+  beside the figure; the first E2 T0 spot lay on the cloth's draped edge). Others: the E3 bunny's albedo grid did not move
+  with the instance (Mitsuba media ignore instance transforms); receivers now exclude box-filter footprints touching other
+  classes (1-pixel erosion); paired-seed noise estimators; SSIM defined without scikit-image; parameter checks that stop the
+  chain; declared 5-update median. The protocol file records this revision. Commits `c1bcc81`, `56112b4`.
+- **Synthetic CPU test of the evaluation** (`test_eval_synthetic.py`, server CPU): fabricated inputs with known answers are
+  classified TRACKED / NOT_TRACKED as constructed; it caught a classifier bug (a fully stale, zero-variance change was
+  labelled NOISE_LIMITED instead of NOT_TRACKED).
+- **No GPU dry run was possible before FNTO finishes**: beside the 11 GB FNTO training only ~1.2 GB is free; dry renders
+  ran out of memory at DrJit initialisation and texture allocation, and a geometry-only design pass stalled on DrJit cache
+  flushes. The chain therefore runs a full dry pass (32², ≤ 16 spp) right after FNTO and starts the real stages only if
+  every dry stage passes.
 
 ---
 
