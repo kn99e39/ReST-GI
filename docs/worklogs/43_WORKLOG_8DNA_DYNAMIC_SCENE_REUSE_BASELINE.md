@@ -88,9 +88,22 @@ its own, baked).
 
 ## B. Reproduced results
 
-**Pending** (stage `static`, LabServer63, official environment torch 2.3.1 / Mitsuba 3.5.1 / DrJit 0.4.6). Earlier PC
-results for comparison [REPO WL21–22, RTX 5080, compatibility environment torch 2.8]: seal `scene2` official notebook
-protocol 26.61 dB vs its own wavefront `prbvolpath` reference; teaset `get_scene` 512² 29.20 dB vs wavefront `prb`.
+[MEAS] Stage `static`, LabServer63 RTX 3080 Ti, **official environment** (python 3.10, torch 2.3.1+cu121, Mitsuba 3.5.1,
+DrJit 0.4.6, demo-notebook JIT flags LoopRecord = VCallRecord = False), released checkpoints, upstream code unmodified,
+commit `56112b4`. Display transform of the notebook; each machine against its own references (never pooled).
+
+| official demonstration | 8DNA vs own reference (PSNR / SSIM) | 8DNA seed repeat | reference A vs B | neural time | reference time (one) | PC RTX 5080, compatibility env [REPO WL21–22] |
+|---|---|---|---|---|---|---|
+| seal `scene2`, 256², `neuralpath`, 256 spp; reference C++ `volpath` 2 × 32,768 spp | 26.56 dB / 0.775 | 25.34 dB | 29.75 dB | 21.0 s | 1,791 s | 26.61 dB / 0.773, repeat 25.34 dB |
+| teaset `get_scene`, 512², 256 spp; reference C++ `path` 2 × 2,048 spp | 29.20 dB / 0.895 | 34.66 dB | 44.05 dB | 36.9 s | 39.3 s | 29.20 dB / 0.892, repeat 34.66 dB |
+
+- The released models reproduce their PC numbers on the official stack to within 0.05 dB; the seal's error is at the level
+  of the neural render's own seed noise at 256 spp, the teaset's is not (it sits in part-to-part reflections [REPO WL21]).
+- Reference integrators: stage 0 found C++ `volpath`/`path` equivalent to the scenes' own `prbvolpath`/`prb` (128², 2,048 spp
+  each: MSE 0.0107 vs 0.0109 between two `prbvolpath` seeds, mean ratio 0.998; `path` vs `prb` 4.30e-5 vs 4.15e-5, ratio
+  0.9997). VCallRecord = False renders at launch size (0.91 s per 4 spp), so the notebook value is used.
+- Learned parameters bit-identical before/after; no non-finite pixel. Peak torch memory 0.51 GB (seal) / 2.47 GB (teaset);
+  process GPU memory up to 10.5 GiB for teaset at 512² (DrJit caching).
 
 ---
 
