@@ -1,0 +1,118 @@
+{
+  "protocol": "8dna_dyn_v1",
+  "worklog": 43,
+  "declared": "2026-10-24, before any 8DNA or reference render of these scenes",
+  "revision_before_any_render": "2026-10-24: after an independent code review and a CPU-only synthetic test of the evaluation, and before any render of these scenes: E1 in-envelope box moved onto the seal's cuboid pedestal (the OBJ contains a closed pedestal filling the AABB footprint up to y = 0.1218), E1 size order [0.18, 0.12]; E2 T0 moved onto the flat table top; E3 bunny albedo grid moved with the instance; receivers eroded by one pixel; paired-seed noise estimators; SSIM defined; non-finite handling; ladder noise-floor correction; VCallRecord decided from render time; parameter check in every rendering process; a dry pass of every stage gates the real run",
+  "question": "What can a fixed, released 8DNA asset recover after a rigid edit of another object in its scene, when the rest of the scene is ordinary path-traced geometry, and at what fidelity, transport coverage and cost?",
+  "scope_note": "Official 8DNA assets in their own Mitsuba scenes, plus an explicit red box (and in E3 a second learned asset). This is NOT the ReST-GI Lego edit and its numbers are not comparable with Lego/Cycles results. The Lego edit is analysed separately at code/geometry level (box inside the Lego AABB and convex hull at T0 and T1).",
+  "host": {
+    "machine": "LabServer63 (RTX 3080 Ti 12 GB) only; every render of this protocol, references included, on this one machine",
+    "start_condition": "after the WL42 FNTO server chain: after_train.status starts with 'done' and a2_refs.status starts with 'done', and no GPU compute process for 10 minutes (user decision 2026-10-24: run after FNTO, on the server); if either FNTO status reads 'failed', the chain stops with status 'blocked' and does not start",
+    "dry_pass": "before the real stages, every stage runs at 32x32 and <= 16 spp into a separate folder (never evidence); any failure stops the chain",
+    "yield_rule": "before every render, wait while another process holds more than 500 MiB of GPU memory",
+    "environment": "upstream pins: python 3.10, torch 2.3.1+cu121, mitsuba 3.5.1, drjit 0.4.6, variant cuda_ad_rgb; ~/NeuralShaderDemo/external/8dna26 at 4a2157ca24e506c5ac0831f27d656ecc50a64f07, unmodified",
+    "optix_fix": "source server/mi_env.sh (LD_LIBRARY_PATH = 595.71.05 OptiX user-space libraries); every process ends with os._exit after writing outputs (DrJit 0.4.6 jit_shutdown leak-report crash)",
+    "jit_flags": "LoopRecord False (demo notebook, all renders). VCallRecord False (demo notebook) unless the launch-size probe's 4-spp renders (seal 256^2, teaset 512^2; timed after model load) take more than 600 s or the probe does not finish within 1200 s; then True (WL21: on/off agree to 1.1e-5). A False probe that fails for another reason fails stage 0. The value used is recorded."
+  },
+  "learned_state": {
+    "checkpoints": "released seal.ckpt, teaset.ckpt, bunny.ckpt; sha256 recorded; no training, no fine-tuning, no parameter update anywhere in this protocol",
+    "parameter_check": "sha256 of every asset model's state_dict before the first and after the last render of every rendering process (static, neural, ladder, cost); a mismatch stops the chain"
+  },
+  "integrators": {
+    "neural": "neuralpath, max_depth 10, rr_depth 5 (demo notebook); one asset_<instance id> key per learned asset; integrator.is_prepared reset for every new scene and asset lanes counted to prove every learned asset was active",
+    "reference_volume": "volpath (C++), max_depth -1, rr_depth 5, if stage 0 shows it matches the scenes' own prbvolpath (MSE(volpath, prbvolpath_A) <= 1.5 x MSE(prbvolpath_A, prbvolpath_B), display space, seal scene2 128^2, 2048 spp each); otherwise prbvolpath",
+    "reference_surface": "path (C++), max_depth -1, rr_depth 5, under the same rule against the scene's prb (teaset 128^2, 2048 spp)",
+    "reference_direct_only": "path, max_depth 2 (surface experiment E2 only)"
+  },
+  "display": "d(x) = clamp(max(x,0)^(1/2.2), 0, 1) (demo notebook / ednalib); PSNR = -10 log10(mean display MSE); SSIM on d(x): Gaussian window 11x11, sigma 1.5, K1 0.01, K2 0.03, mean over channels and pixels; HDR metrics: linear relMSE (x-r)^2/(r^2+1e-2) and logL1 |log1p(x)-log1p(r)|",
+  "box": {
+    "shape": "Mitsuba cube (axis aligned), side s, diffuse, rests on the support below it with a 2 mm gap (support height from 5x5 downward rays in the box-absent scene)",
+    "red": [0.75, 0.03, 0.02],
+    "black": [0.0, 0.0, 0.0],
+    "variants": {"red": "full box", "black": "occluder only (reflectance 0)", "absent": "no box; one scene shared by all states of an experiment"}
+  },
+  "geometry_validity": {
+    "out_of_envelope": "box AABB disjoint from the asset AABB with clearance >= 0.02",
+    "in_envelope": "box AABB entirely inside the asset AABB; inset 10 mm from the asset AABB's x and z faces",
+    "no_intersection": "no hit along all 28 corner-to-corner segments of the box (12 edges, 12 face diagonals, 4 space diagonals) in the box-absent scene, and no asset vertex inside the box grown by 1 mm",
+    "support": "the 25 footprint rays must hit the declared support with height spread < 0.02 (E1 T0/T1_out: floor; E1 T1_in: the seal instance, i.e. the top face of its pedestal; E2 T0/T1_out: table; E2 T1_in: the teaset instance, i.e. the tray)",
+    "in_envelope_bottom": "bottom = max(rest height, asset AABB min y + 0.002)",
+    "if_invalid": "design stage stops; no automatic redesign except the declared size/placement orders below"
+  },
+  "experiments": {
+    "B_static": {
+      "what": "official demonstrations on the server's official environment",
+      "seal_scene2": {"res": 256, "neural_spp": 256, "neural_seeds": [0, 100000], "ref_spp": 32768, "ref_seeds": [200000, 300000], "ref_chunk": 64},
+      "teaset_get_scene": {"res": 512, "neural_spp": 256, "neural_seeds": [0, 100000], "ref_spp": 2048, "ref_seeds": [200000, 300000], "ref_chunk": 16},
+      "comparison": "each machine against its own references only (WL21/WL22 PC rows: seal 26.61 dB, teaset 29.20 dB wavefront); cross-machine values are reported side by side, never pooled"
+    },
+    "E1_seal_box": {
+      "scene": "seal scene2 (demo notebook: seal on glossy floor, area light 1600), 256^2, + red box",
+      "asset_aabb": "from the instance bbox at runtime (OBJ: [-0.6553,-0.3641,-0.6553]..[0.6553,0.7012,0.6553]); the OBJ's first 8 vertices form a closed cuboid pedestal [-0.6553,-0.3641,-0.6553]..[0.6553,0.1218,0.6553] that is part of the jade asset; the figure above it spans |x| <= 0.449, |z| <= 0.626",
+      "size_rule": "s = first of [0.18, 0.12] for which an in-envelope placement is valid; all E1 states use that s",
+      "states": {
+        "T0": "centre (2.4, rest on floor, 2.4): far, behind-right",
+        "T1_out": "centre x = 0.30, z = aabb.min.z - 0.04 - s/2, on the floor: in front of the pedestal's right half, toward light and camera",
+        "T1_in": "first valid corner of the pedestal top in the order front-right (+x,-z), front-left (-x,-z), back-right (+x,+z), back-left (-x,+z), inset 10 mm, resting on the pedestal top: inside the AABB, beside the figure"
+      },
+      "spp": {"neural": 1024, "neural_chunk": 4, "ref": 32768, "ref_chunk": 64}
+    },
+    "E2_teaset_box": {
+      "scene": "teaset scene1 (official: table cloth, wall, envmap), 512^2, + red box",
+      "asset_aabb": "instance bbox at runtime (OBJ union: [-0.7166,0,-0.7205]..[0.7166,0.6903,0.7205])",
+      "size_rule": "first valid (placement, s) for T1_in in the order (centre, 0.12), (centre, 0.10), (centre, 0.08), (front_left, 0.12); all E2 states use that s",
+      "in_envelope_placements": {"centre": "(0.01, rest on tray, -0.03): the free cell between milk pot, tea pot and tin", "front_left": "(-0.33, rest on tray, 0.33)"},
+      "states": {
+        "T0": "first valid of centre (0.45, rest on table, -0.90) and (0.90, rest on table, -0.20): on the flat table top behind the tea pot (the cloth is flat only to radius about 1.1)",
+        "T1_out": "centre x = aabb.min.x - 0.03 - s/2, z = -0.33 (beside the milk pot, outside the tray), on the table",
+        "T1_in": "the chosen in-envelope placement, on the tray (inside the teaset AABB, between parts)"
+      },
+      "spp": {"neural": 1024, "neural_chunk": 4, "ref": 8192, "ref_chunk": 16, "ref_direct_only": 2048}
+    },
+    "E3_seal_bunny": {
+      "scene": "seal scene2 floor + area light with two learned assets: seal (instance0, stationary) and bunny (instance1, mover, released bunny BSDF and medium; the medium's albedo grid is translated with the instance); camera theta 60, phi 240, r 6.75, target (-0.70, 0.10, 0.0), fov 35; 256^2",
+      "states": {
+        "T0": "bunny translated by (-(0.6553 + 0.60 + 0.7087), -0.367 + 0.003 + 0.5943, 0): AABB gap 0.60 to the seal",
+        "T1": "bunny AABB gap 0.08 to the seal (translation x = -(0.6553 + 0.08 + 0.7087))"
+      },
+      "check": "stage 0: identity vs translated bunny instance and camera under the bunny's distant envmap, same seeds: display MSE <= 0.1 x the MSE between two seeds",
+      "spp": {"neural": 1024, "neural_chunk": 4, "ref": 32768, "ref_chunk": 64},
+      "role": "descriptive: learned-asset to learned-asset free-space coupling under an edit; no box"
+    }
+  },
+  "seeds": {
+    "reference_A": "1000000 + chunk index", "reference_B": "2000000 + chunk index",
+    "reference_direct_A": "1500000 + chunk index", "reference_direct_B": "2500000 + chunk index",
+    "neural_main": "0 + chunk index (same in every state and variant: paired random numbers)",
+    "neural_repeat": "100000 + chunk index",
+    "ladder_neural": 500000, "ladder_reference": 600000,
+    "pairing_note": "references of every state and variant share the A (and B) seeds, so differences between states are paired; noise of differences is estimated from A-B differences, not assumed independent"
+  },
+  "regions": {
+    "classes": "per pixel from one pixel-centre camera ray per scene: asset instance, other learned asset, box, support (floor/table/wall), light, background",
+    "receivers": "for a state pair (T0, Tx): pixels whose class is the (stationary) asset in T0, Tx and the absent scene after eroding each of these asset masks by one pixel (3x3), so pixels whose box-filter footprint can touch the box or another class are excluded",
+    "A_changed": "receiver pixels with max over RGB of |box5(d(G_Tx)) - box5(d(G_T0))| > max(2 tau, 4 sigma), tau = 0.005, sigma = std over the receivers of box5[(d(A_Tx) - d(A_T0)) - (d(B_Tx) - d(B_T0))] / 2",
+    "G": "mean of reference A and B"
+  },
+  "metrics": {
+    "static": "per state and variant: full-frame display PSNR/SSIM; asset-pixel (eroded) display MAE, linear relMSE, logL1; noise floors neural main vs repeat and reference A vs B",
+    "change": "dG = G(Tx) - G(T0), dN = N(Tx) - N(T0) (main seeds), linear RGB on receivers: gain = <dN,dG>/<dG,dG>, Pearson corr, rel_err = ||dN-dG||/||dG||; sign agreement where |lum dG| > 3 sigma_lum",
+    "noise": "reference noise of dG: rms of ((A_Tx - A_T0) - (B_Tx - B_T0))/2; neural noise of dN: rms of (dN_main - dN_repeat)/sqrt(2); sigma_lum: the reference estimator on luminance",
+    "recovery": "on A_changed, display MSE: R = (E_stale - E_upd)/(E_stale - E_static); E_stale = MSE(N_T0, G_Tx), E_upd = MSE(N_Tx, G_Tx), E_static = MSE(N_T0, G_T0); undefined if E_stale - E_static <= 0; F = E_stale/E_upd",
+    "families": "occlusion dX_occ = X_black(Tx) - X_absent; reflection dX_refl = X_red(Tx) - X_black(Tx); gain/corr/rel_err of dN vs dG on the eroded asset receivers of (Tx, absent); E2 also splits the reference occlusion change into direct (max_depth 2) and indirect (rest)",
+    "signal_gate": "a change is classified only if rms(dG) > 3 x its reference noise and > 3 x its neural noise, both on the same receivers",
+    "classification": "INVALID_NONFINITE if any receiver pixel of an input is non-finite or a metric is non-finite; NOISE_LIMITED if the signal gate fails; TRACKED if gain in [0.8,1.25], corr >= 0.8 and (where defined) R >= 0.8; NOT_TRACKED if gain < 0.4 or gain > 2.0 or corr < 0.5 (an undefined corr counts as 0) or R < 0.4; otherwise PARTIAL. Descriptive labels for this baseline only; not a verdict on FNTO."
+  },
+  "code_derived_hypotheses": {
+    "H1": "an edit whose box stays outside the asset AABB is tracked (TRACKED) with zero parameter updates, because every segment outside the AABB is path traced in the current scene",
+    "H2": "an edit that places the box inside the asset AABB is not fully tracked: learned internal paths, learned NEE from the AABB exit and continuation from the exit ignore the box (code audit A4 case b)",
+    "H3": "learned-to-learned asset coupling (E3) is path traced and tracked like H1"
+  },
+  "cost": {
+    "per_render": "wall time with CUDA sync (warm: one discarded warm-up render per process), torch peak allocated, process GPU memory (nvidia-smi max), non-finite pixel count",
+    "queries": "one instrumented 4-spp render per scene: learned lanes in eval_asset and sample_asset, rays (lanes x calls) of scene.ray_intersect / ray_intersect_preliminary / ray_test / sample_emitter_direction in the Python neural integrator; reported per pixel per spp",
+    "edit_update": "one scene, box moved T0 <-> T1_out by mi.traverse vertex updates, 10 alternating params.update() calls: the declared value is the median of the 5 T0 -> T1 updates; then a full render at the protocol spp, compared with the separately loaded T1_out scene at the same seeds; no learned state exists to update",
+    "matched_quality": "E1 T1_out and E2 T1_out, variant red: neural spp {16,64,256,1024} and reference spp {16,64,256,1024,4096}; display MSE and linear relMSE vs G on the full frame and on the receivers of (T0, T1_out) against warm wall time; each error is floor-corrected by subtracting G's own error 0.25 x error(A, B) on the same pixels (raw values reported too); equal-error and equal-time ratios by log-log interpolation, beyond the ladder by MSE ~ 1/time",
+    "offline": "no training in this protocol; cite paper Tab. 3 (1.78 h surface, 2.23 h volumetric pre-bake) and WL27 (teaset re-bake 1.76 h on the RTX 5080)"
+  }
+}
