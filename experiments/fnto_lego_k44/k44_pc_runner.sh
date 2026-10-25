@@ -21,7 +21,7 @@ st "running: prep smoke"
 K44_MAX_IMAGES=3 $PY -u k44_prep.py holdout >> $LG 2>&1 || { st "failed: prep smoke"; exit 1; }
 $PY - <<EOF || { st "failed: prep smoke gate"; exit 2; }
 import json, sys
-m = json.load(open(r"$O/stagea/prep2smoke_holdout/meta.json"))
+m = json.load(open(r"$(cygpath -w $O/stagea/prep2smoke_holdout/meta.json)"))
 f10 = m["bits_1to0"] / max(m["pixel_light_pairs"], 1); print(m)
 sys.exit(0 if (f10 <= 0.003 and m["bits_0to1"] > 0) else 1)
 EOF
