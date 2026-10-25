@@ -1,14 +1,17 @@
 #!/usr/bin/env bash
 # Worklog 43 / protocol 8dna_dyn_v1 orchestrator on LabServer63. Runs every stage in order without a session and stops at
 # the first failing stage.
-#   default: waits for the WL42 FNTO chain (after_train.status and a2_refs.status both 'done ...'; user decision
-#            2026-10-24: 8DNA runs after FNTO, on the server), then for 10 minutes with no GPU compute process; then a
-#            dry pass of every stage (EDNA_DRYRUN=1: 32x32, <= 16 spp, into $W/out_dry, never evidence) as a code-path
-#            gate; only if all dry stages pass, the real stages into $W/out.
-#   --dry  : only the dry pass, now, without waiting (needs a GPU with a few GB free; it does not fit beside a 11 GB job).
+#   default        : waits for the WL42 FNTO chain (after_train.status and a2_refs.status both 'done ...'; user decision
+#                    2026-10-24: 8DNA runs after FNTO, on the server), then for 10 minutes with no GPU compute process;
+#                    then a dry pass of every stage (EDNA_DRYRUN=1: 32x32, <= 16 spp, into $W/out_dry, never evidence) as a
+#                    code-path gate; only if all dry stages pass, the real stages into $W/out.
+#   --dry          : only the dry pass, now, without waiting (needs a GPU with a few GB free; it does not fit beside a
+#                    11 GB job).
+#   --resume STAGE : continue a failed real run from STAGE (no waiting, no dry pass, earlier stages kept); stage refs
+#                    reuses every reference whose sidecar matches.
 # Status: $W/launcher/dyn_chain.status ; step log: $W/launcher/dyn_chain_runs.log ; per-stage logs $W/launcher/<stage>[_dry].log
 # Launch (from the checkout's experiments/8dna_dynamic_baseline):
-#   mkdir -p ~/rest_8dna_baseline/launcher && setsid -f nohup bash server/run_dyn_chain.sh [--dry] \
+#   mkdir -p ~/rest_8dna_baseline/launcher && setsid -f nohup bash server/run_dyn_chain.sh [--dry | --resume STAGE] \
 #       > ~/rest_8dna_baseline/launcher/dyn_chain.stdout.log 2>&1 < /dev/null
 set -u
 W=$HOME/rest_8dna_baseline
@@ -25,9 +28,11 @@ st() { echo "$1 $(date -Is)" > "$Lg/dyn_chain.status"; }
 log() { echo "$1 $(date -Is)" >> "$Lg/dyn_chain_runs.log"; }
 cd "$X"
 source server/mi_env.sh || { st "failed: mi_env"; exit 1; }
-log "start commit=$(git rev-parse --short HEAD 2>/dev/null) dirty=$(git status --porcelain 2>/dev/null | wc -l) args=${1:-}"
+MODE=${1:-}
+FROM=${2:-}
+log "start commit=$(git rev-parse --short HEAD 2>/dev/null) dirty=$(git status --porcelain 2>/dev/null | wc -l) args=$MODE $FROM"
 
-if [ "${1:-}" != "--dry" ]; then
+if [ -z "$MODE" ]; then
   st "waiting: FNTO chain"
   while true; do
     a=$(cat "$F/after_train.status" 2>/dev/null); r=$(cat "$F/a2_refs.status" 2>/dev/null)
@@ -54,20 +59,28 @@ run() {  # run <label> <script> [args]
 }
 STAGES="smoke design static refs neural ladder cost"
 
-# dry pass: code-path gate at 32x32 / <= 16 spp
-export EDNA_DRYRUN=1 EDNA_OUT=$W/out_dry
-rm -rf "$EDNA_OUT"; mkdir -p "$EDNA_OUT"
-for s in $STAGES; do run "${s}_dry" dyn_stages.py "$s"; done
-run eval_dry dyn_eval.py
-run exports_dry dyn_exports.py
-log "dry pass complete"
-if [ "${1:-}" = "--dry" ]; then st "done (dry only)"; exit 0; fi
+if [ "$MODE" != "--resume" ]; then
+  # dry pass: code-path gate at 32x32 / <= 16 spp
+  export EDNA_DRYRUN=1 EDNA_OUT=$W/out_dry
+  rm -rf "$EDNA_OUT"; mkdir -p "$EDNA_OUT"
+  for s in $STAGES; do run "${s}_dry" dyn_stages.py "$s"; done
+  run eval_dry dyn_eval.py
+  run exports_dry dyn_exports.py
+  log "dry pass complete"
+  if [ "$MODE" = "--dry" ]; then st "done (dry only)"; exit 0; fi
+fi
 
-# real stages
+# real stages (from FROM when resuming)
 unset EDNA_DRYRUN
 export EDNA_OUT=$W/out
 mkdir -p "$EDNA_OUT"
-for s in $STAGES; do run "$s" dyn_stages.py "$s"; done
+go=1
+[ "$MODE" = "--resume" ] && go=0
+for s in $STAGES; do
+  [ "$s" = "$FROM" ] && go=1
+  [ $go = 1 ] && run "$s" dyn_stages.py "$s"
+done
+[ $go = 1 ] || { st "failed: unknown resume stage $FROM"; exit 1; }
 run eval dyn_eval.py
 run exports dyn_exports.py
 st "done"

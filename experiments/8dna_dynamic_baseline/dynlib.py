@@ -31,6 +31,7 @@ RED = PROTOCOL["box"]["red"]
 BLACK = PROTOCOL["box"]["black"]
 # EDNA_DRYRUN=1: code-path check of every stage at 32x32 and <= 16 spp, never evidence
 DRY = os.environ.get("EDNA_DRYRUN") == "1"
+MAX_LANES = 512 * 512 * 16  # per mi.render launch on the 12 GB RTX 3080 Ti
 
 
 def R(res: int) -> int:
@@ -402,14 +403,24 @@ def render(scene, integ, spp: int, chunk: int, seed0: int) -> tuple[np.ndarray, 
     n = spp // chunk
     if n * chunk != spp:
         raise ValueError("spp must be a multiple of chunk")
+    w, h = [int(v) for v in scene.sensors()[0].film().size()]
+    if w * h * chunk > MAX_LANES:
+        # a 16.7 M-lane launch exhausted the 12 GB GPU and DrJit never recovered (worklog 43, 2026-10-25)
+        raise ValueError(f"{w}x{h}x{chunk} = {w * h * chunk} lanes per launch exceeds {MAX_LANES}")
     yield_gpu()
+    dr.flush_malloc_cache()  # release the previous scene's cached allocations before a new launch size
     sync()
     t = time.perf_counter()
+    last = t
     acc = None
     for k in range(n):
         img = mi.render(scene, integrator=integ, spp=chunk, seed=seed0 + k)
         acc = img if acc is None else acc + img
         dr.eval(acc)
+        if time.perf_counter() - last > 60:  # liveness for the stage log (a stalled log means a stalled render)
+            dr.sync_thread()
+            last = time.perf_counter()
+            print(f"    chunk {k + 1}/{n} {last - t:.0f}s", flush=True)
     out = np.array(acc, dtype=np.float32)[..., :3] / n
     sync()
     return out, time.perf_counter() - t

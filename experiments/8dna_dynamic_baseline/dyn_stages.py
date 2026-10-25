@@ -396,7 +396,7 @@ def stage_refs() -> None:
             tg = tag(state, variant)
             jobs = [(f"{tg}_{ab}", integ, L.S(c["ref"], c["ref_chunk"]), seed) for ab, seed in seeds.items()]
             if direct is not None and variant in ("black", "absent"):
-                jobs += [(f"{tg}_direct_{ab}", direct, L.S(c["ref_direct_only"], 64), seed + 500000) for ab, seed in seeds.items()]
+                jobs += [(f"{tg}_direct_{ab}", direct, L.S(c["ref_direct_only"], c["ref_chunk"]), seed + 500000) for ab, seed in seeds.items()]
             for name, ig, (spp, chunk), seed in jobs:
                 f = out / exp / f"{name}.npy"
                 meta = {"placements_sha256": psha, "integrator": "path_md2" if ig is direct else fl["ref_volume" if e["kind"] == "volume" else "ref_surface"],
