@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import time
 import traceback
 from pathlib import Path
@@ -109,11 +110,11 @@ def run(a):
     dev = torch.device("cuda"); KA, KB = load_kernels(a.kernels, dev); dig0 = M.digest(KA, KB)
     T = SV.Tables(KA, KB, dev)
     rel = {k: np.load(C.OUT1 / f"rel_{k}.npz")["hit"] for k in ("T0", "T1", "T1_inc")}
-    pv = np.load(C.OUT1 / "eval_vis.npz"); z = np.load(C.B4 / "eval/views.npz")
+    pv = np.load(C.OUT1 / os.environ.get("R1_EVAL_VIS", "eval_vis.npz")); z = np.load(C.B4 / "eval/views.npz")   # WL44 candidate: eval_vis_k44.npz
     refs = {}
     for t_name, f_name in (("r1", "full"), ("first_r1", "first")):
         refs[t_name] = {s: (dict(np.load(C.OUT1 / f"refs/{s}_{f_name}.npz")) if (C.OUT1 / f"refs/{s}_{f_name}.npz").exists() else None) for s in SETS}
-    rec = {"kernels": str(a.kernels), "spectral_radius": {}, "sets": {}, "per_view": {}, "signed_change": {}}
+    rec = {"kernels": str(a.kernels), "eval_vis": os.environ.get("R1_EVAL_VIS", "eval_vis.npz"), "spectral_radius": {}, "sets": {}, "per_view": {}, "signed_change": {}}
     for k in ("T0", "T1_inc"):
         rec["spectral_radius"][k] = SV.spectral_radius(T, rel[k])
         print("spectral radius", k, rec["spectral_radius"][k]["rho_estimate"], flush=True)

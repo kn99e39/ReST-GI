@@ -77,12 +77,12 @@ def run_mi(i, n):
     np.save(WORK / f"mi_{i}.npy", np.array(rows, np.int64)); print("mi", i, len(rows), flush=True)
 
 
-def run_bpy(i):
+def run_bpy(i, n=400):
     sys.path.insert(0, os.environ.get("RNA_DIR", str(HERE.parents[1] / "external/relightable-neural-assets")))
     import bpy
     from mathutils import Vector
     import r1_stagea_render as SR
-    rows = np.load(WORK / f"mi_{i}.npy"); cfg, P = pairs(i, len(np.unique(rows[:, 0])))
+    rows = np.load(WORK / f"mi_{i}.npy"); cfg, P = pairs(i, n)
     key = {(k, jl): (p, nn, w, dist) for k, jl, p, nn, w, dist, _ in P}
     scn = SR.Scene(64, 1); scn.apply(dict(cfg)); dg = bpy.context.evaluated_depsgraph_get(); sc = bpy.context.scene
     bl = []
@@ -107,4 +107,4 @@ if __name__ == "__main__":
     if sys.argv[1] == "mi":
         run_mi(int(sys.argv[2]), int(sys.argv[3]) if len(sys.argv) > 3 else 600)
     else:
-        a = sys.argv[sys.argv.index("--") + 1:]; run_bpy(int(a[0]))
+        a = sys.argv[sys.argv.index("--") + 1:]; run_bpy(int(a[0]), int(a[1]) if len(a) > 1 else 400)

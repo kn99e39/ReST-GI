@@ -1,0 +1,58 @@
+{
+ "protocol": "fnto_k44",
+ "batch": "WL44 K-side fidelity attribution and controlled refinement",
+ "worklog": 44,
+ "authorisation": "user brief 'K-side fidelity attribution and controlled refinement' (2026-10-25)",
+ "declared": "after Phase 1 diagnostics on frozen K_r1 / K_r1P and before any candidate data preparation, training or evaluation; the baseline r1 artefacts, protocol fnto_r1 and worklogs 41-42 are unchanged",
+ "phase1_summary": {
+  "not_supported_as_dominant": {
+   "source_quadrature": "frozen K_r1P on 40 held-out probes (16k Lego pixels): dense all-aggregate band+mid +0.01 dB, fine-port band +0.00 dB, bf16 vs fp32 0.00 dB (results/fnto_lego_k44/B_quad_K_r1P.json)",
+   "excitation_coverage": "train fit 24.68 dB vs held-out 24.36 dB (120 + 120 probes); per-probe out-of-span energy vs Lego PSNR Spearman -0.07 (p 0.42); spot fields most out of span yet highest PSNR (A_fit_K_r1P.json, D_span_K_r1P.json)",
+   "passivity_hinge": "K-only vs first_r1 on held-out T0: K_r1 24.95 dB, K_r1P 24.88 dB, same per-material structure (C_decomp_K_r1*.json)",
+   "component_weighting": "least-squares re-weighting of (loc, glob, band+mid) per material and channel on held-out views: Yellow 24.90 -> 24.86 dB (A4_channels_K_r1P.json)"
+  },
+  "partial": {
+   "target_noise": "512-spp probe targets: single-render noise floor sun 37-42, spot ~28, broad ~26, multisun ~30 dB; K vs 4096-spp clean targets 24.96 dB vs 23.99 dB against the 512-spp targets on 16 probes (+1.0 dB); held-out first-event references 1024 spp: floor 33.3-33.8 dB (Yellow 29.3-29.7) - not limiting the held-out K-only metric (A_noise_floor.json, A3_clean_K_r1P.json, A_ref_noise.json)"
+  },
+  "supported_defects": {
+   "D1_visibility": "r1 pixel / port light visibility (origin 0.1 mm along the shading normal, any hit occludes) disagrees with the renderer's geometry on 2.7 % of pixel-light pairs (broad 1.9-3.3 %, multisun 2.6-6.2 %, sun / spot 0 %), always as false shadow; 34-58 % of the blocking hits lie within 1 mm (q10 20 micrometres) of the origin = near-coincident / overlapping Lego geometry. Consequence in the data: opaque pixels with all bits 0 carry real radiance in the 4096-spp renders (Gray / Sand mean 0.18-0.21 under broad); in held-out sun-only evaluation the kernel then places non-local light in shadowed opaque pixels (Gray shadow pred/ref 15.6, Sand 3.3; ~24 % of the K-only squared error). Rule 'ignore hits closer than 0.3 mm': disagreement 0.47 % (false shadow 0.2 %, false light 0.25 %) on the same 5,317 pairs (A5_vischeck_*.json, A6_visrule_*.json)",
+   "D2_box_frame": "r1_train evaluates point / spot irradiance and directions of the BOX domain from canonical (box-local) positions while the light table is in world coordinates: E_canonical / E_world q10 / q50 / q90 = 0 / 0.5-0.6 / 1.9-3.9 under the broad family (40 of 101 lit-box training images); sun / multisun exact (A1_box_frame.json). The held-out box carries ~25 % of the K-only squared error, mostly as light predicted in shadowed box faces (pred/ref 422) through band / mid / glob terms"
+  },
+  "unresolved": "Yellow (Burley SSS radius 1.0 / 0.2 / 0.1 m on a 0.9 x 1.6 x 0.9 m object) carries 41 % of the held-out K-only squared error; red and green errors are similar (23.2 / 23.8 dB), re-weighting and dense quadrature do not help; no single implementation factor isolated"
+ },
+ "correction": {
+  "name": "renderer-consistent incident field of the Stage A supervision and the kernel inputs",
+  "parts": {
+   "a_visibility": "pixel visibility bits and port surface-sample visibility ignore occluder hits closer than T_MIN = 0.3 mm to the offset origin (k44_prep.visible_t); the held-out port sun fractions use the same rule (k44_eval_vis -> eval_vis_k44.npz); the held-out pixel visibility stays the historical renderer's own",
+   "b_box_frame": "box-domain point / spot light directions and 1/r^2 in K_loc and in the box port incident fields are evaluated at world positions (canonical + per-image box offset) (k44_train)"
+  },
+  "why_one_correction": "both parts restore the same quantity - the incident field the kernel is given must be the one the renderer applied - and they act on separable domains for the Lego endpoint: part b changes nothing in the Lego domain (offset 0), so the primary Lego endpoint isolates part a; the box endpoint is reported as the joint effect of a and b",
+  "unchanged": "kernel family and sizes, representatives (amendment 1), radii, bins, loss, optimiser, steps 24,000, batch, chunking, seed 0, passivity hinge 1.0 (K_r1P recipe), Stage A renders, references, coupling C (relation tables; the same near-hit question in C is out of scope), solver, evaluation arms and metrics"
+ },
+ "runs": {
+  "candidate": "K_k44P = k44_train.py --passivity 1.0 --seed 0 on prep2 (k44_prep), LabServer63",
+  "baseline": "K_r1P (worklog 42, unchanged checkpoint)",
+  "seed_control": "K_r1P_s1 = r1_train.py --passivity 1.0 --seed 1 on the r1 prep (no correction) - measures training-seed spread",
+  "order": "candidate first, then seed control (sequential on the 12 GB GPU)",
+  "evaluation": "r1_eval run for K_k44P with R1_EVAL_VIS=eval_vis_k44.npz; for K_r1P_s1 with the r1 eval_vis.npz; k44_decomp on every eval dir; k44_verdict"
+ },
+ "endpoints": {
+  "primary": "held-out T0 Lego-domain K-only vs first_r1 pooled display PSNR (k44_decomp 'Konly_dom:lego'); held-out T1 reported for sign consistency",
+  "mechanism": "held-out T0 opaque-shadow (Gray / Black / Light_brown / Sand / Brown, pixel shadow) mean predicted luminance and PSNR (k44_decomp 'opaque_shadow_mean_pred_lum', 'Konly_opaque_shadow')",
+  "secondary": "box-domain K-only PSNR (joint a+b); Yellow K-only PSNR; full-scene S_T0 | hist and | r1, D_stale / E_upd, F, R_RNA, signed change (r1_eval); probe PSNR (train.json final holdout); passivity rho_T0 (r1_eval)",
+  "never_used_for_choices": "held-out T1 and every evaluation number are read only after both trainings and evaluations are complete; nothing is tuned on them"
+ },
+ "decision_rules": {
+  "seed_spread": "s = |Konly_dom:lego(K_r1P_s1) - Konly_dom:lego(K_r1P)| on held-out T0",
+  "IMPROVED": "Delta_T0 = Konly_dom:lego(K_k44P) - Konly_dom:lego(K_r1P) >= max(0.3 dB, 2 s) AND Delta_T1 > 0 AND opaque-shadow mean predicted luminance reduced by >= 30 % vs K_r1P",
+  "NO_IMPROVEMENT": "Delta_T0 < max(0.3 dB, 2 s) (a failed correction is valid evidence; the cause attribution is then reported as not confirmed by intervention)",
+  "MECHANISM_ONLY": "opaque-shadow luminance reduced >= 30 % but Delta_T0 below the threshold",
+  "stability_guard": "if rho_T0(K_k44P) >= 1 or any composed held-out solve diverges, report it; the K-only endpoint is still evaluated (it does not use the solver)"
+ },
+ "smoke_checks_before_long_runs": [
+  "k44_prep on 3 held-out images: bits changed only from 0 to 1 (never 1 to 0 beyond the 0.25 % false-light rate) and agreement with the A6 Blender pairs >= 99 %",
+  "k44_train --max-steps 100 on prep2: loss finite, peak memory < 11 GiB, step time logged",
+  "k44_eval_vis: fraction of ports with a changed sun fraction reported"
+ ],
+ "stop": "report and stop at the decision; no further correction, no other architecture, no automatic next batch"
+}

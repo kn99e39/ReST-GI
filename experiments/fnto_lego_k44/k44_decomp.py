@@ -53,6 +53,12 @@ def main(evdir, tag):
                 se = ((D(p) - D(first)) ** 2).mean(1)
                 a = acc.setdefault(f"Konly:{name}", {"se": 0.0, "n": 0}); a["se"] += se.sum(); a["n"] += len(se)
                 if name == "K":
+                    for dn, dm in (("lego", mat < 8), ("box", mat == 8)):
+                        a = acc.setdefault(f"Konly_dom:{dn}", {"se": 0.0, "n": 0}); a["se"] += se[dm].sum(); a["n"] += int(dm.sum())
+                    op = np.isin(mat, [1, 3, 5, 6, 7]) & ~lit
+                    a = acc.setdefault("Konly_opaque_shadow", {"se": 0.0, "n": 0}); a["se"] += se[op].sum(); a["n"] += int(op.sum())
+                    a = acc.setdefault("opaque_shadow_mean_pred_lum", {"se": 0.0, "n": 0}); a["se"] += float((p[op] @ LUM).sum()); a["n"] += int(op.sum())
+                if name == "K":
                     for mi in range(9):
                         for li, lname in ((True, "lit"), (False, "shadow")):
                             m = (mat == mi) & (lit == li)
@@ -76,7 +82,9 @@ def main(evdir, tag):
                 a = acc.setdefault(f"swap:{name}", {"se": 0.0, "n": 0}); a["se"] += se.sum(); a["n"] += len(se)
         out = {}
         for k, a in acc.items():
-            if k.startswith(("Konly:", "swap:")):
+            if k == "opaque_shadow_mean_pred_lum":
+                out[k] = {"value": a["se"] / max(a["n"], 1), "px": a["n"]}
+            elif k.startswith(("Konly", "swap:")):
                 out[k] = {"pooled_psnr": psnr(a["se"], a["n"]), "px": a["n"]}
             elif k.startswith("Kmat:"):
                 out[k] = {"px": a["n"], "pooled_psnr": psnr(a["se"], a["n"]) if a["n"] else None, "share_of_K_se": None, "se": a["se"],
