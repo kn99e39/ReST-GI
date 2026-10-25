@@ -1,0 +1,54 @@
+{
+ "protocol": "fnto_diag45",
+ "batch": "WL45 FNTO independent fidelity attribution - parallel diagnostic batch (Track A intrinsic K / Yellow SSS, Track B free-space C / K-C composition)",
+ "worklog": 45,
+ "authorisation": "user brief 'ReST-GI - FNTO Independent Fidelity Attribution, Parallel Diagnostic Batch' (2026-10-26)",
+ "kind": "diagnostic only: no FNTO mechanism (K, C, solver, passivity, visibility rule, references) is changed; no training",
+ "frozen_baseline": {
+  "source_commit": "63e27413c988eec970af0d5717eb2e50d83e10cf (Selective_Recompute)",
+  "candidate": "K_k44P (protocol fnto_k44, decision IMPROVED), kernels.pt sha256 30d55da373a01ab8...",
+  "historical": "K_r1P kernels.pt aa7ca527f9acc557...",
+  "inputs": "results/fnto_diag45/baseline_freeze_{pc,server}.json: 18 files, PC = server sha256 (anchors a1 32aa4032, rel_T0 1da7e922, rel_T1_inc 41ed71cf, eval_vis_k44 3735fa69, refs first/full T0/T1, eval views of K_k44P / K_r1P)",
+  "code": "server copy of r1 / k44 / fnto_lego code = committed code (line-ending normalised md5 checked)",
+  "environment": "LabServer63: Blender 3.5.1 bpy (RNA venv, CPU Cycles), torch 2.8 on RTX 3080 Ti; PC: 8dna26 .venv-cu128 (Mitsuba) only if needed",
+  "regimes": "first_r1, full_r1 (r1 references), probes, clean, hist - never mixed; Track B oracle renders form a new labelled regime 'emit45'"
+ },
+ "track_a": {
+  "question": "Why does the corrected intrinsic kernel still fail to reproduce Yellow's first-event response?",
+  "output": "results/fnto_diag45/track_a/",
+  "A1_target_semantics": {
+   "A1a_burley_scale": "flat-plane render with the Lego Yellow material and a sharp shadow edge (sun, 4096 spp): fit the Burley length d per channel from the radiance decay into the shadow; compare with the Cycles 3.x Burley parameterisation (compatible mean free path 0.25/pi x radius, albedo fitting 1.9 - A + 3.5 (A - 0.8)^2) and with worklog 44's 'red radius 1 m' reading",
+   "A1b_entry_semantics": "Burley oracle (A3) with three source sets: all Lego surfaces (object-scoped disk projection), Yellow surfaces only, the receiver's connected component only; which reproduces first_r1 Yellow best on the test views"
+  },
+  "A2_localisation": "K_k44P K-only Yellow error vs first_r1 on all 16 held-out T0 views: by lit / shadow, by 3-D distance from the pixel's port to the nearest sun-lit Lego port (bins 0-1, 1-3, 3-10, 10-30, >30 cm), by channel, by view (sun elevation), by receiver normal vs sun angle",
+  "A3_input_vs_operator": "physics oracle without learning: L_c(x) = s_c * sum_ports R_c(|x - x'|) E_sun(x') A(x'), E_sun from the verified port field (eval_vis_k44 fractions, 0.3 mm rule), R_c Burley with d_c from A1a; s_c (one scalar per channel) fitted on views 0-7, scored on views 8-15 against first_r1 Yellow pixels; compared with K_k44P on the same pixels. PRIMARY COMPARISON A: PSNR(oracle) vs PSNR(K_k44P) on test-view Yellow pixels (shadow and lit separately), bootstrap 95 % CI over views",
+  "A4_representation": "transport mass of the Burley profile within 5 cm / 30 cm / beyond per channel; singular-value energy of the port-to-port Burley operator (receivers subsampled, sources = 8 cm coarse ports) at rank 64; K_k44P Yellow component split (loc / glob / band / mid) vs the oracle's near / mid / far split; existing noise floors (first_r1 Yellow floor 29.3-29.7 dB)"
+ },
+ "track_b": {
+  "question": "Does the frozen C transport a known outgoing field correctly, and where does K/C composition lose accuracy?",
+  "output": "results/fnto_diag45/track_b/",
+  "B1_contract_audit": "code reading of r1_relations / r1_solve (gathers, hit mapping, inside faces, misses, sender isotropy, units) + relation-table statistics (miss, enclosed, hit-distance distribution, fraction of hits closer than 0.3 mm)",
+  "B2_C_single_flight": "regime emit45: Blender renders of held-out T0 views 6 and 15 where every non-Yellow Lego / box surface emits an analytic field f(x) for non-camera rays and is diffuse white for camera rays; Yellow keeps its real material for camera rays and does not emit. Oracle E_in(pixel) = pi (P - P_emit(x)). C prediction at the pixel's port: production (f at the hit port origin) and hit-point values (f at the exact hit point, removes output projection). PRIMARY COMPARISON B: pooled ratio, median |relative error| and correlation of E_C vs E_in on opaque / glass / box pixels, by material and by hit-distance class",
+  "B3_composition": {
+   "B3a_one_step_K_on_verified_field": "K_k44P applied to the C-gathered emit45 field (sun off, one step) vs the emit45 Blender radiance of Yellow pixels (the same render; Yellow's SSS response to a free-space incident field)",
+   "B3b_iterations": "K_k44P solve at held-out T0 views 6 / 15: gathered irradiance by iteration and material, energy growth, residual vs radiometric error against full_r1 - first_r1",
+   "B3c_opaque_verified_field": "full-GI renders of views 6 / 15 (r1 settings) with diffuse indirect / colour passes: E_ind(pixel) = pi x DiffInd for opaque receivers; FNTO's gathered E_ind at the same pixels vs E_ind; K's receiver response rho_K E_ind / pi vs full_r1 - first_r1"
+  },
+  "B4_edit": "T1 vs T0 at matched Lego pixels: direct / intrinsic change, indirect change (updated, stale), signed reference indirect change; sign, spatial correlation, magnitude ratio, stationary preservation, excess energy",
+  "B5_material": "indirect component by Yellow / opaque / glass / box and edited vs stationary, tracked to K-only error, C error (B2), K response error (B3a/c) and iteration (B3b)"
+ },
+ "integration": "results/fnto_diag45/integration/: each major error classified as K intrinsic / C free-flight / K-C interface / composition-solver / data-reference / unresolved, with the evidence; consistency check between tracks",
+ "rules": {
+  "no_thresholds_after_results": "results are reported with bootstrap CIs; no pass / fail threshold is introduced after seeing them",
+  "oracles": "every oracle is a non-deployable control; none feeds T1 evaluation or any parameter",
+  "independence": "the emit45 oracle uses Blender's own ray tracing on the true geometry, not C's relation tables or projection; the Burley oracle uses no learned parameter",
+  "visibility": "the worklog-44 0.3 mm rule is not propagated into C; B1 reports C's near-hit statistics only"
+ },
+ "tests_before_decisive_runs": [
+  "emission calibration: a single emissive plane of strength 1 -> pixel radiance (unit c)",
+  "oracle render smoke on one view at low spp: finite, P >= P_emit on receivers, Yellow non-emitting",
+  "Burley oracle: normalisation of R over the plane (integral 1 for each channel), zero input -> zero output",
+  "C evaluation: zero field -> zero, constant field on a closed hemisphere geometry -> E = pi c f"
+ ],
+ "stop": "integrated report + worklog 45; no correction implemented; no successor batch"
+}
