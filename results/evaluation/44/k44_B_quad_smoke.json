@@ -1,0 +1,324 @@
+{
+ "kernels": "/home/nd/rest_fnto_r1/repo/results/fnto_lego_r1/K_r1P/kernels.pt",
+ "images": [
+  44
+ ],
+ "px_per_image": 100,
+ "fine_px_per_image": 20,
+ "psnr": {
+  "rep": {
+   "all": {
+    "psnr": 41.084815979003906,
+    "px": 100
+   },
+   "Yellow:shadow": {
+    "psnr": 36.82741928100586,
+    "px": 36
+   },
+   "Gray:shadow": {
+    "psnr": 52.71391296386719,
+    "px": 19
+   },
+   "transparent:shadow": {
+    "psnr": 37.887821197509766,
+    "px": 1
+   },
+   "Black:shadow": {
+    "psnr": 75.44435119628906,
+    "px": 15
+   },
+   "Red_Glass:shadow": {
+    "psnr": 52.579952239990234,
+    "px": 1
+   },
+   "Light_brown:shadow": {
+    "psnr": 55.573753356933594,
+    "px": 3
+   },
+   "Sand:lit": {
+    "psnr": 81.0361328125,
+    "px": 1
+   },
+   "Sand:shadow": {
+    "psnr": 57.13610076904297,
+    "px": 18
+   },
+   "Brown:lit": {
+    "psnr": 59.93028259277344,
+    "px": 1
+   },
+   "Brown:shadow": {
+    "psnr": 66.57389831542969,
+    "px": 5
+   }
+  },
+  "rep_bf16": {
+   "all": {
+    "psnr": 41.09629821777344,
+    "px": 100
+   },
+   "Yellow:shadow": {
+    "psnr": 36.839385986328125,
+    "px": 36
+   },
+   "Gray:shadow": {
+    "psnr": 52.71391296386719,
+    "px": 19
+   },
+   "transparent:shadow": {
+    "psnr": 37.887996673583984,
+    "px": 1
+   },
+   "Black:shadow": {
+    "psnr": 75.4438705444336,
+    "px": 15
+   },
+   "Red_Glass:shadow": {
+    "psnr": 52.579952239990234,
+    "px": 1
+   },
+   "Light_brown:shadow": {
+    "psnr": 55.573753356933594,
+    "px": 3
+   },
+   "Sand:lit": {
+    "psnr": 81.0361328125,
+    "px": 1
+   },
+   "Sand:shadow": {
+    "psnr": 57.1360969543457,
+    "px": 18
+   },
+   "Brown:lit": {
+    "psnr": 59.93028259277344,
+    "px": 1
+   },
+   "Brown:shadow": {
+    "psnr": 66.57389831542969,
+    "px": 5
+   }
+  },
+  "dense_band": {
+   "all": {
+    "psnr": 41.084815979003906,
+    "px": 100
+   },
+   "Yellow:shadow": {
+    "psnr": 36.82741928100586,
+    "px": 36
+   },
+   "Gray:shadow": {
+    "psnr": 52.71391296386719,
+    "px": 19
+   },
+   "transparent:shadow": {
+    "psnr": 37.887821197509766,
+    "px": 1
+   },
+   "Black:shadow": {
+    "psnr": 75.44435119628906,
+    "px": 15
+   },
+   "Red_Glass:shadow": {
+    "psnr": 52.579952239990234,
+    "px": 1
+   },
+   "Light_brown:shadow": {
+    "psnr": 55.573753356933594,
+    "px": 3
+   },
+   "Sand:lit": {
+    "psnr": 81.0361328125,
+    "px": 1
+   },
+   "Sand:shadow": {
+    "psnr": 57.13653564453125,
+    "px": 18
+   },
+   "Brown:lit": {
+    "psnr": 59.93028259277344,
+    "px": 1
+   },
+   "Brown:shadow": {
+    "psnr": 66.57389831542969,
+    "px": 5
+   }
+  },
+  "dense_mid": {
+   "all": {
+    "psnr": 32.38010025024414,
+    "px": 100
+   },
+   "Yellow:shadow": {
+    "psnr": 27.966882705688477,
+    "px": 36
+   },
+   "Gray:shadow": {
+    "psnr": 52.711639404296875,
+    "px": 19
+   },
+   "transparent:shadow": {
+    "psnr": 37.89219284057617,
+    "px": 1
+   },
+   "Black:shadow": {
+    "psnr": 75.44923400878906,
+    "px": 15
+   },
+   "Red_Glass:shadow": {
+    "psnr": 52.579952239990234,
+    "px": 1
+   },
+   "Light_brown:shadow": {
+    "psnr": 55.573753356933594,
+    "px": 3
+   },
+   "Sand:lit": {
+    "psnr": 81.0361328125,
+    "px": 1
+   },
+   "Sand:shadow": {
+    "psnr": 57.13610076904297,
+    "px": 18
+   },
+   "Brown:lit": {
+    "psnr": 59.9302978515625,
+    "px": 1
+   },
+   "Brown:shadow": {
+    "psnr": 66.57389831542969,
+    "px": 5
+   }
+  },
+  "dense_both": {
+   "all": {
+    "psnr": 32.38010025024414,
+    "px": 100
+   },
+   "Yellow:shadow": {
+    "psnr": 27.966882705688477,
+    "px": 36
+   },
+   "Gray:shadow": {
+    "psnr": 52.711639404296875,
+    "px": 19
+   },
+   "transparent:shadow": {
+    "psnr": 37.89219284057617,
+    "px": 1
+   },
+   "Black:shadow": {
+    "psnr": 75.44923400878906,
+    "px": 15
+   },
+   "Red_Glass:shadow": {
+    "psnr": 52.579952239990234,
+    "px": 1
+   },
+   "Light_brown:shadow": {
+    "psnr": 55.573753356933594,
+    "px": 3
+   },
+   "Sand:lit": {
+    "psnr": 81.0361328125,
+    "px": 1
+   },
+   "Sand:shadow": {
+    "psnr": 57.13653564453125,
+    "px": 18
+   },
+   "Brown:lit": {
+    "psnr": 59.9302978515625,
+    "px": 1
+   },
+   "Brown:shadow": {
+    "psnr": 66.57389831542969,
+    "px": 5
+   }
+  },
+  "fine_rep": {
+   "all": {
+    "psnr": 41.574546813964844,
+    "px": 20
+   },
+   "Yellow:shadow": {
+    "psnr": 38.706146240234375,
+    "px": 10
+   },
+   "Gray:shadow": {
+    "psnr": 52.81124496459961,
+    "px": 5
+   },
+   "Sand:shadow": {
+    "psnr": 54.30201721191406,
+    "px": 5
+   }
+  },
+  "fine_dense_both": {
+   "all": {
+    "psnr": 27.438446044921875,
+    "px": 20
+   },
+   "Yellow:shadow": {
+    "psnr": 24.433536529541016,
+    "px": 10
+   },
+   "Gray:shadow": {
+    "psnr": 52.81124496459961,
+    "px": 5
+   },
+   "Sand:shadow": {
+    "psnr": 54.30201721191406,
+    "px": 5
+   }
+  },
+  "fine_band": {
+   "all": {
+    "psnr": 27.438446044921875,
+    "px": 20
+   },
+   "Yellow:shadow": {
+    "psnr": 24.433536529541016,
+    "px": 10
+   },
+   "Gray:shadow": {
+    "psnr": 52.81124496459961,
+    "px": 5
+   },
+   "Sand:shadow": {
+    "psnr": 54.30201721191406,
+    "px": 5
+   }
+  }
+ },
+ "term_change": {
+  "band_dense_vs_rep": {
+   "mean_abs_rel_change": 0.9070797373569263,
+   "signed_rel_change": -0.9069990731837708
+  },
+  "mid_dense_vs_rep": {
+   "mean_abs_rel_change": 22.63085773964401,
+   "signed_rel_change": 22.339222136610672
+  },
+  "band_fine_vs_dense": {
+   "mean_abs_rel_change": 0.0,
+   "signed_rel_change": 0.0
+  },
+  "band_bf16_vs_fp32": {
+   "mean_abs_rel_change": 0.02068680218423066,
+   "signed_rel_change": 0.009302013756101256
+  },
+  "mid_bf16_vs_fp32": {
+   "mean_abs_rel_change": 0.025554911815100737,
+   "signed_rel_change": -0.007984726488278398
+  }
+ },
+ "cost": {
+  "dense_band_pairs": 38939.0,
+  "dense_band_s": 0.08757257461547852,
+  "dense_mid_pairs": 100169.0,
+  "dense_mid_s": 0.17853307723999023,
+  "fine_band_pairs": 23874.0,
+  "fine_band_s": 0.13758373260498047
+ }
+}

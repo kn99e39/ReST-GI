@@ -1,0 +1,144 @@
+{
+ "kernels": "/home/nd/rest_fnto_r1/repo/results/fnto_lego_r1/K_r1P/kernels.pt",
+ "clean_spp": 4096,
+ "orig_spp": 512,
+ "per_image": [
+  {
+   "i": 1,
+   "family": "sun",
+   "K_vs_orig": 29.74771879504094,
+   "K_vs_clean": 30.520448124326933,
+   "orig_vs_clean": 36.25581141146289
+  }
+ ],
+ "pooled": {
+  "all": {
+   "px": 55593,
+   "K_vs_orig": 29.74771879504094,
+   "K_vs_clean": 30.520448124326933,
+   "orig_vs_clean": 36.25581141146289,
+   "pred_over_clean": 0.9776569958036176,
+   "orig_over_clean": 1.0005486487656883
+  },
+  "family:sun": {
+   "px": 55593,
+   "K_vs_orig": 29.74771879504094,
+   "K_vs_clean": 30.520448124326933,
+   "orig_vs_clean": 36.25581141146289,
+   "pred_over_clean": 0.9776569958036176,
+   "orig_over_clean": 1.0005486487656883
+  },
+  "mat:Yellow:lit": {
+   "px": 1145,
+   "K_vs_orig": 25.731055807933846,
+   "K_vs_clean": 29.179890244863117,
+   "orig_vs_clean": 27.161392574774496,
+   "pred_over_clean": 0.9505770129289819,
+   "orig_over_clean": 1.0163226328210826
+  },
+  "mat:Yellow:shadow": {
+   "px": 7281,
+   "K_vs_orig": 25.096977268504034,
+   "K_vs_clean": 26.937576649865683,
+   "orig_vs_clean": 28.264026863962847,
+   "pred_over_clean": 0.9412808313819746,
+   "orig_over_clean": 0.9986159228788519
+  },
+  "mat:Gray:lit": {
+   "px": 108,
+   "K_vs_orig": 24.737852173393836,
+   "K_vs_clean": 24.85243252431962,
+   "orig_vs_clean": 56.65881189615885,
+   "pred_over_clean": 1.0273718789609079,
+   "orig_over_clean": 1.0001343764080435
+  },
+  "mat:Gray:shadow": {
+   "px": 736,
+   "K_vs_orig": 21.11863751904549,
+   "K_vs_clean": 21.20022933008582,
+   "orig_vs_clean": 39.42311557040347,
+   "pred_over_clean": 2.9748917985927403,
+   "orig_over_clean": 1.0197452351833116
+  },
+  "mat:Black:lit": {
+   "px": 11,
+   "K_vs_orig": 45.07430981870883,
+   "K_vs_clean": 45.08290623644707,
+   "orig_vs_clean": 98.35351995952037,
+   "pred_over_clean": 1.2699420611776537,
+   "orig_over_clean": 0.9992058741435611
+  },
+  "mat:Black:shadow": {
+   "px": 220,
+   "K_vs_orig": 39.953687951185394,
+   "K_vs_clean": 39.94084518239212,
+   "orig_vs_clean": 57.64741498068358,
+   "pred_over_clean": 70.7014422733286,
+   "orig_over_clean": 2.5196372350731734e-05
+  },
+  "mat:Light_brown:lit": {
+   "px": 454,
+   "K_vs_orig": 36.45790437072711,
+   "K_vs_clean": 36.494914467448524,
+   "orig_vs_clean": 65.62359490668706,
+   "pred_over_clean": 0.977915117416404,
+   "orig_over_clean": 1.0007530940345424
+  },
+  "mat:Light_brown:shadow": {
+   "px": 18,
+   "K_vs_orig": 28.017094781899704,
+   "K_vs_clean": 28.329042664564703,
+   "orig_vs_clean": 40.27430888192613,
+   "pred_over_clean": 1.0661419667312615,
+   "orig_over_clean": 1.0021608405169455
+  },
+  "mat:Sand:lit": {
+   "px": 1996,
+   "K_vs_orig": 48.32699650690442,
+   "K_vs_clean": 48.3505289837025,
+   "orig_vs_clean": 75.0112517997975,
+   "pred_over_clean": 1.000073887670669,
+   "orig_over_clean": 1.0000258454003055
+  },
+  "mat:Sand:shadow": {
+   "px": 41818,
+   "K_vs_orig": 36.663536006166375,
+   "K_vs_clean": 36.66995731724873,
+   "orig_vs_clean": 63.81577223622935,
+   "pred_over_clean": 1.79748256197214,
+   "orig_over_clean": 0.9970056159340458
+  },
+  "mat:Brown:lit": {
+   "px": 494,
+   "K_vs_orig": 37.126959871277975,
+   "K_vs_clean": 37.154004622349525,
+   "orig_vs_clean": 68.790516000249,
+   "pred_over_clean": 0.9380890019178508,
+   "orig_over_clean": 1.0002810350758156
+  },
+  "mat:Brown:shadow": {
+   "px": 22,
+   "K_vs_orig": 26.74086926949181,
+   "K_vs_clean": 26.769647154137203,
+   "orig_vs_clean": 44.079677257997744,
+   "pred_over_clean": 2.1130932138155223,
+   "orig_over_clean": 0.9881072788200456
+  },
+  "mat:box:lit": {
+   "px": 951,
+   "K_vs_orig": 24.66942725700601,
+   "K_vs_clean": 24.669608642438263,
+   "orig_vs_clean": 86.08641110007079,
+   "pred_over_clean": 1.4877068849236066,
+   "orig_over_clean": 1.0000061135574592
+  },
+  "mat:box:shadow": {
+   "px": 339,
+   "K_vs_orig": 13.627577059503126,
+   "K_vs_clean": 13.632214084311991,
+   "orig_vs_clean": 58.216921541024796,
+   "pred_over_clean": 51908.25426861356,
+   "orig_over_clean": 0.0
+  }
+ }
+}

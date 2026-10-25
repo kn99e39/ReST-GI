@@ -1,0 +1,195 @@
+{
+ "protocol": "fnto_k44",
+ "decision": "IMPROVED",
+ "seed_spread_T0_lego_dB": 0.09621619622971878,
+ "threshold_dB": 0.3,
+ "delta_T0_lego_dB": 1.5588513654849692,
+ "delta_T1_lego_dB": 1.5254186000797247,
+ "opaque_shadow_lum_reduction": 0.9326454692078964,
+ "rows": {
+  "K_r1P": {
+   "heldout_T0": {
+    "Konly_lego": 26.049583184238124,
+    "Konly_box": 16.073500044282703,
+    "Konly_all": 24.882092925150282,
+    "Konly_opaque_shadow": 25.78936759222531,
+    "opaque_shadow_mean_pred_lum": 0.0019328841446039136,
+    "yellow_shadow": 23.42660288802222,
+    "yellow_lit": 27.944495067185816,
+    "full_pred_vs_full_r1": 24.836413859545253,
+    "indirect_all": {
+     "pred_over_ref": 1.514860880907168,
+     "corr": 0.6602196677664242,
+     "explained_fraction": -0.021359671177626494
+    }
+   },
+   "heldout_T1": {
+    "Konly_lego": 26.10525747285031,
+    "Konly_box": 16.383478474599872,
+    "Konly_all": 24.83566112863576,
+    "Konly_opaque_shadow": 25.954416274746205,
+    "opaque_shadow_mean_pred_lum": 0.0018649932769811122,
+    "yellow_shadow": 23.442042165289855,
+    "yellow_lit": 27.985511869692097,
+    "full_pred_vs_full_r1": 24.665057654321338,
+    "indirect_all": {
+     "pred_over_ref": 1.5270299436923938,
+     "corr": 0.6602255179264259,
+     "explained_fraction": -0.03556107136178244
+    }
+   },
+   "eval": {
+    "rho_T0": 0.6821436728798965,
+    "views_mean": {
+     "heldout_T0:K_only|first_r1": 25.053455676477025,
+     "heldout_T0:S_T0|hist": 24.492027824261086,
+     "heldout_T0:S_T0|r1": 24.997753024587546,
+     "heldout_T0:S_T0|hist_allpx_nnfill": 24.43050051966327,
+     "heldout_T1:K_only|first_r1": 24.99876126466492,
+     "heldout_T1:D_stale|hist": 23.703300996352844,
+     "heldout_T1:D_stale|r1": 24.154006175150148,
+     "heldout_T1:E_upd|hist": 24.372875728329014,
+     "heldout_T1:E_upd|r1": 24.882210327197367,
+     "heldout_T1:E_relfull|hist": 24.372884201053473,
+     "heldout_T1:E_relfull|r1": 24.88221732559837,
+     "heldout_T1:D_stale|hist_allpx_nnfill": 23.651257819196978,
+     "heldout_T1:E_upd|hist_allpx_nnfill": 24.31330332691694,
+     "heldout_T1:E_relfull|hist_allpx_nnfill": 24.313311558535823
+    },
+    "diverged": 0,
+    "signed_change_hist_A_changed_E_upd": {
+     "corr": 0.9866620534759978,
+     "slope": 0.9477005729632697,
+     "sign_agree_where_ref_change_gt_noise": 0.941554785863685,
+     "explained_fraction": 0.9726813181665017
+    },
+    "params_identical": true
+   }
+  },
+  "K_r1P_s1": {
+   "heldout_T0": {
+    "Konly_lego": 25.953366988008405,
+    "Konly_box": 16.27566699518644,
+    "Konly_all": 24.862114868659816,
+    "Konly_opaque_shadow": 25.509705771012214,
+    "opaque_shadow_mean_pred_lum": 0.00204780038628008,
+    "yellow_shadow": 23.347540825018022,
+    "yellow_lit": 27.878446312860362,
+    "full_pred_vs_full_r1": 24.93944747414304,
+    "indirect_all": {
+     "pred_over_ref": 1.4874461384697335,
+     "corr": 0.6798440472669358,
+     "explained_fraction": 0.10317130916238948
+    }
+   },
+   "heldout_T1": {
+    "Konly_lego": 26.02188940959429,
+    "Konly_box": 16.48395640261193,
+    "Konly_all": 24.80367013064178,
+    "Konly_opaque_shadow": 25.713867832536934,
+    "opaque_shadow_mean_pred_lum": 0.0019504966739990034,
+    "yellow_shadow": 23.360708078839156,
+    "yellow_lit": 27.92163586982233,
+    "full_pred_vs_full_r1": 24.710533356028556,
+    "indirect_all": {
+     "pred_over_ref": 1.502947789282095,
+     "corr": 0.6794852398818023,
+     "explained_fraction": 0.08468549195499753
+    }
+   },
+   "eval": {
+    "rho_T0": 0.6449823347892425,
+    "views_mean": {
+     "heldout_T0:K_only|first_r1": 25.03299159212888,
+     "heldout_T0:S_T0|hist": 24.644843410696282,
+     "heldout_T0:S_T0|r1": 25.093783334765927,
+     "heldout_T0:S_T0|hist_allpx_nnfill": 24.581165594658415,
+     "heldout_T1:K_only|first_r1": 24.99064913490296,
+     "heldout_T1:D_stale|hist": 23.834737310188643,
+     "heldout_T1:D_stale|r1": 24.238436373682934,
+     "heldout_T1:E_upd|hist": 24.47940016863043,
+     "heldout_T1:E_upd|r1": 24.932390465226277,
+     "heldout_T1:E_relfull|hist": 24.479414372787794,
+     "heldout_T1:E_relfull|r1": 24.932402923143897,
+     "heldout_T1:D_stale|hist_allpx_nnfill": 23.781181585566785,
+     "heldout_T1:E_upd|hist_allpx_nnfill": 24.417985620042046,
+     "heldout_T1:E_relfull|hist_allpx_nnfill": 24.417999742042447
+    },
+    "diverged": 0,
+    "signed_change_hist_A_changed_E_upd": {
+     "corr": 0.9878037960257088,
+     "slope": 0.9474493693478228,
+     "sign_agree_where_ref_change_gt_noise": 0.9486423306501826,
+     "explained_fraction": 0.9748427308918289
+    },
+    "params_identical": true
+   }
+  },
+  "K_k44P": {
+   "heldout_T0": {
+    "Konly_lego": 27.608434549723093,
+    "Konly_box": 31.90334682838521,
+    "Konly_all": 27.703511555130717,
+    "Konly_opaque_shadow": 32.97462564083815,
+    "opaque_shadow_mean_pred_lum": 0.00013018850463529326,
+    "yellow_shadow": 23.45174945276967,
+    "yellow_lit": 28.0661734904316,
+    "full_pred_vs_full_r1": 25.644723692862733,
+    "indirect_all": {
+     "pred_over_ref": 1.646282625192306,
+     "corr": 0.6578462747040941,
+     "explained_fraction": -0.2867936114390157
+    }
+   },
+   "heldout_T1": {
+    "Konly_lego": 27.630676072930036,
+    "Konly_box": 31.654380912022873,
+    "Konly_all": 27.738304005394014,
+    "Konly_opaque_shadow": 33.20343835511637,
+    "opaque_shadow_mean_pred_lum": 0.00013069862951205306,
+    "yellow_shadow": 23.464223689484417,
+    "yellow_lit": 28.10811016801191,
+    "full_pred_vs_full_r1": 25.58714525001485,
+    "indirect_all": {
+     "pred_over_ref": 1.6619410063513906,
+     "corr": 0.6577919219782421,
+     "explained_fraction": -0.31051711439174223
+    }
+   },
+   "eval": {
+    "rho_T0": 0.5485915381075509,
+    "views_mean": {
+     "heldout_T0:K_only|first_r1": 27.7180932849744,
+     "heldout_T0:S_T0|hist": 25.146037057665126,
+     "heldout_T0:S_T0|r1": 25.82072639996477,
+     "heldout_T0:S_T0|hist_allpx_nnfill": 25.074164688966793,
+     "heldout_T1:K_only|first_r1": 27.7541863313619,
+     "heldout_T1:D_stale|hist": 24.53381777209252,
+     "heldout_T1:D_stale|r1": 25.157022201958096,
+     "heldout_T1:E_upd|hist": 25.070485070259565,
+     "heldout_T1:E_upd|r1": 25.778186267320134,
+     "heldout_T1:E_relfull|hist": 25.070501943829537,
+     "heldout_T1:E_relfull|r1": 25.778201395385047,
+     "heldout_T1:D_stale|hist_allpx_nnfill": 24.467589952122815,
+     "heldout_T1:E_upd|hist_allpx_nnfill": 24.997589768076967,
+     "heldout_T1:E_relfull|hist_allpx_nnfill": 24.997606285993065
+    },
+    "diverged": 0,
+    "signed_change_hist_A_changed_E_upd": {
+     "corr": 0.989338904484495,
+     "slope": 0.9700248012251917,
+     "sign_agree_where_ref_change_gt_noise": 0.959245685396526,
+     "explained_fraction": 0.9785650660329221
+    },
+    "params_identical": true
+   }
+  }
+ },
+ "rules": {
+  "seed_spread": "s = |Konly_dom:lego(K_r1P_s1) - Konly_dom:lego(K_r1P)| on held-out T0",
+  "IMPROVED": "Delta_T0 = Konly_dom:lego(K_k44P) - Konly_dom:lego(K_r1P) >= max(0.3 dB, 2 s) AND Delta_T1 > 0 AND opaque-shadow mean predicted luminance reduced by >= 30 % vs K_r1P",
+  "NO_IMPROVEMENT": "Delta_T0 < max(0.3 dB, 2 s) (a failed correction is valid evidence; the cause attribution is then reported as not confirmed by intervention)",
+  "MECHANISM_ONLY": "opaque-shadow luminance reduced >= 30 % but Delta_T0 below the threshold",
+  "stability_guard": "if rho_T0(K_k44P) >= 1 or any composed held-out solve diverges, report it; the K-only endpoint is still evaluated (it does not use the solver)"
+ }
+}

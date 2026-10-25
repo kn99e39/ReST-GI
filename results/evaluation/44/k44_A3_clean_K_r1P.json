@@ -1,0 +1,305 @@
+{
+ "kernels": "/home/nd/rest_fnto_r1/repo/results/fnto_lego_r1/K_r1P/kernels.pt",
+ "clean_spp": 4096,
+ "orig_spp": 512,
+ "per_image": [
+  {
+   "i": 1,
+   "family": "sun",
+   "K_vs_orig": 29.74771879504094,
+   "K_vs_clean": 30.520448124326933,
+   "orig_vs_clean": 36.25581141146289
+  },
+  {
+   "i": 2,
+   "family": "spot",
+   "K_vs_orig": 20.856402423367957,
+   "K_vs_clean": 21.068542380049557,
+   "orig_vs_clean": 22.846915849372508
+  },
+  {
+   "i": 3,
+   "family": "broad",
+   "K_vs_orig": 22.129785248311798,
+   "K_vs_clean": 24.95479918814341,
+   "orig_vs_clean": 24.31964391768162
+  },
+  {
+   "i": 4,
+   "family": "broad",
+   "K_vs_orig": 22.04037693071902,
+   "K_vs_clean": 24.43050308506716,
+   "orig_vs_clean": 24.46676878134297
+  },
+  {
+   "i": 5,
+   "family": "spot",
+   "K_vs_orig": 26.209919823093063,
+   "K_vs_clean": 27.6070926876903,
+   "orig_vs_clean": 26.17655213981884
+  },
+  {
+   "i": 6,
+   "family": "multisun",
+   "K_vs_orig": 24.706846575567397,
+   "K_vs_clean": 25.838109098052726,
+   "orig_vs_clean": 29.616156720210128
+  },
+  {
+   "i": 7,
+   "family": "broad",
+   "K_vs_orig": 29.270824872530557,
+   "K_vs_clean": 29.504543913476766,
+   "orig_vs_clean": 40.78930995316065
+  },
+  {
+   "i": 8,
+   "family": "spot",
+   "K_vs_orig": 20.934421547888533,
+   "K_vs_clean": 21.06121544222244,
+   "orig_vs_clean": 30.173533065124598
+  },
+  {
+   "i": 9,
+   "family": "sun",
+   "K_vs_orig": 28.663725860477065,
+   "K_vs_clean": 29.202712859717405,
+   "orig_vs_clean": 38.78184775169744
+  },
+  {
+   "i": 10,
+   "family": "spot",
+   "K_vs_orig": 23.272842844700264,
+   "K_vs_clean": 23.312798722756433,
+   "orig_vs_clean": 23.045457624467186
+  },
+  {
+   "i": 11,
+   "family": "broad",
+   "K_vs_orig": 23.271563196810572,
+   "K_vs_clean": 24.45367197774867,
+   "orig_vs_clean": 27.748739699084155
+  },
+  {
+   "i": 12,
+   "family": "multisun",
+   "K_vs_orig": 24.606931918441607,
+   "K_vs_clean": 25.964866943740233,
+   "orig_vs_clean": 29.147390097940878
+  },
+  {
+   "i": 13,
+   "family": "multisun",
+   "K_vs_orig": 26.571383499636596,
+   "K_vs_clean": 28.132089574855662,
+   "orig_vs_clean": 30.260244191738558
+  },
+  {
+   "i": 17,
+   "family": "sun",
+   "K_vs_orig": 24.41049565151903,
+   "K_vs_clean": 25.326779759006925,
+   "orig_vs_clean": 30.3446488344547
+  },
+  {
+   "i": 19,
+   "family": "sun",
+   "K_vs_orig": 23.536995275628982,
+   "K_vs_clean": 25.67024759968112,
+   "orig_vs_clean": 27.68852962233648
+  },
+  {
+   "i": 22,
+   "family": "multisun",
+   "K_vs_orig": 27.001889169271518,
+   "K_vs_clean": 27.6602784033382,
+   "orig_vs_clean": 34.00599060669994
+  }
+ ],
+ "pooled": {
+  "all": {
+   "px": 981380,
+   "K_vs_orig": 23.985908712615323,
+   "K_vs_clean": 24.95939027010118,
+   "orig_vs_clean": 27.306114702976014,
+   "pred_over_clean": 0.9292666117156653,
+   "orig_over_clean": 1.000936766051341
+  },
+  "family:sun": {
+   "px": 255991,
+   "K_vs_orig": 25.771781516476487,
+   "K_vs_clean": 27.11319330502567,
+   "orig_vs_clean": 31.186451586600214,
+   "pred_over_clean": 0.984761022633219,
+   "orig_over_clean": 1.0006572349664467
+  },
+  "mat:Yellow:lit": {
+   "px": 109691,
+   "K_vs_orig": 24.124610588504506,
+   "K_vs_clean": 28.77074522626416,
+   "orig_vs_clean": 24.659707685409558,
+   "pred_over_clean": 0.9015266695513966,
+   "orig_over_clean": 0.9983713314405881
+  },
+  "mat:Yellow:shadow": {
+   "px": 219149,
+   "K_vs_orig": 19.543047280982854,
+   "K_vs_clean": 20.558623373704307,
+   "orig_vs_clean": 21.924932202260827,
+   "pred_over_clean": 0.8768736667407637,
+   "orig_over_clean": 1.0134095243456673
+  },
+  "mat:Gray:lit": {
+   "px": 25771,
+   "K_vs_orig": 30.54995790310936,
+   "K_vs_clean": 30.587078721355027,
+   "orig_vs_clean": 52.452326265745924,
+   "pred_over_clean": 1.0021363569259298,
+   "orig_over_clean": 1.0005726716538557
+  },
+  "mat:Gray:shadow": {
+   "px": 59275,
+   "K_vs_orig": 24.507453084216174,
+   "K_vs_clean": 24.396780602487084,
+   "orig_vs_clean": 37.59822306876772,
+   "pred_over_clean": 0.6539054064685103,
+   "orig_over_clean": 0.9803927803293544
+  },
+  "mat:Black:lit": {
+   "px": 26974,
+   "K_vs_orig": 26.495076028012786,
+   "K_vs_clean": 26.49971844945525,
+   "orig_vs_clean": 47.49567355916459,
+   "pred_over_clean": 1.0532001439532943,
+   "orig_over_clean": 0.9938760052240906
+  },
+  "mat:Black:shadow": {
+   "px": 60392,
+   "K_vs_orig": 31.928097469948476,
+   "K_vs_clean": 31.18830590513191,
+   "orig_vs_clean": 38.964270859606806,
+   "pred_over_clean": 0.025334296305104594,
+   "orig_over_clean": 0.8953422434816862
+  },
+  "mat:Light_brown:lit": {
+   "px": 11899,
+   "K_vs_orig": 36.61738483608444,
+   "K_vs_clean": 36.65994962013248,
+   "orig_vs_clean": 58.88211283108221,
+   "pred_over_clean": 1.0008801966977785,
+   "orig_over_clean": 0.9995145203431536
+  },
+  "mat:Light_brown:shadow": {
+   "px": 17086,
+   "K_vs_orig": 30.31037710944247,
+   "K_vs_clean": 30.32839781980821,
+   "orig_vs_clean": 56.301263576911104,
+   "pred_over_clean": 0.8831457701052845,
+   "orig_over_clean": 1.0003455037095188
+  },
+  "mat:Sand:lit": {
+   "px": 106129,
+   "K_vs_orig": 34.73085127254556,
+   "K_vs_clean": 34.747840019260316,
+   "orig_vs_clean": 55.03843566469798,
+   "pred_over_clean": 1.000744439629218,
+   "orig_over_clean": 1.0001334668795931
+  },
+  "mat:Sand:shadow": {
+   "px": 262622,
+   "K_vs_orig": 30.37749536441202,
+   "K_vs_clean": 30.377833360804196,
+   "orig_vs_clean": 52.48432606312989,
+   "pred_over_clean": 0.5640816626829018,
+   "orig_over_clean": 0.9995246806312492
+  },
+  "mat:Brown:lit": {
+   "px": 19140,
+   "K_vs_orig": 37.006008571868,
+   "K_vs_clean": 36.97234663131659,
+   "orig_vs_clean": 53.40449858338231,
+   "pred_over_clean": 1.0005604299842104,
+   "orig_over_clean": 0.9995637062180168
+  },
+  "mat:Brown:shadow": {
+   "px": 25281,
+   "K_vs_orig": 32.38924326664765,
+   "K_vs_clean": 32.40534149169208,
+   "orig_vs_clean": 54.42715365857708,
+   "pred_over_clean": 0.676321290800556,
+   "orig_over_clean": 1.0001216302072948
+  },
+  "mat:box:lit": {
+   "px": 14464,
+   "K_vs_orig": 18.756853385342087,
+   "K_vs_clean": 18.75692639561454,
+   "orig_vs_clean": 58.17912109602172,
+   "pred_over_clean": 0.7829077957365731,
+   "orig_over_clean": 0.9998165994158367
+  },
+  "mat:box:shadow": {
+   "px": 18486,
+   "K_vs_orig": 20.44590120453567,
+   "K_vs_clean": 20.44376526403948,
+   "orig_vs_clean": 46.078736164015915,
+   "pred_over_clean": 3.161953327341268,
+   "orig_over_clean": 0.997380875820732
+  },
+  "family:spot": {
+   "px": 257031,
+   "K_vs_orig": 22.066584528160046,
+   "K_vs_clean": 22.28354198762326,
+   "orig_vs_clean": 24.472182121591395,
+   "pred_over_clean": 0.8268406051797025,
+   "orig_over_clean": 1.0401952301765989
+  },
+  "mat:transparent:shadow": {
+   "px": 513,
+   "K_vs_orig": 16.74363031566616,
+   "K_vs_clean": 17.279817533754255,
+   "orig_vs_clean": 23.538628724371534,
+   "pred_over_clean": 0.7191760454314701,
+   "orig_over_clean": 0.8928680723315725
+  },
+  "mat:Red_Glass:shadow": {
+   "px": 1937,
+   "K_vs_orig": 26.111197852936627,
+   "K_vs_clean": 26.38406317973649,
+   "orig_vs_clean": 35.138769304100556,
+   "pred_over_clean": 0.8569821814558043,
+   "orig_over_clean": 0.8934973113908538
+  },
+  "family:broad": {
+   "px": 231526,
+   "K_vs_orig": 23.619713769637812,
+   "K_vs_clean": 25.62066568451915,
+   "orig_vs_clean": 26.697218711306455,
+   "pred_over_clean": 0.9120783424029834,
+   "orig_over_clean": 1.0005495286109216
+  },
+  "mat:transparent:lit": {
+   "px": 1643,
+   "K_vs_orig": 16.763068833063762,
+   "K_vs_clean": 18.18648753468321,
+   "orig_vs_clean": 19.770219612020007,
+   "pred_over_clean": 0.8483620819165588,
+   "orig_over_clean": 0.9518890860827494
+  },
+  "mat:Red_Glass:lit": {
+   "px": 928,
+   "K_vs_orig": 22.021919193273117,
+   "K_vs_clean": 23.424939422935722,
+   "orig_vs_clean": 27.79601061017294,
+   "pred_over_clean": 0.9934095331882034,
+   "orig_over_clean": 0.9680292546925605
+  },
+  "family:multisun": {
+   "px": 236832,
+   "K_vs_orig": 25.690922186775662,
+   "K_vs_clean": 26.922800318988244,
+   "orig_vs_clean": 30.381876385579393,
+   "pred_over_clean": 0.9697826447363835,
+   "orig_over_clean": 1.0001929960968654
+  }
+ }
+}

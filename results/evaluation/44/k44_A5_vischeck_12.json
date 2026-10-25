@@ -1,0 +1,115 @@
+{
+ "i": 12,
+ "family": "multisun",
+ "n_lights": 4,
+ "n_opaque_bits0_bright": 1120,
+ "n_opaque_bits0": 9168,
+ "n_opaque": 29934,
+ "bits0_bright": {
+  "pixels": 300,
+  "pix_any_light_blender_visible": 231,
+  "pix_bits_vs_blender_disagree": 231,
+  "facing_neg_but_blender_visible": 21,
+  "blockers": {
+   "Lego": 769,
+   "r1_mask_3": 8,
+   "r1_mask_5": 5
+  },
+  "clean_radiance_sum": 103.16503634676337,
+  "per_light": {
+   "3": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 197
+   },
+   "0": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 136
+   },
+   "1": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 63
+   },
+   "2": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 1
+   }
+  },
+  "clean_radiance_sum_disagree": 73.29357640072703
+ },
+ "control_bits_gt0": {
+  "pixels": 300,
+  "pix_any_light_blender_visible": 300,
+  "pix_bits_vs_blender_disagree": 1,
+  "facing_neg_but_blender_visible": 15,
+  "blockers": {
+   "Lego": 802,
+   "r1_mask_3": 6,
+   "r1_mask_5": 1
+  },
+  "clean_radiance_sum": 108.90581873804331,
+  "per_light": {
+   "0": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 1
+   }
+  },
+  "clean_radiance_sum_disagree": 0.33131909370422363
+ },
+ "bits0_random": {
+  "pixels": 300,
+  "pix_any_light_blender_visible": 26,
+  "pix_bits_vs_blender_disagree": 26,
+  "facing_neg_but_blender_visible": 4,
+  "blockers": {
+   "Lego": 1003,
+   "r1_mask_5": 73,
+   "r1_mask_3": 66,
+   "r1_mask_0": 16,
+   "r1_mask_2": 1
+  },
+  "clean_radiance_sum": 7.408761928494641,
+  "per_light": {
+   "3": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 26
+   },
+   "0": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 8
+   },
+   "1": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 3
+   }
+  },
+  "clean_radiance_sum_disagree": 6.755472465418279
+ },
+ "lego_random_all_materials": {
+  "pixels": 300,
+  "pix_any_light_blender_visible": 211,
+  "pix_bits_vs_blender_disagree": 23,
+  "facing_neg_but_blender_visible": 13,
+  "blockers": {
+   "Lego": 842,
+   "r1_mask_5": 42,
+   "r1_mask_0": 5,
+   "r1_mask_3": 12
+  },
+  "clean_radiance_sum": 105.87626857935538,
+  "per_light": {
+   "0": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 6
+   },
+   "3": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 22
+   },
+   "1": {
+    "bit1_blender_blocked_or_backfacing": 0,
+    "bit0_blender_visible": 2
+   }
+  },
+  "clean_radiance_sum_disagree": 13.422433485276997
+ }
+}

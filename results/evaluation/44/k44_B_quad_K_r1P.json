@@ -1,0 +1,639 @@
+{
+ "kernels": "/home/nd/rest_fnto_r1/repo/results/fnto_lego_r1/K_r1P/kernels.pt",
+ "images": [
+  2,
+  7,
+  10,
+  15,
+  17,
+  19,
+  23,
+  25,
+  28,
+  29,
+  31,
+  32,
+  36,
+  38,
+  40,
+  44,
+  50,
+  53,
+  57,
+  63,
+  64,
+  65,
+  68,
+  72,
+  76,
+  78,
+  83,
+  87,
+  89,
+  90,
+  94,
+  96,
+  99,
+  100,
+  102,
+  103,
+  107,
+  110,
+  116,
+  117
+ ],
+ "px_per_image": 400,
+ "fine_px_per_image": 80,
+ "psnr": {
+  "rep": {
+   "all": {
+    "psnr": 24.49361801147461,
+    "px": 16000
+   },
+   "Yellow:lit": {
+    "psnr": 23.4548282623291,
+    "px": 1535
+   },
+   "Yellow:shadow": {
+    "psnr": 19.81557273864746,
+    "px": 3652
+   },
+   "Gray:shadow": {
+    "psnr": 23.443965911865234,
+    "px": 1039
+   },
+   "transparent:shadow": {
+    "psnr": 16.934101104736328,
+    "px": 17
+   },
+   "Black:shadow": {
+    "psnr": 37.66817855834961,
+    "px": 958
+   },
+   "Red_Glass:shadow": {
+    "psnr": 21.37569236755371,
+    "px": 43
+   },
+   "Light_brown:shadow": {
+    "psnr": 28.718778610229492,
+    "px": 280
+   },
+   "Sand:shadow": {
+    "psnr": 30.333480834960938,
+    "px": 3878
+   },
+   "Brown:shadow": {
+    "psnr": 31.85851287841797,
+    "px": 371
+   },
+   "Gray:lit": {
+    "psnr": 27.99808692932129,
+    "px": 383
+   },
+   "Black:lit": {
+    "psnr": 26.611480712890625,
+    "px": 365
+   },
+   "Light_brown:lit": {
+    "psnr": 39.5495491027832,
+    "px": 232
+   },
+   "Sand:lit": {
+    "psnr": 41.15686798095703,
+    "px": 2873
+   },
+   "Brown:lit": {
+    "psnr": 36.602718353271484,
+    "px": 343
+   },
+   "transparent:lit": {
+    "psnr": 17.298595428466797,
+    "px": 12
+   },
+   "Red_Glass:lit": {
+    "psnr": 21.29844856262207,
+    "px": 19
+   }
+  },
+  "rep_bf16": {
+   "all": {
+    "psnr": 24.497413635253906,
+    "px": 16000
+   },
+   "Yellow:lit": {
+    "psnr": 23.461505889892578,
+    "px": 1535
+   },
+   "Yellow:shadow": {
+    "psnr": 19.8182373046875,
+    "px": 3652
+   },
+   "Gray:shadow": {
+    "psnr": 23.449384689331055,
+    "px": 1039
+   },
+   "transparent:shadow": {
+    "psnr": 16.934297561645508,
+    "px": 17
+   },
+   "Black:shadow": {
+    "psnr": 37.66380310058594,
+    "px": 958
+   },
+   "Red_Glass:shadow": {
+    "psnr": 21.366783142089844,
+    "px": 43
+   },
+   "Light_brown:shadow": {
+    "psnr": 28.732677459716797,
+    "px": 280
+   },
+   "Sand:shadow": {
+    "psnr": 30.343116760253906,
+    "px": 3878
+   },
+   "Brown:shadow": {
+    "psnr": 31.834096908569336,
+    "px": 371
+   },
+   "Gray:lit": {
+    "psnr": 28.00902557373047,
+    "px": 383
+   },
+   "Black:lit": {
+    "psnr": 26.611324310302734,
+    "px": 365
+   },
+   "Light_brown:lit": {
+    "psnr": 39.58031463623047,
+    "px": 232
+   },
+   "Sand:lit": {
+    "psnr": 41.18276596069336,
+    "px": 2873
+   },
+   "Brown:lit": {
+    "psnr": 36.606781005859375,
+    "px": 343
+   },
+   "transparent:lit": {
+    "psnr": 17.29804039001465,
+    "px": 12
+   },
+   "Red_Glass:lit": {
+    "psnr": 21.289682388305664,
+    "px": 19
+   }
+  },
+  "dense_band": {
+   "all": {
+    "psnr": 24.52833366394043,
+    "px": 16000
+   },
+   "Yellow:lit": {
+    "psnr": 23.49395751953125,
+    "px": 1535
+   },
+   "Yellow:shadow": {
+    "psnr": 19.866378784179688,
+    "px": 3652
+   },
+   "Gray:shadow": {
+    "psnr": 23.49801254272461,
+    "px": 1039
+   },
+   "transparent:shadow": {
+    "psnr": 16.825584411621094,
+    "px": 17
+   },
+   "Black:shadow": {
+    "psnr": 37.67780685424805,
+    "px": 958
+   },
+   "Red_Glass:shadow": {
+    "psnr": 21.841445922851562,
+    "px": 43
+   },
+   "Light_brown:shadow": {
+    "psnr": 28.646923065185547,
+    "px": 280
+   },
+   "Sand:shadow": {
+    "psnr": 30.276567459106445,
+    "px": 3878
+   },
+   "Brown:shadow": {
+    "psnr": 31.32889175415039,
+    "px": 371
+   },
+   "Gray:lit": {
+    "psnr": 28.04802703857422,
+    "px": 383
+   },
+   "Black:lit": {
+    "psnr": 26.60971450805664,
+    "px": 365
+   },
+   "Light_brown:lit": {
+    "psnr": 37.78697204589844,
+    "px": 232
+   },
+   "Sand:lit": {
+    "psnr": 40.92352294921875,
+    "px": 2873
+   },
+   "Brown:lit": {
+    "psnr": 36.365135192871094,
+    "px": 343
+   },
+   "transparent:lit": {
+    "psnr": 16.91691017150879,
+    "px": 12
+   },
+   "Red_Glass:lit": {
+    "psnr": 21.113969802856445,
+    "px": 19
+   }
+  },
+  "dense_mid": {
+   "all": {
+    "psnr": 24.4685001373291,
+    "px": 16000
+   },
+   "Yellow:lit": {
+    "psnr": 23.526912689208984,
+    "px": 1535
+   },
+   "Yellow:shadow": {
+    "psnr": 19.768112182617188,
+    "px": 3652
+   },
+   "Gray:shadow": {
+    "psnr": 23.4439640045166,
+    "px": 1039
+   },
+   "transparent:shadow": {
+    "psnr": 16.864702224731445,
+    "px": 17
+   },
+   "Black:shadow": {
+    "psnr": 37.666988372802734,
+    "px": 958
+   },
+   "Red_Glass:shadow": {
+    "psnr": 21.37569236755371,
+    "px": 43
+   },
+   "Light_brown:shadow": {
+    "psnr": 28.718778610229492,
+    "px": 280
+   },
+   "Sand:shadow": {
+    "psnr": 30.333663940429688,
+    "px": 3878
+   },
+   "Brown:shadow": {
+    "psnr": 31.85849380493164,
+    "px": 371
+   },
+   "Gray:lit": {
+    "psnr": 27.99808692932129,
+    "px": 383
+   },
+   "Black:lit": {
+    "psnr": 26.6115665435791,
+    "px": 365
+   },
+   "Light_brown:lit": {
+    "psnr": 39.54955291748047,
+    "px": 232
+   },
+   "Sand:lit": {
+    "psnr": 41.156883239746094,
+    "px": 2873
+   },
+   "Brown:lit": {
+    "psnr": 36.602718353271484,
+    "px": 343
+   },
+   "transparent:lit": {
+    "psnr": 16.93203353881836,
+    "px": 12
+   },
+   "Red_Glass:lit": {
+    "psnr": 21.29844856262207,
+    "px": 19
+   }
+  },
+  "dense_both": {
+   "all": {
+    "psnr": 24.500507354736328,
+    "px": 16000
+   },
+   "Yellow:lit": {
+    "psnr": 23.56125831604004,
+    "px": 1535
+   },
+   "Yellow:shadow": {
+    "psnr": 19.81528663635254,
+    "px": 3652
+   },
+   "Gray:shadow": {
+    "psnr": 23.498010635375977,
+    "px": 1039
+   },
+   "transparent:shadow": {
+    "psnr": 16.75807762145996,
+    "px": 17
+   },
+   "Black:shadow": {
+    "psnr": 37.67661666870117,
+    "px": 958
+   },
+   "Red_Glass:shadow": {
+    "psnr": 21.841445922851562,
+    "px": 43
+   },
+   "Light_brown:shadow": {
+    "psnr": 28.646923065185547,
+    "px": 280
+   },
+   "Sand:shadow": {
+    "psnr": 30.276748657226562,
+    "px": 3878
+   },
+   "Brown:shadow": {
+    "psnr": 31.328866958618164,
+    "px": 371
+   },
+   "Gray:lit": {
+    "psnr": 28.04803466796875,
+    "px": 383
+   },
+   "Black:lit": {
+    "psnr": 26.609817504882812,
+    "px": 365
+   },
+   "Light_brown:lit": {
+    "psnr": 37.7869758605957,
+    "px": 232
+   },
+   "Sand:lit": {
+    "psnr": 40.92353820800781,
+    "px": 2873
+   },
+   "Brown:lit": {
+    "psnr": 36.365135192871094,
+    "px": 343
+   },
+   "transparent:lit": {
+    "psnr": 16.624048233032227,
+    "px": 12
+   },
+   "Red_Glass:lit": {
+    "psnr": 21.113969802856445,
+    "px": 19
+   }
+  },
+  "fine_rep": {
+   "all": {
+    "psnr": 24.811017990112305,
+    "px": 3200
+   },
+   "Yellow:lit": {
+    "psnr": 23.262928009033203,
+    "px": 308
+   },
+   "Yellow:shadow": {
+    "psnr": 19.963092803955078,
+    "px": 741
+   },
+   "Gray:shadow": {
+    "psnr": 26.460235595703125,
+    "px": 218
+   },
+   "Black:shadow": {
+    "psnr": 35.94110107421875,
+    "px": 176
+   },
+   "Light_brown:shadow": {
+    "psnr": 31.612472534179688,
+    "px": 53
+   },
+   "Sand:shadow": {
+    "psnr": 32.093963623046875,
+    "px": 774
+   },
+   "Brown:shadow": {
+    "psnr": 34.68928527832031,
+    "px": 82
+   },
+   "Gray:lit": {
+    "psnr": 33.605472564697266,
+    "px": 76
+   },
+   "Light_brown:lit": {
+    "psnr": 44.48065948486328,
+    "px": 44
+   },
+   "Sand:lit": {
+    "psnr": 39.52177810668945,
+    "px": 560
+   },
+   "Brown:lit": {
+    "psnr": 30.135963439941406,
+    "px": 61
+   },
+   "Black:lit": {
+    "psnr": 27.566425323486328,
+    "px": 86
+   },
+   "Red_Glass:shadow": {
+    "psnr": 28.285388946533203,
+    "px": 7
+   },
+   "transparent:lit": {
+    "psnr": 16.906848907470703,
+    "px": 7
+   },
+   "transparent:shadow": {
+    "psnr": 16.799358367919922,
+    "px": 4
+   },
+   "Red_Glass:lit": {
+    "psnr": 21.79415512084961,
+    "px": 3
+   }
+  },
+  "fine_dense_both": {
+   "all": {
+    "psnr": 24.789640426635742,
+    "px": 3200
+   },
+   "Yellow:lit": {
+    "psnr": 23.385517120361328,
+    "px": 308
+   },
+   "Yellow:shadow": {
+    "psnr": 19.94127082824707,
+    "px": 741
+   },
+   "Gray:shadow": {
+    "psnr": 26.461484909057617,
+    "px": 218
+   },
+   "Black:shadow": {
+    "psnr": 35.77257537841797,
+    "px": 176
+   },
+   "Light_brown:shadow": {
+    "psnr": 31.36554718017578,
+    "px": 53
+   },
+   "Sand:shadow": {
+    "psnr": 32.19850540161133,
+    "px": 774
+   },
+   "Brown:shadow": {
+    "psnr": 32.896453857421875,
+    "px": 82
+   },
+   "Gray:lit": {
+    "psnr": 34.0128173828125,
+    "px": 76
+   },
+   "Light_brown:lit": {
+    "psnr": 42.319305419921875,
+    "px": 44
+   },
+   "Sand:lit": {
+    "psnr": 39.04021453857422,
+    "px": 560
+   },
+   "Brown:lit": {
+    "psnr": 29.847301483154297,
+    "px": 61
+   },
+   "Black:lit": {
+    "psnr": 27.566640853881836,
+    "px": 86
+   },
+   "Red_Glass:shadow": {
+    "psnr": 28.82982063293457,
+    "px": 7
+   },
+   "transparent:lit": {
+    "psnr": 15.973906517028809,
+    "px": 7
+   },
+   "transparent:shadow": {
+    "psnr": 16.744586944580078,
+    "px": 4
+   },
+   "Red_Glass:lit": {
+    "psnr": 20.846176147460938,
+    "px": 3
+   }
+  },
+  "fine_band": {
+   "all": {
+    "psnr": 24.808155059814453,
+    "px": 3200
+   },
+   "Yellow:lit": {
+    "psnr": 23.361209869384766,
+    "px": 308
+   },
+   "Yellow:shadow": {
+    "psnr": 19.951866149902344,
+    "px": 741
+   },
+   "Gray:shadow": {
+    "psnr": 26.788036346435547,
+    "px": 218
+   },
+   "Black:shadow": {
+    "psnr": 35.837982177734375,
+    "px": 176
+   },
+   "Light_brown:shadow": {
+    "psnr": 31.368854522705078,
+    "px": 53
+   },
+   "Sand:shadow": {
+    "psnr": 32.217079162597656,
+    "px": 774
+   },
+   "Brown:shadow": {
+    "psnr": 32.876251220703125,
+    "px": 82
+   },
+   "Gray:lit": {
+    "psnr": 34.03034591674805,
+    "px": 76
+   },
+   "Light_brown:lit": {
+    "psnr": 42.71873092651367,
+    "px": 44
+   },
+   "Sand:lit": {
+    "psnr": 39.06889343261719,
+    "px": 560
+   },
+   "Brown:lit": {
+    "psnr": 29.815715789794922,
+    "px": 61
+   },
+   "Black:lit": {
+    "psnr": 27.56662368774414,
+    "px": 86
+   },
+   "Red_Glass:shadow": {
+    "psnr": 28.360797882080078,
+    "px": 7
+   },
+   "transparent:lit": {
+    "psnr": 15.951685905456543,
+    "px": 7
+   },
+   "transparent:shadow": {
+    "psnr": 16.684661865234375,
+    "px": 4
+   },
+   "Red_Glass:lit": {
+    "psnr": 20.741918563842773,
+    "px": 3
+   }
+  }
+ },
+ "term_change": {
+  "band_dense_vs_rep": {
+   "mean_abs_rel_change": 0.1499251056361476,
+   "signed_rel_change": 0.012145581998060902
+  },
+  "mid_dense_vs_rep": {
+   "mean_abs_rel_change": 0.18443603806491551,
+   "signed_rel_change": 0.010186871199541675
+  },
+  "band_fine_vs_dense": {
+   "mean_abs_rel_change": 0.0315389310767116,
+   "signed_rel_change": -0.002204785458827958
+  },
+  "band_bf16_vs_fp32": {
+   "mean_abs_rel_change": 0.0028734390605088147,
+   "signed_rel_change": -0.0019495404726894588
+  },
+  "mid_bf16_vs_fp32": {
+   "mean_abs_rel_change": 0.00748796067595247,
+   "signed_rel_change": 0.0021577562974832145
+  }
+ },
+ "cost": {
+  "dense_band_pairs": 149985.05,
+  "dense_band_s": 0.3990925133228302,
+  "dense_mid_pairs": 301794.2,
+  "dense_mid_s": 0.599635648727417,
+  "fine_band_pairs": 92475.8,
+  "fine_band_s": 0.3161086797714233
+ }
+}
