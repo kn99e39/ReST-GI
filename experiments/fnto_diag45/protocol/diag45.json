@@ -50,5 +50,19 @@
   "Burley oracle: normalisation of R over the plane (integral 1 for each channel), zero input -> zero output",
   "C evaluation: zero field -> zero, constant field on a closed hemisphere geometry -> E = pi c f"
  ],
- "stop": "integrated report + worklog 45; no correction implemented; no successor batch"
+ "stop": "integrated report + worklog 45; no correction implemented; no successor batch",
+ "amendments": [
+  {
+   "id": 1,
+   "date": "2026-10-26",
+   "recorded": "after B4 and the first B2/B3a outputs were seen, before the runs below; no threshold, scene, reference or frozen input changes",
+   "items": {
+    "B2_hitpoint_fix": "the 'C_hitpoint_values' variant multiplied miss rays' t = inf (NaN); fixed (t = 0 where no hit); production variant unchanged",
+    "B2_oracle_noise_replicate": "view 6 'emit' re-rendered at 1024 spp with seed offset 100 (same emitonly image); B2 is re-scored on the same pixels so the oracle's own Monte-Carlo spread bounds the C-vs-oracle median |rel| (descriptive)",
+    "B3a_emitall_control": "oracle 'emitall' (Yellow also emits f for non-camera rays; camera rays keep the real Yellow material) on views 6, 15; B3a is repeated with Yellow ports carrying f, isolating K's Yellow response to a field that includes the exposed Yellow->Yellow paths (78.7 % of Yellow gather rays hit Yellow)",
+    "B3b_source_split": "at convergence of the production solve, the last-gather response split into rays hitting Yellow ports vs all other rays, per class, as fractions of the reference indirect (closure reported)",
+    "code_commit_order": "B4 (b4_edit.py) and the first B2/B3a ran on code not yet committed; the code is committed with this amendment and its hash is recorded in the worklog"
+   }
+  }
+ ]
 }
