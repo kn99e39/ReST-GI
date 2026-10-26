@@ -97,6 +97,14 @@
    "items": {
     "B3g_eind_split": "linear split of the converged Yellow / opaque indirect prediction by the port class holding the aggregated gathered irradiance (visible in this view / observed in training only / never observed) plus the receiver-local term; descriptive (b3g_eind_split.py)"
    }
+  },
+  {
+   "id": 6,
+   "date": "2026-10-26",
+   "recorded": "after B3g (view 6: 82 % of the Yellow indirect prediction is the nonlocal response to gathered irradiance held at ports not visible in the view), before the run below",
+   "items": {
+    "B3h_lit_coverage": "descriptive CPU statistic: per Lego port, number of training-probe images in which it is directly lit (prep2_train port_vis), for Yellow port classes of B3g (b3h_lit_coverage.py)"
+   }
   }
  ]
 }
