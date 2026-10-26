@@ -63,6 +63,16 @@
     "B3b_source_split": "at convergence of the production solve, the last-gather response split into rays hitting Yellow ports vs all other rays, per class, as fractions of the reference indirect (closure reported)",
     "code_commit_order": "B4 (b4_edit.py) and the first B2/B3a ran on code not yet committed; the code is committed with this amendment and its hash is recorded in the worklog"
    }
+  },
+  {
+   "id": 2,
+   "date": "2026-10-26",
+   "recorded": "after B3b (Yellow indirect 2.51x / 0.96x on views 6 / 15, 96 % / 88 % of it from rays hitting Yellow ports) and the emitall control (K's response to the Yellow-sourced increment 0.97 / 0.88 of Blender), before the run below",
+   "items": {
+    "B3d_interface": "K -> C interface: first-bounce port emission I = outgoing(0, h_sun) sent into C vs K_k44P's own K-only pixel prediction and first_r1 at the same pixels, by class; plus the effective albedo of Yellow's sent light (b3d_interface.py)",
+    "A2_A4_extra_axes": "a4_split.py (view sun elevation, receiver n.w, oracle source-distance shares vs K component shares) and a2_localize.py with finer distance bins are descriptive additions to A2 / A4",
+    "post_hoc_tests": "protocol tests 3-4 (Burley normalisation, C zero / constant field) were run after A3 / B2 (common/d45_tests.py); both are analytic identities and passed"
+   }
   }
  ]
 }

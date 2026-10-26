@@ -71,7 +71,7 @@ def main(out, views=(6, 15), max_iter=12):
             Eind, h = S.aggregates(); h[torch.arange(T.N, device=dev), S.sunbin] -= S.Esun[:, None]; S.outgoing(Eind, h, sun_on=False)
             pr_s, _ = SV.render_pixels(T, S, {**pxd, "vis": torch.zeros_like(pxd["vis"])}); split[nm] = pr_s.cpu().numpy().astype(np.float64) @ LUM
             split[nm + "_E"] = Eind[pxd["port"]].mean(1).cpu().numpy().astype(np.float64)
-        S.L = Lc; Eind, h = S.aggregates(); S.Eind, S.h = Eind, h; S.outgoing(Eind, h)
+        S.L = Lc; del Lc; torch.cuda.empty_cache(); Eind, h = S.aggregates(); S.Eind, S.h = Eind, h; S.outgoing(Eind, h)
         rec["B3b"][f"view{v}_source_split"] = {}
         for cname, ids in CLASSES.items():
             m = np.isin(mat, ids)
@@ -106,7 +106,7 @@ def main(out, views=(6, 15), max_iter=12):
                               "rho_K_over_DiffCol_lum": float((rho[m] @ LUM).sum() / max((dcol[m] @ LUM).sum(), 1e-30)),
                               "counterfactual_rhoK_Eref_over_ref_diffind": float(cf.sum() / max(rf.sum(), 1e-30)), "counterfactual_corr": float(np.corrcoef(cf, rf)[0, 1])}
             rec["B3c"][f"view{v}"] = res; print(v, "B3c", json.dumps(res), flush=True)
-        del S
+        del S; torch.cuda.empty_cache()
     (out / "b3b_b3c.json").write_text(json.dumps(rec, indent=1))
 
 
