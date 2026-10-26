@@ -41,10 +41,10 @@ def ggx_plane(wi, wo):
 
 
 class MSState(DS.DirState):
-    def __init__(self, T, G, plane_mode, **mode):
+    def __init__(self, T, G, plane_mode, plane_read="n", **mode):
         H = G["H"]; self.Nk = T.N; Hk = np.where(H >= T.N, -1, H)
         super().__init__(T, Hk, G["sun"], SUN, **mode)
-        dev = T.dev; self.plane_mode = plane_mode
+        dev = T.dev; self.plane_mode = plane_mode; self.plane_read = plane_read
         rows, cols = np.nonzero(H >= T.N)
         self.mp = torch.as_tensor(rows, device=dev); self.mk = torch.as_tensor(cols, device=dev); self.mm = torch.as_tensor(H[rows, cols] - T.N, device=dev, dtype=torch.long)
         self.Hm = torch.as_tensor(G["Hm"].astype(np.int64), device=dev); self.dm = torch.as_tensor(G["dm"], device=dev)
@@ -63,8 +63,20 @@ class MSState(DS.DirState):
         return out
 
     @torch.no_grad()
+    def prepare(self, sun_on=True):
+        super().prepare(sun_on)
+        if self.plane_read == "basis" and self.O is None:                        # amendment 1: directional reads into the plane only
+            self.O = self.basis_table()
+
+    @torch.no_grad()
     def k_sender(self, q, d):
-        """K sender value incl. the sun lobe, for K ports q read along d (q >= 0)."""
+        """K sender value incl. the sun lobe, for K ports q read along d by the PLANE (gathers / pixels). plane_read 'n' = the
+        K solve's own semantics; 'basis' = directional (19-bin) nonlocal value toward -d with the solve's local part."""
+        if self.plane_read == "basis" and self.nl == "n":
+            nq = self.T.nrm[q]; w = DS.upper(nq, -d); td, bd = self.T.detf[0][q], self.T.detf[1][q]
+            b = M.hemi_bin(torch.stack([(w * td).sum(-1), (w * bd).sum(-1), (w * nq).sum(-1)], -1))
+            loc = self.loc_iso[q] if self.loc_in == "E" else self.ray_values(q, d) - self.NL_n[q]
+            return self.O[q, b.long()] + loc + self.sun_lobe(q, -d)
         return self.ray_values(q, d) + self.sun_lobe(q, -d)
 
     @torch.no_grad()
@@ -114,8 +126,9 @@ def main(gdir, rdir, out):
     from r1_eval import load_kernels
     gdir, rdir, out = Path(gdir), Path(rdir), Path(out); out.mkdir(parents=True, exist_ok=True); dev = torch.device("cuda")
     KA, KB = load_kernels(str(C.OUT1 / "K_k44P/kernels.pt"), dev); dig0 = M.digest(KA, KB); T = SV.Tables(KA, KB, dev)
-    senders = {"iso": dict(plane_mode="iso", nl="n", loc_in="E"), "dir": dict(plane_mode="dir", nl="basis", loc_in="E")}
-    cond = {"R0m": ("iso", "cos"), "R3m": ("dir", "cos"), "R6a": ("iso", "is"), "R6b": ("dir", "is")}
+    senders = {"iso": dict(plane_mode="iso", nl="n", loc_in="E"), "dir": dict(plane_mode="dir", nl="basis", loc_in="E"),
+               "dirread": dict(plane_mode="dir", nl="n", loc_in="E", plane_read="basis")}
+    cond = {"R0m": ("iso", "cos"), "R3m": ("dir", "cos"), "R6a": ("iso", "is"), "R6b": ("dir", "is"), "R3mr": ("dirread", "cos"), "R6br": ("dirread", "is")}
     pred = {}; rec = {"solves": {}, "views": {}, "conditions": cond}
     for state in ("T0", "T1"):
         G = dict(np.load(gdir / f"geom_{state}.npz"))
@@ -124,6 +137,8 @@ def main(gdir, rdir, out):
             rec["solves"][f"{state}_{sname}"] = {"status": S.status, "iters": S.iters, "seconds": time.time() - t, "timing": S.timing, "n_below": S.n_below,
                                                   "rays_to_plane": int(len(S.mm)), "peak_GB": torch.cuda.max_memory_allocated() / 1e9}
             print(state, sname, rec["solves"][f"{state}_{sname}"], flush=True)
+            if S.status != "converged":
+                del S; torch.cuda.empty_cache(); continue
             for v in range(3):
                 px = {k[len(f"v{v}_"):]: G[k] for k in G if k.startswith(f"v{v}_")}
                 val = px["valid"].astype(bool); kp = np.flatnonzero(val & (px["dom"] < 2)); pp = np.flatnonzero(val & (px["dom"] == 2))
@@ -145,6 +160,8 @@ def main(gdir, rdir, out):
             roi = {"plane": val & (dom == 2), "lego": val & (dom == 0), "box": val & (dom == 1), "yellow": val & (mat == 0), "all": val}
             r = {}
             for cname in cond:
+                if (cname, state, v) not in pred:
+                    continue
                 p = pred[(cname, state, v)].astype(np.float64)
                 r[cname] = {k: {"px": int(m.sum()), "psnr": psnr(p[m], ref[m]), "lum_ratio": float((p[m] @ LUM).sum() / max((ref[m] @ LUM).sum(), 1e-30))} for k, m in roi.items() if m.sum() > 50}
             if v == 0:
@@ -161,20 +178,26 @@ def main(gdir, rdir, out):
                 e0 = (rep["T0"][G0["v0_mk"]][i0] @ LUM - r0); e1 = (rep["T1"][m1][i1] @ LUM - r1); sig = float(1.4826 * np.median(np.abs(np.concatenate([e0, e1]))) / math.sqrt(2) * math.sqrt(2))
             rec["views"][f"edit_v{v}"] = {"px": int(len(i0)), "ref_change_rms": float(np.sqrt((dr ** 2).mean())), "sigma_ref_change": sig}
             for cname in cond:
+                if (cname, "T1", v) not in pred or (cname, "T0", v) not in pred:
+                    continue
                 dp = pred[(cname, "T1", v)][i1] @ LUM - pred[(cname, "T0", v)][i0] @ LUM
                 big = np.abs(dr) > 3 * (sig if sig else 0)
                 rec["views"][f"edit_v{v}"][cname] = {"corr": float(np.corrcoef(dp, dr)[0, 1]), "slope": float((dp * dr).sum() / max((dr * dr).sum(), 1e-30)),
                                                      "explained": float(1 - ((dp - dr) ** 2).sum() / max((dr * dr).sum(), 1e-30)), "sign_agree_gt3sigma": float((np.sign(dp[big]) == np.sign(dr[big])).mean()) if big.any() else None}
     # summary: plane ROI mean gains, 2 x 2 interaction
     def roi_mean(c, k="plane"):
-        xs = [rec["views"][f"{st}_v{v}"][c][k]["psnr"] for st in ("T0", "T1") for v in range(3) if k in rec["views"][f"{st}_v{v}"][c]]
-        return float(np.mean(xs)), xs
+        xs = [rec["views"][f"{st}_v{v}"][c][k]["psnr"] for st in ("T0", "T1") for v in range(3) if c in rec["views"][f"{st}_v{v}"] and k in rec["views"][f"{st}_v{v}"][c]]
+        return (float(np.mean(xs)), xs) if len(xs) == 6 else (None, xs)
     summ = {}
     for k in ("plane", "lego", "box", "yellow", "all"):
         mm = {c: roi_mean(c, k) for c in cond}
         summ[k] = {c: mm[c][0] for c in cond}
-        summ[k]["interaction_sender_x_sampling"] = mm["R6b"][0] - mm["R6a"][0] - mm["R3m"][0] + mm["R0m"][0]
-        for a_, b_ in (("R3m", "R0m"), ("R6a", "R0m"), ("R6b", "R6a"), ("R6b", "R0m")):
+        for tag, (a1b1, a1b0, a0b1, a0b0) in (("full", ("R6b", "R3m", "R6a", "R0m")), ("read", ("R6br", "R3mr", "R6a", "R0m"))):
+            if all(mm[c][0] is not None for c in (a1b1, a1b0, a0b1, a0b0)):
+                summ[k][f"interaction_sender_x_sampling_{tag}"] = mm[a1b1][0] - mm[a1b0][0] - mm[a0b1][0] + mm[a0b0][0]
+        for a_, b_ in (("R3m", "R0m"), ("R6a", "R0m"), ("R6b", "R6a"), ("R6b", "R0m"), ("R3mr", "R0m"), ("R6br", "R6a"), ("R6br", "R0m")):
+            if mm[a_][0] is None or mm[b_][0] is None:
+                summ[k][f"{a_}-{b_}"] = None; continue
             dif = np.array(mm[a_][1]) - np.array(mm[b_][1])
             summ[k][f"{a_}-{b_}"] = {"mean": float(dif.mean()), "n_pos": int((dif > 0).sum()), "n": int(len(dif)),
                                      "improves(>0.2dB & >=5/6)": bool(dif.mean() > 0.2 and (dif > 0).sum() >= 5) if k == "plane" else None}

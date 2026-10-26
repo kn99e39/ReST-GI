@@ -220,5 +220,28 @@ def main(out):
     Path(out).parent.mkdir(parents=True, exist_ok=True); Path(out).write_text(json.dumps(rec, indent=1)); print(json.dumps(rec, indent=1))
 
 
+def s2_diag(out, nseeds=2048):
+    """Amendment 1, post-hoc diagnostic (the predeclared S2 verdict is unchanged): S2's dir + importance-sampling estimate with
+    many seeds, to separate Monte-Carlo noise from a bias of the sampler / weights."""
+    g = torch.Generator(device=DEV); n = Z; wo = nrm(torch.tensor([0.4, 0.0, 0.9], dtype=F64, device=DEV)); rec = {}
+    for alpha in (0.04, 0.09):
+        wi0 = torch.tensor([-wo[0], -wo[1], wo[2]], dtype=F64, device=DEV); half = math.radians(3.0); omega = 2 * math.pi * (1 - math.cos(half))
+        Ld = math.pi / (omega * float(wi0 @ n))
+        g.manual_seed(2); u = torch.rand(1 << 22, generator=g, dtype=F64, device=DEV); vv = torch.rand(1 << 22, generator=g, dtype=F64, device=DEV)
+        ct = 1 - u * (1 - math.cos(half)); st = torch.sqrt(1 - ct * ct); t, b = frame(wi0)
+        wd = st[:, None] * torch.cos(2 * math.pi * vv)[:, None] * t + st[:, None] * torch.sin(2 * math.pi * vv)[:, None] * b + ct[:, None] * wi0
+        truth = float((ggx_val(n, wd, wo[None].expand_as(wd), alpha) * (wd @ n) * Ld).mean() * omega)
+        est = []
+        for sd in range(nseeds):
+            g.manual_seed(10000 + sd); wis, wiw = ggx_is_samples(n, wo, alpha, 128, g)
+            est.append(float((ggx_val(n, wis, wo[None].expand_as(wis), alpha) * Ld * ((wis @ wi0) >= math.cos(half)) * wiw).sum()))
+        e = torch.tensor(est, dtype=F64); m = float(e.mean()); se = float(e.std() / math.sqrt(nseeds))
+        rec[f"alpha{alpha}"] = {"truth": truth, "mean": m, "rel_err": m / truth - 1, "rel_se": se / truth, "z": (m - truth) / se, "nseeds": nseeds}
+    Path(out).write_text(json.dumps(rec, indent=1)); print(json.dumps(rec, indent=1))
+
+
 if __name__ == "__main__":
-    main(sys.argv[1])
+    if sys.argv[1] == "s2diag":
+        s2_diag(sys.argv[2])
+    else:
+        main(sys.argv[1])
