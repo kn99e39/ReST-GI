@@ -7,7 +7,7 @@ map on [0, M] and every signed difference on [-M, M] with sqrt mapping (|x| / M)
 Panels:
   01 Track A, test views 10 / 15 (first_r1): reference | K_k44P K only | |K only - first| on Yellow pixels only
   02 Track B3a, views 6 / 15: Yellow pixels under the emit45 field (non-Yellow emitters): Blender (real Yellow material)
-     | K_k44P one K/C step | signed D(pred) - D(ref); and the same for the 'emitall' oracle if present
+     | K_k44P one K/C step | signed D(pred) - D(ref); and the same for the 'emitall' and localized 'bump' oracles
   03 Track B4, views 6 / 15 (held-out T1, matched Lego pixels): reference indirect change | updated prediction | signed
      prediction - reference  (indirect change = D(full) - D(first) at T1 minus the same at T0 for the reference,
      D(E_upd) - D(K only) at T1 minus D(S_T0) - D(K only) at T0 for the prediction)
@@ -51,7 +51,7 @@ def main():
         e = np.abs(D(kk) - D(fr)).mean(1); e[~y] = np.nan
         figs.append((f"01_trackA_yellow_K_only_error_view{v}.png", [[("rgb", full_img(idx, D(fr), res), "first-event reference (first_r1)"),
                      ("rgb", full_img(idx, D(kk), res), "K_k44P K only"), ("err", full_img(idx, e, res), "|K only - first|, Yellow pixels only")]]))
-    for tag, name in (("", "emit"), ("_emitall", "emitall")):                       # 02 Track B3a
+    for tag, name in (("", "emit"), ("_emitall", "emitall"), ("_bump", "bump")):                       # 02 Track B3a
         f = O45 / f"track_b/b2_b3a_arrays{tag}.npz"
         if not f.exists():
             continue

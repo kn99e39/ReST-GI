@@ -1,0 +1,91 @@
+{
+ "protocol": "fnto_diag45 + amendments 1-6",
+ "baseline": "K_k44P (63e2741), rel_T0, eval_vis_k44, refs r1 (frozen; sha256 PC = server)",
+ "classes": [
+  "K intrinsic",
+  "C free-flight",
+  "K-C interface",
+  "composition-solver",
+  "data-reference",
+  "unresolved"
+ ],
+ "errors": [
+  {
+   "error": "Yellow first-event K-only error (79 % of Lego K-only SE; shadow pixels 78 % of it; pixels 3-30 cm from lit ports 21 % of Yellow px, 44 % of SE; K/ref 1.36 at 10-30 cm)",
+   "class": "K intrinsic",
+   "sub": "operator representation of 5-30+ cm object-scoped transport; support vs rank vs fit not separated",
+   "evidence": [
+    "A3: physics oracle (no learned parameter, 3 scales) on the same verified input 23.9 [21.4, 26.3] vs K_k44P 24.7 [24.1, 25.6] dB (overlap); shadow 25.3 vs 23.4, lit 22.6 vs 27.7; 3-10 cm 24.1 vs 22.1, 10-30 cm 24.2 vs 19.9",
+    "A1b: object-scoped sources required (component-only 16.1 dB, Yellow-only 23.0, object 23.9)",
+    "A1a/A4: Cycles Burley d = 6.1 / 1.2 / 0.39 cm; red mass 32 % < 5 cm, 85 % < 30 cm; oracle shadow light 48 % from 5-30 cm and 9 % (red 19 %) beyond 30 cm; rank-64 energy of the port operator 0.83 (R) / 0.82 (G)",
+    "input not limiting: identical verified port sun field for oracle and K; first_r1 Yellow noise floor 29.3-29.7 dB (WL44)"
+   ]
+  },
+  {
+   "error": "Yellow composed indirect over-prediction (pred/ref 1.74 over 16 views; 1.4-1.6 within 1 cm of lit ports, 2.94 at 3-10 cm, 4.20 at 10-30 cm; 95 % in the receiver's band+mid response; view 6 2.51, view 15 0.96)",
+   "class": "K-C interface (primary); K intrinsic receiver response (secondary, bounded)",
+   "evidence": [
+    "C free flight verified (B2) and C-gathered verified fields give K responses 0.56 (non-Yellow sources), 0.77-0.88 (all surfaces, smooth), 0.88-0.97 (Yellow-sourced increment), 1.16 (localized; 1.17-1.37 within 10 cm, 0.78 at 20-40 cm) - none reaches 1.74 / 4.2",
+    "B3d: Yellow first-bounce power sent into C = 1.81-1.83x the whole Lego's sun power in red (0.44-0.48 green), i.e. ~5x (R) / ~2x (G) the bound Yellow-sun-power x albedo; Cycles Burley conserves on a plane (A1a plateau)",
+    "B3d: at camera-visible Yellow ports the sent radiance is 0.35-0.41x the reference and of K's own pixel prediction (sender = port tables at wo = normal)",
+    "B3g: 82 % (view 6) / 81 % (view 15) of Yellow's predicted indirect is the nonlocal response to gathered irradiance at ports NOT visible in the view; 44 % / 43 % at ports never observed in training (B3h: 89 % of their area never lit in any of 1,000 training probes)",
+    "B3b: 88-96 % of the irradiance gathered at Yellow ports comes from rays hitting Yellow ports; over-prediction grows with iteration (view 6: 1.93 -> 2.51)"
+   ],
+   "caveat": "no per-port reference exit radiance exists for ports not visible to a camera; the attribution rests on the energy bound (plane-verified Burley conservation, not verified on Lego geometry) and the exact linear split"
+  },
+  {
+   "error": "Opaque indirect under-prediction (0.93 / 0.75 views 6 / 15; corr 0.85 / 0.81)",
+   "class": "composition source side (gathered field) + C contract limits; partly unresolved",
+   "evidence": [
+    "B3c: receiver response correct (rho_K E_ref / pi vs reference diffuse indirect 0.99, corr 0.9996)",
+    "B3c: converged gathered E at opaque pixel ports 0.89 / 0.76 of pi x DiffInd (corr 0.72 / 0.64; port average vs pixel point)",
+    "B2: C on a known field 1.04-1.10 per opaque material; enclosed receivers (inside > 10 %) 0.65; near-hit receivers 1.16",
+    "B3d: opaque sent radiance 0.90-0.96 of reference",
+    "glass transmission paths absent from C (B1)"
+   ]
+  },
+  {
+   "error": "Glass indirect missing (0.04 / 0.18 of reference)",
+   "class": "K-C interface / contract gap (unresolved between K glass receiver response and absent transmission path)",
+   "evidence": [
+    "B2: C to glass receivers correct on a known field (transparent 1.00, Red_Glass 1.03)",
+    "B3g: glass indirect almost entirely receiver-local and tiny (0.027-0.047)",
+    "WL44: 96-98 % missing"
+   ]
+  },
+  {
+   "error": "Edit: Yellow indirect change under-predicted (slope 0.17, magnitude 0.25 on A_changed Yellow) while opaque indirect change corr 0.92 / slope 0.88 and direct change corr 0.99 / slope 0.99",
+   "class": "inherits the Yellow chain (K-C interface sender + K receiver); C update itself correct",
+   "evidence": [
+    "B4"
+   ]
+  },
+  {
+   "error": "Solver / composition",
+   "class": "no independent error found",
+   "evidence": [
+    "B3b: converged in 6 iterations on both views, no growth; split closures 1.0000",
+    "rho 0.549 (WL44)"
+   ]
+  },
+  {
+   "error": "Data / reference",
+   "class": "not limiting",
+   "evidence": [
+    "emit45 oracle seed-to-seed median |rel| 1.3 %, corr 0.9997; bump oracle seed rel diff <= 1.6 %",
+    "protocol tests: emission calibration 1.0; Burley normalisation 1.0000; C zero / constant field exact"
+   ]
+  }
+ ],
+ "cross_track": {
+  "consistent": [
+   "Track A long-range red under-representation (oracle needs 5-30+ cm; rank-64 0.83) matches Track B red under-response to verified fields (non-Yellow field R 0.38; localized field R 0.62 at 20-40 cm)",
+   "Track A's K-only metric is near-unbiased at visible pixels (0.975) while Track B finds the over-prediction in the sender path at non-visible ports - the K-only metric cannot see that path by construction"
+  ],
+  "inconsistent_or_unresolved": [
+   "first-event K over-prediction far from lit ports (A2: 1.36x at 10-30 cm) is not reproduced by the localized-field response (B3f: 0.78x at 20-40 cm)",
+   "Black: K diffuse albedo 0.27-0.30 of Cycles DiffCol"
+  ]
+ },
+ "smallest_evidence_supported_intervention_target": "the radiance K emits into C at Yellow ports (sender path: port tables at wo = normal; ports never visible / never observed / never lit in training), which carries energy beyond any physical bound; decision input only, not a recommendation"
+}

@@ -1,0 +1,134 @@
+{
+ "views": [
+  6
+ ],
+ "B3b": {
+  "view6": [
+   {
+    "iter": 1,
+    "rel_change": 1.0,
+    "full_psnr_vs_full_r1": 25.574779087673384,
+    "Yellow": {
+     "ind_pred_over_ref": 1.9293153695685705,
+     "ind_corr": 0.5255826350391429,
+     "mean_gathered_E_at_pixel_ports": 0.13405868411064148
+    },
+    "opaque": {
+     "ind_pred_over_ref": 0.742603439077915,
+     "ind_corr": 0.8397637800346803,
+     "mean_gathered_E_at_pixel_ports": 0.10648513585329056
+    },
+    "glass": {
+     "ind_pred_over_ref": 0.034075515190757404,
+     "ind_corr": 0.3061518182319577,
+     "mean_gathered_E_at_pixel_ports": 0.13003703951835632
+    },
+    "box": {
+     "ind_pred_over_ref": 1.2811746505956205,
+     "ind_corr": 0.6961938961296852,
+     "mean_gathered_E_at_pixel_ports": 0.05268975347280502
+    }
+   },
+   {
+    "iter": 2,
+    "rel_change": 0.13986873595136223,
+    "full_psnr_vs_full_r1": 24.672359337009855,
+    "Yellow": {
+     "ind_pred_over_ref": 2.3600232063225373,
+     "ind_corr": 0.524573910726679,
+     "mean_gathered_E_at_pixel_ports": 0.16034865379333496
+    },
+    "opaque": {
+     "ind_pred_over_ref": 0.8807488297831847,
+     "ind_corr": 0.8480741403379072,
+     "mean_gathered_E_at_pixel_ports": 0.12361976504325867
+    },
+    "glass": {
+     "ind_pred_over_ref": 0.038650751259784163,
+     "ind_corr": 0.30284500470046377,
+     "mean_gathered_E_at_pixel_ports": 0.1472347527742386
+    },
+    "box": {
+     "ind_pred_over_ref": 1.6037927574373338,
+     "ind_corr": 0.8176261417862362,
+     "mean_gathered_E_at_pixel_ports": 0.06463789194822311
+    }
+   }
+  ],
+  "view6_source_split": {
+   "Yellow": {
+    "pred_ind_from_yellow_src_over_ref_ind": 2.26316298252105,
+    "pred_ind_from_other_src_over_ref_ind": 0.0968603417754466,
+    "closure_split_sum_over_pred_ind": 1.0000000499884742,
+    "gathered_E_yellow_src_share": 0.9554236107115138
+   },
+   "opaque": {
+    "pred_ind_from_yellow_src_over_ref_ind": 0.2717088057151649,
+    "pred_ind_from_other_src_over_ref_ind": 0.6090385614042114,
+    "closure_split_sum_over_pred_ind": 0.9999983392952012,
+    "gathered_E_yellow_src_share": 0.3537190120712992
+   },
+   "glass": {
+    "pred_ind_from_yellow_src_over_ref_ind": 0.03417806853505297,
+    "pred_ind_from_other_src_over_ref_ind": 0.004472964706614042,
+    "closure_split_sum_over_pred_ind": 1.0000072956378245,
+    "gathered_E_yellow_src_share": 0.9133852503518183
+   },
+   "box": {
+    "pred_ind_from_yellow_src_over_ref_ind": 0.7108833923654444,
+    "pred_ind_from_other_src_over_ref_ind": 0.8929355659636672,
+    "closure_split_sum_over_pred_ind": 1.0000163368313368,
+    "gathered_E_yellow_src_share": 0.44012082753346843
+   }
+  }
+ },
+ "B3c": {
+  "view6": {
+   "opaque": {
+    "px": 143830,
+    "E_FNTO_over_E_ref": 0.8501522030532231,
+    "E_corr": 0.7244396562094888,
+    "E_median_abs_rel": 0.3505232299900013,
+    "rho_K_over_DiffCol_lum": 0.9947563470782308,
+    "counterfactual_rhoK_Eref_over_ref_diffind": 0.9932340910967355,
+    "counterfactual_corr": 0.999578248521607
+   },
+   "box": {
+    "px": 15120,
+    "E_FNTO_over_E_ref": 1.3942920487056536,
+    "E_corr": 0.8526837373459576,
+    "E_median_abs_rel": 0.4247571307511848,
+    "rho_K_over_DiffCol_lum": 0.8841064183256996,
+    "counterfactual_rhoK_Eref_over_ref_diffind": 0.883560102695202,
+    "counterfactual_corr": 0.9834344553716023
+   },
+   "Gray": {
+    "px": 10466,
+    "E_FNTO_over_E_ref": 0.6320729563860822,
+    "E_corr": 0.7422370004299832,
+    "E_median_abs_rel": 0.44026420782816744,
+    "rho_K_over_DiffCol_lum": 0.9864297892524267,
+    "counterfactual_rhoK_Eref_over_ref_diffind": 0.986144851495839,
+    "counterfactual_corr": 0.9977088662431051
+   },
+   "Sand": {
+    "px": 90493,
+    "E_FNTO_over_E_ref": 1.0240500130552876,
+    "E_corr": 0.8293454640645482,
+    "E_median_abs_rel": 0.3003683425915299,
+    "rho_K_over_DiffCol_lum": 0.9961813757268143,
+    "counterfactual_rhoK_Eref_over_ref_diffind": 0.9962518851267275,
+    "counterfactual_corr": 0.9998680329190895
+   },
+   "Black": {
+    "px": 16823,
+    "E_FNTO_over_E_ref": 0.4970931920727769,
+    "E_corr": 0.572395175211749,
+    "E_median_abs_rel": 0.48317622745518995,
+    "rho_K_over_DiffCol_lum": 0.27032270477091347,
+    "counterfactual_rhoK_Eref_over_ref_diffind": 0.2528017295651039,
+    "counterfactual_corr": 0.11763762884386193
+   }
+  }
+ }
+}
