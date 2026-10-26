@@ -15,6 +15,8 @@ f(x) = max(0.05, 1 + 0.6 sin(2 pi x / 0.4) sin(2 pi y / 0.4) + 0.3 sin(2 pi z / 
 rays; its camera rays keep the real material (Cycles' Burley exit closure is built from the entry closure, the exit
 point's shader graph is not re-evaluated, so the Yellow pixel stays the real SSS response).
 
+env D45_FIELD=bump (amendment 4): f = 10 exp(-|x - c|^2 / (2 (2 cm)^2)), c = BUMP_C, a localized field.
+
     RNA_DIR=<rna repo> python emit45_render.py -- <mode emit|emitonly|emitall|calib> <view> <spp> <out dir>
 """
 import json
@@ -37,11 +39,24 @@ from r1_stagea_render import strip_lights  # noqa: E402
 
 
 def field_numpy(p):
+    if os.environ.get("D45_FIELD", "smooth") == "bump":
+        return BUMP_AMP * np.exp(-((p - np.asarray(BUMP_C)) ** 2).sum(-1) / (2 * BUMP_SIGMA ** 2))
     x, y, z = p[..., 0], p[..., 1], p[..., 2]
     return np.maximum(0.05, 1 + 0.6 * np.sin(2 * np.pi * x / 0.4) * np.sin(2 * np.pi * y / 0.4) + 0.3 * np.sin(2 * np.pi * z / 0.25))
 
 
+BUMP_C, BUMP_SIGMA, BUMP_AMP = (0.26708984, -0.45532227, 0.54345703), 0.02, 10.0   # WL45 amendment 4: localized field
+
+
 def field_nodes(nt):
+    if os.environ.get("D45_FIELD", "smooth") == "bump":                 # f = AMP exp(-|x - c|^2 / (2 sigma^2))
+        geo = nt.nodes.new("ShaderNodeNewGeometry"); sub = nt.nodes.new("ShaderNodeVectorMath"); sub.operation = "SUBTRACT"
+        nt.links.new(geo.outputs["Position"], sub.inputs[0]); sub.inputs[1].default_value = BUMP_C
+        dot = nt.nodes.new("ShaderNodeVectorMath"); dot.operation = "DOT_PRODUCT"; nt.links.new(sub.outputs[0], dot.inputs[0]); nt.links.new(sub.outputs[0], dot.inputs[1])
+        mul = nt.nodes.new("ShaderNodeMath"); mul.operation = "MULTIPLY"; nt.links.new(dot.outputs["Value"], mul.inputs[0]); mul.inputs[1].default_value = -1.0 / (2 * BUMP_SIGMA ** 2)
+        ex = nt.nodes.new("ShaderNodeMath"); ex.operation = "EXPONENT"; nt.links.new(mul.outputs[0], ex.inputs[0])
+        amp = nt.nodes.new("ShaderNodeMath"); amp.operation = "MULTIPLY"; nt.links.new(ex.outputs[0], amp.inputs[0]); amp.inputs[1].default_value = BUMP_AMP
+        return amp.outputs[0]
     geo = nt.nodes.new("ShaderNodeNewGeometry"); sep = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(geo.outputs["Position"], sep.inputs[0])
 
     def m(op, a, b=None):

@@ -81,6 +81,14 @@
    "items": {
     "B3e_coverage": "supervision coverage of Yellow ports (training-probe pixel counts, prep2_train) vs the first-bounce emission they send into C and their share of the Yellow-sourced irradiance gathered by visible Yellow receivers (b3e_coverage.py); descriptive, no threshold"
    }
+  },
+  {
+   "id": 4,
+   "date": "2026-10-26",
+   "recorded": "after B3e (never-observed Yellow ports carry only 3-4 % of the Yellow-sourced field at visible Yellow receivers) and the indirect localisation (Yellow indirect over-prediction 1.4-1.6x within 1 cm of lit ports rising to 4.2x at 10-30 cm, 95 % of it in band+mid), before the run below",
+   "items": {
+    "B3f_localized_field": "K_k44P one-step Yellow response to a localized field f = 10 exp(-|x-c|^2/(2 (2 cm)^2)) emitted by every surface (emitall semantics), vs Blender at views 6 / 15 (1024 spp x 2 seeds), by distance to c (0-2/2-5/5-10/10-20/20-40 cm); descriptive, no threshold. Tests whether K's band/mid response over-spreads localized input while matching the smooth field"
+   }
   }
  ]
 }

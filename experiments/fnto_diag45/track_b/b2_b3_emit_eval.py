@@ -35,6 +35,9 @@ EMIT_NAME = "emitall" if EMIT_ALL else "emit"
 
 
 def field_numpy(p):
+    if __import__("os").environ.get("D45_FIELD", "smooth") == "bump":         # amendment 4 (same constants as emit45_render)
+        c, sig, amp = np.asarray((0.26708984, -0.45532227, 0.54345703)), 0.02, 10.0     # = emit45_render.BUMP_* (no bpy import here)
+        return amp * np.exp(-((p - c) ** 2).sum(-1) / (2 * sig ** 2))
     x, y, z = p[..., 0], p[..., 1], p[..., 2]
     return np.maximum(0.05, 1 + 0.6 * np.sin(2 * np.pi * x / 0.4) * np.sin(2 * np.pi * y / 0.4) + 0.3 * np.sin(2 * np.pi * z / 0.25))
 
