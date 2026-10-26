@@ -38,7 +38,7 @@ def main(out, views=(6, 15)):
     for v in views:
         S = SV.State(T, H, vis[f"heldout_T0_v{v}_T0"].astype(np.float32), px[f"v{v}_light"])
         Eind, h = S.aggregates()                                                    # L = 0 -> Eind = 0, h = sun bin only
-        I = S.outgoing(Eind, h).cpu().numpy().astype(np.float64)
+        I = S.outgoing(Eind, h).cpu().numpy().astype(np.float64); del Eind, h; torch.cuda.empty_cache()
         Iloc = (T.rho / math.pi * S.Esun[:, None]).cpu().numpy().astype(np.float64)
         val = px[f"v{v}_valid"].astype(bool); dom = px[f"v{v}_dom"][val]; mat = np.where(dom == 1, 8, px[f"v{v}_mat"][val]); lit = px[f"v{v}_vis"][val] > 0.5
         port = px[f"v{v}_port"][val].astype(np.int64); ko = Vk[f"heldout_T0_v{v}_K_only"][:, :3].astype(np.float64); fr = first[f"v{v}_rgb"][val].astype(np.float64)
@@ -53,12 +53,18 @@ def main(out, views=(6, 15)):
                         "I_local_share": float((Iloc[port[m]] @ LUM).sum() / ip.sum()),
                         "I_over_ref_RGB": (I[port[m]].sum(0) / fr[m].sum(0)).tolist(), "K_only_over_ref_RGB": (ko[m].sum(0) / fr[m].sum(0)).tolist()}
         # all Yellow ports (not only visible ones): port emission vs its own sun irradiance (effective albedo of the sent light)
-        yp = (An["mat"] == 0) & (An["obj"] == 0); Es = S.Esun.cpu().numpy()
-        r["all_yellow_ports"] = {"n": int(yp.sum()), "sum_pi_I_over_sum_Esun_RGB": (math.pi * I[yp].sum(0) / max(Es[yp].sum(), 1e-30)).tolist(),
-                                 "lit_port_fraction": float((Es[yp] > 0).mean()), "shadow_port_share_of_sent_lum": float((I[yp & (Es == 0)] @ LUM).sum() / (I[yp] @ LUM).sum())}
-        sp = S.spec.float(); hitY = torch.as_tensor(yp[np.clip(H, 0, None)] & (H >= 0), device=dev)
-        r["mean_spec_term_on_rays_hitting_Yellow_lum"] = float((sp[hitY] @ torch.as_tensor(LUM, device=dev).float()).mean())
-        r["mean_I_on_rays_hitting_Yellow_lum"] = float((torch.as_tensor(I @ LUM, device=dev).float()[S.Hc][hitY]).mean())
+        yp = (An["mat"] == 0) & (An["obj"] == 0); Es = S.Esun.cpu().numpy(); Ar = An["area"].astype(np.float64); inside = (H == -2).mean(1)
+        pw = lambda m: (math.pi * I[m] * Ar[m, None]).sum(0)                       # sent power (W / m^2 x m^2 per channel)  # noqa: E731
+        pin = max((Es[yp] * Ar[yp]).sum(), 1e-30)
+        r["all_yellow_ports"] = {"n": int(yp.sum()), "area_weighted_sent_power_over_sun_power_RGB": (pw(yp) / pin).tolist(),
+                                 "lit_port_area_fraction": float(Ar[yp & (Es > 0)].sum() / Ar[yp].sum()), "sent_lum_share": {}}
+        for lab, m in (("lit", yp & (Es > 0)), ("shadow_inside0", yp & (Es == 0) & (inside == 0)), ("shadow_inside_0_to_0.5", yp & (Es == 0) & (inside > 0) & (inside <= 0.5)),
+                       ("shadow_inside_gt0.5", yp & (Es == 0) & (inside > 0.5))):
+            r["all_yellow_ports"]["sent_lum_share"][lab] = {"area_share": float(Ar[m].sum() / Ar[yp].sum()), "sent_power_share": float(pw(m) @ LUM / (pw(yp) @ LUM)),
+                                                             "sent_power_over_sun_power_RGB": (pw(m) / pin).tolist()}
+        hitY = torch.as_tensor(yp[np.clip(H, 0, None)] & (H >= 0), device=dev); lumt = torch.as_tensor(LUM, device=dev).float()
+        r["mean_spec_term_on_rays_hitting_Yellow_lum"] = float((S.spec[hitY].float() @ lumt).mean())
+        r["mean_I_on_rays_hitting_Yellow_lum"] = float(torch.as_tensor(I @ LUM, device=dev).float()[S.Hc[hitY]].mean()); del hitY
         rec[f"view{v}"] = r; print(v, json.dumps(r, indent=1), flush=True)
         del S; torch.cuda.empty_cache()
     (out / "b3d_interface.json").write_text(json.dumps(rec, indent=1))

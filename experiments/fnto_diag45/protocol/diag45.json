@@ -73,6 +73,14 @@
     "A2_A4_extra_axes": "a4_split.py (view sun elevation, receiver n.w, oracle source-distance shares vs K component shares) and a2_localize.py with finer distance bins are descriptive additions to A2 / A4",
     "post_hoc_tests": "protocol tests 3-4 (Burley normalisation, C zero / constant field) were run after A3 / B2 (common/d45_tests.py); both are analytic identities and passed"
    }
+  },
+  {
+   "id": 3,
+   "date": "2026-10-26",
+   "recorded": "after B3d (visible Yellow ports send 0.35-0.41x of the reference exit radiance while the Yellow-sourced indirect is 2.4x on view 6), before the run below",
+   "items": {
+    "B3e_coverage": "supervision coverage of Yellow ports (training-probe pixel counts, prep2_train) vs the first-bounce emission they send into C and their share of the Yellow-sourced irradiance gathered by visible Yellow receivers (b3e_coverage.py); descriptive, no threshold"
+   }
   }
  ]
 }
