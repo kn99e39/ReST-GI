@@ -1,0 +1,72 @@
+{
+ "protocol": "fnto_dir46",
+ "worklog": 46,
+ "authorisation": "user brief 'Worklog 46 - Directional K/C Interface: Component Attribution, Controlled Composition, and Real-scene Validation' (2026-10-26)",
+ "handoff_commit": "d3fd72ffbe684e8b6ff171b80f08cf0569829f47",
+ "frozen_baseline": {"K": "results/fnto_lego_r1/K_k44P/kernels.pt (sha256 30d55da373a01ab8...)", "relations": "rel_T0 / rel_T1_inc / rel_T1", "sun_fractions": "eval_vis_k44.npz", "references": "refs/heldout_{T0,T1}_{first,full}.npz", "solver": "r1_solve (TOL 1e-3, MAX_IT 100)"},
+ "stage1_audit_before_design": {
+  "file": "s1_audit.py (smoke on view 6 recorded before this protocol)",
+  "facts": [
+   "A incoming collapse: the sender's K_loc uses rho/pi (E_sun + E_ind) + sum kappa / pi E_ind (indirect glossy made isotropic); K_glob and K_mid consume irradiance by design; K_band consumes 19 hemispherical incident bins; the RECEIVER pixel path already applies K_loc to the 128 directional gather samples",
+   "B outgoing collapse: the production sender evaluates K_mid (precomputed Wm table) and K_band at w_o = port normal; K_glob is isotropic by design; the sun's GGX lobe of the hit port is the only direction-resolved sender term (State.spec)",
+   "C K_loc is a full learned BSDF f(w_i, w_o) = rho/pi + sum_l kappa_l GGX(alpha_l) and can be queried in any (w_i, w_o); K_band / K_mid take w_o as an input and can be queried in any direction, but were only supervised at camera directions of visible pixels",
+   "D C keeps per-ray directional incident radiance (State.L [port, 128]); information is lost at the sender lookup (isotropic value of the hit port) and in the receiver's quadrature (128 cosine rays)",
+   "E direct sun GGX: receiver pixel loc term (exact delta) and sender State.spec per ray; indirect GGX: receiver pixel loc over gathers, sender collapsed to kappa / pi E_ind; no double count found in code",
+   "smoke (view 6): worklog 45's 0.41x at visible Yellow ports is the outgoing DIRECTION: the port query toward the camera gives 0.99x of first_r1 (pixel path 0.98x), toward the normal 0.41x",
+   "smoke (view 6): K44's nonlocal output varies strongly with w_o at unsupervised (port, direction) pairs: Yellow sample ports flux / (pi L(n)) = 46.5, max/min over the 19 bin centres median 238; glass 8.5; box 0.93 (sane); opaque nonlocal ~0",
+   "K_loc parameters: opaque kappa (lum) median 0.019, alpha median 0.09-0.13 (min 0.016); box kappa 0.040, alpha 0.08; glass kappa median 0.003",
+   "cost on RTX 3080 Ti: nonlocal query 0.62 M/s, local 'E' 2.6 M/s, local 'dir' 1.4 M/s; production outgoing() 0.79 s"
+  ]
+ },
+ "design": {
+  "boundary_state": "incoming L_in(p, k) [W m^-2 sr^-1] along -d_pk for each port p and its K = 128 cosine-distributed gathers (State.L, unchanged); outgoing L_out(q, w) is a QUERY of q's frozen K (dir46_core.query_out), not a stored dense tensor",
+  "outgoing_representation": "nonlocal part (glob isotropic + band + mid): per-port piecewise-constant angular basis on the 19 hemispherical bins of q's deterministic frame (the K_band incident partition), O(q, b) = query at the bin centre, a gather ray reads O(q, hemi_bin(local(-d))); local K_loc part: exact per-ray query (analytic in w); memory N x 19 x 3 fp32 (195 MB for the Lego scene)",
+  "incoming_representation": "'E' = production collapse; 'dir' = K_loc applied to the 128 directional samples + delta sun at the sender; band keeps its 19 incident bins; glob / mid are irradiance-entry by K's design (not changed)",
+  "units_conventions": "radiance everywhere on rays; E = pi / K sum L_in; world-frame unit directions, w_o with n . w_o > 0; linear RGB; port flux Phi_q = A_q int L_out cos dw evaluated by 64-direction cosine quadrature (never pi L(n) unless isotropic)",
+  "visibility_geometry": "relation tables, hit mapping, sun fractions unchanged; directional mode changes only the VALUE read per ray",
+  "direct_specular_accounting": "iso mode: production (State.spec per ray + isotropic I); dir mode: the sun's diffuse and GGX lobe are produced once by local_out toward the actual ray direction; State.spec is NOT added in dir mode (test)",
+  "linearity": "every query is linear in (L_in, E_sun) for fixed K and geometry; the basis lookup is linear",
+  "expected_limitations": ["K44's directional nonlocal output is unreliable at unsupervised (port, direction) pairs (stage 1)", "19-bin piecewise-constant basis blurs the nonlocal part within a bin; quantified against exact per-ray queries on one view", "port normal / port centre stand in for the hit point", "128 cosine gathers under-sample sharp lobes (axis D)", "no glass transmission path"]
+ },
+ "conditions": {
+  "R0": {"axes_vs_R0": [], "frozen": "all", "class": "production", "def": "frozen K44 + original C + original sampler (r1_solve unchanged)"},
+  "R1": {"axes_vs_R0": ["known field instead of K"], "class": "isolated oracle (known field)", "def": "known directional field read through the original interface: sender value at the port normal"},
+  "R2": {"axes_vs_R0": ["known field", "A outgoing"], "class": "isolated oracle (known field)", "def": "same field, rays and hits as R1; sender value toward the receiver (-d) at the port normal frame; diagnostic R2t uses the hit triangle's geometric normal"},
+  "R3": {"axes_vs_R0": ["A outgoing"], "class": "production-capable (frozen K44)", "def": "nonlocal sender via the 19-bin basis toward -d; K_loc sender incoming 'E' with the sun lobe toward -d"},
+  "R4": {"axes_vs_R0": ["B incoming"], "class": "frozen K44 K_loc where verified; analytic GGX control on synthetic cases", "def": "sender K_loc incoming 'dir' evaluated at the port normal (outgoing not resolved): isolates the incoming axis for K_loc; analytic control: irradiance-only vs directional input to a known GGX operator"},
+  "R5": {"axes_vs_R0": ["A outgoing", "B incoming"], "class": "production-capable (frozen K44)", "def": "R3 + sender K_loc incoming 'dir' toward -d"},
+  "R6": {"axes_vs_R0": ["D sampling"], "class": "conditional; analytic receiver (glossy plane) only", "def": "glossy-plane pixels integrate incoming radiance with 128 GGX-importance-sampled rays from the pixel point instead of the plane port's 128 cosine gathers; run with iso (R6a) and dir (R6b) senders"},
+  "R3x": {"axes_vs_R0": ["A outgoing (exact per-ray nonlocal)"], "class": "diagnostic (basis error)", "def": "R3 with the nonlocal part queried exactly per ray, view 6 only"}
+ },
+ "interaction": "two-factor interaction = M(A1,B1) - M(A1,B0) - M(A0,B1) + M(A0,B0) for (A outgoing x B incoming) on LG (R0, R3, R4, R5) and for (sender iso/dir x receiver sampling cosine/IS) on MS (R0m, R3m, R6a, R6b)",
+ "scenes": {
+  "SYN": {"class": "I synthetic directional contract (analytic, no learned K)", "cases": {
+     "S0": "zero field -> zero output (all interface modes)",
+     "S1": "constant field / furnace: uniform incident radiance 1 -> E = pi, glossy response = directional albedo",
+     "S2": "identical irradiance E = pi, different angular distributions (uniform sky vs small disk source at the mirror direction) on an analytic GGX receiver (alpha 0.04 and 0.09)",
+     "S3": "sender patch with identical normal-direction radiance but directional emission g_kappa(n.w) (kappa 0, 2, 8): receiver irradiance",
+     "S4": "one glossy reflection: emitter patch -> glossy plane (alpha 0.04) -> camera direction",
+     "S5": "two-bounce specular: emitter -> glossy plane 1 -> glossy plane 2 -> camera direction",
+     "S6": "linearity / superposition of two fields"},
+   "ground_truth": "dense numerical integration (>= 2^22 stratified samples) or closed form",
+   "interface_variants": ["iso (production semantics)", "dir + 128 cosine gathers", "dir + 128 GGX-importance samples"],
+   "criteria": {"S0": "exactly 0", "S1_S6": "relative error <= 1e-5 (deterministic identities)", "S2_S5_contract": "dir + importance sampling: |mean rel. error| over 32 seeds <= 2 %; iso and dir + cosine reported, no criterion"}},
+  "KF": {"class": "known-field real renderer (axes A / C)", "regime": "emit46: Blender emission f_s(x) g_kappa(|n_true . w_in|), g_kappa(c) = (kappa + 2) / 2 c^kappa (cosine-weighted flux equal to the isotropic field f_s), every surface emits for non-camera rays (emitall semantics; Yellow camera rays keep the real material); camera rays on non-Yellow surfaces: diffuse white + emission ('emit') or emission only ('emitonly'); E_in = pi (P_emit - P_emitonly)",
+   "views": "held-out T0 views 6 and 15", "kappa": [0, 2, 8], "spp": {"emit": 1024, "emitonly": 64}, "seeds": "4600 + v (+100 replicate: kappa 8, view 6)", "pixels": "20,000 non-Yellow pixels per view (seed 4602)",
+   "metrics": "pooled ratio, median |rel|, corr per kappa x {R1, R2, R2t}, per material and near-hit / inside classes",
+   "criteria": {"H_C_and_H_A_known_field": "SUPPORTED if for kappa = 2 and 8: |pooled(R2) - pooled(R2, kappa 0)| <= 0.03 and corr(R2) >= corr(R2, kappa 0) - 0.02 and median |rel|(R2) <= median |rel|(R2, kappa 0) + 0.03; R1 reported"}},
+  "LG": {"class": "III existing FNTO regression (frozen K44)", "views": "held-out T0 16 views (S_T0) + held-out T1 16 views (E_upd with rel_T1_inc, D_stale)", "conditions": ["R0", "R3", "R4", "R5", "R3x (view 6)"],
+   "metrics": "display PSNR vs full_r1 (all / Yellow / opaque / box / A_changed), indirect pred/ref by class, linear lum ratio, convergence status / iterations, spectral radius of the homogeneous map, Yellow sent flux (cosine quadrature) vs worklog 45, edit: signed change corr / slope / explained on A_changed and stationary, per-iteration time, GPU memory",
+   "criteria": {"end_to_end_improvement": "all 32 solves converge AND mean T0 full-image PSNR gain over 16 views with view-level paired bootstrap 95 % CI (2,000 resamples, seed 46) excluding 0 AND no class (Yellow / opaque / box) mean loss > 0.3 dB", "regression": "a class mean loss > 0.3 dB or the full-image CI entirely below 0", "non_convergence": "any diverged / unconverged solve or rho >= 1: the condition is NOT production-capable; reported with one-step diagnostics only"}},
+  "MS": {"class": "II specular real renderer", "scene": "official Lego + red box (T0 / T1 box move as worklog 37) + a glossy plane x = 0.85 facing -x, y in [-1.0, 0.9], z in [-0.25, 0.8], Cycles Glossy BSDF (GGX, roughness 0.2 -> alpha 0.04, colour 0.9), no lights but one sun w = normalize(0.2, -0.5, 0.84), strength E_SUN, black world",
+   "views": "3 cameras showing the plane and the reflected Lego / box; res 512", "reference": "full GI, r1 settings (no clamp, GAUSSIAN 0.01, max_bounces 32), 4096 spp, seed 4610 + v; replicate seed + 100 on view 0 for both states",
+   "domains": "Lego / box: frozen K44; glossy plane: analytic K (rho 0, one GGX lobe kappa 0.9, alpha 0.04) - an analytic control domain, labelled as such",
+   "conditions": {"R0m": "iso senders everywhere (production semantics incl. the plane's isotropic kappa / pi E + sun lobe), plane pixels from the plane port's 128 cosine gathers", "R3m": "dir senders (K44 basis + plane analytic directional), cosine gathers", "R6a": "iso senders, plane pixels from 128 GGX-IS rays", "R6b": "dir senders, 128 GGX-IS rays"},
+   "metrics": "plane ROI display PSNR and linear lum ratio vs reference (T0, T1), Lego / box pixel PSNR, ROI edit change corr / slope / sign agreement (> 3 sigma, sigma from the replicate), 2 x 2 interaction",
+   "criteria": {"real_scene_gain": "a condition improves the plane ROI if its mean display-PSNR gain over the 6 (view x state) images > 0.2 dB AND >= 5 of 6 images improve; the reference replicate gives the noise floor (reported)"}}
+ },
+ "cost_budget": {"LG_R3_per_iteration": "<= 3x R0 time, <= 11 GB GPU", "LG_R5_per_iteration": "<= 10x R0 time", "report": "memory of the boundary representation, query counts, ray counts, iterations, runtime, T0 -> T1 update cost"},
+ "stop_rules": ["K44 cannot supply a required angular response without redesign / retraining: stop that path, continue known-field / analytic controls", "unit / direction / linearity violation", "double-counted direct / specular contribution", "invalid or too-noisy reference", "gain depends on changing frozen inputs", "mechanism requires a different representation class", "cost cannot be bounded"],
+ "not_authorised": ["K redesign or retraining", "rank / support / mixture / GGX / passivity / threshold tuning", "learned or compressed C", "glass transmission", "Yellow heuristics", "scene-specific calibration", "parameter sweeps", "worklog 47"],
+ "tests_before_evidence_runs": ["coordinate frames / direction normalisation / orientation", "radiance vs irradiance normalisation", "zero field", "constant field", "known directional reflection", "linearity", "finite outputs", "frozen parameter digest identity", "baseline-off identity: dir46 path in iso mode reproduces r1_solve per-ray values and a converged view"]
+}
