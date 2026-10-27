@@ -3,10 +3,31 @@
  "worklog": "docs/worklogs/48_WORKLOG_POST47_ARCHITECTURE_EVIDENCE.md",
  "authorisation": "user brief 'ReST-GI - Worklog 48 Post-47 Architecture Evidence Pipeline' (2026-10-27)",
  "handoff_commit": "53f8d31",
- "frozen": {"K_k44P": "results/fnto_lego_r1/K_k44P/kernels.pt (digest checked before / after every GPU probe)", "relations": "rel_T0 / rel_T1_inc", "anchors": "anchors.npz", "eval_vis_k44": "port sun fractions", "references": "first_r1, MS refs (4096 spp), emit46 KF oracle", "code": "experiments/fnto_lego*, fnto_diag45, fnto_dir46, fnto_smoke47 unchanged (subclassed / imported only)"},
- "not_authorised": ["K44 retraining / tuning", "rank / support changes", "production C / sampling / solver changes", "new learned C, Unified or Hybrid K", "glass transmission", "passivity clipping", "brightness corrections", "new high-spp renders", "worklog 49"],
- "budget": {"gpu_min": 30, "cpu_render_min": 30, "wall_min": 90, "planned": "GPU ~15 min (A ~3, B ~4, C ~8, KF ~1); CPU renders 0 (no new renders)"},
-
+ "frozen": {
+  "K_k44P": "results/fnto_lego_r1/K_k44P/kernels.pt (digest checked before / after every GPU probe)",
+  "relations": "rel_T0 / rel_T1_inc",
+  "anchors": "anchors.npz",
+  "eval_vis_k44": "port sun fractions",
+  "references": "first_r1, MS refs (4096 spp), emit46 KF oracle",
+  "code": "experiments/fnto_lego*, fnto_diag45, fnto_dir46, fnto_smoke47 unchanged (subclassed / imported only)"
+ },
+ "not_authorised": [
+  "K44 retraining / tuning",
+  "rank / support changes",
+  "production C / sampling / solver changes",
+  "new learned C, Unified or Hybrid K",
+  "glass transmission",
+  "passivity clipping",
+  "brightness corrections",
+  "new high-spp renders",
+  "worklog 49"
+ ],
+ "budget": {
+  "gpu_min": 30,
+  "cpu_render_min": 30,
+  "wall_min": 90,
+  "planned": "GPU ~15 min (A ~3, B ~4, C ~8, KF ~1); CPU renders 0 (no new renders)"
+ },
  "stage0_intake_wl47": {
   "verified": "commits 3b1b70d / 976778c / 53f8d31; protocol fnto_smoke47 + amendment 1; tests ALL_PASS; results/fnto_smoke47",
   "angular_sensitive_physical_reference": "yes for the constructed internal-mirror cavity (MIR, D 0.98-1.11 at dE <= 5e-6); no for Lego Yellow Burley (R <= 1.0 %, G <= 1.9 % within bounds; B inconclusive > 6 cm)",
@@ -15,15 +36,33 @@
   "independent_supervision_benefit": "no (only with directional input; interaction -0.86 to -1.07)",
   "regime_relevance": "MIR = constructed internal reflection (K-intrinsic class, glass-like; not measured on the Lego); SSS = the Lego Yellow material under Cycles Burley semantics (displacement removed) - directly relevant to the K44 Yellow error",
   "factual_correction": "worklog 47 INTERPRETATION states 'K_band takes a 7-bin incident partition'; the code has N_BINS_H = 19 (fnto_common.py). The statement is descriptive only and changes no worklog-47 measurement or verdict. Recorded here; worklog 47 is not edited.",
-  "use_in_wl48": ["the optional isolated learning control of Probe A is SKIPPED: worklog 47 Stage C already separates supervision from representation in a fixed linear family (B0 vs B1)", "Probe A uses worklog 47's three-camera SSS data as the physical reference property of Yellow nonlocal EXIT radiance (direction independence)"]
+  "use_in_wl48": [
+   "the optional isolated learning control of Probe A is SKIPPED: worklog 47 Stage C already separates supervision from representation in a fixed linear family (B0 vs B1)",
+   "Probe A uses worklog 47's three-camera SSS data as the physical reference property of Yellow nonlocal EXIT radiance (direction independence)"
+  ]
  },
-
  "probe_A": {
   "question": "Does K44's directional-sender failure originate from unsupervised boundary queries, invalid directional flux, or another identifiable operator limitation?",
-  "views": [6, 15], "state": "first-event (sun only, L = 0; worklog 45 verified field) for energy accounting; converged production state for directional distributions",
+  "views": [
+   6,
+   15
+  ],
+  "state": "first-event (sun only, L = 0; worklog 45 verified field) for energy accounting; converged production state for directional distributions",
   "groups": "classes Yellow (mat 0) and opaque (mats 1, 3, 5, 6, 7) x observed / never observed (training-probe pixels mapped to the port, stagea/prep2_train px_dom == 0) x lit / shadow (Esun > 0 in the view); up to 1500 ports per cell per view, seed 4801",
-  "queries": {"normal": "n_q", "camera": "up to 8 training camera directions of the port (px_cam)", "C_requested": "up to 16 directions -d of rel_T0 gathers that hit the port", "quadrature": "19 bin centres + 64 cosine directions"},
-  "measures": ["nonlocal (glob + band + mid) and local (production 'E') luminance per query", "anisotropy AI = max / min over the 19 bin centres (nonlocal)", "F = cosine-weighted hemispherical mean / normal value", "dev(dir) = |log(L(dir) / L_cosmean)| for supervised (within 10 deg of a training camera direction of that port) vs unsupervised (> 20 deg from all) directions at observed ports", "finiteness, extremes", "domain energy accounting on the first-event field: Lego outgoing flux (hemispherical, 64 cosine directions, all K parts) / sun power absorbed by Lego ports; also the production normal-direction flux; 200k-port random subsample"],
+  "queries": {
+   "normal": "n_q",
+   "camera": "up to 8 training camera directions of the port (px_cam)",
+   "C_requested": "up to 16 directions -d of rel_T0 gathers that hit the port",
+   "quadrature": "19 bin centres + 64 cosine directions"
+  },
+  "measures": [
+   "nonlocal (glob + band + mid) and local (production 'E') luminance per query",
+   "anisotropy AI = max / min over the 19 bin centres (nonlocal)",
+   "F = cosine-weighted hemispherical mean / normal value",
+   "dev(dir) = |log(L(dir) / L_cosmean)| for supervised (within 10 deg of a training camera direction of that port) vs unsupervised (> 20 deg from all) directions at observed ports",
+   "finiteness, extremes",
+   "domain energy accounting on the first-event field: Lego outgoing flux (hemispherical, 64 cosine directions, all K parts) / sun power absorbed by Lego ports; also the production normal-direction flux; 200k-port random subsample"
+  ],
   "physical_reference": "worklog 47 SSS: Yellow nonlocal exit radiance at top / +y45 / -y45 cameras (shadow bands, field A, both replicates) -> measured anisotropy of Cycles' Yellow nonlocal exit",
   "criteria": {
    "output_invalid": "Yellow nonlocal median AI > 1.5 (both views) OR first-event Lego hemispherical outgoing / absorbed flux > 1",
@@ -32,7 +71,6 @@
    "classification": "supervision hypothesis supported if output_invalid and both associations hold; representation-or-other if output_invalid and neither association holds; mixed otherwise"
   }
  },
-
  "probe_B": {
   "question": "Do K44's spatial support and low-rank structures impose a measurable approximation limit on the Yellow nonlocal (Burley) response?",
   "oracle": "worklog 45 Burley operator (A1a-fitted d_R/G/B = 6.09 / 1.20 / 0.39 cm, truncation 16 d, r >= 2 mm), object-scoped sources (all Lego ports), self port excluded (owned by K_loc); 2000 Yellow receiver ports (seed 4802) x 852,358 fine source ports; Hilbert-Schmidt weighting sqrt(A_x) k(x, s) sqrt(A_s)",
@@ -47,7 +85,13 @@
    "B3": "upper bound = the reference (0 error) - not needed as a separate run"
   },
   "fields": "16 held-out T0 view sun fields E = E_SUN max(0, n.l) frac (eval_vis_k44), response y = sum_s k A_s E_s",
-  "measures": ["HS relative error", "field-response relative L2 per channel: all / lit / shadow receivers", "by distance of the receiver to the nearest lit port: 0-1, 1-3, 3-10, 10-30, > 30 cm", "pairs excluded by support (HS mass beyond 5 / 30 cm)", "storage / evaluation cost per receiver"],
+  "measures": [
+   "HS relative error",
+   "field-response relative L2 per channel: all / lit / shadow receivers",
+   "by distance of the receiver to the nearest lit port: 0-1, 1-3, 3-10, 10-30, > 30 cm",
+   "pairs excluded by support (HS mass beyond 5 / 30 cm)",
+   "storage / evaluation cost per receiver"
+  ],
   "k44_comparison": "K44 first-event nonlocal (glob + band + mid at the port normal) vs the oracle response scaled by worklog 45's per-channel object-scope factors s_c, on shadow receivers (red), same receivers / views",
   "criteria": {
    "support_loss": "B1_S30 shadow-receiver field error (R) >= 0.10",
@@ -56,7 +100,6 @@
    "fitting_accounts": "K44 shadow error (R) >= 2 x B1_Q_G64 shadow error (R)"
   }
  },
-
  "probe_C": {
   "question": "Why do worklog 46's directional reads improve static glossy fidelity while degrading edit tracking in some views?",
   "scene": "worklog 46 MS (Lego + box + analytic GGX plane, alpha 0.04), geometry / IS rays / references unchanged; views 0, 1, 2 (view 2 = problematic, 0 / 1 controls), T0 and T1",
@@ -66,11 +109,24 @@
    "C2": "exact per-ray nonlocal sender queries for every read into the plane (gathers and IS pixel rays), everything else as C1 (production K solve semantics, loc 'E', sun lobe)",
    "C2b": "diagnostic: basis reads in C2's converged state (separates read approximation from solve-state difference)"
   },
-  "measures": ["plane ROI display PSNR", "plane luminance ratio", "per-ray basis / exact sender ratio by hit class (Yellow / opaque / glass / box)", "per-class contribution to plane pixels", "edit corr / slope / explained / sign agreement on plane pixels in both states", "changed-pixel error (|dr| > 3 sigma, sigma = view-0 replicate)", "timing: solve, basis build, exact reads, IS pixel reads; peak memory"],
+  "measures": [
+   "plane ROI display PSNR",
+   "plane luminance ratio",
+   "per-ray basis / exact sender ratio by hit class (Yellow / opaque / glass / box)",
+   "per-class contribution to plane pixels",
+   "edit corr / slope / explained / sign agreement on plane pixels in both states",
+   "changed-pixel error (|dr| > 3 sigma, sigma = view-0 replicate)",
+   "timing: solve, basis build, exact reads, IS pixel reads; peak memory"
+  ],
   "known_field_MS_control": "not affordable without new references (a known-field emission render of the MS scene); not run",
   "kf_secondary": {
    "data": "worklog 46 emit46 oracle (kappa 0 / 2 / 8, views 6 / 15, replicate kappa 8 view 6), same 20,000 non-Yellow pixels (seed 4602)",
-   "arms": {"K1": "worklog 46 R2 (receiver-port gathers, field at the hit port origin, port normal)", "K2": "same rays, field and true triangle normal at the exact hit point (removes sender port position / aggregation)", "K3": "128 cosine rays from the pixel's own position and normal, exact hit field (removes receiver aggregation)", "K4": "as K3 with 2048 rays (limited sampling control: quadrature)"},
+   "arms": {
+    "K1": "worklog 46 R2 (receiver-port gathers, field at the hit port origin, port normal)",
+    "K2": "same rays, field and true triangle normal at the exact hit point (removes sender port position / aggregation)",
+    "K3": "128 cosine rays from the pixel's own position and normal, exact hit field (removes receiver aggregation)",
+    "K4": "as K3 with 2048 rays (limited sampling control: quadrature)"
+   },
    "rules": "inside faces (-2) and misses carry 0 in every arm; clean subset = pixels with near-hit fraction <= 0.05 and inside fraction <= 0.10 reported beside 'all'"
   },
   "criteria": {
@@ -81,8 +137,29 @@
    "kf_quadrature": "K4 vs K3 improvement as above; residual of K4 compared with the oracle replicate noise"
   }
  },
-
- "tests_before_evidence": ["coordinate / direction conventions (training px_cam points away from the surface; C-requested direction = -d of the hitting gather; bin centres in own bin)", "radiance / irradiance units (cosine quadrature of constant radiance = pi; flux = pi mean L)", "linearity of nonlocal queries in the incident field", "finite outputs", "flux normalisation of the HS weighting (sum of band / mid represented areas vs member areas)", "source / receiver alignment (Burley oracle self-exclusion, f2b / f2c membership)", "baseline preservation (K44 digest; recomputed R6a equals stored)", "paired T0 / T1 pixel validity (same image pixel, plane in both states)"],
- "stop_rules": ["budget exhausted", "reference invalid", "K44 digest change", "a probe requires retraining or a new representation class (report as a human decision)"],
- "amendments": []
+ "tests_before_evidence": [
+  "coordinate / direction conventions (training px_cam points away from the surface; C-requested direction = -d of the hitting gather; bin centres in own bin)",
+  "radiance / irradiance units (cosine quadrature of constant radiance = pi; flux = pi mean L)",
+  "linearity of nonlocal queries in the incident field",
+  "finite outputs",
+  "flux normalisation of the HS weighting (sum of band / mid represented areas vs member areas)",
+  "source / receiver alignment (Burley oracle self-exclusion, f2b / f2c membership)",
+  "baseline preservation (K44 digest; recomputed R6a equals stored)",
+  "paired T0 / T1 pixel validity (same image pixel, plane in both states)"
+ ],
+ "stop_rules": [
+  "budget exhausted",
+  "reference invalid",
+  "K44 digest change",
+  "a probe requires retraining or a new representation class (report as a human decision)"
+ ],
+ "amendments": [
+  {
+   "n": 1,
+   "date": "2026-10-27",
+   "before": "any Probe A/B/C/KF result (the chain stopped in Probe A before its first print)",
+   "change": "probe_a48.py releases the converged production state before building the first-event state",
+   "reason": "CUDA OOM (11.6 GB GPU) with both states resident; engineering only, no query, group, measure or criterion changed"
+  }
+ ]
 }

@@ -144,7 +144,8 @@ def main(out, views=(6, 15), npc=1500):
                           "dev_camera_dirs_median": float(dev_cam[jj][camv[jj]].median()) if camv[jj].sum() > 20 else None,
                           "req_angle_to_nearest_train_cam_median_deg": float(ang_req[jj][reqv[jj] & (ncam[jj, None] > 0)].median()) if (reqv[jj] & (ncam[jj, None] > 0)).any() else None})
             r["groups"][cname] = g
-        # energy accounting on the first-event field
+        # energy accounting on the first-event field (amendment 1: the converged state is released first - GPU memory)
+        del S, NL19, NLc, LOc, NLreq, LOreq, NLcam, W19, Wc; torch.cuda.empty_cache()
         S1 = SV.State(T, H, vf, light); Eind, h = S1.aggregates(); S1.outgoing(Eind, h)
         qs = torch.as_tensor(np.sort(rng.choice(nA, 200000, replace=False)), device=dev); wq = (nA / len(qs))
         Wf = D.cosine_dirs(T.nrm[qs], 64); fl_nl = torch.zeros(3, device=dev); fl_lo = torch.zeros(3, device=dev); fl_n = torch.zeros(3, device=dev)
@@ -163,7 +164,7 @@ def main(out, views=(6, 15), npc=1500):
                                    "out_normal_production_over_in_RGB": (fl_n * wq / Pin).tolist(), "out_from_yellow_ports_hemispherical_over_in_RGB": (fl_y * wq / Pin).tolist(),
                                    "subsample_ports": int(len(qs)), "note": "flux = sum A pi mean_64cos L (all K parts); sun power = sum A Esun over Lego ports"}
         rec["views"][f"view{v}"] = r; print(v, json.dumps(r["groups"].get("Yellow_never_shadow", {})), json.dumps(r["energy_first_event"]), flush=True)
-        del S, S1; torch.cuda.empty_cache()
+        del S1; torch.cuda.empty_cache()
     crit = {}
     for v in views:
         gg = rec["views"][f"view{v}"]["groups"]; e = rec["views"][f"view{v}"]["energy_first_event"]
