@@ -265,8 +265,13 @@ def main():
         meas[scene] = dict(dT_over_noise=o["fro_vs_noise"], measured=bool(max(o["fro_vs_noise"]) >= 3), stale_effect=exceed,
                            stale_beyond_noise=any(e["beyond"] for e in exceed))
     g5["measurability"] = meas
+    if (od / "ops_hi.json").exists():                                                  # amendment 1: 16x photons, same rules
+        oh = json.load(open(od / "ops_hi.json")); g5["amendment1_hi"] = oh
+        for scene in ("bend30", "bend90", "dent"):
+            o = oh[f"{scene}_hi"]; meas[scene]["dT_over_noise_hi"] = o["fro_vs_noise"]; meas[scene]["signal_debiased_hi"] = o["signal_vs_noise_debiased"]
+            meas[scene]["measured_hi"] = bool(max(o["fro_vs_noise"]) >= 3)
     rep["G5"] = g5
-    V["nonrigid_K_variation"] = {k: dict(measured=v["measured"], stale_beyond_noise=v["stale_beyond_noise"]) for k, v in meas.items()}
+    V["nonrigid_K_variation"] = {k: dict(measured=v["measured"], measured_hi=v.get("measured_hi"), stale_beyond_noise=v["stale_beyond_noise"]) for k, v in meas.items()}
     rep["verdict_inputs"] = V
     json.dump(rep, open(R / "report.json", "w"), indent=1, default=lambda o: o.tolist() if hasattr(o, "tolist") else str(o))
     print(json.dumps(V, indent=1, default=str))

@@ -128,20 +128,22 @@ class Accum:
     def __init__(self, dom, Dout, Din, nsrc, cams=None, psrc=None):
         self.dom, self.Dout, self.Din, self.nsrc = dom, Dout, Din, nsrc
         self.Nout = int(round(math.sqrt(Dout)))
-        self.T = torch.zeros(3, dom.P * Dout * nsrc, device=DEV)                      # channel-first: finalize is a view
+        # float64 accumulators (amendment 2): float32 atomics lost tiny NEE increments once a bin held ~2^22 of them
+        self.T = torch.zeros(3, dom.P * Dout * nsrc, device=DEV, dtype=torch.float64)
         self.psrc = psrc if psrc is not None else max(1, nsrc // Din)
-        self.S2 = torch.zeros(3, dom.P * self.psrc, device=DEV)
+        self.S2 = torch.zeros(3, dom.P * self.psrc, device=DEV, dtype=torch.float64)
         self.cams = None if cams is None else torch.tensor(np.asarray(cams, float), dtype=torch.float32, device=DEV).reshape(-1, 3)
-        self.KC = None if cams is None else torch.zeros(len(self.cams), 3, dom.P * nsrc, device=DEV)
+        self.KC = None if cams is None else torch.zeros(len(self.cams), 3, dom.P * nsrc, device=DEV, dtype=torch.float64)
         self.stats = dict(photons=0, exits=0, leaks=0, wrong_side=0, truncated=0, nee_invalid=0, steps=0, collisions=0,
                           flux_in=np.zeros(3), flux_out=np.zeros(3), flux_leak=np.zeros(3))
 
     def finalize(self):
         P, Dout, nsrc = self.dom.P, self.Dout, self.nsrc
-        out = dict(T=self.T.view(3, P * Dout, nsrc), S2=self.S2.view(3, P, self.psrc),
+        T = self.T.view(3, P * Dout, nsrc).float(); self.T = None; torch.cuda.empty_cache()
+        out = dict(T=T, S2=self.S2.view(3, P, self.psrc).float(),
                    stats={k: (v.tolist() if isinstance(v, np.ndarray) else v) for k, v in self.stats.items()})
         if self.KC is not None:
-            KC = self.KC.view(len(self.cams), 3, P, nsrc)
+            KC = self.KC.view(len(self.cams), 3, P, nsrc).float(); self.KC = None
             ap = torch.stack([self.dom.proj_area(c) for c in self.cams])                       # (ncam, P)
             KC /= ap[:, None, :, None].clamp(min=1e-30); KC[(ap <= 0)[:, None, :, None].expand_as(KC)] = 0; out["KC"] = KC
             out["proj_area"] = ap
@@ -186,8 +188,8 @@ def walk(acc, x, d, n_entry, w, src, gen, rr_rel=0.05, rr_min_steps=4, continue_
                 wl = G.to_local(dd, nn, dom.t[tri], dom.b[tri])
                 ob = G.local_to_bin(wl, acc.Nout)
                 we = w[ie]; se = src[ie]
-                acc.T.index_add_(1, (port * acc.Dout + ob) * acc.nsrc + se, we.T.contiguous())
-                acc.S2.index_add_(1, port * acc.psrc + torch.div(se, acc.Din, rounding_mode="floor").clamp(max=acc.psrc - 1), (we * we).T.contiguous())
+                acc.T.index_add_(1, (port * acc.Dout + ob) * acc.nsrc + se, we.T.double())
+                acc.S2.index_add_(1, port * acc.psrc + torch.div(se, acc.Din, rounding_mode="floor").clamp(max=acc.psrc - 1), (we.double() ** 2).T.contiguous())
                 st["exits"] += len(ie); st["flux_out"] += we.double().sum(0).cpu().numpy()
         if coll.any():
             ic = coll.nonzero().squeeze(1)
@@ -204,7 +206,7 @@ def walk(acc, x, d, n_entry, w, src, gen, rr_rel=0.05, rr_min_steps=4, continue_
                     if val.any():
                         iv = val.nonzero().squeeze(1)
                         contrib = wc[iv] * (phase_eval(dc[iv], ce[iv], dom.g) * torch.exp(-sig * te[iv]))[:, None]
-                        acc.KC[k].index_add_(1, dom.tri_port[pe[iv]] * acc.nsrc + sc[iv], contrib.T.contiguous())
+                        acc.KC[k].index_add_(1, dom.tri_port[pe[iv]] * acc.nsrc + sc[iv], contrib.T.double())
             dn = phase_sample(dc, dom.g, gen)
             if step >= rr_min_steps:
                 r = wc.max(1).values / w0c; low = r < rr_rel

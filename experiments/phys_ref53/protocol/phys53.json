@@ -130,6 +130,15 @@
    "observed": "non-rigid ||Delta T|| / ||seed noise|| (port-pair level, 2048 photons per cell) = 1.20 / 1.22 / 1.15 (bend 30), 2.21 / 2.26 / 1.95 (bend 90), 1.91 / 1.94 / 1.37 (dent): far above 1 in significance (tens of thousands of entries) but below the predeclared magnitude rule 3; the structure metrics are noise-dominated at this count",
    "change": "sample size only: rest slab (two seeds 5321 / 5322) and the three deformations (seed 5323) re-run with 32768 photons per cell (16x; noise / 4), T only; ops recomputed into ops_hi.json; a noise-debiased signal norm sqrt(r^2 - 1) is reported next to r. Rules, thresholds and the 2048-photon result are unchanged and both are reported",
    "reason": "the brief asks to avoid sample limits unrelated to the required statistical confidence"
+  },
+  {
+   "id": 2,
+   "date": "2026-10-28 05:55 KST",
+   "type": "post hoc implementation-defect fix (oracle numerics); rules and thresholds unchanged",
+   "detected_by": "the predeclared cross-checks: TR exact vs Cycles on iso_L3 -5 to -12 % while IW (float64) agreed with Cycles within 0.5 %; TR and IW face-level exit fluxes agreed to 4 decimals",
+   "cause": "TR accumulated T / KC / S2 with float32 index_add_. In single-source (sun) runs all NEE contributions of ~1.9e8 collisions land in a few port bins; increments ~2^-22 of the running sum, so the many tiny NEE contributions below half an ulp are lost (result depended on batch size: 0.2064 / 0.2103 vs IW 0.2256 on a lit port). Multi-source (cell) runs spread the same contributions over P x nsrc bins and are affected much less",
+   "fix": "float64 accumulators (cast to float32 at finalize). Verified before the rerun: lit port 0.22584 vs IW 0.22562, independent of chunk size; L1 0.2728 vs 0.2732",
+   "rerun": "the complete oracle pipeline (tr, g2, compose, ops, tr_hi, ops_hi; IW g1a reused: IW already float64) into results/oracle; the defective run is preserved as results/oracle_v1_float32acc and reported. GPU memory cap raised to 0.8 (WL52 had finished; GPU idle) because the float64 accumulators of the pair controls need ~8.5 GB"
   }
  ]
 }
