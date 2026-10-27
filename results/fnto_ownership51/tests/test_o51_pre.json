@@ -1,0 +1,59 @@
+{
+ "baseline_identity": {
+  "pass": true,
+  "k44": "30d55da373a01ab8",
+  "ckpts": {
+   "ckpt_L0_seed5011.pt": "0dfc7793",
+   "ckpt_L0_seed5012.pt": "3b40a940",
+   "ckpt_L1_seed5011.pt": "6041f0b4",
+   "ckpt_L1_seed5012.pt": "1aa75e89"
+  }
+ },
+ "class_classification": {
+  "pass": true,
+  "counts": {
+   "Y": 338864,
+   "O": 511408,
+   "G": 2086,
+   "X": 1702
+  }
+ },
+ "port_area_sums": {
+  "pass": true,
+  "lego": 40.835487365722656,
+  "yellow": 15.874666213989258
+ },
+ "mask_none_equals_production": {
+  "pass": true,
+  "d": 0.0001220703125,
+  "prod_vs_prod": 0.0001220703125
+ },
+ "edge_mask_correctness": {
+  "pass": true,
+  "mismatches": {
+   "noYY": 0,
+   "noYO": 0,
+   "noOY": 0,
+   "noOO": 0,
+   "onlyYY": 0,
+   "noYY_t3mm": 0,
+   "noYY_t3cm": 0,
+   "noCross": 0
+  }
+ },
+ "channel_diagonal_homogeneous": {
+  "pass": true,
+  "GB_change_when_R_scaled": 0.0,
+  "nondet": 0.0,
+  "R_homogeneity_rel": 3.208324050874012e-09
+ },
+ "sem_override_scope": {
+  "pass": true,
+  "nonyellow_maxabs": 2.9802322387695312e-08,
+  "yellow_formula_maxabs": 0.0
+ },
+ "unit_consistency_uniform_radiance": {
+  "pass": true,
+  "maxabs": 0.0
+ }
+}

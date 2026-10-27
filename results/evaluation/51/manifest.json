@@ -1,0 +1,25 @@
+{
+ "worklog": "docs/worklogs/51_WORKLOG_FNTO_TRANSPORT_OWNERSHIP.md",
+ "generator": "experiments/fnto_owner51/o51_figures.py",
+ "artifacts": {
+  "01_slab_path_semantics.png": {
+   "sha256": "9e06942355514753131e1e1b21f25e3275086765bb34060db9adf124a4c2e7da",
+   "sources": [
+    "results/fnto_ownership51/gate2_renderer/Ltop_J_below_5101.npy",
+    "results/fnto_ownership51/gate2_renderer/Lpdiff_J_below_5101.npy",
+    "results/fnto_ownership51/gate2_renderer/Lpmirr_J_below_5101.npy",
+    "results/fnto_ownership51/gate2_renderer/Ltop_S_below_5101.npy",
+    "results/fnto_ownership51/gate2_renderer/Lgap_S_below_5101.npy",
+    "results/fnto_ownership51/gate2_renderer/Lpdiff_L_above_5101.npy"
+   ],
+   "note": "shared absolute sqrt scale across panels"
+  },
+  "02_rho_by_mask.png": {
+   "sha256": "04f9863f18fc09c88f56ffa8afdef03d70dc37169796017b3a6d816677ad4547",
+   "sources": [
+    "results/fnto_ownership51/gate1_operator/g1.json"
+   ],
+   "note": "log scale; masks and SEM are diagnostic counterfactuals"
+  }
+ }
+}
