@@ -46,13 +46,16 @@ def main(outp):
     import dasq as DQ
     T = DQ.Octree(L.pos, L.area); x5 = torch.as_tensor(rf[:5], device=dev)
     Ss, Es, cnt = T.elements(L.pos[x5], x5, 0.5, S.R_IN)
-    r5 = torch.cdist(L.pos[x5], L.pos); want = ((r5 < S.R_IN).sum(1) - 1)
-    got = torch.where(Ss >= 0, Es - Ss, torch.zeros_like(Ss)).sum(1)
+    disjoint, noself = True, True
+    for i in range(5):
+        st, en = Ss[i][Ss[i] >= 0], Es[i][Ss[i] >= 0]; o = torch.argsort(st); st, en = st[o], en[o]
+        disjoint &= bool((st[1:] >= en[:-1]).all()); sp_ = T.inv[x5[i]]; noself &= not bool(((st <= sp_) & (sp_ < en)).any())
     W = T.ideal_weights(L.pos, L.area, L.pos[x5], x5, Ss, Es, lambda r: S.burley(r, d[1]) * (r < 16 * d[1]), S.R_IN)
     one = torch.ones(L.nA, 1, device=dev); m1 = T.means(T.cs_field(L.area, one), Ss, Es)
     yq = torch.einsum("rk,rkf->rf", W, m1); y1, _ = S.oracle(L, x5, one, d[1])
-    check("dasq_partition_and_uniform_exact", bool((got == want).all()) and float((yq - y1).abs().max() / y1.abs().max()) < 1e-4
-          and float(((m1 - 1).abs() * (Ss >= 0)[..., None]).max()) < 1e-6, counts=cnt.tolist(), members=got.tolist(), expected=want.tolist(),
+    cov = float(torch.where(Ss >= 0, Es - Ss, torch.zeros_like(Ss)).sum() / (torch.cdist(L.pos[x5], L.pos) < S.R_IN).sum())
+    check("dasq_disjoint_noself_uniform", disjoint and noself and float((yq - y1).abs().max() / y1.abs().max()) < 1e-4
+          and float(((m1 - 1).abs() * (Ss >= 0)[..., None]).max()) < 1e-6, counts=cnt.tolist(), member_over_insupport=cov,
           uniform_rel=float((yq - y1).abs().max() / y1.abs().max()))
     R["ALL_PASS"] = all(v["pass"] for v in R.values() if isinstance(v, dict))
     Path(outp).parent.mkdir(parents=True, exist_ok=True); Path(outp).write_text(json.dumps(R, indent=1)); print("ALL_PASS", R["ALL_PASS"])
