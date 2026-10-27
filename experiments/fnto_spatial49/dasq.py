@@ -111,3 +111,17 @@ class Octree:
                 ka = torch.cat([torch.zeros(1, device=self.dev, dtype=torch.float64), torch.cumsum(k[j].double() * aS, 0)])
                 W[i0 + j, ok] = ka[en[ok]] - ka[st[ok]]
         return W
+
+
+def set_normals(T, nrm):
+    """Area-weighted mean normal prefix sums (element normals for learned descriptors)."""
+    a = T.csA[1:] - T.csA[:-1]; n = nrm[T.order].double() * a[:, None]
+    T.csAN = torch.cat([torch.zeros(1, 3, device=T.dev, dtype=torch.float64), torch.cumsum(n, 0)])
+
+
+def elem_geom(T, S, E):
+    """Element centroid [n, K, 3], unit normal [n, K, 3], area [n, K] (zeros where S < 0)."""
+    ok = S >= 0; s, e = S.clamp(min=0), E.clamp(min=0)
+    ar = (T.csA[e] - T.csA[s]); cen = (T.csAP[e] - T.csAP[s]) / ar.clamp(min=1e-30)[..., None]
+    nn = T.csAN[e] - T.csAN[s]; nn = nn / nn.norm(dim=-1, keepdim=True).clamp(min=1e-30)
+    return (cen * ok[..., None]).float(), (nn * ok[..., None]).float(), (ar * ok).float()

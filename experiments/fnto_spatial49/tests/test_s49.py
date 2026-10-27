@@ -57,6 +57,16 @@ def main(outp):
     check("dasq_disjoint_noself_uniform", disjoint and noself and float((yq - y1).abs().max() / y1.abs().max()) < 1e-4
           and float(((m1 - 1).abs() * (Ss >= 0)[..., None]).max()) < 1e-6, counts=cnt.tolist(), member_over_insupport=cov,
           uniform_rel=float((yq - y1).abs().max() / y1.abs().max()))
+    # learned-arm tables (Gate 3): finite descriptors, zero field -> 0, linear superposition, identical code path for both arms
+    import g3_learned as G3
+    DQ.set_normals(T, L.nrm); E2 = {"a": E[:, :1], "b": E[:, 1:2], "ab": E.sum(1, keepdim=True), "z": torch.zeros(L.nA, 1, device=dev)}
+    net = G3.Net().to(dev); ok = True; info = {}
+    for arm in ("L0", "L1"):
+        D, meas, valid, F = G3.arm_tables(arm, L, T, rf[:5], E2)
+        pa, pb, pab, pz = (G3.predict(net, D, meas, valid, F[k]) for k in ("a", "b", "ab", "z"))
+        lin = float((pab - pa - pb).abs().max() / pab.abs().max()); ok &= bool(torch.isfinite(D).all()) and float(pz.abs().max()) == 0.0 and lin < 1e-4
+        info[arm] = {"elements": valid.sum(1).tolist(), "linearity": lin}
+    check("learned_arm_tables", ok, **info)
     R["ALL_PASS"] = all(v["pass"] for v in R.values() if isinstance(v, dict))
     Path(outp).parent.mkdir(parents=True, exist_ok=True); Path(outp).write_text(json.dumps(R, indent=1)); print("ALL_PASS", R["ALL_PASS"])
 
