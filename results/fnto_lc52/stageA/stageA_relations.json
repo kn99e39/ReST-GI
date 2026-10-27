@@ -1,0 +1,35 @@
+{
+ "ports_subset": 100000,
+ "ports_total": 854060,
+ "K": 128,
+ "production_gather_subset_s": {
+  "setup": 4.856160402297974,
+  "trace": 0.9903409481048584,
+  "map": 26.62618851661682
+ },
+ "production_gather_full_extrapolated_s": {
+  "setup": 41.474523531866076,
+  "trace": 8.458105901384354,
+  "map": 227.40362564501763
+ },
+ "production_rays_per_s_trace_incl_host": 12924841.716879833,
+ "device_trace_probe": {
+  "rays": 16777216,
+  "s": 0.016166257858276366,
+  "rays_per_s": 1037792180.9165534,
+  "full_table_extrapolated_s": 0.10533870076324092
+ },
+ "incremental_T0_T1": {
+  "rays_selected": 689172,
+  "rows_retraced": 54160,
+  "rays_traced_incl_rows": 6932480,
+  "rays_total": 109319680,
+  "select_s": 66.79316711425781,
+  "trace_map_s": 11.01166558265686,
+  "total_s": 81.49455189704895
+ },
+ "table_bytes": {
+  "hit_int32": 437278720,
+  "t_float32": 437278720
+ }
+}
