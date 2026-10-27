@@ -1,0 +1,63 @@
+{
+ "passed": 9,
+ "total": 9,
+ "results": {
+  "test_radiometric_units": {
+   "ok": true,
+   "seconds": 2.31,
+   "L_mitsuba": 0.22053156793117523,
+   "analytic": 0.22053155816871686
+  },
+  "test_coordinate_transforms": {
+   "ok": true,
+   "seconds": 0.58
+  },
+  "test_boundary_correspondence": {
+   "ok": true,
+   "seconds": 0.09,
+   "top_ratio": 0.9214009761591094,
+   "bottom_ratio": 1.0784705158441361,
+   "analytic": [
+    0.9214601836602552,
+    1.0785398163397448
+   ]
+  },
+  "test_zero_and_superposition": {
+   "ok": true,
+   "seconds": 3.16
+  },
+  "test_conservation_and_reciprocity": {
+   "ok": true,
+   "seconds": 22.59,
+   "C_form_factor": 0.6900794506072998,
+   "analytic": 0.6902446940737963,
+   "C_port_reciprocity_asym": 0.07007534056901932,
+   "C_cross_seed_noise": 0.0692722499370575,
+   "alpha1_colsum_maxdev": 0.0
+  },
+  "test_optical_domain_ownership": {
+   "ok": true,
+   "seconds": 0.21,
+   "lblock_reentry": 0.030841290950775146
+  },
+  "test_air_gap_separation": {
+   "ok": true,
+   "seconds": 54.01,
+   "object_scoped_cross_fraction": 0.14985087513923645
+  },
+  "test_path_history_independence": {
+   "ok": true,
+   "seconds": 18.04,
+   "neumann_vs_solve": 1.0869815270098115e-07,
+   "iters": 60
+  },
+  "test_oracle_composition": {
+   "ok": true,
+   "seconds": 0.32,
+   "first_bounce": 0.6904553174972534,
+   "form_factor": 0.6902446940737963,
+   "all_bounce_E_b": 0.7955098748207092,
+   "iters": 16
+  }
+ }
+}
