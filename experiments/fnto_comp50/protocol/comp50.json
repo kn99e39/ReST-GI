@@ -110,6 +110,13 @@
    "before": "the refcheck renders (after Gate 2: arms' first-event Yellow sender ~4.1-4.9x the Lego sun power, close to the worklog-49 bake 3.9x, yet one flight already gives 4.0-4.2x the reference all-bounce Yellow indirect)",
    "change": "c50_refcheck.py: Cycles plane test of whether indirect rays see the camera-seen Yellow (Burley) exit radiance (E_meas / E_pred, 2 heights x 2 seeds, CPU in docker)",
    "reason": "decides whether the coupled-solve divergence reflects a reference-semantics mismatch (camera vs indirect SSS) rather than a K defect; no criterion change"
+  },
+  {
+   "n": "2b",
+   "date": "2026-10-27",
+   "before": "the sss_only refcheck run",
+   "change": "refcheck rerun with the Mix Shader factor 0 (pure Burley BSSRDF); first run kept as refcheck_glossy_confounded",
+   "reason": "orthographic top camera in the mirror direction of a zenith sun: L_cam contained the 2 % glossy highlight (B 0.83 vs SSS colour B 0.03), inflating E_pred"
   }
  ],
  "notes": {

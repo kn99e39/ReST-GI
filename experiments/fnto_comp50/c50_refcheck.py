@@ -9,7 +9,9 @@ reflects back).
 Prediction (isotropic exit assumed, numerical over R1 pixels): E_pred = sum L_cam cos(t_y) cos(t_r) / d^2 dA.
 Ratio E_meas / E_pred = 1 -> indirect rays see the camera radiance. Two heights, replicate seeds.
 
-    python c50_refcheck.py -- <out dir> [spp=1024]
+    python c50_refcheck.py -- <out dir> [spp=1024] [sss_only]
+'sss_only' (amendment 2b): the Mix Shader factor is set to 0 (pure Burley BSSRDF, no 2 % glossy) - the first run's
+orthographic top camera sat in the sun's mirror direction everywhere, so its L_cam included the glossy highlight.
 """
 import json
 import math
@@ -45,6 +47,7 @@ def render(sc, cam, res, spp, seed, path):
 
 def main():
     a = sys.argv[sys.argv.index("--") + 1:]; out = Path(a[0]); out.mkdir(parents=True, exist_ok=True); spp = int(a[1]) if len(a) > 1 else 1024; t0 = time.time()
+    sss_only = len(a) > 2 and a[2] == "sss_only"
     bpy.ops.wm.open_mainfile(filepath=str(C.B4 / "scene/lego_b4_T0_s1.blend")); sc = bpy.context.scene; sc.frame_current = 1; strip_lights(sc); sc.use_nodes = False
     for ob in list(sc.objects):
         ob.hide_render = True
@@ -52,6 +55,9 @@ def main():
     for l in list(y.node_tree.links):
         if l.to_socket.name == "Displacement" and l.to_node.bl_idname == "ShaderNodeOutputMaterial":
             y.node_tree.links.remove(l)
+    if sss_only:
+        mx = [n for n in y.node_tree.nodes if n.bl_idname == "ShaderNodeMixShader"][0]; mx.inputs["Fac"].default_value = 0.0
+        assert mx.inputs[1].links[0].from_node.bl_idname == "ShaderNodeSubsurfaceScattering"            # Fac 0 -> input 1 = BSSRDF
     wm = bpy.data.materials.new("white50"); wm.use_nodes = True; nt = wm.node_tree; nt.nodes.clear()
     o_ = nt.nodes.new("ShaderNodeOutputMaterial"); df = nt.nodes.new("ShaderNodeBsdfDiffuse"); df.inputs["Color"].default_value = (1, 1, 1, 1); nt.links.new(df.outputs[0], o_.inputs["Surface"])
     quad("yplane", 0.0, 0.5, y)
@@ -62,7 +68,7 @@ def main():
     w = bpy.data.worlds.new("w50"); w.use_nodes = True; w.node_tree.nodes["Background"].inputs["Strength"].default_value = 0.0; sc.world = w
     cd = bpy.data.cameras.new("c_top"); cd.type = "ORTHO"; cd.ortho_scale = 1.0; ctop = bpy.data.objects.new("c_top", cd); sc.collection.objects.link(ctop)
     ctop.location = Vector((0, 0, 2.0)); ctop.rotation_euler = (0, 0, 0)
-    rec = {"blender": bpy.app.version_string, "spp": spp, "E_SUN": C.E_SUN, "runs": []}
+    rec = {"blender": bpy.app.version_string, "spp": spp, "sss_only": sss_only, "E_SUN": C.E_SUN, "runs": []}
     for seed in (5021, 5121):
         L1 = render(sc, ctop, 128, max(256, spp // 2), seed, out / f"r1_{seed}")                       # camera-seen Yellow radiance
         rec.setdefault("L_cam_center_mean_RGB", []).append(L1[48:80, 48:80].reshape(-1, 3).mean(0).tolist())
