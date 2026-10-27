@@ -33,8 +33,14 @@ def main(root, bakes):
                                        "self_share_of_response": float((self_term / with_self).mean())}
     rec["checks"]["readout"] = "oracle and candidates: isotropic scalar per receiver / channel; K44 historical: K_only pixel path toward the camera"
     # exitance: incident sun power on Yellow / Lego ports for the baked view
+    white = [json.loads(Path(bj).read_text()) for bj in bakes if json.loads(Path(bj).read_text()).get("white")]
+    if white:
+        w = white[0]; rec["mesh_incident"] = {"lego_mesh": w["all_exit_flux_RGB"][0], "yellow_mesh": w["yellow_exit_flux_RGB"][0], "spp": w["spp"], "seed": w["seed"],
+                                              "note": "white Lambertian bake: pi * sum(area * L) = incident sun power on the mesh (Cycles visibility)"}
     for bj in bakes:
         b = json.loads(Path(bj).read_text()); v = b["view"]
+        if b.get("white"):
+            continue
         E = S.view_fields(L, "T0")[:, v]; A_ = L.area; yel = torch.as_tensor(L.mat == 0, device=dev)
         Pin_lego = float((A_ * E).sum()); Pin_yel = float((A_ * E * yel).sum())
         fl = np.array(b["yellow_exit_flux_RGB"])
@@ -45,6 +51,10 @@ def main(root, bakes):
                                           "exit_over_injected_yellow_RGB": (fl / (0.98 * Pin_yel)).tolist(),
                                           "area_check_yellow_mesh_vs_ports": [b["yellow_area_m2"], float((A_ * yel).sum())],
                                           "area_check_lego_mesh_vs_ports": [b["total_area_m2"], float(A_.sum())], "t_bake_s": b["t_bake_s"]}
+        if white:
+            m = rec["mesh_incident"]; rec["exitance"][Path(bj).stem].update({"exit_over_incident_lego_MESH_RGB": (fl / m["lego_mesh"]).tolist(),
+                                                                             "exit_over_incident_yellow_MESH_RGB": (fl / m["yellow_mesh"]).tolist(),
+                                                                             "exit_over_injected_yellow_MESH_RGB": (fl / (0.98 * m["yellow_mesh"])).tolist()})
     ks = [k for k in rec["exitance"] if rec["exitance"][k]["spp"] > 1]
     if len(ks) >= 2:
         a, b = (np.array(rec["exitance"][k]["yellow_exit_flux_RGB"]) for k in ks[:2])
