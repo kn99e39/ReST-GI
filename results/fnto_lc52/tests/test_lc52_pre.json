@@ -1,0 +1,44 @@
+{
+ "C_reference_analytic_formfactor": {
+  "pass": true,
+  "E": 1.1238327026367188,
+  "analytic": 1.1236997723147397
+ },
+ "constant_radiance_normalization": {
+  "pass": true
+ },
+ "explicit_reciprocity_object_pairs": {
+  "pass": true,
+  "Q_min": 0.9568505883216858,
+  "Q_max": 1.0450952053070068,
+  "pairs": 32
+ },
+ "learned_zero_superposition_positivity_passivity": {
+  "pass": true,
+  "linearity": 2.278250804010895e-06,
+  "max_row_sum_over_pi": 0.30167442560195923
+ },
+ "deterministic_learned_eval": {
+  "pass": true,
+  "maxabs": 0.0
+ },
+ "deterministic_gather_same_seed": {
+  "pass": true
+ },
+ "ff0_zero_on_own_planar_face": {
+  "pass": true
+ },
+ "KC_composition": {
+  "pass": true,
+  "neumann_rel": 3.2425073186459485e-06
+ },
+ "visibility_transition_explicit": {
+  "pass": true,
+  "floor_irradiance_ratio": 0.3808906376361847
+ },
+ "train_test_separation": {
+  "pass": true,
+  "seed_overlap": 0,
+  "config_hash_overlap": 0
+ }
+}

@@ -1,0 +1,27 @@
+{
+ "rule": "smallest k in {64,128,192,256} with mean non-NULL target mass coverage >= 0.99 on train seeds 100000-100099",
+ "coverage": {
+  "64": {
+   "mean": 0.7125650149583816,
+   "p05": 0.6776746720075607,
+   "min": 0.6623049378395081
+  },
+  "128": {
+   "mean": 0.840722696185112,
+   "p05": 0.8198580026626587,
+   "min": 0.8141743540763855
+  },
+  "192": {
+   "mean": 0.9117217200994492,
+   "p05": 0.89954574406147,
+   "min": 0.8942556977272034
+  },
+  "256": {
+   "mean": 0.954389106631279,
+   "p05": 0.9470524847507477,
+   "min": 0.941476583480835
+  }
+ },
+ "k": null,
+ "outcome": "no k met the rule -> candidate set = every patch with positive analytic FF0 (dense; coverage measured separately)"
+}

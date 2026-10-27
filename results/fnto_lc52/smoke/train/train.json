@@ -1,0 +1,28 @@
+{
+ "params": 923010,
+ "steps": 400,
+ "batch": "4 configs x 512 receivers",
+ "curve": [
+  {
+   "step": 1,
+   "train_ce_last2k": 3.1206512451171875,
+   "val_ce": 3.1116316616535187,
+   "val_rel_l2_smooth": 0.8103904649615288,
+   "val_rel_l2_unoccluded_prior": 0.7198087573051453,
+   "lr": 5.99990747293437e-07,
+   "wall_s": 0.7538855075836182,
+   "gpu_mem_GB": 1.62496512
+  }
+ ],
+ "best": {
+  "step": 1,
+  "train_ce_last2k": 3.1206512451171875,
+  "val_ce": 3.1116316616535187,
+  "val_rel_l2_smooth": 0.8103904649615288,
+  "val_rel_l2_unoccluded_prior": 0.7198087573051453,
+  "lr": 5.99990747293437e-07,
+  "wall_s": 0.7538855075836182,
+  "gpu_mem_GB": 1.62496512
+ },
+ "wall_s": 30.12079095840454
+}
