@@ -4,10 +4,31 @@
  "authorisation": "user brief 'ReST-GI - Worklog 49 Bounded Yellow Nonlocal Spatial Aggregation Experiment' (2026-10-27)",
  "handoff_commit": "0a76080",
  "machine": "LabServer69 (main server since 2026-10-27; RTX 3090 24 GB). Frozen inputs migrated from LabServer63 and verified: 15/15 worklog-45 freeze sha256 equal (K_k44P 30d55da3...). All worklog-49 compute on 69; bpy via docker restgi/bpy-runtime:22.04.",
- "frozen": ["K_k44P parameters / checkpoint", "four-component K and production K/C code", "support radii R_LOCAL 5 cm / R_MID 30 cm, global rank 64", "relations, anchors, port visibility, references", "worklogs 1-48"],
- "not_authorised": ["K44 tuning / retraining", "Unified K", "global rank or support changes", "C / sampling changes", "glass", "passivity relaxation", "clamping", "brightness corrections", "more than one new aggregation mechanism", "worklog 50"],
- "budget": {"gpu_gates_0_2_min": 45, "gpu_total_min": 180, "cpu_render_min": 60, "wall_h": 5},
-
+ "frozen": [
+  "K_k44P parameters / checkpoint",
+  "four-component K and production K/C code",
+  "support radii R_LOCAL 5 cm / R_MID 30 cm, global rank 64",
+  "relations, anchors, port visibility, references",
+  "worklogs 1-48"
+ ],
+ "not_authorised": [
+  "K44 tuning / retraining",
+  "Unified K",
+  "global rank or support changes",
+  "C / sampling changes",
+  "glass",
+  "passivity relaxation",
+  "clamping",
+  "brightness corrections",
+  "more than one new aggregation mechanism",
+  "worklog 50"
+ ],
+ "budget": {
+  "gpu_gates_0_2_min": 45,
+  "gpu_total_min": 180,
+  "cpu_render_min": 60,
+  "wall_h": 5
+ },
  "reference": {
   "oracle": "worklog-45 object-scoped Burley k_c(x, s) = (exp(-r/d) + exp(-r/3d)) / (8 pi d r), d_RGB = A1a fit (6.09 / 1.20 / 0.39 cm), r >= 2 mm, truncation 16 d; sources = all 852,358 Lego ports (object scope); self port excluded at port receivers (owned by K_loc)",
   "in_support_target": "y_S30(x) = sum_{s: r < 30 cm} k(x, s) A_s E_s - the part K_band / K_mid own (the > 30 cm tail is K_glob's; worklog 48: tail rank-64 error 0.008); unscaled (relative metrics are scale-invariant)",
@@ -15,7 +36,6 @@
   "readout": "isotropic scalar exit radiance per receiver and channel for oracle and every candidate (Cycles Burley exit is isotropic, worklog 47); historical K44 is read toward the camera (pixel path, K_only), never at the port normal",
   "not_a_renderer_fact": "the oracle is an approximation of Cycles; worklog 48's 4.8x energy is an oracle extrapolation"
  },
-
  "fields": {
   "source": "K44's own probe configurations (stagea/prep2_<split>: lights + port visibility, k44_train incident-field semantics r1_train.light_dirs_E) and the held-out view sun fields (E_SUN max(0, n.l) frac, eval_vis_k44)",
   "fit": "480 prep2_train configurations (seed 4901)",
@@ -23,10 +43,20 @@
   "test": "all 120 prep2_holdout configurations + 16 held-out T0 view sun fields (primary pooled set); 16 T1 view fields reported separately",
   "no_fit_on_test": true
  },
- "receivers": {"fit": "2000 Yellow ports (seed 4902)", "heldout": "1000 other Yellow ports (seed 4903, Gate 3 hidden receivers)", "shadow": "per field: E(x) = 0", "distance": "per field: distance to the nearest lit Lego port, bins 0-1 / 1-3 / 3-10 / 10-30 / > 30 cm"},
-
+ "receivers": {
+  "fit": "2000 Yellow ports (seed 4902)",
+  "heldout": "1000 other Yellow ports (seed 4903, Gate 3 hidden receivers)",
+  "shadow": "per field: E(x) = 0",
+  "distance": "per field: distance to the nearest lit Lego port, bins 0-1 / 1-3 / 3-10 / 10-30 / > 30 cm"
+ },
  "gate0": {
-  "checks": ["object scope = all Lego ports (WL41 / WL45 A1b)", "s_c provenance", "field split disjointness (config ids, view fields)", "self-port exclusion", "readout consistency"],
+  "checks": [
+   "object scope = all Lego ports (WL41 / WL45 A1b)",
+   "s_c provenance",
+   "field split disjointness (config ids, view fields)",
+   "self-port exclusion",
+   "readout consistency"
+  ],
   "cycles_exitance": {
    "method": "Cycles vertex-colour (face-corner) bake of the DIFFUSE pass, direct + colour (Cycles 3.x merges subsurface into diffuse), on the Lego object of lego_b4_T0_s1.blend with one sun (held-out T0 view 6 light, strength E_SUN), world black, other lights off; Lego Yellow exit flux = sum over Yellow triangles of pi * area * mean corner radiance (isotropic exit)",
    "denominators": "incident sun power on Yellow ports (sum A E_sun) and on all Lego ports; the injected power (0.98 SSS weight x incident on Yellow) is reported separately; no 'absorbed' claim",
@@ -34,7 +64,6 @@
    "does_not_change": "the passivity contract and every gate"
   }
  },
-
  "gate1": {
   "conditions": {
    "A0": "worklog-48 ideal-weight quadrature on K44's representative lists: band 96 reps x cell-average kernel over r < 5 cm x nbrA / member area; mid 128 reps x cell-average over 5 <= r < 30 cm x midA / member area",
@@ -50,29 +79,59 @@
    "otherwise": "outcome 4 (plausible, not isolated) -> stop"
   }
  },
-
  "gate2": {
   "rule": "ONE mechanism chosen from the Gate 1 failure; its specification (discarded information, retained information, complexity, target relations, query / storage budget, failure condition) is committed as an amendment BEFORE any candidate evaluation",
-  "conditions": {"B0": "existing aggregation (A0 quadrature and A1 relaxed fit)", "B1": "candidate at <= the existing per-receiver feature budget (224 per channel)", "B2": "candidate at <= 2x budget, only if needed for the trade-off", "B3": "oracle (reference only)"},
+  "conditions": {
+   "B0": "existing aggregation (A0 quadrature and A1 relaxed fit)",
+   "B1": "candidate at <= the existing per-receiver feature budget (224 per channel)",
+   "B2": "candidate at <= 2x budget, only if needed for the trade-off",
+   "B3": "oracle (reference only)"
+  },
   "fixed": "same fields, receivers, oracle, support (r < 30 cm), metrics, channel treatment; no reference value at inference",
   "decision": "proceed to Gate 3 only if B1 (same fit type as B0) reduces the primary shadow error by >= 25 % relative in at least two channels AND by >= 0.05 absolute in at least one, vs B0 of the same fit type"
  },
-
  "gate3": {
-  "arms": {"L0": "existing features, learned shared weight network", "L1": "candidate features, identical network / objective / budget"},
+  "arms": {
+   "L0": "existing features, learned shared weight network",
+   "L1": "candidate features, identical network / objective / budget"
+  },
   "network": "per element weight w = softplus(MLP_3x64(element geometry in the receiver frame: offset / R_MID, |offset| / R_MID, receiver normal, source normal, element area / reference area, channel-independent) -> 3 channels) x element measure; prediction = sum_elements w * element field feature; linear in the field",
   "training": "target y_S30 on fit fields x fit receivers; loss = per-channel relative MSE (normalised by the target energy of the batch); Adam lr 1e-3, 4000 steps, batch 64 receivers x 32 fields, cosine decay; seeds 4911 / 4912; identical for L0 / L1; no change after inspection",
   "evaluation": "fit / held-out receivers x val / test fields; shadow, distance bins, per channel, per field; parameter count; time",
   "fair_state": "both arms must reach a validation plateau (last-10 % loss change < 2 %) or the comparison is INCONCLUSIVE",
   "decision": "L1 better than L0 on held-out receivers x test fields shadow error by >= 15 % relative in >= 2 channels for both seeds"
  },
-
  "gate4": {
   "real_scene": "held-out T0 / T1 views, Yellow pixels, first_r1 references (WL45 test views 8-15 for metrics; s_c from views 0-7): prediction = s_c * (arm in-support response at the pixel + shared oracle > 30 cm tail); arms L0 / L1 / oracle; K44 K_only (historical, camera readout) as a reference",
-  "metrics": ["display PSNR (ldr3) Yellow lit / shadow / 3-30 cm", "linear rel L2, radiance ratio, corr", "per view", "T0 -> T1 Yellow change corr / slope"],
+  "metrics": [
+   "display PSNR (ldr3) Yellow lit / shadow / 3-30 cm",
+   "linear rel L2, radiance ratio, corr",
+   "per view",
+   "T0 -> T1 Yellow change corr / slope"
+  ],
   "composition": "coupled-solve integration is outside the frozen production contracts; reported NOT APPLICABLE unless it can be done without touching production K/C"
  },
-
- "tests": ["source-receiver index correctness", "object-scope membership", "aggregation normalisation (atoms / reps)", "zero / constant fields", "finite nonnegative responses", "linear superposition", "readout consistency", "support boundary (r < 30 cm)", "self-port exclusion", "train / test separation", "frozen baseline identity", "candidate disabled == existing aggregation"],
- "amendments": []
+ "tests": [
+  "source-receiver index correctness",
+  "object-scope membership",
+  "aggregation normalisation (atoms / reps)",
+  "zero / constant fields",
+  "finite nonnegative responses",
+  "linear superposition",
+  "readout consistency",
+  "support boundary (r < 30 cm)",
+  "self-port exclusion",
+  "train / test separation",
+  "frozen baseline identity",
+  "candidate disabled == existing aggregation"
+ ],
+ "amendments": [
+  {
+   "n": 1,
+   "date": "2026-10-27",
+   "before": "any Gate 1 output (crash in the first channel before printing)",
+   "change": "s49_data.Lego.rep_lists accepts CUDA tensors (.cpu())",
+   "reason": "TypeError converting a CUDA tensor to numpy; engineering only"
+  }
+ ]
 }

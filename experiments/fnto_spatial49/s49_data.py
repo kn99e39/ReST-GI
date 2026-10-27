@@ -48,7 +48,7 @@ class Lego:
         self.atom_area = torch.zeros(len(self.atom_u), device=dev).index_add_(0, self.atom, self.area)
 
     def rep_lists(self, ports):
-        p = np.asarray(ports)
+        p = ports.cpu().numpy() if torch.is_tensor(ports) else np.asarray(ports)
         t = lambda x, dt=torch.float32: torch.as_tensor(np.asarray(x), device=self.dev).to(dt)  # noqa: E731
         return t(self.nbr_np[p], torch.long), t(self.nbrA_np[p]), t(self.mid_np[p], torch.long), t(self.midA_np[p])
 
