@@ -5,7 +5,9 @@ view 6 direction), Cycles CPU. DIFFUSE bake (pass filter DIRECT + COLOR; Cycles 
 passes; the Yellow glossy 2 % is excluded) into a POINT-domain float colour attribute of the Lego object -> per-vertex
 exit radiance (isotropic exit). Writes vertex radiance, world-space triangle areas / vertices / material flags.
 
-    python g0_exitance_bake.py -- <out dir> <spp> <seed> [view=6]
+    python g0_exitance_bake.py -- <out dir> <spp> <seed> [view=6] [white]
+'white' (amendment 5): every Lego material slot -> a white Lambertian (rho 1) diffuse, so the same DIFFUSE direct bake gives
+L = E / pi and pi * sum(area * L) is the incident sun power on the MESH (Cycles visibility), the consistent denominator.
 """
 import json
 import math
@@ -26,6 +28,7 @@ from r1_stagea_render import strip_lights  # noqa: E402
 
 def main():
     a = sys.argv[sys.argv.index("--") + 1:]; out = Path(a[0]); spp = int(a[1]); seed = int(a[2]); view = int(a[3]) if len(a) > 3 else 6
+    white = len(a) > 4 and a[4] == "white"
     out.mkdir(parents=True, exist_ok=True); t0 = time.time()
     bpy.ops.wm.open_mainfile(filepath=str(C.B4 / "scene/lego_b4_T0_s1.blend")); sc = bpy.context.scene; sc.frame_current = 1; strip_lights(sc)
     views = json.loads((C.ROOT.parent / "views_r1.json").read_text()) if (C.ROOT.parent / "views_r1.json").exists() else json.loads(Path.home().joinpath("rest_fnto_r1/views_r1.json").read_text())
@@ -35,6 +38,13 @@ def main():
     lego = [o for o in sc.objects if o.type == "MESH" and any(s.material and s.material.name == "Yellow" for s in o.material_slots)]
     assert len(lego) == 1, [o.name for o in lego]
     ob = lego[0]; me = ob.data
+    yslots0 = [i for i, s_ in enumerate(ob.material_slots) if s_.material and s_.material.name == "Yellow"]
+    if white:
+        wm = bpy.data.materials.new("g0_white"); wm.use_nodes = True; nt = wm.node_tree; nt.nodes.clear()
+        o_ = nt.nodes.new("ShaderNodeOutputMaterial"); df = nt.nodes.new("ShaderNodeBsdfDiffuse")
+        df.inputs["Color"].default_value = (1, 1, 1, 1); df.inputs["Roughness"].default_value = 0.0; nt.links.new(df.outputs[0], o_.inputs["Surface"])
+        for s_ in ob.material_slots:
+            s_.material = wm
     for o in sc.objects:
         o.select_set(False)
     ob.select_set(True); bpy.context.view_layer.objects.active = ob
@@ -53,16 +63,16 @@ def main():
     co = np.empty(len(me.vertices) * 3, np.float32); me.vertices.foreach_get("co", co); co = co.reshape(-1, 3).astype(np.float64)
     M = np.array(ob.matrix_world); cw = co @ M[:3, :3].T + M[:3, 3]
     area = 0.5 * np.linalg.norm(np.cross(cw[tv[:, 1]] - cw[tv[:, 0]], cw[tv[:, 2]] - cw[tv[:, 0]]), axis=1)
-    yslots = [i for i, s in enumerate(ob.material_slots) if s.material and s.material.name == "Yellow"]
+    yslots = yslots0
     tri_yel = np.isin(tm, yslots)
     Lt = col[tv].mean(1)                                                              # [nt, 3] mean vertex radiance per triangle
-    rec = {"blender": bpy.app.version_string, "object": ob.name, "verts": len(me.vertices), "tris": nt, "spp": spp, "seed": seed, "view": view,
+    rec = {"blender": bpy.app.version_string, "object": ob.name, "verts": len(me.vertices), "tris": nt, "spp": spp, "seed": seed, "view": view, "white": white,
            "sun_dir": views["heldout_T0"][view]["sun"], "E_SUN": C.E_SUN, "t_bake_s": t_bake, "t_total_s": time.time() - t0,
            "yellow_area_m2": float(area[tri_yel].sum()), "total_area_m2": float(area.sum()),
            "yellow_exit_flux_RGB": (math.pi * (Lt[tri_yel] * area[tri_yel, None]).sum(0)).tolist(),
            "all_exit_flux_RGB": (math.pi * (Lt * area[:, None]).sum(0)).tolist(), "finite": bool(np.isfinite(col).all()), "max_radiance": float(col.max())}
-    np.savez_compressed(out / f"bake_spp{spp}_seed{seed}.npz", col=col.astype(np.float32), tv=tv.astype(np.int32), tri_yel=tri_yel, area=area.astype(np.float32), cw=cw.astype(np.float32))
-    (out / f"bake_spp{spp}_seed{seed}.json").write_text(json.dumps(rec, indent=1)); print(json.dumps(rec))
+    np.savez_compressed(out / f"bake_spp{spp}_seed{seed}{'_white' if white else ''}.npz", col=col.astype(np.float32), tv=tv.astype(np.int32), tri_yel=tri_yel, area=area.astype(np.float32), cw=cw.astype(np.float32))
+    (out / f"bake_spp{spp}_seed{seed}{'_white' if white else ''}.json").write_text(json.dumps(rec, indent=1)); print(json.dumps(rec))
 
 
 main()

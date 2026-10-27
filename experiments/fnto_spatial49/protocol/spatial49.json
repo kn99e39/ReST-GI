@@ -169,6 +169,13 @@
     "the Gate 2 decision rule is applied to B2' instead of B1 (thresholds unchanged); Gate 3 L1 uses alpha 1.0 elements; L0 / L1 share the identical network, so parameter counts are equal and only the element (query) count differs, reported",
     "confound recorded: no budget-matched existing-aggregation control (more K44 representatives) is constructed - it would be a second mechanism"
    ]
+  },
+  {
+   "n": 5,
+   "date": "2026-10-27",
+   "before": "the white bake (Gate 0 only; Gate 2 running, no Gate 2 result seen)",
+   "change": "Gate 0 exitance: an extra bake with every Lego material replaced by a white Lambertian (rho 1) gives the mesh-consistent incident sun power (pi * sum area * L = sum area * E, Cycles visibility); ratios are reported with the mesh denominators (Lego, Yellow triangles)",
+   "reason": "port areas sum to 1.5x the mesh area (Lego 40.8 vs 27.0 m2; Yellow 15.9 vs 11.0 m2), so the predeclared port-based denominators are inconsistent with the mesh-based exit flux. Also affects the interpretation of worklog-48 energy ratios (port-area numerator and denominator there; uniform inflation cancels)."
   }
  ]
 }
