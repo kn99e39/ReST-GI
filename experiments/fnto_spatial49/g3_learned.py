@@ -60,7 +60,11 @@ def arm_tables(arm, L, T, ports, E):
         for k, Ek in E.items():
             Bm, Cm = L.agg_means(Ek); feats[k] = torch.cat([Bm[nbr.clamp(min=0)], Cm[mid.clamp(min=0)]], 1) * valid[..., None]
     else:
-        Ss, Es, _ = T.elements(x, xi, 1.0, S.R_IN); cen, nrm, meas = DQ.elem_geom(T, Ss, Es); valid = (Ss >= 0).float()
+        parts = [T.elements(x[i:i + 4000], xi[i:i + 4000], 1.0, S.R_IN)[:2] for i in range(0, len(xi), 4000)]   # receiver chunks (traversal memory)
+        K = max(p_[0].shape[1] for p_ in parts)
+        pad = lambda a: torch.cat([a, torch.full((a.shape[0], K - a.shape[1]), -1, dtype=a.dtype, device=a.device)], 1)  # noqa: E731
+        Ss = torch.cat([pad(p_[0]) for p_ in parts]); Es = torch.cat([pad(p_[1]) for p_ in parts])
+        cen, nrm, meas = DQ.elem_geom(T, Ss, Es); valid = (Ss >= 0).float()
         feats = {}
         for k, Ek in E.items():
             cs = T.cs_field(L.area, Ek)

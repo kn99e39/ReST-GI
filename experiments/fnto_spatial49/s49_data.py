@@ -96,9 +96,9 @@ def receivers(L):
 
 
 @torch.no_grad()
-def oracle(L, xi, E, d, ch=1 << 14, extra=None):
+def oracle(L, xi, E, d, ch=None, extra=None):
     """In-support y_S30 and tail y_T [n, F] for receiver ports xi (self excluded). extra: optional second field set."""
-    xp = L.pos[xi]; F_ = E.shape[1]
+    xp = L.pos[xi]; F_ = E.shape[1]; ch = ch or auto_chunk(len(xi), 28)
     yS = torch.zeros(len(xi), F_, device=L.dev, dtype=torch.float64); yT = torch.zeros_like(yS)
     AE = (E * L.area[:, None])
     for s0 in range(0, L.nA, ch):
@@ -110,9 +110,9 @@ def oracle(L, xi, E, d, ch=1 << 14, extra=None):
 
 
 @torch.no_grad()
-def dist_to_lit(L, xi, E, ch=1 << 15):
+def dist_to_lit(L, xi, E, ch=None):
     """Distance from each receiver to the nearest lit Lego port, per field [n, F] (inf if none)."""
-    out = torch.full((len(xi), E.shape[1]), float("inf"), device=L.dev); xp = L.pos[xi]
+    out = torch.full((len(xi), E.shape[1]), float("inf"), device=L.dev); xp = L.pos[xi]; ch = ch or auto_chunk(len(xi), 12)
     for f in range(E.shape[1]):
         lp = L.pos[E[:, f] > 0]
         for s0 in range(0, len(lp), ch):
@@ -138,6 +138,12 @@ def cell_avg(L, xi, cells, members, ptr, d, lo, hi):
 def csr(f2x, n):
     o = torch.argsort(f2x, stable=True); cnt = torch.bincount(f2x, minlength=n); ptr = torch.zeros(n + 1, dtype=torch.long, device=f2x.device); ptr[1:] = torch.cumsum(cnt, 0)
     return o, ptr
+
+
+def auto_chunk(n_rows, bytes_per_cell, frac=0.5, lo=256, hi=1 << 16):
+    """Column chunk for [n_rows x chunk] work from the free VRAM (keeps ~50 % for other live tensors)."""
+    free, _ = torch.cuda.mem_get_info()
+    return int(max(lo, min(hi, free * frac / max(n_rows * bytes_per_cell, 1))))
 
 
 def rel(a, b, m=None):
