@@ -103,6 +103,13 @@
    "before": "the diagnostic run (after observing L0C S_T0 divergence, rho 6.89)",
    "change": "c50_diag.py: homogeneous power iteration per condition with per-channel growth, dominant-mode class shares, Yellow term shares and Yellow->Yellow gathered share - the brief's required divergence attribution; appended to the chain after its last stage",
    "reason": "Gate 3 stop rule triggered for L0C; attribution required; no criterion, solver, damping, C or clamp change"
+  },
+  {
+   "n": 2,
+   "date": "2026-10-27",
+   "before": "the refcheck renders (after Gate 2: arms' first-event Yellow sender ~4.1-4.9x the Lego sun power, close to the worklog-49 bake 3.9x, yet one flight already gives 4.0-4.2x the reference all-bounce Yellow indirect)",
+   "change": "c50_refcheck.py: Cycles plane test of whether indirect rays see the camera-seen Yellow (Burley) exit radiance (E_meas / E_pred, 2 heights x 2 seeds, CPU in docker)",
+   "reason": "decides whether the coupled-solve divergence reflects a reference-semantics mismatch (camera vs indirect SSS) rather than a K defect; no criterion change"
   }
  ],
  "notes": {
