@@ -1,0 +1,167 @@
+{
+ "protocol": "fnto_owner51",
+ "worklog": "docs/worklogs/51_WORKLOG_FNTO_TRANSPORT_OWNERSHIP.md",
+ "authorisation": "user brief 'ReST-GI - Worklog 51 FNTO Transport Path Ownership and Coupled Instability Attribution' (2026-10-27)",
+ "handoff_commit": "cd5cb44",
+ "machine": "LabServer69 (RTX 3090 24 GB, 16 CPU cores) for every run; Cycles in docker restgi/bpy-runtime:22.04 (bpy 3.5.1, CPU)",
+ "frozen": [
+  "K_k44P (sha256 30d55da373a01ab8...)",
+  "WL50 arm checkpoints results/fnto_comp50/train/ckpt_L{0,1}_seed{5011,5012}.pt (sha256 0dfc7793 / 6041f0b4 / 3b40a940 / 1aa75e89)",
+  "production C (rel_T0 hit / t), r1 solver (tol, max_it, growth rule, no damping), r1 render",
+  "c50_common ArmState / arm_render_pixels (WL50 composition semantics)",
+  "references (first_r1, full_r1, probes), materials, geometry",
+  "worklogs 1-50"
+ ],
+ "not_authorised": [
+  "DASQ retraining",
+  "K redesign",
+  "removing same-object C links as a production fix",
+  "energy clamps",
+  "solver damping",
+  "reference material changes",
+  "rank / support increase",
+  "learned C",
+  "worklog 52",
+  "architecture selection"
+ ],
+ "diagnostic_only": "every edge mask and the SEM sender override live only inside o51_ops.py processes; production modules are imported unchanged (tested)",
+ "gate0": {
+  "target": "WL50 residual r = Cycles probe col - K44 K_loc - K44 K_glob at Yellow pixels (c50_targets); probes from r1_stagea_render.Scene",
+  "probe_render_facts_from_code": {
+   "mask_intrinsic": "every node material: Mix(Fac = max(IsCameraRay, Backfacing if glass else 0), black emission, original). A non-camera ray hitting an opaque surface sees a black emission closure and terminates; glass only from the back face",
+   "settings": "max_bounces 128 (all types), world black, film transparent, no clamping, GAUSSIAN 0.01 point sampling, light tree off, CPU",
+   "lights": "configuration lights only (sun / point / spot families)"
+  },
+  "cycles_source_facts (bpy 3.5.1 shipped kernel source, scripts/addons/cycles/source/kernel)": {
+   "svm/closure.h:903-926": "CLOSURE_BSSRDF_BURLEY: if (path_flag & PATH_RAY_DIFFUSE_ANCESTOR) param1 (scale) = 0 -> radius 0",
+   "closure/bssrdf.h:300-333": "radius < BSSRDF_MIN_RADIUS -> the channel's weight goes to a Lambertian DiffuseBsdf (weight = closure weight)",
+   "integrator/subsurface.h:49,98": "subsurface bounce clears PATH_RAY_CAMERA; the exit point gets a DiffuseBsdf (weight 1) instead of shader evaluation",
+   "integrator/path_state.h:183-184": "a LABEL_DIFFUSE bounce sets PATH_RAY_DIFFUSE | PATH_RAY_DIFFUSE_ANCESTOR",
+   "blend": "Lego = ONE object with 8 material slots (Yellow, Gray, transparent, Black, Red_Glass, Light_brown, Sand, Brown); Yellow = Mix(Fac 0.02, SSS Burley [colour (0.7991, 0.5029, 0.0296), scale 1, radius (1, 0.2, 0.1), IOR 1.4], Glossy 0.3); Yellow is the only SSS material"
+  },
+  "consequence_to_test": "Yellow at a vertex without diffuse ancestor (camera, after glossy / singular) = object-scoped Burley; Yellow at every vertex with a diffuse ancestor (any vertex after a diffuse or SSS-exit bounce) = Lambert 0.98 * colour = (0.7831, 0.4928, 0.0290) + 0.02 glossy. Gate 2 verifies this empirically before any interpretation uses it",
+  "component_table": "direct / intrinsic SSS (camera-vertex Burley, object-scoped) / internal interreflection / external free-space interreflection / multiple events / existing indirect: classified PRESENT / ABSENT / UNRESOLVED from the code facts above",
+  "air_chord_proxy": "share of the worklog-45 object-scoped Burley oracle response (dch() radii, self excluded) at 1000 held-out Yellow receivers (s49 receivers) under held-out T0 view fields 6 / 15 coming from source ports whose chord leaves into air at either end: dot(x_r - x_s, n_s) > 0.1 r or dot(x_s - x_r, n_r) > 0.1 r; also the share from non-Yellow source materials. A geometric PROXY (no inside test), labelled as such"
+ },
+ "transport_equations": {
+  "intended_FNTO_contract": "L_out = K(E_tot) at every boundary vertex, E_ind = C(L_out); K owns intrinsic optical-domain transport (incidence -> exitance within the medium), C owns free-space transport between boundary points incl. same-asset exposed paths; K is path-history independent",
+  "reference_Cycles": "camera vertex: L_cam(x_B) = int S_Burley,obj(x_B <- x_A) E_tot(x_A) dA + glossy; interior (diffuse-ancestor) Yellow vertex y: L(y) = 0.98 c / pi E_tot(y) + glossy; E_tot = E_light + E_ind",
+  "composition_WL50": "every Yellow vertex (camera and interior): K44 K_loc + K_glob + arm (L0C / L1C) or K44 band + mid (H), i.e. the camera-vertex operator is applied at every bounce",
+  "path_family_ownership": {
+   "light -> Yellow (Burley entry anywhere on the Lego object within the probe radius, incl. across air) -> camera": "K (target)",
+   "light -> surface -> free space -> Yellow -> camera": "C then K",
+   "light -> Yellow -> free space -> surface": "K (sender) then C; the reference sender at a diffuse-ancestor Yellow vertex is local Lambert"
+  }
+ },
+ "gate1": {
+  "conditions": {
+   "H": "K_k44P",
+   "L0C": "K44 + L0 arm seed 5011",
+   "L1C": "K44 + L1 arm seed 5011",
+   "replicate": "L0C / L1C seed 5012: unmasked per-channel rho only"
+  },
+  "classes": "Y = Lego ports mat 0; O = other opaque Lego ports; G = glass Lego ports (mat 2, 4); X = box ports (obj 1, other optical domain); receiver class = port, sender class = class of the hit port",
+  "edge_masks (isolated counterfactual: valid, spec and L zeroed on the masked (port, gather) edges)": {
+   "none": "production",
+   "noYY": "drop Y <- Y",
+   "noYO": "drop other <- Y (Yellow sender, non-Yellow receiver)",
+   "noOY": "drop Y <- other",
+   "noOO": "drop other <- other",
+   "onlyYY": "keep only Y <- Y",
+   "noYY_t3mm": "drop Y <- Y with hit distance t < 3 mm (near-coincident)",
+   "noYY_t3cm": "drop Y <- Y with t < 3 cm",
+   "noCross": "drop Lego <-> box (cross optical domain)"
+  },
+  "SEM": "reference-semantics counterfactual (diagnostic only): the SENDER value of Yellow ports used by C gathers is replaced by the Cycles diffuse-ancestor operator 0.98 c / pi E_tot + K44 kap / pi E_ind (K44's own glossy term kept), sun glossy lobe (spec) unchanged; every receiver / render term (K_loc, K_glob, arm or band + mid, gamma, Narm) unchanged. One causal variable: the operator applied at interior Yellow vertices",
+  "per_channel_rho": "power iteration of the homogeneous map (no sun), 40 iterations, EACH CHANNEL renormalised to norm 1e3 separately (the composed map is channel-diagonal - tested); rho_c = median of the last 10 per-channel growth ratios; init seed 0 (primary) and 1 (reproducibility)",
+  "mode": "after the power iteration (dominant channel): class shares of outgoing flux; Yellow term shares (prod); class-level flux matrix M[r, s] = flux gathered at r from s / flux emitted by s, gain g[r] = flux emitted by r / flux incident on r (port areas), reduced rho_class = spectral radius of M diag(g); participation ratio and top-1 % / 10 % port shares; Y <- Y gathered flux by hit distance (< 3 mm, 3 mm-1 cm, 1-3 cm, 3-10 cm, >= 10 cm)",
+  "views": "held-out T0, all 16 views: one-step (K_only + one production gather) for prod and SEM, single-flight indirect / reference indirect (full_r1 - first_r1) per class Y / opaque / glass / box (c50_onestep semantics); SEM full r1 solves (unchanged State.solve) with status, iterations and per class indirect ratio / corr and display PSNR vs full_r1; H prod full solve with the same pipeline; first-event class flux matrix for views 6 / 15",
+  "rules (predeclared)": {
+   "necessary": "an edge group is NECESSARY for the instability of a condition if removing it gives max_c rho_c < 1",
+   "sufficient": "Y <- Y is SUFFICIENT if onlyYY keeps max_c rho_c >= 1",
+   "near_coincident": "near-coincident Y <- Y hits are necessary if noYY_t3mm gives max_c rho_c < 1",
+   "reproducible": "|rho(seed 0) - rho(seed 1)| / rho(seed 0) < 2 % (dominant channel, unmasked)",
+   "SEM_stabilises": "max_c rho_c < 1 for H, L0C and L1C under SEM and every SEM S_T0 solve converged",
+   "SEM_matches_reference_indirect": "pooled SEM coupled Yellow indirect / reference indirect in [0.67, 1.5] for L0C and L1C",
+   "interpretation_limit": "a convergent masked solve proves only that the removed edges carry the unstable feedback, NOT that they were double counted; SEM convergence is evidence about the reference semantics, never a production correction"
+  }
+ },
+ "gate2": {
+  "needed_because": "the Cycles source rule (gate 0) is an implementation fact that must be verified empirically, and the object-scope dependence of the camera-vertex response is not isolated by any existing measurement (WL50 refcheck: uniformly lit plane, where Burley and Lambert coincide)",
+  "scene": "two parallel closed Yellow slabs 0.4 x 0.4 m, 4 mm thick, 4 mm air gap (bottom z in [0, 0.004], top z in [0.008, 0.012]); blend Yellow material copied, displacement link removed (flat geometry), otherwise unchanged (Mix 0.02 glossy kept); black world; sun angle 0, strength E_SUN; no other objects",
+  "configs": {
+   "J_below": "both slabs ONE object; sun travelling +z (only the bottom face of the bottom slab is lit)",
+   "S_below": "the same vertices as TWO objects (changed reference condition: object scope only)",
+   "J_above": "one object; sun from above at 45 deg (DESCRIPTIVE: camera-vertex vs diffuse-ancestor Yellow on a uniformly lit thin slab)",
+   "L_above": "as J_above with a plain Lambert diffuse of albedo 0.98 x Yellow colour (measurement-chain control; no ancestor dependence)"
+  },
+  "measurements": {
+   "top": "orthographic camera above, 128^2 over the slab, 1024 spp: L_top (camera vertex)",
+   "pdiff": "white Lambert patch 10 x 10 cm at height h = 0.1 m above the top face, facing down, invisible to shadow / diffuse / glossy / transmission rays; upward orthographic camera, 32^2 at 4096 spp: E_meas = pi L_patch (central 16 x 16); prediction from L_top assuming the camera radiance is emitted: E_pred = sum L_top cos cos / d^2 dA (averaged over the measured patch area). Yellow at this vertex has a DIFFUSE ancestor",
+   "pmirr": "the same patch with a white GGX roughness-0 glossy shader; L_mirror (central 16 x 16) vs L_top over the same footprint. Yellow at this vertex has a GLOSSY / SINGULAR ancestor",
+   "gap": "S_below only: orthographic camera inside the gap (z = 0.006) looking down: camera-vertex exitance of the bottom slab's top face L_gap - what a path-history-independent K would send into C there"
+  },
+  "seeds": [
+   5101,
+   5102
+  ],
+  "rules (predeclared)": {
+   "chain_valid": "L_above pdiff E_meas / E_pred in [0.9, 1.1] (R, G, B)",
+   "diffuse_ancestor_rule_confirmed": "chain valid AND J_below pdiff E_meas / E_pred < 0.05 (R, G); refuted if >= 0.5",
+   "glossy_ancestor_keeps_burley": "J_below pmirr L_mirror / L_top in [0.9, 1.1] (R, G)",
+   "object_scope": "J_below L_top (R) > 10 x its seed spread and S_below L_top (R) < 5 % of J_below",
+   "noise": "replicate seed difference reported for every quantity"
+  },
+  "mesh_areas": "per-material mesh area of the Lego object and the box from the blend (object scale applied) vs port areas"
+ },
+ "gate3": {
+  "units": "E [W m^-2]; L [W m^-2 sr^-1]; E_ind = pi / K sum_k L_k (cosine-distributed gathers); isotropic port flux = pi L A_port",
+  "C_closure": "uniform unit radiance from every port of sender class s: flux received by class r (port areas) / flux emitted by s; Yellow additionally split into two spatial halves (x median); reciprocity Q[r, s] = received_r(from s) / received_s(from r) (= 1 if port-area weighting is consistent)",
+  "gains": "Yellow first-event gain g_Y,sun = sum_Y pi A I0 / sum_Y A E_sun (port areas, views 6 / 15) per condition vs Cycles camera-vertex gain (WL49 bake, mesh areas, view 6: 8.10 / 2.86 / 0.115) and the Cycles diffuse-ancestor albedo (0.783 / 0.493 / 0.029); mode gain g_Y and return fraction M_YY from gate 1",
+  "port_vs_mesh": "port-area / mesh-area per material class (gate 2 mesh areas); WL49: Lego 40.8 / 27.0, Yellow 15.9 / 11.0 m^2",
+  "separation": "renderer-fidelity measurement (WL49 bake, gate 2) / physically closed flux accounting (C closure, reciprocity) / effective learned-operator gain (g_Y) / coupled spectral radius (gate 1) are reported separately"
+ },
+ "gate4_mapping (predeclared)": {
+  "CASE_A": "SUPPORTED only if gate 0 finds free-space (C-type) paths inside the target in the renderer's path space; the physical-contract question of object-scoped Burley chords crossing air is reported separately (proxy share)",
+  "CASE_B": "SUPPORTED if K / C paths are disjoint in renderer path space, Y <- Y is necessary and sufficient, g_Y >> 1, and SEM (passive interior operator) stabilises",
+  "CASE_C": "SUPPORTED if C closure > 1.05 or reciprocity outside [0.9, 1.1] for a class pair carrying the mode, or near-coincident Y <- Y hits are necessary",
+  "CASE_D": "more than one of A-C supported",
+  "CASE_E": "the measurements cannot separate them (e.g. gate 2 chain invalid)",
+  "vertex_semantics": "the alternative hypothesis 'renderer SSS path semantics differ from the intended intrinsic contract' is SUPPORTED if the source rule is confirmed by gate 2 AND SEM stabilises"
+ },
+ "budget": {
+  "gpu_h": 1.5,
+  "cpu_render_h": 1.0,
+  "wall_h": 5,
+  "note": "set from WL50 costs (diag 138 s for 3 conditions x 40 iterations; one-step 16 views x 3 conditions); smoke first; exceeded -> stop the affected experiment"
+ },
+ "stop": [
+  "reference cannot isolate the claimed path",
+  "uncontrolled renderer-semantics change",
+  "production K / C modification needed",
+  "retraining needed",
+  "a mask is being read as a physical solution",
+  "a new architectural assumption is needed",
+  "numerical instability prevents comparison",
+  "budget exceeded"
+ ],
+ "tests": [
+  "baseline identity (K44 / arm checkpoint hashes)",
+  "production modules unchanged after import (mask none = production step)",
+  "edge-mask correctness (exact edge sets)",
+  "channel-diagonal map and homogeneity / linearity",
+  "SEM override touches only Yellow sender values",
+  "unit consistency (uniform radiance -> E = pi x unoccluded fraction)",
+  "port-area sums",
+  "class classification vs anchors",
+  "rho reproducibility (seeds 0 / 1)"
+ ],
+ "amendments": [],
+ "design_revisions_before_commit": [
+  {
+   "date": "2026-10-27",
+   "change": "gate-2 positive control moved from J_above (Yellow) to L_above (Lambert, same geometry / sun); J_above kept as descriptive",
+   "reason": "the uncommitted profiling smoke (16 / 32 spp) showed J_above E_meas / E_pred = 1.54 / 1.07 / 1.52: on a 4 mm slab with Burley d_R = 6 cm the camera-vertex Burley exitance is NOT equal to the diffuse-ancestor Lambert exitance even under uniform light, and the 45 deg glossy lobe reaches the patch, so J_above cannot validate the measurement chain. Disclosed: the smoke also already showed J_below pdiff = 0 and S_below L_top ~ 1e-10; the J_below / S_below rules are unchanged"
+  }
+ ]
+}
