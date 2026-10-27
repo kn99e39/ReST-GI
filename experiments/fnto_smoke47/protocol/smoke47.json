@@ -1,0 +1,84 @@
+{
+ "protocol": "fnto_smoke47",
+ "worklog": "docs/worklogs/47_WORKLOG_MINIMAL_DIRECTIONAL_NONLOCAL_SMOKE.md",
+ "authorisation": "user brief 'ReST-GI - Worklog 47 Minimal Directional Nonlocal Transport Representation Smoke' (2026-10-27)",
+ "handoff_commit": "7c946a7",
+ "question": "Under a minimal but valid nonlocal transport setting, does collapsing incoming boundary radiance to scalar irradiance remove information needed to predict directional boundary transport, and can a small direction-aware linear operator recover it under controlled supervision?",
+ "frozen": ["K_k44P parameters", "four-component K implementation (experiments/fnto_lego*, fnto_dir46)", "K/C contract", "C sampling / solver", "reference scenes and protocols", "worklogs 1-46", "historical baselines"],
+ "not_authorised": ["K44 retraining or tuning", "Unified / Hybrid K production implementation", "full-scene training", "hyperparameter sweeps", "larger models to force success", "threshold changes after results", "worklog 48"],
+ "budget": {"gpu_min": 30, "cpu_render_min": 30, "wall_min": 90, "note": "Stage A / C are numpy closed form on CPU; GPU use planned 0 min"},
+
+ "stage_a": {
+  "units": "port = strip of width 1 (area 1 per unit length); radiance per bin = bin-averaged radiance; Omega_perp_j = projected solid angle of bin j (sum = pi); E_p = sum_j L(p,j) Omega_perp_j",
+  "direction_convention": "incident direction w points from the port toward the source (z > 0); light travels along -w into the domain; outgoing direction points away from the port (z > 0)",
+  "ports_x": [0.0, 1.5, 3.0, 4.5], "port_width": 1.0, "depth_h": 1.0,
+  "ring_edges_deg": [0, 30, 60, 90], "n_sectors": 4,
+  "bins": "j = ring * 4 + sector; sector s centred at azimuth s * 90 deg; centroid polar angle sin^2 = mean of the ring's sin^2 edges; 12 bins per port, 48 boundary states",
+  "S0": {"meaning": "angular-insensitive nonlocal control: Lambertian entry (flux t_in * A * E_p), port-to-port redistribution g(q|p) = c exp(-|x_q - x_p| / ell), Lambertian exit", "t_in": 0.9, "ell": 2.0, "max_column_albedo": 0.7},
+  "S1": {"meaning": "angular-sensitive nonlocal positive control: fixed internal rough mirror at depth h; a beam entering port p in bin j exits at x_p - 2 h tan(theta_j) cos(phi_j) (box overlap with port strips), in the mirrored-azimuth bin (0.7) and its two azimuthal neighbours (0.1 each)", "mirror_reflectance": 0.8, "f_spec": 0.7, "f_side": 0.1},
+  "pair_rule": "for each port with E_A(p) > 0 draw a new 1-3 bin angular distribution with the same E; ports with E = 0 stay 0",
+  "criteria": {"S1_sensitive": "mean over pairs of ||Y_A - Y_B|| / max(||Y_A||, ||Y_B||) >= 0.10 with per-port E match <= 1e-9 relative", "S0_insensitive": "max pair output difference <= 1e-9 relative"}
+ },
+
+ "field_sampler": "per input port: active with probability 0.75; 1-3 distinct bins / directions with Dirichlet(1) shares of E ~ U(0.2, 1); radiance = share * E / Omega_perp (synthetic) or irradiance share (renderer)",
+
+ "stage_b_mir": {
+  "meaning": "renderer positive control: a closed black box (x [-0.55, 0.55], y [-0.2, 0.2], z [0, 0.2] m) whose floor is a rough mirror (Cycles Glossy GGX, colour 0.9, roughness 0.25); four ceiling windows (ports) of x-width 0.1 at centres -0.45, -0.15, 0.15, 0.45; the interior path window -> mirror -> window is internal to the fixed domain (enclosed, never exposed to another domain); it is a surrogate for an internal-reflection path, not SSS",
+  "input_ports": [0, 1], "output_ports": [0, 1, 2, 3],
+  "directions_signed_tan": [-1.5, -0.75, 0.0, 0.375, 0.75, 1.125, 1.5, 1.875],
+  "direction_semantics": "input t: sun light travels along normalize(t, 0, -1); its specular exit leaves along normalize(t, 0, 1) at x_in + 2 h t; output t: orthographic camera viewing along -normalize(t, 0, 1)",
+  "sun_angle_deg": 0.5, "basis_E": 1.0,
+  "port_isolation": "shadow-only masks (camera / diffuse / glossy / transmission invisible) 0.5 mm above every window that is not an input of the render",
+  "measurement": "port value = mean of point-sampled (GAUSSIAN 0.01) pixel radiance whose camera ray hits the window plane inside the window inset by 5 mm; 64 x 64 px, ortho scale 1.3, luminance = mean RGB",
+  "irradiance_measurement": "white Lambertian (rho 1) planes in the open windows, top orthographic camera, E = pi * mean L over the inset window",
+  "render": {"engine": "Cycles CPU", "spp_basis": 256, "spp_fields": 1024, "spp_irr": 64, "max_bounces": 4, "clamp": 0, "denoise": false, "seeds": "basis 4710 + b (replicate + 100); fields 4730 + i (replicate + 100); irradiance 4750 + i"},
+  "pairs": {
+   "R1": {"open": [0], "A": [[0.75, 1.0]], "B": [[1.5, 1.0]]},
+   "R2": {"open": [0, 1], "A": [[0.375, 0.5], [1.125, 0.5]], "B": [[0.75, 0.6], [-0.75, 0.4]]}
+  },
+  "pairs_note": "[signed tan, E share]; suns illuminate every open window, so per-port E is matched by construction and measured; R2 also checks superposition against the basis renders",
+  "visible_dirs": [-0.75, 0.0, 0.375]
+ },
+
+ "stage_b_sss": {
+  "meaning": "renderer relevance control for the regime that dominates the K44 error: the blend's own Lego 'Yellow' material (Burley SSS 0.98 + Glossy 0.02) on a 3 x 1 m plane; a shadow-only half-plane occluder edge along y at x = 0; both suns lie in the y-z plane, so the shadow edge does not move with polar angle",
+  "justification": "worklogs 44-45 attribute most of the K44 error to Yellow Burley SSS; whether its nonlocal response depends on incident angle at equal irradiance decides whether incoming collapse is relevant there",
+  "material_change": "displacement link removed (bump normals would make irradiance angle-dependent independently of SSS); SSS / glossy nodes unchanged",
+  "fields": {"A": {"theta_deg": 0, "strength": 5.0}, "B": {"theta_deg": 60, "toward": "+y", "strength": 10.0}},
+  "cameras": {"top": [0, 0, 1], "yp45": [0, 0.70710678, 0.70710678], "ym45": [0, -0.70710678, 0.70710678]},
+  "image": "64 x 8 px over x [-0.10, 0.30] m (6.25 mm / px), orthographic",
+  "bands_m": [[0.03, 0.06], [0.06, 0.12], [0.12, 0.30]],
+  "render": {"spp": 4096, "spp_irr": 256, "seeds": "A 4760, B 4761, replicates + 100, irradiance 4770 / 4771"}
+ },
+
+ "stage_b_criteria": {
+  "E_match": "relative per-port (MIR) / lit-region (SSS) irradiance discrepancy <= 0.03; otherwise CONFOUNDED",
+  "noise_D": "sqrt(mean(||A - A'||^2, ||B - B'||^2)) / max(||A||, ||B||) (replicate renders)",
+  "sensitive": "D_rel = ||Y_A - Y_B|| / max(||Y_A||, ||Y_B||) >= 0.10 and D_rel > 3 noise_D + delta_E",
+  "insensitive": "D_rel <= 3 noise_D + delta_E and that bound <= 0.05 (per SSS band / channel); otherwise INCONCLUSIVE",
+  "superposition": "||R2_direct - basis combination|| / ||R2_direct|| <= 3 x its replicate noise + 0.02"
+ },
+
+ "stage_c": {
+  "model": "dense linear map W: input representation -> full boundary output state; closed-form solve of sum_visible ||W z - y||^2 + lam * tr(W^T Lap W) + eps ||W||^2 (lam = 1e-6, eps = 1e-9, both x trace(Z Z^T) / dim z); Lap = graph Laplacian over output bins of the same port (synthetic: azimuthal and radial neighbours; renderer: chain over signed tan); with visible-only supervision the hidden outputs are the Laplacian-harmonic extension of the visible ones (no extra hyperparameter); no optimiser, so no optimisation failure is possible",
+  "conditions": {"A0": "E per input port; visible outputs only", "A1": "E per input port; all outputs", "B0": "per-bin incident radiance (synthetic) / per-direction irradiance share (renderer); visible outputs only", "B1": "same input as B0; all outputs"},
+  "visible": {"synthetic": "rings 0-1, sectors 0-1 (4 of 12 bins per port, all ports)", "renderer": "signed tan -0.75, 0, 0.375 (3 of 8 directions, all ports)"},
+  "regimes": ["S0", "S1", "MIR (renderer basis T_r, seed set 1; replicate set 2 for the noise floor)"],
+  "data": {"train": 128, "test_random": 32, "test_pairs": 16, "test_total": 64, "train_seeds": [4701, 4702], "test_seed": 4790},
+  "metrics": ["train rel L2", "held-out rel L2 (all outputs)", "hidden-output rel L2", "visible-output rel L2", "directional rel L2 (per-port direction-mean removed)", "nonlocal rel L2 (input port != output port blocks)", "pair discrimination ||dY_hat|| / ||dY||", "pair-difference error", "linearity residual", "negative coefficient fraction", "max flux column albedo (synthetic)", "parameter count", "fit time"],
+  "bounds": ["E-only linear floor = best E-only linear map fitted on the test set itself", "E-only pair floor (any function of E) = sqrt(sum ||dY||^2 / 2 / sum(||Y_A||^2 + ||Y_B||^2))"],
+  "criteria": {
+   "directional_benefit": "B1 held-out rel L2 <= 0.5 x A1 and B1 pair discrimination >= 0.8",
+   "learned": "B1 held-out rel L2 <= 0.05 (synthetic) or <= max(0.05, 2 x reference noise floor) (renderer)",
+   "supervision_benefit": "X1 hidden rel L2 <= 0.5 x X0 hidden rel L2 for X in {A, B}",
+   "irradiance_sufficient": "A1 held-out rel L2 <= 0.05 and E-only floor <= 0.05"
+  },
+  "effects": "A0->A1, A1->B1, B0->B1, A0->B0 as signed differences of held-out / hidden rel L2; interaction (B1 - B0) - (A1 - A0)"
+ },
+
+ "cases": {"1": "renderer differs under matched E and B1 learns", "2": "renderer differs, B1 does not learn", "3": "only supervision improves", "4": "renderer approximately angular-insensitive within uncertainty", "5": "only synthetic supports / renderer invalid or confounded"},
+ "case_rule": "classified per renderer regime (MIR, SSS); no claim beyond the tested regime",
+
+ "stop_rules": ["reference too noisy (bound > 0.05 where insensitivity would be claimed) -> INCONCLUSIVE", "E mismatch > 0.03 -> CONFOUNDED", "oracle linearity / passivity test failure -> stop", "superposition failure -> renderer measurement invalid for Stage C", "budget reached -> stop and report"],
+ "amendments": []
+}
