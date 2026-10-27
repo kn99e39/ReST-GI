@@ -139,6 +139,36 @@
    "before": "A1v / A1nn results (after the predeclared A1 result)",
    "change": "g1b_fitcontrols.py adds valid fitting controls on the same 224 features: A1v ridge with lambda chosen per channel on the VALIDATION fields from the fixed grid 1e-6..1e0 (float64); A1nn nonnegative LS (projected FISTA, 1500 iterations, init A0). A1* = lower validation shadow error per channel; the Gate 1 decision rule is applied unchanged with A1* in place of A1.",
    "reason": "the predeclared A1 (ridge 1e-6, float32) over-fits: fit-field shadow error 0.009-0.04 but validation 1.2-15 (and B even fails on the fit fields, 1.74) - an invalid fitting control, not a capacity result. A1 is preserved as a failed control. Collision values (unaffected) already satisfy the predeclared proceed rule (G 0.05-0.07, B 0.17-0.23 >= 0.05)."
+  },
+  {
+   "n": 3,
+   "date": "2026-10-27",
+   "before": "any candidate evaluation (after Gate 1 / 1b results)",
+   "gate1_reading": "valid controls A1* (test shadow) R 0.56 / G 0.23 / B 0.22 >= 0.10 in every channel -> proceed. Atom collisions R 0.015, G 0.069, B 0.225: within-aggregate resolution loss is irreducible for B (and G); for R the information is present inside the aggregates, but even optimised weights stay at 0.56 -> the binding loss for R is the representative SUB-SELECTION (96 of the band aggregates within 5 cm, 128 of the ~1,150 cells within 30 cm), whose unread regions no function of the features observes. A descriptive coverage diagnostic (share of the in-support response carried by sources inside represented aggregates / cells) is computed in Gate 2.",
+   "candidate": {
+    "name": "DASQ - receiver-centred distance-adaptive source quadrature",
+    "discards_old": "(i) every source outside the 96 / 128 represented aggregates (stratified sub-selection), (ii) intra-aggregate structure below 1.5 cm (band) / 8 cm (mid) regardless of distance",
+    "retains": "a per-receiver partition of the WHOLE in-support source set (every Lego port with r < 30 cm, self excluded) into elements whose size grows with distance (octree node accepted when its cell half-diagonal <= alpha x distance to its area-weighted centroid and it lies fully inside or outside the support; straddling nodes are refined; leaves are single ports); element feature = area-mean field (prefix sums over a Morton-ordered port list)",
+    "complexity": "element count ~ (2 pi / alpha^2) ln(R_MID / r_min) per surface sheet (logarithmic in range); per field O(elements) via prefix sums; construction = vectorised octree traversal per receiver",
+    "targets": "all in-support source-receiver relations, near (< 1.5 cm, B / G) and 5-30 cm (R)",
+    "budget": "B1 alpha = the smallest of {0.25, 0.35, 0.5, 0.7, 1.0} whose 95th-percentile element count over the fit receivers <= 224 (the existing 96 + 128); B2 = the smallest with q95 <= 448; chosen from counts only (no response)",
+    "unchanged": "support 30 cm, object scope, oracle, fields, receivers, channels, metrics, global / tail",
+    "fit_types": "same as B0: ideal-weight quadrature (exact member-average kernel per element, primary), A1v (validation ridge) and A1nn (nonnegative LS init = ideal weights)",
+    "failure_condition": "B1 does not meet the Gate 2 decision rule against B0 of the same fit type (primary: ideal-weight quadrature; also reported for the A1* type)"
+   }
+  },
+  {
+   "n": 4,
+   "date": "2026-10-27",
+   "before": "any Gate 2 error evaluation (only element counts were measured)",
+   "changes": [
+    "DASQ support membership is decided per element by centroid distance < R (as K44's mid cells); straddling nodes are no longer refined to single ports (that produced 17-25 k elements per receiver at every alpha). The element-level boundary is part of the candidate's error against the exact r < 30 cm target.",
+    "measured counts (fit receivers; results/fnto_spatial49/gate2_candidate_counts_only_amend4.json): alpha 1.0 median 482 / q95 620 (saturates for alpha >= 1); 0.7: 1079 / 1450; 0.5: 2200 / 3041",
+    "B1 (q95 <= 224) and B2 (q95 <= 448) are INFEASIBLE for this mechanism -> recorded as a computational finding",
+    "B2' := alpha 1.0 (2.2x median / 2.8x q95 of the existing 224) is the bounded higher-budget condition; B2d := alpha 0.7 diagnostic (quality-cost slope only)",
+    "the Gate 2 decision rule is applied to B2' instead of B1 (thresholds unchanged); Gate 3 L1 uses alpha 1.0 elements; L0 / L1 share the identical network, so parameter counts are equal and only the element (query) count differs, reported",
+    "confound recorded: no budget-matched existing-aggregation control (more K44 representatives) is constructed - it would be a second mechanism"
+   ]
   }
  ]
 }

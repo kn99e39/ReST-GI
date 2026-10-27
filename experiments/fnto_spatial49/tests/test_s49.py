@@ -42,6 +42,18 @@ def main(outp):
     check("aggregation_normalisation", max(vals) < 1e-4, max_abs=vals, lego_band_aggs=int(bm.sum()), lego_cells=int(cm.sum()), NB=L.NB, NC=L.NC)
     # probe field reproduces the training-time incident field semantics (sum of light contributions, nonnegative)
     Ef = S.probe_fields(L, "train", sp["fit"][:2]); check("probe_fields_finite", bool(torch.isfinite(Ef).all() and (Ef >= 0).all() and (Ef.sum(0) > 0).all()))
+    # DASQ candidate: partition of the in-support sources, exact on uniform fields, constant-field means
+    import dasq as DQ
+    T = DQ.Octree(L.pos, L.area); x5 = torch.as_tensor(rf[:5], device=dev)
+    Ss, Es, cnt = T.elements(L.pos[x5], x5, 0.5, S.R_IN)
+    r5 = torch.cdist(L.pos[x5], L.pos); want = ((r5 < S.R_IN).sum(1) - 1)
+    got = torch.where(Ss >= 0, Es - Ss, torch.zeros_like(Ss)).sum(1)
+    W = T.ideal_weights(L.pos, L.area, L.pos[x5], x5, Ss, Es, lambda r: S.burley(r, d[1]) * (r < 16 * d[1]), S.R_IN)
+    one = torch.ones(L.nA, 1, device=dev); m1 = T.means(T.cs_field(L.area, one), Ss, Es)
+    yq = torch.einsum("rk,rkf->rf", W, m1); y1, _ = S.oracle(L, x5, one, d[1])
+    check("dasq_partition_and_uniform_exact", bool((got == want).all()) and float((yq - y1).abs().max() / y1.abs().max()) < 1e-4
+          and float(((m1 - 1).abs() * (Ss >= 0)[..., None]).max()) < 1e-6, counts=cnt.tolist(), members=got.tolist(), expected=want.tolist(),
+          uniform_rel=float((yq - y1).abs().max() / y1.abs().max()))
     R["ALL_PASS"] = all(v["pass"] for v in R.values() if isinstance(v, dict))
     Path(outp).parent.mkdir(parents=True, exist_ok=True); Path(outp).write_text(json.dumps(R, indent=1)); print("ALL_PASS", R["ALL_PASS"])
 
