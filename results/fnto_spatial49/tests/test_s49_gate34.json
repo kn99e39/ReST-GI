@@ -1,0 +1,86 @@
+{
+ "frozen_k44_identity": {
+  "pass": true,
+  "sha": "30d55da373a01ab8"
+ },
+ "train_test_separation": {
+  "pass": true
+ },
+ "object_scope_membership": {
+  "pass": true,
+  "materials": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ]
+ },
+ "zero_field": {
+  "pass": true
+ },
+ "linear_superposition": {
+  "pass": true
+ },
+ "finite_nonnegative": {
+  "pass": true
+ },
+ "index_support_self": {
+  "pass": true
+ },
+ "aggregation_normalisation": {
+  "pass": true,
+  "max_abs": [
+   9.5367431640625e-07,
+   4.291534423828125e-06,
+   2.980232238769531e-07,
+   8.940696716308594e-07
+  ],
+  "lego_band_aggs": 266709,
+  "lego_cells": 8928,
+  "NB": 267751,
+  "NC": 8980
+ },
+ "probe_fields_finite": {
+  "pass": true
+ },
+ "dasq_disjoint_noself_uniform": {
+  "pass": true,
+  "counts": [
+   540,
+   655,
+   908,
+   948,
+   906
+  ],
+  "member_over_insupport": 0.9884921908378601,
+  "uniform_rel": 3.208547206995559e-08
+ },
+ "learned_arm_tables": {
+  "pass": true,
+  "L0": {
+   "elements": [
+    224.0,
+    224.0,
+    224.0,
+    224.0,
+    224.0
+   ],
+   "linearity": 6.943680830318044e-08
+  },
+  "L1": {
+   "elements": [
+    152.0,
+    203.0,
+    217.0,
+    238.0,
+    224.0
+   ],
+   "linearity": 7.044742744710675e-08
+  }
+ },
+ "ALL_PASS": true
+}

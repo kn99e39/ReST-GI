@@ -1,0 +1,150 @@
+{
+ "checks": {
+  "scale_provenance": {
+   "s_c_obj": [
+    0.3333649377842998,
+    0.21523402369256528,
+    0.015041664398642853
+   ],
+   "fit_views": "0-7 (a3_burley_oracle.py: tr = view < 8)",
+   "test_views": "8-15"
+  },
+  "object_scope_materials_in_sources": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7
+  ],
+  "split_disjoint": {
+   "fit_val": 0,
+   "fit_test": "different prep splits (train vs holdout)",
+   "receivers_fit_held": 0
+  },
+  "self_exclusion": {
+   "rel_diff_vs_bruteforce_without_self": 9.104692528642301e-08,
+   "self_share_of_response": 0.02465769462287426
+  },
+  "readout": "oracle and candidates: isotropic scalar per receiver / channel; K44 historical: K_only pixel path toward the camera"
+ },
+ "exitance": {
+  "bake_spp32_seed4901": {
+   "spp": 32,
+   "seed": 4901,
+   "yellow_exit_flux_RGB": [
+    17.39250144784509,
+    6.142382506621716,
+    0.24735596655741626
+   ],
+   "incident_sun_power_lego_ports": 5.057837009429932,
+   "incident_sun_power_yellow_ports": 2.16086483001709,
+   "injected_into_yellow_sss_estimate": 2.117647533416748,
+   "exit_over_incident_lego_RGB": [
+    3.438723196381806,
+    1.214428716301007,
+    0.04890548392449992
+   ],
+   "exit_over_incident_yellow_RGB": [
+    8.048861366172329,
+    2.8425574896200874,
+    0.11447081886906363
+   ],
+   "exit_over_injected_yellow_RGB": [
+    8.213123843032989,
+    2.900568866959273,
+    0.11680695802965677
+   ],
+   "area_check_yellow_mesh_vs_ports": [
+    10.95369295474652,
+    15.874663352966309
+   ],
+   "area_check_lego_mesh_vs_ports": [
+    27.005129731714188,
+    40.83549118041992
+   ],
+   "t_bake_s": 145.06944298744202,
+   "exit_over_incident_lego_MESH_RGB": [
+    3.9152417945611746,
+    1.3827173037887777,
+    0.055682526248670414
+   ],
+   "exit_over_incident_yellow_MESH_RGB": [
+    8.103117297220432,
+    2.8617186598950877,
+    0.11524244613073846
+   ],
+   "exit_over_injected_yellow_MESH_RGB": [
+    8.268487037980032,
+    2.9201210815255996,
+    0.11759433278646782
+   ]
+  },
+  "bake_spp32_seed4902": {
+   "spp": 32,
+   "seed": 4902,
+   "yellow_exit_flux_RGB": [
+    17.49588080425115,
+    6.156512923703654,
+    0.24835485511410166
+   ],
+   "incident_sun_power_lego_ports": 5.057837009429932,
+   "incident_sun_power_yellow_ports": 2.16086483001709,
+   "injected_into_yellow_sss_estimate": 2.117647533416748,
+   "exit_over_incident_lego_RGB": [
+    3.4591626364454773,
+    1.217222483094123,
+    0.04910297715230126
+   ],
+   "exit_over_incident_yellow_RGB": [
+    8.096703024276062,
+    2.8490967311708078,
+    0.11493308219197472
+   ],
+   "exit_over_injected_yellow_RGB": [
+    8.261941861506186,
+    2.907241562419192,
+    0.11727865529793338
+   ],
+   "area_check_yellow_mesh_vs_ports": [
+    10.95369295474652,
+    15.874663352966309
+   ],
+   "area_check_lego_mesh_vs_ports": [
+    27.005129731714188,
+    40.83549118041992
+   ],
+   "t_bake_s": 143.56896686553955,
+   "exit_over_incident_lego_MESH_RGB": [
+    3.9385136153576017,
+    1.3858982148095234,
+    0.055907386958728204
+   ],
+   "exit_over_incident_yellow_MESH_RGB": [
+    8.151281447361887,
+    2.8683019813004043,
+    0.11570782548781053
+   ],
+   "exit_over_injected_yellow_MESH_RGB": [
+    8.317634129961109,
+    2.9268387564289835,
+    0.1180692096814393
+   ]
+  }
+ },
+ "mesh_incident": {
+  "lego_mesh": 4.442254747077367,
+  "yellow_mesh": 2.1463963570922444,
+  "spp": 8,
+  "seed": 4903,
+  "note": "white Lambertian bake: pi * sum(area * L) = incident sun power on the mesh (Cycles visibility)"
+ },
+ "exitance_replicate_rel_diff_RGB": [
+  0.00592629120255932,
+  0.0022978351449508493,
+  0.004030126085677055
+ ],
+ "exitance_valid": true
+}
