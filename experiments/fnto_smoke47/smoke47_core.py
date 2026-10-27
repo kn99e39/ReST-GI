@@ -107,14 +107,18 @@ def mir_exit_x(x_in, t):
 
 
 # ---- fields ---------------------------------------------------------------------------------------------------------
-def sample_fields(n, P_, J_, cvec, rng):
-    """[n, P_ * J_] input states with E_p = sum_j L cvec ~ U(0.2, 1) on active ports (protocol field_sampler)."""
+def sample_fields(n, P_, J_, cvec, rng, nonzero=False):
+    """[n, P_ * J_] input states with E_p = sum_j L cvec ~ U(0.2, 1) on active ports (protocol field_sampler).
+    nonzero: redraw all-zero configurations (amendment 1, Stage C)."""
     L = np.zeros((n, P_, J_)); cvec = np.asarray(cvec)
     for i in range(n):
-        for p in range(P_):
+        while not L[i].any():
+          for p in range(P_):
             if rng.random() < 0.75:
                 k = int(rng.integers(1, 4)); js = rng.choice(J_, k, replace=False); w = rng.dirichlet(np.ones(k))
                 L[i, p, js] = w * rng.uniform(0.2, 1.0) / cvec[js]
+          if not nonzero:
+              break
     return L.reshape(n, P_ * J_)
 
 

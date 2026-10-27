@@ -56,15 +56,15 @@ def run_regime(name, T, cvec, P_in, J_in, n_out_ports, n_dirs, mask, lap, nl, Tt
     """Four conditions x two training seeds on one regime. T = evaluation operator (radiance-bin input)."""
     Emap = K.emap(P_in, cvec); Ttr = T if Ttr is None else Ttr
     rt = np.random.default_rng(K.PC["data"]["test_seed"])
-    Lr = K.sample_fields(K.PC["data"]["test_random"], P_in, J_in, cvec, rt)
-    LA = K.sample_fields(4 * K.PC["data"]["test_pairs"], P_in, J_in, cvec, rt)
+    Lr = K.sample_fields(K.PC["data"]["test_random"], P_in, J_in, cvec, rt, nonzero=True)
+    LA = K.sample_fields(4 * K.PC["data"]["test_pairs"], P_in, J_in, cvec, rt, nonzero=True)
     LA = LA[(Emap @ LA.T).sum(0) > 0][:K.PC["data"]["test_pairs"]]; LB = K.pair_fields(LA, P_in, J_in, cvec, rt)
     Lte = np.concatenate([Lr, LA, LB]).T; pairs = (LA.T, LB.T)
     res = {"n_test": int(Lte.shape[1]), "floors": K.eonly_floors(T, Emap, Lte, pairs)}
     if Tnoise is not None:
         res["reference_noise_floor"] = K.rel(Tnoise @ Lte, T @ Lte) / np.sqrt(2)
     for seed in K.PC["data"]["train_seeds"]:
-        Ltr = K.sample_fields(K.PC["data"]["train"], P_in, J_in, cvec, np.random.default_rng(seed)).T
+        Ltr = K.sample_fields(K.PC["data"]["train"], P_in, J_in, cvec, np.random.default_rng(seed), nonzero=True).T
         tr_keys = {Ltr[:, i].tobytes() for i in range(Ltr.shape[1])}
         assert not any(Lte[:, i].tobytes() in tr_keys for i in range(Lte.shape[1])), "train / test overlap"
         Ytr = Ttr @ Ltr
