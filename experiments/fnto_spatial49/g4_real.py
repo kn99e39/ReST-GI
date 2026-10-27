@@ -74,7 +74,7 @@ def main(root):
         cond = {"oracle": scale * (orin + base), **{f"{a}_s{s_}": scale * (arm_in[(a, s_)] + base) for a in ("L0", "L1") for s_ in G3.SEEDS}}
         for v_i, v in enumerate(TEST_VIEWS):
             idx, vrow = rows[(st, v)]; pp = np.array([pmap[int(q)] for q in px[st][f"v{v}_port"][idx]])
-            r_ = ref[st][f"v{v}_rgb"][vrow].astype(np.float64); lit = px[st][f"v{v}_vis"][idx].astype(bool); dl = dist[pp, v_i].cpu().numpy()
+            r_ = ref[st][f"v{v}_rgb"][idx].astype(np.float64)                    # refs rows align with the eval_px arrays (amendment 6 fix); lit = px[st][f"v{v}_vis"][idx].astype(bool); dl = dist[pp, v_i].cpu().numpy()
             preds[(st, v, "ref")] = r_; preds[(st, v, "K44")] = V[f"heldout_{st}_v{v}_K_only"][vrow][:, :3].astype(np.float64)
             for cn, cv in cond.items():
                 preds[(st, v, cn)] = cv[pp, :, v_i].cpu().numpy()

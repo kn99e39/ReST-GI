@@ -176,6 +176,16 @@
    "before": "the white bake (Gate 0 only; Gate 2 running, no Gate 2 result seen)",
    "change": "Gate 0 exitance: an extra bake with every Lego material replaced by a white Lambertian (rho 1) gives the mesh-consistent incident sun power (pi * sum area * L = sum area * E, Cycles visibility); ratios are reported with the mesh denominators (Lego, Yellow triangles)",
    "reason": "port areas sum to 1.5x the mesh area (Lego 40.8 vs 27.0 m2; Yellow 15.9 vs 11.0 m2), so the predeclared port-based denominators are inconsistent with the mesh-based exit flux. Also affects the interpretation of worklog-48 energy ratios (port-area numerator and denominator there; uniform inflation cancels)."
+  },
+  {
+   "n": 6,
+   "date": "2026-10-27",
+   "before": "the 20k-step Gate 3 runs and the corrected Gate 4 run",
+   "changes": [
+    "Gate 4 bug: references were indexed by the valid-pixel rank (vrow) instead of the eval_px row (idx); every Gate 4 metric of the first run (K44 / oracle / L0 / L1 all ~11 dB, corr ~0.2, edit corr ~0.006) is invalid; preserved as gate4_run1_refindex_bug.json",
+    "Gate 3 fair-state: the predeclared check ('validation plateau, last 10 % change < 2 %') was implemented on the noisy training minibatch loss; it is now computed on the validation loss (fit receivers x val fields) as the protocol states",
+    "Gate 3 4000-step runs did not reach the fair state (train-minibatch change 3.4-7.9 %; 10 s per run): both arms are retrained identically for 20,000 steps (same cosine schedule, lr, batch, seeds, network); the 4000-step results are preserved as gate3_run1_4000steps.json and reported; decision rule unchanged"
+   ]
   }
  ]
 }

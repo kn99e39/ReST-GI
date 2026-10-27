@@ -25,7 +25,7 @@ import dasq as DQ  # noqa: E402
 from g1_capacity import DB  # noqa: E402
 import fnto_model as M  # noqa: E402
 
-PG = S.PROTO["gate3"]; STEPS = 4000; BR, BF = 64, 32; SEEDS = [4911, 4912]
+PG = S.PROTO["gate3"]; STEPS = 20000; BR, BF = 64, 32; SEEDS = [4911, 4912]
 SETS = ("fit", "val", "test_probe", "view_T0", "view_T1")
 
 
@@ -125,16 +125,26 @@ def main(root):
             torch.manual_seed(seed); g = torch.Generator(device=dev).manual_seed(seed); net = Net().to(dev)
             ar["params"] = sum(p.numel() for p in net.parameters())
             opt = torch.optim.Adam(net.parameters(), lr=1e-3); sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, STEPS)
-            hist = []; t = time.time()
+            hist = []; vhist = []; t = time.time()
+            Yval = torch.stack([Yf["val"][c] for c in "RGB"], 1).float()
+
+            def val_loss():
+                with torch.no_grad():
+                    pv = torch.cat([predict(net, D[i:i + 250], meas[i:i + 250], valid[i:i + 250], feats["val"][i:i + 250]) for i in range(0, nf, 250)])
+                    return float((((pv - Yval) ** 2).sum((0, 2)) / (Yval ** 2).sum((0, 2))).sum())
             for step in range(STEPS):
+                if step % (STEPS // 20) == 0:
+                    vhist.append(val_loss())
                 ri = torch.randint(0, nf, (BR,), generator=g, device=dev); fi = torch.randint(0, Yfit.shape[2], (BF,), generator=g, device=dev)
                 p = predict(net, D[ri], meas[ri], valid[ri], feats["fit"][ri][:, :, fi]); y = Yfit[ri][:, :, fi]
                 loss = (((p - y) ** 2).sum((0, 2)) / (y ** 2).sum((0, 2)).clamp(min=1e-30)).sum()
                 opt.zero_grad(); loss.backward(); opt.step(); sched.step(); hist.append(float(loss))
             torch.cuda.synchronize(); t_train = time.time() - t
-            h = np.array(hist); seg = len(h) // 10; plateau = float(abs(h[-seg:].mean() - h[-2 * seg:-seg].mean()) / max(h[-2 * seg:-seg].mean(), 1e-30))
+            vhist.append(val_loss()); h = np.array(hist); seg = len(h) // 10
+            plateau = float(abs(vhist[-1] - vhist[-3]) / max(vhist[-3], 1e-30))                # validation loss, last 10 % of steps (amendment 6)
+            plateau_train = float(abs(h[-seg:].mean() - h[-2 * seg:-seg].mean()) / max(h[-2 * seg:-seg].mean(), 1e-30))
             Pf = evaluate(net, tab_f, Yf, Erf); Ph = evaluate(net, tab_h, Yh, Erh)
-            r = {"t_train_s": t_train, "loss_last10pct": float(h[-seg:].mean()), "plateau_rel_change": plateau, "interpretable_state": plateau < 0.02,
+            r = {"t_train_s": t_train, "loss_last10pct": float(h[-seg:].mean()), "plateau_rel_change_val": plateau, "plateau_rel_change_train_minibatch": plateau_train, "interpretable_state": plateau < 0.02, "val_loss_curve": vhist,
                  "loss_curve_every100": h[::100].tolist(), "fit_receivers": metrics(Pf, Yf, Erf, None), "heldout_receivers": metrics(Ph, Yh, Erh, dist_h)}
             prim = {}
             for c in "RGB":
