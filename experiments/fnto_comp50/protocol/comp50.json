@@ -1,0 +1,47 @@
+{
+ "protocol": "fnto_comp50",
+ "worklog": "docs/worklogs/50_WORKLOG_DASQ_COMPOSABLE_K.md",
+ "authorisation": "user brief 'ReST-GI - Worklog 50 DASQ Composable K: Controlled Integration, Stability, Fidelity, and Geometry-Edit Validation' (2026-10-27)",
+ "handoff_commit": "6017e07",
+ "machine": "LabServer69 (RTX 3090 24 GB) for every run; no cross-server timing comparison",
+ "frozen": ["K_k44P (sha256 30d55da3...) incl. K_loc, K_glob, band / mid for every non-Yellow receiver", "C relations rel_T0 / rel_T1 / rel_T1_inc and rays", "r1 solver (tol / max_it / no damping)", "eval_vis_k44 incident field", "first_r1 / full r1 / hist references, views, masks", "worklog-49 checkpoints and verdicts (L1 learned comparison stays formally INCONCLUSIVE)", "worklogs 1-49"],
+ "not_authorised": ["DASQ adoption", "K_loc / K_glob / C / solver redesign", "new mechanisms", "element-count optimisation", "clamping / damping / brightness calibration", "glass", "rank / support changes", "worklog 51"],
+
+ "gate0": {
+  "wl49_l1_fluctuation": "classified from the stored validation curves and deterministic re-evaluation of the final checkpoints (no retraining of the worklog-49 arms); worklog 49's verdict is unchanged",
+  "decomposition": {
+   "Yellow receiver ports": "domain A ports with material 0 (339k); pixels whose port is such a port",
+   "K_loc": "K44 unchanged: rho / pi E_tot + sum kappa / pi E_ind (port sender) / learned BSDF on gathers (pixel) + the sun's GGX lobe; owns the receiver's own port and local scattering",
+   "K_glob": "K44 unchanged rank-64 p(x) . gamma (all distances)",
+   "in-support band + mid": "REPLACED for Yellow receivers by N_arm (isotropic, linear in E_tot per channel, W from the matched network, elements = K44 representatives (L0) or DASQ alpha 1.0 (L1)); unchanged for every other receiver",
+   "direct sun": "enters every term only through E_tot = E_sun + E_ind (sun lobe in K_loc as production)",
+   "indirect incoming": "E_ind from C gathers (production)",
+   "boundary outgoing": "port sender = K_loc + K_glob + (band + mid | N_arm) at the port normal (production semantics; N_arm is isotropic so its normal value equals every direction - a labelled domain-specific approximation for Yellow, worklog 47)",
+   "units": "E [W m^-2], outgoing radiance [W m^-2 sr^-1], N_arm = sum_e w_e [sr^-1 m^-2] * measure_e [m^2] * mean E_e"
+  },
+  "overlap_rule": "arms are trained on r = Cycles probe col - K44 K_glob - K44 K_loc at Yellow pixels (shared target for L0 / L1), so K_loc / K_glob and N_arm cannot double count by construction; the self port is excluded from DASQ elements (K_loc owns it); no oracle / reference value at inference; no s_c or other scale",
+  "fields": "the K44 band / mid input irradiance of each probe configuration (k44 batch_inputs, renderer-consistent visibility, scalar per port); splits = worklog 49 (fit 480 / val 120 prep2_train, test 120 prep2_holdout)"
+ },
+
+ "training": {
+  "arms": "L0 / L1, identical worklog-49 network (9,155 parameters), descriptors, objective (per-channel relative MSE of port-mean residuals), Adam lr 1e-3, cosine to 0, 30,000 steps, batch 8 configurations x 64 rows, seeds 5011 / 5012",
+  "fair_state": "relative range of the last 5 validation-curve evaluations (fixed 30k val rows, every 1,000 steps) < 2 % for both arms of a seed; otherwise that seed's learned comparison is INCONCLUSIVE",
+  "budget_basis": "worklog 49 profiling: 20k steps in 49 s with precomputed features; on-the-fly features here, expected <= 15 min per run"
+ },
+
+ "gate1": {
+  "conditions": {"H": "K_k44P unchanged", "L0C": "K44 + L0 arm replacing Yellow band + mid", "L1C": "K44 + L1 arm replacing Yellow band + mid"},
+  "evaluation": "r1_eval K_only vs first_r1 (held-out T0 and T1, all 16 views each)",
+  "primary": "Yellow-pixel display PSNR, per view, L1C - L0C (both seeds)",
+  "criteria": {"first_event_advantage": "mean L1C - L0C >= +0.3 dB with a 95 % view-bootstrap CI > 0, both seeds", "integration_valid": "non-Yellow pixels identical to H (by construction; tested) AND L*C Yellow-lit PSNR >= H Yellow-lit - 1.0 dB; else diagnose the interface and do not continue to Gate 3"},
+  "reported": ["lit / shadow / 3-30 cm", "R / G / B", "observed / never-observed receiver ports (prep2_train coverage)", "view 14", "T0 vs T1"]
+ },
+ "gate2": {"method": "c50_onestep: one production gather after the first event; single-flight indirect vs (full_r1 - first_r1) per class; first-event Yellow sender energy (port areas)", "note": "C is unchanged and was verified on a known field in worklogs 45 / 46; the frozen K44 full-directional sender is NOT used"},
+ "gate3": {"solver": "unchanged r1 State.solve (tol, max_it, growth rule); per view status / iterations / residual ratios; spectral radius by the production power iteration", "criteria": {"convergence": "all S_T0 / D_stale / E_upd / E_relfull solves converged for the arm", "stop": "a diverged or non-finite arm solve stops that arm's Gate 4 claims (evidence preserved)"}},
+ "gate4": {"metrics": "r1_eval rows (S_T0 | r1 and | hist view-mean PSNR, materials, lit / shadow, signed change on A_changed / stationary) + c50_report (Yellow lit / shadow / 3-30 cm, indirect component vs full - first, observed / hidden)",
+  "criteria": {"coupled_advantage": "S_T0 | r1 Yellow PSNR L1C - L0C >= +0.2 dB with a view-bootstrap CI > 0, both seeds", "regression": "opaque / box / glass PSNR change vs H within +-0.2 dB", "edit": "A_changed corr and slope reported; an improvement is corr +0.01 or |slope - 1| reduced by >= 0.05"}},
+ "gate5": "timings: arm table construction, arm apply per call, solve / render per view, training; element counts; peak memory; T1 update = incremental relation (unchanged) + arm re-application only",
+ "budget": {"gpu_h": 4, "wall_h": 7, "note": "hard limits; seed 5012 complete evaluation is run only if the budget allows"},
+ "tests": ["frozen K44 identity", "worklog-49 checkpoints present", "candidate-off equivalence (outgoing, render, residual history)", "arm ownership: non-Yellow ports / pixels unchanged, keep mask", "arm linearity / zero field / finiteness", "residual target decomposition = k44 predict"],
+ "amendments": []
+}
