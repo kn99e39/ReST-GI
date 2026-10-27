@@ -1,0 +1,21 @@
+{
+ "host": "LabServer63 (32 CPU threads; RTX 3080 Ti unused)",
+ "renderer": "Blender/Cycles 3.5.1 (bpy module), CPU",
+ "chain_wall_s": {
+  "basis0": 6,
+  "basis1": 7,
+  "fields": 7,
+  "sss": 14,
+  "total": 41
+ },
+ "renders": {
+  "mir_basis": "2 sets x 16 inputs x 8 cameras = 256 renders, 64x64, 256 spp",
+  "mir_fields": "4 fields x 2 replicates x 8 cameras = 64 renders at 1024 spp + 4 irradiance renders",
+  "sss": "2 fields x 2 replicates x 3 cameras = 12 renders 64x8 at 4096 spp + 2 irradiance renders"
+ },
+ "cpu_render_wall_s": 34,
+ "stage_c_fit_s_total": 5.231221224181354,
+ "stage_c_wall_s": 5.71,
+ "gpu_s": 0,
+ "pre_evidence": "mir_smoke 0.3 s; local test runs ~2 s; one Stage C attempt (4.7 s) stopped by the train/test assertion (amendment 1)"
+}

@@ -1,0 +1,54 @@
+{
+ "zero_field": {
+  "pass": true
+ },
+ "linearity_superposition": {
+  "pass": true,
+  "max_abs": 1.1102230246251565e-16
+ },
+ "equal_irradiance_pairs": {
+  "pass": true,
+  "max_E_diff": 2.220446049250313e-16,
+  "angular_diff": 5.0688064533571
+ },
+ "s1_known_mapping": {
+  "pass": true,
+  "value": 0.28000000000000036,
+  "expected": 0.27999999999999997
+ },
+ "s1_equal_E_different_output": {
+  "pass": true
+ },
+ "s0_equal_E_equal_output": {
+  "pass": true,
+  "max_abs": 2.7755575615628914e-17
+ },
+ "direction_conventions": {
+  "pass": true,
+  "synthetic": true,
+  "renderer": true
+ },
+ "units": {
+  "pass": true,
+  "E_const": 3.141592653589793
+ },
+ "passive_flux": {
+  "pass": true,
+  "max_albedo_S0": 0.6299999999999997,
+  "max_albedo_S1": 0.72,
+  "max_field_ratio": 0.6917689346840243
+ },
+ "fit_recovery_and_harmonic_extension": {
+  "pass": true,
+  "full_rel": 2.407999056267464e-05,
+  "hidden_laplacian_residual": 0.0006398390521674017
+ },
+ "train_test_separation": {
+  "pass": true,
+  "note": "run_regime asserts no train config equals a test config (passed)"
+ },
+ "deterministic_evaluation": {
+  "pass": true
+ },
+ "ALL_PASS": true
+}
