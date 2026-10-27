@@ -65,25 +65,34 @@ def main(root):
     for tag, a in (("B2p", 1.0), ("B2d", 0.7)):                                     # amendment 4: B1 / B2 infeasible
         if a is None:
             continue
-        Ss, Es, cnt = T.elements(L.pos[xf], xf, a, S.R_IN); t = time.time()
-        Fm = {k: T.means(cs[k], Ss, Es) for k in SETS}; torch.cuda.synchronize(); t_feat = time.time() - t
-        cond = {"alpha": a, "elements_median": float(cnt.float().median()), "elements_q95": float(torch.quantile(cnt.float(), 0.95)), "t_features_all_sets_s": t_feat, "channels": {}}
+        Ss, Es, cnt = T.elements(L.pos[xf], xf, a, S.R_IN)
+        cond = {"alpha": a, "elements_median": float(cnt.float().median()), "elements_q95": float(torch.quantile(cnt.float(), 0.95)), "elements_max": int(cnt.max()), "channels": {}}
         for ci, d in enumerate(dch):
             c = "RGB"[ci]; t = time.time()
             W = T.ideal_weights(L.pos, L.area, L.pos[xf], xf, Ss, Es, lambda r: S.burley(r, d) * (r < 16 * d), S.R_IN); t_w = time.time() - t
             Y = {k: torch.as_tensor(Z_[f"{c}_{k}_S30"][:nf], device=dev) for k in SETS}
-            Zf = Fm["fit"]; G = Zf @ Zf.transpose(1, 2); b = (Zf @ Y["fit"][..., None])[..., 0]
-            shv = E["val"][xf] == 0; vbest, wv = None, None; verr = {}
-            for lam in GRID:
-                w = ridge(G, b, lam); e_ = S.rel(torch.einsum("rk,rkf->rf", w, Fm["val"]), Y["val"], shv); verr[str(lam)] = e_
-                if vbest is None or e_ < vbest[1]:
-                    vbest, wv = (lam, e_), w
-            wnn, rc = nnls(G, b, W)
-            arms = {"quad": W, "A1v": wv, "A1nn": wnn}; r = {"t_ideal_weights_s": t_w, "A1v_lambda": vbest[0], "A1v_val_by_lambda": verr, "A1nn_fit_rel_residual": rc, "sets": {}}
+            P = {an: {k: torch.zeros(nf, E[k].shape[1], device=dev, dtype=torch.float64) for k in SETS} for an in ["quad", "nn"] + [f"v{lam}" for lam in GRID]}
+            rcs, tf = [], 0.0
+            for i0 in range(0, nf, 250):                                         # receiver chunks (GPU memory; amendment-4 element counts)
+                sl = slice(i0, min(i0 + 250, nf)); t1 = time.time()
+                Fm = {k: T.means(cs[k], Ss[sl], Es[sl]) for k in SETS}; torch.cuda.synchronize(); tf += time.time() - t1
+                Zf = Fm["fit"]; G = Zf @ Zf.transpose(1, 2); b = (Zf @ Y["fit"][sl][..., None])[..., 0]
+                ws = {"quad": W[sl]}
+                for lam in GRID:
+                    ws[f"v{lam}"] = ridge(G, b, lam)
+                ws["nn"], rc = nnls(G, b, W[sl]); rcs.append(rc)
+                for an, w in ws.items():
+                    for k in SETS:
+                        P[an][k][sl] = torch.einsum("rk,rkf->rf", w, Fm[k])
+                del Fm, Zf, G; torch.cuda.empty_cache()
+            shv = E["val"][xf] == 0; verr = {str(lam): S.rel(P[f"v{lam}"]["val"], Y["val"], shv) for lam in GRID}
+            lam_best = min(GRID, key=lambda l_: verr[str(l_)])
+            arms = {"quad": P["quad"], "A1v": P[f"v{lam_best}"], "A1nn": P["nn"]}
+            r = {"t_ideal_weights_s": t_w, "t_features_s": tf, "A1v_lambda": lam_best, "A1v_val_by_lambda": verr, "A1nn_fit_rel_residual_max": max(rcs), "sets": {}}
             for k in SETS:
                 y = Y[k]; sh = E[k][xf] == 0; r["sets"][k] = {}
-                for an, w in arms.items():
-                    p = torch.einsum("rk,rkf->rf", w, Fm[k])
+                for an, pp in arms.items():
+                    p = pp[k]
                     e = {"all": S.rel(p, y), "lit": S.rel(p, y, ~sh), "shadow": S.rel(p, y, sh), "shadow_ratio": float((p * sh).sum() / (y * sh).sum()),
                          "shadow_corr": float(np.corrcoef(p[sh].cpu().numpy(), y[sh].cpu().numpy())[0, 1])}
                     if k in dist:
@@ -95,8 +104,8 @@ def main(root):
                     r["sets"][k][an] = e
             best = min(("A1v", "A1nn"), key=lambda an: r["sets"]["val"][an]["shadow"]); r["A1_star"] = best
             prim = {}
-            for an, w in arms.items():
-                p = torch.cat([torch.einsum("rk,rkf->rf", w, Fm[k]) for k in ("test_probe", "view_T0")], 1)
+            for an, pp in arms.items():
+                p = torch.cat([pp[k] for k in ("test_probe", "view_T0")], 1)
                 y = torch.cat([Y[k] for k in ("test_probe", "view_T0")], 1); sh = torch.cat([E[k][xf] == 0 for k in ("test_probe", "view_T0")], 1)
                 prim[an] = {"shadow": S.rel(p, y, sh), "all": S.rel(p, y)}
             r["primary_test"] = prim
@@ -105,10 +114,10 @@ def main(root):
             r["gain"] = {"quad": {"abs": b0q - prim["quad"]["shadow"], "rel": 1 - prim["quad"]["shadow"] / b0q},
                          "A1star": {"abs": b0s - prim[best]["shadow"], "rel": 1 - prim[best]["shadow"] / b0s}}
             cond["channels"][c] = r; print(tag, c, json.dumps({"prim": prim, "B0": r["B0_primary_shadow"], "gain": r["gain"]}), flush=True)
-            np.savez(root / f"cache/gate2_{tag}_{c}.npz", quad=W.cpu().numpy(), A1v=wv.cpu().numpy(), A1nn=wnn.cpu().numpy())
+            np.savez(root / f"cache/gate2_{tag}_{c}.npz", quad=W.cpu().numpy())
+            del P; torch.cuda.empty_cache()
         np.savez(root / f"cache/gate2_{tag}_elements_fit.npz", S=Ss.cpu().numpy(), E=Es.cpu().numpy())
         rec["conditions"][tag] = cond
-        del Fm; torch.cuda.empty_cache()
     dec = {}
     if "B2p" in rec["conditions"]:
         for ft in ("quad", "A1star"):
