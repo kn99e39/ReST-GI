@@ -1,0 +1,125 @@
+{
+ "protocol": "phys_ref53",
+ "worklog": "docs/worklogs/53_WORKLOG_PHYSICAL_INTRINSIC_TRANSPORT_REFERENCE.md",
+ "authorisation": "user brief 'ReST-GI - Worklog 53: Physically Consistent Intrinsic Transport Reference and Geometry-Dependent K Ownership Validation' (2026-10-28); bounded reference + architecture-evidence batch, independent of and parallel to WL52",
+ "isolation": {
+  "branch": "wl53_physical_reference (worktree .claude/worktrees/wl53), from 47246f1",
+  "code": "experiments/phys_ref53 only; no production FNTO module, no K44 / DASQ checkpoint, no WL52 file or artefact is imported, read or written",
+  "machine": "smoke and the renderer investigation on LabServer63; primary runs on LabServer69 (user instruction 2026-10-28, during the smoke). WL52 trains on the same RTX 3090 (13.2 GB): WL53 caps its torch memory (P53_GPU_FRAC 0.35 = 8.4 GB) and renders on CPU (Cycles docker restgi/bpy-runtime, Mitsuba llvm), so WL52's process, files and protocol are untouched; GPU throughput is shared",
+  "server_dir": "~/rest_wl53 on LabServer69 (repo copy by tar, sha256 manifest), results ~/rest_wl53/results"
+ },
+ "environment_facts_before_evidence": {
+  "mitsuba": "3.5.1 / drjit 0.4.6, variants scalar_rgb, scalar_spectral, cuda_ad_rgb, llvm_ad_rgb; no BSSRDF plugin",
+  "labserver63_cuda_film_defect": "LabServer63 cuda_ad_rgb (driver 595.71 with the ~/nvlibs OptiX 595 user-space workaround) renders a Lambert plane under a sun (exact 0.127324, zero variance) as 0.1268 / 0.1218-0.1262 / 0.1152-0.1245 at 64 / 1024 / 8192 spp with std 0.011-0.017 and unequal channels for a grey material; constant-env irradiancemeter pi -> 6.7 / 2.7; furnace slab 1.03-1.04 at 4096 spp. llvm_ad_rgb on LabServer63 and cuda_ad_rgb on LabServer69 (driver 550.54) give exactly 0.127320 (std 0), irradiancemeter pi, furnace 0.9930 (identical numbers). LabServer63 cuda ray_intersect_preliminary matches an analytic box exit to 9.2e-8 m over 4 M rays (prim index = llvm on 99.99993 %; the rest are shared-edge ties). Decision: every reference RENDER uses llvm_ad_rgb on every machine; cuda_ad_rgb is used only as a ray intersector (TR / C / classification), guarded by tests. Historical LabServer63 Mitsuba cuda renders (e.g. WL43) were made with the same driver workaround; this batch does not re-examine them",
+  "cycles_source": "bpy 3.5.1 svm/closure.h 903-926: 'if (path_flag & PATH_RAY_DIFFUSE_ANCESTOR) param1 = 0' applies to CLOSURE_BSSRDF_BURLEY_ID, CLOSURE_BSSRDF_RANDOM_WALK_ID and CLOSURE_BSSRDF_RANDOM_WALK_FIXED_RADIUS_ID (all SSS methods); volume closures are not BSSRDFs and are not affected"
+ },
+ "reference_model_decisions": {
+  "decision_R1 (before primary evidence)": "PRIMARY reference = Cycles 3.5.1 volume path tracing (Volume Scatter + Volume Absorption inside a white Transparent BSDF = homogeneous RTE medium with an index-matched interface). Mitsuba 3.5.1 volpath = DIAGNOSTIC second renderer. Reason: Mitsuba (float32) starts every ray that crosses a null interface RayEpsilon (1 + |p|) = 8.9e-5 m past the surface (surface spawn offset), so an ~89 um boundary layer is skipped: at sigma_t = 1000 m^-1 the near-surface response is scaled by exp(-sigma_t delta / mu0) (single scattering 0.914 / 0.833 at mu0 = 1 / 0.5 = prediction 0.914 / 0.835; semi-infinite albedo 0.5: 0.944 / 0.878 under the sun, 0.879 under a uniform sky; deficit proportional to sigma_t: 5.6 % / 0.57 % / 0.04 % at 1000 / 100 / 10 m^-1; identical in scalar_rgb, llvm_ad_rgb, volpathmis, with RR disabled and for 2 m / 0.2 m / 2 cm cubes; exact for albedo 1 where path length does not matter). Because the offset scales with |p|, scene scaling cannot bring it below ~2 % for these fixtures. Cycles 3.5.1 avoids self-intersection by primitive id (no spawn offset) and matches the exact H-function to <= 0.13 % (albedo 0.5 / 0.9 / 0.99, theta0 0 / 60 deg, sem <= 0.15 %). Cycles volume closures are not subject to the PATH_RAY_DIFFUSE_ANCESTOR rule (BSSRDF only, svm/closure.h 903-926). Cycles caps bounces at 1024 (Python cannot raise it): semi-infinite albedo 0.999 at 1024 = 0.9933 (deep paths), 1 cm slab 256 vs 1024 bounces differ <= 0.2 %; a 512-vs-1024 control on the L-block is part of the protocol",
+  "selected_reference": "Cycles 3.5.1 volume (CPU), independent of the TR / C oracle code",
+  "independent_checks": "Chandrasekhar H-function (exact), IW (analytic-geometry random walk, no renderer), Mitsuba volpath (diagnostic, known boundary-layer bias), TR (the oracle itself; never used as the reference)",
+  "diagnostic_only": "Cycles random-walk SSS (BSSRDF: path-history dependent by source and by measurement); Cycles Burley from WL51",
+  "rejected": "Mitsuba float32 as the absolute reference (above); a custom general renderer (not needed); a Mitsuba double-precision build (would be a renderer build project; not needed once Cycles volume passed the analytic control); refractive dielectric interfaces; Lego-scale assets",
+  "medium": {
+   "sigma_t_per_m": 1000.0,
+   "albedo_rgb": [
+    0.999,
+    0.99,
+    0.9
+   ],
+   "phase": "isotropic (g = 0)",
+   "interface": "index-matched",
+   "diffusion_length_mm": [
+    18.1,
+    5.8,
+    1.8
+   ]
+  }
+ },
+ "conventions": {
+  "units": "m; radiance W m^-2 sr^-1; flux W; sun = collimated beam with perpendicular irradiance E = 1",
+  "domain": "connected region of one homogeneous medium bounded by a closed interface (outward normals); opaque Lambert surfaces are boundary-only domains; authoring objects are irrelevant",
+  "ports": "one voxel face (1 cm) of the rest configuration, 4 x 4 sub-cells x 2 triangles; identity, triangles and rest tangent are kept under rigid / non-rigid maps (material correspondence, never array position)",
+  "frames": "per triangle: n outward normal (current), t = current image of the rest tangent (triangle affine map) orthonormalised, b = n x t",
+  "bins": "Shirley-Chiu concentric map + Malley projection: equal projected solid angle pi / N^2; out 8 x 8 (64), in 4 x 4 (16); an incoming direction is labelled by the outward direction toward its source",
+  "K": "flux-transfer matrix T_a[(i,o) <- (j,b)] of domain a in isolation: fraction of flux entering through (j,b) that leaves through (i,o) at its FIRST exit into air (TR); KC: port-average radiance toward a fixed camera direction by next-event estimation (excludes the unscattered term, e^-10 for 1 cm)",
+  "C": "fraction of flux leaving out-cell (i,o) whose air ray first enters in-cell (j,b) of any domain, including the same domain (exit and re-entry); escapes leave the scene",
+  "ownership": "a path is split at every interface crossing; air segments belong to C, in-medium sub-paths (entry -> scattering -> first exit) belong to K; the families are disjoint by construction and independent of grouping",
+  "composition": "phi_in = phi_ext + C phi_out, phi_out = K phi_in (block diagonal); phi_ext = unoccluded external light (light that first hits another boundary is that domain's input); the external term is applied with the exact light direction (TR sun runs, exact Lambert irradiance), coupled terms with binned directions; solved by fixed-point iteration to relative change 1e-7; spectral radius by power iteration per channel",
+  "readout": "nee (primary): L = L0 (exact first order) + KC phi_in_ind; bin: L from phi_out in the camera direction's 8 x 8 bin; Lambert: rho / pi (E_ext + E_ind)",
+  "comparison_unit": "port average over interior pixels (centre and four corner rays hit the same port first; >= 50 pixels), per camera, port group (component x rest face) and channel; groups carrying < 2 % of the camera's reference signal or < 5 ports are reported, not ruled"
+ },
+ "fixtures": {
+  "geometry": "slab 10 x 10 x 1 cm (240 ports); L-block (10 x 10 x 1 cm base + 5 x 10 x 1 cm step, 270 ports, concave); pair = two slabs with 4 mm / 8 mm air gap; Lambert floor 30 x 30 cm (rho 0.8) 1 cm below the lowest point; bend 30 / 90 deg (cylindrical, mid-surface length preserved, +z face concave); dent (top pushed down by 5 mm * cos^2(pi r / 4 cm), r < 2 cm); rigid pose 1 = rotation 37 deg about (1,2,3) (+ placement); far = pose 1 + (10, -7, 3) m (numerical stress, T only)",
+  "scenes": "iso_L1 (sun normal), iso_L2 (sun 50 deg), iso_L3 (sun normal through a 2 x 2 cm hole in a black plate 0.5 m above), gap4 / gap8 (sun 30 deg), gap4_below (sun from below, grouping), floor (slab, sun 40 deg az 20), lblock / lblock_pose1 (sun lighting the concave corner), bend30 / bend90 / dent (+ floor, sun 35 deg az 20); cameras orthographic: top, bot, otop (50 deg), obot, ocorner (60 deg), gap / under cameras inside the gaps",
+  "seeds": {
+   "mitsuba_renders": [
+    5301,
+    5302
+   ],
+   "point_measurements": "5301-5308",
+   "TR": "slab 5311 / 5312, alpha1 5313, lblock 5311 / 5312, pose1 / bend / dent 5313, far 5314, pair4 5315, pair8 5316; sun runs 5330-5345; C 5340 / 5350; IW 5320 / 5332"
+  },
+  "samples": {
+   "render_spp_scene": 1024,
+   "render_spp_semi_infinite": 16384,
+   "furnace_spp": 4096,
+   "pathhist_cam_spp": 16384,
+   "meter_spp": 4194304,
+   "recip_spp": 4194304,
+   "TR_photons_per_cell": 2048,
+   "TR_alpha1_per_cell": 256,
+   "TR_pair_per_cell": 1024,
+   "TR_sun_photons": 16000000,
+   "C_rays_per_out_cell": 128,
+   "ext_samples_per_port": 256,
+   "IW_slab": 16000000,
+   "IW_semi_infinite": 8000000,
+   "cycles_spp": 1024,
+   "cycles_pathhist_cam": 8192,
+   "cycles_fisheye": 2048,
+   "cycles_spp_scene": 1024,
+   "cycles_px_m": 0.001,
+   "cycles_spp_semi_infinite": 8192,
+   "cycles_furnace": 1024,
+   "cycles_recip": 2048
+  }
+ },
+ "rules": {
+  "g1a_semi_infinite": "Cycles |L/L_H - 1| <= max(0.01, 3 sem) for all 24 (albedo 0.5/0.9/0.99/0.999 x theta0 0/60 x theta 0/40/70); IW |L/L_H - 1| <= 0.015; Mitsuba reported",
+  "g1b_furnace": "albedo 1, constant environment L = 1: pooled port mean |m - 1| <= 0.005 + 3 SE per camera",
+  "g1c_superposition": "zero emitters -> exactly 0; bias(AB vs A + B) <= 0.005 + 3 SE per camera / port group / channel",
+  "g1d_path_history": "primary: Cycles volume AND the Lambert control in the above_single configuration, E_diffuse_ancestor / E_camera_vertex (fisheye) and L_mirror / L_direct within 0.02 + 3 SE (8 seeds); secondary below_pair and random-walk SSS reported",
+  "g1e_grouping": "one shape vs two shapes (gap4, gap4_below): bias <= 0.005 + 3 SE",
+  "g1f_reciprocity": "Cycles: total radiant intensity I(c | sun s) vs I(-s | sun -c) (reflection case R, transmission case T), within 0.03 + 3 SE (8 seeds), informative if SE <= 0.03",
+  "cycles_volume_vs_mitsuba": "Lambert chain control within 1 %; bias <= 0.03 + 3 SE per camera / group / channel on iso_L1-3 (second renderer, different sampler, 2x coarser pixels)",
+  "g2_tr_vs_mitsuba": "renamed g2_tr_vs_reference: TR exact (sun-source NEE) vs Cycles bias <= 0.015 + 3 SE per scene / camera / group / channel; IW vs Cycles on iso_L1 / iso_L3 (IW models top-face entry only, so iso_L2's side entry is outside its scope)",
+  "g2_operator": "alpha 1: |column sum - 1| <= 1e-5 for every column; all column sums <= 1 + 1e-5; leaks + wrong-side <= 1e-5 of photons (far translation reported, not ruled); reciprocity: port-pair pooled |A_j T_ij - A_i T_ji| / sum <= 1.25 x cross-seed noise statistic + 0.005, direction-resolved adjacent pairs same rule",
+  "g2_discretization": "binned K (sun input binned 4 x 4, nee readout) and binned out-readout vs TR exact: reported as the discretization floor (no rule)",
+  "g3_composition": "every scene: rho < 1 per channel and converged; nee readout vs Mitsuba bias <= 0.03 + 3 SE per scene / camera / group / channel (SE includes the two TR seeds where available); coupling share (1 - order0 / composed) reported per group",
+  "g3_disjointness_power": "control 'dup': the pair K also continues every gap exit into the other slab while still recording the exit, so K and C both claim the gap path family; with the full C it must diverge (rho >= 1) or over-predict a ruled group by >= max(5 %, 5 SE). The object-scoped consistent arm (pair K absorbs gap re-entries; full C) is reported per group (its gap faces carry no exitance by construction)",
+  "g4_rigid": "||T_pose1 - T_pose0(s1)|| / ||T_pose0(s2) - T_pose0(s1)|| in [0.85, 1.15] per channel (port-pair and full bins); pose-1 composition with REUSED pose-0 K passes the 3 % rule and |bias_reuse - bias_recomputed| <= 0.01 + 3 SE",
+  "g5_nonrigid": "descriptive: ||Delta T|| / ||seed noise|| per channel, significant-entry fraction (|z| > 4), energy by material distance, same-face share, column-sum change, SVD rank above the noise top singular value, rank90, area-correspondence share, dent support share (r < 2 cm + 3 L_d), same-domain re-entry (C); K change is MEASURED if ||Delta T|| / ||noise|| >= 3 in a channel; stale-K vs current-K composition bias vs Mitsuba (bin readout)",
+  "reference_renderer": "all g1 rules are evaluated on Cycles volume (primary); Mitsuba results (g1a-g1f, iso_L1-3) are reported descriptively with the bias law",
+  "g1_chain": "Lambert 0.8 under a sun within 0.2 % of rho E cos / pi; fisheye irradiance of a uniform world within 0.5 % of pi",
+  "g1_trunc": "512 vs 1024 bounces on the L-block (top, underup) reported as the truncation estimate",
+  "comparison_min_pixels": "30 interior pixels per port (Cycles at 1 mm pixels)"
+ },
+ "verdict_mapping": {
+  "reference_physical_validity": "SUPPORTED if the Cycles chain, g1a, g1b, g1c, g1d primary, g1e, g1f (if informative) and IW pass; CONDITIONALLY SUPPORTED if every Cycles-internal and analytic rule passes and IW misses with an attributed cause; NOT SUPPORTED if an analytic / conservation / superposition rule fails unattributed. Mitsuba's bias is a renderer-implementation finding, not a reference failure",
+  "intrinsic_K_ownership": "SUPPORTED if g2 (TR and IW vs Mitsuba, operator rules) and g1e pass; CONDITIONALLY SUPPORTED if TR vs Mitsuba misses only on groups attributed to readout / estimator limits",
+  "KC_path_disjointness": "SUPPORTED if gap4 / gap8 partition arms pass g3 and the disjointness-power rule holds; CONDITIONALLY SUPPORTED if the partition passes but the control lacks power",
+  "coupled_transport_correctness": "SUPPORTED if every g3 scene converges and passes; CONDITIONALLY SUPPORTED if misses are confined to groups whose bin vs nee difference shows a discretization cause; NOT SUPPORTED otherwise",
+  "rigid_domain_reuse": "SUPPORTED if g4 passes",
+  "nonrigid_K_variation": "SUPPORTED (measured) if Delta T exceeds 3 x noise in a channel for >= 1 deformation and the stale-K composition error exceeds 3 SE on >= 1 group; structure reported, no sparsity / rank / locality assumption",
+  "readiness_for_learned_K": "assessed from the above with the fixture scope (index-matched isotropic media, voxel fixtures) and costs; at most CONDITIONALLY SUPPORTED"
+ },
+ "design_revisions_before_commit (smoke disclosed)": [
+  "Renders moved to llvm_ad_rgb after the LabServer63 cuda film defect was found (smoke 1-5).",
+  "Path-history test: the first smoke used the WL51 J_below configuration (two slabs lit from below) only; its point estimators were heavy-tailed (E ratios 0.5-6 at 1 k-64 k samples). Primary changed to a well-conditioned config (one slab lit from above at 45 deg, 2 x 2 cm patch 5 cm above; smoke ratio 1.007 / 1.004 / 1.002, mirror 1.002); J_below kept as secondary; 8 seeds for a CI. Reciprocity quads moved from 1 mm to 3 mm from the faces and 8 seeds (smoke: A->B / B->A 1.21e-3 / 1.10e-3 at 1 M samples).",
+  "Tests: two test bugs fixed (RGB channels summed in the composition test; a fixed 5 % C-reciprocity threshold below the cast's MC noise, replaced by the cross-seed statistic). 9 / 9 pass on LabServer63.",
+  "The full pipeline ran at smoke sample counts on LabServer63 (TR, IW, G2, compositions, ops, all renders); IW matched the H-function within 0.3 % at smoke counts; the far-translation TR showed leaks 1.3e-4 (float32 at 10 m) and the object-scoped pair runs 4e-5 / 8e-6 leaks (control only).",
+  "Decision R1 (above): the LabServer63 smoke showed Mitsuba 0.88-0.95 vs the H-function while IW matched it to 0.1 %; the renderer investigation (scattering order, sky vs sun, sigma_t law, variants, RR, sizes) attributed it to the float32 spawn offset; Cycles volume matched the H-function; the primary reference moved to Cycles volume. All g1 tests were re-implemented for Cycles (fisheye for the camera-vertex irradiance, sun / camera swap for reciprocity); the Cycles smoke passed the chain control exactly.",
+  "Negative control: the first object-scoped pair K absorbed every gap re-entry, so its gap faces send nothing into C and it cannot double count (smoke: identical with and without intra-pair C). A 'dup' K (records the gap exit AND continues it) was added as the real double-count control; at smoke counts it diverged (rho 4.7 / 2.9 / 0.84).",
+  "IW comparisons restricted to normal-incidence scenes (iso_L1, iso_L3): IW models entry through the top face only (smoke: iso_L2 bottom -30..-69 % from the missing side entry)."
+ ]
+}
