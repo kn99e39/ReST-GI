@@ -67,7 +67,17 @@
   "a representation change would be needed (requires a decision)"
  ],
  "budget": "data generation <= 30 min, training (60k steps at ~75 ms) <= 2 GPU-h, evaluation <= 2 GPU-h, benchmark <= 30 min",
- "amendments": [],
+ "amendments": [
+  {
+   "n": 1,
+   "date": "2026-10-28",
+   "before": "any evaluation of a trained model (run 1 stopped at step ~13k after the user flagged ~38 % GPU utilisation)",
+   "change": "training loop implementation only: all training configurations resident on the GPU (dense fp16 targets), the 4 configurations of a step in ONE padded batched forward (GLT.encode_b / transfer_b, ff0_b with key-padding and FF0 masks), no per-step host sync (loss logged every 100 steps)",
+   "unchanged": "model, objective, optimizer, schedule, 60,000 steps, batch 4 configurations x 512 receivers, seed 5201 (the configuration / receiver sampling sequence differs: torch generator)",
+   "verification": "batched loss = unbatched loss (relative difference 2e-8 on 4 validation configurations); 22 ms / step vs 75 ms; GPU ~99 % during steps",
+   "run1": "results/fnto_lc52/train_run1_superseded (curve to step 12k: val rel L2 smooth 0.058) preserved, not used"
+  }
+ ],
  "disclosures_before_commit": [
   "profiling smoke (untrained 400-step model, 2 configurations per set) ran before this commit; it showed the COST structure, which does not depend on training: at ~10k ports C0 update 5 ms (BVH 2 ms + 128 gathers 3 ms) vs C1 update 40 ms, and 0.67 s vs 11 ms at 4x ports; the P4 criterion was not changed",
   "the smoke model's fidelity numbers are uninformative (400 steps) and are not evidence",

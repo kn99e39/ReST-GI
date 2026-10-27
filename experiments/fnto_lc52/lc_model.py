@@ -52,6 +52,14 @@ def candidates(pos, nrm, pcen, pnrm, parea, k, chunk=4096):
     return torch.cat(I), torch.cat(Fv)
 
 
+@torch.no_grad()
+def ff0_b(pos, nrm, pcen, pnrm, parea):
+    """Batched ff0: receivers [B, n, 3], patches [B, M, *] -> [B, n, M] (padded patches must carry parea = 0)."""
+    d = pcen[:, None] - pos[:, :, None]; d2 = (d * d).sum(-1).clamp(min=1e-10); dh = d / d2.sqrt()[..., None]
+    cr = (dh * nrm[:, :, None]).sum(-1).clamp(min=0); cs = (-(dh * pnrm[:, None]).sum(-1)).clamp(min=0)
+    return parea[:, None] * cr * cs / (math.pi * d2 + parea[:, None])
+
+
 def ff0_total(pos, nrm, pcen, pnrm, parea, chunk=4096):
     out = []
     for s in range(0, len(pos), chunk):
@@ -89,6 +97,24 @@ class GLT(nn.Module):
         ln = self.null(torch.cat([q, torch.log1p(-(ffm.sum(1) / math.pi).clamp(max=0.999))[:, None]], -1))[:, 0]
         P = torch.softmax(torch.cat([ln[:, None], logit], 1), 1)
         return math.pi * P[:, 1:], math.pi * P[:, 0], P
+
+    # ---- batched (padded) training path: identical math with a leading configuration axis; pmask marks real patches
+    def encode_b(self, pcen, pnrm, parea, pmask):
+        x = torch.cat([pcen, pnrm, torch.log(parea.clamp(min=1e-8))[..., None], fourier(pcen)], -1)
+        return self.enc(self.tok(x), src_key_padding_mask=~pmask)                               # [B, M, d]
+
+    def transfer_b(self, z, pos, nrm, patch_of, pcen, pnrm, parea, pobj, robj, ffm):
+        """z [B, M, d], receivers [B, n, *], patches [B, M, *], ffm [B, n, M] (0 on padding) -> P [B, n, M + 1]."""
+        q = self.rq(torch.cat([pos, nrm, fourier(pos), torch.gather(z, 1, patch_of[..., None].expand(-1, -1, z.shape[-1]))], -1))
+        d = pcen[:, None] - pos[:, :, None]; dist = d.norm(dim=-1).clamp(min=1e-5); dh = d / dist[..., None]
+        t, b = frame(nrm); cr = (dh * nrm[:, :, None]).sum(-1); cs = -(dh * pnrm[:, None]).sum(-1)
+        rel = torch.stack([(dh * t[:, :, None]).sum(-1), (dh * b[:, :, None]).sum(-1), cr, cs, torch.log(dist), torch.log(ffm.clamp(min=1e-10)),
+                           (pobj[:, None] == robj[:, :, None]).float(), (nrm[:, :, None] * pnrm[:, None]).sum(-1),
+                           torch.log(parea.clamp(min=1e-8))[:, None] - 2 * torch.log(dist), torch.sqrt(parea)[:, None] / dist], -1)
+        h = self.A(q)[:, :, None] + self.B(z)[:, None] + self.Cr(rel)
+        logit = torch.where(ffm > 0, torch.log(ffm.clamp(min=1e-12) / math.pi) + self.pair(h)[..., 0], torch.full_like(ffm, float("-inf")))
+        ln = self.null(torch.cat([q, torch.log1p(-(ffm.sum(-1) / math.pi).clamp(max=0.999))[..., None]], -1))[..., 0]
+        return torch.softmax(torch.cat([ln[..., None], logit], -1), -1)
 
     @staticmethod
     def apply(F, Lbar):
