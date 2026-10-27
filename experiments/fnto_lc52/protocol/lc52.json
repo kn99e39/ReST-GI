@@ -84,6 +84,14 @@
    "reason": "the user asked for the RTX 3090's compute and VRAM to be used fully; measured throughput (all 3,000 training configurations GPU-resident, 4.4 GB): 4x512 -> 24 ms / 85k receiver samples/s / 6.6 GB; 8x1024 -> 89 ms / 92k samples/s / 13.2 GB; 16x1024 -> OOM. Compute is saturated (GPU 99-100 %) by the dense receiver x patch pair head; the VRAM headroom is used for a 4x larger batch and 2.7x more training samples",
    "change": "batch 8 configurations x 1024 receivers (every stored receiver), 40,000 steps (328 M receiver samples vs 123 M), lr 6e-4 (square-root batch scaling of 3e-4 for 4x), warm-up 2,000, cosine; everything else unchanged",
    "also": "lc_bench: torch.cuda.OutOfMemoryError (torch 2.3 has no torch.OutOfMemoryError)"
+  },
+  {
+   "n": 3,
+   "date": "2026-10-28",
+   "before": "writing the report; AFTER the primary evaluation (labelled post hoc)",
+   "change": "(a) lc_local.py: well-conditioned localized error of the coupled solutions, |E_a - E_ORA| / mean |E_ORA| (p99 / max / top-1 % squared-error share) on all / near-contact / strongly occluded / visibility-transition ports, plus the learned-only part |E_C1 - E_C0p| and error maps; (b) benchmark rerun on an idle GPU (lc_chain3 waits until no compute process is on the GPU)",
+   "reason": "(a) the predeclared P2 per-port RELATIVE error divides by ~0 oracle irradiance (single-flight subset values up to 1e11, coupled p99 ~100 for C0p and C1); P2 is still reported as predeclared; (b) the chain-2 benchmark ran while an unrelated GPU job (rest_wl53 p53_oracle.py) was active: C0 BVH 29 ms / gathers 30 ms vs 2-3 ms in the uncontended smoke - kept as contended evidence, not used for P4",
+   "unchanged": "criteria P1-P4, checkpoint, evaluation sets"
   }
  ],
  "disclosures_before_commit": [
