@@ -28,7 +28,7 @@ from probe_b48 import burley  # noqa: E402
 
 @torch.no_grad()
 def oracle_y(xp, pos, AE, d, self_idx=None):
-    out = torch.zeros(len(xp), AE.shape[1], device=xp.device, dtype=torch.float64); ch = max(1024, int(1.2e8 // len(xp)))
+    out = torch.zeros(len(xp), AE.shape[1], device=xp.device, dtype=torch.float64); ch = max(1024, int(4e7 // len(xp)))
     for s0 in range(0, len(pos), ch):
         r = torch.cdist(xp, pos[s0:s0 + ch]).clamp(min=2e-3); k = burley(r, d) * (r < 16 * d)
         if self_idx is not None:
@@ -70,10 +70,10 @@ def main(fit_json, a3_json, out):
         S1 = SV.State(T, H, vf, light); Eind, h = S1.aggregates(); S1.outgoing(Eind, h)
         q2 = xi[:, None].expand(2000, 64).reshape(-1); g, b, m = D.nonlocal_out(T, S1, q2, Wc.reshape(-1, 3))
         kc[:, v] = (g + b + m).view(2000, 64, 3).mean(1).double(); g, b, m = D.nonlocal_out(T, S1, xi, T.nrm[xi]); kn[:, v] = (g + b + m).double()
-        E = S1.Esun[:nA]; AE = (area * E)[:, None]; lit[:, v] = E[xi] > 0
+        E = S1.Esun[:nA].clone(); AE = (area * E)[:, None]; lit[:, v] = E[xi] > 0
+        del S1, g, b, m, q2; torch.cuda.empty_cache()
         for ci, d in enumerate(dch):
             yo[:, v, ci] = sc[ci] * oracle_y(pos[xi], pos, AE, d, self_idx=xi)[:, 0]
-        del S1; torch.cuda.empty_cache()
     sh = ~lit
     for ci, c in enumerate("RGB"):
         o = yo[..., ci]
