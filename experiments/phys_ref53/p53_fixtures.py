@@ -112,6 +112,8 @@ def scene_def(name):
         return dict(comps=[("slab_lo", "medium", slab, Vs + [0, 0, -off]), ("slab_hi", "medium", slab, Vs + [0, 0, off])],
                     lights=[(light, E_SUN)], cams=cams, plate=False, gap=gap)
     floor = floor_mesh(0.0)
+    if name == "floor_lam":                                   # amendment 4 (post hoc): the floor scene with the slab as an opaque Lambert box
+        sd = scene_def("floor"); n, k, m, V = sd["comps"][0]; sd["comps"][0] = (n, "lambert", m, V); return sd
     geo = {"floor": "slab", "lblock": "lblock", "lblock_pose1": "lblock_pose1", "bend30": "bend30", "bend90": "bend90", "dent": "dent"}
     if name in geo:
         m, Vc = domain_geometry(geo[name]); Vc = place_above(Vc)

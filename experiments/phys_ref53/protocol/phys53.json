@@ -147,6 +147,14 @@
    "observed": "after amendment 2, every composition converges but coupling-dominated groups miss the 3 % rule (gap faces R -2.5..-4.3 %, B +3.4..+8.3 %; floor under the slab +3.9..+5.2 %; slab bottom over the floor +2.6..+4.3 %); the predeclared G2 discretization floor (sun input binned 4 x 4) is -3.3..-3.9 % (R/G) and -1.6..-8.0 % (B) on transmitted faces and -2.4..+2.1 % on lit faces",
    "diagnostic": "slab oracle re-run with 8 x 8 = 64 incoming bins (P53_DIN=64; out bins unchanged 64; same photons per cell 2048, so 4x the photons per port), recomposed gap4 / gap8 / floor (part_s1 / part_s2 arms) into results/oracle_din64; compared group by group with the 16-bin arms against the same Cycles reference",
    "interpretation_rule_fixed_now": "if the coupling-dominated misses shrink by >= half with 64 bins, they are attributed to the oracle's incident-direction discretization; otherwise they stay unattributed"
+  },
+  {
+   "id": 4,
+   "date": "2026-10-28 07:25 KST",
+   "type": "POST HOC attribution diagnostic (labelled post hoc; no rule change)",
+   "observed": "amendment 3: 64 incoming bins do NOT reduce the coupled misses (gap faces B +5.7 -> +5.0 %, floor under the slab +3.9 -> +3.9 %), so by its fixed rule the misses are not attributed to incident-direction binning; K under a uniform diffuse sky (no C) matches Cycles within +0.1 % (top) / -0.7..-1.5 % (oblique)",
+   "diagnostic": "the floor scene with the slab replaced by an opaque Lambert box (rho 0.8; K exact by construction): one Cycles render set (seeds 5301 / 5302) and the same composition machinery with C at 128 / 512 / 2048 rays per out-cell",
+   "interpretation_rule_fixed_now": "if the Lambert scene reproduces misses of similar size on the coupled groups (floor under the box, box bottom), they are attributed to the explicit C / port discretization; if it passes the 3 % rule, the coupled misses are attributed to the medium K's response in the coupled configuration (unresolved)"
   }
  ]
 }

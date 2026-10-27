@@ -306,6 +306,16 @@ def stage_compose(out, cfg, only=None):
         del Rc; torch.cuda.empty_cache()
 
 
+def stage_lamfloor(out, cfg):
+    """Amendment 4 (post hoc): Lambert box + Lambert floor (K exact) composed with the same C machinery."""
+    (out / "pred").mkdir(exist_ok=True); sd = FX.scene_def("floor_lam"); ss = scene_set(sd)
+    pred, meta = compose_arm(sd, ss, {}, None, ("top", "otop", "bot"), cfg, {}, sun_doms={}, tag="floor_lam/lambert")
+    np.savez(out / "pred" / "floor_lam__lambert.npz", **pred); json.dump(meta, open(out / "pred" / "floor_lam__lambert.json", "w"), indent=1)
+    for M in (512, 2048):                                                       # C ray-count sensitivity
+        c2 = dict(cfg, M_rays=M); pred, meta = compose_arm(sd, ss, {}, None, ("top", "otop", "bot"), c2, {}, sun_doms={}, tag=f"floor_lam/lambert_M{M}")
+        np.savez(out / "pred" / f"floor_lam__lambert_M{M}.npz", **pred); json.dump(meta, open(out / "pred" / f"floor_lam__lambert_M{M}.json", "w"), indent=1)
+
+
 def _pair_arm(sd, ss, Tpair, dom, cfg, mask, tag, mode=True):
     s, E = sd["lights"][0]
     C, esc, cst = CP.cast_C(ss, cfg["M_rays"], 5340, mask=mask)

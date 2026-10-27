@@ -65,7 +65,7 @@ def fig_profile(R, E):
         if mit is not None:
             ax.semilogy(rr, mit[f"{cam}__mean"].mean(0)[sel][o, 0], "^", ms=3, color=S3, label="Mitsuba (diagnostic)")
         ax.set_xlabel("distance of port centre from beam axis (cm)"); ax.set_title(f"{'top' if face > 0 else 'bottom'} face, red", color=INK, loc="left")
-    axs[0].set_ylabel("port radiance (W m$^{-2}$ sr$^{-1}$)"); axs[0].legend(loc="upper right")
+    axs[0].set_ylabel("port radiance (W m$^{-2}$ sr$^{-1}$)"); axs[0].legend(loc="lower left")
     fig.suptitle("Nonlocal response of the 1 cm slab to a 2 x 2 cm beam (iso_L3)", x=0.01, ha="left", color=INK)
     fig.tight_layout(); p = E / "02_slab_beam_profile.png"; fig.savefig(p, dpi=160); plt.close(fig); return p
 
@@ -87,40 +87,47 @@ def _errmaps(R, items):
 def fig_composition(R, E, ops):
     items = [("gap4", "gapdown", "part_s1", "nee", "gap4: lower slab, gap face"), ("gap4", "gapup", "part_s1", "nee", "gap4: upper slab, gap face"),
              ("floor", "underup", "part_s1", "nee", "floor: slab bottom"), ("lblock", "ocorner", "part_s1", "nee", "L-block: concave corner view"),
-             ("lblock_pose1", "otop", "reuse_pose0", "nee", "L-block pose 1, REUSED pose-0 K"), ("dent", "otop", "stale_rest", "bin", "dent, STALE rest K"),
-             ("dent", "otop", "current", "bin", "dent, current K"), ("gap4", "gapdown", "pair4dup_full", "bin", "gap4 'dup' double count")]
-    maps = _errmaps(R, items); finite = [m[np.isfinite(m)] for m, _ in maps[:-1]]
-    vmax = max(float(np.nanmax(f)) for f in finite if f.size)                                   # shared absolute scale (dup arm clipped)
+             ("lblock_pose1", "otop", "reuse_pose0", "nee", "L-block pose 1, reused K"), ("dent", "otop", "stale_rest", "bin", "dent, stale rest K"),
+             ("dent", "otop", "current", "bin", "dent, current K")]
+    maps = _errmaps(R, items); finite = [m[np.isfinite(m)] for m, _ in maps]
+    vmax = max(float(np.nanmax(f)) for f in finite if f.size)                                   # shared absolute scale
     fig, axs = plt.subplots(2, 4, figsize=(11, 5.6))
     for ax, (m, t) in zip(axs.ravel(), maps):
         im = ax.imshow(np.clip(m, 0, vmax), cmap=SEQ, norm=PowerNorm(0.5, vmin=0, vmax=vmax)); ax.set_title(t, fontsize=8, color=INK, loc="left"); ax.axis("off")
+    dm = json.load(open(R / "oracle" / "pred" / "gap4__pair4dup_full.json")); ax = axs.ravel()[-1]; ax.axis("off")
+    ax.text(0.0, 0.7, "gap4 'dup' control:\nK and C both claim\nthe gap paths\n\nsolve diverges,\nρ R/G/B =\n" + " / ".join(f"{x:.2f}" for x in dm["rho"]),
+            fontsize=8, color=INK, va="top", transform=ax.transAxes)
     cb = fig.colorbar(im, ax=axs, shrink=0.8); cb.set_label("|port prediction - Cycles| (W m$^{-2}$ sr$^{-1}$), red, sqrt scale")
     fig.suptitle("Composed oracle K + C vs monolithic Cycles reference (one absolute scale for all panels)", x=0.01, ha="left", color=INK)
     p = E / "03_composition_error_maps.png"; fig.savefig(p, dpi=160); plt.close(fig); return p
 
 
 def fig_deform(R, E, ops):
-    names = [("bend30_s3", "bend 30°"), ("bend90_s3", "bend 90°"), ("dent_s3", "dent")]
-    bins = list(ops["bend30_s3"]["energy_by_distance"].keys()); x = np.arange(len(bins)); w = 0.26
-    fig, axs = plt.subplots(1, 2, figsize=(9, 3.2))
-    for i, (nm, lab) in enumerate(names):
-        axs[0].bar(x + (i - 1) * w, [ops[nm]["energy_by_distance"][b][0] for b in bins], w - 0.02, color=(S1, S2, S3)[i], label=lab)
-    axs[0].set_xticks(x); axs[0].set_xticklabels([b.replace("0.0", "").replace("-", "–") + " m" for b in bins], fontsize=7)
-    axs[0].set_ylabel("share of ||ΔT||² (red)"); axs[0].set_title("Where the operator change lives (material distance)", color=INK, loc="left"); axs[0].legend()
+    sfx = "_hi" if "bend30_hi" in ops else "_s3"                                              # amendment 1 (16x photons) when present
+    names = [(f"bend30{sfx}", "bend 30°"), (f"bend90{sfx}", "bend 90°"), (f"dent{sfx}", "dent")]
+    fig, axs = plt.subplots(1, 2, figsize=(9.5, 3.4)); w = 0.26
+    dpath = R / "oracle" / "ops_hi_dist_debiased.json"
+    if dpath.exists():
+        dd = json.load(open(dpath)); keys = list(dd[names[0][0]].keys())[:3]; labels = ["same port", "adjacent (≤1.5 cm)", "1.5–3 cm"]
+        for i, (nm, lab) in enumerate(names):
+            axs[0].bar(np.arange(3) + (i - 1) * w, [dd[nm][k]["signal_rel"][0] * 100 for k in keys], w - 0.02, color=(S1, S2, S3)[i], label=lab)
+        axs[0].plot(np.arange(3), [dd[names[0][0]][k]["noise_rel"][0] * 100 for k in keys], "_", ms=22, mew=2, color=INK2, label="seed noise")
+        axs[0].set_xticks(range(3)); axs[0].set_xticklabels(labels, fontsize=8); axs[0].set_ylabel("|ΔK| / |K| (%), red, noise-subtracted")
+        axs[0].set_title("Relative change of K by material distance", color=INK, loc="left"); axs[0].legend(fontsize=8)
     for i, (nm, lab) in enumerate(names):
         axs[1].bar(np.arange(3) + (i - 1) * w, ops[nm]["fro_vs_noise"], w - 0.02, color=(S1, S2, S3)[i], label=lab)
     axs[1].axhline(1, color=INK2, lw=1); axs[1].axhline(3, color=INK2, lw=1, ls="--")
-    axs[1].set_xticks(range(3)); axs[1].set_xticklabels(["R", "G", "B"]); axs[1].set_ylabel("||ΔT|| / ||seed noise||")
-    axs[1].set_title("Change magnitude vs MC noise (dashed: 'measured' rule)", color=INK, loc="left")
+    axs[1].set_xticks(range(3)); axs[1].set_xticklabels(["R", "G", "B"]); axs[1].set_ylabel("||ΔK|| / ||seed noise||")
+    axs[1].set_title("Change vs MC noise (dashed: 'measured' rule)", color=INK, loc="left")
     fig.tight_layout(); p = E / "04_nonrigid_operator_change.png"; fig.savefig(p, dpi=160); plt.close(fig); return p
 
 
 def main():
     R, E = Path(sys.argv[1]), Path(sys.argv[2]); E.mkdir(parents=True, exist_ok=True)
-    ops = json.load(open(R / "oracle" / "ops.json"))
+    ops = json.load(open(R / "oracle" / ("ops_hi.json" if (R / "oracle" / "ops_hi.json").exists() else "ops.json")))
     out = [fig_analytic(R, E), fig_profile(R, E), fig_composition(R, E, ops), fig_deform(R, E, ops)]
     man = dict(worklog=53, protocol="phys_ref53", source=str(R), files=[dict(file=p.name, sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in out],
-               note="error maps: single absolute scale = max over all non-control maps; the 'dup' control panel is clipped to that scale")
+               note="error maps: one absolute scale = max error over all error maps; the dup control diverged and is reported as text")
     json.dump(man, open(E / "manifest.json", "w"), indent=1); print(json.dumps(man, indent=1))
 
 
