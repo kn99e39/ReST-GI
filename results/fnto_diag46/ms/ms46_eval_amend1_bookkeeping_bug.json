@@ -1,0 +1,213 @@
+{
+ "solves": {
+  "T0_iso": {
+   "status": "diverged",
+   "iters": 9,
+   "seconds": 10.267301082611084,
+   "timing": {
+    "outgoing": 7.316948652267456,
+    "basis": 0.00012540817260742188,
+    "rays": 0.40921640396118164
+   },
+   "n_below": 0,
+   "rays_to_plane": 1243667,
+   "peak_GB": 9.836399104
+  },
+  "T0_dir": {
+   "status": "diverged",
+   "iters": 6,
+   "seconds": 163.62145900726318,
+   "timing": {
+    "outgoing": 4.858412027359009,
+    "basis": 155.20471954345703,
+    "rays": 0.29619860649108887
+   },
+   "n_below": 1070882,
+   "rays_to_plane": 1243667,
+   "peak_GB": 10.140444672
+  },
+  "T0_dirread": {
+   "status": "diverged",
+   "iters": 9,
+   "seconds": 244.34989428520203,
+   "timing": {
+    "outgoing": 7.299705505371094,
+    "basis": 0.0001270771026611328,
+    "rays": 0.40867066383361816
+   },
+   "n_below": 0,
+   "rays_to_plane": 1243667,
+   "peak_GB": 10.140444672
+  },
+  "T1_iso": {
+   "status": "diverged",
+   "iters": 9,
+   "seconds": 10.127811193466187,
+   "timing": {
+    "outgoing": 7.2922728061676025,
+    "basis": 0.00011968612670898438,
+    "rays": 0.40889596939086914
+   },
+   "n_below": 0,
+   "rays_to_plane": 1232927,
+   "peak_GB": 10.140444672
+  },
+  "T1_dir": {
+   "status": "diverged",
+   "iters": 6,
+   "seconds": 164.2744905948639,
+   "timing": {
+    "outgoing": 4.876129865646362,
+    "basis": 155.8439462184906,
+    "rays": 0.29631638526916504
+   },
+   "n_below": 1070953,
+   "rays_to_plane": 1232927,
+   "peak_GB": 10.140444672
+  },
+  "T1_dirread": {
+   "status": "diverged",
+   "iters": 9,
+   "seconds": 245.212504863739,
+   "timing": {
+    "outgoing": 7.321275472640991,
+    "basis": 0.00013017654418945312,
+    "rays": 0.4085967540740967
+   },
+   "n_below": 0,
+   "rays_to_plane": 1232927,
+   "peak_GB": 10.140444672
+  }
+ },
+ "views": {
+  "T0_v0": {
+   "reference_replicate_plane_psnr": 32.93651203610555
+  },
+  "T1_v0": {
+   "reference_replicate_plane_psnr": 32.84252494256631
+  },
+  "edit_v0": {
+   "px": 48118,
+   "ref_change_rms": 0.03667129611028142,
+   "sigma_ref_change": 0.004716562790869747
+  },
+  "T0_v1": {},
+  "T1_v1": {},
+  "edit_v1": {
+   "px": 69989,
+   "ref_change_rms": 0.019872314939039362,
+   "sigma_ref_change": null
+  },
+  "T0_v2": {},
+  "T1_v2": {},
+  "edit_v2": {
+   "px": 61114,
+   "ref_change_rms": 0.00841391495463633,
+   "sigma_ref_change": null
+  }
+ },
+ "conditions": {
+  "R0m": [
+   "iso",
+   "cos"
+  ],
+  "R3m": [
+   "dir",
+   "cos"
+  ],
+  "R6a": [
+   "iso",
+   "is"
+  ],
+  "R6b": [
+   "dir",
+   "is"
+  ],
+  "R3mr": [
+   "dirread",
+   "cos"
+  ],
+  "R6br": [
+   "dirread",
+   "is"
+  ]
+ },
+ "summary_psnr": {
+  "plane": {
+   "R0m": null,
+   "R3m": null,
+   "R6a": null,
+   "R6b": null,
+   "R3mr": null,
+   "R6br": null,
+   "R3m-R0m": null,
+   "R6a-R0m": null,
+   "R6b-R6a": null,
+   "R6b-R0m": null,
+   "R3mr-R0m": null,
+   "R6br-R6a": null,
+   "R6br-R0m": null
+  },
+  "lego": {
+   "R0m": null,
+   "R3m": null,
+   "R6a": null,
+   "R6b": null,
+   "R3mr": null,
+   "R6br": null,
+   "R3m-R0m": null,
+   "R6a-R0m": null,
+   "R6b-R6a": null,
+   "R6b-R0m": null,
+   "R3mr-R0m": null,
+   "R6br-R6a": null,
+   "R6br-R0m": null
+  },
+  "box": {
+   "R0m": null,
+   "R3m": null,
+   "R6a": null,
+   "R6b": null,
+   "R3mr": null,
+   "R6br": null,
+   "R3m-R0m": null,
+   "R6a-R0m": null,
+   "R6b-R6a": null,
+   "R6b-R0m": null,
+   "R3mr-R0m": null,
+   "R6br-R6a": null,
+   "R6br-R0m": null
+  },
+  "yellow": {
+   "R0m": null,
+   "R3m": null,
+   "R6a": null,
+   "R6b": null,
+   "R3mr": null,
+   "R6br": null,
+   "R3m-R0m": null,
+   "R6a-R0m": null,
+   "R6b-R6a": null,
+   "R6b-R0m": null,
+   "R3mr-R0m": null,
+   "R6br-R6a": null,
+   "R6br-R0m": null
+  },
+  "all": {
+   "R0m": null,
+   "R3m": null,
+   "R6a": null,
+   "R6b": null,
+   "R3mr": null,
+   "R6br": null,
+   "R3m-R0m": null,
+   "R6a-R0m": null,
+   "R6b-R6a": null,
+   "R6b-R0m": null,
+   "R3mr-R0m": null,
+   "R6br-R6a": null,
+   "R6br-R0m": null
+  }
+ },
+ "frozen_digest_identical": true
+}

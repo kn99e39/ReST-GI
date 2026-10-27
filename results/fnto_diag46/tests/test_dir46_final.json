@@ -1,0 +1,57 @@
+{
+ "T1_frames": {
+  "bins_self": true,
+  "frame_orthonormal_err": 2.980232238769531e-07,
+  "upper_unit_err": 1.7881393432617188e-07,
+  "upper_min_ndotw": 0.0010000169277191162,
+  "to_world_ndot_centre_err": 2.384185791015625e-07
+ },
+ "T2_units": {
+  "E_const": 3.141592502593994,
+  "diffuse_rho_c": 0.5,
+  "cos_dirs_upper": true
+ },
+ "T3_zero_max": {
+  "R0": 0.0,
+  "R3": 0.0,
+  "R4": 0.0,
+  "R5": 0.0
+ },
+ "T5_peak_err_deg": 0.03956468030810356,
+ "T10_sun_once_rel": {
+  "R4": 0.00017495469364803284,
+  "R5": 0.00017495457723271102
+ },
+ "T9_step_identity": {
+  "rel": 0.0001667320029810071,
+  "max_abs": 0.00390625,
+  "max_val": 23.015625
+ },
+ "T4_constant": {
+  "local_dir_over_local_E_lum": 0.9930439591407776
+ },
+ "T6_linearity_rel": {
+  "R0": 0.0002479284012224525,
+  "R3": 0.0002934216463472694,
+  "R4": 0.0002457067894283682,
+  "R5": 0.00029359961627051234
+ },
+ "T7_finite": {
+  "R0": true,
+  "R3": true,
+  "R4": true,
+  "R5": true
+ },
+ "T9_converged": {
+  "psnr_frozen_eval": 24.318180084228516,
+  "psnr_r1_state_now": 24.318172454833984,
+  "psnr_dirstate_R0": 24.31817054748535,
+  "iters": [
+   6,
+   6
+  ],
+  "max_abs_pixel_diff": 0.00014889240264892578
+ },
+ "T8_frozen_digest_identical": true,
+ "ALL_PASS": true
+}
