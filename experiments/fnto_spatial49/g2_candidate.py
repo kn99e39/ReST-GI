@@ -73,8 +73,8 @@ def main(root):
             Y = {k: torch.as_tensor(Z_[f"{c}_{k}_S30"][:nf], device=dev) for k in SETS}
             P = {an: {k: torch.zeros(nf, E[k].shape[1], device=dev, dtype=torch.float64) for k in SETS} for an in ["quad", "nn"] + [f"v{lam}" for lam in GRID]}
             rcs, tf = [], 0.0
-            for i0 in range(0, nf, 250):                                         # receiver chunks (GPU memory; amendment-4 element counts)
-                sl = slice(i0, min(i0 + 250, nf)); t1 = time.time()
+            for i0 in range(0, nf, 100):                                         # receiver chunks (GPU memory; amendment-4 element counts)
+                sl = slice(i0, min(i0 + 100, nf)); t1 = time.time()
                 Fm = {k: T.means(cs[k], Ss[sl], Es[sl]) for k in SETS}; torch.cuda.synchronize(); tf += time.time() - t1
                 Zf = Fm["fit"]; G = Zf @ Zf.transpose(1, 2); b = (Zf @ Y["fit"][sl][..., None])[..., 0]
                 ws = {"quad": W[sl]}
