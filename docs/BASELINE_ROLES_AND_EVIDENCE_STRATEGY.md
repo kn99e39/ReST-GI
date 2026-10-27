@@ -63,6 +63,9 @@ Do not delete, overwrite, reinterpret, or silently merge these questions.
 | **Ownership-semantics control** | REINIT: re-initialise one unit, retrain it fully with all others frozen | parameter and output preservation; reconstruction to prior quality |
 | **Coarse comparison** | whole-object full recompute (worklog 31 on an explicit substrate) | the granularity that finer units must beat or match |
 | **Physical reference** | Mitsuba full-scene path-traced radiance (worklog-22 producer), T0 and T3 | supervision and evaluation; never simplified to local transport |
+| **Physical intrinsic-transport reference (media; worklog 53)** | Cycles 3.5.1 **volume** path tracing (Volume Scatter + Absorption inside a white Transparent BSDF), validated against the exact H-function, furnace, superposition, path-history, grouping and reciprocity controls; independent analytic random walk (IW) | experimental reference for intrinsic K / ΔK on canonical fixtures; **not** promoted to the production training environment |
+
+**Reference-renderer cautions (worklog 53).** Cycles BSSRDF closures (Burley, random walk) are path-history dependent (diffuse-ancestor rule), so they cannot supervise a vertex-independent K (WL51). Mitsuba 3.5.1 float32 volpath skips an ~89 µm boundary layer at every null-interface crossing (−12 % at σ_t 1000 m⁻¹, bias ∝ σ_t) and must not be an absolute reference for dense media. Mitsuba `cuda_ad_rgb` film accumulation on LabServer63 (driver-595 OptiX workaround) is wrong for deterministic cases; LabServer69 cuda and llvm are exact. Label every number with its renderer and machine.
 
 **Batch 5 (SPT-1, worklog 39) roles:**
 - **A:** original RNA (RNA_T1 as the per-state reference; RNA_T0 for static credibility).
