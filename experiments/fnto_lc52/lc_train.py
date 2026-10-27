@@ -6,7 +6,7 @@ illumination. AdamW 3e-4, wd 1e-4, 1k warm-up + cosine, bf16 autocast for encode
 receivers (padded batched forward on GPU-resident data; amendment 1), seed 5201. Validation every 2,000 steps on the 200 validation configurations (all stored receivers): CE and the
 relative L2 error of E = F Lbar against the explicit target for fixed random smooth patch radiance fields.
 
-    python lc_train.py <data dir> <out dir> [steps=60000]
+    python lc_train.py <data dir> <out dir> [steps=60000] [B=4] [n=512] [lr=3e-4] [warm=1000]   (amendment 2 run: 40000 8 1024 6e-4 2000)
 """
 import json
 import math
@@ -100,16 +100,16 @@ def batched_loss(model, d, T):
     return -(Tt * torch.log(P.float().clamp(min=1e-12))).sum(-1).mean()
 
 
-def main(data, out, steps=60000):
+def main(data, out, steps=60000, B=4, n=512, lr=3e-4, warm=1000):
     out = Path(out); out.mkdir(parents=True, exist_ok=True); torch.manual_seed(5201); rng = np.random.default_rng(5201); gen = torch.Generator(device=DEV).manual_seed(5201)
     tr, val = load(data, "train"), load(data, "val"); print("train", len(tr), "val", len(val), flush=True)
     t0 = time.time(); D = GPUData(tr); del tr; print("gpu data", round(time.time() - t0, 1), "s", round(torch.cuda.memory_allocated() / 1e9, 2), "GB", flush=True)
-    model = LM.GLT().to(DEV); opt = torch.optim.AdamW(model.parameters(), lr=3e-4, weight_decay=1e-4)
-    sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda s: min(1.0, (s + 1) / 1000) * 0.5 * (1 + math.cos(math.pi * min(1.0, s / steps))))
-    log = {"params": LM.n_params(model), "steps": steps, "batch": "4 configs x 512 receivers (padded batched forward, amendment 1)", "curve": []}; best = 1e9; t0 = time.time()
+    model = LM.GLT().to(DEV); opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
+    sched = torch.optim.lr_scheduler.LambdaLR(opt, lambda s: min(1.0, (s + 1) / warm) * 0.5 * (1 + math.cos(math.pi * min(1.0, s / steps))))
+    log = {"params": LM.n_params(model), "steps": steps, "batch": f"{B} configs x {n} receivers (padded batched forward)", "lr": lr, "warmup": warm, "curve": []}; best = 1e9; t0 = time.time()
     acc = torch.zeros((), device=DEV); run = []
     for step in range(steps):
-        d = D.batch(rng.integers(len(D.c), size=4), 512, gen)
+        d = D.batch(rng.integers(len(D.c), size=B), n, gen)
         with torch.autocast("cuda", dtype=torch.bfloat16):
             loss = batched_loss(model, d, d[6])
         opt.zero_grad(set_to_none=True); loss.backward(); torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0); opt.step(); sched.step(); acc += loss.detach()
@@ -127,4 +127,4 @@ def main(data, out, steps=60000):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2], int(sys.argv[3]) if len(sys.argv) > 3 else 60000)
+    a = sys.argv; main(a[1], a[2], *(int(x) for x in a[3:6]), *(float(x) for x in a[6:7]), *(int(x) for x in a[7:8]))

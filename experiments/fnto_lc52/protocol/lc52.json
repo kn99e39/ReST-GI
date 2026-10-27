@@ -41,7 +41,7 @@
   "candidates": "every patch with positive analytic unoccluded FF0 (dense receiver x patch). The predeclared top-k rule (smallest k in {64..256} with >= 99 % coverage) FAILED on 100 training configurations (71 / 84 / 91 / 95 %); positive-FF0 coverage is 99.5 % (min 98.8 %) at 56 % of M per receiver",
   "capacity": "923,010 parameters",
   "objective": "cross-entropy to the 1,024-gather hit distribution over [NULL, patches] (FF0 = 0 mass to NULL); operator supervision, never illumination",
-  "training": "AdamW 3e-4, wd 1e-4, warm-up 1k + cosine, 60,000 steps, 4 configurations x 512 receivers, bf16 autocast, seed 5201; validation every 2k steps (val CE, val relative L2 of E for random smooth fields, unoccluded-prior baseline); checkpoint = best val CE",
+  "training": "see amendment 2: AdamW 6e-4, wd 1e-4, warm-up 2k + cosine, 40,000 steps, 8 configurations x 1024 receivers, bf16 autocast, seed 5201; validation every 2k steps; checkpoint = best val CE",
   "scaling": "per geometry O(M^2 d + N M d) - DENSE in receiver x patch: the asymptotic scaling is NOT improved over explicit gathers O(N K log T); per iteration O(N M)",
   "assumptions_exclusions": "diffuse (cosine-integrated irradiance) transport only - no directional radiance; patch-level source quantization (12.5 cm); Lambertian K; open room (sky = NULL); one material model"
  },
@@ -76,6 +76,14 @@
    "unchanged": "model, objective, optimizer, schedule, 60,000 steps, batch 4 configurations x 512 receivers, seed 5201 (the configuration / receiver sampling sequence differs: torch generator)",
    "verification": "batched loss = unbatched loss (relative difference 2e-8 on 4 validation configurations); 22 ms / step vs 75 ms; GPU ~99 % during steps",
    "run1": "results/fnto_lc52/train_run1_superseded (curve to step 12k: val rel L2 smooth 0.058) preserved, not used"
+  },
+  {
+   "n": 2,
+   "date": "2026-10-28",
+   "before": "any evaluation of a trained model (run 2 stopped at ~2 min; preserved as train_run2_superseded)",
+   "reason": "the user asked for the RTX 3090's compute and VRAM to be used fully; measured throughput (all 3,000 training configurations GPU-resident, 4.4 GB): 4x512 -> 24 ms / 85k receiver samples/s / 6.6 GB; 8x1024 -> 89 ms / 92k samples/s / 13.2 GB; 16x1024 -> OOM. Compute is saturated (GPU 99-100 %) by the dense receiver x patch pair head; the VRAM headroom is used for a 4x larger batch and 2.7x more training samples",
+   "change": "batch 8 configurations x 1024 receivers (every stored receiver), 40,000 steps (328 M receiver samples vs 123 M), lr 6e-4 (square-root batch scaling of 3e-4 for 4x), warm-up 2,000, cosine; everything else unchanged",
+   "also": "lc_bench: torch.cuda.OutOfMemoryError (torch 2.3 has no torch.OutOfMemoryError)"
   }
  ],
  "disclosures_before_commit": [

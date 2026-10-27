@@ -74,7 +74,7 @@ def main(ckpt, outd):
         LS.PORT = base * f; cfg = LS.sample_config(700100, n_box=(3, 3), n_arm=1, n_sheet=1)
         try:
             rec["port_scale"][f] = bench_cfg(model, cfg)
-        except torch.OutOfMemoryError as e:
+        except torch.cuda.OutOfMemoryError as e:
             rec["port_scale"][f] = {"error": "OOM", "detail": str(e)[:200]}
         print("port x", f, json.dumps({k: v for k, v in rec["port_scale"][f].items() if k != "mem_bytes"}), flush=True); torch.cuda.empty_cache()
     LS.PORT = base
