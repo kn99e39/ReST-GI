@@ -1,0 +1,18 @@
+# FNTO K checkpoints tracked in git despite results/ being gitignored (force-added, 2026-10-27).
+# Large data (anchors, relation tables, references, training data) is NOT in git; it is relayed between servers.
+# K_k44P = current FNTO kernel recipe (worklog 44); K_r1 / K_r1P / K_r1P_s1 = worklog 42; K_main = Batch 6 (worklog 41).
+# Verify: sha256sum -c results/CHECKPOINTS_SHA256.txt
+30d55da373a01ab8499f18644f295b7db2bf530c595040349f37531408f56e96  results/fnto_lego_r1/K_k44P/kernels.pt
+ccd73d1ea3fc4018e7b8028ac6af7c52ca4e925744b278495e3e5f584d754112  results/fnto_lego_r1/K_k44P/k44_correction.json
+a0e405a754898296e864191fb3a744934bd5d8d6eb429cd167c104969fcf00e3  results/fnto_lego_r1/K_k44P/train.json
+e17e2c164bc11f5a645e77799ab1b7724530734386c621450439862402751405  results/fnto_lego_r1/K_r1/kernels.pt
+dc1cf81f43e06b9abba4bba05d458d5c75a090c384a953279a48f46f93ae3b77  results/fnto_lego_r1/K_r1/rho.json
+b4de2dbd47aedb20796d0def895bc8df8abc354bdf8a1c76afad659eb81fa4c7  results/fnto_lego_r1/K_r1/train.json
+aa7ca527f9acc5573c2b7dab3f5d630b00961e94d214cc31123ce06f590eb64e  results/fnto_lego_r1/K_r1P/kernels.pt
+aa7818f40dfb8524d6e174f96e1c6e615b992a828189e51a565570ff090e6441  results/fnto_lego_r1/K_r1P/rho.json
+e9827a0765bee40cdf467db4aeeabe33af6cb700478fb8ccfcbe1b387eac8270  results/fnto_lego_r1/K_r1P/train.json
+019166b9b60ff16ddbe31ef49c84a0b0ec86ab29d0c886c2e26e81148b919d55  results/fnto_lego_r1/K_r1P_s1/kernels.pt
+9862cb63e51da4342b47ed871430a0b2463c0091b374ef09d68990bd76e740b6  results/fnto_lego_r1/K_r1P_s1/train.json
+2808803d3a22be09583b207ef37d4263bd1316f4a74203bbc2876bde1570e1ad  results/fnto_lego/K_main/kernels.pt
+49aae7119ea292f8d6706c944fb5d18ce68f6614d103e4f87efe885904e513bd  results/fnto_lego/K_main/checkpoint.pt
+50ce3162aaea2b8589d5237232d8269e1354e883b304de77857d1e281cf494e5  results/fnto_lego/K_main/train.json
