@@ -24,8 +24,8 @@ import p53_tracer as TR  # noqa: E402
 DEV = "cuda"
 if os.environ.get("P53_GPU_FRAC"):                 # shared GPU (LabServer69 with WL52): cap this process's torch memory
     torch.cuda.set_per_process_memory_fraction(float(os.environ["P53_GPU_FRAC"]))
-CFG = dict(n_per=2048, n_per_alpha1=256, n_per_pair=1024, n_sun=16_000_000, M_rays=128, K_ext=256, iw_N=16_000_000, iw_N_h=8_000_000)
-SMOKE = dict(n_per=32, n_per_alpha1=16, n_per_pair=16, n_sun=400_000, M_rays=16, K_ext=32, iw_N=400_000, iw_N_h=200_000)
+CFG = dict(n_per_hi=32768, n_per=2048, n_per_alpha1=256, n_per_pair=1024, n_sun=16_000_000, M_rays=128, K_ext=256, iw_N=16_000_000, iw_N_h=8_000_000)
+SMOKE = dict(n_per_hi=64, n_per=32, n_per_alpha1=16, n_per_pair=16, n_sun=400_000, M_rays=16, K_ext=32, iw_N=400_000, iw_N_h=200_000)
 TR_RUNS = {   # name: (geometry, seed, cam keys | None, continue_air, n_per key)
     "slab_s1": ("slab", 5311, ("top", "bot", "otop", "obot"), False, "n_per"),
     "slab_s2": ("slab", 5312, ("top", "bot", "otop", "obot"), False, "n_per"),
@@ -40,6 +40,13 @@ TR_RUNS = {   # name: (geometry, seed, cam keys | None, continue_air, n_per key)
     "pair4_obj": ("pair4", 5315, None, True, "n_per_pair"),
     "pair8_obj": ("pair8", 5316, None, True, "n_per_pair"),
     "pair4_dup": ("pair4", 5317, None, "dup", "n_per_pair"),
+}
+TR_RUNS_HI = {   # amendment 1: sample size only (rules unchanged); T only, no camera operators
+    "slab_hi_s1": ("slab", 5321, None, False, "n_per_hi"),
+    "slab_hi_s2": ("slab", 5322, None, False, "n_per_hi"),
+    "bend30_hi": ("bend30", 5323, None, False, "n_per_hi"),
+    "bend90_hi": ("bend90", 5323, None, False, "n_per_hi"),
+    "dent_hi": ("dent", 5323, None, False, "n_per_hi"),
 }
 LB_CAMS = ("top", "bot", "otop", "ocorner")
 
@@ -60,9 +67,13 @@ def make_domain(geo, alb=None):
     return TR.Domain(m, V, FX.SIGMA_T, FX.ALBEDO if alb is None else alb, FX.G_PHASE, name=geo)
 
 
-def stage_tr(out, cfg, only=None):
+def stage_tr_hi(out, cfg, only=None):
+    stage_tr(out, cfg, only, runs=TR_RUNS_HI)
+
+
+def stage_tr(out, cfg, only=None, runs=None):
     (out / "T").mkdir(exist_ok=True)
-    for name, (geo, seed, cams, cair, npk) in TR_RUNS.items():
+    for name, (geo, seed, cams, cair, npk) in (runs or TR_RUNS).items():
         if only and name not in only:
             continue
         if (out / "T" / f"{name}.pt").exists():
@@ -312,10 +323,14 @@ def port_pair(R, P):
     return R["T"].view(3, P, FX.DOUT, P, FX.DIN).sum((2, 4)).double()
 
 
-def stage_ops(out, cfg):
+def stage_ops_hi(out, cfg):
+    stage_ops(out, cfg, hi=True)
+
+
+def stage_ops(out, cfg, hi=False):
     res = {}
     m = FX.slab_mesh(); P = len(m["port_area"])
-    S1, S2 = load_T(out, "slab_s1"), load_T(out, "slab_s2")
+    S1, S2 = (load_T(out, "slab_hi_s1"), load_T(out, "slab_hi_s2")) if hi else (load_T(out, "slab_s1"), load_T(out, "slab_s2"))
     A1, A2 = port_pair(S1, P), port_pair(S2, P); noise = A2 - A1
     var = S1["S2"].double()                                                                        # entry variance estimate (3, P, P)
     pc = m["port_center"]; dist = torch.tensor(np.linalg.norm(pc[:, None] - pc[None], axis=2), device=DEV)
@@ -326,6 +341,8 @@ def stage_ops(out, cfg):
         out_ = {}
         tot = (D ** 2).sum((1, 2)); out_["fro_rel"] = (D.norm(dim=(1, 2)) / Abase.norm(dim=(1, 2))).tolist()
         out_["fro_vs_noise"] = (D.norm(dim=(1, 2)) / noise.norm(dim=(1, 2))).tolist()
+        r_ = D.norm(dim=(1, 2)) / noise.norm(dim=(1, 2))                                  # E||D||^2 = ||signal||^2 + ||noise||^2
+        out_["signal_vs_noise_debiased"] = torch.sqrt((r_ ** 2 - 1).clamp(min=0)).tolist()
         z = D / torch.sqrt(var_d).clamp(min=1e-30); sig = z.abs() > 4
         out_["frac_entries_sig"] = [float(sig[k][Abase[k] > 0].float().mean()) for k in range(3)]
         out_["energy_by_distance"] = {f"{lo:.3f}-{hi:.3f}": [float((D[k] ** 2)[(dist >= lo) & (dist < hi)].sum() / tot[k]) for k in range(3)] for lo, hi in bins}
@@ -345,21 +362,23 @@ def stage_ops(out, cfg):
 
     res["seed_noise"] = dict(fro_rel=(noise.norm(dim=(1, 2)) / A1.norm(dim=(1, 2))).tolist(),
                              frac_entries_sig=[float(((noise[k] / torch.sqrt(2 * var[k]).clamp(min=1e-30)).abs() > 4)[A1[k] > 0].float().mean()) for k in range(3)])
+    rig = None
     # rigid: L-block pose 0 (s1, s2) vs pose 1 (s3) and far (s3)
     lm = FX.lblock_mesh(); PL = len(lm["port_area"])
     L1, L2 = load_T(out, "lblock_s1"), load_T(out, "lblock_s2"); B1, B2 = port_pair(L1, PL), port_pair(L2, PL)
     rig = dict(seed_fro=(B2 - B1).norm(dim=(1, 2)).tolist())
-    for nm in ("lblock_pose1_s3", "lblock_far_s3"):
+    for nm in (() if hi else ("lblock_pose1_s3", "lblock_far_s3")):
         Bp = port_pair(load_T(out, nm), PL); D = Bp - B1
         rig[nm] = dict(fro_vs_seed=(D.norm(dim=(1, 2)) / (B2 - B1).norm(dim=(1, 2))).tolist(), fro_rel=(D.norm(dim=(1, 2)) / B1.norm(dim=(1, 2))).tolist(),
                        mean_rel_diff=((Bp.sum((1, 2)) - B1.sum((1, 2))) / B1.sum((1, 2))).tolist())
         # direction-resolved: full T matrices (bins in material frames)
         Tfull = load_T(out, nm)["T"]
         rig[nm]["fro_full_vs_seed"] = ((Tfull - L1["T"]).norm(dim=(1, 2)) / (L2["T"] - L1["T"]).norm(dim=(1, 2))).tolist()
-    res["rigid"] = rig
+    if not hi:
+        res["rigid"] = rig
     del L1, L2
     # non-rigid
-    for nm in ("bend30_s3", "bend90_s3", "dent_s3"):
+    for nm in (("bend30_hi", "bend90_hi", "dent_hi") if hi else ("bend30_s3", "bend90_s3", "dent_s3")):
         R = load_T(out, nm); geo = nm.split("_")[0]; _, Vc = FX.domain_geometry(geo)
         fr = G.tri_frames(m["V"], Vc, m["F"], m["tri_port"], m["port_tangent"])
         an = torch.tensor(G.port_areas(fr["area"], m["tri_port"], P), device=DEV); ao = torch.tensor(m["port_area"], device=DEV)
@@ -381,8 +400,9 @@ def stage_ops(out, cfg):
         log("ops", nm, json.dumps({k: res[nm][k] for k in ("fro_rel", "fro_vs_noise", "rank90", "colsum_change_mean", "self_reentry_fraction_uniform")}))
     ss = CP.SceneSet([CP.Comp("d", "medium", m, m["V"])], FX.DOUT, FX.DIN); C, esc, _ = CP.cast_C(ss, cfg["M_rays"], 5350)
     res["slab_rest_self_reentry_fraction_uniform"] = float(1 - esc.mean())
-    np.save(out / "ops_noise.npy", noise.float().cpu().numpy()); np.save(out / "ops_A1.npy", A1.float().cpu().numpy())
-    json.dump(res, open(out / "ops.json", "w"), indent=1)
+    sfx = "_hi" if hi else ""
+    np.save(out / f"ops{sfx}_noise.npy", noise.float().cpu().numpy()); np.save(out / f"ops{sfx}_A1.npy", A1.float().cpu().numpy())
+    json.dump(res, open(out / f"ops{sfx}.json", "w"), indent=1)
 
 
 def main():
@@ -393,7 +413,7 @@ def main():
     t0 = time.time()
     for st in ([stage] if stage != "all" else ["tr", "g1a_iw", "g2", "compose", "ops"]):
         fn = globals()[f"stage_{st}"]
-        fn(out, cfg, only) if st in ("tr", "compose") else fn(out, cfg)
+        fn(out, cfg, only) if st in ("tr", "tr_hi", "compose") else fn(out, cfg)
     json.dump(dict(cfg=cfg, variant=M.VARIANT, seconds=time.time() - t0, smoke=smoke, torch=torch.__version__,
                    peak_gpu_gb=torch.cuda.max_memory_allocated() / 1e9), open(out / f"oracle_meta_{stage}.json", "w"))
     log("done", stage, time.time() - t0)

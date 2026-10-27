@@ -121,5 +121,15 @@
   "Decision R1 (above): the LabServer63 smoke showed Mitsuba 0.88-0.95 vs the H-function while IW matched it to 0.1 %; the renderer investigation (scattering order, sky vs sun, sigma_t law, variants, RR, sizes) attributed it to the float32 spawn offset; Cycles volume matched the H-function; the primary reference moved to Cycles volume. All g1 tests were re-implemented for Cycles (fisheye for the camera-vertex irradiance, sun / camera swap for reciprocity); the Cycles smoke passed the chain control exactly.",
   "Negative control: the first object-scoped pair K absorbed every gap re-entry, so its gap faces send nothing into C and it cannot double count (smoke: identical with and without intra-pair C). A 'dup' K (records the gap exit AND continues it) was added as the real double-count control; at smoke counts it diverged (rho 4.7 / 2.9 / 0.84).",
   "IW comparisons restricted to normal-incidence scenes (iso_L1, iso_L3): IW models entry through the top face only (smoke: iso_L2 bottom -30..-69 % from the missing side entry)."
+ ],
+ "amendments": [
+  {
+   "id": 1,
+   "date": "2026-10-28 03:15 KST",
+   "when": "after the primary ops stage, before any reference render of the deformation scenes was compared",
+   "observed": "non-rigid ||Delta T|| / ||seed noise|| (port-pair level, 2048 photons per cell) = 1.20 / 1.22 / 1.15 (bend 30), 2.21 / 2.26 / 1.95 (bend 90), 1.91 / 1.94 / 1.37 (dent): far above 1 in significance (tens of thousands of entries) but below the predeclared magnitude rule 3; the structure metrics are noise-dominated at this count",
+   "change": "sample size only: rest slab (two seeds 5321 / 5322) and the three deformations (seed 5323) re-run with 32768 photons per cell (16x; noise / 4), T only; ops recomputed into ops_hi.json; a noise-debiased signal norm sqrt(r^2 - 1) is reported next to r. Rules, thresholds and the 2048-photon result are unchanged and both are reported",
+   "reason": "the brief asks to avoid sample limits unrelated to the required statistical confidence"
+  }
  ]
 }
