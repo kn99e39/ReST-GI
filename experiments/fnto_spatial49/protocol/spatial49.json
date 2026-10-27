@@ -132,6 +132,13 @@
    "before": "any Gate 1 output (crash in the first channel before printing)",
    "change": "s49_data.Lego.rep_lists accepts CUDA tensors (.cpu())",
    "reason": "TypeError converting a CUDA tensor to numpy; engineering only"
+  },
+  {
+   "n": 2,
+   "date": "2026-10-27",
+   "before": "A1v / A1nn results (after the predeclared A1 result)",
+   "change": "g1b_fitcontrols.py adds valid fitting controls on the same 224 features: A1v ridge with lambda chosen per channel on the VALIDATION fields from the fixed grid 1e-6..1e0 (float64); A1nn nonnegative LS (projected FISTA, 1500 iterations, init A0). A1* = lower validation shadow error per channel; the Gate 1 decision rule is applied unchanged with A1* in place of A1.",
+   "reason": "the predeclared A1 (ridge 1e-6, float32) over-fits: fit-field shadow error 0.009-0.04 but validation 1.2-15 (and B even fails on the fit fields, 1.74) - an invalid fitting control, not a capacity result. A1 is preserved as a failed control. Collision values (unaffected) already satisfy the predeclared proceed rule (G 0.05-0.07, B 0.17-0.23 >= 0.05)."
   }
  ]
 }
