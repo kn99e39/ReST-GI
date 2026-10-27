@@ -1,0 +1,48 @@
+{
+ "frozen_k44_identity": {
+  "pass": true,
+  "sha": "30d55da373a01ab8"
+ },
+ "wl49_checkpoints_present": {
+  "pass": true,
+  "hashes": {
+   "ckpt_L0_seed4911.pt": "e4b734239bea75c6",
+   "ckpt_L0_seed4912.pt": "480a198a7b74ad60",
+   "ckpt_L1_seed4911.pt": "052479fa61e6610f",
+   "ckpt_L1_seed4912.pt": "082d48c8872c6844"
+  }
+ },
+ "candidate_off_equivalence": {
+  "pass": true,
+  "outgoing_render_maxabs": [
+   1.1920928955078125e-07,
+   2.384185791015625e-07
+  ],
+  "production_vs_production_maxabs": 1.1920928955078125e-07,
+  "tol": 1.0838572978973389e-05,
+  "resid_hist_max_rel_diff": 5.342047536550111e-07
+ },
+ "arm_L0_ownership_linearity": {
+  "pass": true,
+  "linearity": 2.1477335110375861e-07,
+  "nonyellow_port_maxabs": 1.1920928955078125e-07,
+  "nonyellow_pixel_maxabs": 3.5762786865234375e-07,
+  "keep_ok": true,
+  "K": 224,
+  "yellow_px": 3035
+ },
+ "arm_L1_ownership_linearity": {
+  "pass": true,
+  "linearity": 1.6363337351776863e-07,
+  "nonyellow_port_maxabs": 1.1920928955078125e-07,
+  "nonyellow_pixel_maxabs": 2.384185791015625e-07,
+  "keep_ok": true,
+  "K": 703,
+  "yellow_px": 3035
+ },
+ "residual_target_decomposition": {
+  "pass": true,
+  "rel_maxabs": 4.9192774298489894e-08
+ },
+ "ALL_PASS": true
+}
