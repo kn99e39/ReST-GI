@@ -19,7 +19,10 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import c50_common as CC  # noqa: E402
 
+import os
 STEPS = 30000; NCFG = 8; NROW = 64; SEEDS = [5011, 5012]; NEVAL = 30
+if os.environ.get("C50_SMOKE"):                                                                 # timing smoke only (not evidence)
+    STEPS, SEEDS, NEVAL = 300, [5011], 3
 
 
 class Feats:
@@ -62,22 +65,22 @@ class Feats:
 
 def main(tdir, out):
     tdir, out = Path(tdir), Path(out); out.mkdir(parents=True, exist_ok=True); dev = torch.device("cuda"); t00 = time.time()
-    geo = CC.Geo(dev); tg = np.load(tdir / "targets.npz"); fields = torch.as_tensor(np.load(tdir / "fields_f16.npy"), device=dev)   # [ncfg, nA] f16
+    geo = CC.Geo(dev); tg = dict(np.load(tdir / "targets.npz")); fields = torch.as_tensor(np.load(tdir / "fields_f16.npy"), device=dev)   # [ncfg, nA] f16
     ports = np.unique(tg["port"]); rows_port = np.searchsorted(ports, tg["port"])
     R = torch.as_tensor(tg["res"], device=dev).float(); cfg = torch.as_tensor(tg["cfg"], device=dev); rp = torch.as_tensor(rows_port, device=dev); spl = tg["split"]
     idx = {s: np.flatnonzero(spl == k) for k, s in enumerate(("fit", "val", "test"))}
     idx["val_curve"] = np.sort(np.random.default_rng(5010).choice(idx["val"], min(30000, len(idx["val"])), replace=False))   # fixed curve subset
-    fit_by_cfg = {}
-    for r in idx["fit"]:
-        fit_by_cfg.setdefault(int(tg["cfg"][r]), []).append(r)
-    fit_cfgs = np.array(sorted(fit_by_cfg)); fit_rows = {c: torch.as_tensor(v, device=dev) for c, v in fit_by_cfg.items()}
+    fc = tg["cfg"][idx["fit"]]; o = np.argsort(fc, kind="stable"); fc_s, fr_s = fc[o], idx["fit"][o]
+    fit_cfgs, st = np.unique(fc_s, return_index=True); en = np.append(st[1:], len(fc_s))
+    fit_rows = {int(c): torch.as_tensor(fr_s[a:b], device=dev) for c, a, b in zip(fit_cfgs, st, en)}
     rec = {"steps": STEPS, "batch": [NCFG, NROW], "seeds": SEEDS, "rows": {k: int(len(v)) for k, v in idx.items()}, "ports": int(len(ports)), "arms": {}}
 
     def eval_rows(F_, net, rows_np):
-        P_ = torch.zeros(len(rows_np), 3, device=dev); rr = torch.as_tensor(rows_np, device=dev)
-        for c in np.unique(tg["cfg"][rows_np]):
-            m = torch.as_tensor(np.flatnonzero(tg["cfg"][rows_np] == c), device=dev)
-            P_[m] = F_.predict(net, fields[int(c)].float(), rp[rr[m]])
+        P_ = torch.zeros(len(rows_np), 3, device=dev); rr = torch.as_tensor(rows_np, device=dev); cf = tg["cfg"][rows_np]
+        for c in np.unique(cf):
+            m = torch.as_tensor(np.flatnonzero(cf == c), device=dev)
+            for i in range(0, len(m), 20000):
+                mm = m[i:i + 20000]; P_[mm] = F_.predict(net, fields[int(c)].float(), rp[rr[mm]])
         return P_
 
     def relerr(P_, rows_np):
