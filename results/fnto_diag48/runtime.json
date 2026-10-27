@@ -1,0 +1,24 @@
+{
+ "host": "LabServer63, RTX 3080 Ti (11.6 GB), 32 CPU threads",
+ "chain_wall_s": {
+  "probe_a": 97,
+  "probe_b": 54,
+  "probe_c": 368,
+  "kf": 105,
+  "total": 624
+ },
+ "tests_gpu_s": [
+  18,
+  92
+ ],
+ "failed_probe_a_attempt_s": 31,
+ "posthoc_s": [
+  35,
+  74
+ ],
+ "gpu_s_total_approx": 769,
+ "kf_mitsuba_gpu_s": 105,
+ "cpu_render_s": 0,
+ "new_renders": 0,
+ "note": "probe_c wall includes 4 MS solves (C0r, C2 x T0/T1), 2 basis tables, pixel reads; kf = Mitsuba ray tracing (CUDA)"
+}

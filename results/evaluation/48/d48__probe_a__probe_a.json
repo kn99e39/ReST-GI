@@ -1,0 +1,563 @@
+{
+ "coverage": {
+  "Yellow": {
+   "ports": 338864,
+   "observed_port_share": 0.33890587374285847,
+   "observed_area_share": 0.3565469198859773
+  },
+  "opaque": {
+   "ports": 511408,
+   "observed_port_share": 0.31384530550949535,
+   "observed_area_share": 0.31856210224528553
+  }
+ },
+ "train_pixels_lego": 60523878,
+ "physical_reference_wl47_sss": {
+  "0.03-0.06": {
+   "max_over_min_RGB": [
+    1.0005273818969727,
+    1.0053952932357788,
+    1.0081455707550049
+   ],
+   "cams_RGB": [
+    [
+     0.3412989377975464,
+     0.06627797335386276,
+     0.0011803582310676575
+    ],
+    [
+     0.34121638536453247,
+     0.06663556396961212,
+     0.0011899700621142983
+    ],
+    [
+     0.34111902117729187,
+     0.06627797335386276,
+     0.0011803554370999336
+    ]
+   ]
+  },
+  "0.06-0.12": {
+   "max_over_min_RGB": [
+    1.0024747848510742,
+    1.0015158653259277,
+    1.0019330978393555
+   ],
+   "cams_RGB": [
+    [
+     0.2361830621957779,
+     0.021376855671405792,
+     0.0001377796579618007
+    ],
+    [
+     0.2366100251674652,
+     0.021409258246421814,
+     0.0001375138235744089
+    ],
+    [
+     0.23602591454982758,
+     0.021376853808760643,
+     0.00013777692220173776
+    ]
+   ]
+  },
+  "0.12-0.30": {
+   "max_over_min_RGB": [
+    1.0045323371887207,
+    1.0009183883666992,
+    1.2392417192459106
+   ],
+   "cams_RGB": [
+    [
+     0.1100623607635498,
+     0.0017446212004870176,
+     1.1647385633750673e-07
+    ],
+    [
+     0.11056120693683624,
+     0.0017462200485169888,
+     9.398800671078789e-08
+    ],
+    [
+     0.1101066917181015,
+     0.0017446177080273628,
+     1.1284743095529848e-07
+    ]
+   ]
+  }
+ },
+ "views": {
+  "view6": {
+   "solve": {
+    "status": "converged",
+    "iters": 6
+   },
+   "groups": {
+    "Yellow_observed_lit": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1500,
+     "nonlocal_normal_mean": 0.1247352883219719,
+     "nonlocal_cosmean_mean": 0.6658806204795837,
+     "local_normal_mean": 0.10754934698343277,
+     "nonlocal_share_of_cos_flux": 0.8467351794242859,
+     "C_requests_per_port_mean": 13.713333333333333,
+     "AI_median": 5.457326889038086,
+     "AI_q90": 14.113992691040039,
+     "AI_max": 5575.341796875,
+     "F_cosmean_over_normal_median": 0.0037128974217921495,
+     "F_pooled": 5.33834981918335,
+     "req_over_normal_median": 5.195025444030762,
+     "req_over_normal_q99": 46.93809509277344,
+     "req_over_cosmean_pooled": 0.9948136806488037,
+     "dev_supervised_req_median": 0.02875789999961853,
+     "dev_unsupervised_req_median": 0.028323005884885788,
+     "n_req_supervised": 3977,
+     "n_req_unsupervised": 10538,
+     "dev_camera_dirs_median": 0.029035210609436035,
+     "req_angle_to_nearest_train_cam_median_deg": 20.47572135925293
+    },
+    "Yellow_observed_shadow": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1500,
+     "nonlocal_normal_mean": 0.09248357266187668,
+     "nonlocal_cosmean_mean": 0.571205198764801,
+     "local_normal_mean": 0.008708716370165348,
+     "nonlocal_share_of_cos_flux": 0.9849827885627747,
+     "C_requests_per_port_mean": 15.113333333333333,
+     "AI_median": 5.902069091796875,
+     "AI_q90": 31.092050552368164,
+     "AI_max": 4493.96533203125,
+     "F_cosmean_over_normal_median": 0.0069815912283957005,
+     "F_pooled": 6.17628812789917,
+     "req_over_normal_median": 5.246242046356201,
+     "req_over_normal_q99": 251.7915802001953,
+     "req_over_cosmean_pooled": 1.001017689704895,
+     "dev_supervised_req_median": 0.036213912069797516,
+     "dev_unsupervised_req_median": 0.04636025428771973,
+     "n_req_supervised": 2451,
+     "n_req_unsupervised": 16009,
+     "dev_camera_dirs_median": 0.03981860727071762,
+     "req_angle_to_nearest_train_cam_median_deg": 33.541175842285156
+    },
+    "Yellow_never_lit": {
+     "ports": 201,
+     "ports_nonlocal_gt_1e-6": 201,
+     "nonlocal_normal_mean": 0.09707768261432648,
+     "nonlocal_cosmean_mean": 0.7049940228462219,
+     "local_normal_mean": 0.06846756488084793,
+     "nonlocal_share_of_cos_flux": 0.9055753350257874,
+     "C_requests_per_port_mean": 9.009950248756219,
+     "AI_median": 7.3749589920043945,
+     "AI_q90": 36.46123123168945,
+     "AI_max": 317.3567810058594,
+     "F_cosmean_over_normal_median": 0.005372161045670509,
+     "F_pooled": 7.262163162231445,
+     "req_over_normal_median": 6.794524669647217,
+     "req_over_normal_q99": 156.6111297607422,
+     "req_over_cosmean_pooled": 1.0044605731964111,
+     "dev_supervised_req_median": null,
+     "dev_unsupervised_req_median": null,
+     "n_req_supervised": 0,
+     "n_req_unsupervised": 0,
+     "dev_camera_dirs_median": null,
+     "req_angle_to_nearest_train_cam_median_deg": null
+    },
+    "Yellow_never_shadow": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1500,
+     "nonlocal_normal_mean": 0.06700541079044342,
+     "nonlocal_cosmean_mean": 0.6462364792823792,
+     "local_normal_mean": 0.0063876318745315075,
+     "nonlocal_share_of_cos_flux": 0.9902123212814331,
+     "C_requests_per_port_mean": 14.338,
+     "AI_median": 9.576857566833496,
+     "AI_q90": 117.68209838867188,
+     "AI_max": 21017.07421875,
+     "F_cosmean_over_normal_median": 0.015033144503831863,
+     "F_pooled": 9.64454174041748,
+     "req_over_normal_median": 6.493307113647461,
+     "req_over_normal_q99": 971.9588012695312,
+     "req_over_cosmean_pooled": 1.008713722229004,
+     "dev_supervised_req_median": null,
+     "dev_unsupervised_req_median": null,
+     "n_req_supervised": 0,
+     "n_req_unsupervised": 0,
+     "dev_camera_dirs_median": null,
+     "req_angle_to_nearest_train_cam_median_deg": null
+    },
+    "opaque_observed_lit": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1447,
+     "nonlocal_normal_mean": 0.0005155009566806257,
+     "nonlocal_cosmean_mean": 0.0005715762381441891,
+     "local_normal_mean": 0.19560185074806213,
+     "nonlocal_share_of_cos_flux": 0.0026182972360402346,
+     "C_requests_per_port_mean": 13.581333333333333,
+     "AI_median": 1.000088095664978,
+     "AI_q90": 1.4378358125686646,
+     "AI_max": 3263.54541015625,
+     "F_cosmean_over_normal_median": 51.923126220703125,
+     "F_pooled": 1.1087830066680908,
+     "req_over_normal_median": 1.0000016689300537,
+     "req_over_normal_q99": 41.763099670410156,
+     "req_over_cosmean_pooled": 1.015172004699707,
+     "dev_supervised_req_median": 8.702239938429557e-06,
+     "dev_unsupervised_req_median": 9.119552487391047e-06,
+     "n_req_supervised": 3366,
+     "n_req_unsupervised": 11175,
+     "dev_camera_dirs_median": 1.120573597290786e-05,
+     "req_angle_to_nearest_train_cam_median_deg": 23.12775230407715
+    },
+    "opaque_observed_shadow": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1435,
+     "nonlocal_normal_mean": 0.0002744969096966088,
+     "nonlocal_cosmean_mean": 0.00028164172545075417,
+     "local_normal_mean": 0.008670720271766186,
+     "nonlocal_share_of_cos_flux": 0.03146004676818848,
+     "C_requests_per_port_mean": 13.792666666666667,
+     "AI_median": 1.000026822090149,
+     "AI_q90": 1.0354379415512085,
+     "AI_max": 4806.5322265625,
+     "F_cosmean_over_normal_median": 53.36139678955078,
+     "F_pooled": 1.0260274410247803,
+     "req_over_normal_median": 1.0000003576278687,
+     "req_over_normal_q99": 8.81412410736084,
+     "req_over_cosmean_pooled": 0.9991339445114136,
+     "dev_supervised_req_median": 4.351148618297884e-06,
+     "dev_unsupervised_req_median": 3.6954811548639555e-06,
+     "n_req_supervised": 2501,
+     "n_req_unsupervised": 13848,
+     "dev_camera_dirs_median": 3.6954811548639555e-06,
+     "req_angle_to_nearest_train_cam_median_deg": 32.44367980957031
+    },
+    "opaque_never_lit": {
+     "ports": 835,
+     "ports_nonlocal_gt_1e-6": 813,
+     "nonlocal_normal_mean": 0.0004521752707660198,
+     "nonlocal_cosmean_mean": 0.00047221535351127386,
+     "local_normal_mean": 0.11612304300069809,
+     "nonlocal_share_of_cos_flux": 0.0035514591727405787,
+     "C_requests_per_port_mean": 11.273053892215568,
+     "AI_median": 1.0000208616256714,
+     "AI_q90": 1.025374174118042,
+     "AI_max": 628.9700927734375,
+     "F_cosmean_over_normal_median": 43.267452239990234,
+     "F_pooled": 1.0443214178085327,
+     "req_over_normal_median": 1.0000001192092896,
+     "req_over_normal_q99": 4.079338550567627,
+     "req_over_cosmean_pooled": 1.001217246055603,
+     "dev_supervised_req_median": null,
+     "dev_unsupervised_req_median": null,
+     "n_req_supervised": 0,
+     "n_req_unsupervised": 0,
+     "dev_camera_dirs_median": null,
+     "req_angle_to_nearest_train_cam_median_deg": null
+    },
+    "opaque_never_shadow": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1456,
+     "nonlocal_normal_mean": 8.58202256495133e-05,
+     "nonlocal_cosmean_mean": 0.00010225900041405112,
+     "local_normal_mean": 0.0013425102224573493,
+     "nonlocal_share_of_cos_flux": 0.07077877968549728,
+     "C_requests_per_port_mean": 14.082,
+     "AI_median": 1.0000054836273193,
+     "AI_q90": 1.0058839321136475,
+     "AI_max": 5714.74560546875,
+     "F_cosmean_over_normal_median": 68.43339538574219,
+     "F_pooled": 1.1915961503982544,
+     "req_over_normal_median": 1.0000001192092896,
+     "req_over_normal_q99": 2.1541733741760254,
+     "req_over_cosmean_pooled": 0.9957324266433716,
+     "dev_supervised_req_median": null,
+     "dev_unsupervised_req_median": null,
+     "n_req_supervised": 0,
+     "n_req_unsupervised": 0,
+     "dev_camera_dirs_median": null,
+     "req_angle_to_nearest_train_cam_median_deg": null
+    }
+   },
+   "finite_all_queries": true,
+   "energy_first_event": {
+    "sun_power_absorbed_lego": 5.057837009429932,
+    "out_hemispherical_over_in_RGB": [
+     4.303770065307617,
+     1.6351995468139648,
+     0.20123204588890076
+    ],
+    "out_nonlocal_hemispherical_over_in_RGB": [
+     4.082406520843506,
+     1.40572988986969,
+     0.05772971734404564
+    ],
+    "out_local_hemispherical_over_in_RGB": [
+     0.22136327624320984,
+     0.22946962714195251,
+     0.14350232481956482
+    ],
+    "out_normal_production_over_in_RGB": [
+     1.9639034271240234,
+     0.580081582069397,
+     0.1451418548822403
+    ],
+    "out_from_yellow_ports_hemispherical_over_in_RGB": [
+     4.119779109954834,
+     1.4741042852401733,
+     0.06869716942310333
+    ],
+    "subsample_ports": 200000,
+    "note": "flux = sum A pi mean_64cos L (all K parts); sun power = sum A Esun over Lego ports"
+   }
+  },
+  "view15": {
+   "solve": {
+    "status": "converged",
+    "iters": 6
+   },
+   "groups": {
+    "Yellow_observed_lit": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1500,
+     "nonlocal_normal_mean": 0.0806986391544342,
+     "nonlocal_cosmean_mean": 0.5255916714668274,
+     "local_normal_mean": 0.12293603271245956,
+     "nonlocal_share_of_cos_flux": 0.8111628293991089,
+     "C_requests_per_port_mean": 13.907333333333334,
+     "AI_median": 6.82562255859375,
+     "AI_q90": 18.79979133605957,
+     "AI_max": 569.7747802734375,
+     "F_cosmean_over_normal_median": 0.013480459339916706,
+     "F_pooled": 6.513017654418945,
+     "req_over_normal_median": 6.610374927520752,
+     "req_over_normal_q99": 45.964107513427734,
+     "req_over_cosmean_pooled": 0.9963387250900269,
+     "dev_supervised_req_median": 0.02992883324623108,
+     "dev_unsupervised_req_median": 0.026826336979866028,
+     "n_req_supervised": 3029,
+     "n_req_unsupervised": 12541,
+     "dev_camera_dirs_median": 0.02992015704512596,
+     "req_angle_to_nearest_train_cam_median_deg": 24.475570678710938
+    },
+    "Yellow_observed_shadow": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1500,
+     "nonlocal_normal_mean": 0.05679045617580414,
+     "nonlocal_cosmean_mean": 0.37468859553337097,
+     "local_normal_mean": 0.00603343453258276,
+     "nonlocal_share_of_cos_flux": 0.984152615070343,
+     "C_requests_per_port_mean": 14.870666666666667,
+     "AI_median": 6.490499973297119,
+     "AI_q90": 29.381855010986328,
+     "AI_max": 105639.640625,
+     "F_cosmean_over_normal_median": 0.02689414843916893,
+     "F_pooled": 6.597738742828369,
+     "req_over_normal_median": 5.590358734130859,
+     "req_over_normal_q99": 212.80572509765625,
+     "req_over_cosmean_pooled": 0.997656524181366,
+     "dev_supervised_req_median": 0.03988846018910408,
+     "dev_unsupervised_req_median": 0.04763016477227211,
+     "n_req_supervised": 2699,
+     "n_req_unsupervised": 15414,
+     "dev_camera_dirs_median": 0.04183001443743706,
+     "req_angle_to_nearest_train_cam_median_deg": 32.63235092163086
+    },
+    "Yellow_never_lit": {
+     "ports": 291,
+     "ports_nonlocal_gt_1e-6": 291,
+     "nonlocal_normal_mean": 0.05850016698241234,
+     "nonlocal_cosmean_mean": 0.5531156063079834,
+     "local_normal_mean": 0.06276514381170273,
+     "nonlocal_share_of_cos_flux": 0.8932315707206726,
+     "C_requests_per_port_mean": 12.144329896907216,
+     "AI_median": 9.91672134399414,
+     "AI_q90": 45.031227111816406,
+     "AI_max": 2319.226806640625,
+     "F_cosmean_over_normal_median": 0.028704652562737465,
+     "F_pooled": 9.454940795898438,
+     "req_over_normal_median": 9.165575981140137,
+     "req_over_normal_q99": 312.43890380859375,
+     "req_over_cosmean_pooled": 1.002869963645935,
+     "dev_supervised_req_median": null,
+     "dev_unsupervised_req_median": null,
+     "n_req_supervised": 0,
+     "n_req_unsupervised": 0,
+     "dev_camera_dirs_median": null,
+     "req_angle_to_nearest_train_cam_median_deg": null
+    },
+    "Yellow_never_shadow": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1500,
+     "nonlocal_normal_mean": 0.03876817226409912,
+     "nonlocal_cosmean_mean": 0.36129313707351685,
+     "local_normal_mean": 0.0038200889248400927,
+     "nonlocal_share_of_cos_flux": 0.9895372986793518,
+     "C_requests_per_port_mean": 14.085333333333333,
+     "AI_median": 10.114511489868164,
+     "AI_q90": 135.99801635742188,
+     "AI_max": 154234.671875,
+     "F_cosmean_over_normal_median": 0.07426946610212326,
+     "F_pooled": 9.319323539733887,
+     "req_over_normal_median": 6.804903984069824,
+     "req_over_normal_q99": 1816.872314453125,
+     "req_over_cosmean_pooled": 1.0080736875534058,
+     "dev_supervised_req_median": null,
+     "dev_unsupervised_req_median": null,
+     "n_req_supervised": 0,
+     "n_req_unsupervised": 0,
+     "dev_camera_dirs_median": null,
+     "req_angle_to_nearest_train_cam_median_deg": null
+    },
+    "opaque_observed_lit": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1292,
+     "nonlocal_normal_mean": 0.00026725491625256836,
+     "nonlocal_cosmean_mean": 0.0007414582651108503,
+     "local_normal_mean": 0.1425565779209137,
+     "nonlocal_share_of_cos_flux": 0.005441619083285332,
+     "C_requests_per_port_mean": 13.377333333333333,
+     "AI_median": 1.0000940561294556,
+     "AI_q90": 1.6305859088897705,
+     "AI_max": 7656.14453125,
+     "F_cosmean_over_normal_median": 100.33367919921875,
+     "F_pooled": 2.7748937606811523,
+     "req_over_normal_median": 1.0000016689300537,
+     "req_over_normal_q99": 42.28138732910156,
+     "req_over_cosmean_pooled": 1.0091578960418701,
+     "dev_supervised_req_median": 7.808239388396032e-06,
+     "dev_unsupervised_req_median": 1.0967194612021558e-05,
+     "n_req_supervised": 2794,
+     "n_req_unsupervised": 9863,
+     "dev_camera_dirs_median": 1.156323378381785e-05,
+     "req_angle_to_nearest_train_cam_median_deg": 23.27751922607422
+    },
+    "opaque_observed_shadow": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1283,
+     "nonlocal_normal_mean": 0.00024156676954589784,
+     "nonlocal_cosmean_mean": 0.00026621189317665994,
+     "local_normal_mean": 0.004266032483428717,
+     "nonlocal_share_of_cos_flux": 0.05873732641339302,
+     "C_requests_per_port_mean": 13.464666666666666,
+     "AI_median": 1.0000189542770386,
+     "AI_q90": 1.029462456703186,
+     "AI_max": 983.9730224609375,
+     "F_cosmean_over_normal_median": 101.96762084960938,
+     "F_pooled": 1.102049708366394,
+     "req_over_normal_median": 1.000000238418579,
+     "req_over_normal_q99": 15.456720352172852,
+     "req_over_cosmean_pooled": 1.0142412185668945,
+     "dev_supervised_req_median": 3.099446303167497e-06,
+     "dev_unsupervised_req_median": 2.4437933916487964e-06,
+     "n_req_supervised": 2117,
+     "n_req_unsupervised": 12253,
+     "dev_camera_dirs_median": 2.622607780722319e-06,
+     "req_angle_to_nearest_train_cam_median_deg": 33.456783294677734
+    },
+    "opaque_never_lit": {
+     "ports": 512,
+     "ports_nonlocal_gt_1e-6": 445,
+     "nonlocal_normal_mean": 0.00015831201744731516,
+     "nonlocal_cosmean_mean": 0.0003068475634790957,
+     "local_normal_mean": 0.06941555440425873,
+     "nonlocal_share_of_cos_flux": 0.004101683851331472,
+     "C_requests_per_port_mean": 10.572265625,
+     "AI_median": 1.0000578165054321,
+     "AI_q90": 1.0381802320480347,
+     "AI_max": 1152.1278076171875,
+     "F_cosmean_over_normal_median": 94.18684387207031,
+     "F_pooled": 1.938723087310791,
+     "req_over_normal_median": 1.000000238418579,
+     "req_over_normal_q99": 3.681178569793701,
+     "req_over_cosmean_pooled": 1.0455074310302734,
+     "dev_supervised_req_median": null,
+     "dev_unsupervised_req_median": null,
+     "n_req_supervised": 0,
+     "n_req_unsupervised": 0,
+     "dev_camera_dirs_median": null,
+     "req_angle_to_nearest_train_cam_median_deg": null
+    },
+    "opaque_never_shadow": {
+     "ports": 1500,
+     "ports_nonlocal_gt_1e-6": 1297,
+     "nonlocal_normal_mean": 5.273171700537205e-05,
+     "nonlocal_cosmean_mean": 5.3534975450020283e-05,
+     "local_normal_mean": 0.0006961178733035922,
+     "nonlocal_share_of_cos_flux": 0.07141302525997162,
+     "C_requests_per_port_mean": 13.865333333333334,
+     "AI_median": 1.000003695487976,
+     "AI_q90": 1.0049538612365723,
+     "AI_max": 1598.380859375,
+     "F_cosmean_over_normal_median": 171.48060607910156,
+     "F_pooled": 1.0152502059936523,
+     "req_over_normal_median": 1.0,
+     "req_over_normal_q99": 2.878615617752075,
+     "req_over_cosmean_pooled": 1.0040864944458008,
+     "dev_supervised_req_median": null,
+     "dev_unsupervised_req_median": null,
+     "n_req_supervised": 0,
+     "n_req_unsupervised": 0,
+     "dev_camera_dirs_median": null,
+     "req_angle_to_nearest_train_cam_median_deg": null
+    }
+   },
+   "finite_all_queries": true,
+   "energy_first_event": {
+    "sun_power_absorbed_lego": 2.9589712619781494,
+    "out_hemispherical_over_in_RGB": [
+     4.574512004852295,
+     1.8252207040786743,
+     0.1765783727169037
+    ],
+    "out_nonlocal_hemispherical_over_in_RGB": [
+     4.405271530151367,
+     1.6300626993179321,
+     0.07268790155649185
+    ],
+    "out_local_hemispherical_over_in_RGB": [
+     0.1692405790090561,
+     0.19515787065029144,
+     0.10389045625925064
+    ],
+    "out_normal_production_over_in_RGB": [
+     1.9628461599349976,
+     0.6058078408241272,
+     0.1496470719575882
+    ],
+    "out_from_yellow_ports_hemispherical_over_in_RGB": [
+     4.450791835784912,
+     1.714713215827942,
+     0.08129751682281494
+    ],
+    "subsample_ports": 200000,
+    "note": "flux = sum A pi mean_64cos L (all K parts); sun power = sum A Esun over Lego ports"
+   }
+  }
+ },
+ "criteria": {
+  "view6": {
+   "yellow_AI_median_observed": 5.6796979904174805,
+   "yellow_AI_median_never": 8.475908279418945,
+   "output_invalid": true,
+   "port_supervision_association": false,
+   "direction_supervision_association": false,
+   "dev_supervised": 0.03248590603470802,
+   "dev_unsupervised": 0.03734163008630276
+  },
+  "view15": {
+   "yellow_AI_median_observed": 6.658061265945435,
+   "yellow_AI_median_never": 10.015616416931152,
+   "output_invalid": true,
+   "port_supervision_association": true,
+   "direction_supervision_association": false,
+   "dev_supervised": 0.03490864671766758,
+   "dev_unsupervised": 0.03722825087606907
+  }
+ },
+ "frozen_digest_identical": true,
+ "cost": {
+  "wall_s": 94.85741949081421,
+  "peak_GB": 10.557751296,
+  "gpu": "NVIDIA GeForce RTX 3080 Ti"
+ }
+}

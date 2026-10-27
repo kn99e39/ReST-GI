@@ -1,0 +1,46 @@
+{
+ "baseline_k44_sha256_equals_wl45_freeze": {
+  "pass": true,
+  "sha": "30d55da373a01ab8"
+ },
+ "direction_conventions": {
+  "pass": true,
+  "train_cam_front": 1.0,
+  "C_request_front": 0.9891586899757385,
+  "bin_centres_own_bin": true
+ },
+ "units_flux_quadrature": {
+  "pass": true,
+  "const": 3.1415927410125732,
+  "cos_weighted": 2.094752788543701,
+  "expect": 2.0943951023931953
+ },
+ "linearity_nonlocal_query": {
+  "pass": true,
+  "rel_residual": 5.131437887939683e-07,
+  "note": "fp16 L storage"
+ },
+ "support_tables_alignment": {
+  "pass": true,
+  "nbrA_over_area5_median": 1.0022639036178589,
+  "midA_over_area30_median": 1.0064564943313599,
+  "member_to_band_centre_q99_m": 0.012314269319176674
+ },
+ "burley_oracle_alignment": {
+  "pass": true,
+  "plane_normalisation": 0.9882465903774463
+ },
+ "exact_query_alignment": {
+  "pass": true,
+  "max_rel": 2.0710803738666073e-08
+ },
+ "paired_T0_T1_validity": {
+  "pass": true,
+  "pairs": [
+   48118,
+   69989,
+   61114
+  ]
+ },
+ "ALL_PASS": true
+}

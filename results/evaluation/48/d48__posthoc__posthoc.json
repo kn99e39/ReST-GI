@@ -1,0 +1,51 @@
+{
+ "P1_reference_energy": {
+  "view6": {
+   "oracle_yellow_exitance_flux_over_absorbed_RGB": [
+    4.810037371893747,
+    1.3210880251766484,
+    0.05305257236099625
+   ],
+   "absorbed_sun_power": 5.057837009429932
+  },
+  "view15": {
+   "oracle_yellow_exitance_flux_over_absorbed_RGB": [
+    4.780146705785735,
+    1.4816717930408814,
+    0.06102006750860502
+   ],
+   "absorbed_sun_power": 2.9589712619781494
+  }
+ },
+ "P2_k44_cosmean_vs_oracle": {
+  "R": {
+   "cosmean_rel_err": 0.51672211390912,
+   "cosmean_over_oracle_sum": 0.8732320582066194,
+   "cosmean_corr": 0.5727081706176185,
+   "normal_rel_err": 0.7121313341358894,
+   "normal_over_oracle_sum": 0.3832744301183051,
+   "lit_cosmean_over_oracle_sum": 0.8898216536593931
+  },
+  "G": {
+   "cosmean_rel_err": 0.5352822587095545,
+   "cosmean_over_oracle_sum": 1.2085253816087236,
+   "cosmean_corr": 0.8029193295780019,
+   "normal_rel_err": 0.8270171722638613,
+   "normal_over_oracle_sum": 0.32911992857398514,
+   "lit_cosmean_over_oracle_sum": 0.8159251783782092
+  },
+  "B": {
+   "cosmean_rel_err": 0.8242317566767099,
+   "cosmean_over_oracle_sum": 1.6979584603185984,
+   "cosmean_corr": 0.654246415958448,
+   "normal_rel_err": 0.7634529815929015,
+   "normal_over_oracle_sum": 0.7408749418033513,
+   "lit_cosmean_over_oracle_sum": 0.7306607197193064
+  }
+ },
+ "frozen_digest_identical": true,
+ "cost": {
+  "wall_s": 71.24972820281982,
+  "peak_GB": 9.742165504
+ }
+}

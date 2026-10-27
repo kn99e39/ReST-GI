@@ -1,0 +1,935 @@
+{
+ "solves": {
+  "T0_C0r": {
+   "status": "converged",
+   "iters": 7,
+   "seconds": 8.650359153747559,
+   "timing": {
+    "outgoing": 5.696348428726196,
+    "basis": 9.107589721679688e-05,
+    "rays": 0.31784844398498535
+   },
+   "hist": [
+    1.0,
+    0.1494899995399757,
+    0.03637771188584282,
+    0.009873300738887399,
+    0.00299639683594809,
+    0.0011375769322543169,
+    0.00048441816054545385
+   ]
+  },
+  "T0_C2": {
+   "status": "converged",
+   "iters": 7,
+   "seconds": 10.642465591430664,
+   "timing": {
+    "outgoing": 5.653326749801636,
+    "basis": 7.557868957519531e-05,
+    "rays": 0.31728363037109375
+   },
+   "hist": [
+    1.0,
+    0.1922279885814328,
+    0.09758936791098903,
+    0.02241644455320075,
+    0.007068310005373643,
+    0.002638131875486464,
+    0.0009220847479231478
+   ]
+  },
+  "T1_C0r": {
+   "status": "converged",
+   "iters": 7,
+   "seconds": 8.59385061264038,
+   "timing": {
+    "outgoing": 5.657820224761963,
+    "basis": 7.700920104980469e-05,
+    "rays": 0.3178081512451172
+   },
+   "hist": [
+    1.0,
+    0.14773904671078086,
+    0.03556310530341608,
+    0.009585124615625525,
+    0.002903786445455646,
+    0.0011096785892863138,
+    0.00047342870487275556
+   ]
+  },
+  "T1_C2": {
+   "status": "converged",
+   "iters": 7,
+   "seconds": 10.6040518283844,
+   "timing": {
+    "outgoing": 5.6598732471466064,
+    "basis": 8.273124694824219e-05,
+    "rays": 0.31729578971862793
+   },
+   "hist": [
+    1.0,
+    0.19057266282759794,
+    0.09713494521828323,
+    0.022046388922249693,
+    0.006977327960139034,
+    0.002597581711288115,
+    0.0009085919356731553
+   ]
+  }
+ },
+ "ray_compare": {
+  "T0_v0": {
+   "Yellow": {
+    "rays": 163775,
+    "basis_over_exact_pooled": 0.9657301306724548,
+    "normal_over_exact_pooled": 0.19541579484939575,
+    "rel_L2_basis_vs_exact": 0.18174508213996887,
+    "exact_q99_over_median": 2.7965621948242188,
+    "exact_max": 4.993833065032959,
+    "finite": true
+   },
+   "opaque": {
+    "rays": 214598,
+    "basis_over_exact_pooled": 0.9891390800476074,
+    "normal_over_exact_pooled": 0.8820292949676514,
+    "rel_L2_basis_vs_exact": 0.05616884306073189,
+    "exact_q99_over_median": 239.5880889892578,
+    "exact_max": 0.2435523420572281,
+    "finite": true
+   },
+   "glass": {
+    "rays": 3755,
+    "basis_over_exact_pooled": 1.0194361209869385,
+    "normal_over_exact_pooled": 0.5904577970504761,
+    "rel_L2_basis_vs_exact": 0.0678233727812767,
+    "exact_q99_over_median": 12.492945671081543,
+    "exact_max": 0.29252275824546814,
+    "finite": true
+   },
+   "box": {
+    "rays": 17872,
+    "basis_over_exact_pooled": 1.0326577425003052,
+    "normal_over_exact_pooled": 1.0203750133514404,
+    "rel_L2_basis_vs_exact": 0.06408616900444031,
+    "exact_q99_over_median": 6.440241813659668,
+    "exact_max": 0.034555282443761826,
+    "finite": true
+   }
+  },
+  "T0_v1": {
+   "Yellow": {
+    "rays": 171649,
+    "basis_over_exact_pooled": 0.9937483072280884,
+    "normal_over_exact_pooled": 0.19569827616214752,
+    "rel_L2_basis_vs_exact": 0.11790867149829865,
+    "exact_q99_over_median": 3.0615501403808594,
+    "exact_max": 6.5008111000061035,
+    "finite": true
+   },
+   "opaque": {
+    "rays": 207927,
+    "basis_over_exact_pooled": 0.9942139387130737,
+    "normal_over_exact_pooled": 0.9436493515968323,
+    "rel_L2_basis_vs_exact": 0.03733086958527565,
+    "exact_q99_over_median": 272.4709167480469,
+    "exact_max": 0.11407272517681122,
+    "finite": true
+   },
+   "glass": {
+    "rays": 777,
+    "basis_over_exact_pooled": 0.9638567566871643,
+    "normal_over_exact_pooled": 0.4607524275779724,
+    "rel_L2_basis_vs_exact": 0.059892021119594574,
+    "exact_q99_over_median": 1.616616129875183,
+    "exact_max": 0.28983595967292786,
+    "finite": true
+   },
+   "box": {
+    "rays": 19647,
+    "basis_over_exact_pooled": 0.9899076819419861,
+    "normal_over_exact_pooled": 1.1618314981460571,
+    "rel_L2_basis_vs_exact": 0.04181835800409317,
+    "exact_q99_over_median": 5.931040287017822,
+    "exact_max": 0.025491910055279732,
+    "finite": true
+   }
+  },
+  "T0_v2": {
+   "Yellow": {
+    "rays": 172089,
+    "basis_over_exact_pooled": 0.9803678393363953,
+    "normal_over_exact_pooled": 0.18986283242702484,
+    "rel_L2_basis_vs_exact": 0.11367398500442505,
+    "exact_q99_over_median": 3.123835802078247,
+    "exact_max": 6.673217296600342,
+    "finite": true
+   },
+   "opaque": {
+    "rays": 224657,
+    "basis_over_exact_pooled": 0.9990689754486084,
+    "normal_over_exact_pooled": 0.942361056804657,
+    "rel_L2_basis_vs_exact": 0.02117062732577324,
+    "exact_q99_over_median": 247.9329833984375,
+    "exact_max": 0.2435522824525833,
+    "finite": true
+   },
+   "glass": {
+    "rays": 2947,
+    "basis_over_exact_pooled": 1.02814781665802,
+    "normal_over_exact_pooled": 0.6070980429649353,
+    "rel_L2_basis_vs_exact": 0.16473767161369324,
+    "exact_q99_over_median": 4.377429485321045,
+    "exact_max": 0.29249703884124756,
+    "finite": true
+   },
+   "box": {
+    "rays": 307,
+    "basis_over_exact_pooled": 1.0132192373275757,
+    "normal_over_exact_pooled": 0.9868391156196594,
+    "rel_L2_basis_vs_exact": 0.07094108313322067,
+    "exact_q99_over_median": 5.67887020111084,
+    "exact_max": 0.027061432600021362,
+    "finite": true
+   }
+  },
+  "T1_v0": {
+   "Yellow": {
+    "rays": 167461,
+    "basis_over_exact_pooled": 0.9669244289398193,
+    "normal_over_exact_pooled": 0.19571664929389954,
+    "rel_L2_basis_vs_exact": 0.17922915518283844,
+    "exact_q99_over_median": 2.8144736289978027,
+    "exact_max": 4.368063449859619,
+    "finite": true
+   },
+   "opaque": {
+    "rays": 194587,
+    "basis_over_exact_pooled": 0.992461621761322,
+    "normal_over_exact_pooled": 0.8740200996398926,
+    "rel_L2_basis_vs_exact": 0.04951336979866028,
+    "exact_q99_over_median": 227.91529846191406,
+    "exact_max": 0.2433779388666153,
+    "finite": true
+   },
+   "glass": {
+    "rays": 3849,
+    "basis_over_exact_pooled": 1.0170670747756958,
+    "normal_over_exact_pooled": 0.6286287307739258,
+    "rel_L2_basis_vs_exact": 0.050935011357069016,
+    "exact_q99_over_median": 12.918937683105469,
+    "exact_max": 0.2926943004131317,
+    "finite": true
+   },
+   "box": {
+    "rays": 34103,
+    "basis_over_exact_pooled": 1.0073314905166626,
+    "normal_over_exact_pooled": 1.0477991104125977,
+    "rel_L2_basis_vs_exact": 0.04919338971376419,
+    "exact_q99_over_median": 6.178343772888184,
+    "exact_max": 0.02762874960899353,
+    "finite": true
+   }
+  },
+  "T1_v1": {
+   "Yellow": {
+    "rays": 167709,
+    "basis_over_exact_pooled": 0.9934544563293457,
+    "normal_over_exact_pooled": 0.19646191596984863,
+    "rel_L2_basis_vs_exact": 0.11873828619718552,
+    "exact_q99_over_median": 3.0648996829986572,
+    "exact_max": 5.1996331214904785,
+    "finite": true
+   },
+   "opaque": {
+    "rays": 198744,
+    "basis_over_exact_pooled": 0.992686927318573,
+    "normal_over_exact_pooled": 0.9362969994544983,
+    "rel_L2_basis_vs_exact": 0.06427954137325287,
+    "exact_q99_over_median": 268.10906982421875,
+    "exact_max": 0.11351995170116425,
+    "finite": true
+   },
+   "glass": {
+    "rays": 744,
+    "basis_over_exact_pooled": 0.9671814441680908,
+    "normal_over_exact_pooled": 0.49447131156921387,
+    "rel_L2_basis_vs_exact": 0.05571289733052254,
+    "exact_q99_over_median": 1.757968544960022,
+    "exact_max": 0.2893639802932739,
+    "finite": true
+   },
+   "box": {
+    "rays": 32803,
+    "basis_over_exact_pooled": 0.9960474967956543,
+    "normal_over_exact_pooled": 1.1391761302947998,
+    "rel_L2_basis_vs_exact": 0.039791252464056015,
+    "exact_q99_over_median": 11.330702781677246,
+    "exact_max": 0.020957112312316895,
+    "finite": true
+   }
+  },
+  "T1_v2": {
+   "Yellow": {
+    "rays": 170915,
+    "basis_over_exact_pooled": 0.9805775284767151,
+    "normal_over_exact_pooled": 0.18976549804210663,
+    "rel_L2_basis_vs_exact": 0.11244674772024155,
+    "exact_q99_over_median": 3.181392192840576,
+    "exact_max": 4.274505615234375,
+    "finite": true
+   },
+   "opaque": {
+    "rays": 219143,
+    "basis_over_exact_pooled": 0.9978800415992737,
+    "normal_over_exact_pooled": 0.9359390139579773,
+    "rel_L2_basis_vs_exact": 0.0278742965310812,
+    "exact_q99_over_median": 238.22021484375,
+    "exact_max": 0.2433778941631317,
+    "finite": true
+   },
+   "glass": {
+    "rays": 3137,
+    "basis_over_exact_pooled": 1.0336357355117798,
+    "normal_over_exact_pooled": 0.6208369135856628,
+    "rel_L2_basis_vs_exact": 0.17258858680725098,
+    "exact_q99_over_median": 4.400778770446777,
+    "exact_max": 0.2924253046512604,
+    "finite": true
+   },
+   "box": {
+    "rays": 6805,
+    "basis_over_exact_pooled": 0.9852728843688965,
+    "normal_over_exact_pooled": 0.9361892938613892,
+    "rel_L2_basis_vs_exact": 0.038824331015348434,
+    "exact_q99_over_median": 6.129513263702393,
+    "exact_max": 0.028576770797371864,
+    "finite": true
+   }
+  }
+ },
+ "timing": {
+  "T0_v0_C0r_pixel_reads_s": 0.2796592712402344,
+  "T0_v1_C0r_pixel_reads_s": 0.3690757751464844,
+  "T0_v2_C0r_pixel_reads_s": 0.2812952995300293,
+  "T0_v0_C2_pixel_reads_s": 5.022418022155762,
+  "T0_basis_table_s": 9.5367431640625e-07,
+  "T0_v1_C2_pixel_reads_s": 6.092626333236694,
+  "T0_v2_C2_pixel_reads_s": 4.446508407592773,
+  "T1_v0_C0r_pixel_reads_s": 0.2673625946044922,
+  "T1_v1_C0r_pixel_reads_s": 0.3575003147125244,
+  "T1_v2_C0r_pixel_reads_s": 0.2750988006591797,
+  "T1_v0_C2_pixel_reads_s": 4.907493591308594,
+  "T1_basis_table_s": 7.152557373046875e-07,
+  "T1_v1_C2_pixel_reads_s": 6.199296236038208,
+  "T1_v2_C2_pixel_reads_s": 4.4403076171875
+ },
+ "views": {
+  "T0_v0": {
+   "C0": {
+    "plane_psnr": 20.605057332671844,
+    "plane_lum_ratio": 0.506180866806,
+    "lego_psnr": 24.44608610718822
+   },
+   "C0r": {
+    "plane_psnr": 20.605057335799565,
+    "plane_lum_ratio": 0.5061808669943694,
+    "lego_psnr": 24.446086119956185,
+    "plane_class_share": {
+     "Yellow": 0.43214426349646556,
+     "opaque": 0.5284934133359701,
+     "glass": 0.0017411668632665446,
+     "box": 0.037621156304297625,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.2187431579835514,
+     "opaque": 0.2675132541880009,
+     "glass": 0.0008813453525117856,
+     "box": 0.019043109517204462,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C1": {
+    "plane_psnr": 26.978829848620375,
+    "plane_lum_ratio": 1.11589143473987,
+    "lego_psnr": 24.426505680469578
+   },
+   "C2": {
+    "plane_psnr": 26.78088685256661,
+    "plane_lum_ratio": 1.1471105690726382,
+    "lego_psnr": 24.408972608516507,
+    "plane_class_share": {
+     "Yellow": 0.7462979595587695,
+     "opaque": 0.23568692981267547,
+     "glass": 0.0010741310147507374,
+     "box": 0.0169409796138044,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.8560862769711645,
+     "opaque": 0.2703589681437533,
+     "glass": 0.0012321470394222685,
+     "box": 0.01943317676280492,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C2b": {
+    "plane_psnr": 26.92169882988667,
+    "plane_lum_ratio": 1.1201126410208655,
+    "lego_psnr": 24.408972608516507,
+    "plane_class_share": {
+     "Yellow": 0.7401455347920058,
+     "opaque": 0.24136611139976796,
+     "glass": 0.0011128604925511874,
+     "box": 0.01737549331567505,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.8290463696181976,
+     "opaque": 0.2703572324611426,
+     "glass": 0.001246529105252728,
+     "box": 0.019462509704572827,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "baseline_C0r_vs_stored_R6a_max_rel": 2.258741034211198e-07
+  },
+  "T1_v0": {
+   "C0": {
+    "plane_psnr": 20.595799184013224,
+    "plane_lum_ratio": 0.47213009366591707,
+    "lego_psnr": 24.717141051213677
+   },
+   "C0r": {
+    "plane_psnr": 20.5957991789138,
+    "plane_lum_ratio": 0.47213009291867947,
+    "lego_psnr": 24.717141062866503,
+    "plane_class_share": {
+     "Yellow": 0.4953099207605379,
+     "opaque": 0.4255693550361444,
+     "glass": 0.001943701691910955,
+     "box": 0.07717702251140644,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.23385071885498127,
+     "opaque": 0.20092409908738088,
+     "glass": 0.0009176800601835101,
+     "box": 0.03643759480057919,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C1": {
+    "plane_psnr": 26.860295109510062,
+    "plane_lum_ratio": 1.1240018157427614,
+    "lego_psnr": 24.69239551675201
+   },
+   "C2": {
+    "plane_psnr": 26.651287843645424,
+    "plane_lum_ratio": 1.1572785111625605,
+    "lego_psnr": 24.674614020802448,
+    "plane_class_share": {
+     "Yellow": 0.7902195354111126,
+     "opaque": 0.17623937536891707,
+     "glass": 0.0011106927332223291,
+     "box": 0.03243039648674799,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.9145040874636916,
+     "opaque": 0.20395804194219622,
+     "glass": 0.0012853808327069557,
+     "box": 0.03753100096389001,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C2b": {
+    "plane_psnr": 26.802493207017708,
+    "plane_lum_ratio": 1.1284773280475118,
+    "lego_psnr": 24.674614020802448,
+    "plane_class_share": {
+     "Yellow": 0.7848445804966898,
+     "opaque": 0.18073572748892838,
+     "glass": 0.001152538753926975,
+     "box": 0.03326715326045464,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.8856793152710338,
+     "opaque": 0.2039561708715671,
+     "glass": 0.0013006138537076629,
+     "box": 0.037541228229020396,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "baseline_C0r_vs_stored_R6a_max_rel": 2.1145746131878695e-07
+  },
+  "T0_v1": {
+   "C0": {
+    "plane_psnr": 21.014495792707915,
+    "plane_lum_ratio": 0.45460471424884463,
+    "lego_psnr": 21.5201325099736
+   },
+   "C0r": {
+    "plane_psnr": 21.014495795074353,
+    "plane_lum_ratio": 0.45460471429566546,
+    "lego_psnr": 21.520132541363157,
+    "plane_class_share": {
+     "Yellow": 0.511036176143358,
+     "opaque": 0.4457897319679127,
+     "glass": 0.0004042069260658315,
+     "box": 0.04276988496266349,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.2323194548655497,
+     "opaque": 0.2026581137504292,
+     "glass": 0.00018375437415246878,
+     "box": 0.019443391335177983,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C1": {
+    "plane_psnr": 26.911458025533143,
+    "plane_lum_ratio": 1.2488353665553023,
+    "lego_psnr": 21.489495458698215
+   },
+   "C2": {
+    "plane_psnr": 26.735254118539608,
+    "plane_lum_ratio": 1.2624324420389679,
+    "lego_psnr": 21.469217135316505,
+    "plane_class_share": {
+     "Yellow": 0.8200917474099109,
+     "opaque": 0.16389456215022352,
+     "glass": 0.00027427685566418415,
+     "box": 0.015739413584201334,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 1.0353104273694307,
+     "opaque": 0.20690581233036195,
+     "glass": 0.000346256000687806,
+     "box": 0.01986994632718673,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C2b": {
+    "plane_psnr": 26.84622657622381,
+    "plane_lum_ratio": 1.2554624642664518,
+    "lego_psnr": 21.469217135316505,
+    "plane_class_share": {
+     "Yellow": 0.8191112657448347,
+     "opaque": 0.16480236079846802,
+     "glass": 0.00026747408421775974,
+     "box": 0.015818899372479486,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 1.0283634485219826,
+     "opaque": 0.20690317806967032,
+     "glass": 0.0003358036730044439,
+     "box": 0.019860034394366177,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "baseline_C0r_vs_stored_R6a_max_rel": 2.163914842867598e-07
+  },
+  "T1_v1": {
+   "C0": {
+    "plane_psnr": 21.01020400212218,
+    "plane_lum_ratio": 0.42428374804822083,
+    "lego_psnr": 21.57460817183622
+   },
+   "C0r": {
+    "plane_psnr": 21.010203985224692,
+    "plane_lum_ratio": 0.42428374676150205,
+    "lego_psnr": 21.5746081854491,
+    "plane_class_share": {
+     "Yellow": 0.5736911391078757,
+     "opaque": 0.3709099797356221,
+     "glass": 0.00041601988964813874,
+     "box": 0.05498286126685366,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.24340782600129024,
+     "opaque": 0.15737107592427688,
+     "glass": 0.00017651047751934847,
+     "box": 0.02332833438757163,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C1": {
+    "plane_psnr": 26.822691366489202,
+    "plane_lum_ratio": 1.2567390341944067,
+    "lego_psnr": 21.542915240104822
+   },
+   "C2": {
+    "plane_psnr": 26.64362001033316,
+    "plane_lum_ratio": 1.2710493720404572,
+    "lego_psnr": 21.523182431649953,
+    "plane_class_share": {
+     "Yellow": 0.853076290906805,
+     "opaque": 0.1273131014817439,
+     "glass": 0.0002556687991100058,
+     "box": 0.01935493881234075,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 1.0843020837771837,
+     "opaque": 0.1618212376785793,
+     "glass": 0.00032496766653438124,
+     "box": 0.02460108282143509,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C2b": {
+    "plane_psnr": 26.75618933458526,
+    "plane_lum_ratio": 1.2636674965684087,
+    "lego_psnr": 21.523182431649953,
+    "plane_class_share": {
+     "Yellow": 0.8522300630532593,
+     "opaque": 0.12805462146882218,
+     "glass": 0.00024977596730933993,
+     "box": 0.019465539510609184,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 1.076935430251861,
+     "opaque": 0.1618184629314665,
+     "glass": 0.0003156337713048364,
+     "box": 0.024597969582108522,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "baseline_C0r_vs_stored_R6a_max_rel": 2.039587201352333e-07
+  },
+  "T0_v2": {
+   "C0": {
+    "plane_psnr": 22.274531467157153,
+    "plane_lum_ratio": 0.4601671068745432,
+    "lego_psnr": 24.616884353352187
+   },
+   "C0r": {
+    "plane_psnr": 22.274531472781426,
+    "plane_lum_ratio": 0.4601671069633796,
+    "lego_psnr": 24.616884417166133,
+    "plane_class_share": {
+     "Yellow": 0.5834638871742903,
+     "opaque": 0.413468020557877,
+     "glass": 0.0018851533312808238,
+     "box": 0.0011829389365514878,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.26849088895672835,
+     "opaque": 0.19026438282649358,
+     "glass": 0.0008674855545672046,
+     "box": 0.0005443495881028896,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C1": {
+    "plane_psnr": 26.213245998854823,
+    "plane_lum_ratio": 1.2693272994220968,
+    "lego_psnr": 24.60508519329585
+   },
+   "C2": {
+    "plane_psnr": 25.99473349483393,
+    "plane_lum_ratio": 1.2963268035517213,
+    "lego_psnr": 24.58966507835318,
+    "plane_class_share": {
+     "Yellow": 0.8486457073143765,
+     "opaque": 0.1500208839162449,
+     "glass": 0.0009028059429469057,
+     "box": 0.0004306028264318772,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 1.1001221772069814,
+     "opaque": 0.19447609293016366,
+     "glass": 0.0011703315423502484,
+     "box": 0.0005582019856376073,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C2b": {
+    "plane_psnr": 26.16086186205592,
+    "plane_lum_ratio": 1.2762343689950157,
+    "lego_psnr": 24.58966507835318,
+    "plane_class_share": {
+     "Yellow": 0.8462495010878518,
+     "opaque": 0.15238172428798816,
+     "glass": 0.0009311898102143817,
+     "box": 0.0004375848139460181,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 1.0800126979202231,
+     "opaque": 0.19447479372270934,
+     "glass": 0.0011884164397292216,
+     "box": 0.0005584607788497782,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "baseline_C0r_vs_stored_R6a_max_rel": 2.4184188873732637e-07
+  },
+  "T1_v2": {
+   "C0": {
+    "plane_psnr": 22.28705021017918,
+    "plane_lum_ratio": 0.4523720358085015,
+    "lego_psnr": 24.52307634466623
+   },
+   "C0r": {
+    "plane_psnr": 22.287050208388493,
+    "plane_lum_ratio": 0.4523720358318703,
+    "lego_psnr": 24.523076363899246,
+    "plane_class_share": {
+     "Yellow": 0.6020303416897221,
+     "opaque": 0.3802488525252287,
+     "glass": 0.0018908157935572708,
+     "box": 0.01582998999149225,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 0.27234169126459123,
+     "opaque": 0.1720139475154776,
+     "glass": 0.0008553521897947531,
+     "box": 0.007161044798646486,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C1": {
+    "plane_psnr": 26.138122292369705,
+    "plane_lum_ratio": 1.2748937708429773,
+    "lego_psnr": 24.50265909305934
+   },
+   "C2": {
+    "plane_psnr": 25.91161267988982,
+    "plane_lum_ratio": 1.3025228760127923,
+    "lego_psnr": 24.485251212549663,
+    "plane_class_share": {
+     "Yellow": 0.8576312544783263,
+     "opaque": 0.13557313450944328,
+     "glass": 0.0008796586831526648,
+     "box": 0.005915952329077565,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 1.1170843283918792,
+     "opaque": 0.17658710911087797,
+     "glass": 0.0011457755581463743,
+     "box": 0.007705663243751334,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "C2b": {
+    "plane_psnr": 26.085604762562035,
+    "plane_lum_ratio": 1.2819820488123186,
+    "lego_psnr": 24.485251212549663,
+    "plane_class_share": {
+     "Yellow": 0.8553406996954401,
+     "opaque": 0.13774455279077985,
+     "glass": 0.0009094470867411544,
+     "box": 0.006005300427038674,
+     "plane": 0.0,
+     "miss": 0.0
+    },
+    "plane_class_over_ref": {
+     "Yellow": 1.096531422719876,
+     "opaque": 0.17658604401423655,
+     "glass": 0.001165894839644377,
+     "box": 0.007698687345832727,
+     "plane": 0.0,
+     "miss": 0.0
+    }
+   },
+   "baseline_C0r_vs_stored_R6a_max_rel": 2.877723659366893e-07
+  }
+ },
+ "edit": {
+  "v0": {
+   "px": 48118,
+   "ref_change_rms": 0.03667129611028142,
+   "C0": {
+    "corr": 0.9510023928440534,
+    "slope": 1.0209305066960106,
+    "explained": 0.8948962727835384,
+    "changed_px_rel_err": 0.1860820944801742,
+    "changed_px": 5016
+   },
+   "C0r": {
+    "corr": 0.9510023924449881,
+    "slope": 1.0209305071956596,
+    "explained": 0.8948962719588022,
+    "changed_px_rel_err": 0.18608209559447883,
+    "changed_px": 5016
+   },
+   "C1": {
+    "corr": 0.8176734415516788,
+    "slope": 1.0103432713840204,
+    "explained": 0.5216490389810444,
+    "changed_px_rel_err": 0.19671330314567081,
+    "changed_px": 5016
+   },
+   "C2": {
+    "corr": 0.8122654107167151,
+    "slope": 1.0100011942860883,
+    "explained": 0.5028914651831684,
+    "changed_px_rel_err": 0.19704562754538307,
+    "changed_px": 5016
+   },
+   "C2b": {
+    "corr": 0.816663088373219,
+    "slope": 1.00966438578829,
+    "explained": 0.5188149077357445,
+    "changed_px_rel_err": 0.19694545819158424,
+    "changed_px": 5016
+   }
+  },
+  "v1": {
+   "px": 69989,
+   "ref_change_rms": 0.019872314939039362,
+   "C0": {
+    "corr": 0.927360619672932,
+    "slope": 1.098420042041421,
+    "explained": 0.8008627001464017,
+    "changed_px_rel_err": 0.2857312456144881,
+    "changed_px": 5805
+   },
+   "C0r": {
+    "corr": 0.9273606201021627,
+    "slope": 1.098420040233622,
+    "explained": 0.8008627028836455,
+    "changed_px_rel_err": 0.28573124193211435,
+    "changed_px": 5805
+   },
+   "C1": {
+    "corr": 0.6997114976811901,
+    "slope": 1.0983973693027944,
+    "explained": -0.2182944049573321,
+    "changed_px_rel_err": 0.32145626093854923,
+    "changed_px": 5805
+   },
+   "C2": {
+    "corr": 0.6984051294621021,
+    "slope": 1.0985907329076854,
+    "explained": -0.22768318833340873,
+    "changed_px_rel_err": 0.32337672677779367,
+    "changed_px": 5805
+   },
+   "C2b": {
+    "corr": 0.6984537320362685,
+    "slope": 1.0988004329366614,
+    "explained": -0.22777532713892623,
+    "changed_px_rel_err": 0.3220958234563272,
+    "changed_px": 5805
+   }
+  },
+  "v2": {
+   "px": 61114,
+   "ref_change_rms": 0.00841391495463633,
+   "C0": {
+    "corr": 0.6823993373383986,
+    "slope": 0.9281068755878206,
+    "explained": 0.029460354154834056,
+    "changed_px_rel_err": 0.3893626067722412,
+    "changed_px": 1305
+   },
+   "C0r": {
+    "corr": 0.6823993326747495,
+    "slope": 0.9281068677988629,
+    "explained": 0.02946034540487663,
+    "changed_px_rel_err": 0.38936260922603577,
+    "changed_px": 1305
+   },
+   "C1": {
+    "corr": 0.36058282791151713,
+    "slope": 0.9932190716043654,
+    "explained": -5.329134955185293,
+    "changed_px_rel_err": 0.48252520450414593,
+    "changed_px": 1305
+   },
+   "C2": {
+    "corr": 0.3550417552043685,
+    "slope": 0.995281491667589,
+    "explained": -5.585276744263765,
+    "changed_px_rel_err": 0.49184394057968017,
+    "changed_px": 1305
+   },
+   "C2b": {
+    "corr": 0.3590309456045856,
+    "slope": 0.9923681339468199,
+    "explained": -5.380916659501405,
+    "changed_px_rel_err": 0.4835332845046878,
+    "changed_px": 1305
+   }
+  }
+ },
+ "sigma_ref_change_v0": 0.004716562790869747,
+ "criteria": {
+  "basis_major_overbright": false,
+  "lum_closeness_gain": [
+   -0.031219134332768128,
+   -0.013597075483665622,
+   -0.026999504129624485,
+   -0.03327669541979916,
+   -0.014310337846050514,
+   -0.027629105169814983
+  ],
+  "exact_improves_static": false,
+  "psnr_C2_minus_C1": [
+   -0.19794299605376509,
+   -0.1762039069935355,
+   -0.21851250402089306,
+   -0.20900726586463847,
+   -0.17907135615604375,
+   -0.22650961247988377
+  ],
+  "exact_improves_edit": false,
+  "corr_C2_minus_C1": [
+   -0.005408030834963662,
+   -0.0013063682190880277,
+   -0.005541072707148653
+  ]
+ },
+ "frozen_digest_identical": true,
+ "cost": {
+  "wall_s": 364.036159992218,
+  "peak_GB": 9.853173248
+ }
+}
