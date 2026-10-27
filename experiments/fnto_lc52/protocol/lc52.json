@@ -1,0 +1,76 @@
+{
+ "protocol": "fnto_lc52",
+ "worklog": "docs/worklogs/52_WORKLOG_LEARNED_INTERDOMAIN_TRANSPORT.md",
+ "authorisation": "user brief 'ReST-GI - Worklog 52: Geometry-Conditioned Learned Inter-domain Transport, Bounded Architecture Falsification' (2026-10-28)",
+ "handoff_commit": "b8f86c4",
+ "machine": "LabServer69, RTX 3090 24 GB; venv ~/NeuralShaderDemo/external/8dna26/.venv (torch 2.3.1+cu121, Mitsuba 3.5.1 cuda_ad_rgb); every arm on the same GPU",
+ "frozen": [
+  "production K44 / DASQ / C / solver / references / checkpoints",
+  "worklogs 1-51"
+ ],
+ "isolation": "everything lives in experiments/fnto_lc52; no production module is imported for the candidate (Stage A only times production code)",
+ "stageA_gate": {
+  "measured (results/fnto_lc52/stageA)": {
+   "per_iteration": "Lego production: C read 14.6 ms + C write 8.8 ms of an 831 ms step (2.9 %); K 787 ms (95 %)",
+   "update": "full relation build 109 M rays: on-device trace 0.105 s (1.04 G rays/s); production Python path 277 s (setup 41 s, host trace 8.5 s, hit mapping 227 s); incremental T0->T1 81 s (CPU selection 67 s); 6.9 M rays retraced",
+   "memory": "hit + t tables 875 MB (host), GPU state Hc int64 875 MB + valid 109 MB"
+  },
+  "decision": "per-iteration C is not a meaningful cost; the replaceable cost is the geometry-change update path (BVH build, N x K ray tracing, hit mapping) and the relation-table memory. A plausible replaceable cost exists, so the batch proceeds, BUT every speed comparison uses an efficient GPU explicit C0 (on-device trace + on-device mapping), not the production Python path - comparing against the Python path would credit the candidate with implementation overhead"
+ },
+ "controlled_K": "Lambertian domains, K = rho / pi E_tot per port (exact under rigid motion, articulation and deformation); albedos fixed per object; no learned K, no Burley",
+ "scene_family (lc_scene.py)": {
+  "domains": "room (floor 2 x 2 m + two walls, static), boxes, articulated arms (base + two hinged links), deforming sheets (3 mm closed slab, height-field top)",
+  "ports": "grid cells ~3.1 cm (two triangles); 4 sample points on the cell's triangles (with triangle normals)",
+  "patches": "4 x 4 ports of one face (~12.5 cm); source representation of the learned C",
+  "train": "seeds 100000-102999: 1-4 boxes, arm p 0.7, sheet p 0.7, random poses / contact gaps 0.5 mm-2 cm / wall gaps 1-10 mm / elevated and tilted boxes, random sun",
+  "val": "seeds 200000-200199",
+  "test_iid": "seeds 300000-300119 (unseen configurations)",
+  "traj": "6 trajectories x 30 frames (seeds 400000-400005): slide_to_wall (to 1 mm), arm_swing, sheet_morph, box_under_sheet (visibility transition), boxes_meet (to 1 mm), lift_off (contact -> separation); never sampled for training",
+  "combo": "seeds 500000-500029: 2 arms + 2 sheets (training has at most one of each)",
+  "scale_obj": "seeds 600000-600029: 8-12 boxes (training 1-4) - object-count extrapolation",
+  "train_cfg": "seeds 100000-100029 evaluated on ALL ports (training stored 1024 random receivers) - memorization control"
+ },
+ "supervision_validation (done before training)": {
+  "estimators": "room only: path-traced vs port solve 1.000-1.003 per object (single bounce and full)",
+  "defect_found_and_fixed": "bilinear sample points on curved sheet cells lay below the triangles (origins buried -> false shadows / NULL gathers); samples moved onto the triangles with triangle normals; after the fix path-traced / port-solve = 0.98-1.00 per object (residual = port discretization)",
+  "analytic": "tests: point-to-parallel-square form factor within 1 %"
+ },
+ "learned_C (lc_model.GLT)": {
+  "operator": "E_ind(r) = sum_s F_rs(G) Lbar_s with F_r. = pi softmax([l_null, l_rs]); l_rs = log(FF0_rs / pi) + g_phi; linear in radiance, F >= 0, sum F <= pi (passive), zero -> zero, boundary correspondence = receiver port / source patch",
+  "geometry_encoding": "patch tokens (centroid, normal, log area, 6-frequency Fourier position) -> 6-layer transformer (d 128, 4 heads, FF 256); receiver query = port position / normal / Fourier + own-patch latent; pair head 3 x 128 on [query, patch latent, 10 relative-geometry features]",
+  "candidates": "every patch with positive analytic unoccluded FF0 (dense receiver x patch). The predeclared top-k rule (smallest k in {64..256} with >= 99 % coverage) FAILED on 100 training configurations (71 / 84 / 91 / 95 %); positive-FF0 coverage is 99.5 % (min 98.8 %) at 56 % of M per receiver",
+  "capacity": "923,010 parameters",
+  "objective": "cross-entropy to the 1,024-gather hit distribution over [NULL, patches] (FF0 = 0 mass to NULL); operator supervision, never illumination",
+  "training": "AdamW 3e-4, wd 1e-4, warm-up 1k + cosine, 60,000 steps, 4 configurations x 512 receivers, bf16 autocast, seed 5201; validation every 2k steps (val CE, val relative L2 of E for random smooth fields, unoccluded-prior baseline); checkpoint = best val CE",
+  "scaling": "per geometry O(M^2 d + N M d) - DENSE in receiver x patch: the asymptotic scaling is NOT improved over explicit gathers O(N K log T); per iteration O(N M)",
+  "assumptions_exclusions": "diffuse (cosine-integrated irradiance) transport only - no directional radiance; patch-level source quantization (12.5 cm); Lambertian K; open room (sky = NULL); one material model"
+ },
+ "arms": {
+  "ORA": "explicit 2,048 gathers (seed A); ORA2 seed B = oracle noise",
+  "C0": "explicit 128 gathers (production budget), efficient GPU",
+  "C0p": "explicit patch-level F from 1,024 gathers (isolates patch quantization)",
+  "C1": "learned GLT"
+ },
+ "REF": "independent path-traced GI at the ports (continuous geometry, exact hit points / sun visibility), 2 x 512 paths, 16 bounces",
+ "primary_criteria (predeclared)": {
+  "P1_coupled_fidelity": "test_iid (40 coupled configurations): mean over configurations and the 3 cameras of PSNR(C1 vs REF) - PSNR(C0 vs REF) >= -0.5 dB (full image, display transform clip(x * exposure)^(1/2.2), exposure = 1 / 99th percentile of REF)",
+  "P2_localized": "on near-contact (< 1 cm) and strongly occluded receivers and on trajectory visibility-transition ports: 99th-percentile per-port relative E_ind error of C1 vs ORA solution <= 2 x that of C0",
+  "P3_operator_validity": "zero / superposition / positivity / passivity hold (tested); uniform-radiance closure of C1 within 5 % of ORA on test_iid; spectral radius < 1 and every C1 coupled solve converged",
+  "P4_speed": "replaced C path (update + iterations x application) of C1 at least 2 x faster than efficient C0 at the base scale, AND frame time (BVH + sun + C update + solve + lookup) of C1 lower than C0",
+  "generalization": "reported: train_cfg vs test_iid operator error (memorization), radiance fields (smooth / hot / first / noise), combo, scale_obj, trajectories",
+  "verdicts": "SUPPORTED / CONDITIONALLY SUPPORTED / NOT SUPPORTED / INCONCLUSIVE per brief item; a target miss is evidence, no post-hoc tuning"
+ },
+ "stop": [
+  "C1 violates transport semantics",
+  "C1 succeeds only on training configurations",
+  "coupled C1 unstable -> no coupled claims",
+  "a representation change would be needed (requires a decision)"
+ ],
+ "budget": "data generation <= 30 min, training (60k steps at ~75 ms) <= 2 GPU-h, evaluation <= 2 GPU-h, benchmark <= 30 min",
+ "amendments": [],
+ "disclosures_before_commit": [
+  "profiling smoke (untrained 400-step model, 2 configurations per set) ran before this commit; it showed the COST structure, which does not depend on training: at ~10k ports C0 update 5 ms (BVH 2 ms + 128 gathers 3 ms) vs C1 update 40 ms, and 0.67 s vs 11 ms at 4x ports; the P4 criterion was not changed",
+  "the smoke model's fidelity numbers are uninformative (400 steps) and are not evidence",
+  "Lego-scale context: Mitsuba BVH build for the 2.1 M-triangle Lego mesh 0.82 s"
+ ]
+}
