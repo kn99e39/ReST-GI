@@ -90,7 +90,8 @@ class MSState(DS.DirState):
         Ln, dn2, nn2 = self.k_rays(True)
         if pv is not None:
             old = self.L[self.mp, self.mk].float(); Ln[self.mp, self.mk] = pv.half()
-            dn2 += float((pv - old).square().sum()) - 0.0; nn2 += float(pv.square().sum())
+            # k_rays counted these rays with the placeholder value 0 (Hk = -1): replace (0 - old)^2 by (pv - old)^2
+            dn2 += float((pv - old).square().sum()) - float(old.square().sum()); nn2 += float(pv.square().sum())
         dn2 += float((Lm_new - self.Lm).square().sum()); nn2 += float(Lm_new.square().sum())
         self.L = Ln; self.Lm = Lm_new
         return math.sqrt(dn2), math.sqrt(nn2)
@@ -135,7 +136,8 @@ def main(gdir, rdir, out):
         for sname, sm in senders.items():
             t = time.time(); S = MSState(T, G, **sm).solve(); torch.cuda.synchronize()
             rec["solves"][f"{state}_{sname}"] = {"status": S.status, "iters": S.iters, "seconds": time.time() - t, "timing": S.timing, "n_below": S.n_below,
-                                                  "rays_to_plane": int(len(S.mm)), "peak_GB": torch.cuda.max_memory_allocated() / 1e9}
+                                                  "rays_to_plane": int(len(S.mm)), "peak_GB": torch.cuda.max_memory_allocated() / 1e9,
+                                                  "hist": [float(x) for x in S.hist], "ratio": [float(x) for x in S.ratio]}
             print(state, sname, rec["solves"][f"{state}_{sname}"], flush=True)
             if S.status != "converged":
                 del S; torch.cuda.empty_cache(); continue

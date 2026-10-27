@@ -231,6 +231,16 @@
     "SYN": "post-hoc diagnostic s2diag (2,048 seeds) separates Monte-Carlo noise from sampler bias; the predeclared S2 verdict stays FAIL",
     "infrastructure": "all compute on LabServer63 (user instruction); scipy 1.14.1 installed into the 8dna26 Mitsuba venv; GPU steps serialised with one flock"
    }
+  },
+  {
+   "id": 2,
+   "date": "2026-10-27",
+   "recorded": "after the first MS evaluation (every solve incl. R0m flagged 'diverged' after 9 iterations, so no MS metric was computed) and the S2 diagnostic; before the MS re-run",
+   "items": {
+    "MS_bug_fix": "ms46_eval MSState.step residual bookkeeping: gathers that hit the plane were counted by DirState.k_rays with the placeholder value 0 and then again with the plane value, so ||L_k - L_{k-1}|| had a constant floor (||L_plane||) and the ratio test flagged non-divergent solves as diverged. Fixed: the placeholder term is subtracted. The per-iteration residual history is now stored. No model, interface, criterion or reference change.",
+    "S2_diag_result": "2,048 seeds: dir + IS rel. error -0.08 % / -0.12 % (z -0.29 / -0.18): no sampler bias; the predeclared S2 verdict (32 seeds) stays FAIL",
+    "machine": "MS / LG runs stay on LabServer63 (the references were rendered there)"
+   }
   }
  ]
 }
