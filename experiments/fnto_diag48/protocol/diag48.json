@@ -160,6 +160,18 @@
    "before": "any Probe A/B/C/KF result (the chain stopped in Probe A before its first print)",
    "change": "probe_a48.py releases the converged production state before building the first-event state",
    "reason": "CUDA OOM (11.6 GB GPU) with both states resident; engineering only, no query, group, measure or criterion changed"
+  },
+  {
+   "n": 2,
+   "date": "2026-10-27",
+   "before": "the post-hoc runs (after Probe A/B/C/KF results)",
+   "change": "post-hoc diagnostics diag48_posthoc.py: P1 reference-semantics energy of the WL45 Burley oracle (s_c scaled) vs absorbed sun power; P2 Probe B's K44 comparison with the hemispherical (64 cosine directions) mean instead of the normal",
+   "reason": "Probe A's energy ratio > 1 is confounded by Cycles Burley's unverified energy behaviour on thin geometry (WL45 verified a plane only); Probe A found K44's normal value 5-9x below all other queried directions, which confounds Probe B's normal-direction K44 comparison. Labelled post hoc; no predeclared criterion or verdict rule changed.",
+   "also_recorded": [
+    "probe_a F_cosmean_over_normal_median is invalid (broadcast [n] / [n,1] -> [n,n]); F_pooled is valid; criteria do not use F",
+    "probe_c timing key <state>_basis_table_s is overwritten by views 1-2 (0.0); the basis build cost is not recorded by this run",
+    "probe_b Q / G64 distance bins for blue at 10-30 cm divide by a zero reference response (values ~1e28): undefined"
+   ]
   }
  ]
 }
