@@ -192,9 +192,14 @@ Three benchmark runs exist; they are all recorded:
 - **(b) GPU-contended:** chain 2, with an unrelated `rest_wl53` job holding the GPU.
 - **(c) GPU idle but CPU-saturated:** chain 3, with an unrelated Cycles render using 14 of 16 cores (load ~17). Explicit C's Mitsuba path is CPU-sensitive: BVH build 7–18 ms vs 2 ms; Lego BVH 1.46 s vs 0.82 s.
 
-A fully idle rerun (chain 4) is queued and has not yet run.
+- **(d) Fully idle (chain 4, primary from now on):** run at 07:01 with load average 0.9 and no GPU compute process. It reproduces (a) within ~5 %:
+  - base scale: C path 0.18×, frame 0.31× (5.0 vs 44.0 ms update);
+  - 16 boxes: 0.08× / 0.13×;
+  - 40k ports: 11.1 vs 672.2 ms;
+  - coarse port × 2: 0.79× / 0.90×;
+  - Lego BVH 0.82 s.
 
-**Primary evidence = (a).**
+**Primary evidence = (d); the table below is (a), which (d) matches within ~5 %.**
 
 | Scale | N / M | C0 update (BVH + 128 gathers) | C1 update (encoder + dense F) | C path speedup C0 / C1 | Frame (BVH + sun + C + solve + lookup) C0 / C1 |
 |---|---|---|---|---|---|
@@ -219,7 +224,7 @@ A fully idle rerun (chain 4) is queued and has not yet run.
 | P1 coupled fidelity (test_iid ΔPSNR ≥ −0.5 dB) | **PASS**: +1.76 [0.92, 2.60] dB. The cause is C0's Monte Carlo noise, not better transport (per-port E_ind error is worse) |
 | P2 localized (p99 near-contact / occluded / transition ≤ 2 × C0) | **FAIL**: predeclared relative metric 101 vs 0.79 (ill-conditioned). Post-hoc well-conditioned metric: near-contact 2.32 vs 0.27, transition 1.48 vs 0.18. The transition-delta sub-item passes (0.90 ≤ 2 × 0.64) |
 | P3 operator validity | **PASS**: closure 0.996, ρ 0.51, 280 / 280 converged |
-| P4 speed (C path ≥ 2×, frame faster) | **FAIL**: 0.18× and 0.33× at the base scale, uncontended. (b) and (c) give 1.13× / 0.82× and 0.48× / 0.55× |
+| P4 speed (C path ≥ 2×, frame faster) | **FAIL**: 0.18× and 0.31× at the base scale, fully idle (d); the uncontended smoke (a) gives 0.18× / 0.33×. (b) and (c) give 1.13× / 0.82× and 0.48× / 0.55× |
 
 ## OBSERVATION
 
@@ -247,7 +252,7 @@ A fully idle rerun (chain 4) is queued and has not yet run.
 ## UNRESOLVED QUESTION (material to the decision)
 
 - Whether a non-dense learned C — e.g. hierarchical or sparse candidates with a learned visibility test — could beat ~5 ms per update at all. The top-k attempt failed coverage; any such design must also carry the transition fidelity that coarse patches lose. Not tested; out of scope.
-- The fully idle benchmark (chain 4) is queued. It refines the absolute numbers, not the direction of the comparison.
+- The fully idle benchmark (chain 4) confirmed the uncontended numbers within ~5 %; the cost result is not an artefact of contention.
 
 ## ARCHITECTURE VERDICT (measured conditions only: Lambertian K, one synthetic scene family, ~10–40k ports)
 
@@ -297,7 +302,7 @@ Chains: `experiments/fnto_lc52/lc_chain{,2,3,4}.sh` (`setsid`; status files `~/r
 | Benchmark | 23–27 s per run |
 
 **Outputs.**
-- `results/fnto_lc52/`: stageA, data meta / kselect, train / train.json, eval / eval.json and images.npz, local / local.json and errmaps.npz, bench, bench_idle, smoke/bench, report.json, tests.
+- `results/fnto_lc52/`: stageA, data meta / kselect, train / train.json, eval / eval.json and images.npz, local / local.json and errmaps.npz, bench, bench_idle, bench_clean (fully idle, primary), smoke/bench, report.json, tests.
 - `results/evaluation/52/`:
   - 01_coupled_renders.png;
   - 02_coupled_error_maps.png (one shared absolute sqrt scale);
