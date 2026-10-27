@@ -139,6 +139,14 @@
    "cause": "TR accumulated T / KC / S2 with float32 index_add_. In single-source (sun) runs all NEE contributions of ~1.9e8 collisions land in a few port bins; increments ~2^-22 of the running sum, so the many tiny NEE contributions below half an ulp are lost (result depended on batch size: 0.2064 / 0.2103 vs IW 0.2256 on a lit port). Multi-source (cell) runs spread the same contributions over P x nsrc bins and are affected much less",
    "fix": "float64 accumulators (cast to float32 at finalize). Verified before the rerun: lit port 0.22584 vs IW 0.22562, independent of chunk size; L1 0.2728 vs 0.2732",
    "rerun": "the complete oracle pipeline (tr, g2, compose, ops, tr_hi, ops_hi; IW g1a reused: IW already float64) into results/oracle; the defective run is preserved as results/oracle_v1_float32acc and reported. GPU memory cap raised to 0.8 (WL52 had finished; GPU idle) because the float64 accumulators of the pair controls need ~8.5 GB"
+  },
+  {
+   "id": 3,
+   "date": "2026-10-28 07:15 KST",
+   "type": "POST HOC attribution diagnostic (labelled post hoc; no rule, threshold or verdict-mapping change)",
+   "observed": "after amendment 2, every composition converges but coupling-dominated groups miss the 3 % rule (gap faces R -2.5..-4.3 %, B +3.4..+8.3 %; floor under the slab +3.9..+5.2 %; slab bottom over the floor +2.6..+4.3 %); the predeclared G2 discretization floor (sun input binned 4 x 4) is -3.3..-3.9 % (R/G) and -1.6..-8.0 % (B) on transmitted faces and -2.4..+2.1 % on lit faces",
+   "diagnostic": "slab oracle re-run with 8 x 8 = 64 incoming bins (P53_DIN=64; out bins unchanged 64; same photons per cell 2048, so 4x the photons per port), recomposed gap4 / gap8 / floor (part_s1 / part_s2 arms) into results/oracle_din64; compared group by group with the 16-bin arms against the same Cycles reference",
+   "interpretation_rule_fixed_now": "if the coupling-dominated misses shrink by >= half with 64 bins, they are attributed to the oracle's incident-direction discretization; otherwise they stay unattributed"
   }
  ]
 }

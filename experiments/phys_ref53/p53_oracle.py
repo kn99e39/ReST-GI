@@ -263,6 +263,8 @@ def stage_compose(out, cfg, only=None):
     for scene, pname, tag_suffix in (("gap4", "pair4_obj", "pair4"), ("gap8", "pair8_obj", "pair8"), ("gap8", "pair4_obj", "pair4stale"), ("gap4", "pair4_dup", "pair4dup")):
         if only and scene not in only:
             continue
+        if not (out / "T" / f"{pname}.pt").exists():
+            log("skip pair arm (no T)", pname); continue
         sd = FX.scene_def(scene); P = load_T(out, pname)
         m, V = FX.domain_geometry("pair4" if scene == "gap4" else "pair8")
         ovr = [("pair", "medium", m, V)]

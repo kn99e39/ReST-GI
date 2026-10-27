@@ -16,7 +16,7 @@ H = 0.01                          # voxel / port size 1 cm
 SUB = 4                           # 4 x 4 sub-cells x 2 triangles per port
 E_SUN = 1.0
 FLOOR_RHO = 0.8
-DOUT, DIN = 64, 16                # out 8 x 8, in 4 x 4 equal projected-solid-angle bins
+DOUT, DIN = 64, int(__import__("os").environ.get("P53_DIN", 16))   # out 8 x 8, in 4 x 4 bins (amendment 3 diagnostic: P53_DIN=64)
 S50, C50 = math.sin(math.radians(50)), math.cos(math.radians(50))
 DIRS = dict(top=(0.0, 0.0, 1.0), bot=(0.0, 0.0, -1.0), otop=(0.0, S50, C50), obot=(0.0, -S50, -C50),
             ocorner=(math.sin(math.radians(60)), 0.0, math.cos(math.radians(60))))
