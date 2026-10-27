@@ -6,6 +6,7 @@ L=$HOME/rest_wl53/launcher; mkdir -p $L; S=$L/p53_chain.status; SC=$L/p53_cpu.st
 X=$HOME/rest_wl53/repo/experiments/phys_ref53; O=$HOME/rest_wl53/results; mkdir -p $O/render $O/oracle $O/cycles
 PM=$HOME/NeuralShaderDemo/external/8dna26/.venv/bin/python; PB=$HOME/NeuralShaderDemo/external/relightable-neural-assets/.venv/bin/python
 export PYTHONUNBUFFERED=1 P53_GPU_FRAC=0.35 PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+[ -f /usr/lib64/libLLVM-11.so ] && export DRJIT_LIBLLVM_PATH=/usr/lib64/libLLVM-11.so   # LabServer69: Dr.Jit LLVM backend (renders verified exact)
 cd $X; echo "== chain $(date -Is) commit $(cat $HOME/rest_wl53/repo_commit.txt) host $(hostname)" >> $TL
 echo "running tests $(date -Is)" > $S
 P53_MI_VARIANT=cuda_ad_rgb $PM tests/test_p53.py $O/tests.json > $L/p53_tests.log 2>&1 || { echo "failed tests $(date -Is)" > $S; exit 1; }
