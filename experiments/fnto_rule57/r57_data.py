@@ -54,7 +54,7 @@ def light_fields(geometry,n,seed,split):
             xy=xyz[:,:2];sp=np.exp(-((xy-mu)**2).sum(1)/(2*width**2))*(face==f);typ=4
         direction=dirs[int(rng.integers(16))];k=kappas[int(rng.integers(len(kappas)))];ang=np.exp(k*(dirs@direction-1))
         z=(sp*ar)[:,None]*ang[None];z/=max(z.sum(),1e-30)
-        rgb=np.stack([z*np.exp(rng.uniform(-.5,.5)*xyz[:,c]/.05) for c in range(3)],-1)
+        rgb=np.stack([z*np.exp(rng.uniform(-.5,.5)*xyz[:,c]/.05)[:,None] for c in range(3)],-1)
         rgb/=np.maximum(rgb.sum((0,1),keepdims=True),1e-30)
         fields.append(rgb.astype(np.float32));meta.append(dict(family=typ,face=f,width=width,kappa=k,direction=direction.tolist()))
     # Last 16 fields: equal-spatial/equal-total-flux pairs with different incoming directions.
