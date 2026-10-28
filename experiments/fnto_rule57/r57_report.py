@@ -3,18 +3,25 @@ import sys,os,json,csv
 import numpy as np
 from r57_data import ROOT,OUT,dump,sha
 
+def quality_noninferior(direct,rule):
+    # Both declared primary absolute-action resolutions, not just the coarse one.
+    return all(max(b-a for a,b in zip(direct['poses'][p]['metrics'][resolution]['mean'],rule['poses'][p]['metrics'][resolution]['mean']))<=.02
+        for p in direct['poses'] for resolution in ('coarse','fine16'))
+
 def main():
     gate=json.load(open(OUT/'gate1.json'));held=json.load(open(OUT/'heldout.json')) if (OUT/'heldout.json').exists() else {};cost=json.load(open(OUT/'cost.json')) if (OUT/'cost.json').exists() else {}
     comp=json.load(open(OUT/'composition.json')) if (OUT/'composition.json').exists() else {}
     out=dict(data_gate=gate['proceed'],useful_models={k:v['useful_and_physical'] for k,v in held.items()},comparison=[],composition=comp.get('executed',False),
         primary_commit=(ROOT/'repo_commit.txt').read_text().strip(),checkpoints={p.name:sha(p) for p in (ROOT/'checkpoints').glob('*.pt') if 'progress' not in p.name})
+    out['report_source_sha256']=sha(__file__)
+    out['report_correction_commit']=(ROOT/'report_correction_commit.txt').read_text().strip() if (ROOT/'report_correction_commit.txt').exists() else None
     out['execution_attempts']={p.stem:json.load(open(p)) for p in sorted((ROOT/'logs').glob('*.attempt*.json'))}
     out['actual_stage_wall_including_failures']={name:sum(r['wall_seconds'] for r in out['execution_attempts'].values() if r['stage']==name) for name in {r['stage'] for r in out['execution_attempts'].values()}}
     if held:
         for pose,cs in cost.items():
             for seed in (5701,5702):
                 d,r=cs[f'D_{seed}'],cs[f'R_{seed}'];dd=held[f'D_{seed}'];rr=held[f'R_{seed}']
-                qok=all(max(b-a for a,b in zip(dd['poses'][p]['metrics']['coarse']['mean'],rr['poses'][p]['metrics']['coarse']['mean']))<=.02 for p in dd['poses'])
+                qok=quality_noninferior(dd,rr)
                 ratios={n:r['queries'][n]['best']/d['queries'][n]['best'] for n in d['queries']};wins=[]
                 for n in ratios:
                     dr=d['queries'][n];rt=r['queries'][n];dl=dr[dr['selected']+'_lifecycle'];rl=rt[rt['selected']+'_lifecycle'];base=d['geometry']['median']
