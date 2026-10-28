@@ -180,6 +180,14 @@
     "reference_validated_group": "a ruled group counts as 'reference validated' if its fine-solution (F16) bias against the 0.25 mm Cycles render is within 0.03 + 3 SE; only validated groups are counted as pass / fail of C0 or C1 against Cycles; the others are judged against F16 and labelled",
     "gap8_oblique_volume_group": "if the V1 reference signal of slab_lo:-y changes by >= 5 % between 0.5 mm and 0.25 mm pixels, the WL53 1 mm reference and the 0.5 mm reference were not pixel-converged for this group and the group's discrepancy is attributed to the reference / comparison unit (the stored WL53 prediction's bias against the 0.25 mm render is then the number to quote, with that caveat); if the signal changes by < 5 %, the discrepancy is not a pixel-size effect and stays unattributed (and, since K control at 5 mm does not reduce it, not a C-resolution effect either)"
    }
+  },
+  {
+   "id": 4,
+   "date": "2026-10-28 13:40 KST",
+   "type": "infrastructure record (no rule change): amendment-3 renders NOT RUN",
+   "observed": "LabServer69's root filesystem is at 100 % (50 GB, 32 KB free; /var/log alone is 16 GB). Python scratch (Mitsuba PLY files in /tmp) and shell here-documents failed with ENOSPC; Python scratch was redirected to TMPDIR=/home/nd/rest_wl54/tmp. The Cycles docker container cannot start (failed to create task: mkdir /var/lib/containerd/... no space). Freeing space on the shared root filesystem (including the 30 scratch directories this session created in /tmp, 750 MB) was refused by the permission classifier and was not attempted by any other route",
+   "consequence": "The amendment-3 renders did not run: the 0.25 mm Lambert references (gap8; gap4 obot; floor_lam / rot_lam / lblock_lam under cameras) and the WL53 gap8 volume oblique test at 0.5 / 0.25 mm. Their pre-declared interpretation rules are therefore UNEVALUATED. What exists: the amendment-1 diagnostic (gap4 gapdown / gapup at 0.5, 0.25, 0.125 mm), which is a pixel-converged reference for those two groups only. Every other group is judged with the 0.5 mm references and the amended coverage rule, and the groups whose fine-vs-Cycles agreement exceeds the 3 % rule are reported against both references and counted as neither pass nor fail against Cycles, exactly as amendment 1 prescribes. The gap8 oblique lower-side group's cause (comparison unit / reference pixel size vs other) is therefore reported as UNRESOLVED by this batch",
+   "also": "The Stage D test comparison_masks was run with the wrong Cycles directory in the final chain (skipped) and is re-run with the WL53 directory; the final chain's cost benchmark failed once on ENOSPC (log kept as final_cost_enospc.log) and was re-run with TMPDIR on /home on an idle machine (idle_check_before_cost.txt)"
   }
  ]
 }
