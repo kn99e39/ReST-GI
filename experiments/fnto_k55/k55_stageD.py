@@ -76,5 +76,28 @@ def main(out):
     KCm.dump(res, out); print(json.dumps(res, indent=1))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and sys.argv[1] == "ops":
     main(Path(sys.argv[2]))
+
+
+def diag(out):
+    """Amendment A2 diagnostics (rules fixed before the run):
+    closure: at albedo 1 the column-sum deficit, in photons (sum(1 - colsum) x n_per), must equal the leaked + wrong-side photon count;
+    rigid: 4 rest seeds, 4 pose seeds; r = ||mean(pose) - mean(rest)|| / (0.5 rms_{i<j} ||rest_i - rest_j||) (expectation 1 under invariance);
+    invariance holds iff r in [0.85, 1.15] in every channel."""
+    res = {}; m = block(); V = m["V"].copy(); P = len(m["port_area"]); A = torch.tensor(m["port_area"], dtype=torch.float64)
+    a1 = op(m, V, 9101, albedo=(1.0, 1.0, 1.0)); cs = colsum(a1)
+    deficit = float(((1 - cs) * 2048).sum(1).max()); lost = a1["stats"]["leaks"] + a1["stats"]["wrong_side"]
+    res["closure_accounting"] = dict(deficit_photons_max_channel=deficit, leaked_plus_wrong=lost, passed=bool(abs(deficit - lost) < 0.01 and lost / a1["stats"]["photons"] <= 1e-5))
+    R = G.rot((1.0, 2.0, 3.0), 37.0); Vp = G.map_rigid(V, R, (0.03, -0.02, 0.01))
+    rest = [portpair(op(m, V, s), P) * A[None, None, :] for s in (9102, 9103, 9105, 9106)]
+    pose = [portpair(op(m, Vp, s), P) * A[None, None, :] for s in (9104, 9107, 9108, 9109)]
+    rm, pm = torch.stack(rest).mean(0), torch.stack(pose).mean(0)
+    pair = [torch.linalg.norm((rest[i] - rest[j]).reshape(3, -1), dim=1) ** 2 for i in range(4) for j in range(i + 1, 4)]
+    rms = torch.sqrt(torch.stack(pair).mean(0)); r = (torch.linalg.norm((pm - rm).reshape(3, -1), dim=1) / (0.5 * rms)).tolist()
+    res["rigid_replicates"] = dict(r=r, passed=bool(all(0.85 <= x <= 1.15 for x in r)))
+    KCm.dump(res, out); print(json.dumps(res, indent=1))
+
+
+if __name__ == "__main__" and sys.argv[1] == "diag":
+    diag(Path(sys.argv[2]))

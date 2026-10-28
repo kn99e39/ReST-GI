@@ -193,6 +193,13 @@
    "A1.3_readout": "B-E holds for COR on the P1 target (gap8 obot slab_lo:-y: reduction 0.85 / 0.86 / 0.95). From Stage D on the primary readout is nee + KB (ballistic term at the arm's own interface); nee (WL53) is always reported. For P10 the interface-consistent KB overshoots (+12.6 %) and converges with refinement (I +7.7 -> +1.9 -> 0.0): the ballistic readout inherits the boundary resolution.",
    "A1.4_stage_C": "gate demonstrated (declared and COR-free) -> Stage C entered with the PREDECLARED CAK (no parameter changed). Held-out gap6s references, sun term, COR and all arms are run now. Stage D operator tests for CAK on a 2 x 2 x 1 cm block (albedo 1 closure, passivity, reciprocity vs cross-seed noise, rigid pose, flux across resolutions, zero / linearity) + the coupled fixtures.",
    "A1.5_ops": "dent 2.5 mm operators (dent_L4_s1 / s2, declared in OPS) were omitted from the first GPU chain by oversight; built now for Stage E, together with the Stage E scenes floor_c4 and dent (references 5531 / 5532, CUDA)."
+  },
+  {
+   "id": "A2",
+   "date": "2026-10-28",
+   "status": "POST HOC (after the Stage D operator tests); rules fixed before the diagnostic run",
+   "record": "Stage D operator tests 5 / 7 as coded: closure_albedo1 FAILED as coded (min column sum 1 - 1/2048: one leaked photon in a column; the coded per-column tolerance did not allow a single leaked photon although the declared criterion is 'column sums == 1 (leaks <= 1e-5)'); rigid_pose FAILED (ratio 1.108 / 1.123 / 1.180, rule [0.85, 1.15], single-draw statistic on a 16-port block).",
+   "diagnostics": "closure accounting: deficit in photons == leaked + wrong-side photons (exact) and leak rate <= 1e-5; rigid: 4 rest + 4 pose seeds, r = ||mean(pose) - mean(rest)|| / (0.5 rms pairwise rest difference), invariance iff r in [0.85, 1.15] in every channel. Both outcomes are reported next to the coded failures; neither coded result is overwritten."
   }
  ]
 }
