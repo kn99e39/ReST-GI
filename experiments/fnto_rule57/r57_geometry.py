@@ -27,6 +27,11 @@ POSES={
  'te0':(.005,.02,0.,0.),'te1':(.0035,.0175,.0125,-.0075),
  'te2':(.0055,.0225,-.0175,.0125),'te3':(.006,.015,0.,0.)}
 TRAIN=['rest']+[f'tr{i:02}' for i in range(12)]; VAL=['va0','va1'];TEST=['te0','te1','te2','te3']
+if os.environ.get('WL57_CONFIRM_PROTOCOL'):
+    # Dataset geometry manifest only; candidates, features and original populations stay defined above.
+    conf=json.loads(Path(os.environ['WL57_CONFIRM_PROTOCOL']).read_text())
+    POSES.update({k:tuple(v) for k,v in conf['confirmation']['poses'].items()})
+    TEST=list(conf['confirmation']['poses'])
 
 def mesh(name):
     m=FX.slab_mesh();dep,rad,x,y=POSES[name]

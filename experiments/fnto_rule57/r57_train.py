@@ -35,7 +35,8 @@ def train(arm,seed,steps=6000):
     geoms={n:torch.load(DATA/'geometry'/f'{n}.pt') for n in RG.TRAIN+RG.VAL}
     if not streamed:geoms={n:RG.device(g) for n,g in geoms.items()}
     # Explicit lists, not directory discovery: held-out geometry/lighting targets cannot enter the optimizer.
-    targets={n:torch.load(DATA/'targets'/f'{n}_r0.pt') for n in RG.TRAIN+RG.VAL};lights=torch.load(DATA/'lights.pt')
+    target_dir=Path(os.environ.get('WL57_TRAIN_TARGETS',DATA/'targets'))
+    targets={n:torch.load(target_dir/f'{n}_r0.pt') for n in RG.TRAIN+RG.VAL};lights=torch.load(DATA/'lights.pt')
     opt=torch.optim.AdamW(model.parameters(),lr=.003,weight_decay=1e-5)
     rng=np.random.default_rng(574001);history=[];start=0;prior_seconds=0.;progress=pdir/f'{arm}_{seed}_progress.pt'
     if progress.exists():

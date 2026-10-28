@@ -26,7 +26,8 @@ def run(stage,args,allow_gate=False):
         attempt=begin+level;log=LOGS/f'{stage}.attempt{attempt}.log';meta=log.with_suffix('.json');env=dict(os.environ,**extra);env['WL57_SUPERVISED']='1'
         status(stage,'RUNNING',attempt=attempt,resource_policy=level,environment=extra,log=str(log));t0=time.time()
         before=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid,process_name,used_memory','--format=csv,noheader'],text=True)
-        with open(log,'wb') as f:p=subprocess.Popen(['bash',str(HERE/'run.sh')]+args,cwd=HERE,env=env,stdout=f,stderr=subprocess.STDOUT,preexec_fn=parent_death_signal);rc=p.wait()
+        runner=Path(os.environ.get('WL57_RUNNER',HERE/'run.sh'))
+        with open(log,'wb') as f:p=subprocess.Popen(['bash',str(runner)]+args,cwd=HERE,env=env,stdout=f,stderr=subprocess.STDOUT,preexec_fn=parent_death_signal);rc=p.wait()
         rec=dict(stage=stage,args=args,attempt=attempt,resource_policy=level,environment=extra,returncode=rc,wall_seconds=time.time()-t0,GPU_processes_before=before,commit=(ROOT/'repo_commit.txt').read_text().strip(),log=str(log));write(rec,meta)
         if rc==0:write(rec,done);status(stage,'DONE',attempt=attempt,wall_seconds=rec['wall_seconds']);return 0
         # No memory fallback is selected on validation/accuracy. Only explicit allocation errors qualify.

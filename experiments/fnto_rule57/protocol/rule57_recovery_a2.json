@@ -1,0 +1,141 @@
+{
+ "protocol": "fnto_rule57_recovery_A2",
+ "date": "2026-10-29",
+ "parent_protocol": "rule57.json",
+ "historical_stop_commit": "dc6a5326b3abf0d962c18f3536e7b1cf376fe624",
+ "old_gate": "Preserved FAILED. Original observed test geometries/lights are diagnostic only; no retrospective promotion.",
+ "authorization": "User WL57 Gate1 Recovery and Conditional Primary Continuation. Exactly one recovery strategy and independent confirmation; automatic fixed D/R primary only on internal GO; no another recovery cycle.",
+ "diagnosis": "Existing coarse spatial-pair operator SNR R/G3.5-9.1, relative change0.8-1.9%; focused action SNR diluted by spatial/angular excitation/noise. Effective stratified photons as low35358 vs125.8M overall. Local region accounts66-96% of aggregate debiased R/G action change. Full diagnostics immutable and exploratory.",
+ "strategy": "Incident-field importance sampling of exact original TR.walk first exit. No full fine-K table for new confirmatory targets. No estimator/scene/model sweep.",
+ "estimator": {
+  "proposal": "q(source cell/bin)=mean_RGB prescribed incident flux, normalized. RGB unit path weights, multiply x/q ONLY at exit accumulation. q never uses target/geometry response. Common proposal makes same-path linearity test exact; no CRN across geometry in primary.",
+  "unbiasedness": "Sum_s q_s E[exit throughput|s] x_s/q_s = Kx. Same original cell/bin sampling, homogeneous medium, RR and first-exit code. No air continuation, clipping or output normalisation. Ratio<=3 for one unit-RGB primary field.",
+  "N_per_replica": 64000000,
+  "halves_per_replica": 2,
+  "N_per_half": 32000000,
+  "replicas": 2,
+  "total_independent_halves": 4,
+  "chunk_default": 2000000,
+  "chunk_OOM": [
+   1000000,
+   250000
+  ],
+  "accumulation": "float64 first and exit-weight-squared moments, float32 final flux actions, importance applied after path walk; all surfaces/all64 out bins retained.",
+  "seeds": "579000000+pose_index*100000+field_index*100+replica*10+half; pose_index0=rest,1..4=cf0..3. Independent all geometry/field/replica/half streams."
+ },
+ "confirmation": {
+  "geometry_generator": "Python random.Random(578007), 4 independent tuples uniform depth[.002,.006], radius[.015,.025], centre_x/y[-.02,.02], round6decimals; first four draws fixed without any new reference outputs.",
+  "poses": {
+   "cf0": [
+    0.002143,
+    0.018683,
+    0.018225,
+    -0.00969
+   ],
+   "cf1": [
+    0.004997,
+    0.024451,
+    0.004516,
+    -0.009411
+   ],
+   "cf2": [
+    0.004572,
+    0.023793,
+    0.015787,
+    0.009614
+   ],
+   "cf3": [
+    0.005263,
+    0.018649,
+    -0.0156,
+    0.007295
+   ]
+  },
+  "light_count": 64,
+  "light_seed": 578103,
+  "light_distribution": "Unchanged light_fields generator/test widths/kappa/families/first16 fixed-location focused population/last16 equal-E directional pairs. New seed, no selection of formerly successful fields. Same material flux on each pose.",
+  "gate_first": "Generate only first16 fields on rest+4 fresh poses, 2 replicas x2 independent32M halves. 10.24B photons. Stop if gate fails. After GO fill remaining48 fields (30.72B photons), then primary.",
+  "max_confirmatory_photons": 40960000000,
+  "separation": "Original train13+val2 geometries and original96train/32val fields/targets reused exactly. Final heldout cf0..3/new64lights never in optimizer. Dedicated training_targets contains ONLY train/validation arrays, no final test outputs."
+ },
+ "acceptance": {
+  "signal": "Unchanged population thresholds: SNR>=3 for >=4/16 focused fields in >=2RGB channels on>=3/4 new test poses; full global1cm/16out action vector, no local-only gate.",
+  "variance": "For each geometry/field use four independent half outputs H. Delta=mean4 H_current-mean4 H_rest. Denominator sqrt((sum_i||H_current_i-meanH_current||^2+sum_i||H_rest_i-meanH_rest||^2)/(4-1)/2), estimating pooled SINGLE64M-replica noise, rather than SE of4-half mean. Report mean-delta SE=denom/sqrt2 separately.",
+  "noise_calibration": "Pairs(half0-half1) and(half2-half3), compared with independent photon second-moment predicted trace variance. For each geometry/channel at least90% of32 focused noise-only pair norms within[.5,2] of predicted norm. No favorable fields excluded.",
+  "physical": "All halves nonnegative; energy <= prescribed input +5MC energySE+1e-6, leak/wrong side<=1e-5, zero truncation; q coverage/sum correct, no target oracle at model runtime.",
+  "pilot": "Old rest geometry and diagnostic original fields0 and48, four1M independent seeds each, compare to old2048-column two-seed means: coarse L2 difference <=2 combined normSE eachRGB, integrated flux within5 combinedSE. Same-path A/B/A+B/zero control at200k photons: superposition relativeL1<=1e-5; all physical checks pass. Pilot errors never select new confirmation fields or model capacity.",
+  "scientific_stop": "One frozen confirmation gate; failure stops. No budget/threshold/population retry based on results."
+ },
+ "primary": {
+  "model_sha256": "d861614b4b88ea3e0c39e119d5cfcb6f4117f6a9b00be7d4fe982bb4be3d63cf",
+  "representation": {
+   "contract": "ARCHITECTURE.md",
+   "cell_mm": 2.5,
+   "Din": 16,
+   "Dout": 64,
+   "mixtures": 8,
+   "material_neighbors": 128,
+   "dense_tail_rank": 16,
+   "R_state_channels": 32,
+   "parameter_budget": {
+    "D": 160458,
+    "R": 162048,
+    "max_ratio": 1.05
+   },
+   "passivity": "analytic zero-collision B plus learned scattered response on (1-beta) input; angular/spatial conditional probabilities and sigmoid survival; no oracle at runtime, energy clamps, damping or target normalization"
+  },
+  "training": {
+   "seeds": [
+    5701,
+    5702
+   ],
+   "arms": [
+    "D",
+    "R"
+   ],
+   "steps": 6000,
+   "batch_fields": 2,
+   "geometry_schedule": "paired rest/current train geometry per step, deterministic shared order for D/R",
+   "optimizer": "AdamW lr=.003 cosine to.00003, weight_decay1e-5, gradient norm clip1 (optimizer only)",
+   "precision": "float32, TF32 disabled",
+   "loss": "mean per-channel normalized action MSE: .5*(1cm,16out)+.5*(2.5mm,16out), plus .25 paired rest-to-current delta loss with denominator delta_L2^2 +(.01*rest_L2)^2",
+   "checkpoint": "final step, no best-of-test/best-val selection",
+   "validation_every": 250,
+   "corrections": "Only demonstrable implementation/numerical defects may be fixed with original evidence retained. No capacity growth, rank/support sweep, arbitrary retraining or alternative family after results."
+  },
+  "gates": {
+   "G1": "nonnegative/passive reference, correct units/indexing/linearity; held-out aggregate edit signal/noise>=3 on>=3 of4 test poses and>=25% of their concentrated-light cases in at least2 channels. If meaningful signal cannot be resolved, stop before training, report noise. Assess independent seeds, never train on noisy individual entries.",
+   "G2_G3_useful": "For EACH test geometry and RGB, mean held-out relative L2 on1cm/16out<=.10 and p90<=.20; 2.5mm/16out mean<=.15; signed deformation delta relative L2<=.35 and corr>=.90 on independently detectable pose/channel cases. Report finer64bin metric and reference noise even when criteria fail.",
+   "physics": "zero<=1e-8, fixed-geometry linearity/superposition relative<=1e-5; no negative response (<-1e-8); analytical max column sum<=1+1e-6; repeated-cache output agreement<=1e-6; all runtime state from geometry/weights only",
+   "directional": "report equal-irradiance different-direction pairs against O; require differential relative L2<=.25 where O difference exceeds3seed noise. Never interpret equal total irradiance as identical input.",
+   "G4_R_advantage": "BOTH arms must meet useful and physics criteria. R error not worse than D by>.02 absolute relL2 on any primary geometry/channel (both seeds). R best-permitted-cache update+N query time <=.75 D on>=2 query counts including1or4; advantage exceeds timing uncertainty; cache memory<=1.25D and parameter ratio<=1.05. Else equivalence if accuracy within.02 and cost ratio[.8,1.25], otherwise conditional trade-off/no useful winner as measured.",
+   "G5": "Only useful+physical models enter coupled FNTO; evaluate model-vs-O, O-vs-Cycles, model-vs-Cycles separately on WL56 rest/dent near-contact scene; existing C/solve unchanged, current full scattered+ballistic bin readout plus analytic emitter; 3% physical rule not relaxed. If no model passes, skip expensive composition and report failed fidelity/validity gate, not architecture success."
+  },
+  "cost": {
+   "queries": [
+    1,
+    4,
+    16,
+    64
+   ],
+   "cache_policies": [
+    "compact+affine cache, coefficients per query",
+    "full structured coefficients cached"
+   ],
+   "cache_limit_MB": 512,
+   "timing": "3 geometry/ballistic build repetitions, 5 warmups +20 query timings, CUDA fences, idle-GPU occupancy recorded; report medians and empirical intervals, all partial/full cache costs for D and R; best legitimate policy at each N; additionally 3 measured cache-build+N distinct-light lifecycle runs per policy/N; common geometry-build added separately, not hidden.",
+   "scope": "offline oracle/data generation and training separated from geometry update, first query, repeats and memory. No TR-to-learned speedup as R-vs-D evidence; no TransGI superiority.",
+   "memory_accounting": "Unique untyped-storage identity across geometry/state/coefficients/parameters, sparse indices+values included; views and aliases once; incremental and total cache allocations. Fresh process EACH model/seed/pose/cache policy; reset CUDA peak separately for cache construction, query and lifecycle; allocated/reserved and CPU RSS distinct. No geometry CPU copy used for GPU byte count."
+  },
+  "inheritance": "Same class/parameter budgets, optimizer, loss,6000steps,5701/5702 and final-checkpoint evaluation. Test geometry/light population replaced prospectively; old observations remain diagnostic. No architecture changes.",
+  "composition": "Conditional unchanged WL56 rest/dent transfer scene, old exact O and Cycles. This is known historical transfer diagnostic, not independent confirmation. Oracle-vs-Cycles blue floor preserved; candidate-vs-O and-vs-Cycles separated."
+ },
+ "resources": {
+  "disk_required_bytes": 35000000000,
+  "CPU_available_required_bytes": 25769803776,
+  "GPU_free_required_bytes": 7000000000,
+  "estimate": "40.96B photon maximum; existing125.8M/70s TR implies~6.4GPUh before dense-action differences, not a measured speed claim. Pilot measures runtime and actual peak; no arbitrary short universal time limit. New actions~1.9GB bundles+3.8GB halves+second moments~7.6GB; training splits~6GB; >=35GB disk margin. No full new K matrices.",
+  "peak_check": "Pilot peak_reserved*2+3GB <= measured GPU free; both candidates unchanged already passed A1 resident training memory smoke.",
+  "safety": "Detached server supervisor, exclusive locks, atomic per-half commits and checksum receipts, config/commit identities, bounded allocation fallbacks. Unknown failure halts. Never delete shared files."
+ }
+}
