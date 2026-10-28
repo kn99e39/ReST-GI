@@ -38,7 +38,7 @@ def cycles_ports(cdir, name, sd, ss, offsets):
     for cam, g in geo.items():
         files = sorted(cdir.glob(f"cimg_{name}_L_{cam}_*.npy"))
         pid = CP.classify(ss, CC.blender_ortho_rays(g, offsets))
-        means = [CP.port_means(pid, np.load(f).reshape(-1, 3)[:, :1], ss.Ptot) for f in files]
+        means = [CP.port_means(pid, np.load(f).reshape(-1, 3), ss.Ptot) for f in files]
         out[cam] = (np.stack([m[0][:, 0] for m in means]), means[0][1])
     return geo, out
 
