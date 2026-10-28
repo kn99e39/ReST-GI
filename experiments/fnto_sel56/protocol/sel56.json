@@ -110,7 +110,8 @@
   ],
   "persistent": "raw T/KC file bytes plus per-domain logical and unique physical cache bytes; same-shaped domains can physically deduplicate but full baseline explicitly rebuilds both",
   "scaling": "Only N=2, dirty=1 and dirty=0 measured; analytic N={2,4,8}, d={0,1,N} projections clearly labelled, no large constructed scene",
-  "break_even": "Use measured shared cost H plus selection/cache overhead O. Sweep hypothetical intrinsic rebuild k analytically (.001,.01,.1,1,10,100 seconds/domain). Meaningful saving defined as>=20% end-to-end; derive k threshold from (Nk+H_F)/(dk+H_S)>=1.25; no neural or TransGI speed claim"
+  "break_even": "Use measured shared cost H plus selection/cache overhead O. Sweep hypothetical intrinsic rebuild k analytically (.001,.01,.1,1,10,100 seconds/domain). Meaningful saving defined as>=20% end-to-end; derive k threshold from (Nk+H_F)/(dk+H_S)>=1.25; no neural or TransGI speed claim",
+  "cache_residency_note": "Primary F/S updates include checkpoint persistence, CPU/page-cache package access, hash checks and CSR transfers independently measured. Additional rigid S updates (3) reuse actual GPU CSR K after measured initialization and re-run all boundary/C/source/solve/readout work; no TR and no hypothetical dent timing substitution."
  },
  "tests": "Focused small block shared F/S construction, cache signatures, rigid vs dent invalidation, source field linearity and zero, K/C closure/ownership, passivity, fixed point residual, current C update, ballistic readout, deterministic masks; relevant WL53/WL54/WL55 regressions with skipped checks explicitly counted",
  "resource": "LabServer69 RTX3090; scratch/output exclusively ~/rest_wl56; no deletion or infrastructure changes. GPU workloads sequential except CUDA reference may run while CPU-only audit. Resource bounded by declared number of full operators and scenes, no sweeps.",

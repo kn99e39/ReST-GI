@@ -96,14 +96,14 @@ def load_packages(state,arm,rep,do_build=False,independent=False):
         total+=dt+md['identity_check_seconds']; data[ci]=r; meta[str(ci)]=md
     return data,meta,total
 
-def compose(state,raw,rep,arm,external_N=64_000_000):
+def compose(state,raw,rep,arm,external_N=64_000_000,prepared_K=None):
     """Rebuild every current boundary/C/input; solve all domains. Timings disjoint, CUDA fenced."""
     sd=SF.scene(state); timings={}; levels=[np.full(len(m['port_area']),4 if k=='medium' else 1) for n,k,m,V in sd['comps']]
     (ss,parent,_),timings['boundary']=timed(lambda:KP.build_ss(sd,levels))
     Kops={}; cs={}; stats={}
     def make_ops():
         for ci,r in raw.items():
-            Kops[ci]=KO.KOp(r['idx'],r['val'],r['shape'])
+            Kops[ci]=prepared_K[ci] if prepared_K is not None else KO.KOp(r['idx'],r['val'],r['shape'])
     _,timings['CSR_and_transfer']=timed(make_ops)
     for ci,r in raw.items():
         col=Kops[ci].colsum(); cs[str(ci)]=col.max(1).values.tolist()
@@ -187,6 +187,19 @@ def verify(state,rep):
     assert ok,'Shared-operator ownership/numerical gate failed: stop for focused diagnosis'
     log('VERIFIED',state,rep)
 
+def resident():
+    """Actual repeated rigid updates with resident GPU K; excludes one-time cache/CSR initialization."""
+    raw,ownership,lt=load_packages('rigid','S',0)
+    ops,ct=timed(lambda:{ci:KO.KOp(r['idx'],r['val'],r['shape']) for ci,r in raw.items()})
+    records=[];baseline=np.load(OUT/'runs/rigid_S_r0.npz')
+    for i in range(3):
+        p,md=compose('rigid',raw,0,'S_resident',prepared_K=ops)
+        rel=max(float(np.abs(p[k]-baseline[k]).sum()/max(float(np.abs(baseline[k]).sum()),1e-30)) for k in p)
+        assert rel<=1e-6
+        records.append(dict(meta=md,relative_to_disk_cache_S=rel))
+    dump(dict(initial_cache_load_and_check=lt,initial_CSR=ct,records=records,
+        note='Measured rigid updates only. Do not add a hypothetical removed TR cost and call it a measured dent resident update.'),OUT/'resident_rigid.json')
+
 def extract(state):
     sd=SF.scene(state); ss=CM.classify_sceneset(sd); geo=json.load(open(OUT/'cycles'/f'ccam_{state}.json')); res={}
     for cam,g in geo.items():
@@ -221,7 +234,7 @@ def audit():
 
 if __name__=='__main__':
     OUT.mkdir(parents=True,exist_ok=True);cmd=sys.argv[1]
-    if cmd in ('prepare','reference_gate','audit'):globals()[cmd]()
+    if cmd in ('prepare','reference_gate','audit','resident'):globals()[cmd]()
     elif cmd=='verify':verify(sys.argv[2],int(sys.argv[3]))
     elif cmd in ('update','replay'):update(sys.argv[2],sys.argv[3],int(sys.argv[4]),replay=cmd=='replay',independent='ind' in sys.argv[5:])
     sys.stdout.flush();os._exit(0)
