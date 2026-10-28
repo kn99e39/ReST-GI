@@ -1,9 +1,9 @@
 {
- "protocol": "fnto_rule57_v1",
+ "protocol": "fnto_rule57_v2_preflight",
  "date": "2026-10-28",
  "starting_head": "55b6be0fb994cd33d3e12f34779fae2756413379",
  "authorization": "User WL57 Learned Geometry-Conditioned Intrinsic Transport: Reusable Rule vs Geometry-Dependent State; current Selective_Recompute, no branch/worktree; one bounded R candidate with matched D control",
- "stage": "Preregistered before any WL57 target/action, fit or held-out result. Numerical implementation-only smoke tests are separately labelled.",
+ "stage": "Corrected before any learned training or held-out model evidence. Partial physical supervision fromv1 before the user preflight stop is preserved with provenance and checksum revalidation; no claims from it.",
  "isolation": {
   "code": "experiments/fnto_rule57",
   "results": "results/fnto_rule57",
@@ -21,7 +21,7 @@
   "dense_tail_rank": 16,
   "R_state_channels": 32,
   "parameter_budget": {
-   "D": 161328,
+   "D": 160458,
    "R": 162048,
    "max_ratio": 1.05
   },
@@ -109,17 +109,36 @@
   ],
   "cache_limit_MB": 512,
   "timing": "3 geometry/ballistic build repetitions, 5 warmups +20 query timings, CUDA fences, idle-GPU occupancy recorded; report medians and empirical intervals, all partial/full cache costs for D and R; best legitimate policy at each N; additionally 3 measured cache-build+N distinct-light lifecycle runs per policy/N; common geometry-build added separately, not hidden.",
-  "scope": "offline oracle/data generation and training separated from geometry update, first query, repeats and memory. No TR-to-learned speedup as R-vs-D evidence; no TransGI superiority."
+  "scope": "offline oracle/data generation and training separated from geometry update, first query, repeats and memory. No TR-to-learned speedup as R-vs-D evidence; no TransGI superiority.",
+  "memory_accounting": "Unique untyped-storage identity across geometry/state/coefficients/parameters, sparse indices+values included; views and aliases once; incremental and total cache allocations. Fresh process EACH model/seed/pose/cache policy; reset CUDA peak separately for cache construction, query and lifecycle; allocated/reserved and CPU RSS distinct. No geometry CPU copy used for GPU byte count."
  },
  "composition": "Existing WL56 upper centred dent te0+unchanged lower medium, fixed Lambertian source; primary face-on masks. No otop boundary comparison (WL56 invalid inside-medium camera). Historical O/C/solver and independent Cycles references retained, blue floor preserved. Candidate adapters isolated only.",
  "reproducibility": "Full code/protocol commit before primary targets/training; hardware/software, source/checkpoint/data/split hashes, samples, per-geometry/per-channel failures, runtime oracle-access audit and server-side status/logs retained; relevant WL53-56 focused regressions rerun.",
  "stop": "invalid/noisy target; oracle at runtime; broken K/C semantics; unmatched data; unfair caching only advantage; unrepairable physical failure; new representation class required; no WL58",
- "amendments": [],
+ "amendments": [
+  {
+   "id": "A1",
+   "kind": "pre-training/pre-learned-evidence correctness and causal-control correction",
+   "reason": "User requested focused preflight after static review. Preserve thresholds, split, R architecture, physical reference and photon/training budgets. Align D context, fix aliased memory and peak scope, add actual rigid-operator/resource/cache recovery controls.",
+   "auto_launch": "Latest user instruction supersedes earlier preflight-only no-launch condition: final GO launches primary chain automatically."
+  }
+ ],
  "resource_recovery": {
   "declared_before_primary": "Three finite resource policies: default; checkpoint edge activations+32k edges+1M trace chunks+eval2; then8k edges+microbatch1 with exact batch2 accumulation+stream geometry+250k trace chunks+eval1. Same architecture, samples, steps, loss, split and criteria.",
   "checkpoint": "Atomic training checkpoint every100steps plus firststep includes weights, AdamW, NumPy/Torch/CUDA RNG, history and step; restart latest complete checkpoint, preserve failed log+checkpoint. No best-of-attempt selection.",
   "reference": "Atomic completed geometry/operator/actions reused. Smaller ray chunks can change deterministic random stream partition; realized chunk, seed and artifact SHA recorded; photon and within-bin sample counts unchanged. No retry selected by accuracy.",
   "failure": "Only explicit CUDA allocation errors trigger bounded fallback; unknown errors or exhausted policies stop with FAILED and logs, no false COMPLETE. End-to-end attempt wall times include failed attempts. Disk shortage never triggers shared-file deletion.",
   "supervisor": "Server PID/session independent of SSH. flock excludes duplicate chains; completed stage markers skip work after supervised restart. Fault-injection tests cover OOM retry, completed skip, unknown error and exhaustion."
+ },
+ "causal_control": {
+  "D": "Raw140 geometry features plus fixed mean-neighbor140, second-hop140 and global-mean140=560. Same16-neighbor/two-hop and whole-domain information scope as R. Direct decoder hidden48/node74,160458parameters.",
+  "R": "Unchanged learned32-channel geometry graph state, two16-neighbor message layers plus global pooling; decoder hidden128/node144,162048parameters.",
+  "interpretation": "Tests this concrete learned nonlinear graph-state construction vs direct conditioning with matched context scope and fair caching. It does NOT isolate abstract state separation from nonlinear aggregation, inductive bias or parameter allocation. A positive result supports only this specific mechanism; no generic Rule-State adoption.",
+  "no_sweep": "One analytic parameter match before any model fit; no capacity selected on results, no third architecture. R unchanged; D context control repaired."
+ },
+ "preflight": {
+  "required": "Focused tests, rigid-operator action vs actual rigid-transformed geometry rebuild, storage alias/sparse tests, corruption/missing receipt quarantine/RNG resume, fault-injected bounded OOM supervisor tests, fresh-process full/compact memory smoke for both untrained arms, paired-gradient smoke with no optimizer step, disk/CPU/GPU conservative bounds.",
+  "resource_policy": "Full oracle suite and model training blocked until final GO for exact same source commit. Latest user instruction explicitly authorizes automatic server-side primary launch on GO. NO-GO leaves primary disabled.",
+  "data_reuse": "Incomplete old generation and transition overlap remain documented. Only checksummed completed physical caches may be reused; partial/corrupt/unreceipted files quarantined, never counted as completed."
  }
 }

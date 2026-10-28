@@ -29,9 +29,9 @@ The possible benefit is learning reusable geometry summaries once, then reusing 
 
 ## D: direct geometry-conditioned operator
 
-D receives the same raw current-geometry feature arrays and shared pair metrics directly, without R's explicit nonlinear transport-state encoder. Its shared conditional decoder predicts the same kernel representation. D does **not** retrain per pose. D is allowed exactly the same partial affine caching and full coefficient caching as R. Decomposing the first affine source/receiver projections is an exact implementation optimization, not an R-only privilege.
+D receives the same raw current-geometry feature arrays and shared pair metrics, plus fixed raw first-hop, second-hop and global means (560 channels total). This matches R's two-hop16-neighbor and whole-domain context scope without a learned transport-state encoder. Its shared conditional decoder predicts the same kernel representation. D does **not** retrain per pose. D is allowed exactly the same partial affine caching and full coefficient caching as R. Decomposing the first affine source/receiver projections is an exact implementation optimization, not an R-only privilege.
 
-Budgets fixed before training: D pair hidden=96, node hidden=128; R pair hidden=128, node hidden=144, state=32. Trainable parameters D=161,328, R=162,048 (<0.5% difference). All angular/spatial basis ranks, data, losses, steps, seeds, precision and field order are matched. R's encoder counts toward its budget.
+Budgets fixed before training: Corrected pre-training context control: D pair hidden=48, node hidden=74; R unchanged pair hidden=128, node hidden=144, state=32. Trainable parameters D=160,458, R=162,048 (<1% difference). Originalv1 D=161,328 with context not explicitly aligned is preserved in Git history; no model was fitted before this repair. All angular/spatial basis ranks, data, losses, steps, seeds, precision and field order are matched. R's encoder counts toward its budget.
 
 ## Cache lifecycle and cost comparison
 
@@ -49,3 +49,10 @@ Both policies are mathematically identical within each model and have a 512 MB p
 Shared material-frame rigid reuse and local dents are evaluated. Global bending/twisting could require global state changes (no locality/rank assumption); self-contact can change optical-domain topology/ownership. Neither is tested or claimed here.
 
 A positive R result requires useful held-out absolute and differential accuracy, physical validity, and a >=25% quality-matched dynamic-cost advantage over D's best legitimate cache policy, including low-query cases. If both are accurate and their cached costs are similar, explicit state separation has no demonstrated architecture-specific value in this realization. If both miss fidelity, no fast inaccurate winner is declared. Only the predeclared family is trained; no architecture sweep or successor batch follows automatically.
+
+
+## Causal interpretation after focused preflight A1
+
+The original D/R comparison conflated state construction with R-only graph context. D now receives fixed raw summaries of the same two-hop material neighborhood and whole domain. R still learns nonlinear aggregation; D uses fixed summaries and a direct conditional decoder. This is an intentional mechanism comparison, not proof of a context-free benefit from an abstract state label. A positive R result cannot separate learned nonlinear aggregation, inductive bias and parameter allocation from explicit state construction. Fair full caching may eliminate any runtime benefit; that is a valid negative result. No additional family or capacity sweep is introduced.
+
+Actual unique tensor storages define memory (including sparse arrays); geometry aliases cannot be billed again as state. Every arm/policy memory worker starts in a fresh process, and separate peaks cover geometry, cache construction, query and complete lifecycle. The 512MB ceiling applies to unique geometry+cache storage; parameters, caller fields/outputs and transient peaks are also reported separately.

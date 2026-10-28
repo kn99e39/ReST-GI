@@ -45,6 +45,10 @@ def run(stage,args,allow_gate=False):
 def main():
     for p in (ROOT,OUT,LOGS,STATE,ROOT/'tmp',ROOT/'checkpoints'):p.mkdir(parents=True,exist_ok=True)
     lock=open(ROOT/'supervisor.lock','a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
+    gate=OUT/'preflight_v2/decision.json'
+    if not gate.exists() or json.load(open(gate)).get('verdict')!='GO':raise RuntimeError('Primary disabled until corrected preflight GO')
+    if json.load(open(gate))['primary_commit']!=(ROOT/'repo_commit.txt').read_text().strip():raise RuntimeError('Preflight commit does not match primary source')
+    if (ROOT/'primary_disabled.json').exists():raise RuntimeError('Explicit user preflight stop is still active')
     write(dict(pid=os.getpid(),sid=os.getsid(0),ppid=os.getppid(),start=time.time(),commit=(ROOT/'repo_commit.txt').read_text().strip()),ROOT/'supervisor.json')
     status('batch','STARTING')
     if shutil.disk_usage(ROOT).free<60*1024**3:raise RuntimeError('Less than60GiB scratch free; stop without deleting shared files')

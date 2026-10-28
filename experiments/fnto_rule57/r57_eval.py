@@ -71,49 +71,9 @@ def evaluate():
             del m,gs;torch.cuda.empty_cache()
     np.savez(OUT/'coarse_predictions.npz',**coarse_outputs)
 
-def byte_count(x):
-    if isinstance(x,torch.Tensor):return x.numel()*x.element_size() if not x.is_sparse else x._indices().numel()*8+x._values().numel()*x._values().element_size()
-    if isinstance(x,dict):return sum(byte_count(v) for v in x.values())
-    return 0
-def timed(fn,n=1):
-    ts=[];r=None
-    for _ in range(n):
-        torch.cuda.synchronize();t=time.perf_counter();r=fn();torch.cuda.synchronize();ts.append(time.perf_counter()-t)
-    return r,dict(median=float(np.median(ts)),p10=float(np.quantile(ts,.1)),p90=float(np.quantile(ts,.9)),all=ts)
-
 def benchmark():
-    res={};lights=torch.load(DATA/'lights.pt')['test'].to('cuda')
-    with torch.no_grad():
-        for name in RG.TEST:
-            g,geo_time=timed(lambda:RG.geometry(name),3)
-            # Geometry trace setup/cells/B construction is charged to both arms, never an oracle table.
-            pose={}
-            for arm in ('D','R'):
-                for seed in (5701,5702):
-                    m=model_of(arm,seed);st,prep=timed(lambda:m.state(g),20);co,build=timed(lambda:m.coefficients(g,st),20)
-                    for _ in range(5):m.apply(g,lights[:1],co)
-                    y,full=timed(lambda:m.apply(g,lights[:1],co),20)
-                    yy,compact=timed(lambda:m(g,lights[:1],st),20)
-                    assert float((y-yy).abs().sum()/y.abs().sum())<=1e-6
-                    record=dict(geometry=geo_time,state_prepare=prep,coefficient_prepare=build,query_full_cache=full,query_compact=compact,
-                        geometry_bytes=byte_count(RG.serial(g)),compact_state_bytes=byte_count(st),coefficient_bytes=byte_count(co),parameters=sum(p.numel() for p in m.parameters()),
-                        peak_GPU_bytes=torch.cuda.max_memory_allocated(),CPU_RSS_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024)
-                    record['cache_eligible']={p:(record['geometry_bytes']+record['compact_state_bytes']+(record['coefficient_bytes'] if p=='full' else 0)<=512_000_000) for p in ('full','compact')}
-                    choices={}
-                    for N in (1,4,16,64):
-                        def life(policy):
-                            st0=m.state(g);co0=m.coefficients(g,st0) if policy=='full' else None
-                            for j in range(N):q=m.apply(g,lights[j:j+1],co0) if policy=='full' else m(g,lights[j:j+1],st0)
-                            return q
-                        _,lf=timed(lambda:life('full'),3);_,lc=timed(lambda:life('compact'),3)
-                        f=geo_time['median']+lf['median'];c=geo_time['median']+lc['median']
-                        eligible={p:v for p,v in [('full',f),('compact',c)] if record['cache_eligible'][p]}
-                        assert eligible,'No cache policy meets preregistered ceiling'
-                        policy=min(eligible,key=eligible.get)
-                        choices[N]=dict(full=f,compact=c,best=eligible[policy],selected=policy,full_lifecycle=lf,compact_lifecycle=lc,
-                            note='Directly measured cache-build+N distinct light queries, plus separately measured common geometry build. Not TR-to-neural speedup.')
-                    record['queries']=choices;pose[f'{arm}_{seed}']=record;del m,st,co;torch.cuda.empty_cache()
-            res[name]=pose;dump(res,OUT/'cost.json');log('COST',name,{k:v['queries'] for k,v in pose.items()})
+    from r57_cost import benchmark as measured
+    measured()
 
 if __name__=='__main__':
     torch.set_num_threads(8);torch.backends.cuda.matmul.allow_tf32=False

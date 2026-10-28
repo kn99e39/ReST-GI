@@ -32,9 +32,13 @@ def mesh(name):
     m=FX.slab_mesh();dep,rad,x,y=POSES[name]
     return m,G.map_dent(m['V'],dep,rad,FX.H,(x,y)) if dep else m['V'].copy()
 
-def geometry(name,ballistic=True,q=256):
+def geometry(name,ballistic=True,q=256,V_world=None,rigid_R=None,rigid_t=None):
     """Same 2.5 mm cells /16 in/64 out as WL56. All coordinates in the object's supplied rigid material frame."""
-    t0=time.perf_counter();m,V=mesh(name);fm,VC,parent=KO.refined(m,V,4)
+    t0=time.perf_counter();m,V=mesh(name)
+    if V_world is not None:
+        assert rigid_R is not None and rigid_t is not None
+        V=(np.asarray(V_world)-np.asarray(rigid_t))@np.asarray(rigid_R)
+    fm,VC,parent=KO.refined(m,V,4)
     fr=G.tri_frames(fm['V'],VC,fm['F'],fm['tri_port'],fm['port_tangent']);tp=fm['tri_port'];P=len(parent)
     area=np.bincount(tp,weights=fr['area'],minlength=P)
     def avg(v):return np.stack([np.bincount(tp,weights=v[:,k]*fr['area'],minlength=P)/area for k in range(v.shape[1])],1)
@@ -58,7 +62,8 @@ def geometry(name,ballistic=True,q=256):
     lengths=np.array([.0181,.0058,.0018])
     prior=np.exp(-dist[:,None]/lengths[None])*.0025**2/(dist[:,None]**2+.0025**2)
     cv=lambda x,dtype=torch.float32:torch.as_tensor(x,dtype=dtype,device=DEV)
-    h=hashlib.sha256(np.ascontiguousarray(VC).tobytes()).hexdigest()
+    canonical=np.round(VC,12);canonical[np.abs(canonical)<.5e-12]=0.
+    h=hashlib.sha256(np.ascontiguousarray(canonical).tobytes()).hexdigest()
     out=dict(name=name,node=cv(node),src=cv(src,torch.long),dst=cv(dst,torch.long),pair=cv(pair),prior=cv(prior),
         graph=cv(idx[:,:16],torch.long),parent=cv(parent,torch.long),P=P,signature=h,area=cv(area),rest_xyz=cv(xyz0),xyz=cv(xyz),
         frame=fr,mesh=fm,Vcur=VC,coarse=m,meta=dict(signature=h,P=P,preprocess_seconds=time.perf_counter()-t0))

@@ -14,14 +14,14 @@ def main():
         for pose,cs in cost.items():
             for seed in (5701,5702):
                 d,r=cs[f'D_{seed}'],cs[f'R_{seed}'];dd=held[f'D_{seed}'];rr=held[f'R_{seed}']
-                qok=all(max(abs(a-b) for a,b in zip(dd['poses'][p]['metrics']['coarse']['mean'],rr['poses'][p]['metrics']['coarse']['mean']))<=.02 for p in dd['poses'])
+                qok=all(max(b-a for a,b in zip(dd['poses'][p]['metrics']['coarse']['mean'],rr['poses'][p]['metrics']['coarse']['mean']))<=.02 for p in dd['poses'])
                 ratios={n:r['queries'][n]['best']/d['queries'][n]['best'] for n in d['queries']};wins=[]
                 for n in ratios:
                     dr=d['queries'][n];rt=r['queries'][n];dl=dr[dr['selected']+'_lifecycle'];rl=rt[rt['selected']+'_lifecycle'];base=d['geometry']['median']
                     if ratios[n]<=.75 and base+rl['p90']<base+dl['p10']:wins.append(int(n))
                 # Same chosen full/compact policy includes geometry and coefficient state.
                 def memory(row):
-                    return max(row['geometry_bytes']+row['compact_state_bytes']+(row['coefficient_bytes'] if row['queries'][n]['selected']=='full' else 0) for n in row['queries'])
+                    return max(row['cache_policy_total_bytes'][row['queries'][n]['selected']] for n in row['queries'])
                 memratio=memory(r)/memory(d)
                 supported=dd['useful_and_physical'] and rr['useful_and_physical'] and qok and len(wins)>=2 and any(n in wins for n in (1,4)) and memratio<=1.25 and r['parameters']/d['parameters']<=1.05
                 out['comparison'].append(dict(pose=pose,seed=seed,cost_ratios=ratios,memory_ratio=memratio,quality_within_02=qok,qualified_query_counts=wins,R_advantage_supported=supported))

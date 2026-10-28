@@ -17,7 +17,8 @@ def clean(x):
     if isinstance(x,np.integer):return int(x)
     if isinstance(x,np.bool_):return bool(x)
     return x
-def dump(x,p):p=Path(p);p.parent.mkdir(parents=True,exist_ok=True);p.write_text(json.dumps(clean(x),indent=1,allow_nan=False)+'\n')
+def dump(x,p):
+    p=Path(p);p.parent.mkdir(parents=True,exist_ok=True);tmp=p.with_name(p.name+f'.{os.getpid()}.partial');tmp.write_text(json.dumps(clean(x),indent=1,allow_nan=False)+'\n');os.replace(tmp,p)
 def log(*a):print(time.strftime('%H:%M:%S'),*a,flush=True)
 def sha(p):
     h=hashlib.sha256()
@@ -28,6 +29,27 @@ def sha(p):
 def save(x,p):
     p=Path(p);p.parent.mkdir(parents=True,exist_ok=True);tmp=p.with_name(p.name+f'.{os.getpid()}.partial')
     torch.save(x,tmp);os.replace(tmp,p)
+
+def cache_ready(p,receipt=None):
+    """Never treat an existence check or incomplete write as committed evidence.
+    Primary caches require a matching receipt hash; inherited cache hashes are explicit.
+    Invalid files are preserved under quarantine, then the caller may regenerate.
+    """
+    p=Path(p)
+    if not p.exists():return False
+    expected=None;error=None
+    try:
+        if receipt is not None and Path(receipt).exists():expected=json.load(open(receipt)).get('sha256')
+        if expected is None and (ROOT/'transition_audit.json').exists():
+            inherited=json.load(open(ROOT/'transition_audit.json')).get('inherited_artifacts',{})
+            expected=inherited.get(str(p.relative_to(ROOT)),{}).get('sha256')
+        if expected is None:raise ValueError('No completed checksum receipt')
+        if sha(p)!=expected:raise ValueError('Checksum mismatch')
+        return True
+    except Exception as e:error=repr(e)
+    q=ROOT/'quarantined_partial'/f'{time.time_ns()}_{p.name}';q.parent.mkdir(exist_ok=True);os.replace(p,q)
+    if receipt is not None and Path(receipt).exists():os.replace(receipt,q.with_name(q.name+'.receipt.json'))
+    dump(dict(original=str(p),preserved=str(q),reason=error),q.with_name(q.name+'.reason.json'));return False
 
 def aggregate(y,parent,coarse=True):
     """Flux sums, no averaging: 64->16 angular bins and optionally 2.5mm->1cm material cells."""
@@ -72,23 +94,23 @@ def prepare_inputs():
     for d in ('geometry','targets'): (DATA/d).mkdir(parents=True,exist_ok=True)
     for name in RG.POSES:
         p=DATA/'geometry'/f'{name}.pt'
-        if p.exists():
-            if name=='rest' and not (DATA/'lights.pt').exists():
+        if cache_ready(p,OUT/'geometry'/f'{name}.json'):
+            if name=='rest' and not cache_ready(DATA/'lights.pt',OUT/'lights_receipt.json'):
                 g=RG.device(torch.load(p));g['coarse']=RG.mesh('rest')[0];lights={};metas={}
                 for split,n,seed in [('train',96,571001),('validation',32,571002),('test',64,571003)]:lights[split],metas[split]=light_fields(g,n,seed,split)
-                save(lights,DATA/'lights.pt');dump(metas,OUT/'light_manifest.json');del g
+                save(lights,DATA/'lights.pt');dump(dict(sha256=sha(DATA/'lights.pt')),OUT/'lights_receipt.json');dump(metas,OUT/'light_manifest.json');del g
             continue
-        g=RG.geometry(name);save(RG.serial(g),p);dump(g['meta'],OUT/'geometry'/f'{name}.json');log('GEOMETRY',name,g['meta']['total_seconds'])
+        g=RG.geometry(name);save(RG.serial(g),p);dump(dict(**g['meta'],sha256=sha(p)),OUT/'geometry'/f'{name}.json');log('GEOMETRY',name,g['meta']['total_seconds'])
         if name=='rest':
             lights={};metas={}
             for split,n,seed in [('train',96,571001),('validation',32,571002),('test',64,571003)]:lights[split],metas[split]=light_fields(g,n,seed,split)
-            save(lights,DATA/'lights.pt');dump(metas,OUT/'light_manifest.json')
+            save(lights,DATA/'lights.pt');dump(dict(sha256=sha(DATA/'lights.pt')),OUT/'lights_receipt.json');dump(metas,OUT/'light_manifest.json')
         del g;torch.cuda.empty_cache()
 
 def oracle_path(name,rep):return OPS/f'{name}_r{rep}.pt'
 def raw_oracle(name,rep):
     path=oracle_path(name,rep)
-    if path.exists():return torch.load(path)
+    if cache_ready(path,OUT/'oracle'/f'{name}_r{rep}.json'):return torch.load(path)
     OPS.mkdir(exist_ok=True);ix=list(RG.POSES).index(name);t0=time.perf_counter()
     src=None
     if name=='rest':src=Path.home()/'rest_wl55/ops'/f'slab_L4_s{rep+1}.pt'
@@ -105,7 +127,7 @@ def raw_oracle(name,rep):
 
 def actions(name,rep=0):
     p=DATA/'targets'/f'{name}_r{rep}.pt'
-    if p.exists():return
+    if cache_ready(p,OUT/'target_manifest'/f'{name}_r{rep}.json'):return
     lights=torch.load(DATA/'lights.pt');r=raw_oracle(name,rep);K=KO.KOp(r['idx'],r['val'],r['shape']);out={};t0=time.perf_counter()
     for split,x in lights.items():
         arr=[]

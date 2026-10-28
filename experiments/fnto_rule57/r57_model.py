@@ -14,7 +14,7 @@ M=RG.MIX;T=RG.RANK;C=3
 class Transport(nn.Module):
     def __init__(self,arm):
         super().__init__();assert arm in ('D','R');self.arm=arm
-        nd,h,nh=(140,96,128) if arm=='D' else (32,128,144)
+        nd,h,nh=(560,48,74) if arm=='D' else (32,128,144)
         if arm=='R':
             self.encoder=nn.Linear(140,32)
             self.messages=nn.ModuleList([nn.Sequential(nn.Linear(64,32),nn.SiLU(),nn.Linear(32,32)) for _ in range(2)])
@@ -37,6 +37,11 @@ class Transport(nn.Module):
             z=F.silu(self.encoder(z))
             for layer in self.messages:z=z+.25*layer(torch.cat([z,z[g['graph']].mean(1)],1))
             z=z+F.silu(self.global_enc(z.mean(0,keepdim=True)))
+        else:
+            # Same two-hop material neighborhood and whole-domain context as R.
+            # Fixed raw summaries, not an extra learned architecture or target input.
+            one=z[g['graph']].mean(1);two=one[g['graph']].mean(1)
+            z=torch.cat([z,one,two,z.mean(0,keepdim=True).expand_as(z)],1)
         # D gets the exact same legitimate partial affine caching as R.
         return dict(z=z,s=self.src_layer(z),d=self.dst_layer(z))
 
