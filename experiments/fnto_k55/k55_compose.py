@@ -258,7 +258,8 @@ def outgoing_test(sd, lev_lo, sun, seed_C=5587):
     lo_sl = ss.comp_ports(ci_lo); m_port[:lo_sl.start] = 1; m_port[lo_sl.stop:] = 1
     C, esc, cst = CA.cast_adaptive(ss, m_port, seed_C)
     phi_out = torch.zeros(ss.Ptot * DOUT, 3, device=DEV)
-    phi_out[lo_sl.start * DOUT:lo_sl.stop * DOUT] = aggregate_phi(sun[ci_lo]["phi_f"], lev_lo)
+    P_lo = len(sd["comps"][ci_lo][2]["port_area"])
+    phi_out[lo_sl.start * DOUT:lo_sl.stop * DOUT] = aggregate_phi(sun[ci_lo]["phi_f"], np.full(P_lo, lev_lo))
     phi_in = CP.apply_C(C, phi_out); hs = ss.comp_ports(ci_hi)
     arr = phi_in[hs.start * DIN:hs.stop * DIN].view(hs.stop - hs.start, DIN, 3).sum(1)
     tris = (ss.tri_comp == ci_hi).nonzero().squeeze(1)
