@@ -103,10 +103,33 @@
  },
  "stage_F_cost": "per arm: level-assignment prepass, relation (C) build, sun term, solve iterations, application (sparse mm), end-to-end update after a rigid box move, peak GPU memory (torch.cuda.max_memory_allocated after reset), nnz and bytes of C, CPU / GPU split; hardware matched, uncontended; the historical Python-looped relation build is not used as the comparison when the GPU caster (cast_C with chunking) is the apples-to-apples C0",
  "seeds": {
-  "cycles": [5401, 5402, 5403, 5404],
-  "C0prod": [5340, 5341], "C0prod_rep_C": "5600+r", "C0prod_rep_sun": "5700+r", "C0inf": [5400, 5401], "fine_C": "5410+s", "fine_sun": "5420+s", "fine_replicate": "5510+s / 5520+s",
-  "casp_prepass": 5801, "casp_C": 5810, "casp_sun": 5811, "casp_replicates": "5820+r / 5830+r",
-  "tr_kfine_control": [5851, 5852]
+  "cycles": [
+   5401,
+   5402,
+   5403,
+   5404
+  ],
+  "C0prod": [
+   5340,
+   5341
+  ],
+  "C0prod_rep_C": "5600+r",
+  "C0prod_rep_sun": "5700+r",
+  "C0inf": [
+   5400,
+   5401
+  ],
+  "fine_C": "5410+s",
+  "fine_sun": "5420+s",
+  "fine_replicate": "5510+s / 5520+s",
+  "casp_prepass": 5801,
+  "casp_C": 5810,
+  "casp_sun": 5811,
+  "casp_replicates": "5820+r / 5830+r",
+  "tr_kfine_control": [
+   5851,
+   5852
+  ]
  },
  "verdict_mapping": {
   "baseline_audit_reliability": "SUPPORTED if the stored WL53 composition tables replay exactly, the fresh composition reproduces the stored predictions to the determinism tolerance, and the discrepancies found in the WL53 prose are listed; CONDITIONALLY SUPPORTED if tables reproduce but claims A-E carry a listed caveat",
@@ -119,5 +142,21 @@
   "scalability": "per the empirical scaling table",
   "production_integration_readiness": "NOT SUPPORTED unless every item above is SUPPORTED and the K-C interface dependency is resolved; not expected from this batch"
  },
- "amendments": []
+ "amendments": [
+  {
+   "id": 1,
+   "date": "2026-10-28 12:45 KST",
+   "type": "POST HOC (labelled): comparison-coverage rule and reference pixel-size diagnostic. The declared rules, thresholds and verdict mapping are NOT changed; every table is reported under the declared rule AND the amended rule",
+   "observed_before_this_amendment": [
+    "Stage B primary (gap4, gap8, gap30, floor_lam; Cycles seeds 5401-5404) was computed and read. floor_lam underup dom:bot: C0 vs Cycles +6.2 %, A (Galerkin coarse vs fine) +6.2 %, F16 vs Cycles -0.0 %. floor_lam underdown floor: C0 vs Cycles +4.3 % but C0 vs F16 +1.1 % and F16 vs Cycles +3.1 %; the pixel-pooled fine-vs-Cycles bias is -0.6 % and the radial profile of the ratio is flat to 1-2 %",
+    "A coverage sensitivity (c54_coverage.py) showed the floor-under-box group falls to C0 +1.2 % / F16 -0.8 % when only fully covered ports (>= 90 % of the port's expected pixel count, n = 144 of 196) are kept; the declared '>= 30 pixels' rule was copied from WL53 where a port had ~100 pixels (1 mm), whereas 0.5 mm pixels give ~400, so 30 pixels is 7.5 % of a port",
+    "gap4 gapdown slab_lo:top (100 fully visible ports): F16 vs Cycles -5.2 % although the fine solution is converged (0.15 % between s = 16 and 32) and the same fine solution matches Cycles on gapup slab_hi:bot (-0.2 %)",
+    "the 10-port obot groups of the gap scenes are seen through the gap: a 50 deg line of sight enters a gap of height g only g tan 50 deg deep (4.8 mm for gap4), so the reference port average covers only the open-edge part of a 10 mm port while every prediction is a full-port average"
+   ],
+   "amended_comparison_rule": "expected-coverage rule (geometry only, no image look): a port enters the AMENDED ruled set only if pixels(port) >= 0.9 x expected, expected = (sum over the port's triangles of area x max(0, n . c)) / pixel_area, c = unit vector to the camera. Ports with 30 <= pixels < 0.9 x expected are 'partially visible': they stay in the DECLARED tables, are listed separately in the amended tables with their coverage, and are evaluated at pixel level through the fine solution (c54_stageB pixelwise) instead of by a port average. Nothing is dropped from the reports",
+   "diagnostic": "gap4 cameras gapdown and gapup re-rendered with Cycles at pixel sizes 0.5, 0.25, 0.125 mm (one seed 5499, 2048 spp, otherwise the declared reference settings) into out/cycles_res",
+   "interpretation_rule_fixed_now": "a group whose F16-vs-Cycles bias at 0.5 mm exceeds 3 % is attributed to REFERENCE POINT-SAMPLING (aliasing of a sharp sun / shadow edge) if the Cycles port average moves toward F16 as the pixel shrinks: |F16 - Cycles(0.125 mm)| <= 0.5 |F16 - Cycles(0.5 mm)|; otherwise the discrepancy stays UNATTRIBUTED and the group's reference is reported as not validated at that tolerance",
+   "consequence_for_verdicts": "composition-restoration is evaluated on the amended ruled set against the Cycles reference ONLY for groups whose F16-vs-Cycles agreement is within 3 % + 3 SE (validated reference groups); groups where the fine reference and Cycles disagree by more than that are reported with both references and are not counted as pass or fail of C1 against Cycles; C1 is then judged against the fine reference F16 for them (labelled as such)"
+  }
+ ]
 }
