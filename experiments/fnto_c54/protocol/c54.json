@@ -166,6 +166,20 @@
    "diagnosis": "p53_compose.spectral_radius iterates A and reports the last norm ratio; with a +- pair the iterate alternates between two modes and the ratio is not |lambda_1|. It is not a valid estimator for bipartite couplings; it was within 1 % for the coarse floor scene by luck and under-reports refined operators by 2-4x. The WL53 values of rho (gap4 0.816 / 0.738 / 0.452, ...) used this estimator; WL53's convergence statements (iterations, residual 1e-7) do not depend on it",
    "change": "c54_casp.rho_robust: power iteration on A^2 from a positive start, sqrt of the flux-sum ratio. Every WL54 arm reports rho (robust) and rho_wl53_power300 side by side. Validation rule fixed now: the robust estimator is accepted if it matches the Arnoldi top |lambda| within 2 % in every case of c54_rho_check.py (floor and gap4, s = 1 and 2); otherwise rho is reported as the Arnoldi value only",
    "consequence": "Stage E was re-run with the robust estimator (same seeds, same predictions); the K control (c54_kfine.py) was launched before the correction and reports only the WL53 estimator: its rho values are not used"
+  },
+  {
+   "id": 3,
+   "date": "2026-10-28 13:20 KST",
+   "type": "POST HOC (labelled): pixel-converged references for the near-contact groups and a finer-pixel test of the WL53 gap8 oblique lower-side group. No rule or threshold changes",
+   "observed": "Amendment-1 diagnostic: the gap4 gapdown slab_lo:top Cycles port signal is 0.8413 (0.5 mm), 0.7861 (0.25 mm), 0.7859 (0.125 mm); the fine solution F16 moves from -5.3 % to +1.4 % relative to it, so the 0.5 mm point-sampled reference was not pixel-converged for a group dominated by a 2.3 mm sunlit strip. gapup converged (0.4472 / 0.4476 / 0.4477)",
+   "renders": [
+    "Lambert fixtures at 0.25 mm pixels, 2048 spp, otherwise the declared reference settings: gap4 and gap8 cameras gapdown, gapup, obot (seeds 5499, 5498); floor_lam, rot_lam, lblock_lam cameras underup, underdown (seed 5499)",
+    "WL53 VOLUME scene gap8, camera obot, at 0.5 mm and 0.25 mm pixels, 1024 spp, seed 5499 (WL53's own render used 1 mm pixels, 2 seeds, 1024 spp): the lower slab's -y side face (group slab_lo:-y, 10 ports) is the group WL53 reported at -24.3 / -22.5 / -13.9 % (interior unit, 1 mm pixels) and which this batch measured at -16.2 / -14.3 / -6.4 % (centre unit)"
+   ],
+   "interpretation_rules_fixed_now": {
+    "reference_validated_group": "a ruled group counts as 'reference validated' if its fine-solution (F16) bias against the 0.25 mm Cycles render is within 0.03 + 3 SE; only validated groups are counted as pass / fail of C0 or C1 against Cycles; the others are judged against F16 and labelled",
+    "gap8_oblique_volume_group": "if the V1 reference signal of slab_lo:-y changes by >= 5 % between 0.5 mm and 0.25 mm pixels, the WL53 1 mm reference and the 0.5 mm reference were not pixel-converged for this group and the group's discrepancy is attributed to the reference / comparison unit (the stored WL53 prediction's bias against the 0.25 mm render is then the number to quote, with that caveat); if the signal changes by < 5 %, the discrepancy is not a pixel-size effect and stays unattributed (and, since K control at 5 mm does not reduce it, not a C-resolution effect either)"
+   }
   }
  ]
 }
