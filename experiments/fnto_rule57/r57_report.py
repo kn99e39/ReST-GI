@@ -30,8 +30,9 @@ def main():
                 def memory(row):
                     return max(row['cache_policy_total_bytes'][row['queries'][n]['selected']] for n in row['queries'])
                 memratio=memory(r)/memory(d)
-                supported=dd['useful_and_physical'] and rr['useful_and_physical'] and qok and len(wins)>=2 and any(n in wins for n in (1,4)) and memratio<=1.25 and r['parameters']/d['parameters']<=1.05
-                out['comparison'].append(dict(pose=pose,seed=seed,cost_ratios=ratios,memory_ratio=memratio,quality_within_02=qok,qualified_query_counts=wins,R_advantage_supported=supported))
+                uncontended=d.get('uncontended',False) and r.get('uncontended',False)
+                supported=dd['useful_and_physical'] and rr['useful_and_physical'] and qok and len(wins)>=2 and any(n in wins for n in (1,4)) and memratio<=1.25 and r['parameters']/d['parameters']<=1.05 and uncontended
+                out['comparison'].append(dict(pose=pose,seed=seed,cost_ratios=ratios,memory_ratio=memratio,quality_within_02=qok,uncontended=uncontended,qualified_query_counts=wins,R_advantage_supported=supported))
         useful=any(out['useful_models'].values());out['verdict']=dict(
             direct_viability='SUPPORTED' if all(held[f'D_{s}']['useful_and_physical'] for s in (5701,5702)) else 'NOT SUPPORTED',
             rule_state_viability='SUPPORTED' if all(held[f'R_{s}']['useful_and_physical'] for s in (5701,5702)) else 'NOT SUPPORTED',

@@ -3,9 +3,15 @@ import sys,os,json,time,subprocess,resource,gc
 import numpy as np
 import torch
 import r57_geometry as RG
-from r57_data import ROOT,OUT,DATA,dump
+from r57_data import ROOT,OUT,DATA,dump,sha
 from r57_model import Transport
 from r57_memory import cache_record
+
+def external_compute_processes():
+    try:
+        rows=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid,used_memory','--format=csv,noheader'],text=True).strip().splitlines()
+        return [r for r in rows if int(r.split(',')[0].strip())!=os.getpid()]
+    except Exception:return None  # Unknown occupancy cannot support a speed claim.
 
 def timed(fn,n):
     values=[];result=None
@@ -14,6 +20,7 @@ def timed(fn,n):
     return result,dict(median=float(np.median(values)),p10=float(np.quantile(values,.1)),p90=float(np.quantile(values,.9)),all=values)
 
 def worker(name,arm,seed,policy,path,untrained=False):
+    peers_before=external_compute_processes()
     torch.set_num_threads(8);torch.manual_seed(int(seed));torch.backends.cuda.matmul.allow_tf32=False
     torch.cuda.empty_cache();torch.cuda.reset_peak_memory_stats()
     with torch.no_grad():
@@ -47,7 +54,7 @@ def worker(name,arm,seed,policy,path,untrained=False):
             memory=retained,baseline_model_geometry_inputs_bytes=baseline,state_prepare=stt,coefficient_prepare=ct,query=qt,
             cache_preparation_peak_bytes=prep_peak,query_peak_bytes=query_peak,query_output_bytes=out_bytes,CPU_RSS_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024,
             cycles=cycles,eligible=retained['full_total_bytes' if policy=='full' else 'compact_total_bytes']<=512_000_000,
-            parameters=sum(p.numel() for p in model.parameters()),process_id=os.getpid(),peak_scope='Fresh process per model/pose/policy; reset before cache preparation, query and lifecycle; absolute CUDA allocated+reserved separately.'),path)
+            parameters=sum(p.numel() for p in model.parameters()),process_id=os.getpid(),external_processes_before=peers_before,external_processes_after=external_compute_processes(),cost_source_sha256=sha(__file__),peak_scope='Fresh process per model/pose/policy; reset before cache preparation, query and lifecycle; absolute CUDA allocated+reserved separately.'),path)
 
 def benchmark():
     results={};dest=OUT/'cost_workers';dest.mkdir(exist_ok=True)
@@ -67,7 +74,7 @@ def benchmark():
                 val={p:gt['median']+w['cycles'][N]['lifecycle']['median'] for p,w in pair.items() if w['eligible']};assert val
                 selected=min(val,key=val.get)
                 q[N]=dict(full=gt['median']+f['cycles'][N]['lifecycle']['median'],compact=gt['median']+c['cycles'][N]['lifecycle']['median'],selected=selected,best=val[selected],full_lifecycle=f['cycles'][N]['lifecycle'],compact_lifecycle=c['cycles'][N]['lifecycle'])
-            rows[tag]=dict(geometry=gt,queries=q,workers=pair,cache_policy_total_bytes={p:w['memory']['full_total_bytes' if p=='full' else 'compact_total_bytes'] for p,w in pair.items()},parameters=f['parameters'])
+            rows[tag]=dict(geometry=gt,queries=q,workers=pair,uncontended=all(w['external_processes_before']==[] and w['external_processes_after']==[] for w in pair.values()),cache_policy_total_bytes={p:w['memory']['full_total_bytes' if p=='full' else 'compact_total_bytes'] for p,w in pair.items()},parameters=f['parameters'])
         results[pose]=rows;dump(results,OUT/'cost.json')
 
 if __name__=='__main__':
