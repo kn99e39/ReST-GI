@@ -1,5 +1,7 @@
 # Working On This Repo
 
+**2026-10-28 — Worklog 56 authorised (user brief: Exact Selective K Recompute and Dynamic Update Cost Headroom).** Bounded physical-oracle baseline on `Selective_Recompute`: complete optical-domain F/S/T recomputation on a two-medium local dent and rigid control; identical uniform 2.5 mm K/C, current ballistic readout, independent Cycles-volume reference, domain cache identity, actual end-to-end cost and explicitly hypothetical Rule–State headroom. Protocol `experiments/fnto_sel56/protocol/sel56.json`. No CAK adoption, learned-K training, new representation, production change or WL57 is authorised.
+
 ## Current architecture design owner and candidate (2026-10-23)
 
 The user explicitly requested that the assistant take responsibility for choosing and specifying the research **Architecture**, rather than asking an implementation Agent to invent the core abstraction. The assistant-authored design is `docs/FNTO_ARCHITECTURE_CONTRACT_V0_1.md` (FNTO: learned **intrinsic optical-domain** scattering kernels + current geometry-dependent **editable free-space** compressed coupling (including same-asset exposed interreflection)).

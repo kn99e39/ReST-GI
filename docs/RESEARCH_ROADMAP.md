@@ -1,5 +1,7 @@
 # Research Roadmap — Surface-Owned Selective Neural Transport Recomputation
 
+**2026-10-28 — Worklog 56 authorised (user brief: Exact Selective K Recompute and Dynamic Update Cost Headroom).** Bounded physical-oracle baseline on `Selective_Recompute`: complete optical-domain F/S/T recomputation on a two-medium local dent and rigid control; identical uniform 2.5 mm K/C, current ballistic readout, independent Cycles-volume reference, domain cache identity, actual end-to-end cost and explicitly hypothetical Rule–State headroom. Protocol `experiments/fnto_sel56/protocol/sel56.json`. No CAK adoption, learned-K training, new representation, production change or WL57 is authorised.
+
 **Updated:** 2026-10-28 (current major architecture decision following WL55; historical sections preserved)
 **Branch:** Selective_Recompute  
 **Status:** Dynamic Transport Reuse goal and four-case staged evaluation adopted; Full Recompute / TransGI comparison obligations adopted. CAK not adopted. Rule–State remains to be falsified; WL56 designed, not executed.

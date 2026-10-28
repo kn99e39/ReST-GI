@@ -1,5 +1,7 @@
 # Architecture — Surface-Owned Baseline and FNTO Candidate
 
+**2026-10-28 — Worklog 56 authorised (user brief: Exact Selective K Recompute and Dynamic Update Cost Headroom).** Bounded physical-oracle baseline on `Selective_Recompute`: complete optical-domain F/S/T recomputation on a two-medium local dent and rigid control; identical uniform 2.5 mm K/C, current ballistic readout, independent Cycles-volume reference, domain cache identity, actual end-to-end cost and explicitly hypothetical Rule–State headroom. Protocol `experiments/fnto_sel56/protocol/sel56.json`. No CAK adoption, learned-K training, new representation, production change or WL57 is authorised.
+
 **Updated:** 2026-10-28 (current major architecture decision following WL55; historical sections preserved)
 **Status:** FNTO physical K/C contract retained with WL53–55 spatial-boundary and ballistic-readout evidence. CAK not adopted; within-K Rule–State unverified; WL56 designed but not executed.
 **Branch:** Selective_Recompute  

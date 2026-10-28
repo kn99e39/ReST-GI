@@ -1,5 +1,7 @@
 # Baseline Roles and Evidence Strategy — Surface-Owned Selective Neural Transport Recomputation
 
+**2026-10-28 — Worklog 56 authorised (user brief: Exact Selective K Recompute and Dynamic Update Cost Headroom).** Bounded physical-oracle baseline on `Selective_Recompute`: complete optical-domain F/S/T recomputation on a two-medium local dent and rigid control; identical uniform 2.5 mm K/C, current ballistic readout, independent Cycles-volume reference, domain cache identity, actual end-to-end cost and explicitly hypothetical Rule–State headroom. Protocol `experiments/fnto_sel56/protocol/sel56.json`. No CAK adoption, learned-K training, new representation, production change or WL57 is authorised.
+
 **Updated:** 2026-10-28 (major Dynamic Transport Reuse decision after Worklog 55; historical evidence preserved)  
 **Status:** Dynamic Transport Reuse is the current objective; WL56 is designed, not executed. Full/Selective/Stale are internal baselines; TransGI is a future matched external comparator; CAK and within-K Rule–State are not adopted.
 **Project:** ReST-GI (formerly NeuralShaderDemo) / Selective_Recompute

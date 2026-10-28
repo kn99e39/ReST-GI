@@ -1,0 +1,119 @@
+{
+ "protocol": "fnto_sel56_v1",
+ "date": "2026-10-28",
+ "starting_head": "11c3ac6ed100fc409692e2801e9abc6d43461807",
+ "authorization": "User WL56 brief: Exact Selective K Recompute and Dynamic Update Cost Headroom; current Selective_Recompute only, no branches/worktrees; no learned representation",
+ "status": "Fixed before any WL56 numerical result. Debug/smoke observations will be disclosed separately. All future changes appended as amendments.",
+ "scope": "Physical TR oracle domain-level skip baseline. CAK not adopted. WL53-55 and production files unchanged.",
+ "source_choice": "Unit-radiance one-sided Lambertian emitter rather than a collimated sun: every direct and indirect input goes through the arm's K. Using WL55 exact-current run_sun in the stale arm would leak current intrinsic transport into that control. This is a declared source choice, not a change to physical material or reference settings.",
+ "fixture": {
+  "domains": 2,
+  "medium": "WL53 homogeneous index-matched isotropic; sigma_t=1000/m; albedo=(.999,.99,.9)",
+  "rest": "10x10x1 cm slabs, centres z=-9/+9 mm, gap 8 mm",
+  "dent": "upper top: WL53 map_dent, 5 mm depth, 20 mm radius, centre (0,0), bottom fixed; lower unchanged",
+  "rigid": "upper translation (+3.7,-2.1,+2) mm, no intrinsic invalidation",
+  "source": "down-facing absorbing emitter, 20x20 cm at z=54 mm, 2.5 mm tessellation; L=1; no sun",
+  "cameras": [
+   "top",
+   "gapdown",
+   "gapup",
+   "bot",
+   "otop"
+  ],
+  "diagnostic_camera": "otop is reported, never a strict primary 3% test"
+ },
+ "representation": {
+  "uniform_level": 4,
+  "cell_mm": 2.5,
+  "out_bins": 64,
+  "in_bins": 16,
+  "photons_per_in_cell": 2048,
+  "camera_keys": [
+   "top",
+   "bot",
+   "otop"
+  ],
+  "semantics": "flux per cell/bin; complete T plus camera NEE KC, current-geometry ballistic KB; no intra-domain approximation; every medium K entry->first air exit; C every air segment incl same-domain re-entry",
+  "historical_operator_cache": "WL55 slab_L4_s1/s2; KC restricted to the declared three cameras. Existing original files never modified."
+ },
+ "seeds": {
+  "rest_cache_lower": [
+   5561,
+   5562
+  ],
+  "rest_cache_upper": [
+   5562,
+   5561
+  ],
+  "dent_upper": [
+   5565,
+   5566
+  ],
+  "external_field": [
+   5661,
+   5662
+  ],
+  "coupling": 5681,
+  "readout": 5700,
+  "cycles": [
+   5601,
+   5602,
+   5603,
+   5604
+  ],
+  "cycles_rigid": [
+   5611,
+   5612,
+   5613,
+   5614
+  ]
+ },
+ "illumination": "64M source rays per geometry and replicate; 8M chunks; exact intersections -> current input flux; regenerated identically inside timed F/S/T update, not target images; field is shared only in shared-operator correctness diagnostic",
+ "arms": {
+  "F": "Actually rebuild both complete domain T/KC packages on primary dent scene each seed; current C, current incident field, global solve, current KB",
+  "S": "Actually rebuild dirty upper domain, preserve cached lower package identity; same geometry/C/field seeds, global solve",
+  "T": "Both rest packages, current C/field and current KB; stale KC converted to current-geometry bin readout at the deformed upper domain; no fresh current intrinsic response",
+  "rigid": "F actual rebuild of both domains one seed; S and T reuse both rest packages; shared-sample and independent-seed diagnostics",
+  "independent": "Compose F dirty current with the other cached clean-domain seed to isolate unchanged-domain MC noise; compare to S and the two-seed noise; no extra fitted state"
+ },
+ "primary_groups": "Both WL53 interior masks (>=30 pixels) and WL54 centre-ray masks (>=30 pixels and >=90% projected coverage). Primary amended face-on cameras top/gapdown/gapup/bot. Every face/domain/channel with >=5 ports and >=2% selected camera signal is ruled. Also fixed lower:top disc of rest port centres radius<=25 mm in gapdown (localized stationary receiver); report both full-face and disc, never select post hoc.",
+ "criteria": {
+  "shared_operator_equality": "relative L1 flux and per-port radiance <=1e-6, numerical max normalized <=1e-5; deterministic same-sample reconstruction checked separately; identity of reused lower package must hold",
+  "physical_accuracy": "historical |sum(pred-ref)/sum(ref)| <=.03 + 3*SE on every ruled primary group/channel, amended mask. Original masks and oblique groups always reported; neither favorable averages nor equality prove physical accuracy",
+  "uncertainty": "Reference SE from independent seed GROUP statistics (not pixel/port independence). K SE from two independent full package seeds: abs(group1-group2)/2. Combine quadratically. Report mean +/-3SE intervals as descriptive uncertainty, not guaranteed 95% CI with 2 K seeds.",
+  "detectability": "On stationary lower top full-face OR the fixed disc, dent-rest reference relative L2 signal >3 times independent paired seed noise AND pooled absolute signed change >max(.002,3*SE_delta). If reference does not resolve this, mark low-impact/inconclusive and stop before expensive new full builds. Geometry/source never enlarged to force a signal.",
+  "reference_escalation": "Only if initial 4x1024 spp cannot resolve the preregistered edit gate, one 4x4096 spp rerender at identical settings/geometry is permitted; preserve the first run, no parameter tuning",
+  "independent_F_S": "Group difference within 3 times measured combined K-seed SE plus 1e-4 reference signal; report all exceptions",
+  "stationary_recovery": "F/S equality plus nonzero reference change gate; physical signed change slope .9-1.1 and corr>=.9 on selected receiver ports, unless variance makes regression ill-conditioned (then inconclusive). Stale loss only when |B_T|-|B_S| >3*SE_delta; low impact is valid",
+  "efficiency": "Primary dent: S measured warm end-to-end median <=.75 F; shared non-K costs independently measured. Report K dominated oracle scope. Rigid: no K rebuild for S, no mandatory speedup threshold",
+  "stability": "Unchanged WL53 solve tol=1e-7, max_iter=2000; A^2 rho<1; closure C+escape=1 within1e-6; intrinsic nonnegative and max colsum<=1+1e-6; leak/wrong-side rate<=1e-5"
+ },
+ "cost": {
+  "primary": "Two independent seeds, one actual F and one actual S rebuild per seed, ordered F1,S1,S2,F2 to expose drift; actual execution log, no inferred multiplication",
+  "rigid": "one actual F rebuild both domains, S reuse; replay solve/cache-only timings 3 times, distinct from costly TR replication",
+  "components": [
+   "cache metadata/identity",
+   "cold disk loading",
+   "complete TR construction per domain",
+   "checkpoint serialization and writes",
+   "boundary mesh+frames",
+   "CSR construction and host/device transfer",
+   "current C",
+   "current external illumination",
+   "K source application",
+   "global solve",
+   "NEE and ballistic readout",
+   "spectral-radius diagnostic (excluded from update)",
+   "GPU allocated/reserved peaks",
+   "CPU RSS",
+   "total"
+  ],
+  "persistent": "raw T/KC file bytes plus per-domain logical and unique physical cache bytes; same-shaped domains can physically deduplicate but full baseline explicitly rebuilds both",
+  "scaling": "Only N=2, dirty=1 and dirty=0 measured; analytic N={2,4,8}, d={0,1,N} projections clearly labelled, no large constructed scene",
+  "break_even": "Use measured shared cost H plus selection/cache overhead O. Sweep hypothetical intrinsic rebuild k analytically (.001,.01,.1,1,10,100 seconds/domain). Meaningful saving defined as>=20% end-to-end; derive k threshold from (Nk+H_F)/(dk+H_S)>=1.25; no neural or TransGI speed claim"
+ },
+ "tests": "Focused small block shared F/S construction, cache signatures, rigid vs dent invalidation, source field linearity and zero, K/C closure/ownership, passivity, fixed point residual, current C update, ballistic readout, deterministic masks; relevant WL53/WL54/WL55 regressions with skipped checks explicitly counted",
+ "resource": "LabServer69 RTX3090; scratch/output exclusively ~/rest_wl56; no deletion or infrastructure changes. GPU workloads sequential except CUDA reference may run while CPU-only audit. Resource bounded by declared number of full operators and scenes, no sweeps.",
+ "amendments": [],
+ "readout_comparison": "F/S physical primary = current KC + KB. For stale loss, compare F/S/T using the identical current-frame outgoing-bin readout (includes unscattered transport), and report its bias against the renderer separately. Stale rest KC on the dented upper top is diagnostic only, never a valid precise camera response."
+}
