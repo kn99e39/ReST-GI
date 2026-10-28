@@ -20,8 +20,10 @@ def ports(scene, cdir, cam, seeds):
 
 def main(out):
     res = {}
-    for scene, seeds0, s1 in (("gap8", (5501, 5502), 5541), ("gap4", (5501, 5502), 5541), ("kf_gap8_U", (5511, 5512), 5542), ("kf_gap4_U", (5511, 5512), 5542)):
+    for scene, seeds0, s1 in (("gap8", (5501, 5502), 5541), ("gap4", (5501, 5502), 5541), ("kf_gap8_U", (5511, 5512), 5542), ("kf_gap4_U", (5511, 5512), 5542), ("gap6s", (5521, 5522), 5543)):
         for cam in ("obot", "obotx"):
+            if not (ROOT / "cycles_px0.125" / f"cimg_{scene}_{cam}_s{s1}.npy").exists():
+                continue
             u05, lab, sd = ports(scene, ROOT / "cycles_cuda", cam, seeds0); rec = {}
             us = {"0.25": ports(scene, ROOT / "cycles_px0.25", cam, (s1,))[0], "0.125": ports(scene, ROOT / "cycles_px0.125", cam, (s1,))[0]}
             med = KF.medium_ports(sd)

@@ -200,6 +200,13 @@
    "status": "POST HOC (after the Stage D operator tests); rules fixed before the diagnostic run",
    "record": "Stage D operator tests 5 / 7 as coded: closure_albedo1 FAILED as coded (min column sum 1 - 1/2048: one leaked photon in a column; the coded per-column tolerance did not allow a single leaked photon although the declared criterion is 'column sums == 1 (leaks <= 1e-5)'); rigid_pose FAILED (ratio 1.108 / 1.123 / 1.180, rule [0.85, 1.15], single-draw statistic on a 16-port block).",
    "diagnostics": "closure accounting: deficit in photons == leaked + wrong-side photons (exact) and leak rate <= 1e-5; rigid: 4 rest + 4 pose seeds, r = ||mean(pose) - mean(rest)|| / (0.5 rms pairwise rest difference), invariance iff r in [0.85, 1.15] in every channel. Both outcomes are reported next to the coded failures; neither coded result is overwritten."
+  },
+  {
+   "id": "A3",
+   "date": "2026-10-28",
+   "status": "POST HOC (after the Stage D coupled tables); rule identical to A1.2, fixed before the renders",
+   "record": "A1.2 result: oblique side / through-gap groups are not pixel-converged at 0.5 mm (gap8 obot slab_lo:-y +6.3 / +5.4 / +0.6 %, slab_hi:-y +3.3..+4.3 %, obotx slab_hi:-x +1.9..2.0 %, obotx bottom faces blue +11.8 / -12.7 %, known-field side faces +8..+16 %), and convergence is non-monotonic between 0.25 and 0.125 mm (e.g. slab_lo:-y +1.2 % then +5.0 %): a sub-mm ballistic band under point-sampled pixels. Against 0.125 mm, COR passes B-COR-valid (iii) on the lit -x faces (labelled post hoc).",
+   "extension": "the A1.2 rule is applied to the held-out gap6s cameras obot, obotx (0.25 / 0.125 mm, seed 5543), since its only coupled failures are resolution-independent blue groups on those cameras."
   }
  ]
 }
