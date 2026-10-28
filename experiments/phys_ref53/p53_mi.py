@@ -7,8 +7,16 @@ Run with the 8dna26 venv; on LabServer63 source mi_env.sh first (OptiX user-spac
 Variant (env P53_MI_VARIANT): LabServer63's cuda_ad_rgb film accumulation is wrong (a Lambert plane under a sun, exact
 0.12732 with zero variance, renders 0.115 +- 0.016 at 8192 spp; LabServer69 cuda and LabServer63 llvm are exact), while
 its cuda ray intersection matches an analytic box to 9e-8 m. So every RENDER uses llvm_ad_rgb; the oracle tracer / C
-caster may use cuda_ad_rgb as an intersector only (protocol, environment facts)."""
+caster may use cuda_ad_rgb as an intersector only (protocol, environment facts).
+
+Temporary PLY files (Mitsuba reads a mesh from disk once, when a scene is loaded) go to $P53_TMPDIR or ~/.cache/p53_ply, never the
+system /tmp (on LabServer69 the root volume is full). Each file is removed as soon as Mitsuba has loaded it (scene() and Intersector),
+and the per-process directory is removed when it is empty, so nothing is left even though the WL53 scripts end with os._exit (which
+skips atexit). Consequence: a shape dict from medium_shape / lambert_shape / ... is single-use -- build a new one for every scene() call
+(all WL53 / WL54 code already does). Results do not depend on any of this (2026-10-28, after WL54)."""
+import atexit
 import os
+import shutil
 import tempfile
 
 import numpy as np
@@ -22,7 +30,23 @@ import drjit as dr  # noqa: E402
 
 DEV = "cuda"
 _ON_GPU = VARIANT.startswith("cuda")
-_TMP = tempfile.mkdtemp(prefix="p53_ply_")
+_TMP_BASE = os.environ.get("P53_TMPDIR") or os.path.join(os.path.expanduser("~"), ".cache", "p53_ply")
+os.makedirs(_TMP_BASE, exist_ok=True)
+_TMP = tempfile.mkdtemp(prefix="p53_ply_", dir=_TMP_BASE)
+atexit.register(shutil.rmtree, _TMP, True)                 # normal exits; os._exit paths are covered by _release
+
+
+def _release(paths):
+    """Remove temporary PLY files Mitsuba has already loaded, then the process directory if it is empty."""
+    for p in paths:
+        try:
+            os.remove(p)
+        except FileNotFoundError:
+            pass
+    try:
+        os.rmdir(_TMP)
+    except OSError:
+        pass
 
 
 def write_ply(path, V, F):
@@ -35,6 +59,7 @@ def write_ply(path, V, F):
 
 
 def tmp_ply(V, F, name="m"):
+    os.makedirs(_TMP, exist_ok=True)
     p = os.path.join(_TMP, f"{name}_{os.getpid()}_{np.random.randint(1 << 30)}.ply"); write_ply(p, V, F); return p
 
 
@@ -95,7 +120,9 @@ def scene(shapes, emitters=(), sensors=None, integrator=None):
         d[f"emitter_{i}"] = e
     for k, v in (sensors or {}).items():
         d[k] = v
-    return mi.load_dict(d)
+    sc = mi.load_dict(d)
+    _release([v["filename"] for v in shapes.values() if isinstance(v, dict) and str(v.get("filename", "")).startswith(_TMP)])
+    return sc
 
 
 def sensor_by_id(sc, name):
@@ -131,7 +158,9 @@ class Intersector:
     """Ray-triangle intersection of one merged triangle mesh; prim index == row of F."""
 
     def __init__(self, V, F):
-        self.scene = mi.load_dict({"type": "scene", "m": {"type": "ply", "filename": tmp_ply(V, F, "isect"), "face_normals": True}})
+        p = tmp_ply(V, F, "isect")
+        self.scene = mi.load_dict({"type": "scene", "m": {"type": "ply", "filename": p, "face_normals": True}})
+        _release([p])                                      # loaded into memory; the file is not read again
         self.nf = len(F)
 
     def __call__(self, o, d):
