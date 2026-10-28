@@ -54,9 +54,26 @@ def build(sd):
         PC.mesh_obj(n, V, m["F"], mat)
 
 
+DEVICE = "CPU"
+
+
 def setup(spp, seed, threads):
+    """WL53 settings; DEVICE = CPU (bpy fork via bpy_native.sh) or CUDA (official Blender 3.5.1, user decision 2026-10-28: the stock
+    CUDA build is statistically equivalent to the fork on CPU, validated by the user; every render's build / device is recorded)."""
     sc = PC.reset(spp, seed, bounces=1024); sc.render.threads_mode = "FIXED"; sc.render.threads = threads
+    if DEVICE != "CPU":
+        p = bpy.context.preferences.addons["cycles"].preferences; p.compute_device_type = DEVICE; p.get_devices()
+        for d in p.devices:
+            d.use = d.type == DEVICE
+        sc.cycles.device = "GPU"
     return sc
+
+
+def manifest(out, **kw):
+    kw.update(blender=bpy.app.version_string, build_hash=bpy.app.build_hash.decode() if isinstance(bpy.app.build_hash, bytes) else str(bpy.app.build_hash),
+              device=DEVICE, time=time.strftime("%Y-%m-%dT%H:%M:%S"))
+    with open(out / "render_manifest.jsonl", "a") as f:
+        f.write(json.dumps(kw) + "\n")
 
 
 def st_units(out, threads):
@@ -127,7 +144,8 @@ def st_render(out, scene, cams, seeds, spp, threads):
         for cam in todo:
             c = sd["cams"][cam]; ob, g = PC.ortho(cam, c, c["res"]); geo[cam] = g
             t0 = time.time(); img = PC.render(sc, ob, c["res"], spp, seed)
-            np.save(out / f"cimg_{scene}_{cam}_s{seed}.npy", img.astype(np.float32)); PC.log(scene, cam, seed, c["res"], f"{time.time() - t0:.0f}s")
+            dt = time.time() - t0; np.save(out / f"cimg_{scene}_{cam}_s{seed}.npy", img.astype(np.float32)); PC.log(scene, cam, seed, c["res"], f"{dt:.0f}s", DEVICE)
+            manifest(out, scene=scene, cam=cam, seed=seed, res=c["res"], spp=spp, seconds=round(dt, 1))
             json.dump(geo, open(out / f"ccam_{scene}.json", "w"), indent=1)
 
 
@@ -136,6 +154,8 @@ def main():
     PC.OUT = out; PC.LOG = open(out / "cycles.log", "a")
     kv = dict(x.split("=") for x in a if "=" in x); pos = [x for x in a if "=" not in x]
     threads = int(kv.get("threads", 12)); spp = int(kv.get("spp", 1024))
+    global DEVICE
+    DEVICE = kv.get("device", "CPU")
     if pos[1] == "units":
         st_units(out, threads)
     elif pos[1] == "units2":

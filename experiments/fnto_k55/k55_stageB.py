@@ -90,10 +90,20 @@ def uniform_levels(sd, l):
     return [np.full(len(m["port_area"]), l) for n, k, m, V in sd["comps"]]
 
 
+def cak_levels(sd, c=2.0, lmax=4, seed=5801):
+    """stage_C.level_rule: the CASP geometry-only rule on the current geometry of all components, l_max = 4."""
+    import c54_casp as CA
+    lev, nu, d = CA.assign_levels(KCm.classify_sceneset(sd), c=c, lmax=lmax, seed=seed); out, off = [], 0
+    for n, k, m, V in sd["comps"]:
+        P = len(m["port_area"]); out.append(lev[off:off + P].astype(int)); off += P
+    return out
+
+
 def arms_for(scene):
     k = SCENE_K[scene]
     A = {"P10_s1": (1, f"{k}_L4_s1", None), "P10_s2": (1, f"{k}_L4_s2", None), "P05_s1": (2, f"{k}_L4_s1", None), "P05_s2": (2, f"{k}_L4_s2", None),
          "P025_s1": (4, f"{k}_L4_s1", None), "P025_s2": (4, f"{k}_L4_s2", None), "P10_c2": (1, f"{k}_L4_s1", dict(seed_C=5582))}
+    A.update({"CAK_s1": ("cak", f"{k}_L4_s1", None), "CAK_s2": ("cak", f"{k}_L4_s2", None)})     # stage_C candidate (run only after gate_C)
     if k == "slab":
         A.update({"P10d_s1": (1, "slab_L1d_s1", None), "P10d_s2": (1, "slab_L1d_s2", None), "P05d_s1": (2, "slab_L2d_s1", None),
                   "P10_din64": (1, "slab_L1d_din64", dict(din=64))})
@@ -107,10 +117,13 @@ def st_compose(scene, arms):
         if (od / f"{arm}.npz").exists():
             log("skip", scene, arm); continue
         lev, opname, kw = A[arm]; kw = kw or {}
+        if arms == ["all"] and arm.startswith("CAK"):
+            continue                                         # the candidate runs only when named explicitly (after gate_C)
         if opname not in cache:
             cache.clear(); torch.cuda.empty_cache(); cache[opname] = load_op(opname)
-        Kf = cache[opname]; levels = uniform_levels(sd, lev); Kops = {}; reuse = {}
-        direct = Kf["level"] == lev
+        Kf = cache[opname]
+        levels = cak_levels(sd) if lev == "cak" else uniform_levels(sd, lev); Kops = {}; reuse = {}
+        direct = (lev != "cak") and Kf["level"] == lev
         for ci, (n, k, m, V) in enumerate(sd["comps"]):
             if k != "medium":
                 continue
@@ -124,7 +137,7 @@ def st_compose(scene, arms):
             reuse[key] = Kops[ci]
         r = KP.compose(sd, levels, Kops, sun, keys, label=f"{scene}/{arm}", **kw)
         np.savez(od / f"{arm}.npz", **{f"{key}|{ro}": v[ro] for key, v in r["pred"].items() for ro in ("nee", "ball")})
-        KCm.dump(dict(r["meta"], op=opname, level=lev, kw=kw), od / f"{arm}.json")
+        KCm.dump(dict(r["meta"], op=opname, level=lev, kw=kw, levels_per_comp=[np.bincount(l, minlength=5).tolist() for l in levels]), od / f"{arm}.json")
         del Kops, r; torch.cuda.empty_cache()
 
 

@@ -15,7 +15,7 @@ import k55_fixtures as KF
 import c54_fixtures as CF
 import p53_geom as G
 
-ROOT = Path(os.environ.get("WL55", Path.home() / "rest_wl55")); SB = ROOT / "out" / "stageB"; CYC = ROOT / "out" / "cycles"
+ROOT = Path(os.environ.get("WL55", Path.home() / "rest_wl55")); SB = ROOT / "out" / "stageB"; CYC = ROOT / "out" / os.environ.get("WL55_CYC", "cycles_cuda")
 WL53 = Path.home() / "rest_wl53" / "results"; WL54 = Path.home() / "rest_wl54" / "out"
 FULL = ("gap8", "gap4", "floor", "bend90")
 PAIRS = {"P10": ("P10_s1", "P10_s2"), "P05": ("P05_s1", "P05_s2"), "P025": ("P025_s1", "P025_s2"), "P10d": ("P10d_s1", "P10d_s2"), "COR": ("COR_5571", "COR_5572")}

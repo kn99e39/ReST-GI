@@ -78,7 +78,7 @@ def replay(outp):
                 gb = KCm.group_bias(arr[arm], a["mean"][:, 0], a["sel"], lab, a["se"][:, 0])
                 rec[arm] = {g: dict(bias=v["bias"][0], ruled=v["ruled"][0], n=v["n"]) for g, v in gb.items()}
                 cam = key.split("@")[0]
-                rp = A3.get(name, {}).get(key, {}).get("groups", {}).get(arm, {})
+                rp = A3.get(name, {}).get(cam, {}).get("groups", {}).get(arm, {})          # amend3_lam.json is keyed by camera (no '@px')
                 for g, v in rec[arm].items():
                     if g in rp:
                         diffs.append(dict(table="lambert_025", scene=name, cam=key, arm=arm, group=g, replay=v["bias"], reported=rp[g]["bias"], d_pp=100 * abs(v["bias"] - rp[g]["bias"])))
