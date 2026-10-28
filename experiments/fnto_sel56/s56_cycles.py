@@ -1,10 +1,11 @@
 """Same WL55 Cycles renderer/settings, with this batch's immutable fixture provider."""
 import sys
+from pathlib import Path
+sys.path.insert(0,str(Path(__file__).resolve().parent))
 import s56_fixtures as SF
 import k55_cycles as KC
 
 if __name__=='__main__':
-    from pathlib import Path
     out=Path(sys.argv[sys.argv.index('--')+1]);out.mkdir(parents=True,exist_ok=True)
     KC.KF.scene_def=SF.scene
     KC.DEVICE='CUDA'
