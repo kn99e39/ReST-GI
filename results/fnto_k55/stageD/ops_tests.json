@@ -1,0 +1,53 @@
+{
+ "closure_albedo1": {
+  "fine_min": 0.99951171875,
+  "fine_max": 1.0,
+  "cells_min": 0.99951171875,
+  "cells_max": 1.0,
+  "leak_rate": 4.76837158203125e-07,
+  "passed": false
+ },
+ "passivity": {
+  "max_colsum_fine": [
+   0.9978016269451473,
+   0.978970443320577,
+   0.8434341622970152
+  ],
+  "max_colsum_cells": [
+   0.9978016269451473,
+   0.978970443320577,
+   0.8434341622970152
+  ],
+  "passed": true
+ },
+ "flux_across_resolutions": {
+  "max_abs": 6.4319465309381485e-09,
+  "passed": true
+ },
+ "reciprocity": {
+  "asym": 0.0021993509848241967,
+  "cross_seed": 0.0029111566419690624,
+  "ratio": 0.7554904305446748,
+  "passed": true
+ },
+ "rigid_pose": {
+  "ratio": [
+   1.1081775448664841,
+   1.123083580891354,
+   1.179546344562133
+  ],
+  "passed": false
+ },
+ "zero_linearity": {
+  "zero": 0.0,
+  "linearity": 1.360037913400447e-07,
+  "passed": true
+ },
+ "boundary_correspondence": {
+  "cells": 148,
+  "area_rel": 6.776263578034405e-16,
+  "passed": true
+ },
+ "n_passed": 5,
+ "n": 7
+}

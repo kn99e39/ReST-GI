@@ -1,0 +1,86 @@
+2026-10-28T16:33:26+09:00 start /home/nd/rest_wl55/out/cycles_px0.25 render gap8 obot,obotx 5541 px=0.25
+2026-10-28T16:34:53+09:00 start /home/nd/rest_wl55/out/cycles_px0.25 render gap4 obot,obotx 5541 px=0.25
+2026-10-28T16:36:23+09:00 start /home/nd/rest_wl55/out/cycles_px0.25 render kf_gap8_U obot,obotx 5542 px=0.25
+2026-10-28T16:37:20+09:00 start /home/nd/rest_wl55/out/cycles_px0.25 render kf_gap4_U obot,obotx 5542 px=0.25
+2026-10-28T16:38:17+09:00 start /home/nd/rest_wl55/out/cycles_px0.125 render gap8 obot,obotx 5541 px=0.125
+2026-10-28T16:43:36+09:00 start /home/nd/rest_wl55/out/cycles_px0.125 render gap4 obot,obotx 5541 px=0.125
+2026-10-28T16:49:04+09:00 start /home/nd/rest_wl55/out/cycles_px0.125 render kf_gap8_U obot,obotx 5542 px=0.125
+2026-10-28T16:52:37+09:00 start /home/nd/rest_wl55/out/cycles_px0.125 render kf_gap4_U obot,obotx 5542 px=0.125
+2026-10-28T16:56:10+09:00 start /home/nd/rest_wl55/out/cycles_cuda render gap6s all 5521,5522
+2026-10-28T17:01:50+09:00 start /home/nd/rest_wl55/out/cycles_cuda render floor_c4 all 5531,5532
+2026-10-28T17:04:07+09:00 start /home/nd/rest_wl55/out/cycles_cuda render dent all 5531,5532
+2026-10-28T16:06:23+09:00 start render gap8 all 5501,5502
+2026-10-28T16:11:39+09:00 start render kf_gap8_U all 5511,5512
+2026-10-28T16:13:03+09:00 start render kf_gap8_X all 5511,5512
+2026-10-28T16:14:26+09:00 start render kf_gap8_S all 5511,5512
+2026-10-28T16:15:31+09:00 start render kf_gap4_U all 5511,5512
+2026-10-28T16:17:03+09:00 start render kf_gap4_X all 5511,5512
+2026-10-28T16:18:32+09:00 start render kf_gap4_S all 5511,5512
+2026-10-28T16:19:32+09:00 start render gap4 all 5501,5502
+2026-10-28T16:25:37+09:00 start render floor all 5501,5502
+2026-10-28T16:27:02+09:00 start render bend90 all 5501,5502
+2026-10-28T15:29:26+09:00 start units
+2026-10-28T15:29:29+09:00 start render gap8 all 5501,5502
+2026-10-28T15:29:27+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh tests/test_k55.py /home/nd/rest_wl55/out/tests/tests_k55.json
+2026-10-28T15:30:22+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh ../phys_ref53/tests/test_p53.py /home/nd/rest_wl55/out/tests/wl53_regression.json
+2026-10-28T15:30:53+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh ../fnto_c54/tests/test_c54.py /home/nd/rest_wl55/out/tests/wl54_regression.json /home/nd/rest_wl54/out/cycles
+2026-10-28T15:35:49+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageA.py code /home/nd/rest_wl55/out/stageA/code_audit.json
+2026-10-28T15:36:13+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageA.py replay /home/nd/rest_wl55/out/stageA/replay.json
+2026-10-28T15:36:28+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops slab_L1d_s1
+2026-10-28T15:36:53+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops slab_L1d_s2
+2026-10-28T15:37:21+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops slab_L2d_s1
+2026-10-28T15:38:42+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops slab_L1d_din64
+2026-10-28T15:40:22+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops slab_L4_s1
+2026-10-28T15:46:47+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops slab_L4_s2
+2026-10-28T15:53:09+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops bend90_L4_s1
+2026-10-28T15:57:31+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops bend90_L4_s2
+2026-10-28T16:01:58+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py sun gap8
+2026-10-28T16:02:58+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py sun gap4
+2026-10-28T16:03:50+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py sun floor
+2026-10-28T16:04:14+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py sun bend90
+2026-10-28T16:04:39+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py sun kf_gap8_S
+2026-10-28T16:05:00+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py sun kf_gap4_S
+2026-10-28T16:05:20+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor floor_lam 5571
+2026-10-28T16:05:22+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor gap8 5571,5572
+2026-10-28T16:06:42+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor gap4 5571,5572
+2026-10-28T16:10:36+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor floor 5571,5572
+2026-10-28T16:12:45+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor bend90 5571,5572
+2026-10-28T16:14:27+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor kf_gap8_U 5573,5574
+2026-10-28T16:16:06+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor kf_gap8_X 5573,5574
+2026-10-28T16:17:48+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor kf_gap8_S 5573,5574
+2026-10-28T16:18:35+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor kf_gap4_U 5573,5574
+2026-10-28T16:20:11+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor kf_gap4_X 5573,5574
+2026-10-28T16:21:31+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor kf_gap4_S 5573,5574
+2026-10-28T16:22:19+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose gap8 all
+2026-10-28T16:22:53+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose gap4 all
+2026-10-28T16:23:24+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose floor all
+2026-10-28T16:23:53+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose bend90 all
+2026-10-28T16:24:15+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py kf kf_gap8_U all
+2026-10-28T16:24:28+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py kf kf_gap8_X all
+2026-10-28T16:24:42+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py kf kf_gap8_S all
+2026-10-28T16:24:53+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py kf kf_gap4_U all
+2026-10-28T16:25:05+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py kf kf_gap4_X all
+2026-10-28T16:25:19+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py kf kf_gap4_S all
+2026-10-28T16:25:30+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py btest gap8
+2026-10-28T16:25:32+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py btest gap4
+2026-10-28T16:33:26+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageD.py ops /home/nd/rest_wl55/out/stageD/ops_tests.json
+2026-10-28T16:34:45+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops dent_L4_s1
+2026-10-28T16:44:15+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py ops dent_L4_s2
+2026-10-28T16:55:11+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py sun gap6s
+2026-10-28T16:57:34+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor gap6s 5571,5572
+2026-10-28T17:01:28+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py sun floor_c4
+2026-10-28T17:02:30+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor floor_c4 5571,5572
+2026-10-28T17:04:14+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py sun dent
+2026-10-28T17:05:14+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py cor dent 5571,5572
+2026-10-28T17:06:19+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose gap8 CAK_s1,CAK_s2
+2026-10-28T17:06:27+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose gap4 CAK_s1,CAK_s2
+2026-10-28T17:06:36+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose floor CAK_s1,CAK_s2
+2026-10-28T17:06:42+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose bend90 CAK_s1,CAK_s2
+2026-10-28T17:06:48+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose gap6s all
+2026-10-28T17:07:12+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose gap6s CAK_s1,CAK_s2
+2026-10-28T17:07:21+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose bend90 all
+2026-10-28T17:07:22+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose bend90 CAK_s1,CAK_s2,P10st_s1,P10st_s2,CAKst_s1,CAKst_s2,P025st_s1,P025st_s2
+2026-10-28T17:07:37+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose dent all
+2026-10-28T17:07:54+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose dent CAK_s1,CAK_s2,P10st_s1,P10st_s2,CAKst_s1,CAKst_s2,P025st_s1,P025st_s2
+2026-10-28T17:08:14+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose floor_c4 all
+2026-10-28T17:08:35+09:00 start /home/nd/rest_wl55/repo/experiments/fnto_k55/run.sh k55_stageB.py compose floor_c4 CAK_s1,CAK_s2
