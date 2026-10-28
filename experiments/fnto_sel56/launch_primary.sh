@@ -8,6 +8,8 @@ echo running > "$STATUS"
 # This launcher is invoked only once the independent reference gate and regression checks finish.
 "$HOME/NeuralShaderDemo/external/8dna26/.venv/bin/python" -c 'import json,os; from pathlib import Path; p=Path.home()/"rest_wl56/out"; assert json.load(open(p/"reference_gate.json"))["proceed"]; assert all(json.load(open(p/"tests"/f))["passed"]==json.load(open(p/"tests"/f)).get("total",json.load(open(p/"tests"/f)).get("n")) for f in ["focused.json","wl53.json","wl54.json","wl55.json"])'
 step() { echo "$(date -Is) $*" >> "$R/launcher/primary_steps.log"; "$RUN" "$@"; }
+step s56_masks.py
+step s56.py audit
 step s56.py prepare
 step s56.py update rest S 0
 step s56.py update rest S 1
