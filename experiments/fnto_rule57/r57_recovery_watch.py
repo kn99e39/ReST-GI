@@ -45,11 +45,15 @@ def review():
     write(dict(primary_source=(ROOT/'repo_commit.txt').read_text().strip(),observer_source_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),measurement_files={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in OUT.iterdir() if p.is_file() and p.suffix in ('.json','.csv','.md') and p.name!='terminal_manifest.json'}),OUT/'terminal_manifest.json')
 def main():
     while True:
-        status=read(ROOT/'status.json',{});files=list((ROOT/'data/halves').glob('*.json'));rows=[read(p,{}) for p in files];times=[r['seconds'] for r in rows if 'seconds' in r];med=statistics.median(times) if times else None
+        status=read(ROOT/'status.json',{});files=list((ROOT/'data/halves').glob('*.json'));rows=[read(p,{}) for p in files]
+        ep=ROOT/'execution_policy.json';policy_hash=hashlib.sha256(ep.read_bytes()).hexdigest() if ep.exists() else None
+        current=[r for r in rows if policy_hash and r.get('execution_policy_sha256')==policy_hash] if policy_hash else rows
+        times=[r['seconds'] for r in current if 'seconds' in r];med=statistics.median(times) if times else None
         try:pid=int((ROOT/'chain.pid').read_text());os.kill(pid,0);alive=True
         except (FileNotFoundError,ProcessLookupError):alive=False
         goal=320 if status.get('stage')=='confirm_focus' else 1280
-        write(dict(time=time.strftime('%Y-%m-%dT%H:%M:%S%z'),primary=status,supervisor_alive=alive,completed_confirmatory_halves=len(rows),focus_target=320,full_target_if_GO=1280,completed_physical_passes=sum(bool(r.get('physical')) for r in rows),median_seconds_per32M_half=med,rough_remaining_data_seconds=(goal-len(rows))*med if med and len(rows)<goal else None,note='Read-only observer; estimates vary by geometry/light and exclude training/cost; no scientific decision or stage mutation.'),ROOT/'progress.json')
+        write(dict(time=time.strftime('%Y-%m-%dT%H:%M:%S%z'),primary=status,supervisor_alive=alive,completed_confirmatory_halves=len(rows),focus_target=320,full_target_if_GO=1280,completed_physical_passes=sum(bool(r.get('physical')) for r in rows),current_execution_halves=len(current),median_seconds_per32M_half=med,rough_remaining_data_seconds=(goal-len(rows))*med if med and len(rows)<goal and alive else None,note='Read-only observer; current execution policy timings only; estimates vary by geometry/light and exclude training/cost; no scientific decision or stage mutation.'),ROOT/'progress.json')
+        if status.get('status')=='PERFORMANCE_VALIDATION':time.sleep(30);continue
         if status.get('status') in ('COMPLETE','NO_GO_CONFIRMATION','FAILED') or not alive:
             review();return
         time.sleep(30)

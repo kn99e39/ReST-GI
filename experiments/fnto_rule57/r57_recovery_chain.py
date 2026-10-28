@@ -20,9 +20,20 @@ def main():
     for p in (ROOT,OUT,S.LOGS,S.STATE,ROOT/'tmp',ROOT/'checkpoints'):p.mkdir(parents=True,exist_ok=True)
     lock=open(ROOT/'supervisor.lock','a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     assert sha(RG.HERE/'r57_model.py')==CFG['primary']['model_sha256'],'Frozen model source changed'
-    dump(dict(pid=os.getpid(),ppid=os.getppid(),sid=os.getsid(0),identity=identity([])),ROOT/'supervisor.json')
+    execution=ROOT/'execution_policy.json'
+    if execution.exists():
+        ep=json.load(open(execution));assert ep['validation_passed']
+        assert ep['scientific_protocol_sha256']==sha(CFG_PATH) and ep['scientific_commit']==(ROOT/'repo_commit.txt').read_text().strip()
+        for filename,digest in ep['execution_source_sha256'].items():assert sha(RG.HERE/filename)==digest,'Execution source does not match validated policy'
+        assert json.load(open(ROOT/'performance/large_equivalence.json'))['passed']
+        # Bounded larger-batch OOM descent; effective training batch/model stay fixed.
+        S.FALLBACKS=[{},dict(WL57_ACTION_CHUNK='16000000',WL57_CHECKPOINT_EDGES='1',WL57_EDGE_CHUNK='32768',WL57_EVAL_BATCH='2'),
+            dict(WL57_ACTION_CHUNK='8000000',WL57_CHECKPOINT_EDGES='1',WL57_EDGE_CHUNK='8192',WL57_MICROBATCH='1',WL57_STREAM_GEOMETRY='1',WL57_EVAL_BATCH='1'),
+            dict(WL57_ACTION_CHUNK='2000000',WL57_CHECKPOINT_EDGES='1',WL57_EDGE_CHUNK='8192',WL57_MICROBATCH='1',WL57_STREAM_GEOMETRY='1',WL57_EVAL_BATCH='1'),
+            dict(WL57_ACTION_CHUNK='250000',WL57_CHECKPOINT_EDGES='1',WL57_EDGE_CHUNK='8192',WL57_MICROBATCH='1',WL57_STREAM_GEOMETRY='1',WL57_EVAL_BATCH='1')]
+    dump(dict(pid=os.getpid(),ppid=os.getppid(),sid=os.getsid(0),identity=identity([]),execution_policy_sha256=sha(execution) if execution.exists() else None),ROOT/'supervisor.json')
     for i,c in enumerate((None,'1000000','250000')):
-        if c:S.FALLBACKS[i]['WL57_ACTION_CHUNK']=c
+        if c and not execution.exists():S.FALLBACKS[i]['WL57_ACTION_CHUNK']=c
     S.status('recovery','STARTING_SINGLE_ATTEMPT')
     run('environment',['r57_environment.py'])
     run('focused',['tests/test_r57.py',str(OUT/'focused.json')])

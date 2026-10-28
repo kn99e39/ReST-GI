@@ -51,6 +51,7 @@ def action(dom,fields,N,seed,proposal=None):
     energy=y.double().sum((1,2));v=(s2.sum((1,2))-energy.square()/N).clamp(min=0)*N/(N-1)
     expected=fields.double().sum((1,2)).cpu();stats={k:v.tolist() if hasattr(v,'tolist') else v for k,v in a.stats.items()}
     passed=bool(y.min()>=0 and ((energy-expected)<=5*v.sqrt()+1e-6).all() and (stats['leaks']+stats['wrong_side'])/N<=1e-5 and stats['truncated']==0)
-    return dict(response=y,second=s2,N=N,seed=seed,seconds=time.perf_counter()-t0,chunk=chunk,walker=walker,execution_source_sha256=hashlib.sha256(open(__file__,'rb').read()).hexdigest(),rng_state_sha256=hashlib.sha256(gen.get_state().cpu().numpy().tobytes()).hexdigest(),stats=stats,
+    policy=os.environ.get('WL57_EXECUTION_POLICY')
+    return dict(response=y,second=s2,N=N,seed=seed,seconds=time.perf_counter()-t0,chunk=chunk,walker=walker,execution_source_sha256=hashlib.sha256(open(__file__,'rb').read()).hexdigest(),fastwalk_source_sha256=hashlib.sha256(open(FW.__file__,'rb').read()).hexdigest() if walker=='fast' else None,execution_policy_sha256=hashlib.sha256(open(policy,'rb').read()).hexdigest() if policy else None,rng_state_sha256=hashlib.sha256(gen.get_state().cpu().numpy().tobytes()).hexdigest(),stats=stats,
         expected_input=expected.tolist(),output_energy=energy.tolist(),energy_SE=v.sqrt().tolist(),physical_passed=passed,
         proposal_sum=float(q.sum()),importance_ratio_max=float(a.ratio.max()),peak_GPU_bytes=torch.cuda.max_memory_allocated())

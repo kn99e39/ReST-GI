@@ -1,0 +1,26 @@
+{
+ "amendment": "WL57 A3 execution-only GPU optimisation",
+ "date": "2026-10-29",
+ "authorization": "User explicitly requested efficient GPU batching/code while existing confirmation was running. No new scientific recovery strategy.",
+ "scientific_contract": "rule57_recovery_a2.json unchanged:32M per half,2halves/replica,2replicas, same seeds/poses/lights, physical parameters/first-exit ownership, importance weights, gates and frozen D/R.",
+ "execution": {
+  "walker": "fast",
+  "default_photon_chunk": 32000000,
+  "bounded_OOM_chunks": [
+   16000000,
+   8000000,
+   2000000,
+   250000
+  ],
+  "scope": "Isolated action-oracle specialization; historical TR/MI files untouched. GPU counters accumulated until action end, repeated host-any/cpu and duplicate compactions/single-cat removed. RR false before1024 collisions under unit RGB and maxalbedo>=.998 is skipped with a strict safety margin; later RR unchanged. Sink owner weakref removes GPU-allocation reference cycle."
+ },
+ "validation": {
+  "fixtures": "Original diagnostic rest/te0, fields0/48 only, not fresh confirmation outputs.",
+  "same_chunk_proof": "Reference vs fast at1M and32M: identical final RNG state, photon/collision/exit/leak/wrong-side/truncation/step counts; float32 action exactly identical in all8controls. Float64 second relativeL1<=2.12e-16.",
+  "timing32Mmatched": "Reference2Mchunks34.419s; fast2M27.892s,8M8.459s,16M4.608s,32M2.971s. Peak reserved at32M10.106GB. Choose fastest with >10GB hardware headroom. No physics/quality-based selection.",
+  "large_fixtures": "At32M full batch canonical3.217-3.545s, fast2.716-2.954s, peakreserved<=10.111GB, all physical checks pass.",
+  "profiling": "Non-invasive CPU call profile:cpu331->5,any1608->0,cat2010->0. Explicit nonzero count rises as implicit boolean compaction is replaced, so no claimed nonzero-count reduction. CUDA/CUPTI profiling failed on BOTH unchanged reference and fast DrJit contexts; logs retained, not used as CUDA performance evidence. All unprofiled fresh-process controls pass."
+ },
+ "compatibility": "Preserve52complete reference2M half payloads/receipts. Incomplete in-flight half not counted and recomputed. Larger chunks change RNG assignment/order but not iid distribution, sample count or unbiased estimand. No completed result is overwritten or selected by signal. Mixed execution packets retain same independent half seeds and their own measured variance/moments. New per-packet execution hashes identify the compatible implementation.",
+ "identity": "Primary scientific identity remains e809c15/A2. Separate deployment execution_policy.json records this implementation commit, source hashes, benchmark/equivalence receipts and parent protocol hash. Resume checks unchanged scientific identity and validated execution policy separately. No new model/architecture/gate/estimator hypothesis."
+}

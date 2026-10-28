@@ -61,7 +61,7 @@ def generate(first,last):
                     if checked(p):continue
                     seed=579000000+pi*100000+fi*100+rep*10+half
                     result=action(dom,x[fi],CFG['estimator']['N_per_half'],seed)
-                    save(result,p);dump(dict(pose=name,field=fi,rep=rep,half=half,N=result['N'],seed=seed,sha256=sha(p),protocol_sha256=sha(os.environ['WL57_CONFIRM_PROTOCOL']),commit=(ROOT/'repo_commit.txt').read_text().strip(),physical=result['physical_passed'],seconds=result['seconds']),p.with_suffix('.json'))
+                    save(result,p);dump(dict(pose=name,field=fi,rep=rep,half=half,N=result['N'],seed=seed,sha256=sha(p),protocol_sha256=sha(os.environ['WL57_CONFIRM_PROTOCOL']),commit=(ROOT/'repo_commit.txt').read_text().strip(),physical=result['physical_passed'],seconds=result['seconds'],walker=result.get('walker','reference'),chunk=result['chunk'],execution_source_sha256=result.get('execution_source_sha256'),fastwalk_source_sha256=result.get('fastwalk_source_sha256'),execution_policy_sha256=result.get('execution_policy_sha256')),p.with_suffix('.json'))
                     print('HALF',name,fi,rep,half,result['seconds'],result['physical_passed'],flush=True)
                     assert result['physical_passed'],'Reference action physical failure: no adaptive retry'
         del dom;torch.cuda.empty_cache()
