@@ -5,6 +5,7 @@ import torch,numpy,scipy
 import r57_geometry as RG
 from r57_data import ROOT,OUT,dump,sha
 import mitsuba,drjit
+mitsuba.set_variant(os.environ.get('P53_MI_VARIANT','cuda_ad_rgb'))
 
 def main():
     files={}

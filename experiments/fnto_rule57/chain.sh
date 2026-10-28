@@ -6,6 +6,7 @@ mkdir -p "$R/out/tests" "$R/tmp" "$R/logs"
 cd "$R/repo/experiments/fnto_rule57"
 stage=initializing
 status() { printf '%s stage=%s status=%s\n' "$(date --iso-8601=seconds)" "$stage" "$1" | tee "$R/status.txt"; }
+set -E
 trap 'rc=$?; status "FAILED rc=$rc"; exit "$rc"' ERR
 run() { stage="$1"; shift; status RUNNING; bash run.sh "$@" > "$R/logs/$stage.log" 2>&1; status DONE; }
 run environment r57_environment.py
