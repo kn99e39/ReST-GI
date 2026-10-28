@@ -27,11 +27,11 @@ def equivalence():
             rows.append(dict(pose=name,field=fi,response_relative_L1=er,second_relative_L1=s2,identical_RNG=a['rng_state_sha256']==b['rng_state_sha256'],identical_counts=counts,reference_seconds=a['wall_seconds'],fast_seconds=b['wall_seconds'],passed=ok))
             dump(dict(passed=all(r['passed'] for r in rows),controls=rows),DEST/'equivalence.json');print(rows[-1],flush=True);assert ok
         del dom;torch.cuda.empty_cache()
-def bench(chunk):
+def bench(chunk,walker='fast'):
     m,V=RG.mesh('rest');fm,VC,_=RG.KO.refined(m,V,4);dom=RG.KO.DomainX(fm,VC);x=torch.load(OLD/'data/lights.pt')['test'][0]
     # Real32M unit matches primary half. No estimator/sample/geometry sweep.
-    out=invoke(dom,x,32_000_000,580101,chunk,'fast')
-    rec={k:v for k,v in out.items() if k not in ('response','second')};dump(rec,DEST/f'batch_{chunk}.json');print(json.dumps(rec,indent=1),flush=True)
+    out=invoke(dom,x,32_000_000,580101,chunk,walker)
+    rec={k:v for k,v in out.items() if k not in ('response','second')};dump(rec,DEST/f'batch_{walker}_{chunk}.json');print(json.dumps(rec,indent=1),flush=True)
 def profile(walker):
     m,V=RG.mesh('rest');fm,VC,_=RG.KO.refined(m,V,4);dom=RG.KO.DomainX(fm,VC);x=torch.load(OLD/'data/lights.pt')['test'][0]
     os.environ['WL57_WALKER']=walker;os.environ['WL57_ACTION_CHUNK']='2000000'
@@ -42,4 +42,4 @@ def profile(walker):
     dump(rec,DEST/f'profile_{walker}.json');print(rec,flush=True)
 if __name__=='__main__':
     DEST.mkdir(parents=True,exist_ok=True);torch.set_num_threads(8)
-    {'equivalence':equivalence,'bench':lambda:bench(int(sys.argv[2])),'profile':lambda:profile(sys.argv[2])}[sys.argv[1]]();sys.stdout.flush();os._exit(0)
+    {'equivalence':equivalence,'bench':lambda:bench(int(sys.argv[2]),sys.argv[3] if len(sys.argv)>3 else 'fast'),'profile':lambda:profile(sys.argv[2])}[sys.argv[1]]();sys.stdout.flush();os._exit(0)
