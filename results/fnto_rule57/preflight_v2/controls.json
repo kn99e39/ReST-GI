@@ -1,0 +1,65 @@
+{
+ "passed": 3,
+ "total": 3,
+ "tests": [
+  {
+   "name": "unique_storage_identity_alias_views_and_sparse",
+   "passed": true,
+   "measurement": {
+    "aliased_D_storage_counted_once": {
+     "geometry_bytes": 4096,
+     "compact_incremental_bytes": 0,
+     "coefficient_incremental_bytes": 148,
+     "compact_total_bytes": 4096,
+     "full_total_bytes": 4244,
+     "parameters_bytes": 0,
+     "all_retained_bytes": 4244,
+     "storage_identity": "unique (device, untyped_storage.data_ptr), full allocated storage.nbytes; aliases/views once"
+    },
+    "parameter_iterator_counted_in_total": {
+     "geometry_bytes": 4096,
+     "compact_incremental_bytes": 0,
+     "coefficient_incremental_bytes": 148,
+     "compact_total_bytes": 4096,
+     "full_total_bytes": 4244,
+     "parameters_bytes": 52,
+     "all_retained_bytes": 4296,
+     "storage_identity": "unique (device, untyped_storage.data_ptr), full allocated storage.nbytes; aliases/views once"
+    },
+    "sparse_indices_values_bytes": 40
+   }
+  },
+  {
+   "name": "rigid_operator_reuse_vs_current_geometry_rebuild",
+   "passed": true,
+   "measurement": {
+    "controls": {
+     "D": {
+      "reused_vs_rebuilt_operator_action_relative_L1": 8.881742985522578e-08,
+      "max_column_sum": 0.9335901737213135
+     },
+     "R": {
+      "reused_vs_rebuilt_operator_action_relative_L1": 1.0286090912359214e-07,
+      "max_column_sum": 0.9335905313491821
+     }
+    },
+    "signature_rigid_invariant": true,
+    "dent_invalidates": true,
+    "fields": 3,
+    "units": "same material cell/bin flux",
+    "quadrature": 32,
+    "geometry": "actual world rigid transform pulled back through declared supplied rigid frame; current ray intersections recomputed"
+   }
+  },
+  {
+   "name": "atomic_cache_and_RNG_resume",
+   "passed": true,
+   "measurement": {
+    "partials_not_read_as_complete": true,
+    "checksum_corruption_and_missing_receipt_quarantined": true,
+    "complete_hash_unchanged": true,
+    "NumPy_Torch_CPU_CUDA_RNG_exact_resume": true
+   }
+  }
+ ]
+}

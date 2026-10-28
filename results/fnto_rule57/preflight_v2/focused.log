@@ -1,0 +1,7 @@
+{'name': 'disjoint_geometry_and_parameter_budgets', 'passed': True, 'measured': {'D_parameters': 160458, 'R_parameters': 162048, 'train': ['rest', 'tr00', 'tr01', 'tr02', 'tr03', 'tr04', 'tr05', 'tr06', 'tr07', 'tr08', 'tr09', 'tr10', 'tr11'], 'val': ['va0', 'va1'], 'test': ['te0', 'te1', 'te2', 'te3']}}
+{'name': 'disjoint_lights_flux_and_directional_pairs', 'passed': True, 'measured': {'fields': 64, 'train_fields': 96, 'unit_flux': True, 'equal_irradiance_pairs': 8}}
+{'name': 'runtime_oracle_independence_and_passivity', 'passed': True, 'measured': {'no_target_IO': True, 'metadata_not_model_input': True, 'max_column_sum': 0.9671472311019897}}
+{'name': 'zero_linearity_nonnegative_passive_and_fair_cache', 'passed': True, 'measured': {'D': {'linearity': 6.898695659174336e-08, 'cache_equivalence': 9.614491602860653e-08, 'max_colsum': 0.9671472311019897}, 'R': {'linearity': 6.903617588704947e-08, 'cache_equivalence': 9.980731618952632e-08, 'max_colsum': 0.967147171497345}}}
+{'name': 'differentiable_full_spatial_angular_operator', 'passed': True, 'measured': {'finite_loss': 6.5178846853086725e-06, 'finite_gradients': True}}
+{'name': 'OOM_fallback_preserves_model_and_effective_batch', 'passed': True, 'measured': {'checkpoint_and_microbatch_gradient_relative_L2': 1.904152588788735e-07, 'unchanged_effective_batch': 2}}
+{'name': 'boundary_identity_rigid_frame_and_invalidation', 'passed': True, 'measured': {'nested_material_cells': True, 'rigid_frame_inverse_max': 1.3877787807814457e-17, 'dent_changes_geometry': True}}

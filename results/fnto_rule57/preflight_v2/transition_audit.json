@@ -1,0 +1,144 @@
+{
+ "time": "2026-10-29T00:05:03+0900",
+ "cause": "Old shell started supervision just before its parent pause. Parent-only replacement left one old WL57 child. It overlapped new supervision00:03:20-00:05:03 KST; only that old child was terminated, while it was tracing tr03. Sole supervised writer remains.",
+ "old_pid": 1366642,
+ "old_sid": 1365444,
+ "supervisor_pid": 1367071,
+ "completed_before_transition_source": "704f360",
+ "current_pose_at_termination": "tr03",
+ "preserved_completed_artifacts": "rest/tr00/tr01 rep0 plus all geometry inputs; no target/threshold/model change",
+ "duplicate_tr02": "Old raw artifact was overwritten by supervised same-seed/same-budget tr02 before audit. The old log remains; old raw is not independently preserved evidence. Surviving tr02 is supervised c7fd067.",
+ "source_policy": "Primary source stays c7fd067 (repo_commit.txt); inherited rest/tr00/tr01 and all geometry+light inputs from704f360. Extra writer safeguards cd9947f stored separately in recovery_cd9947f; active primary source is untouched.",
+ "inherited_artifacts": {
+  "data/geometry/rest.pt": {
+   "sha256": "7cfbcba7000ff47f0f81fa41a645566e5957d7762afec79f00ad601ff49322ac",
+   "bytes": 107174716,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr00.pt": {
+   "sha256": "55d0cabe5381996f0e4ae25db97e3a0d139cb76cc45cb77ccbdf261ae72a5109",
+   "bytes": 107764604,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr01.pt": {
+   "sha256": "95411c9d8fd5d70e9aa42513e80e3ca3d32cfe448d445715436fe71a31131959",
+   "bytes": 107875196,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr02.pt": {
+   "sha256": "8924c02edbf4814abb8fef585479b7812c857f59fd1a46186c073fd2626b4900",
+   "bytes": 107609340,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr03.pt": {
+   "sha256": "2f9c729ec6484e47cf71acad5301abb4a7f28e5c68272faad759ddbdef832166",
+   "bytes": 108102524,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr04.pt": {
+   "sha256": "f7a2d4b9a5a57fdbdf8ee7e7af961848a28c6bcb6cd688df97291357eea62c12",
+   "bytes": 108207612,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr05.pt": {
+   "sha256": "c55ef047737bbddd5b42a434bb516e5ede0830e646223590fc6aa3f9b2beb554",
+   "bytes": 107462076,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr06.pt": {
+   "sha256": "1d4273181221351b6ae1117d76310c53043b6795c8ddb27e66b1b1a5674e8fc9",
+   "bytes": 108462972,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr07.pt": {
+   "sha256": "023d1e3fee3977275bd172337fced9d0e9de78e57738e9b6addf9a66d6adc4b1",
+   "bytes": 107659900,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr08.pt": {
+   "sha256": "e5261ee7422bbe4aedccdb6d92e1af90514e224b9e58643f83ad4b8051e814f4",
+   "bytes": 107555196,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr09.pt": {
+   "sha256": "c7161f59744ca540777a6f8bc5ecf12320ce2fc969ddff1ce341cf602f0d9c24",
+   "bytes": 107789436,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr10.pt": {
+   "sha256": "16b9bb7cd1a2efe6774de9b2f24355aedc41bd00bbd434a5d85cf683a03b4edc",
+   "bytes": 107904636,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/tr11.pt": {
+   "sha256": "48220a31d5d547ab1008efe6b78cd159cd7cc129c3b1b15c8a090c37acc9361f",
+   "bytes": 107705276,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/va0.pt": {
+   "sha256": "4ab5d4065c79b65be8fbe3c7da8d6e2fdc191f2c8116e83018b25ec0bcd4cb06",
+   "bytes": 107880939,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/va1.pt": {
+   "sha256": "9026c2b6ccfb04572211e1a407af7525dd6f0518abe224097bf14c5076cf73ac",
+   "bytes": 107814379,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/te0.pt": {
+   "sha256": "792164100e01f6932747f4a57302c24845fbdf47bd2f6c4407e92a98dc60c667",
+   "bytes": 107790059,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/te1.pt": {
+   "sha256": "ab0d099bc8d05be432aa6a56adddbcde15c395bae40ee8b1f25ece55c07b4b27",
+   "bytes": 107827179,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/te2.pt": {
+   "sha256": "06b4d900bc229d06de534f9e80bcf2c1568eaefdc22015abdaaa23bc45b98116",
+   "bytes": 107687403,
+   "generation_commit": "704f360"
+  },
+  "data/geometry/te3.pt": {
+   "sha256": "ead7798c883c0fe193876a4aa530bd9b12c3ff94910acf2c5a131ddd2b273ae8",
+   "bytes": 107541675,
+   "generation_commit": "704f360"
+  },
+  "data/lights.pt": {
+   "sha256": "d28e6b2dc750643167f8535c3231f8b110271c00dba15e9494e9f63522457f36",
+   "bytes": 141559309,
+   "generation_commit": "704f360"
+  },
+  "ops/rest_r0.pt": {
+   "sha256": "ad15c68f8d4cf508378cc6016df7fcf561de41df83c7fca72ee52abc52e7a5fa",
+   "bytes": 1153037400,
+   "generation_commit": "704f360"
+  },
+  "data/targets/rest_r0.pt": {
+   "sha256": "af4c3a4e7a50b81d1a21f37a295a7f07e12207da5f447df6dcbb232939d274b0",
+   "bytes": 566232660,
+   "generation_commit": "704f360"
+  },
+  "ops/tr00_r0.pt": {
+   "sha256": "4ab9593bf84fd17b3e9d9b3312bb4574643041fcfee4e2b0a78b7f27ee807828",
+   "bytes": 1152724696,
+   "generation_commit": "704f360"
+  },
+  "data/targets/tr00_r0.pt": {
+   "sha256": "fede88e3557a784a3fdba074856aea62dbd2a3fda57b751a15c77b1af88d011a",
+   "bytes": 566232660,
+   "generation_commit": "704f360"
+  },
+  "ops/tr01_r0.pt": {
+   "sha256": "ac32985e35fe74ae73535c8854906f0c2329a35a8c04b37116db0961bdb42c3c",
+   "bytes": 1152527192,
+   "generation_commit": "704f360"
+  },
+  "data/targets/tr01_r0.pt": {
+   "sha256": "067511189ff2a6c98c86151850c58ad74cd1b4348e08f8036ca53266549fbfe5",
+   "bytes": 566232660,
+   "generation_commit": "704f360"
+  }
+ }
+}

@@ -1,0 +1,68 @@
+{
+ "pose": "rest",
+ "arm": "R",
+ "seed": "5701",
+ "policy": "compact",
+ "untrained": true,
+ "geometry": {
+  "median": 0.6444229874759912,
+  "p10": 0.6444229874759912,
+  "p90": 0.6444229874759912,
+  "all": [
+   0.6444229874759912
+  ]
+ },
+ "geometry_peak_bytes": 1641367040,
+ "memory": {
+  "geometry_bytes": 107170680,
+  "compact_incremental_bytes": 4423680,
+  "coefficient_incremental_bytes": 0,
+  "compact_total_bytes": 111594360,
+  "full_total_bytes": 111594360,
+  "parameters_bytes": 648192,
+  "all_retained_bytes": 112242552,
+  "storage_identity": "unique (device, untyped_storage.data_ptr), full allocated storage.nbytes; aliases/views once"
+ },
+ "baseline_model_geometry_inputs_bytes": 220516352,
+ "state_prepare": {
+  "median": 0.012208584696054459,
+  "p10": 0.00310002937912941,
+  "p90": 0.021317140012979508,
+  "all": [
+   0.02359427884221077,
+   0.0008228905498981476
+  ]
+ },
+ "coefficient_prepare": null,
+ "query": {
+  "median": 0.013795812614262104,
+  "p10": 0.013790046609938145,
+  "p90": 0.013801578618586063,
+  "all": [
+   0.013803020119667053,
+   0.013788605108857155
+  ]
+ },
+ "cache_preparation_peak_bytes": 172376064,
+ "query_peak_bytes": 415318016,
+ "query_output_bytes": 2949120,
+ "CPU_RSS_bytes": 1332932608,
+ "cycles": {
+  "1": {
+   "lifecycle": {
+    "median": 0.01508052833378315,
+    "p10": 0.01508052833378315,
+    "p90": 0.01508052833378315,
+    "all": [
+     0.01508052833378315
+    ]
+   },
+   "peak_allocated_bytes": 415318016,
+   "peak_reserved_bytes": 513802240
+  }
+ },
+ "eligible": true,
+ "parameters": 162048,
+ "process_id": 1371557,
+ "peak_scope": "Fresh process per model/pose/policy; reset before cache preparation, query and lifecycle; absolute CUDA allocated+reserved separately."
+}

@@ -1,0 +1,258 @@
+{
+ "commit": "c7fd067405489f1545987749f159e7c8a97822dc",
+ "python": "3.10.21 (main, Sep 24 2026, 17:54:40) [Clang 22.1.3 ]",
+ "platform": "Linux-4.18.0-305.3.1.el8.x86_64-x86_64-with-glibc2.28",
+ "torch": "2.3.1+cu121",
+ "cuda": "12.1",
+ "numpy": "1.26.4",
+ "scipy": "1.14.1",
+ "mitsuba": "3.5.1",
+ "drjit": "0.4.6",
+ "GPU": "NVIDIA GeForce RTX 3090",
+ "GPU_status": "Thu Oct 29 00:03:16 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 550.54.15              Driver Version: 550.54.15      CUDA Version: 12.4     |\n|-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 3090        Off |   00000000:05:00.0 Off |                  N/A |\n| 36%   43C    P2            148W /  370W |    4335MiB /  24576MiB |     14%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n                                                                                         \n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|    0   N/A  N/A   1366642      C   ...mo/external/8dna26/.venv/bin/python       4040MiB |\n|    0   N/A  N/A   1367077      C   ...mo/external/8dna26/.venv/bin/python        286MiB |\n+-----------------------------------------------------------------------------------------+\n",
+ "source_files": {
+  "experiments/phys_ref53/p53_attrib.py": "03b1d258a5cf2898f0ae0f7fab55cf8c81e83a17f39c9ad553edf65e7101e4c8",
+  "experiments/phys_ref53/p53_chain.sh": "aa282743ca0df93d3c9c7d50bd6e055675653da198649b557e94e0f51b06f9e6",
+  "experiments/phys_ref53/p53_chain2.sh": "d0ce871b9aeb16272cdf0a76cc3aeb8246129964c5bd17173a383dadd5371268",
+  "experiments/phys_ref53/p53_compose.py": "54b879c77c45e28caaedaf33a1835a559fec15f1720978d69076a2d847e9284c",
+  "experiments/phys_ref53/p53_cycles.py": "f97eee33d433dba00fb2ef09b98f240d0968cc36ba4e2178f200f045abfef819",
+  "experiments/phys_ref53/p53_figures.py": "1f1e238228b04304b5517a22e2cfbc5cf47649f18c87e4aa8af13a405975190b",
+  "experiments/phys_ref53/p53_fixtures.py": "cdccc551fbd48c518214696d854713ebde3abc8e673485ef5c5f5956ef204500",
+  "experiments/phys_ref53/p53_geom.py": "224f919742273a2e93aa41561e4fb16cee733746b32b204956204d6049597e93",
+  "experiments/phys_ref53/p53_mi.py": "349a437a3c035fb479a3c8bac81f9e6a8c6eb83c2317c110c1fa4adafbeed969",
+  "experiments/phys_ref53/p53_oracle.py": "7b8ff082f09972ae0e349fce8ccb00909c718c109586cd77402edb19d3c5f789",
+  "experiments/phys_ref53/p53_render.py": "0bbcde6c9e6de81a89f3f7ba743c484142402650bcf70db142833491d4649494",
+  "experiments/phys_ref53/p53_report.py": "ce57aca6f6d59c2651293efd681b79c42194f5006e2768900d125de252da1799",
+  "experiments/phys_ref53/p53_tracer.py": "0a5b82dd227cc7becf03b8fefaecbcf5cb9d0bf4a43889906a236cd5e65b926a",
+  "experiments/phys_ref53/protocol/phys53.json": "9365aaaa15dd4b5e440e44a0c954e6477012f71309045583c2f87aaeadba2611",
+  "experiments/phys_ref53/tests/test_p53.py": "aa984369631bf44df4210f31422e6fb96b31e151b4bd05083ebce1077e4947b4",
+  "experiments/fnto_c54/bpy_native.sh": "81ce89a882f7b693ed7be7cae19a75c86e2de711fb2c9bcf71abda7ba3356f01",
+  "experiments/fnto_c54/c54_amend1.py": "a5d56732a93897c2a3d1a6850cf11aa2ebd1be3324bd388f34e3b70c787478cc",
+  "experiments/fnto_c54/c54_amend3.py": "071ba461faafd5b8ee7ed9c4e6f946d28605e48ac686e04d3ee5dec0256b4616",
+  "experiments/fnto_c54/c54_amendE.py": "fd8b278605adbb61c17f79788c5c4ac018a60665fb145f1b7c5a59f8d0cc55cc",
+  "experiments/fnto_c54/c54_audit.py": "fdc2815219d079e302f86cd203f64674be70a993d2beadf207b3eb3dbad1ac17",
+  "experiments/fnto_c54/c54_casp.py": "06d813dc3e62fe52cb57b4d5bfeb62c94fe7b47cdff76dcffc3067f9fd5d70c0",
+  "experiments/fnto_c54/c54_change.py": "6a6b8ecb43e2911f3dcd6c3d6267ae0c34e34efd65c187c2b34bcf619807efc2",
+  "experiments/fnto_c54/c54_common.py": "04d72144e0c407dc417f72a6f298dbd4bdf5f3df917c058798d25628fe1f75d5",
+  "experiments/fnto_c54/c54_cost.py": "6525eec9c94554dad6093f3b15a63dcf7b7209b51a5aa700065cdc2f4840ced8",
+  "experiments/fnto_c54/c54_coverage.py": "e89bbc45b20db8ddc9f042ac0fd1618066510506ce1bc05b101decffd77edde0",
+  "experiments/fnto_c54/c54_cycles.py": "b123caeba996b543dced4f1b74a2a7ecfa1aff2fe8e1b1726736573bc6903d17",
+  "experiments/fnto_c54/c54_cycles_res.py": "89921652df8fd2e0d1828fc9f93d2775a6d2d728b23662ec4ca9a06dcba97f50",
+  "experiments/fnto_c54/c54_dnoise.py": "9c030134033a91a41745f64d885e4c74f66f3e36426c7536a56b44f064f46e70",
+  "experiments/fnto_c54/c54_fixtures.py": "13d7f95019e314156a65c647cf096e31b4f4d3881e308695d502e197293b12af",
+  "experiments/fnto_c54/c54_gpu_compare.py": "7a5080ce5aaafd9b18707ecc7de629be4294f216416d8be38f4a2dc2cd1a8801",
+  "experiments/fnto_c54/c54_gpu_smoke.py": "a4c82667a754879ba9c995fadf77ad743282c2ff9fa4d7565694e94de5d66c99",
+  "experiments/fnto_c54/c54_kfine.py": "ebfa86234705315b15e5a93bba0b9c0d9221ef54afc9d40d25a29886a0ec46e8",
+  "experiments/fnto_c54/c54_known_field.py": "61b316483e812256bf06270d5a91f41bc38114fc9b68368a197a07e668503e8d",
+  "experiments/fnto_c54/c54_lam.py": "877a8495cf25a703bd4474f87a7bc78a8f3060feeebb0fbae0d7c4a320591675",
+  "experiments/fnto_c54/c54_profiles.py": "9b44c40fdb3df254d8404a41925d4d949ebee07a8b604a7252fa0861ed462f7f",
+  "experiments/fnto_c54/c54_report.py": "eabb93b899b717960d63078528b9c0e01e65a62befc690a8fe58f9d96d76baef",
+  "experiments/fnto_c54/c54_rho_check.py": "90062a7f614b829ab878221dc37eadab5216d67953100d54565ff7045957b2c6",
+  "experiments/fnto_c54/c54_stageB.py": "e548c857f00e8765362cf595d73dccd2d8b8b553a5aafcb775395db628bb5d63",
+  "experiments/fnto_c54/c54_stageC.py": "a943aa3330dc00d8097e9d641ecddf6aa01c7be548e1541c1fbac6de0237a4df",
+  "experiments/fnto_c54/c54_stageE.py": "1abb9ea98ccf188e8c9080678372884028bd4bc6563aa20baae1b5b4808a44bd",
+  "experiments/fnto_c54/launch_cost.sh": "974fef032390b774b7a8a7006ccda820290cb52e36209351223b7c9fe3ff3bbc",
+  "experiments/fnto_c54/launch_refs_hi.sh": "918fb28b9139521eeea03cfc3cbe3aeedff488b926fa1e2fb4fa3d8083e9e34c",
+  "experiments/fnto_c54/protocol/c54.json": "d9dd15424859199934a07135a01899e2b434ddb3704f6cc8411db4a609fab066",
+  "experiments/fnto_c54/run.sh": "baf08287e36a6c307a0c77e524c122a3bc1c2b70c3a75fe261166b2963d0e7d4",
+  "experiments/fnto_c54/sync.sh": "3f54b3b2fc0fd00680d6217d1b034f382094d6b0750f46b639c7c7ca2b8cc0ff",
+  "experiments/fnto_c54/tests/test_c54.py": "636c33eeae41a995d0f9ba9698f12e84f4f0006f76a5f690a7d90238f7ad740d",
+  "experiments/fnto_k55/k55_analyze.py": "7e512ee635853c00f1988447ab42badd626eee884639c3b680e1cb1bfe1cbdbe",
+  "experiments/fnto_k55/k55_common.py": "c76bbb8bb99998070a98754b0c9c0b750c17601692d5ebb18847eb422d8389e2",
+  "experiments/fnto_k55/k55_compose.py": "7329507db7cec185b91418bad9550f2acb3e3ba63b5e67b53df1d3eb6e2bb2f0",
+  "experiments/fnto_k55/k55_cor.py": "9233e93de0130295da8e73a18b2dd010716e62e35b0924fc40e93fe2cace8487",
+  "experiments/fnto_k55/k55_cycles.py": "b4a75f2aa8d079abf173e4c8339a35196c0174760b9c5e2c8c700f4a415c4938",
+  "experiments/fnto_k55/k55_figures.py": "ffae42823d8f6428de813b70baccb0f577af6dfc99c29da61ba267fdf7e57a00",
+  "experiments/fnto_k55/k55_fixtures.py": "2bdb7ca02066f760decadadc69c66fd90348aa5d7a3fa65d61bb746591d5541c",
+  "experiments/fnto_k55/k55_ops.py": "ef357a8b1ff67f1ea4f869efad7dc39ad302eb6795d914309f8b36fe3acfc3e6",
+  "experiments/fnto_k55/k55_pixdiag.py": "f1476e8c35bc2d964342829637d811cadd9b418e7de21dde7c56e30daef8fec1",
+  "experiments/fnto_k55/k55_report.py": "094650218923f27b4b8c9cd5176dbe693500c877a9148b391553b53e708b4452",
+  "experiments/fnto_k55/k55_stageA.py": "4c13b4849246737f1164ac816a71aae4ddf5be28635a248495503885f6fb1206",
+  "experiments/fnto_k55/k55_stageB.py": "fa29d910a638c0ec5c1c7321782adbde5438f4c2f410a7f4788b6f2508b74c96",
+  "experiments/fnto_k55/k55_stageD.py": "f54b415920af8a5fdfe1c0233a31a27f26f7f5c966a629e16fcb53c0fa7c83c4",
+  "experiments/fnto_k55/k55_stageE.py": "41e2b874f695b132c942545555b9374ad206c9619bcf2789ff3a8295ba50184d",
+  "experiments/fnto_k55/launch_cycles.sh": "782a81b44378ba5bf6ab59b85c360d84812a37b380919250a2f504bb3444169f",
+  "experiments/fnto_k55/launch_cycles_A1.sh": "be1efbc6265f89af2af29f521757adfa9929216d3157fb7a7fda911d287f0b56",
+  "experiments/fnto_k55/launch_cycles_cuda.sh": "706a16a079b07eba2cd8eee30f0bbaa6672ce73cea5bbfb0ce0f727e7fb67291",
+  "experiments/fnto_k55/launch_gpu_B.sh": "4b204496826e79f6279ea1d06c85d6b0cfda2752e23a766725760206c9d02fe9",
+  "experiments/fnto_k55/launch_gpu_CD.sh": "2a4cc3e46983d8f9bc062a7459015acd605ee8986c18f8e875474722d75dd52b",
+  "experiments/fnto_k55/protocol/k55.json": "25938edf1b14f530d2d1a6a06349335487f9add03f66fc8bb7e0141060c0ebff",
+  "experiments/fnto_k55/run.sh": "1b696132f57102bdb236aab177deb8eed47bd30b3047157e5fcdea2028cbd120",
+  "experiments/fnto_k55/sync.sh": "fb47c95d237fbcaf005b9b8fc055b8ad7208e226f779aac7c50b0f90549b4df0",
+  "experiments/fnto_k55/tests/test_k55.py": "50af320a6e19b4163ccd6d4964095d938c4a1330bbacd7da18dd1660e449f079",
+  "experiments/fnto_sel56/launch_primary.sh": "8403705de4b5e7f8cf2d39e5b02e29b3d2db5d008015ae674385e227895cf493",
+  "experiments/fnto_sel56/launch_reference.sh": "0c16e7b94a939a4834bcc12efc86ea5c21ade5b4105a236537abdeb1a3badd5f",
+  "experiments/fnto_sel56/launch_when_ready.sh": "0396c48f4973ffadaf154977142be592cb628234e303d90dad6dc2c0e0bbd293",
+  "experiments/fnto_sel56/protocol/sel56.json": "f8c5b81715c3b2ac930efc6aa1fdee65e36075caeb69ecf0db8aa1fbb44d99a4",
+  "experiments/fnto_sel56/run.sh": "c1d9e14a0afe59432dc059aa07e20acad700cafab88ada32fcd5e0cdd6c3f364",
+  "experiments/fnto_sel56/s56.py": "a38160925a1122d74ad09d89df49f415f5a6a690cbb58d0c0b749859d28b3bcd",
+  "experiments/fnto_sel56/s56_analyze.py": "d873dfad246cc109efe0c892ee4baf4024aa111c6fe05d5674c65d798f094834",
+  "experiments/fnto_sel56/s56_cycles.py": "22013d0bbb1f5b2f18ab6b80d88c1065322d33a4e870a9068b190d2be203c69e",
+  "experiments/fnto_sel56/s56_fixtures.py": "52dda917ea7e71af3fbb9a7ca91df82e50f2f468f041e290514053c7e7e4ce05",
+  "experiments/fnto_sel56/s56_masks.py": "759bf0317ce85a9b1ef5e96306b7d42275fc9432fc6e894d971bac07341a8509",
+  "experiments/fnto_sel56/s56_readout_audit.py": "bb0f2aab3752d62e0cb1fe6942f60c0759ccd74a03399103b3a4b48c95b79b2a",
+  "experiments/fnto_sel56/s56_report.py": "54e405a9e7fa7e36abc0149b6210e81ea1aa3126e25a1dc99aa6f9321a520d99",
+  "experiments/fnto_sel56/tests/test_s56.py": "f39da29a948db1fa09fe62d216ee5a279468bba50dc4aa3c58763a6bc9004cdb",
+  "experiments/fnto_rule57/ARCHITECTURE.md": "ff9e311603a7df7d20d878e0187af8d71eb2176c6846fe23b73a9d7dfeec1584",
+  "experiments/fnto_rule57/chain.sh": "1755e6b4034027f36456ad8fabad9cb5aa409cbd30181f9f00b32d1c92eb0411",
+  "experiments/fnto_rule57/protocol/rule57.json": "be6f5860f6001b771221e1b6ca50e40ae56a3b2b760bd63b3621d363dbeb7a2c",
+  "experiments/fnto_rule57/r57_compose.py": "ac6e17300a90120a38623337c034dac92806213cca63b113ce9876fe84922870",
+  "experiments/fnto_rule57/r57_data.py": "5caf0d5289cc1100463e4c0515f9f5a8c8d400a268c88212ddc3e64b8dbec3a7",
+  "experiments/fnto_rule57/r57_environment.py": "f07e278aca21a7270119004f3e1273184819020fc47595c3b4e18d51c7974c38",
+  "experiments/fnto_rule57/r57_eval.py": "f171943115c39c165b69d9c759af674749b0b62741e73afc9c2e62e2b4ee56f6",
+  "experiments/fnto_rule57/r57_geometry.py": "faacd4c9fafbb3798a13fc2d528d33873487284a833b18f6afa746a06a4469ac",
+  "experiments/fnto_rule57/r57_model.py": "b3afce54cd7ceb3a6108f2f690e100d98d077b2e023c9a9dd2b592d796309ddd",
+  "experiments/fnto_rule57/r57_regressions.py": "088a0510f37c375ed330993fa4493e226a6e64427b0ff61b526e768484a0ffa4",
+  "experiments/fnto_rule57/r57_report.py": "7674fc88d6744a454e25cf249faff93e873964ee52f805ee240410e3c69b2605",
+  "experiments/fnto_rule57/r57_supervisor.py": "8635377f6009ba75f00cb71a8ada797ed9d6142db1e9a0b42a44c7b11e47f617",
+  "experiments/fnto_rule57/r57_train.py": "94757b6d042ff721dc7bdfab5615dd6c56805e1fdd37c80368020afc3e59ba62",
+  "experiments/fnto_rule57/run.sh": "92cf0abc48eded14f59b7e0cbc341f1104078dea501374615e5338875130d7a2",
+  "experiments/fnto_rule57/tests/test_r57.py": "af6fae5507165e857aeb3aa9a2123062ccaf23d0bb7f84837a1d627fdef64b63",
+  "experiments/fnto_rule57/tests/test_supervisor.py": "231b6814244d1b31c2f6ba9491b78ba4d01093853800516d1c255fa5045c8536"
+ },
+ "poses": {
+  "rest": [
+   0.0,
+   0.02,
+   0.0,
+   0.0
+  ],
+  "tr00": [
+   0.002,
+   0.015,
+   -0.02,
+   -0.01
+  ],
+  "tr01": [
+   0.004,
+   0.02,
+   -0.02,
+   0.01
+  ],
+  "tr02": [
+   0.006,
+   0.025,
+   0.02,
+   -0.01
+  ],
+  "tr03": [
+   0.002,
+   0.02,
+   0.02,
+   0.01
+  ],
+  "tr04": [
+   0.004,
+   0.025,
+   -0.01,
+   -0.02
+  ],
+  "tr05": [
+   0.006,
+   0.015,
+   0.01,
+   0.02
+  ],
+  "tr06": [
+   0.002,
+   0.025,
+   0.0,
+   -0.02
+  ],
+  "tr07": [
+   0.004,
+   0.015,
+   0.0,
+   0.02
+  ],
+  "tr08": [
+   0.006,
+   0.02,
+   -0.02,
+   0.0
+  ],
+  "tr09": [
+   0.002,
+   0.015,
+   0.01,
+   -0.01
+  ],
+  "tr10": [
+   0.004,
+   0.02,
+   -0.01,
+   0.01
+  ],
+  "tr11": [
+   0.006,
+   0.025,
+   0.01,
+   0.0
+  ],
+  "va0": [
+   0.003,
+   0.0175,
+   -0.0125,
+   -0.0075
+  ],
+  "va1": [
+   0.005,
+   0.0225,
+   0.0175,
+   0.0125
+  ],
+  "te0": [
+   0.005,
+   0.02,
+   0.0,
+   0.0
+  ],
+  "te1": [
+   0.0035,
+   0.0175,
+   0.0125,
+   -0.0075
+  ],
+  "te2": [
+   0.0055,
+   0.0225,
+   -0.0175,
+   0.0125
+  ],
+  "te3": [
+   0.006,
+   0.015,
+   0.0,
+   0.0
+  ]
+ },
+ "splits": {
+  "train": [
+   "rest",
+   "tr00",
+   "tr01",
+   "tr02",
+   "tr03",
+   "tr04",
+   "tr05",
+   "tr06",
+   "tr07",
+   "tr08",
+   "tr09",
+   "tr10",
+   "tr11"
+  ],
+  "val": [
+   "va0",
+   "va1"
+  ],
+  "test": [
+   "te0",
+   "te1",
+   "te2",
+   "te3"
+  ]
+ },
+ "renderer": "Inherited official Blender3.5.1 e1ccd9d4a1d3 CUDA scope. No new Blender smoke validation.",
+ "runtime_oracle_access": "Neither model implementation nor geometry preprocessing loads target matrices. Offline and evaluation explicitly separate."
+}

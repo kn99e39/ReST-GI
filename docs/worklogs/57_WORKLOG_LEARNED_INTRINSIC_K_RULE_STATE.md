@@ -35,3 +35,63 @@ Confirmed implementation defects: v1 summed aliased geometry/state tensors twice
 Architectural concern: R alone had learned graph context, so an improvement could not be credited to explicit state separation. The smallest bounded control repair keeps R unchanged and provides D fixed raw first-hop, second-hop and global means over the same material graph. D's input is560 channels, hidden48/node74,160458parameters; R remains162048 (<1% difference). This analytically matched control was selected without any model fit or held-out model result. The allowable claim is about this concrete learned nonlinear graph-state mechanism versus direct conditioning at matched context scope and fair caching. It cannot isolate abstract state separation from nonlinear aggregation, inductive bias or parameter allocation. No third family, capacity sweep, threshold/split/reference change or adoption occurs.
 
 A1 adds an actual rigid-operator action test after a world transform and material-frame pullback, checksum receipt/quarantine checks for complete cache names, atomic JSON writes, RNG-resume tests, fresh-process cache memory smoke and paired untrained forward/backward resource smoke (no optimizer steps). Disk bounds conservatively retain one uncoalesced record per photon, all action targets and geometry; CPU/GPU limits include training-resident data and geometry allowances. The exact corrected commit must receive GO before the supervisor accepts primary execution. Measurements and final GO/NO-GO follow below.
+
+
+## Focused preflight A1 final report — GO (2026-10-29)
+
+### Implementation Fact
+
+Final executable source/protocol: `dc6a5326b3abf0d962c18f3536e7b1cf376fe624` (A1 implementation `44180a3` plus a final parameter-iterator ledger correction). The latter materialises the parameter iterator once so retained totals include parameters; an explicit iterator test prevents regression. The first GO and subsequent brief revalidation pause are retained under `~/rest_wl57/preflight_44180a3_preserved`. Final evidence is [results/fnto_rule57/preflight_v2](../../results/fnto_rule57/preflight_v2/), including decision, raw measurements, environment, CSV and hashes.
+
+R is unchanged; D now receives fixed raw two-hop/global context. Both see current geometry and the same physical/material input, have the same local/tail/angular kernel family and cache opportunities, and remain within1% parameters (D160458/R162048). No model has been trained to select this correction. Git comparison against704f360 confirms **all numerical evaluation gates, training settings, geometry/light splits, reference settings, seeds and sample budgets are unchanged**.
+
+### Measurement
+
+Actual RTX3090 GPU tests on LabServer69: focused7/7, extra controls3/3, recovery fault-injection4/4. Historical regressions previously independently rerun against unchanged source: WL53 9/9, WL54 10/10 (generic runner's mask case explicitly skipped), WL55 10/10, WL56 6/6, plus the separate actual WL54 mask check passed. These historical results are retained in `results/fnto_rule57/preflight/tests`; they are not new physical-quality evidence.
+
+The real rigid test transformed the rest mesh by37degrees about(1,2,3) plus(0.03,-0.02,0.011)m, pulled the current geometry back through the declared supplied material frame, rebuilt geometry/ray intersections/coefficients, and compared three incident fields with rest-K reuse. Relative output L1: **D8.74585e-8, R1.07884e-7** (limit1e-6), equal canonical geometry identity; a dent invalidates identity. This exceeds a coordinate-inverse-only check. It uses an untrained operator and32 within-bin geometry samples, not an assertion about learned held-out fidelity.
+
+Unique cache allocations, including geometry, in decimal MB:
+
+| Arm | Parameters | Compact cache | Full cache | Incremental state | Incremental coefficients | Parameter bytes |
+|---|---:|---:|---:|---:|---:|---:|
+| D |160458|117.247|176.237|10.076|58.990|641832|
+| R |162048|111.594|170.584|4.424|58.990|648192|
+
+Common geometry is107170680bytes. Actual retained full geometry/state/coefficients/parameters: D176878752bytes, R171232632bytes; all four policies meet the same512000000byte ceiling. Synthetic aliases/views add zero duplicate bytes; sparse indices and values are counted. Each arm/policy was measured in a separate fresh PID (D1371271/1371357, R1371557/1371643). Cache-preparation PyTorch-CUDA peaks: D compact220508672/full399991296bytes, R compact172376064/full415318016bytes; query peaks: D399991296/258219008, R415318016/252574208bytes. These are explicitly allocator-scoped PyTorch allocated peaks, not an exact whole-driver peak. CPU RSS and CUDA reserved peaks are separately retained in raw worker JSON. No speed or quality advantage follows from this untrained smoke.
+
+Paired rest/dent forward/backward at effective batch2, **zero optimizer steps**, produced finite gradients. D allocated/reserved peak1.826/1.921GB; R3.081/3.169GB. Activation checkpointing plus microbatch accumulation agrees in gradient relative L2 to1.98e-7 on the focused control. RNG restoration was bit-exact for NumPy/Torch CPU/CUDA. Simulated interrupted partials do not replace a complete file; corrupt or unreceipted completed filenames are quarantined with reasons. Unknown errors stop rather than silently retry. OOM fallback, completed-stage skip and finite exhaustion were tested by fault injection, not a deliberately induced real device failure.
+
+Resource feasibility before resumed mass generation (decimal units):
+
+| Resource | Required, conservative | Available, measured |
+|---|---:|---:|
+| Disk on `/home/nd/rest_wl57` |97.18GB|1399.80GB|
+| CPU RAM |25.77GB|128.16GB|
+| GPU |6.15GB|25.16GB free|
+
+Disk reserves up to one uncoalesced20-byte record per photon across24 oracle operators (60.40GB), all action targets13.59GB, geometry2.04GB and extra headroom. GPU is a paired-gradient reserved peak plus conservative resident-geometry allowance and512MiB headroom; **it is an estimate of full-training feasibility, not a measured training peak**. Large extra driver allocations remain a measurement scope limitation, with substantial available headroom. No full supervision suite or optimizer training was performed by these preflight tests.
+
+### Observation
+
+The fixed-geometry operator algebra, material-frame rigid reuse, cache identity and bounded execution controls pass. Unique allocation accounting removes the original alias double count and cross-model peak contamination. Both actual cache modes fit comfortably. Resource smoke does not validate static/dynamic learned fidelity.
+
+### Interpretation
+
+The previous positive-R interpretation was too broad. Even after matching available context scope, the comparison bundles learned nonlinear aggregation, inductive bias and parameter allocation into the specific R mechanism. A positive result can support that implementation at quality-matched measured cost; it **cannot prove that abstract Rule–State separation alone is the cause**. Fair D full caching may eliminate any update/query advantage. This is declared before any model fit; no abstract architecture adoption is authorised.
+
+Reference uncertainty and the existing blue K/C physical floor are unchanged. No reference-quality verdict, TransGI claim, learned-K success or production change follows from preflight GO. The earlier prematurely started partial supervision and wrapper overlap remain documented and preserved; only checksummed complete physical caches may be reused.
+
+### Unresolved Question
+
+Whether either fixed learned model reaches useful held-out absolute and differential fidelity, and whether R has a quality-matched update/query advantage against D's best fair cache, remains unmeasured. Full-training peaks and non-PyTorch driver memory must remain distinguished. Global bending/twisting and self-contact are untested.
+
+### Architecture Verdict
+
+**Preflight: GO** for the explicitly narrowed, context-controlled specific mechanism comparison. Implementation measurement correctness and rigid material-frame control: SUPPORTED in these focused tests. Resource feasibility: CONDITIONALLY SUPPORTED by measured bounded smoke plus conservative estimates. D/R learned viability, R advantage, learned-K readiness and coupled physical GI: INCONCLUSIVE pending primary evidence. Rigid material-frame compatibility is measured; local-deformation identity/gradient operation is checked without fidelity claims; global bending/twisting and self-contact remain INCONCLUSIVE. No major architecture adoption or next research batch is decided.
+
+### Reproducibility and server continuation
+
+Final GO at00:22:46KST2026-10-29 for `dc6a5326b3abf0d962c18f3536e7b1cf376fe624`. Exact commands through `experiments/fnto_rule57/run.sh`: `tests/test_r57.py <out>`, `tests/test_preflight.py <out>`, `tests/test_supervisor.py <out>`, `r57_resource.py`. The last invokes fresh untrained `r57_cost.py worker rest {D,R} 5701 {compact,full} <out> untrained` processes and paired-gradient smoke. Environment is recorded in `environment.json`; split/budget controls are in `protocol/rule57.json`; raw file hashes are in `artifact_manifest.json`.
+
+The user's latest instruction explicitly superseded the preflight-only no-launch request: **on final GO automatically continue**. The detached preflight process exec'd the primary supervisor with the same PID/SID1371033 and PPID1. It independently continues reference completion → data gate → four fixed model/seed fits → held-out evaluation → fresh-process cost → conditional composition → server report, with finite OOM recovery and atomic resume. A failed gate or unrecoverable defect stops with logs; it never reports batch success merely because execution started. Current preflight completion is distinct from completion of WL57's architecture experiment.
