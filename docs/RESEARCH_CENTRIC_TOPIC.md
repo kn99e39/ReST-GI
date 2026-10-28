@@ -1,9 +1,23 @@
 # Research Centric Topic — Surface-Owned Selective Neural Transport Recomputation
 
-**Last updated:** 2026-10-23 (Batch 6 FNTO v0.1 reported NOT SUPPORTED; worklog 41 latest measured evidence)  
-**Status:** Active problem; Batches 1–4 of ≥ 5 reported. Static ownership feasibility is established on native Lego. The physical-edit Batch 4 (worklog 37) is CONDITIONAL: oracle-dirty units are sparse and include stationary receivers, their recompute recovers the changed region, and preserved units are exact and valid, At seed 0 the whole image is 0.05 dB short of the predeclared margin to full recompute. The 3-seed replicate (worklog 38) is within the margin (mean −0.08 dB). Hierarchical relation/learned selection is a future direction, not an implemented or validated method.  
+**Updated:** 2026-10-28 (current major architecture decision following WL55; historical sections preserved)
+**Status:** Current objective is accurate dynamic learned-GI reuse and selective transport update. Rule–State separation is an unverified hypothesis; CAK is not adopted; WL56 has been designed, not yet executed.
 **Target:** SIGGRAPH 2027 (official Technical Papers deadline to be verified separately)  
 **Superseded framing:** object-level-only selection (2026-10-12), archived at docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
+
+## Current Research Decision — Dynamic Transport Reuse (2026-10-28)
+
+**ADOPTED objective:** Maintain physically credible high-quality learned GI after geometry edits while avoiding recomputation of still-valid transport. K compression is a means to that end, not the research goal. Preserve FNTO's intrinsic optical-domain K / editable free-space C path ownership, spatial boundary information near contact, and scattered + ballistic readout (WL53–55 evidence).
+
+**TESTABLE, NOT ADOPTED:** An intrinsic reusable *transport rule* might be separable from *geometry-dependent within-domain transport state*. This is distinct from the established physical K/C factorization; it must earn its additional cost/quality benefit beyond exact domain-level selective recompute. Do not assume non-rigid ΔK is uniformly local, sparse, low rank, or cheap. No new learned-K representation or CAK production deployment is selected.
+
+**MANDATORY long-term coverage:** Rigid motion, local deformation, global bending/twisting, and self-contact/contact changes. Experiment **sequentially**, with the local-dent multi-domain case next and rigid as control; at each major architecture decision reconsider compatibility with **all four**, explicitly recording untested limitations.
+
+**COMPARISON contract:** Quality-matched Full Recompute is the primary dynamic-update baseline; exact oracle-domain selective and stale-K arms diagnose avoided work and physical invalidation. TransGI is a separate external dynamic-GI comparator: match geometry edit, materials, reference-quality regime, update/inference accounting, memory and hardware before claiming an advantage. Neither oracle Monte Carlo rebuilding speedups nor skipping known-valid domains alone establishes a neural contribution or a TransGI win. Preserve RNA/Surface-Owned/SPT-1 historical roles.
+
+**Next:** Worklog 56, Exact Selective K Recompute and Dynamic Update Cost Headroom, is **designed but not executed**; it measures remaining cost before any Rule–State model is chosen. Work on `Selective_Recompute` only; new branches/worktrees require explicit user consent.
+
+---
 
 ## Primary Representation Direction (2026-10-23; design, not evidence)
 
@@ -163,5 +177,9 @@ The new properties are hypotheses. Glossy and broader generalisation tests are e
 - No automatic advance to the next batch; each batch needs a user decision.
 
 ## 9. One-Line Research Definition
+
+> **Keep high-quality learned GI physically valid under geometry edits by reusing valid transport and updating invalid transport with favorable quality-matched end-to-end cost; test whether within-K Rule–State separation offers additional measurable benefit.**
+
+Historical Surface-Owned formulation (preserved):
 
 > **Keep high-quality learned GI valid under geometry edits by owning learned transport in independently reconstructible surface units, recomputing the complete state of only the units whose transport became invalid, and reusing every unit that remains valid.**
