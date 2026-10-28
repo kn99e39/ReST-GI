@@ -3,7 +3,7 @@
 No architecture/threshold/step-budget changes. OOM retries resume atomic checkpoints.
 Unknown errors fail closed; completed stages and all attempt logs are retained.
 """
-import os,sys,json,time,fcntl,subprocess,shutil,traceback,signal
+import os,sys,json,time,fcntl,subprocess,shutil,traceback,signal,ctypes
 from pathlib import Path
 
 ROOT=Path(os.environ.get('WL57',Path.home()/'rest_wl57'));HERE=ROOT/'repo/experiments/fnto_rule57';OUT=ROOT/'out';LOGS=ROOT/'logs';STATE=ROOT/'stages'
@@ -11,6 +11,9 @@ FALLBACKS=[{},
  dict(WL57_EDGE_CHUNK='32768',WL57_CHECKPOINT_EDGES='1',WL57_RAY_CHUNK='1000000',WL57_TR_CHUNK='1000000',WL57_EVAL_BATCH='2'),
  dict(WL57_EDGE_CHUNK='8192',WL57_CHECKPOINT_EDGES='1',WL57_MICROBATCH='1',WL57_STREAM_GEOMETRY='1',WL57_RAY_CHUNK='250000',WL57_TR_CHUNK='250000',WL57_EVAL_BATCH='1')]
 OOM=('cuda out of memory','cuda error: out of memory','cublas_status_alloc_failed','cuda_error_out_of_memory','outofmemoryerror')
+def parent_death_signal():
+    # Linux server only: a supervisor crash cannot leave an untracked stage writer.
+    ctypes.CDLL(None).prctl(1,signal.SIGTERM)
 def write(x,p):
     p=Path(p);tmp=p.with_name(p.name+'.partial');tmp.write_text(json.dumps(x,indent=1,allow_nan=False)+'\n');os.replace(tmp,p)
 def status(stage,state,**kw):
@@ -23,7 +26,7 @@ def run(stage,args,allow_gate=False):
         attempt=begin+level;log=LOGS/f'{stage}.attempt{attempt}.log';meta=log.with_suffix('.json');env=dict(os.environ,**extra);env['WL57_SUPERVISED']='1'
         status(stage,'RUNNING',attempt=attempt,resource_policy=level,environment=extra,log=str(log));t0=time.time()
         before=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid,process_name,used_memory','--format=csv,noheader'],text=True)
-        with open(log,'wb') as f:p=subprocess.Popen(['bash',str(HERE/'run.sh')]+args,cwd=HERE,env=env,stdout=f,stderr=subprocess.STDOUT);rc=p.wait()
+        with open(log,'wb') as f:p=subprocess.Popen(['bash',str(HERE/'run.sh')]+args,cwd=HERE,env=env,stdout=f,stderr=subprocess.STDOUT,preexec_fn=parent_death_signal);rc=p.wait()
         rec=dict(stage=stage,args=args,attempt=attempt,resource_policy=level,environment=extra,returncode=rc,wall_seconds=time.time()-t0,GPU_processes_before=before,commit=(ROOT/'repo_commit.txt').read_text().strip(),log=str(log));write(rec,meta)
         if rc==0:write(rec,done);status(stage,'DONE',attempt=attempt,wall_seconds=rec['wall_seconds']);return 0
         # No memory fallback is selected on validation/accuracy. Only explicit allocation errors qualify.
@@ -60,5 +63,7 @@ def main():
     run('heldout',['r57_eval.py','evaluate']);run('cost',['r57_eval.py','cost']);run('composition',['r57_compose.py']);run('report',['r57_report.py']);status('batch','COMPLETE')
 if __name__=='__main__':
     try:main()
+    except BlockingIOError:
+        print('Another WL57 supervisor owns the lock; leave its status and processes unchanged.',flush=True);sys.exit(73)
     except Exception:
         err=traceback.format_exc();status('batch','FAILED',error=err);(ROOT/'FAILURE.txt').write_text(err);print(err,flush=True);sys.exit(1)

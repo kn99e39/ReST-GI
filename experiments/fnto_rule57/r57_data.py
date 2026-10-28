@@ -1,5 +1,5 @@
 """WL57 offline supervision and data/physics gate. Candidate runtime never imports target-loading functions."""
-import sys,os,json,time,hashlib
+import sys,os,json,time,hashlib,fcntl
 from pathlib import Path
 import numpy as np
 import torch
@@ -26,7 +26,7 @@ def sha(p):
     return h.hexdigest()
 
 def save(x,p):
-    p=Path(p);p.parent.mkdir(parents=True,exist_ok=True);tmp=p.with_name(p.name+'.partial')
+    p=Path(p);p.parent.mkdir(parents=True,exist_ok=True);tmp=p.with_name(p.name+f'.{os.getpid()}.partial')
     torch.save(x,tmp);os.replace(tmp,p)
 
 def aggregate(y,parent,coarse=True):
@@ -145,4 +145,5 @@ def data_gate():
 
 if __name__=='__main__':
     OUT.mkdir(parents=True,exist_ok=True);DATA.mkdir(parents=True,exist_ok=True)
+    lock=open(ROOT/'data_writer.lock','a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     {'build':build_targets,'gate':data_gate}[sys.argv[1]]();sys.stdout.flush();os._exit(0)
