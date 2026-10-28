@@ -1,9 +1,23 @@
 # Architecture — Surface-Owned Baseline and FNTO Candidate
 
-**Updated:** 2026-10-23 (Batch 6 FNTO v0.1 reported NOT SUPPORTED, worklog 41 latest measured evidence)  
-**Status:** Batches 1–3 of ≥ 5 reported. Ownership contract exact; on the credible native Lego (worklog 36) independent units under PU composition keep static fidelity within the screening (−0.31 dB, logL1 1.05×; Case A); after a real edit (worklog 37, oracle D*) complete-state recompute of the dirty units recovers the changed-region radiance (R = 0.98) with V* bit-identical and valid, the whole image is −0.31 dB vs full recompute at seed 0 (CONDITIONAL), and a 3-seed replicate puts the mean gap at −0.08 dB, within the margin (worklog 38)  
+**Updated:** 2026-10-28 (current major architecture decision following WL55; historical sections preserved)
+**Status:** FNTO physical K/C contract retained with WL53–55 spatial-boundary and ballistic-readout evidence. CAK not adopted; within-K Rule–State unverified; WL56 designed but not executed.
 **Branch:** Selective_Recompute  
 **Historical architectures:** docs/history/ARCHITECTURE_LIFECYCLE_SEPARATION_2026-10-07.md, docs/history/ARCHITECTURE_INTRA_OBJECT_FEATURE_REFIT_2026-10-08.md, docs/history/ARCHITECTURE_OBJECT_LEVEL_SELECTION_2026-10-12.md
+
+## Current Architecture Decision — Dynamic Reuse (2026-10-28)
+
+**ADOPTED:** Solve dynamic learned-GI validity and quality-matched update cost through reuse of still-valid transport and correct recomputation of invalid transport. Compression of intrinsic K is instrumental, not the primary objective. FNTO K (intrinsic optical-domain scattering) and C (editable free-flight, including exposed same-asset re-entry) retain disjoint physical ownership. Keep sub-port information near contact and scattered + ballistic readout as evidence-backed requirements (WL53–55). CAK is **not adopted**.
+
+**FALSIFIABLE HYPOTHESIS, NOT AN IMPLEMENTATION DECISION:** A persistent transport *rule* may be separated from configuration-dependent *state* within an invalidated optical-domain K. Do not conflate this with K/C separation or require local/sparse/low-rank ΔK. First measure exact full versus oracle domain-selective recompute at matched fidelity, then decide whether the residual K cost warrants a learned Rule–State model.
+
+**COVERAGE:** Rigid motion, local deformation, global bending/twisting, self-contact/contact changes remain required long-term. Test sequentially; every major representation decision must record implications for untested cases.
+
+**COMPARATORS:** Quality-matched Full Recompute, exact domain-selective K recompute, stale K, and later TransGI under aligned material/geometry/reference/timing contracts. Report offline oracle costs separately from runtime neural costs; account for K, C, coupled solve, readout, caching and supervision. Do not infer novelty from skipping unchanged-domain K.
+
+**NEXT:** WL56 experiment prompt prepared, not run: multi-domain local dent plus rigid control; measure actual full/selective/stale fidelity and end-to-end cost before training Rule–State. Continue only on `Selective_Recompute`, no new worktree or branch without approval.
+
+---
 
 ## 0. Primary Next Representation — FNTO (Design Only, 2026-10-23)
 
