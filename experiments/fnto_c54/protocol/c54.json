@@ -1,0 +1,123 @@
+{
+ "protocol": "fnto_c54",
+ "worklog": "docs/worklogs/54_WORKLOG_EXPLICIT_C_SPATIAL_FIDELITY.md",
+ "authorisation": "user brief 'ReST-GI - Worklog 54: Explicit C Spatial Fidelity and Resolution Contract - Bounded Architecture Evidence & Conditional Correction' (2026-10-28)",
+ "isolation": {
+  "branch": "wl54_explicit_c (worktree .claude/worktrees/wl54)",
+  "start_commit": "f0d3f2287574a66e663aafa5157938321544e53f (branch Selective_Recompute)",
+  "code": "experiments/fnto_c54 only. experiments/phys_ref53 is imported unchanged (p53_compose.cast_C / sun_external / SceneSet / solve, p53_fixtures, p53_geom, p53_tracer, p53_report.compare); no production FNTO module, no K44 / DASQ checkpoint, no WL52 file is read or written; WL53 results are read only",
+  "machine": "LabServer69 (RTX 3090 24 GB, 16 cores, driver 550.54, Mitsuba 3.5.1 cuda_ad_rgb as ray intersector only, torch 2.3.1+cu121, Cycles 3.5.1 in restgi/bpy-runtime:22.04). WL52 and WL53 are finished; the GPU is idle for timing runs (checked with nvidia-smi before every timing run)",
+  "server_dir": "~/rest_wl54 (repo copy by tar, results ~/rest_wl54/out)"
+ },
+ "disclosures_before_this_commit": [
+  "Stage A replay and comparison-unit audit (c54_audit.py replay / unit) were run on the stored WL53 data before this protocol was written. Observed: the stored G3 groups replay to 0.0 difference; V0 (WL53 interior unit) and V1 (centre-ray unit) agree exactly on every face-on camera and differ by up to 8-33 percentage points on the 10-port oblique side-face groups (e.g. gap4 obot slab_lo:-y +2.1 % vs -31.5 %, gap8 obot slab_lo:-y -24.5 % vs -16.2 %)",
+  "Exploratory Lambert runs (explore1-3, no Cycles reference) were made on gap4 (levels 2..32) and floor_lam (levels 2,4,8) to check feasibility and cost. Observed before the protocol: for floor_lam dom:bot the Galerkin-coarse vs fine-projection difference was +6.14 % and the production sampler vs exact Galerkin -0.08 %; for gap4 the fine solution converges geometrically in the uniform refinement level (successive pooled changes on the gap faces 7.1 / 1.3 / 0.45 / 0.15 % for s = 2 -> 4 -> 8 -> 16 -> 32) and the coarse interface is +20 % / +44 % off on slab_lo:top / slab_hi:bot. The refinement criterion constants below (c = 2, l_max = 8) were declared from the Galerkin error scaling (w / d)^2, not tuned on these runs; the sensitivity arms c = 1 and c = 4 are reported next to the primary and none of the arms is selected after results",
+  "A fixed-seed observation: WL53's ray-count control (128 / 512 / 2048 C rays per out-cell) reused the same sun-visibility realization (K_ext = 256, seed 5341) in every variant, so it does not bound the noise of that estimator; this protocol therefore runs replicate seeds and one-factor variants"
+ ],
+ "conventions": {
+  "units": "as WL53 (m; radiance W m^-2 sr^-1; flux W; sun = collimated beam with perpendicular irradiance E = 1)",
+  "K_lambert": "opaque Lambert, rho = 0.8 grey, exact local K at every spatial resolution (no directional dependence: out-bin and in-bin counts do not change a Lambert result)",
+  "C": "p53_compose.cast_C unchanged: unbiased ray estimator of the flux fraction leaving an out-cell whose air ray first enters an in-cell; uniform position on the cell, uniform in projected solid angle inside the out-bin",
+  "coarse_ports": "WL53 1 cm ports (production C0 interface). Fine unknown = one cell of an s x s subdivision of a port (s = 1, 2, 4, 8, 16, 32); cell flux is a conservative partition of the port flux (area weights)",
+  "projection": "coarse radiance of a port = area-weighted mean of the fine cell radiances (conservative: coarse flux = sum of fine flux)",
+  "galerkin": "C_g[I, J] = sum_{i in I, j in J} C_ij A_j / A_J: the exact operator for a piecewise-constant coarse field (uniform radiance per port)",
+  "comparison_unit_primary": "V1: port average over every pixel whose CENTRE ray hits the port (the Cycles image is point-sampled), >= 30 pixels per port; WL53's interior unit V0 (centre and four corner rays) is reported next to it for every group. Primary because the image is point-sampled and V1 is unbiased for a point-sampled field; V0 drops edge rows",
+  "bias": "B = sum(pred - ref) / sum(ref) over the ports of a group (WL53 definition); a group is ruled if it has >= 5 ports and >= 2 % of the camera's reference signal; 3 % rule: |B| <= 0.03 + 3 SE (SE from the reference seeds, plus replicate seeds where used)",
+  "ruled_group_labels": "component:face (as WL53 port_groups); floor is one group",
+  "nonfinite": "metrics JSON replaces nonfinite numbers by null (c54_common.dump uses allow_nan = False)"
+ },
+ "fixtures_lambert": {
+  "gap4": "two closed 10 x 10 x 1 cm Lambert boxes, 4 mm gap, sun 30 deg (travel (sin30, 0, -cos30)); cameras top bot otop obot gapdown gapup (WL53 gap cameras)",
+  "gap8": "8 mm gap, same",
+  "gap30": "30 mm gap (wider-gap control), same",
+  "floor_lam": "box 1 cm above a 30 x 30 cm Lambert floor, sun 40 deg az 20; cameras top otop underup underdown (WL53 amendment 4 scene)",
+  "lblock_lam": "L-block (10 x 10 x 1 + 5 x 10 x 1 cm, concave) 1 cm above the floor; cameras top otop underup underdown ocorner",
+  "rot_lam": "floor_lam with the box rotated 17 deg about z and shifted (3.7, -2.1) mm: box edges and shadow edges no longer coincide with the floor-port grid (controlled sub-port visibility change)",
+  "cycles_reference": "Cycles 3.5.1, Lambert, seeds 5401-5404, 2048 spp, 0.5 mm pixels (1 mm for top / otop), WL53 reset() settings (point-sampled Gaussian 0.01 px, 1024 bounces, no clamping, sun angle 0); the WL53 Lambert chain control (1.0000003) and direct-lit faces (<= 0.5 %) validate the renderer's radiometry for these materials"
+ },
+ "stage_B": {
+  "arms": {
+   "C0prod": "production C0: coarse mesh (sub-4 tessellation), Dout 64 / Din 16, M = 128 rays per out-cell, K_ext 256, seeds 5340 / 5341 (the WL53 realization)",
+   "C0prod_rep": "8 replicates of C0prod with seeds C 5600+r, sun-visibility 5700+r",
+   "C0_Eonly": "C0prod with K_ext = 4096 (same C seed and rays)",
+   "C0_Conly": "C0prod with M = 2048 (same sun-visibility realization)",
+   "C0inf": "coarse interface, Dout = Din = 1, M = 65536 per port, K_ext = 4096 (sampling-noise-free coarse C)",
+   "F_s": "fine solve s = 2, 4, 8, 16 for every fixture (+ 32 for gap4 as a convergence check); rays per cell MS = {2: 1024, 4: 512, 8: 256, 16: 128, 32: 64} (rays per coarse port 4096 / 8192 / 16384 / 32768 / 65536); K_ext per cell {256, 256, 128, 64, 32}; seeds C 5410+s, sun 5420+s; one replicate at the finest level (seeds 5510+s / 5520+s)",
+   "G_s": "Galerkin-exact coarse solve built from F_s's C"
+  },
+  "decomposition": {
+   "A_representation": "G_sref vs F_sref (exact transfer integrals on the coarse interface vs the converged fine solution projected onto it): the error of the piecewise-constant 1 cm interface",
+   "B_sampled_C": "C0prod vs G_sref and the replicate / one-factor arms: production sampler and sun-visibility estimator on that interface",
+   "C_readout_reference": "F_sref vs Cycles (V1 and V0): validity of the fine reference and of the comparison unit",
+   "T_total": "C0prod vs Cycles: what WL53 measured"
+  },
+  "reference_level": "sref = 16 for every fixture. Convergence rule: the pooled change of every ruled group between s = 8 and s = 16 is <= 1 %; otherwise the group is flagged unconverged and |F16 - F8| is reported as its reference uncertainty. gap4 s = 32 is the convergence check of s = 16",
+  "source_receiver_separation": "known-field transfer test: with the converged fine outgoing flux phi_F as the prescribed source field, the receiver port irradiance with the fine source (exact) vs with the source averaged per coarse port (uniform radiance per port) -> the source-averaging effect; split by source-receiver distance bins (< h, h-2h, 2h-4h, > 4h); plus synthetic prescribed fields (uniform, linear ramp, exponential decay, step). Receiver averaging is lossless for port flux by construction (conservative sum) and is reported as such; its only consequence is the uniform re-emission assumption at the next bounce, which is the same source-averaging assumption",
+  "attribution_rules": {
+   "spatial": "For every ruled group that misses the 3 % rule in T (C0prod vs Cycles V1) on a face-on camera: attribution fraction a = A / (C0prod vs F_sref bias). Spatial attribution of the group: SUPPORTED if 0.5 <= a <= 1.5 and |B (replicate mean)| <= 1 %; estimator noise if replicate sd >= 0.5 |T bias|; comparison unit if |V1 - V0| >= 0.5 |T bias|; readout / reference if |F_sref vs Cycles V1| >= 0.5 |T bias|. Factors that satisfy none are reported as unattributed",
+   "overall": "SPATIAL ATTRIBUTION is SUPPORTED if the Lambert control floor_lam (dom:bot and floor under the box, camera underup / underdown) and the Lambert gap4 / gap8 gap faces are each spatially attributed; PARTIAL if some are; NOT SUPPORTED otherwise"
+  }
+ },
+ "candidate_CASP": {
+  "name": "contact-adaptive sub-port explicit coupling (CASP)",
+  "description": "ONE mechanism: conservative adaptive refinement of the explicit C unknowns (hierarchical-radiosity-style link refinement). A port is subdivided into l x l cells (one unknown per cell) where its near-field transport is spatially resolved only by cells smaller than the distance to the surfaces it exchanges light with. The criterion is geometry only (independent of lighting and of the radiance field), so it is recomputed with C when geometry changes",
+  "level_rule": "per port J: cast 256 cosine-weighted rays (seed 5801) from uniform positions; nu(J) = fraction of rays with first-hit distance t < 4 h (h = 1 cm); if nu(J) < 0.05 then l(J) = 1 else d(J) = median of the t < 4 h hits and l(J) = clamp(2^ceil(log2(c h / d(J))), 1, l_max). Primary c = 2, l_max = 8; sensitivity arms c = 1 and c = 4 (l_max 8) are reported, none selected",
+  "unknowns": "cells (port, a, b) of the l x l subdivision, built from the port's current grid (bilinear in the port's 4 / 2 grid points; rigid and non-rigid deformations carry through the coarse-port grid)",
+  "rays_budget": "equal to production: rays per coarse port = 128 x 64 = 8192; cells of an l x l port get 8192 / l^2 rays each (>= 32); reported also with 4x budget as a sensitivity arm",
+  "conservative_mapping": "sources: coarse flux -> cell flux by area weights; receivers: cell flux -> coarse port flux by sum. A domain whose K is port-resolved (WL53 medium TR operator, K_coarse) stays at coarse unknowns: its receiving cells collapse by sum and its emission is uniform per (port, out-bin); the refinement therefore acts on domains with local K (Lambert / opaque) and on the K-C interface through receiver sums. K's coefficients and meaning are unchanged. A medium-to-medium link is unchanged in expectation: this is a predeclared architectural dependency, tested in Stage E (including a labelled matched-resolution oracle control with TR at 5 mm ports, Dout = Din = 16)",
+  "preserved": "positivity (rays carry non-negative weights), flux closure (every ray hits a cell or escapes), path ownership (air segments only; no medium sub-path), source / receiver direction semantics (bins in the parent port frame), reciprocity of the area-weighted flux"
+ },
+ "stage_D_tests": {
+  "analytic_form_factor": "coaxial parallel squares (10 cm side, gaps 4 / 8 / 30 mm; Modest / Hottel closed form) vs the C estimate at s = 8, 16 and CASP: <= 1 % (MC noise accounted)",
+  "flux_closure": "sum of a column of C plus escape = 1 to 1e-6 for every cell, every arm (CASP incl.)",
+  "reciprocity": "area-weighted: A_i F_(i<-j) vs A_j F_(j<-i) pooled asymmetry <= 1.25 x the cross-seed statistic + 0.005 (WL53 rule), for uniform s and for CASP's mixed-level mesh",
+  "zero_and_superposition": "zero source gives exactly 0; solve(a + b) = solve(a) + solve(b) to 1e-6 relative (linear operator)",
+  "nonnegativity": "all C entries >= 0; all radiances >= 0",
+  "escape_accounting": "escape fraction per cell + sum of C column = 1; open geometry (floor) escapes counted",
+  "blocker": "no C entry across an opaque blocker: a thin black plate between two plates removes the transfer (< 1e-9) in uniform s and CASP",
+  "rigid_consistency": "rotating + translating a whole scene leaves the pooled port radiance unchanged to the MC noise (cross-seed statistic); CASP levels are rotation-invariant",
+  "same_domain_reentry": "concave L-block exposed self-interreflection preserved with the same flux as the fine uniform solution within MC noise; convex box has none",
+  "no_path_duplication_with_K": "medium domains: zero back-face hits in cast_C (rays that would enter a medium never start in air); Lambert / medium arms keep K as the only in-domain operator (no refined cell carries a medium sub-path); the WL53 'dup' control semantics are not re-opened",
+  "determinism": "the same seed gives the same C and radiance bit for bit; chunk size does not change the solution beyond 1e-6 (float64 accumulation in the solver)",
+  "k_c_fixed_point": "the coupled solve converges (rho < 1, closure <= 1) and an iteration-count independent solution is reached to 1e-7 relative change; rho reported",
+  "wl53_regression": "experiments/phys_ref53/tests/test_p53.py (9 tests) is re-run unchanged on LabServer69; shared WL53 code is not modified"
+ },
+ "stage_E": {
+  "arms": {
+   "C0": "frozen production explicit C (as WL53)",
+   "C1": "CASP (primary parameters)",
+   "Cfine": "uniform fine explicit transport oracle (diagnostic ceiling, s = 8 for Lambert)",
+   "Kfine_control": "labelled matched-resolution control: TR slab operator at 5 mm ports (Dout = Din = 16) with uniform fine C (s = 2), against the matched coarse (1 cm, Dout = Din = 16) operator; run only if the coarse-K arms leave medium-to-medium groups unresolved"
+  },
+  "scenes": "Lambert: gap4, gap8, gap30, floor_lam, lblock_lam, rot_lam. WL53 medium K (stored T matrices, coarse K): gap4, gap8, floor (slab over Lambert floor), lblock, and bend90 / dent with stale (rest) and current K if the interface supports it",
+  "metrics": "incoming transport accuracy (single-flight known-field transfer), single-flight transfer error vs the fine solve, coupled error vs Cycles (V1 primary, V0 reported) per group / camera / channel, multi-bounce rho and closure, near-contact bias (ports with nu >= 0.05), visibility-boundary bias (rot_lam), oblique-side groups (reported separately, always including gap8 obot slab_lo:-y), temporal change tracking (T0 -> T1 by the rigid box move in rot_lam vs floor_lam and by bend90 / dent), per-material / per-face error, full per-port error distribution (p50 / p90 / p99 / max)",
+  "composition_restoration": "RESTORED only if every ruled group of every required fixture passes the historical 3 % rule (|B| <= 0.03 + 3 SE, V1 primary) in all three channels. A candidate that reduces the worst ruled |B| by >= 50 % but misses is PARTIAL evidence",
+  "differential_K_update": "paired differential D = pred(stale K) - pred(current K) with the same C and the same reference: the reference cancels in err_stale - err_current. Ranking stale vs current is reliable on a group iff |D_g| > 2 (|B_current,g| + 3 SE_g) (a shared bias smaller than |D| / 2 cannot flip the order), with SE_D from the TR seed pair; a separate 1 % differential-error target is evaluated as |D_g - D_g(fine C)| <= 0.01 of the group signal; the 3 % absolute rule is not replaced by it"
+ },
+ "evidence_classes": {
+  "attribution_evidence": "Stage B decomposition and the source / receiver separation; descriptive, rules above",
+  "operator_correctness": "Stage D tests all pass for C1 (uniform fine and CASP)",
+  "composition_restoration": "Stage E, Lambert exact-K fixtures: RESTORED per the rule above; medium-K scenes reported separately and never pooled with Lambert",
+  "efficient_candidate_viability": "RESTORED (Lambert) AND unknowns <= 4 x the coarse unknowns AND C build + 20 solve iterations <= 10 x the same quantity for C0 on the same GPU, uncontended, 5 repeats, CUDA-synchronised; otherwise the candidate is a high-accuracy diagnostic C only. Production real-time readiness is a separate milestone and is not claimed from any of these",
+  "scalability": "empirical timings vs port count (floor 10 / 20 / 30 / 60 cm), near-contact density (gap 4 / 8 / 30 mm) and a geometry change (box shift); no asymptotic claim without an algorithmic argument and measurements"
+ },
+ "stage_F_cost": "per arm: level-assignment prepass, relation (C) build, sun term, solve iterations, application (sparse mm), end-to-end update after a rigid box move, peak GPU memory (torch.cuda.max_memory_allocated after reset), nnz and bytes of C, CPU / GPU split; hardware matched, uncontended; the historical Python-looped relation build is not used as the comparison when the GPU caster (cast_C with chunking) is the apples-to-apples C0",
+ "seeds": {
+  "cycles": [5401, 5402, 5403, 5404],
+  "C0prod": [5340, 5341], "C0prod_rep_C": "5600+r", "C0prod_rep_sun": "5700+r", "C0inf": [5400, 5401], "fine_C": "5410+s", "fine_sun": "5420+s", "fine_replicate": "5510+s / 5520+s",
+  "casp_prepass": 5801, "casp_C": 5810, "casp_sun": 5811, "casp_replicates": "5820+r / 5830+r",
+  "tr_kfine_control": [5851, 5852]
+ },
+ "verdict_mapping": {
+  "baseline_audit_reliability": "SUPPORTED if the stored WL53 composition tables replay exactly, the fresh composition reproduces the stored predictions to the determinism tolerance, and the discrepancies found in the WL53 prose are listed; CONDITIONALLY SUPPORTED if tables reproduce but claims A-E carry a listed caveat",
+  "spatial_error_attribution": "per the attribution rules above",
+  "candidate_physical_correctness": "SUPPORTED if every Stage D test passes",
+  "absolute_composition_accuracy": "SUPPORTED if RESTORED on all Lambert fixtures and on the medium-K scenes with a coarse-K-compatible interface; CONDITIONALLY SUPPORTED if RESTORED on the Lambert fixtures only; NOT SUPPORTED otherwise",
+  "near_contact_oblique_fidelity": "per the near-contact / oblique-group metrics; the oblique 10-port side groups are judged on V1 and V0 together and are never excluded",
+  "differential_K_reuse_readiness": "per the differential rule above",
+  "dynamic_update_cost": "per the efficient_candidate_viability thresholds",
+  "scalability": "per the empirical scaling table",
+  "production_integration_readiness": "NOT SUPPORTED unless every item above is SUPPORTED and the K-C interface dependency is resolved; not expected from this batch"
+ },
+ "amendments": []
+}
