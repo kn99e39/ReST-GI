@@ -176,3 +176,16 @@ def levels_for(name, c=2.0, lmax=8, seed=5801, bins=(1, 1)):
     """Geometry-only levels of the coarse WL53 ports of fixture `name`."""
     lam = LM.Lam(name, 1, bins, coarse_mesh=True)
     return assign_levels(lam.ss, c=c, lmax=lmax, seed=seed)
+
+
+def rho_robust(ss, Tm, C, iters=300, seed=0):
+    """Dominant eigenvalue of K C per channel by power iteration on A^2 from a positive start (flux-sum normalised). WL53's p53_compose.
+    spectral_radius iterates A and reports the last norm ratio, which is not a valid estimator when A has a +- eigenvalue pair (any bipartite
+    coupling: slab <-> floor, slab_lo <-> slab_hi); the A^2 iteration has a single dominant positive eigenvalue and sqrt gives |lambda_1|.
+    Validated against scipy Arnoldi in the amendment-2 audit (c54_rho_check.py)."""
+    g = torch.Generator(device=DEV); g.manual_seed(seed)
+    v = torch.rand(ss.Ptot * ss.Dout, 3, device=DEV, generator=g) + 0.1; v = v / v.sum(0); lam2 = None
+    for _ in range(iters):
+        w = CP.apply_K(ss, Tm, CP.apply_C(C, v)); w = CP.apply_K(ss, Tm, CP.apply_C(C, w))
+        sw = w.sum(0); lam2 = sw / v.sum(0); v = w / sw.clamp(min=1e-30)
+    return torch.sqrt(lam2.clamp(min=0)).cpu().tolist()

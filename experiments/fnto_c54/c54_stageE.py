@@ -87,7 +87,7 @@ def run_arm(sd, ov, parents, sun, Tm, KCm, cams_keys, kci, modes, seeds, K_ext=2
         else:
             rho = torch.tensor(comp.rho, dtype=torch.float32, device=DEV)
             phi0[sl.start * ss.Dout:sl.stop * ss.Dout] = ((Ep[sl] * ss.port_area[sl])[:, None] * rho / ss.Dout).repeat_interleave(ss.Dout, 0)
-    sol = CP.solve(ss, Tm, C, phi0); rho_s = CP.spectral_radius(ss, Tm, C)
+    sol = CP.solve(ss, Tm, C, phi0); rho_s = CA.rho_robust(ss, Tm, C); rho_wl53 = CP.spectral_radius(ss, Tm, C)
     # coarse-port arrays (area-weighted for refined Lambert comps)
     par = np.concatenate(parents); nc = int(par.max()) + 1; area = ss.port_area.double().cpu().numpy(); wsum = np.bincount(par, weights=area, minlength=nc)
     pred = {}
@@ -100,7 +100,7 @@ def run_arm(sd, ov, parents, sun, Tm, KCm, cams_keys, kci, modes, seeds, K_ext=2
             else:
                 L = CP.readout(ss, d, sol, None, E_ext=Ep, mode="bin")
             L = L.double().cpu().numpy(); pred[f"{key}__{mode}"] = np.stack([np.bincount(par, weights=area * L[:, c], minlength=nc) / wsum for c in range(3)], 1)
-    meta = dict(label=label, cells=int(ss.Ptot), coarse_ports=nc, rho=rho_s, iters=sol["iters"], converged=bool(sol["converged"]), nnz=int(C._nnz()), t_C=t_C,
+    meta = dict(label=label, cells=int(ss.Ptot), coarse_ports=nc, rho=rho_s, rho_wl53_power300=rho_wl53, iters=sol["iters"], converged=bool(sol["converged"]), nnz=int(C._nnz()), t_C=t_C,
                 wall=time.time() - t0, back_hits=st["back_hits"], gpu_peak_gb=torch.cuda.max_memory_allocated() / 1e9)
     log("arm", scene_name_global, label, json.dumps(meta)); del C, ss, sol; torch.cuda.empty_cache()
     return pred, meta

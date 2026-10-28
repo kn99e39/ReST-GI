@@ -67,7 +67,7 @@ def compose(scene, s, m, op, Ts, seed_off=0):
         dom = TR.Domain(comp.mesh, comp.Vcur, FX.SIGMA_T, FX.ALBEDO, FX.G_PHASE, name=comp.name)
         r = TR.run_sun(dom, sun, E, OR.CFG["n_sun"], 5342 + ci + seed_off, DB, cams=DIRS, shadow=ss.isect); sl = ss.comp_ports(ci)
         phi0[sl.start * DB:sl.stop * DB] = r["T"][:, :, 0].T; L0[ci] = r["KC"][:, :, :, 0].permute(0, 2, 1).contiguous(); del r, dom; torch.cuda.empty_cache()
-    Tm = {0: op["T"], 1: op["T"]}; sol = CP.solve(ss, Tm, C, phi0); rho = CP.spectral_radius(ss, Tm, C)
+    Tm = {0: op["T"], 1: op["T"]}; sol = CP.solve(ss, Tm, C, phi0); rho = CA.rho_robust(ss, Tm, C); rho_wl53 = CP.spectral_radius(ss, Tm, C)
     pred = {}
     for k, key in enumerate(CAMS):
         d = np.asarray(FX.DIRS[key]); KCk = {ci: op["KC"][k] for ci in (0, 1)}; L0k = {ci: L0[ci][k] for ci in (0, 1)}
@@ -76,7 +76,7 @@ def compose(scene, s, m, op, Ts, seed_off=0):
         wproj = torch.zeros(ss.Ptot, device=DEV).index_add_(0, ss.tri_port, ss.area * (ss.n * ct).sum(1).clamp(min=0)).double().cpu().numpy()
         par = np.concatenate([coarse_parent(m, s) + 240 * ci for ci in (0, 1)]); w = np.maximum(wproj, 1e-30)
         pred[f"{key}__nee"] = np.stack([np.bincount(par, weights=w * L[:, c], minlength=480) / np.bincount(par, weights=w, minlength=480) for c in range(3)], 1)
-    meta = dict(ports=int(ss.Ptot), rho=rho, iters=sol["iters"], converged=bool(sol["converged"]), back_hits=int(st["back_hits"]))
+    meta = dict(ports=int(ss.Ptot), rho=rho, rho_wl53_power300=rho_wl53, iters=sol["iters"], converged=bool(sol["converged"]), back_hits=int(st["back_hits"]))
     log("compose", scene, s, json.dumps(meta)); del C, ss, sol; torch.cuda.empty_cache()
     return pred, meta
 
