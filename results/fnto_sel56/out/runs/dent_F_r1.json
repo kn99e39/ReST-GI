@@ -1,0 +1,155 @@
+{
+ "timings": {
+  "boundary": 0.11050976067781448,
+  "CSR_and_transfer": 0.29467823542654514,
+  "C": 0.023180300369858742,
+  "illumination": 0.1459526028484106,
+  "K_direct": 0.006938336417078972,
+  "solve": 0.2010920513421297,
+  "readout": 0.19287136010825634,
+  "other_bookkeeping_and_state_transfer": 0.09784575924277306
+ },
+ "update_shared_seconds": 1.073068406432867,
+ "rho": [
+  0.7755332589149475,
+  0.7016755938529968,
+  0.42878982424736023
+ ],
+ "rho_diagnostic_seconds": 2.219179468229413,
+ "validation_diagnostic_seconds": 2.242654465138912,
+ "converged": true,
+ "iterations": 51,
+ "last_rel": 8.457398337213817e-08,
+ "fixed_point_rel": 7.805061841281713e-08,
+ "closure_max": 0.0,
+ "back_hits": 0,
+ "max_colsum": {
+  "0": [
+   0.9976369572978001,
+   0.9777248851460172,
+   0.8399101733230907
+  ],
+  "1": [
+   0.9976276705856435,
+   0.9776834279909963,
+   0.8414089770316779
+  ]
+ },
+ "transport_stats": {
+  "0": {
+   "leak_rate": 6.278355916341146e-07,
+   "truncated": 0
+  },
+  "1": {
+   "leak_rate": 4.927317301432292e-07,
+   "truncated": 0
+  }
+ },
+ "cells": 8080,
+ "C_nnz": 1329514,
+ "C_bytes": 26590280,
+ "external_flux": [
+  0.031187888234853745,
+  0.031187888234853745,
+  0.031187888234853745
+ ],
+ "field_seed": 5661,
+ "C_seed": 5681,
+ "source_not_target": true,
+ "gpu_allocated_peak": 4442255360,
+ "gpu_reserved_peak": 5366611968,
+ "cpu_rss_peak_bytes": 5785477120,
+ "state": "dent",
+ "arm": "F",
+ "rep": 1,
+ "replay": false,
+ "independent_clean": false,
+ "packages": {
+  "0": {
+   "path": "/home/nd/rest_wl56/ops/dent_F_r1_d0.pt",
+   "seed": 5562,
+   "content_hash": "a8d519565b595c28e3ca002b333251d68c108f72b91fa7e69399fd24f8ad3429",
+   "signature": "ef2f7e3922acfaacadfae100b9a491dc8e96f95046a616aca29c848030392017",
+   "bytes": 1683728055,
+   "TR_seconds": 176.4858214855194,
+   "write_seconds": 0.9812120608985424,
+   "nnz": 57640447,
+   "stats": {
+    "photons": 125829120,
+    "exits": 125829041,
+    "leaks": 50,
+    "wrong_side": 29,
+    "truncated": 0,
+    "nee_invalid": 204,
+    "steps": 684,
+    "collisions": 2100220586,
+    "flux_in": [
+     61440.0,
+     61440.0,
+     61440.0
+    ],
+    "flux_out": [
+     60446.1203044244,
+     53588.07902087907,
+     31601.77460840098
+    ],
+    "flux_leak": [
+     0.024125378666212782,
+     0.021956557931844145,
+     0.013435536175990137
+    ]
+   },
+   "complete_build_wall": 181.3476760070771,
+   "recomputed": true,
+   "identity_check_seconds": 3.337836565449834
+  },
+  "1": {
+   "path": "/home/nd/rest_wl56/ops/dent_F_r1_d1.pt",
+   "seed": 5566,
+   "content_hash": "689c434736a25e76510b8971cede463b7b5ad811bc2cbc0bdddc0256d0b523a8",
+   "signature": "f77ed18bb1341916274364fada1969b58121b8c701a78a0f382297b16d625b3e",
+   "bytes": 1683314935,
+   "TR_seconds": 178.26745510101318,
+   "write_seconds": 0.971172483637929,
+   "nnz": 57619795,
+   "stats": {
+    "photons": 125829120,
+    "exits": 125829058,
+    "leaks": 40,
+    "wrong_side": 22,
+    "truncated": 0,
+    "nee_invalid": 175,
+    "steps": 718,
+    "collisions": 2057322797,
+    "flux_in": [
+     61440.0,
+     61440.0,
+     61440.0
+    ],
+    "flux_out": [
+     60465.5159541654,
+     53694.158489896174,
+     31652.140857789524
+    ],
+    "flux_leak": [
+     0.0192935521772597,
+     0.017546531875268556,
+     0.010695242099796332
+    ]
+   },
+   "complete_build_wall": 182.95361085608602,
+   "recomputed": true,
+   "identity_check_seconds": 3.3158408869057894
+  }
+ },
+ "dirty_domains": [
+  1
+ ],
+ "package_seconds": 371.03031408414245,
+ "total_update_seconds": 372.1033824905753,
+ "observed_wall_seconds": 374.4957384187728,
+ "gpu_processes_before": "",
+ "process_pid": 1329791,
+ "start_commit": "3b3ce4c1801ceca5aeac016bc45536c0c41aa1dd",
+ "hardware": "NVIDIA GeForce RTX 3090, 24 %, 5610 MiB"
+}

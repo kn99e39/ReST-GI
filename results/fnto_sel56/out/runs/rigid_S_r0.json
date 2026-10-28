@@ -1,0 +1,97 @@
+{
+ "timings": {
+  "boundary": 0.3898145891726017,
+  "CSR_and_transfer": 0.3206408992409706,
+  "C": 0.09435099922120571,
+  "illumination": 0.1581352986395359,
+  "K_direct": 0.009029002860188484,
+  "solve": 0.17659741081297398,
+  "readout": 0.18610800430178642,
+  "other_bookkeeping_and_state_transfer": 0.06452077627182007
+ },
+ "update_shared_seconds": 1.3991969805210829,
+ "rho": [
+  0.7511242032051086,
+  0.6779292821884155,
+  0.41260504722595215
+ ],
+ "rho_diagnostic_seconds": 2.221017187461257,
+ "validation_diagnostic_seconds": 2.2453717589378357,
+ "converged": true,
+ "iterations": 45,
+ "last_rel": 9.465779982065214e-08,
+ "fixed_point_rel": 8.332881407113746e-08,
+ "closure_max": 0.0,
+ "back_hits": 0,
+ "max_colsum": {
+  "0": [
+   0.9976814523688518,
+   0.9780498930049362,
+   0.8415751805163936
+  ],
+  "1": [
+   0.9976369572978001,
+   0.9777248851460172,
+   0.8399101733230907
+  ]
+ },
+ "transport_stats": {
+  "0": {
+   "leak_rate": 5.006790161132813e-07,
+   "truncated": 0
+  },
+  "1": {
+   "leak_rate": 6.278355916341146e-07,
+   "truncated": 0
+  }
+ },
+ "cells": 8080,
+ "C_nnz": 1344956,
+ "C_bytes": 26899120,
+ "external_flux": [
+  0.032116323709487915,
+  0.032116323709487915,
+  0.032116323709487915
+ ],
+ "field_seed": 5661,
+ "C_seed": 5681,
+ "source_not_target": true,
+ "gpu_allocated_peak": 4402791936,
+ "gpu_reserved_peak": 4685037568,
+ "cpu_rss_peak_bytes": 4727341056,
+ "state": "rigid",
+ "arm": "S",
+ "rep": 0,
+ "replay": false,
+ "independent_clean": false,
+ "packages": {
+  "0": {
+   "path": "/home/nd/rest_wl56/cache/rest_5561.pt",
+   "load_seconds": 0.34400841407477856,
+   "recomputed": false,
+   "bytes": 1683879714,
+   "identity_check_seconds": 3.3197429329156876,
+   "content_hash": "5840905c95db955ee6f338273c54ded387b889bc0f2d4a5ce0db545429efcc40",
+   "signature": "ef2f7e3922acfaacadfae100b9a491dc8e96f95046a616aca29c848030392017",
+   "seed": 5561
+  },
+  "1": {
+   "path": "/home/nd/rest_wl56/cache/rest_5562.pt",
+   "load_seconds": 0.34036810323596,
+   "recomputed": false,
+   "bytes": 1683728162,
+   "identity_check_seconds": 3.336987417191267,
+   "content_hash": "a8d519565b595c28e3ca002b333251d68c108f72b91fa7e69399fd24f8ad3429",
+   "signature": "ef2f7e3922acfaacadfae100b9a491dc8e96f95046a616aca29c848030392017",
+   "seed": 5562
+  }
+ },
+ "dirty_domains": [],
+ "package_seconds": 7.793139226734638,
+ "total_update_seconds": 9.192336207255721,
+ "observed_wall_seconds": 11.587429210543633,
+ "gpu_processes_before": "",
+ "process_pid": 1331782,
+ "start_commit": "3b3ce4c1801ceca5aeac016bc45536c0c41aa1dd",
+ "hardware": "NVIDIA GeForce RTX 3090, 100 %, 4926 MiB"
+}

@@ -4,7 +4,9 @@
 
 **Updated:** 2026-10-28 (current major architecture decision following WL55; historical sections preserved)
 **Branch:** Selective_Recompute  
-**Status:** Dynamic Transport Reuse goal and four-case staged evaluation adopted; Full Recompute / TransGI comparison obligations adopted. CAK not adopted. Rule–State remains to be falsified; WL56 designed, not executed.
+**Status:** WL56 completed: exact oracle-domain selective recomputation and measured cost benefit; complete physical GI accuracy NOT SUPPORTED (blue residual). Rule–State remains unverified; CAK not adopted; no successor batch authorised.
+
+**Worklog 56 measured result (2026-10-28; `fnto_sel56_v1` + A0, post hoc A1–A2; physical oracle only).** Exact complete-domain selective recomputation on a two-medium upper-slab local dent equals actual full recomputation: same-sample T/KC content hashes match, max relative output L1 1.55e-8, independent clean-seed controls pass. Stationary lower-top signed change is recovered (slope 1.040 / 0.996 / 0.975, corr >=0.9988), while stale K largely misses its amplitude. At identical uniform 2.5 mm K/C and three camera directions, actual full/selective updates take 371.40 / 188.93 s (1.966x, 49.13% saved). **Full and selective both fail the complete physical accuracy target** (9/12 amended face-on channel tests; blue +3.87 / +3.57 / +10.27% on lower top / upper bottom / lower bottom); exact algorithm equivalence does not prove reference-level GI. Changed-domain TR still costs 175.50 s (92.89% of S): oracle headroom only, not demonstrated Rule–State/learned speedup. Actual rigid resident state update median 0.685 s; raw T/KC storage ~1.68 GB/domain, peak GPU <=4.45 GB. Source/C noise controls do not explain the blue floor; binned camera readout adds error. The diagnostic oblique camera starts some rays inside the medium and is comparison-invalid there; original and corrected emitter readouts are preserved separately. See `docs/worklogs/56_WORKLOG_EXACT_SELECTIVE_K_RECOMPUTE.md` for costs, uncertainty and both masks. No CAK/Rule–State adoption, neural training, TransGI advantage or broader-geometry generalization follows. **No later batch is authorised.**
 **Venue planning:** SIGGRAPH 2027, official paper deadline to be separately verified.
 
 ## Current Major Architecture Decision (2026-10-28)
@@ -17,7 +19,7 @@
 
 **Baselines:** Quality-matched Full Recompute is primary; exact domain-selective and stale K diagnose reuse/invalidations. TransGI is a future external comparator requiring consistent scenes, edits, materials, physical reference, update/inference/memory and hardware accounting. Oracle-MC cost savings are not deployable learned speedups or a claim of TransGI superiority; preserve historical RNA/Surface-Owned/SPT-1 roles.
 
-**Next bounded work:** WL56 Exact Selective K Recompute and Dynamic Update Cost Headroom is drafted, **not run**. Quantify cost avoided by domain selection and residual invalid-domain K work before selecting a learned Rule–State representation. Stay on `Selective_Recompute`; no branch/worktree creation or automatic successor experiment.
+**Current frontier:** WL56 is complete (result above). Exact domain selection preserves full-oracle output, but the complete physical quality target and learned update costs remain unestablished. Any Rule–State representation, additional geometry batch or TransGI evaluation requires a separate user architecture decision. Continue only on `Selective_Recompute`; no automatic successor.
 
 ---
 

@@ -1,0 +1,242 @@
+{
+ "cost_A1": {
+  "label": "POST HOC ACCOUNTING FIX, primary measured timings unchanged; analysis.json retained",
+  "reason": "Original sensitivity included dirty post-build identity hashing in both the hypothetical new-package k and H_S. Use disjoint components here.",
+  "new_package_definition": "Complete build wall + post-build identity check, per recomputed domain. Includes construction, setup, serialization, hashing.",
+  "fixed_raw_cache_model": {
+   "H_F": 1.1432981928810477,
+   "H_S": 5.218510564416647,
+   "break_even_20pct": 7.173120016853015,
+   "curve": [
+    {
+     "k": 0.001,
+     "F": 1.1452981928810477,
+     "S": 5.219510564416647,
+     "speedup": 0.21942635784454068
+    },
+    {
+     "k": 0.01,
+     "F": 1.1632981928810477,
+     "S": 5.228510564416647,
+     "speedup": 0.22249131536580127
+    },
+    {
+     "k": 0.1,
+     "F": 1.3432981928810477,
+     "S": 5.318510564416647,
+     "speedup": 0.2525703722144219
+    },
+    {
+     "k": 1,
+     "F": 3.1432981928810477,
+     "S": 6.218510564416647,
+     "speedup": 0.5054744476703993
+    },
+    {
+     "k": 10,
+     "F": 21.143298192881048,
+     "S": 15.218510564416647,
+     "speedup": 1.3893145523923687
+    },
+    {
+     "k": 100,
+     "F": 201.14329819288105,
+     "S": 105.21851056441665,
+     "speedup": 1.9116721678904354
+    }
+   ],
+   "caveat": "Holding 1.68 GB raw-cache access fixed is not a prediction for a smaller learned K. Millisecond new-package creation is incompatible with current serialization/hash bytes."
+  },
+  "remaining_TR": 175.49723362922668,
+  "remaining_complete_new_package": 183.7147251740098,
+  "TR_fraction_of_S": 0.9288849562719353,
+  "new_package_fraction_of_S": 0.9723790106524359,
+  "residual_if_TR_free": 13.436002109199762,
+  "conditional_compact_resident_model": {
+   "H": 0.6847773008048534,
+   "origin": "Measured RIGID resident update, used only as illustrative H; dent compact/learned model unmeasured",
+   "formula": "F=2k+H, S=k+H+O; >=20% saving iff k >= (0.25H+1.25O)/0.75",
+   "assumed_O": 0,
+   "illustrative_break_even_20pct": 0.22825910026828447,
+   "curve": [
+    {
+     "k": 0.001,
+     "speedup": 1.0014581993291793
+    },
+    {
+     "k": 0.01,
+     "speedup": 1.0143931011971976
+    },
+    {
+     "k": 0.1,
+     "speedup": 1.1274246845537477
+    },
+    {
+     "k": 1,
+     "speedup": 1.593550257070937
+    },
+    {
+     "k": 10,
+     "speedup": 1.9359109430616517
+    },
+    {
+     "k": 100,
+     "speedup": 1.9931988000652867
+    }
+   ]
+  }
+ },
+ "primary_counts": {
+  "rest": {
+   "amended|S|nee_ball": {
+    "passed": 9,
+    "total": 12
+   },
+   "amended|S|bin": {
+    "passed": 8,
+    "total": 12
+   },
+   "declared|S|nee_ball": {
+    "passed": 15,
+    "total": 17
+   },
+   "declared|S|bin": {
+    "passed": 14,
+    "total": 17
+   }
+  },
+  "dent": {
+   "amended|F|nee_ball": {
+    "passed": 9,
+    "total": 12
+   },
+   "amended|F|bin": {
+    "passed": 8,
+    "total": 12
+   },
+   "amended|S|nee_ball": {
+    "passed": 9,
+    "total": 12
+   },
+   "amended|S|bin": {
+    "passed": 8,
+    "total": 12
+   },
+   "amended|T|nee_ball": {
+    "passed": 6,
+    "total": 12
+   },
+   "amended|T|bin": {
+    "passed": 8,
+    "total": 12
+   },
+   "declared|F|nee_ball": {
+    "passed": 15,
+    "total": 17
+   },
+   "declared|F|bin": {
+    "passed": 14,
+    "total": 17
+   },
+   "declared|S|nee_ball": {
+    "passed": 15,
+    "total": 17
+   },
+   "declared|S|bin": {
+    "passed": 14,
+    "total": 17
+   },
+   "declared|T|nee_ball": {
+    "passed": 12,
+    "total": 17
+   },
+   "declared|T|bin": {
+    "passed": 14,
+    "total": 17
+   }
+  },
+  "rigid": {
+   "amended|F|nee_ball": {
+    "passed": 10,
+    "total": 12
+   },
+   "amended|F|bin": {
+    "passed": 9,
+    "total": 12
+   },
+   "amended|S|nee_ball": {
+    "passed": 10,
+    "total": 12
+   },
+   "amended|S|bin": {
+    "passed": 10,
+    "total": 12
+   },
+   "declared|F|nee_ball": {
+    "passed": 16,
+    "total": 22
+   },
+   "declared|F|bin": {
+    "passed": 16,
+    "total": 22
+   },
+   "declared|S|nee_ball": {
+    "passed": 16,
+    "total": 22
+   },
+   "declared|S|bin": {
+    "passed": 17,
+    "total": 22
+   }
+  }
+ },
+ "cost_summary": {
+  "dent": {
+   "F": {
+    "total_median": 371.3972751572728,
+    "total_all": [
+     370.6911678239703,
+     372.1033824905753
+    ],
+    "package_median": 370.3283701688051,
+    "shared_median": 1.0689049884676933
+   },
+   "S": {
+    "total_median": 188.93323573842645,
+    "total_all": [
+     188.7185568679124,
+     189.14791460894048
+    ],
+    "package_median": 187.84706945437938,
+    "shared_median": 1.0861662840470672
+   },
+   "speedup": 1.9657593525337356,
+   "saved_fraction": 0.49129073265704404
+  },
+  "rigid": {
+   "F": {
+    "total_median": 373.8183927126229,
+    "total_all": [
+     373.8183927126229
+    ],
+    "package_median": 372.80932052992284,
+    "shared_median": 1.009072182700038
+   },
+   "S": {
+    "total_median": 9.217313346453011,
+    "total_all": [
+     9.192336207255721,
+     9.242290485650301
+    ],
+    "package_median": 7.803918536752462,
+    "shared_median": 1.4133948097005486
+   },
+   "speedup": 40.556112031981094,
+   "saved_fraction": 0.9753428040831075
+  }
+ },
+ "shared_F_S_all_passed": true,
+ "max_shared_relative_L1": 1.5501714368671895e-08,
+ "independent_clean_all_passed": true,
+ "historical_tests_note": "WL54 full runner reported 10/10 including one skip; 9 actually performed, then the skipped mask check ran separately and passed. Keep original records."
+}

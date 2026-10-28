@@ -1,0 +1,55 @@
+{'name': 'optical_domain_ownership_and_material_correspondence', 'passed': True, 'measured': {'dirty_dent': [1], 'dirty_rigid': [], 'lower_unchanged': True}}
+{'name': 'physical_emitter_area_and_direction', 'passed': True, 'measured': {'area': 0.04, 'normal_z': -1.0}}
+{'name': 'shared_F_S_global_fixedpoint_zero_and_superposition', 'passed': True, 'measured': {'dense_max_error': 1.1920928955078125e-07, 'stationary_indirect': 0.7640067338943481, 'zero': True, 'linearity': True}}
+{'name': 'uniform_boundary_conservative_mapping_and_frames', 'passed': True, 'measured': {'max_area_tolerance': 1e-12, 'nested_cells_per_port': 16}}
+{'name': 'current_geometry_C_and_ballistic_ownership', 'passed': True, 'measured': {'C_changed': True, 'closure': 0.0, 'back_hits': 0, 'ballistic_nnz': 210}}
+{'name': 'deterministic_physical_comparison_masks', 'passed': True, 'measured': {'identical': True, 'pixels': 40000}}
+test_radiometric_units {'ok': True, 'seconds': 1.73, 'L_mitsuba': 0.22053156793117523, 'analytic': 0.22053155816871686}
+test_coordinate_transforms {'ok': True, 'seconds': 0.6}
+test_boundary_correspondence {'ok': True, 'seconds': 0.1, 'top_ratio': 0.9214009761591094, 'bottom_ratio': 1.0784705158441361, 'analytic': (0.9214601836602552, 1.0785398163397448)}
+test_zero_and_superposition {'ok': True, 'seconds': 0.71}
+test_conservation_and_reciprocity {'ok': True, 'seconds': 4.15, 'C_form_factor': 0.6900794506072998, 'analytic': 0.6902446940737963, 'C_port_reciprocity_asym': 0.07007534056901932, 'C_cross_seed_noise': 0.0692722499370575, 'alpha1_colsum_maxdev': 0.0}
+test_optical_domain_ownership {'ok': True, 'seconds': 0.11, 'lblock_reentry': 0.030841290950775146}
+test_air_gap_separation {'ok': True, 'seconds': 8.1, 'object_scoped_cross_fraction': 0.14985087513923645}
+test_path_history_independence {'ok': True, 'seconds': 3.64, 'neumann_vs_solve': 1.0869815270098115e-07, 'iters': 60}
+test_oracle_composition {'ok': True, 'seconds': 0.05, 'first_bounce': 0.6904553174972534, 'form_factor': 0.6902446940737963, 'all_bounce_E_b': 0.7955098748207092, 'iters': 16}
+9/9 passed
+PASS boundary_correspondence_and_area {'slab': {'area_rel_err': 8.131516293641281e-16, 'max_cell_to_port_centroid': 0.005303300858899138, 'counts_ok': True, 'welded_vertices': 3842}, 'bend90': {'area_rel_err': 1.0053146159836201e-15, 'max_cell_to_port_centroid': 0.005513462382196741, 'counts_ok': True, 'welded_vertices': 3842}, 'dent': {'area_rel_err': 8.131516293641281e-16, 'max_cell_to_port_centroid': 0.005568437851093699, 'counts_ok': True, 'welded_vertices': 3842}, 'passed': True, 'seconds': 0.2}
+PASS fine_to_cells_nesting {'area_rel': 8.131516293641286e-16, 'max_d_over_halfdiag': 0.7641154503139274, 'passed': True, 'seconds': 0.2}
+PASS sparse_tr_equals_dense_tr {'max_rel_T': 0.0, 'max_rel_KC': 2.8155287168374343e-07, 'nnz': 36705, 'stats_equal': True, 'passed': True, 'seconds': 4.6}
+PASS aggregation_flux_preservation_and_expectation {'colsum_dev': 7.215021358142337e-09, 'portpair_rel_fro': 0.004340803250670433, 'passed': True, 'seconds': 4.4}
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+PASS zero_linearity_and_fixed_point {'zero': 0.0, 'linearity': 1.2778771463217709e-07, 'fixed_point_vs_dense': 7.542108364057553e-08, 'back_hits': 0, 'passed': True, 'seconds': 1.7}
+PASS ballistic_analytic_side_face {'L1': {'mean': 0.06431662063849364, 'analytic': 0.06427874970589567, 'max_rel': 0.005858875718596931}, 'L2': {'mean': 0.06438263734434393, 'analytic': 0.06427874970589567, 'max_rel': 0.01529126624477357}, 'passed': True, 'seconds': 0.4}
+PASS cor_zero_lambert_plane_and_isolated_slab {'lambert_plane_max_rel': 0.002137041221866323, 'zero': 0.0, 'iso_top_pooled_rel': 0.00027921059380616885, 'leak_rate': 3.125e-07, 'leaks': 4, 'wrong': 1, 'back_hits': 0, 'passed': True, 'seconds': 25.0}
+PASS ownership_no_back_hits_refined_media {'back_hits': 0, 'closure_dev': 0.0, 'passed': True, 'seconds': 0.1}
+PASS rigid_frames_refined {'frame_err': 2.5923707624997405e-14, 'area_err': 2.1955093992831367e-14, 'passed': True, 'seconds': 0.1}
+PASS deterministic_group_stats_json {'bias': [0.019999999999999987, 0.020000000000000046, 0.020000000000000018], 'passed': True, 'seconds': 0.0}
+10/10 passed
+PASS refine_mesh_conservation {'planar': {'max_rel_area_err': 2.886579864025407e-15, 'cells_match_levels': True, 'min_normal_dot': 1.0, 'projection_identity_err': 3.552713678800501e-15}, 'bend90': {'max_rel_area_err': 2.220446049250313e-15, 'cells_match_levels': True, 'min_normal_dot': 0.9982656101847154, 'projection_identity_err': 2.886579864025407e-15}, 'dent': {'max_rel_area_err': 2.886579864025407e-15, 'cells_match_levels': True, 'min_normal_dot': 0.970742980795678, 'projection_identity_err': 3.552713678800501e-15}, 'passed': True, 'seconds': 0.2}
+PASS analytic_form_factor {'gap4': {'exact': 0.925253406564055, 's8': {'mean': 0.9250600179036459, 'sd': 0.00013845476876644085, 'rel_err': -0.00020901156271035948}, 's16': {'mean': 0.9252444458007812, 'sd': 8.838725182344201e-05, 'rel_err': -9.684658505593191e-06}, 'coarse_Minf': {'value': 0.9254505920410157, 'rel_err': 0.00021311510507482367}, 'casp': {'value': 0.92525390625, 'rel_err': 5.400530724841701e-07, 'cells': 3528}}, 'gap8': {'exact': 0.8581872962530187, 's8': {'mean': 0.8580725097656249, 'sd': 0.00029368757436833604, 'rel_err': -0.0001337545870173651}, 's16': {'mean': 0.8582147216796875, 'sd': 0.00019889713019225893, 'rel_err': 3.1957390640213745e-05}, 'coarse_Minf': {'value': 0.8583444213867187, 'rel_err': 0.00018308955910439906}, 'casp': {'value': 0.858870849609375, 'rel_err': 0.0007965083605185885, 'cells': 1188}}, 'gap30': {'exact': 0.5795307606691319, 's8': {'mean': 0.5793168131510417, 'sd': 0.0004909519905932264, 'rel_err': -0.0003691737050216526}, 's16': {'mean': 0.5793720499674478, 'sd': 0.00026088626562267733, 'rel_err': -0.00027386070327106715}, 'coarse_Minf': {'value': 0.5796682739257812, 'rel_err': 0.00023728379230569807}, 'casp': {'value': 0.580894775390625, 'rel_err': 0.002353653704107339, 'cells': 480}}, 'passed': True, 'seconds': 172.1}
+PASS closure_nonneg_and_determinism {'gap4_s8': {'closure_min': 1.0, 'closure_max': 1.0, 'back_hits': 0, 'nonneg': True, 'nnz': 1477346, 'escape_mean': 0.6145024617513021, 'same_seed_identical': True, 'solve_max_rel': 0.0}, 'floor_lam_s4': {'closure_min': 1.0, 'closure_max': 1.0, 'back_hits': 0, 'nonneg': True, 'nnz': 972322, 'escape_mean': 0.7956640410841557}, 'floor_lam_prod': {'closure_min': 1.0, 'closure_max': 1.0, 'back_hits': 0, 'nonneg': True, 'nnz': 164471, 'escape_mean': 0.7956420898437501}, 'floor_lam_casp': {'closure_min': 1.0, 'closure_max': 1.0, 'back_hits': 0, 'nonneg': True, 'nnz': 211846, 'escape_mean': 0.5600939849820806, 'same_seed_identical': True, 'solve_max_rel': 0.0}, 'lblock_casp_bins': {'closure_min': 1.0, 'closure_max': 1.0, 'back_hits': 0, 'nonneg': True, 'nnz': 520899, 'escape_mean': 0.5699247244160138}, 'passed': True, 'seconds': 9.4}
+PASS reciprocity_area_weighted {'gap4_s4': {'asym': 0.09752036134928026, 'cross_seed_stat': 0.09738040070221853, 'rule': 0.12672550087777315}, 'floor_lam_casp': {'asym': 0.0622850113593739, 'cross_seed_stat': 0.06233378900515467, 'rule': 0.08291723625644334}, 'passed': True, 'seconds': 5.6}
+PASS zero_superposition_application_fixed_point {'zero_exact': True, 'linearity': 5.513806746414161e-13, 'apply_err': 4.500716698213252e-16, 'fixed_point_vs_dense': 3.4149681014168853e-12, 'rho': 0.7734718701954462, 'passed': True, 'seconds': 1.4}
+PASS blocker {'coarse': {'cross_flux': 0.0, 'onto_plate_flux': 117.048828125, 'back_hits': 240028}, 's4': {'cross_flux': 0.0, 'onto_plate_flux': 1873.77685546875, 'back_hits': 3836097}, 'casp': {'cross_flux': 0.0, 'onto_plate_flux': 1664.4248046875, 'back_hits': 3310155}, 'passed': True, 'seconds': 0.8}
+PASS rigid_consistency {'floor_lam': {'pooled_L1_diff': 0.001957490201802512, 'cross_seed_noise': 0.0018083440965884318, 'levels_equal_fraction': 1.0}, 'gap4': {'pooled_L1_diff': 0.0009652958715426024, 'cross_seed_noise': 0.0009746603106277269, 'levels_equal_fraction': 1.0}, 'passed': True, 'seconds': 7.4}
+PASS same_domain_reentry {'slab': {'coarse_mean': 0.0, 'coarse_sd': 0.0, 'fine_s8': 0.0}, 'lblock': {'coarse_mean': 0.030875952449845683, 'coarse_sd': 3.4554314928882304e-05, 'fine_s8': 0.030853045428240744}, 'passed': True, 'seconds': 3.9}
+PASS casp_levels_and_ownership {'gap4': {'hist': {1: 280, 4: 199, 8: 1}, 'cells': 3528, 'coarse_ports': 480, 'top_face_max_level': 1, 'contact_face_level': 4}, 'gap8': {'hist': {1: 280, 2: 191, 4: 9}, 'cells': 1188, 'coarse_ports': 480, 'top_face_max_level': 1, 'contact_face_level': 2}, 'gap30': {'hist': {1: 480}, 'cells': 480, 'coarse_ports': 480, 'top_face_max_level': 1, 'contact_face_level': 1}, 'floor_lam': {'hist': {1: 898, 2: 242}, 'cells': 1866, 'coarse_ports': 1140, 'top_face_max_level': None, 'contact_face_level': None}, 'lblock_lam': {'hist': {1: 898, 2: 254, 4: 18}, 'cells': 2202, 'coarse_ports': 1170, 'top_face_max_level': None, 'contact_face_level': None}, 'rot_lam': {'hist': {1: 899, 2: 241}, 'cells': 1863, 'coarse_ports': 1140, 'top_face_max_level': None, 'contact_face_level': None}, 'medium_floor_back_hits': 0, 'passed': True, 'seconds': 0.7}
+PASS comparison_masks {'skipped': 'no cycles dir', 'passed': True, 'seconds': 0.0}
+10/10 passed
+Blender 3.5.1 (hash e1ccd9d4a1d3 built 2023-04-24 23:31:15)
+Error: Python: Traceback (most recent call last):
+  File "/home/nd/rest_wl56/repo/experiments/fnto_sel56/s56_cycles.py", line 3, in <module>
+    import s56_fixtures as SF
+ModuleNotFoundError: No module named 's56_fixtures'
+
+Blender quit
+Traceback (most recent call last):
+  File "/home/nd/rest_wl56/repo/experiments/fnto_sel56/s56.py", line 204, in <module>
+    if cmd in ('prepare','reference_gate','audit'):globals()[cmd]()
+  File "/home/nd/rest_wl56/repo/experiments/fnto_sel56/s56.py", line 178, in reference_gate
+    R,D=extract('rest'),extract('dent'); lab=CM.labels_of(SF.scene('rest')); m=SF.intrinsic('rest',0)[0]
+  File "/home/nd/rest_wl56/repo/experiments/fnto_sel56/s56.py", line 171, in extract
+    sd=SF.scene(state); ss=CM.classify_sceneset(sd); geo=json.load(open(OUT/'cycles'/f'ccam_{state}.json')); res={}
+FileNotFoundError: [Errno 2] No such file or directory: '/home/nd/rest_wl56/out/cycles/ccam_rest.json'

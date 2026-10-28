@@ -3,7 +3,9 @@
 **2026-10-28 — Worklog 56 authorised (user brief: Exact Selective K Recompute and Dynamic Update Cost Headroom).** Bounded physical-oracle baseline on `Selective_Recompute`: complete optical-domain F/S/T recomputation on a two-medium local dent and rigid control; identical uniform 2.5 mm K/C, current ballistic readout, independent Cycles-volume reference, domain cache identity, actual end-to-end cost and explicitly hypothetical Rule–State headroom. Protocol `experiments/fnto_sel56/protocol/sel56.json`. No CAK adoption, learned-K training, new representation, production change or WL57 is authorised.
 
 **Updated:** 2026-10-28 (major Dynamic Transport Reuse decision after Worklog 55; historical evidence preserved)  
-**Status:** Dynamic Transport Reuse is the current objective; WL56 is designed, not executed. Full/Selective/Stale are internal baselines; TransGI is a future matched external comparator; CAK and within-K Rule–State are not adopted.
+**Status:** WL56 completed: exact oracle-domain selective recomputation and measured cost benefit; complete physical GI accuracy NOT SUPPORTED (blue residual). Rule–State remains unverified; CAK not adopted; no successor batch authorised.
+
+**Worklog 56 measured result (2026-10-28; `fnto_sel56_v1` + A0, post hoc A1–A2; physical oracle only).** Exact complete-domain selective recomputation on a two-medium upper-slab local dent equals actual full recomputation: same-sample T/KC content hashes match, max relative output L1 1.55e-8, independent clean-seed controls pass. Stationary lower-top signed change is recovered (slope 1.040 / 0.996 / 0.975, corr >=0.9988), while stale K largely misses its amplitude. At identical uniform 2.5 mm K/C and three camera directions, actual full/selective updates take 371.40 / 188.93 s (1.966x, 49.13% saved). **Full and selective both fail the complete physical accuracy target** (9/12 amended face-on channel tests; blue +3.87 / +3.57 / +10.27% on lower top / upper bottom / lower bottom); exact algorithm equivalence does not prove reference-level GI. Changed-domain TR still costs 175.50 s (92.89% of S): oracle headroom only, not demonstrated Rule–State/learned speedup. Actual rigid resident state update median 0.685 s; raw T/KC storage ~1.68 GB/domain, peak GPU <=4.45 GB. Source/C noise controls do not explain the blue floor; binned camera readout adds error. The diagnostic oblique camera starts some rays inside the medium and is comparison-invalid there; original and corrected emitter readouts are preserved separately. See `docs/worklogs/56_WORKLOG_EXACT_SELECTIVE_K_RECOMPUTE.md` for costs, uncertainty and both masks. No CAK/Rule–State adoption, neural training, TransGI advantage or broader-geometry generalization follows. **No later batch is authorised.**
 **Project:** ReST-GI (formerly NeuralShaderDemo) / Selective_Recompute
 
 ## Current Dynamic Transport Reuse Evaluation Contract (2026-10-28)
@@ -12,7 +14,7 @@
 
 **Hypothesis — not adopted:** A reusable transport rule may be separated from geometry-dependent state inside K. Test its feasibility and incremental value beyond exact domain-level selective recomputation; do not assume that non-rigid K changes are local, sparse, low-rank, or negligible.
 
-**Next bounded evaluation — WL56 is designed, not yet executed:**
+**WL56 completed — exact physical-oracle controls, not a learned contribution:**
 - Full Recompute: rebuild every optical-domain K at matching quality, then update current C, illumination, solve and readout.
 - Exact Selective Recompute: reuse K of unchanged optical domains, rebuild K of invalidated domains, and update all necessary current-state coupling and GI. An oracle invalidation set is an experimental control, not a novel learned selector.
 - Stale K: preserve invalid K intentionally as a negative physical-validity control.

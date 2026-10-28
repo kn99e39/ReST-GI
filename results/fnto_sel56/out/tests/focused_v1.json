@@ -1,0 +1,56 @@
+{
+ "tests": [
+  {
+   "name": "optical_domain_ownership_and_material_correspondence",
+   "passed": true,
+   "measured": {
+    "dirty_dent": [
+     1
+    ],
+    "dirty_rigid": [],
+    "lower_unchanged": true
+   }
+  },
+  {
+   "name": "physical_emitter_area_and_direction",
+   "passed": true,
+   "measured": {
+    "area": 0.04,
+    "normal_z": -1.0
+   }
+  },
+  {
+   "name": "shared_F_S_global_fixedpoint_zero_and_superposition",
+   "passed": true,
+   "measured": {
+    "dense_max_error": 1.1920928955078125e-07,
+    "stationary_indirect": 0.7640067338943481,
+    "zero": true,
+    "linearity": true
+   }
+  },
+  {
+   "name": "uniform_boundary_conservative_mapping_and_frames",
+   "passed": true,
+   "measured": {
+    "max_area_tolerance": 1e-12,
+    "nested_cells_per_port": 16
+   }
+  },
+  {
+   "name": "current_geometry_C_and_ballistic_ownership",
+   "passed": false,
+   "error": "Traceback (most recent call last):\n  File \"/home/nd/rest_wl56/repo/experiments/fnto_sel56/tests/test_s56.py\", line 14, in test\n    v=fn(); res.append(dict(name=name,passed=True,measured=v))\n  File \"/home/nd/rest_wl56/repo/experiments/fnto_sel56/tests/test_s56.py\", line 63, in currentC\n    assert t1['back_hits']==0 and float((col-1).abs().max())<1e-6\nAssertionError\n"
+  },
+  {
+   "name": "deterministic_physical_comparison_masks",
+   "passed": true,
+   "measured": {
+    "identical": true,
+    "pixels": 40000
+   }
+  }
+ ],
+ "passed": 5,
+ "total": 6
+}

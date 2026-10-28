@@ -1,0 +1,322 @@
+PASS comparison_masks {'top': {'repeatable': True, 'v0_subset_of_v1': True, 'v1_pixels': 90000, 'v0_pixels': 90000}, 'otop': {'repeatable': True, 'v0_subset_of_v1': True, 'v1_pixels': 25600, 'v0_pixels': 22620}, 'underup': {'repeatable': True, 'v0_subset_of_v1': True, 'v1_pixels': 40000, 'v0_pixels': 40000}, 'underdown': {'repeatable': True, 'v0_subset_of_v1': True, 'v1_pixels': 67600, 'v0_pixels': 67600}, 'passed': True, 'seconds': 0.6}
+18:34:25 prepared 5561
+18:34:34 prepared 5562
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:34:47 UPDATE rest_S_r0 9.224530518054962 {'boundary': 0.3869732767343521, 'CSR_and_transfer': 0.3211586717516184, 'C': 0.10073825158178806, 'illumination': 0.1553459856659174, 'K_direct': 0.008951237425208092, 'solve': 0.2011021412909031, 'readout': 0.1884037498384714, 'other_bookkeeping_and_state_transfer': 0.06150240823626518} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:35:00 UPDATE rest_S_r1 9.322759056463838 {'boundary': 0.3870776053518057, 'CSR_and_transfer': 0.3244195133447647, 'C': 0.09055650793015957, 'illumination': 0.15513755939900875, 'K_direct': 0.008869070559740067, 'solve': 0.2001089621335268, 'readout': 0.1846737638115883, 'other_bookkeeping_and_state_transfer': 0.06217139586806297} True
+18:35:07 dent/d0/5561 cells 1953/61440 5s steps 489
+18:36:02 dent/d0/5561 cells 21483/61440 60s steps 632
+18:36:59 dent/d0/5561 cells 41013/61440 118s steps 704
+18:37:55 dent/d0/5561 cells 60543/61440 173s steps 704
+18:38:12 dent/d1/5565 cells 1953/61440 5s steps 500
+18:39:07 dent/d1/5565 cells 21483/61440 60s steps 637
+18:40:04 dent/d1/5565 cells 41013/61440 118s steps 839
+18:40:59 dent/d1/5565 cells 60543/61440 172s steps 839
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:41:15 UPDATE dent_F_r0 370.6911678239703 {'boundary': 0.11105483025312424, 'CSR_and_transfer': 0.2947458401322365, 'C': 0.02783789485692978, 'illumination': 0.14618325233459473, 'K_direct': 0.007050726562738419, 'solve': 0.20218870043754578, 'readout': 0.17985661700367928, 'other_bookkeeping_and_state_transfer': 0.09582370892167091} True
+18:41:25 dent/d1/5565 cells 1953/61440 5s steps 500
+18:42:20 dent/d1/5565 cells 21483/61440 59s steps 637
+18:43:17 dent/d1/5565 cells 41013/61440 117s steps 839
+18:44:11 dent/d1/5565 cells 60543/61440 171s steps 839
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:44:27 UPDATE dent_S_r0 188.7185568679124 {'boundary': 0.11148972436785698, 'CSR_and_transfer': 0.29760540276765823, 'C': 0.03612542897462845, 'illumination': 0.14649400115013123, 'K_direct': 0.008992007002234459, 'solve': 0.20089692808687687, 'readout': 0.18813162669539452, 'other_bookkeeping_and_state_transfer': 0.10141139291226864} True
+18:44:28 VERIFIED dent 0
+18:44:40 dent/d1/5566 cells 1953/61440 6s steps 645
+18:45:33 dent/d1/5566 cells 21483/61440 60s steps 645
+18:46:30 dent/d1/5566 cells 41013/61440 117s steps 651
+18:47:25 dent/d1/5566 cells 60543/61440 171s steps 718
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:47:41 UPDATE dent_S_r1 189.14791460894048 {'boundary': 0.11214946955442429, 'CSR_and_transfer': 0.2954441234469414, 'C': 0.034671440720558167, 'illumination': 0.146314462646842, 'K_direct': 0.009144598618149757, 'solve': 0.20107501186430454, 'readout': 0.18645966053009033, 'other_bookkeeping_and_state_transfer': 0.0959272887557745} True
+18:47:47 dent/d0/5562 cells 1953/61440 5s steps 456
+18:48:43 dent/d0/5562 cells 21483/61440 61s steps 639
+18:49:40 dent/d0/5562 cells 41013/61440 118s steps 639
+18:50:35 dent/d0/5562 cells 60543/61440 172s steps 684
+18:50:53 dent/d1/5566 cells 1953/61440 6s steps 645
+18:51:47 dent/d1/5566 cells 21483/61440 61s steps 645
+18:52:45 dent/d1/5566 cells 41013/61440 118s steps 651
+18:53:40 dent/d1/5566 cells 60543/61440 174s steps 718
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:53:57 UPDATE dent_F_r1 372.1033824905753 {'boundary': 0.11050976067781448, 'CSR_and_transfer': 0.29467823542654514, 'C': 0.023180300369858742, 'illumination': 0.1459526028484106, 'K_direct': 0.006938336417078972, 'solve': 0.2010920513421297, 'readout': 0.19287136010825634, 'other_bookkeeping_and_state_transfer': 0.09784575924277306} True
+18:53:58 VERIFIED dent 1
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:54:11 UPDATE dent_T_r0 9.05404618754983 {'boundary': 0.38866294734179974, 'CSR_and_transfer': 0.32582567259669304, 'C': 0.12151784636080265, 'illumination': 0.1600661538541317, 'K_direct': 0.008987411856651306, 'solve': 0.2009415477514267, 'readout': 0.18843959644436836, 'other_bookkeeping_and_state_transfer': 0.09597907587885857} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:54:23 UPDATE dent_F_r0_ind 9.050075178965926 {'boundary': 0.37809666618704796, 'CSR_and_transfer': 0.3313501738011837, 'C': 0.12331031635403633, 'illumination': 0.1603354588150978, 'K_direct': 0.009112793952226639, 'solve': 0.20126457698643208, 'readout': 0.19206873700022697, 'other_bookkeeping_and_state_transfer': 0.0969709437340498} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:54:36 UPDATE dent_T_r1 9.054677583277225 {'boundary': 0.3796127997338772, 'CSR_and_transfer': 0.32762124575674534, 'C': 0.12239094637334347, 'illumination': 0.16025733947753906, 'K_direct': 0.009046975523233414, 'solve': 0.20192564092576504, 'readout': 0.1895823460072279, 'other_bookkeeping_and_state_transfer': 0.09712917543947697} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+18:54:49 UPDATE dent_F_r1_ind 9.00157512165606 {'boundary': 0.36794932931661606, 'CSR_and_transfer': 0.3252585157752037, 'C': 0.11027096211910248, 'illumination': 0.1601428110152483, 'K_direct': 0.008994320407509804, 'solve': 0.20019445195794106, 'readout': 0.18707354180514812, 'other_bookkeeping_and_state_transfer': 0.10091768577694893} True
+18:54:55 rigid/d0/5561 cells 1953/61440 5s steps 489
+18:55:51 rigid/d0/5561 cells 21483/61440 61s steps 632
+18:56:49 rigid/d0/5561 cells 41013/61440 119s steps 704
+18:57:45 rigid/d0/5561 cells 60543/61440 174s steps 704
+18:58:02 rigid/d1/5562 cells 1953/61440 5s steps 456
+18:58:58 rigid/d1/5562 cells 21483/61440 61s steps 639
+18:59:56 rigid/d1/5562 cells 41013/61440 119s steps 639
+19:00:50 rigid/d1/5562 cells 60543/61440 173s steps 684
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+19:01:06 UPDATE rigid_F_r0 373.8183927126229 {'boundary': 0.1118201743811369, 'CSR_and_transfer': 0.29413964599370956, 'C': 0.02784780040383339, 'illumination': 0.14676101505756378, 'K_direct': 0.007102174684405327, 'solve': 0.17789648286998272, 'readout': 0.1813852023333311, 'other_bookkeeping_and_state_transfer': 0.06211968697607517} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+19:01:19 UPDATE rigid_S_r0 9.192336207255721 {'boundary': 0.3898145891726017, 'CSR_and_transfer': 0.3206408992409706, 'C': 0.09435099922120571, 'illumination': 0.1581352986395359, 'K_direct': 0.009029002860188484, 'solve': 0.17659741081297398, 'readout': 0.18610800430178642, 'other_bookkeeping_and_state_transfer': 0.06452077627182007} True
+19:01:20 VERIFIED rigid 0
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+19:01:33 UPDATE rigid_S_r1 9.242290485650301 {'boundary': 0.3895620293915272, 'CSR_and_transfer': 0.32790426537394524, 'C': 0.1042866762727499, 'illumination': 0.16145174019038677, 'K_direct': 0.009391432628035545, 'solve': 0.17861957661807537, 'readout': 0.19191001541912556, 'other_bookkeeping_and_state_transfer': 0.06446690298616886} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+19:01:48 UPDATE dent_F_r0_replay 11.346212822943926 {'boundary': 0.35546682588756084, 'CSR_and_transfer': 0.31927523016929626, 'C': 0.09821856394410133, 'illumination': 0.15973354317247868, 'K_direct': 0.009167609736323357, 'solve': 0.20042384415864944, 'readout': 0.18979334272444248, 'other_bookkeeping_and_state_transfer': 0.09896118193864822} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+19:02:01 UPDATE dent_S_r0_replay 9.261470632627606 {'boundary': 0.3913422990590334, 'CSR_and_transfer': 0.3189993277192116, 'C': 0.10098406858742237, 'illumination': 0.15558414347469807, 'K_direct': 0.008999407291412354, 'solve': 0.2010529413819313, 'readout': 0.18793009780347347, 'other_bookkeeping_and_state_transfer': 0.10062995180487633} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+19:02:14 UPDATE dent_F_r1_replay 8.9723652433604 {'boundary': 0.3543231878429651, 'CSR_and_transfer': 0.3189131524413824, 'C': 0.09107909724116325, 'illumination': 0.15523389913141727, 'K_direct': 0.008890008553862572, 'solve': 0.19963405653834343, 'readout': 0.1865006908774376, 'other_bookkeeping_and_state_transfer': 0.09706567972898483} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+19:02:26 UPDATE dent_S_r1_replay 9.236366152763367 {'boundary': 0.3977025467902422, 'CSR_and_transfer': 0.32041087187826633, 'C': 0.09241118095815182, 'illumination': 0.1556007843464613, 'K_direct': 0.00886387936770916, 'solve': 0.20067676901817322, 'readout': 0.18798524886369705, 'other_bookkeeping_and_state_transfer': 0.09634076803922653} True
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+/home/nd/rest_wl56/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+{
+ "equivalence": {
+  "dent|r0": {
+   "fields": {
+    "top|nee": {
+     "relative_L1": 2.632728707920496e-10,
+     "max_abs": 1.8598152740079144e-09,
+     "normalized_max": 2.412599170471038e-09
+    },
+    "top|ball": {
+     "relative_L1": 8.816745143460746e-09,
+     "max_abs": 9.33557896785897e-12,
+     "normalized_max": 1.8810462181736073e-08
+    },
+    "top|bin": {
+     "relative_L1": 6.430278731073558e-09,
+     "max_abs": 1.737006982693856e-08,
+     "normalized_max": 2.208421727341698e-08
+    },
+    "bot|nee": {
+     "relative_L1": 1.0010630761788498e-09,
+     "max_abs": 1.0179787568453946e-09,
+     "normalized_max": 2.6610660554693904e-09
+    },
+    "bot|ball": {
+     "relative_L1": 3.3572003906765415e-10,
+     "max_abs": 4.581077186295362e-13,
+     "normalized_max": 2.4330650130081677e-10
+    },
+    "bot|bin": {
+     "relative_L1": 7.445650957355151e-09,
+     "max_abs": 7.2375292425874704e-09,
+     "normalized_max": 1.8486417668908693e-08
+    },
+    "otop|nee": {
+     "relative_L1": 2.5710425241049274e-10,
+     "max_abs": 1.878962596624234e-09,
+     "normalized_max": 2.3479714386190707e-09
+    },
+    "otop|ball": {
+     "relative_L1": 1.040034701437086e-08,
+     "max_abs": 4.1107644892235395e-10,
+     "normalized_max": 2.616860144377323e-08
+    },
+    "otop|bin": {
+     "relative_L1": 5.724927253962935e-09,
+     "max_abs": 2.1742322831030947e-08,
+     "normalized_max": 2.6673847007367733e-08
+    },
+    "phi_out": {
+     "relative_L1": 1.174908901269681e-08,
+     "max_abs": 5.684341886080802e-14,
+     "normalized_max": 1.8968874732206912e-07
+    },
+    "phi_in_ind": {
+     "relative_L1": 1.4744001478400617e-08,
+     "max_abs": 1.8189894035458565e-12,
+     "normalized_max": 1.0835714210638266e-07
+    }
+   },
+   "passed": true
+  },
+  "dent|r1": {
+   "fields": {
+    "top|nee": {
+     "relative_L1": 2.5051286019615256e-10,
+     "max_abs": 1.1930731402820527e-09,
+     "normalized_max": 1.5457750243020776e-09
+    },
+    "top|ball": {
+     "relative_L1": 1.2459488080666163e-08,
+     "max_abs": 1.0779527335851025e-11,
+     "normalized_max": 2.14347831836945e-08
+    },
+    "top|bin": {
+     "relative_L1": 5.823945481546247e-09,
+     "max_abs": 2.3160093176599617e-08,
+     "normalized_max": 2.9133518107531256e-08
+    },
+    "bot|nee": {
+     "relative_L1": 8.975492407412918e-10,
+     "max_abs": 1.3300434087426538e-09,
+     "normalized_max": 3.475394334090023e-09
+    },
+    "bot|ball": {
+     "relative_L1": 3.3895560314089265e-10,
+     "max_abs": 4.133515429352759e-13,
+     "normalized_max": 2.1953595983875235e-10
+    },
+    "bot|bin": {
+     "relative_L1": 7.348463826967153e-09,
+     "max_abs": 8.68503491346928e-09,
+     "normalized_max": 2.2874954850336366e-08
+    },
+    "otop|nee": {
+     "relative_L1": 2.454117517577415e-10,
+     "max_abs": 1.0979689379908564e-09,
+     "normalized_max": 1.3712009017601703e-09
+    },
+    "otop|ball": {
+     "relative_L1": 1.5501714368671895e-08,
+     "max_abs": 7.478752651890463e-10,
+     "normalized_max": 4.73525102390135e-08
+    },
+    "otop|bin": {
+     "relative_L1": 5.849875298041382e-09,
+     "max_abs": 1.9596755329587268e-08,
+     "normalized_max": 2.423683248075496e-08
+    },
+    "phi_out": {
+     "relative_L1": 1.18742889441503e-08,
+     "max_abs": 5.684341886080802e-14,
+     "normalized_max": 1.8843832865755028e-07
+    },
+    "phi_in_ind": {
+     "relative_L1": 1.500162649374709e-08,
+     "max_abs": 1.8189894035458565e-12,
+     "normalized_max": 1.0821072697264909e-07
+    }
+   },
+   "passed": true
+  },
+  "rigid|r0": {
+   "fields": {
+    "top|nee": {
+     "relative_L1": 1.9608015196518595e-10,
+     "max_abs": 8.152445385434248e-10,
+     "normalized_max": 1.0420653382001497e-09
+    },
+    "top|ball": {
+     "relative_L1": 7.86790732931796e-09,
+     "max_abs": 2.9130117473730437e-13,
+     "normalized_max": 2.5626607948220882e-08
+    },
+    "top|bin": {
+     "relative_L1": 6.213594237428366e-09,
+     "max_abs": 2.026508105767988e-08,
+     "normalized_max": 2.554252700271065e-08
+    },
+    "bot|nee": {
+     "relative_L1": 8.576882951119385e-10,
+     "max_abs": 8.211549218373193e-10,
+     "normalized_max": 2.6320310452145033e-09
+    },
+    "bot|ball": {
+     "relative_L1": 8.804666544679977e-10,
+     "max_abs": 3.343851921972039e-13,
+     "normalized_max": 7.16678438095591e-09
+    },
+    "bot|bin": {
+     "relative_L1": 6.878410139303301e-09,
+     "max_abs": 5.790023238638753e-09,
+     "normalized_max": 1.8302771021438945e-08
+    },
+    "otop|nee": {
+     "relative_L1": 1.9388525207067665e-10,
+     "max_abs": 9.204389472827756e-10,
+     "normalized_max": 1.1445018757099322e-09
+    },
+    "otop|ball": {
+     "relative_L1": 1.0969767522940708e-08,
+     "max_abs": 3.8272577988773815e-10,
+     "normalized_max": 2.565161497900478e-08
+    },
+    "otop|bin": {
+     "relative_L1": 6.159075993890467e-09,
+     "max_abs": 1.4475058152108033e-08,
+     "normalized_max": 1.763493870615855e-08
+    },
+    "phi_out": {
+     "relative_L1": 1.183358099883542e-08,
+     "max_abs": 5.684341886080802e-14,
+     "normalized_max": 1.9408483758786707e-07
+    },
+    "phi_in_ind": {
+     "relative_L1": 1.4926487082807963e-08,
+     "max_abs": 1.8189894035458565e-12,
+     "normalized_max": 1.096610869277953e-07
+    }
+   },
+   "passed": true
+  }
+ },
+ "cost_summary": {
+  "dent": {
+   "F": {
+    "total_median": 371.3972751572728,
+    "total_all": [
+     370.6911678239703,
+     372.1033824905753
+    ],
+    "package_median": 370.3283701688051,
+    "shared_median": 1.0689049884676933
+   },
+   "S": {
+    "total_median": 188.93323573842645,
+    "total_all": [
+     188.7185568679124,
+     189.14791460894048
+    ],
+    "package_median": 187.84706945437938,
+    "shared_median": 1.0861662840470672
+   },
+   "speedup": 1.9657593525337356,
+   "saved_fraction": 0.49129073265704404
+  },
+  "rigid": {
+   "F": {
+    "total_median": 373.8183927126229,
+    "total_all": [
+     373.8183927126229
+    ],
+    "package_median": 372.80932052992284,
+    "shared_median": 1.009072182700038
+   },
+   "S": {
+    "total_median": 9.217313346453011,
+    "total_all": [
+     9.192336207255721,
+     9.242290485650301
+    ],
+    "package_median": 7.803918536752462,
+    "shared_median": 1.4133948097005486
+   },
+   "speedup": 40.556112031981094,
+   "saved_fraction": 0.9753428040831075
+  }
+ }
+}

@@ -1,0 +1,202 @@
+{
+ "initial_cache_load_and_check": 7.934936325997114,
+ "initial_CSR": 0.3366632033139467,
+ "records": [
+  {
+   "meta": {
+    "timings": {
+     "boundary": 0.36413419619202614,
+     "CSR_and_transfer": 1.2870877981185913e-05,
+     "C": 0.08963634818792343,
+     "illumination": 0.15633977390825748,
+     "K_direct": 0.009016592055559158,
+     "solve": 0.17743486911058426,
+     "readout": 0.1877964697778225,
+     "other_bookkeeping_and_state_transfer": 0.06425360031425953
+    },
+    "update_shared_seconds": 1.0486247204244137,
+    "rho": [
+     0.7511242032051086,
+     0.6779292821884155,
+     0.41260504722595215
+    ],
+    "rho_diagnostic_seconds": 2.224971307441592,
+    "validation_diagnostic_seconds": 2.2492314632982016,
+    "converged": true,
+    "iterations": 45,
+    "last_rel": 9.452048033153915e-08,
+    "fixed_point_rel": 8.330381007226606e-08,
+    "closure_max": 0.0,
+    "back_hits": 0,
+    "max_colsum": {
+     "0": [
+      0.9976814523688518,
+      0.9780498930049362,
+      0.8415751805163936
+     ],
+     "1": [
+      0.9976369572978001,
+      0.9777248851460172,
+      0.8399101733230907
+     ]
+    },
+    "transport_stats": {
+     "0": {
+      "leak_rate": 5.006790161132813e-07,
+      "truncated": 0
+     },
+     "1": {
+      "leak_rate": 6.278355916341146e-07,
+      "truncated": 0
+     }
+    },
+    "cells": 8080,
+    "C_nnz": 1344956,
+    "C_bytes": 26899120,
+    "external_flux": [
+     0.032116323709487915,
+     0.032116323709487915,
+     0.032116323709487915
+    ],
+    "field_seed": 5661,
+    "C_seed": 5681,
+    "source_not_target": true,
+    "gpu_allocated_peak": 4397167616,
+    "gpu_reserved_peak": 4685037568,
+    "cpu_rss_peak_bytes": 4739653632
+   },
+   "relative_to_disk_cache_S": 1.464559237434998e-08
+  },
+  {
+   "meta": {
+    "timings": {
+     "boundary": 0.10954935848712921,
+     "CSR_and_transfer": 1.2395903468132019e-05,
+     "C": 0.01986493542790413,
+     "illumination": 0.14543413743376732,
+     "K_direct": 0.0034452974796295166,
+     "solve": 0.17679589614272118,
+     "readout": 0.16566088795661926,
+     "other_bookkeeping_and_state_transfer": 0.06401439197361469
+    },
+    "update_shared_seconds": 0.6847773008048534,
+    "rho": [
+     0.7511242032051086,
+     0.6779292821884155,
+     0.41260504722595215
+    ],
+    "rho_diagnostic_seconds": 2.2243623472750187,
+    "validation_diagnostic_seconds": 2.247449230402708,
+    "converged": true,
+    "iterations": 45,
+    "last_rel": 9.44950997450178e-08,
+    "fixed_point_rel": 8.33331981198171e-08,
+    "closure_max": 0.0,
+    "back_hits": 0,
+    "max_colsum": {
+     "0": [
+      0.9976814523688518,
+      0.9780498930049362,
+      0.8415751805163936
+     ],
+     "1": [
+      0.9976369572978001,
+      0.9777248851460172,
+      0.8399101733230907
+     ]
+    },
+    "transport_stats": {
+     "0": {
+      "leak_rate": 5.006790161132813e-07,
+      "truncated": 0
+     },
+     "1": {
+      "leak_rate": 6.278355916341146e-07,
+      "truncated": 0
+     }
+    },
+    "cells": 8080,
+    "C_nnz": 1344956,
+    "C_bytes": 26899120,
+    "external_flux": [
+     0.032116323709487915,
+     0.032116323709487915,
+     0.032116323709487915
+    ],
+    "field_seed": 5661,
+    "C_seed": 5681,
+    "source_not_target": true,
+    "gpu_allocated_peak": 4644832256,
+    "gpu_reserved_peak": 4947181568,
+    "cpu_rss_peak_bytes": 4756705280
+   },
+   "relative_to_disk_cache_S": 1.4182540273936903e-08
+  },
+  {
+   "meta": {
+    "timings": {
+     "boundary": 0.1102974433451891,
+     "CSR_and_transfer": 1.7251819372177124e-05,
+     "C": 0.019827868789434433,
+     "illumination": 0.1454191356897354,
+     "K_direct": 0.0034384988248348236,
+     "solve": 0.17666968703269958,
+     "readout": 0.16480976715683937,
+     "other_bookkeeping_and_state_transfer": 0.06224612519145012
+    },
+    "update_shared_seconds": 0.682725777849555,
+    "rho": [
+     0.7511242032051086,
+     0.6779292821884155,
+     0.41260504722595215
+    ],
+    "rho_diagnostic_seconds": 2.2246734984219074,
+    "validation_diagnostic_seconds": 2.2479119691997766,
+    "converged": true,
+    "iterations": 45,
+    "last_rel": 9.464618244692247e-08,
+    "fixed_point_rel": 8.33638651442925e-08,
+    "closure_max": 0.0,
+    "back_hits": 0,
+    "max_colsum": {
+     "0": [
+      0.9976814523688518,
+      0.9780498930049362,
+      0.8415751805163936
+     ],
+     "1": [
+      0.9976369572978001,
+      0.9777248851460172,
+      0.8399101733230907
+     ]
+    },
+    "transport_stats": {
+     "0": {
+      "leak_rate": 5.006790161132813e-07,
+      "truncated": 0
+     },
+     "1": {
+      "leak_rate": 6.278355916341146e-07,
+      "truncated": 0
+     }
+    },
+    "cells": 8080,
+    "C_nnz": 1344956,
+    "C_bytes": 26899120,
+    "external_flux": [
+     0.032116323709487915,
+     0.032116323709487915,
+     0.032116323709487915
+    ],
+    "field_seed": 5661,
+    "C_seed": 5681,
+    "source_not_target": true,
+    "gpu_allocated_peak": 4644832256,
+    "gpu_reserved_peak": 4947181568,
+    "cpu_rss_peak_bytes": 4764323840
+   },
+   "relative_to_disk_cache_S": 1.4175660802671454e-08
+  }
+ ],
+ "note": "Measured rigid updates only. Do not add a hypothetical removed TR cost and call it a measured dent resident update."
+}

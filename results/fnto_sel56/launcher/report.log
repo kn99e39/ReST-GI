@@ -1,0 +1,88 @@
+{
+ "label": "POST HOC ACCOUNTING FIX, primary measured timings unchanged; analysis.json retained",
+ "reason": "Original sensitivity included dirty post-build identity hashing in both the hypothetical new-package k and H_S. Use disjoint components here.",
+ "new_package_definition": "Complete build wall + post-build identity check, per recomputed domain. Includes construction, setup, serialization, hashing.",
+ "fixed_raw_cache_model": {
+  "H_F": 1.1432981928810477,
+  "H_S": 5.218510564416647,
+  "break_even_20pct": 7.173120016853015,
+  "curve": [
+   {
+    "k": 0.001,
+    "F": 1.1452981928810477,
+    "S": 5.219510564416647,
+    "speedup": 0.21942635784454068
+   },
+   {
+    "k": 0.01,
+    "F": 1.1632981928810477,
+    "S": 5.228510564416647,
+    "speedup": 0.22249131536580127
+   },
+   {
+    "k": 0.1,
+    "F": 1.3432981928810477,
+    "S": 5.318510564416647,
+    "speedup": 0.2525703722144219
+   },
+   {
+    "k": 1,
+    "F": 3.1432981928810477,
+    "S": 6.218510564416647,
+    "speedup": 0.5054744476703993
+   },
+   {
+    "k": 10,
+    "F": 21.143298192881048,
+    "S": 15.218510564416647,
+    "speedup": 1.3893145523923687
+   },
+   {
+    "k": 100,
+    "F": 201.14329819288105,
+    "S": 105.21851056441665,
+    "speedup": 1.9116721678904354
+   }
+  ],
+  "caveat": "Holding 1.68 GB raw-cache access fixed is not a prediction for a smaller learned K. Millisecond new-package creation is incompatible with current serialization/hash bytes."
+ },
+ "remaining_TR": 175.49723362922668,
+ "remaining_complete_new_package": 183.7147251740098,
+ "TR_fraction_of_S": 0.9288849562719353,
+ "new_package_fraction_of_S": 0.9723790106524359,
+ "residual_if_TR_free": 13.436002109199762,
+ "conditional_compact_resident_model": {
+  "H": 0.6847773008048534,
+  "origin": "Measured RIGID resident update, used only as illustrative H; dent compact/learned model unmeasured",
+  "formula": "F=2k+H, S=k+H+O; >=20% saving iff k >= (0.25H+1.25O)/0.75",
+  "assumed_O": 0,
+  "illustrative_break_even_20pct": 0.22825910026828447,
+  "curve": [
+   {
+    "k": 0.001,
+    "speedup": 1.0014581993291793
+   },
+   {
+    "k": 0.01,
+    "speedup": 1.0143931011971976
+   },
+   {
+    "k": 0.1,
+    "speedup": 1.1274246845537477
+   },
+   {
+    "k": 1,
+    "speedup": 1.593550257070937
+   },
+   {
+    "k": 10,
+    "speedup": 1.9359109430616517
+   },
+   {
+    "k": 100,
+    "speedup": 1.9931988000652867
+   }
+  ]
+ }
+}
+EXPORTED 117

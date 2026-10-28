@@ -1,0 +1,62 @@
+{
+ "timings": {
+  "boundary": 0.10998544655740261,
+  "CSR_and_transfer": 0.2870211321860552,
+  "C": 0.019911030307412148,
+  "illumination": 0.1449001245200634,
+  "K_direct": 0.0034514684230089188,
+  "solve": 0.20185140147805214,
+  "readout": 0.1658506877720356,
+  "other_bookkeeping_and_state_transfer": 0.09650510177016258
+ },
+ "update_shared_seconds": 1.0294763930141926,
+ "rho": [
+  0.7755586504936218,
+  0.7016744017601013,
+  0.4287731349468231
+ ],
+ "rho_diagnostic_seconds": 2.2278421595692635,
+ "validation_diagnostic_seconds": 2.2509317826479673,
+ "converged": true,
+ "iterations": 51,
+ "last_rel": 8.476290958014943e-08,
+ "fixed_point_rel": 7.815806668531877e-08,
+ "closure_max": 0.0,
+ "back_hits": 0,
+ "max_colsum": {
+  "0": [
+   0.9976814523688518,
+   0.9780498930049362,
+   0.8415751805163936
+  ],
+  "1": [
+   0.9975792756886221,
+   0.9771733183442848,
+   0.8388482125427082
+  ]
+ },
+ "transport_stats": {
+  "0": {
+   "leak_rate": 5.006790161132813e-07,
+   "truncated": 0
+  },
+  "1": {
+   "leak_rate": 5.404154459635417e-07,
+   "truncated": 0
+  }
+ },
+ "cells": 8080,
+ "C_nnz": 1329502,
+ "C_bytes": 26590040,
+ "external_flux": [
+  0.031187888234853745,
+  0.031187888234853745,
+  0.031187888234853745
+ ],
+ "field_seed": 5661,
+ "C_seed": 5682,
+ "source_not_target": true,
+ "gpu_allocated_peak": 4451570688,
+ "gpu_reserved_peak": 4739563520,
+ "cpu_rss_peak_bytes": 4747628544
+}
