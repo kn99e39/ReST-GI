@@ -1,0 +1,32 @@
+         236397 function calls (233003 primitive calls) in 1.651 seconds
+
+   Ordered by: cumulative time
+   List reduced from 268 to 24 due to restriction <24>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.001    0.001    1.654    1.654 /home/nd/rest_wl57_recovery/repo/experiments/fnto_rule57/r57_action_oracle.py:32(action)
+        1    0.215    0.215    1.569    1.569 /home/nd/rest_wl57_recovery/repo/experiments/fnto_rule57/r57_fastwalk.py:13(walk)
+      403    0.024    0.000    0.592    0.001 /home/nd/rest_wl57_recovery/repo/experiments/phys_ref53/p53_mi.py:166(__call__)
+      806    0.044    0.000    0.390    0.000 /home/nd/rest_wl57_recovery/repo/experiments/phys_ref53/p53_mi.py:152(_v3)
+      402    0.076    0.000    0.330    0.001 /home/nd/rest_wl57_recovery/repo/experiments/phys_ref53/p53_tracer.py:41(phase_sample)
+     2418    0.072    0.000    0.324    0.000 /home/nd/rest_wl57_recovery/repo/experiments/phys_ref53/p53_mi.py:143(_f)
+5642/3224    0.091    0.000    0.210    0.000 /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/detail.py:136(array_init)
+      326    0.028    0.000    0.193    0.001 /home/nd/rest_wl57_recovery/repo/experiments/phys_ref53/p53_geom.py:51(local_to_bin)
+      402    0.102    0.000    0.167    0.000 /home/nd/rest_wl57_recovery/repo/experiments/phys_ref53/p53_tracer.py:33(_basis)
+      326    0.111    0.000    0.148    0.000 /home/nd/rest_wl57_recovery/repo/experiments/phys_ref53/p53_geom.py:36(disk_to_square)
+     2418    0.039    0.000    0.104    0.000 /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/detail.py:59(array_from_dlpack)
+      806    0.004    0.000    0.100    0.000 /home/nd/rest_wl57_recovery/repo/experiments/phys_ref53/p53_mi.py:147(_t)
+        1    0.009    0.009    0.068    0.068 /home/nd/rest_wl57_recovery/repo/experiments/phys_ref53/p53_tracer.py:90(cell_source)
+     2343    0.004    0.000    0.067    0.000 /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/_tensor.py:34(wrapped)
+      806    0.005    0.000    0.063    0.000 /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/generic.py:1647(torch)
+      326    0.027    0.000    0.061    0.000 /home/nd/rest_wl57_recovery/repo/experiments/fnto_rule57/r57_action_oracle.py:17(index_add_)
+     1209    0.002    0.000    0.059    0.000 /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py:2543(eval)
+     3224    0.055    0.000    0.055    0.000 {method 'contiguous' of 'torch._C.TensorBase' objects}
+      806    0.004    0.000    0.054    0.000 /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/generic.py:1633(op_dlpack)
+      403    0.048    0.000    0.048    0.000 {built-in method drjit.detail.eval}
+     1132    0.046    0.000    0.046    0.000 {method 'nonzero' of 'torch._C.TensorBase' objects}
+      806    0.010    0.000    0.046    0.000 /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/generic.py:1521(export_)
+     2695    0.042    0.000    0.042    0.000 {built-in method torch.where}
+      403    0.008    0.000    0.039    0.000 /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/nn/functional.py:4758(normalize)
+
+

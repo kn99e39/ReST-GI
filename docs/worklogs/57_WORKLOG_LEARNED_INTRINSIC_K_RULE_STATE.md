@@ -164,3 +164,36 @@ A separate pure-stdlib read-only observer (18477c5) writes `~/rest_wl57_recovery
 Interpretation precision:2048/sum(x^2) is an excitation-based effective-sample proxy under approximately comparable conditional variance, not an exact count of independent weighted photons or a measured new-estimator variance. The reported local-energy shares are exploratory noise-subtracted accounting with finite-seed uncertainty and a nonnegative global-energy floor; they are not inferential confidence bounds. The independent confirmation's global criterion and photon/half-variance calibration are specified separately and do not depend on these exploratory shares.
 
 Current A2 state at the last observer snapshot (02:01KST2026-10-29): confirm_focus RUNNING, supervisor alive,30/320 focused half packets committed, all30 physical checks passed. These are reference-generation progress measurements, **not a scientific GO or a learned result**. The frozen conditional chain remains responsible for the eventual GO/NO-GO and, on GO, complete fixed primary evaluation and reporting.
+
+
+## A3 — user-authorised GPU execution optimisation (2026-10-29)
+
+The user identified inefficient GPU use during confirmation and explicitly requested code/batch optimisation. At inspection the2M-photon chunks used~1.28GB GPU memory,~10% sampled GPU utilisation and~102% of one CPU core, with32M halves taking~34s. This was a conservative unprofiled execution choice, not an intrinsic physical-reference cost lower bound. The primary was safely paused;52complete packets were checksum-verified and preserved. Only the incomplete active packet was discarded, with the interrupted attempt logged (`performance_transition.json`). Scientific A2 protocol,64M replica/32M half counts, seeds, poses/lights, physical materials, importance estimator, D/R source and all thresholds are unchanged.
+
+The isolated `r57_fastwalk.py` specialises the immutable WL53 walk for the A2 unit-RGB/no-NEE/no-air-continuation case. It reuses compaction indices, defers flux counters to a single GPU-to-CPU transfer, removes unused exit positions/unused S2 temporaries/single-input concatenations, and skips only a provably false RR condition: unit initial RGB and max albedo>=.998 imply relative weight>.05 for the first1024collisions, even with ample float32 error margin. Later RR and the exact canonical intersection/phase/absorption code are retained. Weak references remove an accumulator/sink cycle retaining CUDA tensors. Historical WL53–56 files remain untouched.
+
+### Actual performance and physical/numerical validation
+
+Same32M photons, original rest diagnostic light0, seed580101; separate process per timing:
+
+| Path | Photons per launch group | Wall seconds | PyTorch reserved peak GB |
+|---|---:|---:|---:|
+| Original reference |2M|34.419|0.807|
+| Specialised |2M|27.892|0.724|
+| Specialised |8M|8.459|2.628|
+| Specialised |16M|4.608|5.100|
+| Specialised |32M|2.971|10.106|
+
+This is **11.6x** data-generation throughput on that matched control, not a learned-K or R-vs-D speed advantage. Larger batching supplies most of the gain; removal of repeated host synchronisation/temporary copies adds another~15–20% at the same batch. The fastest tested32M configuration leaves ample room on the24GiB3090. Bounded allocation fallback is32M→16M→8M→2M→250k, with unchanged total photon count. No configuration was selected by confirmation SNR or model quality.
+
+Reference-versus-specialised controls used old rest/te0 and old fields0/48 at1M and full32M. In all8comparisons: identical final RNG state and photon/collision/exit/leak/wrong-side/truncation/step counts; float32 action response exactly identical; float64 second-moment relativeL1<=2.12e-16. All physical checks passed. At32M a canonical full-batch walk itself takes3.18–3.54s versus specialised2.69–2.95s. These exact same-chunk tests distinguish execution transformation from estimator changes. Changing the chunk size changes RNG assignment but not its iid distribution, unbiased flux estimand or fixed photon budget; existing completed packets remain valid and are never overwritten.
+
+Non-invasive CPU profiling of250kphotons counted `.cpu()` calls331→5, `.any()`1608→0, and `torch.cat`2010→0. Explicit nonzero-call counts increase because previously implicit boolean compactions are made explicit; no nonzero-count reduction is claimed. Torch/CUPTI CUDA profiling caused illegal-address errors in BOTH the unchanged reference and specialised Dr.Jit/OptiX contexts; those diagnostic failures are preserved and are not CUDA kernel-timing evidence. Unprofiled fresh-process controls and subsequent actual confirmation runs pass. No driver, library or lab infrastructure was changed.
+
+### Deployment and continuity
+
+Execution-only amendment: `protocol/rule57_execution_a3.json`; implementation09f5af3, separately identified from scientific preregistration e809c15. The server's immutable `execution_policy.json` contains source hashes, parent scientific protocol/commit, validation receipts, measured memory condition and the52preserved payload hashes. New packets record actual walker/chunk, execution-code/policy hashes and RNG-state hash. Source/config/receipt checks and exclusive locks remain active. Existing scientific stage markers are reused only because their input/model/estimator contracts remain valid; the new execution policy is separately checked before resumption. No second scientific recovery cycle occurs.
+
+Independent supervisor PID/SID1390733 (PPID1) resumed confirm_focus attempt1 at02:37:39KST. Initial live fast packets take~2.94s, agreeing with the benchmark;82fast packets had completed with all physical checks passing by the subsequent audit. This is actual confirmation throughput, not just a synthetic benchmark. The observer uses timings from the current execution policy only, so the earlier~12hour extrapolation is superseded: remaining data construction is approximately one hour at the new initial rate if the signal gate passes, with the signal gate's remaining data approximately10–15minutes after restart. Geometry/field runtime can vary; training/evaluation/cost follow separately. Scientific GO is still pending at this execution update.
+
+Small original-source snapshots, all timing/physical/equivalence data, profiler failure logs, CPU profiles, deployment policy and preserved-packet hashes are in `results/fnto_rule57/recovery_a3_execution/`. The A2 conditional sequence remains: full independent signal gate → fixed primary if GO; else clean NO-GO with evidence, no adaptive budget/threshold change.
