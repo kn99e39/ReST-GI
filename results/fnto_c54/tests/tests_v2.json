@@ -1,0 +1,305 @@
+{
+ "protocol": "fnto_c54",
+ "n": 10,
+ "passed": 9,
+ "results": [
+  {
+   "error": "Traceback (most recent call last):\n  File \"/home/nd/rest_wl54/repo/experiments/fnto_c54/tests/test_c54.py\", line 33, in run\n    d = fn(*a, **k); ok = bool(d.pop(\"passed\"))\n  File \"/home/nd/rest_wl54/repo/experiments/fnto_c54/tests/test_c54.py\", line 82, in refine_mesh_conservation\n    cn = fr1[\"n\"][::2]; dots = (cn * n0[pp]).sum(1)\nValueError: operands could not be broadcast together with shapes (6720,3) (5100,3) \n",
+   "name": "refine_mesh_conservation",
+   "passed": false,
+   "seconds": 0.2
+  },
+  {
+   "gap4": {
+    "exact": 0.925253406564055,
+    "s8": {
+     "mean": 0.9250600179036459,
+     "sd": 0.00013845476876644085,
+     "rel_err": -0.00020901156271035948
+    },
+    "s16": {
+     "mean": 0.9252444458007812,
+     "sd": 8.838725182344201e-05,
+     "rel_err": -9.684658505593191e-06
+    },
+    "coarse_Minf": {
+     "value": 0.9254505920410157,
+     "rel_err": 0.00021311510507482367
+    },
+    "casp": {
+     "value": 0.92525390625,
+     "rel_err": 5.400530724841701e-07,
+     "cells": 3528
+    }
+   },
+   "gap8": {
+    "exact": 0.8581872962530187,
+    "s8": {
+     "mean": 0.8580725097656249,
+     "sd": 0.00029368757436833604,
+     "rel_err": -0.0001337545870173651
+    },
+    "s16": {
+     "mean": 0.8582147216796875,
+     "sd": 0.00019889713019225893,
+     "rel_err": 3.1957390640213745e-05
+    },
+    "coarse_Minf": {
+     "value": 0.8583444213867187,
+     "rel_err": 0.00018308955910439906
+    },
+    "casp": {
+     "value": 0.858870849609375,
+     "rel_err": 0.0007965083605185885,
+     "cells": 1188
+    }
+   },
+   "gap30": {
+    "exact": 0.5795307606691319,
+    "s8": {
+     "mean": 0.5793168131510417,
+     "sd": 0.0004909519905932264,
+     "rel_err": -0.0003691737050216526
+    },
+    "s16": {
+     "mean": 0.5793720499674478,
+     "sd": 0.00026088626562267733,
+     "rel_err": -0.00027386070327106715
+    },
+    "coarse_Minf": {
+     "value": 0.5796682739257812,
+     "rel_err": 0.00023728379230569807
+    },
+    "casp": {
+     "value": 0.580894775390625,
+     "rel_err": 0.002353653704107339,
+     "cells": 480
+    }
+   },
+   "name": "analytic_form_factor",
+   "passed": true,
+   "seconds": 303.8
+  },
+  {
+   "gap4_s8": {
+    "closure_min": 1.0,
+    "closure_max": 1.0,
+    "back_hits": 0,
+    "nonneg": true,
+    "nnz": 1477346,
+    "escape_mean": 0.6145024617513021,
+    "same_seed_identical": true,
+    "solve_max_rel": 0.0
+   },
+   "floor_lam_s4": {
+    "closure_min": 1.0,
+    "closure_max": 1.0,
+    "back_hits": 0,
+    "nonneg": true,
+    "nnz": 972322,
+    "escape_mean": 0.7956640410841557
+   },
+   "floor_lam_prod": {
+    "closure_min": 1.0,
+    "closure_max": 1.0,
+    "back_hits": 0,
+    "nonneg": true,
+    "nnz": 164471,
+    "escape_mean": 0.7956420898437501
+   },
+   "floor_lam_casp": {
+    "closure_min": 1.0,
+    "closure_max": 1.0,
+    "back_hits": 0,
+    "nonneg": true,
+    "nnz": 211846,
+    "escape_mean": 0.5600939849820806,
+    "same_seed_identical": true,
+    "solve_max_rel": 0.0
+   },
+   "lblock_casp_bins": {
+    "closure_min": 1.0,
+    "closure_max": 1.0,
+    "back_hits": 0,
+    "nonneg": true,
+    "nnz": 520899,
+    "escape_mean": 0.5699247244160138
+   },
+   "name": "closure_nonneg_and_determinism",
+   "passed": true,
+   "seconds": 16.6
+  },
+  {
+   "gap4_s4": {
+    "asym": 0.09752036134928026,
+    "cross_seed_stat": 0.09738040070221853,
+    "rule": 0.12672550087777315
+   },
+   "floor_lam_casp": {
+    "asym": 0.0622850113593739,
+    "cross_seed_stat": 0.06233378900515467,
+    "rule": 0.08291723625644334
+   },
+   "name": "reciprocity_area_weighted",
+   "passed": true,
+   "seconds": 7.5
+  },
+  {
+   "zero_exact": true,
+   "linearity": 5.513806746414161e-13,
+   "apply_err": 4.500716698213252e-16,
+   "fixed_point_vs_dense": 3.4149681014168853e-12,
+   "rho": 0.7734718701954462,
+   "name": "zero_superposition_application_fixed_point",
+   "passed": true,
+   "seconds": 6.8
+  },
+  {
+   "coarse": {
+    "cross_flux": 0.0,
+    "onto_plate_flux": 117.048828125,
+    "back_hits": 240028
+   },
+   "s4": {
+    "cross_flux": 0.0,
+    "onto_plate_flux": 1873.77685546875,
+    "back_hits": 3836097
+   },
+   "casp": {
+    "cross_flux": 0.0,
+    "onto_plate_flux": 1664.4248046875,
+    "back_hits": 3310155
+   },
+   "name": "blocker",
+   "passed": true,
+   "seconds": 1.5
+  },
+  {
+   "floor_lam": {
+    "pooled_L1_diff": 0.001957490201802512,
+    "cross_seed_noise": 0.0018083440965884318,
+    "levels_equal_fraction": 1.0
+   },
+   "gap4": {
+    "pooled_L1_diff": 0.0009652958715426024,
+    "cross_seed_noise": 0.0009746603106277269,
+    "levels_equal_fraction": 1.0
+   },
+   "name": "rigid_consistency",
+   "passed": true,
+   "seconds": 13.7
+  },
+  {
+   "slab": {
+    "coarse_mean": 0.0,
+    "coarse_sd": 0.0,
+    "fine_s8": 0.0
+   },
+   "lblock": {
+    "coarse_mean": 0.030875952449845683,
+    "coarse_sd": 3.4554314928882304e-05,
+    "fine_s8": 0.030853045428240744
+   },
+   "name": "same_domain_reentry",
+   "passed": true,
+   "seconds": 7.0
+  },
+  {
+   "gap4": {
+    "hist": {
+     "1": 280,
+     "4": 199,
+     "8": 1
+    },
+    "cells": 3528,
+    "coarse_ports": 480,
+    "top_face_max_level": 1,
+    "contact_face_level": 4
+   },
+   "gap8": {
+    "hist": {
+     "1": 280,
+     "2": 191,
+     "4": 9
+    },
+    "cells": 1188,
+    "coarse_ports": 480,
+    "top_face_max_level": 1,
+    "contact_face_level": 2
+   },
+   "gap30": {
+    "hist": {
+     "1": 480
+    },
+    "cells": 480,
+    "coarse_ports": 480,
+    "top_face_max_level": 1,
+    "contact_face_level": 1
+   },
+   "floor_lam": {
+    "hist": {
+     "1": 898,
+     "2": 242
+    },
+    "cells": 1866,
+    "coarse_ports": 1140,
+    "top_face_max_level": null,
+    "contact_face_level": null
+   },
+   "lblock_lam": {
+    "hist": {
+     "1": 898,
+     "2": 254,
+     "4": 18
+    },
+    "cells": 2202,
+    "coarse_ports": 1170,
+    "top_face_max_level": null,
+    "contact_face_level": null
+   },
+   "rot_lam": {
+    "hist": {
+     "1": 899,
+     "2": 241
+    },
+    "cells": 1863,
+    "coarse_ports": 1140,
+    "top_face_max_level": null,
+    "contact_face_level": null
+   },
+   "medium_floor_back_hits": 0,
+   "name": "casp_levels_and_ownership",
+   "passed": true,
+   "seconds": 1.5
+  },
+  {
+   "top": {
+    "repeatable": true,
+    "v0_subset_of_v1": true,
+    "v1_pixels": 90000,
+    "v0_pixels": 90000
+   },
+   "otop": {
+    "repeatable": true,
+    "v0_subset_of_v1": true,
+    "v1_pixels": 25600,
+    "v0_pixels": 22620
+   },
+   "underup": {
+    "repeatable": true,
+    "v0_subset_of_v1": true,
+    "v1_pixels": 10000,
+    "v0_pixels": 10000
+   },
+   "underdown": {
+    "repeatable": true,
+    "v0_subset_of_v1": true,
+    "v1_pixels": 16900,
+    "v0_pixels": 16900
+   },
+   "name": "comparison_masks",
+   "passed": true,
+   "seconds": 0.9
+  }
+ ]
+}

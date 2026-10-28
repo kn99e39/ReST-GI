@@ -1,0 +1,78 @@
+{
+ "worklog": "docs/worklogs/54_WORKLOG_EXPLICIT_C_SPATIAL_FIDELITY.md",
+ "generator": "experiments/fnto_c54/c54_report.py",
+ "figures": {
+  "01_lambert_interface_error.png": {
+   "sha256": "a5c8ea63db93e4746b34f15bc7d3295b58c29b0373b49c75d58586bc5bf9c5bb",
+   "shows": "pooled bias vs fine reference F16: C0, CASP, exact-Galerkin coarse; 8 near-contact Lambert groups; dashed 3 %",
+   "scale": "common y axis (bias %, same for every bar)",
+   "sources": [
+    "results/fnto_c54/final/lambert_table.json",
+    "results/fnto_c54/final/amend1_tables.json",
+    "results/fnto_c54/final/amend1_pixel_size.json"
+   ],
+   "source_sha256": {
+    "results/fnto_c54/final/lambert_table.json": "0f2b425364434030fc2aabaa8c58d0d2cb61abe9951cab5fdb912cf93e27e416",
+    "results/fnto_c54/final/amend1_tables.json": "1d217d84bd1b520849992727fe29e9a2b33ae9ce5234ca6c14b573794d83ceb7",
+    "results/fnto_c54/final/amend1_pixel_size.json": "5ebfca92ca2a7054aee5c9d1fe0153a07e87704340a5aaa29002084bc00c7ff2"
+   }
+  },
+  "02_gap4_decay_profile.png": {
+   "sha256": "4269aae51c1a297155ec025d561aa2f39ecb77c750c53570e2ebca4aaaa0796f",
+   "shows": "gap4 lower-slab top face radiance by port column (log), normalised to the first port of the fine solution",
+   "scale": "shared log axis",
+   "sources": [
+    "results/fnto_c54/final/profiles.json"
+   ],
+   "source_sha256": {
+    "results/fnto_c54/final/profiles.json": "f060225a64cef209082786a5a03a71a0c08f74aa03812af2b43c9499b70bd4d4"
+   }
+  },
+  "03_accuracy_vs_unknowns.png": {
+   "sha256": "8a628212b9e236e7dbcd700b10998d6b8ab198b4756bb3c10d7c98adc4d04e8d",
+   "shows": "|pooled bias vs F16| against unknowns: uniform s=2,4,8, C0, CASP and its sensitivity arms",
+   "scale": "shared log-log axes across the four panels; floor 0.1 %",
+   "sources": [
+    "results/fnto_c54/final/profiles.json"
+   ],
+   "source_sha256": {
+    "results/fnto_c54/final/profiles.json": "f060225a64cef209082786a5a03a71a0c08f74aa03812af2b43c9499b70bd4d4"
+   }
+  },
+  "04_cost_scaling.png": {
+   "sha256": "26c7446fcd6005179972ade9be049e12e634c068993b8a38de9cd116b5ad2006",
+   "shows": "geometry update + 20 iterations (GPU, ms) vs coarse ports, and vs gap size; includes CPU scene build (see worklog for the GPU-only column)",
+   "scale": "log-log (left), linear (right)",
+   "sources": [
+    "results/fnto_c54/final/cost.json"
+   ],
+   "source_sha256": {
+    "results/fnto_c54/final/cost.json": "99e2ab6c998ccac3cc559fdc954325a91ce06603c28ad3dd4929c65128f29f2c"
+   }
+  },
+  "05_k_resolution_control.png": {
+   "sha256": "dd7f3d5e3e18e53e0df5962a297e051717316d446a103662839849e72a6c60df",
+   "shows": "labelled matched-resolution K control: medium gap faces, 1 cm vs 5 mm for K and C, per channel",
+   "scale": "shared y axis (bias %) across channels",
+   "sources": [
+    "results/fnto_c54/kfine/kfine_control.json"
+   ],
+   "source_sha256": {
+    "results/fnto_c54/kfine/kfine_control.json": "66a54c994cf79de7448f39a6affcf9d4ad8f685f3260f65dbc6a5cfa47a9a2b8"
+   }
+  },
+  "06_stale_vs_current_differential.png": {
+   "sha256": "7663397129bae3b72078d1558abb41ce1c2495963b4d60a03cbad1d9ec78abbc",
+   "shows": "paired differential D = stale - current K, C0 vs CASP, error bars = K-oracle seed noise",
+   "scale": "shared y axis",
+   "sources": [
+    "results/fnto_c54/final/amendE_tables.json",
+    "results/fnto_c54/final/dnoise.json"
+   ],
+   "source_sha256": {
+    "results/fnto_c54/final/amendE_tables.json": "fba6f7eea74d0563c12e728b0334eb7236aef4f380fda86b7635e486ecf5f433",
+    "results/fnto_c54/final/dnoise.json": "4ae94893e1ba0881d994e64d1748398fff7580678832947278ac10f125473fd0"
+   }
+  }
+ }
+}
