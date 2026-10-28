@@ -53,6 +53,7 @@ def rest_seed(rep,ci): return (5561,5562)[rep if ci==0 else 1-rep]
 def new_seed(state,rep,ci): return (5565,5566)[rep] if state=='dent' and ci==1 else rest_seed(rep,ci)
 
 def build(state,ci,seed,path,nper=2048):
+    if path.exists(): raise FileExistsError(f'Preserve existing oracle: {path}; use replay, never overwrite a run')
     m,V=SF.intrinsic(state,ci); fm,VC,par=KO.refined(m,V,4)
     dom=KO.DomainX(fm,VC,name=f'{state}/d{ci}/{seed}')
     r=KO.tr_sparse(dom,64,16,nper,seed,np.array([FX.DIRS[k] for k in SF.KEYS]),par,len(m['port_area']),log=log,s2=False)
@@ -167,6 +168,25 @@ def update(state,arm,rep,replay=False,independent=False):
     out=OUT/'runs';out.mkdir(parents=True,exist_ok=True); np.savez(out/(tag+'.npz'),**pred);dump(meta,out/(tag+'.json'))
     log('UPDATE',tag,meta['total_update_seconds'],meta['timings'],meta['converged'])
 
+def verify(state,rep):
+    """Hard stop on ownership/numerical disagreement before continuing the primary chain."""
+    ad=OUT/'runs';a=np.load(ad/f'{state}_F_r{rep}.npz');b=np.load(ad/f'{state}_S_r{rep}.npz');record={}
+    for k in a.files:
+        rel=float(np.abs(a[k]-b[k]).sum()/max(float(np.abs(a[k]).sum()),1e-30))
+        mx=float(np.abs(a[k]-b[k]).max()/max(float(np.abs(a[k]).max()),1e-30))
+        record[k]=dict(relative_L1=rel,normalized_max=mx)
+    ok=all(v['relative_L1']<=1e-6 and v['normalized_max']<=1e-5 for v in record.values())
+    identities={}
+    for arm in ('F','S'):
+        md=json.load(open(ad/f'{state}_{arm}_r{rep}.json'))
+        ok &= md['converged'] and md['closure_max']<=1e-6 and md['back_hits']==0 and max(md['rho'])<1
+        ok &= all(max(v)<=1+1e-6 for v in md['max_colsum'].values())
+        ok &= all(v['leak_rate']<=1e-5 and v['truncated']==0 for v in md['transport_stats'].values())
+        identities[arm]={ci:p['content_hash'] for ci,p in md['packages'].items()}
+    dump(dict(passed=ok,fields=record,package_hashes=identities),OUT/f'verify_{state}_r{rep}.json')
+    assert ok,'Shared-operator ownership/numerical gate failed: stop for focused diagnosis'
+    log('VERIFIED',state,rep)
+
 def extract(state):
     sd=SF.scene(state); ss=CM.classify_sceneset(sd); geo=json.load(open(OUT/'cycles'/f'ccam_{state}.json')); res={}
     for cam,g in geo.items():
@@ -202,5 +222,6 @@ def audit():
 if __name__=='__main__':
     OUT.mkdir(parents=True,exist_ok=True);cmd=sys.argv[1]
     if cmd in ('prepare','reference_gate','audit'):globals()[cmd]()
+    elif cmd=='verify':verify(sys.argv[2],int(sys.argv[3]))
     elif cmd in ('update','replay'):update(sys.argv[2],sys.argv[3],int(sys.argv[4]),replay=cmd=='replay',independent='ind' in sys.argv[5:])
     sys.stdout.flush();os._exit(0)
