@@ -7,6 +7,8 @@ import k55_cycles as KC
 
 if __name__=='__main__':
     out=Path(sys.argv[sys.argv.index('--')+1]);out.mkdir(parents=True,exist_ok=True)
+    KC.PC.OUT=out
+    KC.PC.LOG=open(out/'cycles.log','a')
     KC.KF.scene_def=SF.scene
     KC.DEVICE='CUDA'
     for state in ('rest','dent','rigid'):

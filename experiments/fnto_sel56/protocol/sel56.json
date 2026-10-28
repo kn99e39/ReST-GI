@@ -124,6 +124,11 @@
    "id": "debug2",
    "type": "pre-primary renderer-launch fix",
    "fact": "Blender does not add the script directory to sys.path. Reference wrapper initially exited with ModuleNotFoundError and no images; added explicit path and --python-exit-code 1. All 25 performed regression checks passed; WL54 mask check skipped due historical file naming, recorded separately. No references/results existed when fixed."
+  },
+  {
+   "id": "debug3",
+   "type": "pre-primary wrapper setup fix",
+   "fact": "Reference wrapper must set inherited p53_cycles.OUT/LOG as its original main does. First real render attempt failed before any image with OUT=None; fixed initialization, retain reference_v1.log. No reference settings or geometry changed."
   }
  ],
  "readout_comparison": "F/S physical primary = current KC + KB. For stale loss, compare F/S/T using the identical current-frame outgoing-bin readout (includes unscattered transport), and report its bias against the renderer separately. Stale rest KC on the dented upper top is diagnostic only, never a valid precise camera response."
