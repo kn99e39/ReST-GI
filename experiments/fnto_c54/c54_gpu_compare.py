@@ -16,7 +16,9 @@ F = json.load(open(fork / "gpu_smoke.json"))["cases"]; S = json.load(open(stock 
 for case in F:
     ref = [np.load(fork / f"{case}_CPU_{s}.npy").astype(np.float64) for s in SEEDS]; mr = (ref[0] + ref[1]) / 2; vr = (ref[0] - ref[1]) ** 2 / 4
     res[case] = {"fork_CPU": dict(time_warm_s=F[case]["CPU"]["time_warm_s"], mean=F[case]["CPU"]["mean"])}
-    for dev, v in S[case].items():
+    for dev, v in S.get(case, {}).items():
+        if not all((stock / f"{case}_{dev}_{s}.npy").exists() for s in SEEDS):
+            continue
         x = [np.load(stock / f"{case}_{dev}_{s}.npy").astype(np.float64) for s in SEEDS]; mx = (x[0] + x[1]) / 2; var = vr + (x[0] - x[1]) ** 2 / 4
         ok = var > 0; z = (mx - mr)[ok] / np.sqrt(var[ok])
         res[case][f"stock_{dev}"] = dict(device=v["device"], time_first_s=v["time_first_s"], time_warm_s=v["time_warm_s"], speedup_vs_fork_cpu=F[case]["CPU"]["time_warm_s"] / v["time_warm_s"],

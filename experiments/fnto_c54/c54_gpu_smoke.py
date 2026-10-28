@@ -43,9 +43,10 @@ def set_device(sc, dev):
 
 def main():
     a = sys.argv[sys.argv.index("--") + 1:]; out = Path(a[0]); out.mkdir(parents=True, exist_ok=True); PC.OUT = out; PC.LOG = open(out / "smoke.log", "a")
-    devs = a[1].split(","); res = {}
+    devs = a[1].split(","); jf = out / "gpu_smoke.json"
+    res = json.load(open(jf))["cases"] if jf.exists() else {}          # several invocations (e.g. OptiX in its own process) accumulate here
     for case, (sdf, cam, mk, px, spp) in CASES.items():
-        sd = sdf(); res[case] = {}
+        sd = sdf(); res.setdefault(case, {})
         for dev in devs:
             imgs, times, used = [], [], None
             for seed in SEEDS:
@@ -57,9 +58,10 @@ def main():
                 np.save(out / f"{case}_{dev}_{seed}.npy", img.astype(np.float32))
             res[case][dev] = dict(device=used, time_first_s=times[0], time_warm_s=times[1], mean=float(np.mean(imgs)), res=resn, spp=spp)
             PC.log(case, dev, used, [round(t, 1) for t in times], res[case][dev]["mean"])
+            json.dump(dict(blender=bpy.app.version_string, cases=res), open(jf, "w"), indent=1)        # written after every device: a crash keeps the rest
         if "CPU" in res[case]:
             c0 = [np.load(out / f"{case}_CPU_{s}.npy").astype(np.float64) for s in SEEDS]
-            for dev in devs:
+            for dev in list(res[case]):
                 if dev == "CPU":
                     continue
                 g0 = [np.load(out / f"{case}_{dev}_{s}.npy").astype(np.float64) for s in SEEDS]
@@ -68,7 +70,7 @@ def main():
                 res[case][dev].update(mean_ratio_vs_cpu=float(mg.mean() / mc.mean()), mean_ratio_se=float(np.sqrt(var.sum()) / mc.sum()),
                                       z_abs_gt3_frac=float((np.abs(z) > 3).mean()), z_mean=float(z.mean()), z_std=float(z.std()),
                                       speedup_warm=res[case]["CPU"]["time_warm_s"] / res[case][dev]["time_warm_s"])
-    json.dump(dict(blender=bpy.app.version_string, cases=res), open(out / "gpu_smoke.json", "w"), indent=1)
+    json.dump(dict(blender=bpy.app.version_string, cases=res), open(jf, "w"), indent=1)
     print(json.dumps(res, indent=1))
 
 
