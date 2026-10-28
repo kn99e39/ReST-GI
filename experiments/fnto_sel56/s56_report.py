@@ -3,7 +3,7 @@
 Cost sensitivity A1 separates new-package construction from cache overhead; the
 original illustrative projection double-counted the dirty package identity hash.
 """
-import sys,json,csv,hashlib,shutil,math
+import sys,json,csv,hashlib,shutil,math,os
 from pathlib import Path
 import numpy as np
 import s56 as S
@@ -12,7 +12,7 @@ import s56_fixtures as F
 def median(v):return float(np.median(list(v)))
 
 def report():
-    a=json.load(open(S.OUT/'analysis.json')); costs=a['cost']; summary={}
+    a=json.load(open(S.OUT/'analysis_readout_v2.json')); costs=a['cost']; summary={}
     f=[v for k,v in costs.items() if k in ('dent_F_r0','dent_F_r1')]
     s=[v for k,v in costs.items() if k in ('dent_S_r0','dent_S_r1')]
     def component(v,key):return sum(p.get(key,0) for p in v['packages'].values() if p['recomputed'])
@@ -96,11 +96,11 @@ def report():
 
 def export():
     dst=S.OUT/'export';dst.mkdir(exist_ok=True)
-    for name in ('analysis.json','report_summary.json','all_groups.csv','reference_gate.json','initial_cache.json','environment.json','resident_rigid.json'):
+    for name in ('analysis.json','analysis_readout_v2.json','readout_audit.json','report_summary.json','all_groups.csv','reference_gate.json','initial_cache.json','environment.json','resident_rigid.json'):
         shutil.copy2(S.OUT/name,dst/name)
     for p in (S.OUT/'figures').glob('*.png'):shutil.copy2(p,dst/p.name)
     pred=dst/'coarse_predictions';pred.mkdir(exist_ok=True)
-    for p in sorted((S.OUT/'runs').glob('*.npz')):
+    for p in sorted((S.OUT/'readout_v2/runs').glob('*.npz')):
         z=np.load(p);np.savez(pred/p.name,**{k:z[k] for k in z.files if not k.startswith('phi_')})
     # Compact physical-reference boundary arrays preserve every seed and both masks.
     for state in ('rest','dent','rigid'):

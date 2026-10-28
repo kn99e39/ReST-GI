@@ -1,12 +1,12 @@
 """WL56 all-groups analysis and measured-cost / labelled analytic projections."""
-import sys, json, math
+import sys, json, math, os
 from pathlib import Path
 import numpy as np
 import s56 as S
 import s56_fixtures as F
 
 def load(state,arm,rep,suffix=''):
-    p=S.OUT/'runs'/f'{state}_{arm}_r{rep}{suffix}.npz'
+    p=Path(os.environ.get('WL56_PRED_ROOT',S.OUT/'runs'))/f'{state}_{arm}_r{rep}{suffix}.npz'
     return np.load(p) if p.exists() else None
 
 def pred(z,key,mode):
@@ -149,7 +149,7 @@ def main():
         sensitivities[kind]=rr
     res['sampling_sensitivity']=sensitivities
     if (S.OUT/'resident_rigid.json').exists():res['resident_rigid']=json.load(open(S.OUT/'resident_rigid.json'))
-    S.dump(res,S.OUT/'analysis.json')
+    S.dump(res,S.OUT/os.environ.get('WL56_ANALYSIS_OUT','analysis.json'))
     print(json.dumps(S.CM.jclean(dict(equivalence=res['equivalence'],cost_summary=res['cost_summary'])),indent=1))
 
 if __name__=='__main__':main();sys.stdout.flush();__import__('os')._exit(0)
