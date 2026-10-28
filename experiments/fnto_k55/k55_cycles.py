@@ -83,6 +83,35 @@ def st_units(out, threads):
     json.dump(rec, open(out / "units.json", "w"), indent=1)
 
 
+def grid_quad(half, z, n, down=True):
+    """Square [-half, half]^2 at height z, n x n cells x 2 triangles, normal -z (down=True) or +z."""
+    g = np.linspace(-half, half, n + 1); X, Y = np.meshgrid(g, g, indexing="ij"); V = np.stack([X.ravel(), Y.ravel(), np.full(X.size, z)], 1)
+    F = []
+    for i in range(n):
+        for j in range(n):
+            a, b, c, d = i * (n + 1) + j, (i + 1) * (n + 1) + j, (i + 1) * (n + 1) + j + 1, i * (n + 1) + j + 1
+            F += [(a, d, c), (a, c, b)] if down else [(a, b, c), (a, c, d)]
+    return V, np.array(F)
+
+
+def st_units2(out, threads):
+    """Labelled calibration extension (after units showed lambert_U 0.7934 vs analytic 0.7997): Lambert 0.8 receiver (2 cm) under
+    emitters of radiance 1 -> 0.8 F; cases vary emitter size / tessellation / distance and Cycles' light tree."""
+    rec = {}
+    cases = [("e1m_2tri_d10", 0.5, 1, 0.01, True), ("e1m_200x200_d10", 0.5, 200, 0.01, True), ("e20cm_2tri_d10", 0.1, 1, 0.01, True),
+             ("e10cm_40x40_d4", 0.05, 40, 0.004, True), ("e1m_2tri_d10_notree", 0.5, 1, 0.01, False), ("e10cm_40x40_d4_notree", 0.05, 40, 0.004, False)]
+    for name, half, n, d, tree in cases:
+        sc = setup(512, 5508, threads)
+        if hasattr(sc.cycles, "use_light_tree"):
+            sc.cycles.use_light_tree = tree
+        Ve, Fe = grid_quad(half, d, n, True); PC.mesh_obj("e", Ve, Fe, emitter_material("U"))
+        Vr, Fr = grid_quad(0.01, 0.0, 1, False); PC.mesh_obj("r", Vr, Fr, PC.material("lam", 0.8))
+        ob, g = PC.ortho(name, dict(origin=(0, 0, d / 2), target=(0, 0, 0), width=0.02), 40); img = PC.render(sc, ob, 40, 512, 5508)
+        rec[name] = dict(mean=float(img[..., 0].mean()), half=half, n=n, d=d, light_tree=tree, light_tree_attr=hasattr(sc.cycles, "use_light_tree"))
+        PC.log("units2", name, rec[name]["mean"])
+    json.dump(rec, open(out / "units2.json", "w"), indent=1)
+
+
 def st_render(out, scene, cams, seeds, spp, threads):
     sd = KF.scene_def(scene); geo = {}
     if (out / f"ccam_{scene}.json").exists():
@@ -109,6 +138,8 @@ def main():
     threads = int(kv.get("threads", 12)); spp = int(kv.get("spp", 1024))
     if pos[1] == "units":
         st_units(out, threads)
+    elif pos[1] == "units2":
+        st_units2(out, threads)
     elif pos[1] == "render":
         st_render(out, pos[2], pos[3].split(","), [int(s) for s in pos[4].split(",")], spp, threads)
 
