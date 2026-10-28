@@ -1,7 +1,7 @@
 """WL57 runtime geometry only: material cells, current metric and exact no-collision paths.
 No reference K or targets are read by this module.
 """
-import sys,hashlib,json,time
+import sys,os,hashlib,json,time
 from pathlib import Path
 import numpy as np
 import torch
@@ -71,8 +71,9 @@ def ballistic_matrix(m,V,q=256,seed=57501):
     """Analytic exp(-sigma_t distance) integrated over cells/bins by fixed-seed geometry sampling. No scattered transport oracle."""
     dom=KO.DomainX(m,V);ns=dom.P*DIN;gen=torch.Generator(device=DEV);gen.manual_seed(seed)
     rows=[];cols=[];vals=[];miss=wrong=0;t0=time.perf_counter()
-    for i in range(0,ns,max(1,2_000_000//q)):
-        cells=torch.arange(i,min(i+max(1,2_000_000//q),ns),device=DEV)
+    chunk=int(os.environ.get('WL57_RAY_CHUNK','2000000'))
+    for i in range(0,ns,max(1,chunk//q)):
+        cells=torch.arange(i,min(i+max(1,chunk//q),ns),device=DEV)
         x,d,n,w,src=TR.cell_source(dom,cells,q,DIN,gen)
         t,p=dom.isect(x-dom.eps*n,d);hit=torch.isfinite(t);miss+=int((~hit).sum());j=hit.nonzero().squeeze(1)
         good=(d[j]*dom.n[p[j]]).sum(1)>0;wrong+=int((~good).sum());j=j[good];pj=p[j]
@@ -83,7 +84,7 @@ def ballistic_matrix(m,V,q=256,seed=57501):
     assert float(beta.max())<=1+1e-7
     B=torch.sparse_coo_tensor(B.indices(),B.values().float(),B.shape).coalesce()
     torch.cuda.synchronize()
-    return B,beta,dict(seconds=time.perf_counter()-t0,q=q,seed=seed,rays=ns*q,miss=miss,wrong=wrong,nnz=B._nnz(),
+    return B,beta,dict(seconds=time.perf_counter()-t0,q=q,seed=seed,rays=ns*q,ray_chunk=chunk,miss=miss,wrong=wrong,nnz=B._nnz(),
         bytes=B.indices().numel()*8+B.values().numel()*4+beta.numel()*4,semantics='zero-collision first exit, geometry+material only')
 
 def serial(g):

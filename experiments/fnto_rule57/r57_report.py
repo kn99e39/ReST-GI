@@ -8,6 +8,8 @@ def main():
     comp=json.load(open(OUT/'composition.json')) if (OUT/'composition.json').exists() else {}
     out=dict(data_gate=gate['proceed'],useful_models={k:v['useful_and_physical'] for k,v in held.items()},comparison=[],composition=comp.get('executed',False),
         primary_commit=(ROOT/'repo_commit.txt').read_text().strip(),checkpoints={p.name:sha(p) for p in (ROOT/'checkpoints').glob('*.pt') if 'progress' not in p.name})
+    out['execution_attempts']={p.stem:json.load(open(p)) for p in sorted((ROOT/'logs').glob('*.attempt*.json'))}
+    out['actual_stage_wall_including_failures']={name:sum(r['wall_seconds'] for r in out['execution_attempts'].values() if r['stage']==name) for name in {r['stage'] for r in out['execution_attempts'].values()}}
     if held:
         for pose,cs in cost.items():
             for seed in (5701,5702):

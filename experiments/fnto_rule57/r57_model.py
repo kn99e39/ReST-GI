@@ -2,8 +2,10 @@
 K = analytic unscattered B + learned scattered response on the remaining incident budget.
 All caches depend on geometry/parameters only, never illumination or target K.
 """
+import os
 import torch
 from torch import nn
+from torch.utils.checkpoint import checkpoint
 import torch.nn.functional as F
 import r57_geometry as RG
 
@@ -40,10 +42,15 @@ class Transport(nn.Module):
 
     def coefficients(self,g,state=None):
         st=self.state(g) if state is None else state;src,dst=g['src'],g['dst'];parts=[]
-        for i in range(0,len(src),65536):
-            sl=slice(i,min(i+65536,len(src)))
-            h=st['s'][src[sl]]+st['d'][dst[sl]]+self.pair_layer(g['pair'][sl])
-            parts.append(F.softplus(self.edge(h)).view(-1,M,C)*g['prior'][sl,None,:])
+        chunk=int(os.environ.get('WL57_EDGE_CHUNK','65536'))
+        def edge_part(s,d,p,prior):
+            h=s+d+self.pair_layer(p)
+            return F.softplus(self.edge(h)).view(-1,M,C)*prior[:,None,:]
+        for i in range(0,len(src),chunk):
+            sl=slice(i,min(i+chunk,len(src)))
+            args=(st['s'][src[sl]],st['d'][dst[sl]],g['pair'][sl],g['prior'][sl])
+            if torch.is_grad_enabled() and os.environ.get('WL57_CHECKPOINT_EDGES','0')=='1':parts.append(checkpoint(edge_part,*args,use_reentrant=False))
+            else:parts.append(edge_part(*args))
         W=torch.cat(parts,0)
         nh=self.node_head(st['z']);p=g['P']
         U=torch.softmax(nh[:,:T*M*C].view(p,T,M,C),dim=0)
@@ -60,8 +67,9 @@ class Transport(nn.Module):
         q=torch.einsum('biac,rac->birc',x*(1-g['beta'])[None,:,:,None],coeff['A'])
         y=torch.zeros(x.shape[0],g['P'],M,C,device=x.device,dtype=x.dtype)
         # Chunking bounds temporary activation memory; no transport edges are pruned.
-        for i in range(0,len(g['src']),65536):
-            sl=slice(i,min(i+65536,len(g['src'])))
+        chunk=int(os.environ.get('WL57_EDGE_CHUNK','65536'))
+        for i in range(0,len(g['src']),chunk):
+            sl=slice(i,min(i+chunk,len(g['src'])))
             y=y.index_add(1,g['dst'][sl],q[:,g['src'][sl]]*coeff['W'][sl][None])
         latent=torch.einsum('birc,ikrc->bkrc',q,coeff['V'])
         y=y+torch.einsum('jkrc,bkrc->bjrc',coeff['U'],latent)

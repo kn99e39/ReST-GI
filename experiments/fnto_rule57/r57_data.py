@@ -25,6 +25,10 @@ def sha(p):
         for b in iter(lambda:f.read(16*1024*1024),b''):h.update(b)
     return h.hexdigest()
 
+def save(x,p):
+    p=Path(p);p.parent.mkdir(parents=True,exist_ok=True);tmp=p.with_name(p.name+'.partial')
+    torch.save(x,tmp);os.replace(tmp,p)
+
 def aggregate(y,parent,coarse=True):
     """Flux sums, no averaging: 64->16 angular bins and optionally 2.5mm->1cm material cells."""
     bm=torch.as_tensor(G.bin_parent(8,4),device=y.device)
@@ -68,12 +72,17 @@ def prepare_inputs():
     for d in ('geometry','targets'): (DATA/d).mkdir(parents=True,exist_ok=True)
     for name in RG.POSES:
         p=DATA/'geometry'/f'{name}.pt'
-        if p.exists():continue
-        g=RG.geometry(name);torch.save(RG.serial(g),p);dump(g['meta'],OUT/'geometry'/f'{name}.json');log('GEOMETRY',name,g['meta']['total_seconds'])
+        if p.exists():
+            if name=='rest' and not (DATA/'lights.pt').exists():
+                g=RG.device(torch.load(p));g['coarse']=RG.mesh('rest')[0];lights={};metas={}
+                for split,n,seed in [('train',96,571001),('validation',32,571002),('test',64,571003)]:lights[split],metas[split]=light_fields(g,n,seed,split)
+                save(lights,DATA/'lights.pt');dump(metas,OUT/'light_manifest.json');del g
+            continue
+        g=RG.geometry(name);save(RG.serial(g),p);dump(g['meta'],OUT/'geometry'/f'{name}.json');log('GEOMETRY',name,g['meta']['total_seconds'])
         if name=='rest':
             lights={};metas={}
             for split,n,seed in [('train',96,571001),('validation',32,571002),('test',64,571003)]:lights[split],metas[split]=light_fields(g,n,seed,split)
-            torch.save(lights,DATA/'lights.pt');dump(metas,OUT/'light_manifest.json')
+            save(lights,DATA/'lights.pt');dump(metas,OUT/'light_manifest.json')
         del g;torch.cuda.empty_cache()
 
 def oracle_path(name,rep):return OPS/f'{name}_r{rep}.pt'
@@ -88,9 +97,9 @@ def raw_oracle(name,rep):
         a=torch.load(src);r={k:v for k,v in a.items() if k not in ('KC','S2','cams','cam_keys')};del a
     else:
         m,V=RG.mesh(name);fm,VC,parent=KO.refined(m,V,4);dom=KO.DomainX(fm,VC,name=name)
-        r=KO.tr_sparse(dom,64,16,2048,57700+10*ix+rep,None,parent,len(m['port_area']),log=log,s2=False)
+        r=KO.tr_sparse(dom,64,16,2048,57700+10*ix+rep,None,parent,len(m['port_area']),chunk_photons=int(os.environ.get('WL57_TR_CHUNK','4000000')),log=log,s2=False)
         del dom
-    torch.save(r,path);dump(dict(pose=name,rep=rep,seed=r['seed'],source=str(src) if src else 'fresh isolated TR',source_sha256=sha(src) if src else None,
+    save(r,path);dump(dict(pose=name,rep=rep,seed=r['seed'],trace_chunk=int(os.environ.get('WL57_TR_CHUNK','4000000')),source=str(src) if src else 'fresh isolated TR',source_sha256=sha(src) if src else None,
         bytes=path.stat().st_size,seconds=r['seconds'],stage_wall=time.perf_counter()-t0,stats=r['stats'],sha256=sha(path)),OUT/'oracle'/f'{name}_r{rep}.json')
     return r
 
@@ -106,7 +115,7 @@ def actions(name,rep=0):
             arr.append(torch.stack(q,-1))
         out[split]=torch.cat(arr)
     col=K.colsum();st=r['stats'];phy=dict(passed=bool(min(float(v.csr.values().min()) for v in K.ch)>=0 and float(col.max())<=1+1e-6 and (st['leaks']+st['wrong_side'])/st['photons']<=1e-5 and st['truncated']==0),max_colsum=col.max(1).values.cpu().tolist(),leak_rate=(st['leaks']+st['wrong_side'])/st['photons'])
-    torch.save(out,p);dump(dict(pose=name,rep=rep,seconds=time.perf_counter()-t0,sha256=sha(p),splits={k:list(v.shape) for k,v in out.items()},physics=phy),OUT/'target_manifest'/f'{name}_r{rep}.json')
+    save(out,p);dump(dict(pose=name,rep=rep,seconds=time.perf_counter()-t0,sha256=sha(p),splits={k:list(v.shape) for k,v in out.items()},physics=phy),OUT/'target_manifest'/f'{name}_r{rep}.json')
     log('ACTIONS',name,rep,time.perf_counter()-t0)
 
 def build_targets():

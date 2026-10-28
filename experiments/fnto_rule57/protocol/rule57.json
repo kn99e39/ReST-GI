@@ -114,5 +114,12 @@
  "composition": "Existing WL56 upper centred dent te0+unchanged lower medium, fixed Lambertian source; primary face-on masks. No otop boundary comparison (WL56 invalid inside-medium camera). Historical O/C/solver and independent Cycles references retained, blue floor preserved. Candidate adapters isolated only.",
  "reproducibility": "Full code/protocol commit before primary targets/training; hardware/software, source/checkpoint/data/split hashes, samples, per-geometry/per-channel failures, runtime oracle-access audit and server-side status/logs retained; relevant WL53-56 focused regressions rerun.",
  "stop": "invalid/noisy target; oracle at runtime; broken K/C semantics; unmatched data; unfair caching only advantage; unrepairable physical failure; new representation class required; no WL58",
- "amendments": []
+ "amendments": [],
+ "resource_recovery": {
+  "declared_before_primary": "Three finite resource policies: default; checkpoint edge activations+32k edges+1M trace chunks+eval2; then8k edges+microbatch1 with exact batch2 accumulation+stream geometry+250k trace chunks+eval1. Same architecture, samples, steps, loss, split and criteria.",
+  "checkpoint": "Atomic training checkpoint every100steps plus firststep includes weights, AdamW, NumPy/Torch/CUDA RNG, history and step; restart latest complete checkpoint, preserve failed log+checkpoint. No best-of-attempt selection.",
+  "reference": "Atomic completed geometry/operator/actions reused. Smaller ray chunks can change deterministic random stream partition; realized chunk, seed and artifact SHA recorded; photon and within-bin sample counts unchanged. No retry selected by accuracy.",
+  "failure": "Only explicit CUDA allocation errors trigger bounded fallback; unknown errors or exhausted policies stop with FAILED and logs, no false COMPLETE. End-to-end attempt wall times include failed attempts. Disk shortage never triggers shared-file deletion.",
+  "supervisor": "Server PID/session independent of SSH. flock excludes duplicate chains; completed stage markers skip work after supervised restart. Fault-injection tests cover OOM retry, completed skip, unknown error and exhaustion."
+ }
 }

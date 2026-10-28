@@ -36,7 +36,8 @@ def evaluate():
                     g=RG.device(torch.load(DATA/'geometry'/f'{name}.pt'));gs[name]=g
                     a=torch.load(DATA/'targets'/f'{name}_r0.pt')['test'];b=torch.load(DATA/'targets'/f'{name}_r1.pt')['test'];ref=.5*(a+b);noise=(a-b)/2**.5
                     co=m.coefficients(g);pr=[]
-                    for i in range(0,64,4):pr.append(m.apply(g,lights['test'][i:i+4].to('cuda'),co).cpu())
+                    batch=int(os.environ.get('WL57_EVAL_BATCH','4'))
+                    for i in range(0,64,batch):pr.append(m.apply(g,lights['test'][i:i+batch].to('cuda'),co).cpu())
                     y=torch.cat(pr);predictions[name]=y;references[name]=ref;noises[name]=noise
                     metric=scores(y.cuda(),ref.cuda(),g);ph=physics(m,g,lights['test'][:2].to('cuda'),co)
                     useful=all(v<=.10 for v in metric['coarse']['mean']) and all(v<=.20 for v in metric['coarse']['p90']) and all(v<=.15 for v in metric['fine16']['mean'])

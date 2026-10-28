@@ -57,6 +57,20 @@ def main(out):
         assert all(p.grad is None or torch.isfinite(p.grad).all() for p in model.parameters())
         return dict(finite_loss=float(loss),finite_gradients=True)
     test('differentiable_full_spatial_angular_operator',grads)
+    def resource_fallback():
+        torch.manual_seed(57);model=Transport('R').cuda();x=torch.rand(2,g['P'],16,3,device='cuda');x/=x.sum((1,2),keepdim=True)
+        model(g,x).square().flatten(1).sum(1).mean().backward();base=[p.grad.detach().clone() if p.grad is not None else None for p in model.parameters()];model.zero_grad(set_to_none=True)
+        old=dict(os.environ);os.environ.update(WL57_CHECKPOINT_EDGES='1',WL57_EDGE_CHUNK='8192')
+        try:
+            for i in range(2):(model(g,x[i:i+1]).square().sum()/2).backward()
+        finally:
+            for k in ('WL57_CHECKPOINT_EDGES','WL57_EDGE_CHUNK'):
+                if k in old:os.environ[k]=old[k]
+                else:os.environ.pop(k,None)
+        num=sum(float((p.grad-b).square().sum()) for p,b in zip(model.parameters(),base) if b is not None);den=sum(float(b.square().sum()) for b in base if b is not None)
+        er=(num/max(den,1e-30))**.5;assert er<=1e-4
+        return dict(checkpoint_and_microbatch_gradient_relative_L2=er,unchanged_effective_batch=2)
+    test('OOM_fallback_preserves_model_and_effective_batch',resource_fallback)
     def correspondence():
         m,v=RG.mesh('te0');fm,vc,par=RG.KO.refined(m,v,4)
         assert np.array_equal(par,g['parent'].cpu().numpy())
