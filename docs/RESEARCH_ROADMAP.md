@@ -1,9 +1,23 @@
 # Research Roadmap — Surface-Owned Selective Neural Transport Recomputation
 
-**Updated:** 2026-10-23 (Batch 6 FNTO v0.1 NOT SUPPORTED, worklog 41; no successor batch authorised)  
+**Updated:** 2026-10-28 (current major architecture decision following WL55; historical sections preserved)
 **Branch:** Selective_Recompute  
-**Status:** Architecture Batches 1–3 reported. Batch 3 (native RNA Lego, worklog 36): independent owned units pass static screening (Case A) with exact ownership and unit reconstruction; Batch 4 (worklog 37, physical Lego edit, oracle D_T): **CONDITIONAL** — D* = 8/17 units (7 stationary receivers + the moved box), selective recompute recovers R = 0.98 of the changed-region error, V* bit-identical and valid (1.03× full), output change exactly on the predicted support; whole-image −0.31 dB vs full recompute misses the −0.26 dB criterion at seed 0. The seed replicate (worklog 38) is WITHIN_MARGIN: mean −0.08 dB over 3 seeds, and the unit-3 effect is not systematic  
+**Status:** Dynamic Transport Reuse goal and four-case staged evaluation adopted; Full Recompute / TransGI comparison obligations adopted. CAK not adopted. Rule–State remains to be falsified; WL56 designed, not executed.
 **Venue planning:** SIGGRAPH 2027, official paper deadline to be separately verified.
+
+## Current Major Architecture Decision (2026-10-28)
+
+**Direction (ADOPTED):** Physically valid high-quality dynamic learned GI by reusing transport that remains valid after geometry changes and efficiently updating invalid transport. Compression is a tool, not a result. Retain the FNTO intrinsic K / editable free-space C ownership boundary, near-contact spatial information, and ballistic readout requirements supported by WL53–55; CAK has not passed its full contracts and is not adopted.
+
+**Hypothesis (NOT ADOPTED):** Separate a reusable within-domain transport rule from geometry-dependent transport state. Its feasibility and incremental advantage over **exact optical-domain selective K recomputation** are unproven. Global deformation must not be assumed local/low-rank.
+
+**Staged coverage (mandatory):** (1) rigid motion, (2) local deformation, (3) global bending/twisting, (4) self-contact/contact changes. Do not test all cases in every batch. Every major architecture decision must revisit all four as design constraints and report untested risks. Next primary case: one locally deformed optical domain with unchanged stationary receivers; rigid control.
+
+**Baselines:** Quality-matched Full Recompute is primary; exact domain-selective and stale K diagnose reuse/invalidations. TransGI is a future external comparator requiring consistent scenes, edits, materials, physical reference, update/inference/memory and hardware accounting. Oracle-MC cost savings are not deployable learned speedups or a claim of TransGI superiority; preserve historical RNA/Surface-Owned/SPT-1 roles.
+
+**Next bounded work:** WL56 Exact Selective K Recompute and Dynamic Update Cost Headroom is drafted, **not run**. Quantify cost avoided by domain selection and residual invalid-domain K work before selecting a learned Rule–State representation. Stay on `Selective_Recompute`; no branch/worktree creation or automatic successor experiment.
+
+---
 
 ## 0. Decision Record
 
@@ -90,6 +104,10 @@
 Active contracts: docs/RESEARCH_CENTRIC_TOPIC.md, docs/Architecture.md, docs/BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md.
 
 ## 1. Central Intent
+
+> Can dynamic learned GI preserve physically accurate transport after geometry edits while reusing unchanged intrinsic K and selectively updating invalid transport, with favorable quality-matched cost versus Full Recompute and a defensible trade-off against dynamic-GI prior art such as TransGI?
+
+**Historical Surface-Owned question (retained):**
 
 > Can learned neural transport be owned by independently reconstructible surface units such that, after a geometry edit, recomputing the complete state of only the transport-invalid units restores high-quality full-scene GI while all valid units are reused unchanged?
 
