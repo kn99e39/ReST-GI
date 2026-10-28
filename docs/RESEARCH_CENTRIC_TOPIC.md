@@ -1,5 +1,7 @@
 # Research Centric Topic — Surface-Owned Selective Neural Transport Recomputation
 
+**2026-10-28 — WL57 bounded learned-architecture experiment authorised (user brief).** Compare one explicit geometry-derived Rule–State candidate R with a parameter-matched direct geometry-conditioned D, sharing the same passive directional/spatial kernel family, data, budget and fair partial/full caches. Runtime state is current-geometry-only; no target K/reference query, pose-specific retraining, learned C, production replacement or WL58. Protocol `experiments/fnto_rule57/protocol/rule57.json`, design `experiments/fnto_rule57/ARCHITECTURE.md`. R is a hypothesis, not adopted. WL56 physical 9/12 failure is preserved.
+
 **Updated:** 2026-10-28 (current major architecture decision following WL55; historical sections preserved)
 **Status:** WL56 completed: exact oracle-domain selective recomputation and measured cost benefit; complete physical GI accuracy NOT SUPPORTED (blue residual). Rule–State remains unverified; CAK not adopted; no successor batch authorised.
 

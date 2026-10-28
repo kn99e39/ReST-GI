@@ -1,0 +1,118 @@
+{
+ "protocol": "fnto_rule57_v1",
+ "date": "2026-10-28",
+ "starting_head": "55b6be0fb994cd33d3e12f34779fae2756413379",
+ "authorization": "User WL57 Learned Geometry-Conditioned Intrinsic Transport: Reusable Rule vs Geometry-Dependent State; current Selective_Recompute, no branch/worktree; one bounded R candidate with matched D control",
+ "stage": "Preregistered before any WL57 target/action, fit or held-out result. Numerical implementation-only smoke tests are separately labelled.",
+ "isolation": {
+  "code": "experiments/fnto_rule57",
+  "results": "results/fnto_rule57",
+  "evaluation": "results/evaluation/57",
+  "server": "LabServer69 ~/rest_wl57; all scratch on /home; detached server-side chain",
+  "frozen": "WL53-56 code and results, production FNTO, K44/DASQ, learned C, material/reference settings"
+ },
+ "representation": {
+  "contract": "ARCHITECTURE.md",
+  "cell_mm": 2.5,
+  "Din": 16,
+  "Dout": 64,
+  "mixtures": 8,
+  "material_neighbors": 128,
+  "dense_tail_rank": 16,
+  "R_state_channels": 32,
+  "parameter_budget": {
+   "D": 161328,
+   "R": 162048,
+   "max_ratio": 1.05
+  },
+  "passivity": "analytic zero-collision B plus learned scattered response on (1-beta) input; angular/spatial conditional probabilities and sigmoid survival; no oracle at runtime, energy clamps, damping or target normalization"
+ },
+ "data": {
+  "geometry": "r57_geometry.POSES frozen tuples: rest+12 train dents, 2 validation dents, 4 held-out dents (including WL56 centred dent); depths2-6mm/radii15-25mm/centres as committed",
+  "split": "TRAIN/VAL/TEST exact lists in r57_geometry.py; no pose ID network input; test geometry never in gradient training or checkpoint choice",
+  "lights": {
+   "train": 96,
+   "validation": 32,
+   "test": 64,
+   "seeds": [
+    571001,
+    571002,
+    571003
+   ],
+   "families": "face Gaussians, full-boundary Fourier/random/checkerboard, edge-decay near-contact profiles, equal-irradiance directional pairs; whole hidden boundary included",
+   "widths_train_mm": [
+    5,
+    12.5,
+    30
+   ],
+   "widths_test_mm": [
+    2.5,
+    7.5,
+    20
+   ],
+   "angular_kappa_train": [
+    0,
+    2,
+    8
+   ],
+   "angular_kappa_test": [
+    0,
+    4,
+    16,
+    32
+   ],
+   "semantics": "nonnegative RGB cell/bin flux, independently normalized per channel; same material field on every geometry, no per-light state rebuild",
+   "focused_population": "First16 fixed top/bottom central Gaussians (centres grid +-20mm with seed-jitter, no dependence on current dent/target); test widths/seed disjoint. Last16 directional pairs. Gate1 concentrated fraction uses first16 only."
+  },
+  "oracle": "unchanged WL53 TR via WL55 sparse accumulator, 2048 photons/in-cell; first exit only. Existing rest5561/5562 and te0(dent)5565/5566 reused read-only. New poses seed 57700+10*index+rep; primary test poses second independent seed. cams=None (boundary-flux operator only).",
+  "ballistic_quadrature": 256,
+  "ballistic_seed": 57501,
+  "targets": "operator actions, not regression of individual noisy matrix entries. Evaluate 2.5mm/64 bins and aggregation to 2.5mm/16 bins and1cm/16 bins; original physical 3% composition rule unchanged"
+ },
+ "training": {
+  "seeds": [
+   5701,
+   5702
+  ],
+  "arms": [
+   "D",
+   "R"
+  ],
+  "steps": 6000,
+  "batch_fields": 2,
+  "geometry_schedule": "paired rest/current train geometry per step, deterministic shared order for D/R",
+  "optimizer": "AdamW lr=.003 cosine to.00003, weight_decay1e-5, gradient norm clip1 (optimizer only)",
+  "precision": "float32, TF32 disabled",
+  "loss": "mean per-channel normalized action MSE: .5*(1cm,16out)+.5*(2.5mm,16out), plus .25 paired rest-to-current delta loss with denominator delta_L2^2 +(.01*rest_L2)^2",
+  "checkpoint": "final step, no best-of-test/best-val selection",
+  "validation_every": 250,
+  "corrections": "Only demonstrable implementation/numerical defects may be fixed with original evidence retained. No capacity growth, rank/support sweep, arbitrary retraining or alternative family after results."
+ },
+ "gates": {
+  "G1": "nonnegative/passive reference, correct units/indexing/linearity; held-out aggregate edit signal/noise>=3 on>=3 of4 test poses and>=25% of their concentrated-light cases in at least2 channels. If meaningful signal cannot be resolved, stop before training, report noise. Assess independent seeds, never train on noisy individual entries.",
+  "G2_G3_useful": "For EACH test geometry and RGB, mean held-out relative L2 on1cm/16out<=.10 and p90<=.20; 2.5mm/16out mean<=.15; signed deformation delta relative L2<=.35 and corr>=.90 on independently detectable pose/channel cases. Report finer64bin metric and reference noise even when criteria fail.",
+  "physics": "zero<=1e-8, fixed-geometry linearity/superposition relative<=1e-5; no negative response (<-1e-8); analytical max column sum<=1+1e-6; repeated-cache output agreement<=1e-6; all runtime state from geometry/weights only",
+  "directional": "report equal-irradiance different-direction pairs against O; require differential relative L2<=.25 where O difference exceeds3seed noise. Never interpret equal total irradiance as identical input.",
+  "G4_R_advantage": "BOTH arms must meet useful and physics criteria. R error not worse than D by>.02 absolute relL2 on any primary geometry/channel (both seeds). R best-permitted-cache update+N query time <=.75 D on>=2 query counts including1or4; advantage exceeds timing uncertainty; cache memory<=1.25D and parameter ratio<=1.05. Else equivalence if accuracy within.02 and cost ratio[.8,1.25], otherwise conditional trade-off/no useful winner as measured.",
+  "G5": "Only useful+physical models enter coupled FNTO; evaluate model-vs-O, O-vs-Cycles, model-vs-Cycles separately on WL56 rest/dent near-contact scene; existing C/solve unchanged, current full scattered+ballistic bin readout plus analytic emitter; 3% physical rule not relaxed. If no model passes, skip expensive composition and report failed fidelity/validity gate, not architecture success."
+ },
+ "cost": {
+  "queries": [
+   1,
+   4,
+   16,
+   64
+  ],
+  "cache_policies": [
+   "compact+affine cache, coefficients per query",
+   "full structured coefficients cached"
+  ],
+  "cache_limit_MB": 512,
+  "timing": "3 geometry/ballistic build repetitions, 5 warmups +20 query timings, CUDA fences, idle-GPU occupancy recorded; report medians and empirical intervals, all partial/full cache costs for D and R; best legitimate policy at each N; additionally 3 measured cache-build+N distinct-light lifecycle runs per policy/N; common geometry-build added separately, not hidden.",
+  "scope": "offline oracle/data generation and training separated from geometry update, first query, repeats and memory. No TR-to-learned speedup as R-vs-D evidence; no TransGI superiority."
+ },
+ "composition": "Existing WL56 upper centred dent te0+unchanged lower medium, fixed Lambertian source; primary face-on masks. No otop boundary comparison (WL56 invalid inside-medium camera). Historical O/C/solver and independent Cycles references retained, blue floor preserved. Candidate adapters isolated only.",
+ "reproducibility": "Full code/protocol commit before primary targets/training; hardware/software, source/checkpoint/data/split hashes, samples, per-geometry/per-channel failures, runtime oracle-access audit and server-side status/logs retained; relevant WL53-56 focused regressions rerun.",
+ "stop": "invalid/noisy target; oracle at runtime; broken K/C semantics; unmatched data; unfair caching only advantage; unrepairable physical failure; new representation class required; no WL58",
+ "amendments": []
+}

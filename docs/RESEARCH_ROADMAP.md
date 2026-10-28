@@ -1,5 +1,7 @@
 # Research Roadmap — Surface-Owned Selective Neural Transport Recomputation
 
+**2026-10-28 — WL57 bounded learned-architecture experiment authorised (user brief).** Compare one explicit geometry-derived Rule–State candidate R with a parameter-matched direct geometry-conditioned D, sharing the same passive directional/spatial kernel family, data, budget and fair partial/full caches. Runtime state is current-geometry-only; no target K/reference query, pose-specific retraining, learned C, production replacement or WL58. Protocol `experiments/fnto_rule57/protocol/rule57.json`, design `experiments/fnto_rule57/ARCHITECTURE.md`. R is a hypothesis, not adopted. WL56 physical 9/12 failure is preserved.
+
 **2026-10-28 — Worklog 56 authorised (user brief: Exact Selective K Recompute and Dynamic Update Cost Headroom).** Bounded physical-oracle baseline on `Selective_Recompute`: complete optical-domain F/S/T recomputation on a two-medium local dent and rigid control; identical uniform 2.5 mm K/C, current ballistic readout, independent Cycles-volume reference, domain cache identity, actual end-to-end cost and explicitly hypothetical Rule–State headroom. Protocol `experiments/fnto_sel56/protocol/sel56.json`. No CAK adoption, learned-K training, new representation, production change or WL57 is authorised.
 
 **Updated:** 2026-10-28 (current major architecture decision following WL55; historical sections preserved)
