@@ -104,6 +104,9 @@ def arms_for(scene):
     A = {"P10_s1": (1, f"{k}_L4_s1", None), "P10_s2": (1, f"{k}_L4_s2", None), "P05_s1": (2, f"{k}_L4_s1", None), "P05_s2": (2, f"{k}_L4_s2", None),
          "P025_s1": (4, f"{k}_L4_s1", None), "P025_s2": (4, f"{k}_L4_s2", None), "P10_c2": (1, f"{k}_L4_s1", dict(seed_C=5582))}
     A.update({"CAK_s1": ("cak", f"{k}_L4_s1", None), "CAK_s2": ("cak", f"{k}_L4_s2", None)})     # stage_C candidate (run only after gate_C)
+    if k in ("bend90", "dent"):                                                                     # stage_E: stale rest K_fine reused on the deformed geometry
+        A.update({"P10st_s1": (1, "slab_L4_s1", None), "P10st_s2": (1, "slab_L4_s2", None), "CAKst_s1": ("cak", "slab_L4_s1", None), "CAKst_s2": ("cak", "slab_L4_s2", None),
+                  "P025st_s1": (4, "slab_L4_s1", None), "P025st_s2": (4, "slab_L4_s2", None)})
     if k == "slab":
         A.update({"P10d_s1": (1, "slab_L1d_s1", None), "P10d_s2": (1, "slab_L1d_s2", None), "P05d_s1": (2, "slab_L2d_s1", None),
                   "P10_din64": (1, "slab_L1d_din64", dict(din=64))})
@@ -117,7 +120,7 @@ def st_compose(scene, arms):
         if (od / f"{arm}.npz").exists():
             log("skip", scene, arm); continue
         lev, opname, kw = A[arm]; kw = kw or {}
-        if arms == ["all"] and arm.startswith("CAK"):
+        if arms == ["all"] and (arm.startswith("CAK") or "st_" in arm):
             continue                                         # the candidate runs only when named explicitly (after gate_C)
         if opname not in cache:
             cache.clear(); torch.cuda.empty_cache(); cache[opname] = load_op(opname)
@@ -136,7 +139,7 @@ def st_compose(scene, arms):
                 Kops[ci] = KP.arm_operator(Kf, m, V, levels[ci])
             reuse[key] = Kops[ci]
         r = KP.compose(sd, levels, Kops, sun, keys, label=f"{scene}/{arm}", **kw)
-        np.savez(od / f"{arm}.npz", **{f"{key}|{ro}": v[ro] for key, v in r["pred"].items() for ro in ("nee", "ball")})
+        np.savez(od / f"{arm}.npz", **{f"{key}|{ro}": v[ro] for key, v in r["pred"].items() for ro in ("nee", "ball", "bin")})
         KCm.dump(dict(r["meta"], op=opname, level=lev, kw=kw, levels_per_comp=[np.bincount(l, minlength=5).tolist() for l in levels]), od / f"{arm}.json")
         del Kops, r; torch.cuda.empty_cache()
 

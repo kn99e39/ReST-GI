@@ -55,6 +55,7 @@ def build(sd):
 
 
 DEVICE = "CPU"
+PXOVR = None                                                                # optional pixel size override (m), amendment A1.2
 
 
 def setup(spp, seed, threads):
@@ -142,7 +143,10 @@ def st_render(out, scene, cams, seeds, spp, threads):
         for i, (s, E) in enumerate(sd["lights"]):
             PC.sun(s, E, f"sun{i}")
         for cam in todo:
-            c = sd["cams"][cam]; ob, g = PC.ortho(cam, c, c["res"]); geo[cam] = g
+            c = dict(sd["cams"][cam])
+            if PXOVR:
+                c["res"] = int(round(c["width"] / PXOVR))
+            ob, g = PC.ortho(cam, c, c["res"]); geo[cam] = g
             t0 = time.time(); img = PC.render(sc, ob, c["res"], spp, seed)
             dt = time.time() - t0; np.save(out / f"cimg_{scene}_{cam}_s{seed}.npy", img.astype(np.float32)); PC.log(scene, cam, seed, c["res"], f"{dt:.0f}s", DEVICE)
             manifest(out, scene=scene, cam=cam, seed=seed, res=c["res"], spp=spp, seconds=round(dt, 1))
@@ -154,8 +158,8 @@ def main():
     PC.OUT = out; PC.LOG = open(out / "cycles.log", "a")
     kv = dict(x.split("=") for x in a if "=" in x); pos = [x for x in a if "=" not in x]
     threads = int(kv.get("threads", 12)); spp = int(kv.get("spp", 1024))
-    global DEVICE
-    DEVICE = kv.get("device", "CPU")
+    global DEVICE, PXOVR
+    DEVICE = kv.get("device", "CPU"); PXOVR = float(kv["px"]) * 1e-3 if "px" in kv else None
     if pos[1] == "units":
         st_units(out, threads)
     elif pos[1] == "units2":

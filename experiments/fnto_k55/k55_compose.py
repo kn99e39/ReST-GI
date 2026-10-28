@@ -187,7 +187,19 @@ def compose(sd, levels, Kops, sun, cam_keys, seed_C=5581, K_ext=256, seed_E=5585
                 pc = par_t[sl]; num = torch.zeros(Pc_tot, 3, device=DEV, dtype=torch.float64).index_add_(0, pc, Lc * area[sl][:, None])
                 den = torch.zeros(Pc_tot, device=DEV, dtype=torch.float64).index_add_(0, pc, area[sl])
                 Ln[c0:c1] = (num / den.clamp(min=1e-30)[:, None])[c0:c1]
-        pred[key] = dict(nee=Ln.cpu().numpy(), ball=Lb.cpu().numpy())
+        Lbin = Ln.clone()                                                        # bin readout (WL53 'bin'): medium ports from phi_out
+        c_t = torch.tensor(d, dtype=torch.float32, device=DEV)
+        for ci, comp in enumerate(ss.comps):
+            if comp.kind != "medium":
+                continue
+            sl = ss.comp_ports(ci); c0 = int(parent[sl.start]); c1 = int(parent[sl.stop - 1]) + 1
+            tris = (ss.tri_comp == ci).nonzero().squeeze(1); cs = (ss.n[tris] * c_t).sum(1).clamp(min=0)
+            ob = G.local_to_bin(G.to_local(c_t.expand(len(tris), 3), ss.n[tris], ss.t[tris], ss.b[tris]), ss.Nout); cell = ss.tri_port[tris]
+            Lt = sol["phi_out"][cell * ss.Dout + ob].double() / (ss.port_area[cell].double() * math.pi / ss.Dout)[:, None]
+            w = (ss.area[tris] * cs).double(); pc = par_t[cell]
+            num = torch.zeros(Pc_tot, 3, device=DEV, dtype=torch.float64).index_add_(0, pc, Lt * w[:, None]); den = torch.zeros(Pc_tot, device=DEV, dtype=torch.float64).index_add_(0, pc, w)
+            Lbin[c0:c1] = (num / den.clamp(min=1e-30)[:, None])[c0:c1]
+        pred[key] = dict(nee=Ln.cpu().numpy(), ball=Lb.cpu().numpy(), bin=Lbin.cpu().numpy())
     meta = dict(label=label, cells=int(ss.Ptot), coarse=Pc_tot, rho=rho_v, iters=sol["iters"], converged=bool(sol["converged"]), t_C=t_C, t_solve=t_solve,
                 C_nnz=int(C._nnz()), back_hits=int(cst["back_hits"]), wall=time.time() - t0, gpu_peak_gb=torch.cuda.max_memory_allocated() / 1e9,
                 levels_hist={int(l): int(c) for l, c in zip(*np.unique(lev_cell, return_counts=True))})

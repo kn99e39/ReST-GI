@@ -17,10 +17,11 @@ import p53_geom as G
 
 ROOT = Path(os.environ.get("WL55", Path.home() / "rest_wl55")); SB = ROOT / "out" / "stageB"; CYC = ROOT / "out" / os.environ.get("WL55_CYC", "cycles_cuda")
 WL53 = Path.home() / "rest_wl53" / "results"; WL54 = Path.home() / "rest_wl54" / "out"
-FULL = ("gap8", "gap4", "floor", "bend90")
-PAIRS = {"P10": ("P10_s1", "P10_s2"), "P05": ("P05_s1", "P05_s2"), "P025": ("P025_s1", "P025_s2"), "P10d": ("P10d_s1", "P10d_s2"), "COR": ("COR_5571", "COR_5572")}
+FULL = ("gap8", "gap4", "floor", "bend90", "gap6s")
+PAIRS = {"P10": ("P10_s1", "P10_s2"), "P05": ("P05_s1", "P05_s2"), "P025": ("P025_s1", "P025_s2"), "P10d": ("P10d_s1", "P10d_s2"), "COR": ("COR_5571", "COR_5572"),
+         "CAK": ("CAK_s1", "CAK_s2")}
 SINGLE = ("P10_c2", "P05d_s1", "P10_din64", "P10_wl53")
-NEAR = {"gap8": ("slab_lo:top", "slab_hi:bot"), "gap4": ("slab_lo:top", "slab_hi:bot"), "floor": ("dom:bot", "floor"), "bend90": ("dom:bot", "floor")}
+NEAR = {"gap8": ("slab_lo:top", "slab_hi:bot"), "gap4": ("slab_lo:top", "slab_hi:bot"), "floor": ("dom:bot", "floor"), "bend90": ("dom:bot", "floor"), "gap6s": ("slab_lo:top", "slab_hi:bot")}
 
 
 def cycles_of(scene):
@@ -132,6 +133,9 @@ def rules_full(scene, S):
                 rec["oracle_noise"] = bool(rec["B_I"] and Is is not None and abs(Is[0][c] - Is[1][c]) >= abs(i10) / 2)
                 rec["C_noise"] = bool(rec["B_I"] and I["P10_c2"] is not None and abs(I["P10_c2"] - i10) >= abs(i10) / 2)
                 rec["near_contact"] = gn in NEAR.get(scene, ())
+                TP = {a: bias(R, f"{a}|ball|cyc", gn, c) for a in ("P10", "P05", "P025", "CAK")}; rec.update({f"T_{a}": v_ for a, v_ in TP.items()})
+                rec["spatial_T"] = bool(None not in (TP["P10"], TP["P05"], TP["P025"]) and abs(TP["P10"]) > abs(TP["P05"]) > abs(TP["P025"]) and abs(TP["P025"]) <= 0.5 * abs(TP["P10"])
+                                        and abs(TP["P10"]) >= 0.01)
                 out.append(rec)
     return out
 
@@ -196,7 +200,10 @@ def kf_rules(K):
                     se = R["K10_s1|ball|cor"][gn]["se"][c]
                     so = abs(R["K10_s1|ball|cor"][gn]["bias"][c] - R["K10_s2|ball|cor"][gn]["bias"][c]) / 2 if "K10_s2|ball|cor" in R else 0
                     st = float(np.hypot(se, so))
-                    out.append(dict(scene=scene, cam=cam, group=gn, ch=c, A10=a["K10"], A05=a["K05"], A025=a["K025"], se=st, R_COR=v["bias"][c],
+                    t10 = np.mean([R[f"K10_s{i}|ball|cyc"][gn]["bias"][c] for i in (1, 2)]); t025 = np.mean([R[f"K025_s{i}|ball|cyc"][gn]["bias"][c] for i in (1, 2)])
+                    faceon = cam in ("gapdown", "bot")
+                    out.append(dict(scene=scene, cam=cam, group=gn, ch=c, T10=t10, T025=t025, A_loss_T=bool(faceon and abs(t10) >= 0.01 and abs(t10) > 3 * st and abs(t025) <= 0.5 * abs(t10)),
+                                    A10=a["K10"], A05=a["K05"], A025=a["K025"], se=st, R_COR=v["bias"][c],
                                     A_loss=bool(abs(a["K10"]) >= 0.01 and abs(a["K10"]) > 3 * st and abs(a["K025"]) <= 0.5 * abs(a["K10"]))))
     return out
 
@@ -271,7 +278,33 @@ def main():
     spatial_groups = [k for k, v in sp.items() if len(v) >= 2]
     a_loss = any(r["A_loss"] for r in res["kf_rules"]); b_loss = any(any(v["B_loss"]) for v in res["btest"].values())
     res["gate_C"] = dict(spatial_groups=[list(k) for k in spatial_groups], A_loss=a_loss, B_loss=b_loss, demonstrated=bool(spatial_groups and (a_loss or b_loss)))
-    KCm.dump(res, Path(sys.argv[2])); print(json.dumps(res["gate_C"], indent=1)); print(json.dumps(res["cor_valid"].get("floor_lam_pass")), res["cor_valid"]["lit_pass"])
+    spT = {}
+    for r in rules:
+        if r["near_contact"] and r.get("spatial_T"):
+            spT.setdefault((r["scene"], r["cam"], r["group"]), set()).add(r["ch"])
+    gT = [list(k) for k, v in spT.items() if len(v) >= 2]; aT = any(r["A_loss_T"] for r in res["kf_rules"])
+    res["gate_C_COR_free"] = dict(spatial_groups=gT, A_loss_T=aT, B_loss=b_loss, demonstrated=bool(gT and (aT or b_loss)))
+    # coupled rule_3pct summary per arm / readout / unit (all ruled groups; medium groups separately)
+    summ = {}
+    for scene, d in res["full"].items():
+        for cam, units in d["stats"].items():
+            for unit, R in units.items():
+                for key, g in R.items():
+                    arm, ro, ref = key.split("|")
+                    if ref != "cyc":
+                        continue
+                    for gn, v in g.items():
+                        for c in range(3):
+                            if not v["ruled"][c]:
+                                continue
+                            sk = f"{scene}|{arm}|{ro}|{unit}"; e = summ.setdefault(sk, dict(n=0, n_pass=0, n_med=0, n_med_pass=0, worst=0.0, fails=[]))
+                            ok = bool(v["passed_total"][c]); med = gn.startswith(("slab", "dom"))
+                            e["n"] += 1; e["n_pass"] += ok; e["n_med"] += med; e["n_med_pass"] += (ok and med)
+                            e["worst"] = max(e["worst"], abs(v["bias"][c]))
+                            if not ok:
+                                e["fails"].append([cam, gn, c, round(100 * v["bias"][c], 2), round(100 * v["se_total"][c], 2)])
+    res["coupled_summary"] = summ
+    KCm.dump(res, Path(sys.argv[2])); print(json.dumps(res["gate_C"], indent=1)); print(json.dumps(res["gate_C_COR_free"], indent=1)); print(json.dumps(res["cor_valid"].get("floor_lam_pass")), res["cor_valid"]["lit_pass"])
 
 
 if __name__ == "__main__":
