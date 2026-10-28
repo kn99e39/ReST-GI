@@ -78,6 +78,7 @@ def prepare():
     dump(manifest,OUT/'initial_cache.json')
 
 def load_packages(state,arm,rep,do_build=False,independent=False):
+    started=time.perf_counter()
     data={}; meta={}; total=0
     for ci in (0,1):
         needs=arm=='F' or (arm=='S' and ci in SF.dirty(state))
@@ -94,10 +95,11 @@ def load_packages(state,arm,rep,do_build=False,independent=False):
         a=time.perf_counter(); hh=digest(r); md['identity_check_seconds']=time.perf_counter()-a
         assert hh==r['content_hash']; md.update(content_hash=hh,signature=expected,seed=int(r['seed']))
         total+=dt+md['identity_check_seconds']; data[ci]=r; meta[str(ci)]=md
-    return data,meta,total
+    return data,meta,time.perf_counter()-started
 
 def compose(state,raw,rep,arm,external_N=64_000_000,prepared_K=None):
     """Rebuild every current boundary/C/input; solve all domains. Timings disjoint, CUDA fenced."""
+    begun=time.perf_counter()
     sd=SF.scene(state); timings={}; levels=[np.full(len(m['port_area']),4 if k=='medium' else 1) for n,k,m,V in sd['comps']]
     (ss,parent,_),timings['boundary']=timed(lambda:KP.build_ss(sd,levels))
     Kops={}; cs={}; stats={}
@@ -105,9 +107,11 @@ def compose(state,raw,rep,arm,external_N=64_000_000,prepared_K=None):
         for ci,r in raw.items():
             Kops[ci]=prepared_K[ci] if prepared_K is not None else KO.KOp(r['idx'],r['val'],r['shape'])
     _,timings['CSR_and_transfer']=timed(make_ops)
+    diag_start=time.perf_counter()
     for ci,r in raw.items():
         col=Kops[ci].colsum(); cs[str(ci)]=col.max(1).values.tolist()
         stats[str(ci)]=dict(leak_rate=(r['stats']['leaks']+r['stats']['wrong_side'])/r['stats']['photons'],truncated=r['stats']['truncated'])
+    torch.cuda.synchronize();diag1=time.perf_counter()-diag_start
     cnt=np.bincount(parent); mp=np.maximum(1,np.round(128/cnt[parent])).astype(int)
     for ci,c in enumerate(ss.comps):
         if c.kind=='black': mp[ss.comp_ports(ci)]=1
@@ -144,13 +148,18 @@ def compose(state,raw,rep,arm,external_N=64_000_000,prepared_K=None):
                 Lbin[c0:c1]=(num/den.clamp(min=1e-30)[:,None])[c0:c1]
             pred[key+'|nee']=Ln.cpu().numpy(); pred[key+'|ball']=Lb.cpu().numpy(); pred[key+'|bin']=Lbin.cpu().numpy()
     _,timings['readout']=timed(readout)
+    diag_start=time.perf_counter()
     closure=torch.sparse.sum(C,dim=0).to_dense().double()+esc.double()
     # Diagnostics timed separately and excluded from dynamic update totals.
     rho,trho=timed(lambda:CA.rho_robust(ss,Kops,C))
     residual=sol['phi_out']-phi0-CP.apply_K(ss,Kops,CP.apply_C(C,sol['phi_out']))
+    rel_residual=float(residual.abs().sum()/sol['phi_out'].abs().sum())
+    torch.cuda.synchronize();diag2=time.perf_counter()-diag_start
     pred['phi_out']=sol['phi_out'].cpu().numpy(); pred['phi_in_ind']=sol['phi_in_ind'].cpu().numpy()
-    meta=dict(timings=timings,update_shared_seconds=sum(timings.values()),rho=rho,rho_diagnostic_seconds=trho,
-       converged=sol['converged'],iterations=sol['iters'],last_rel=sol['last_rel'],fixed_point_rel=float(residual.abs().sum()/sol['phi_out'].abs().sum()),
+    shared_elapsed=time.perf_counter()-begun-diag1-diag2
+    timings['other_bookkeeping_and_state_transfer']=shared_elapsed-sum(timings.values())
+    meta=dict(timings=timings,update_shared_seconds=shared_elapsed,rho=rho,rho_diagnostic_seconds=trho,validation_diagnostic_seconds=diag1+diag2,
+       converged=sol['converged'],iterations=sol['iters'],last_rel=sol['last_rel'],fixed_point_rel=rel_residual,
        closure_max=float((closure-1).abs().max()),back_hits=cst['back_hits'],max_colsum=cs,transport_stats=stats,
        cells=ss.Ptot,C_nnz=C._nnz(),C_bytes=C._indices().numel()*8+C._values().numel()*4,
        external_flux=ext.sum(0).cpu().tolist(),field_seed=5661+rep,source_not_target=True,
