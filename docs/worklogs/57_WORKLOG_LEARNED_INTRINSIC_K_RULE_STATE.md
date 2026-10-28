@@ -1,6 +1,8 @@
 # Worklog 57 — Learned Geometry-Conditioned Intrinsic K: Rule vs State
 
-Status: **PREREGISTERED; no learned result or architecture adoption yet.**
+Status: **STOPPED_GATE1 (2026-10-29 00:39 KST); supervision complete, data detectability gate failed, no model training or architecture adoption.**
+
+Latest evidence supersedes the preflight GO below: GO validated implementation/resource readiness; the subsequent data gate did not permit training. See the Gate1 stop report at the end.
 
 User-authorised bounded batch on `Selective_Recompute`, starting HEAD `55b6be0fb994cd33d3e12f34779fae2756413379` independently verified. Historical WL53–56 implementations, artifacts and negative physical results are frozen. No WL58 is authorised.
 
@@ -95,3 +97,31 @@ Whether either fixed learned model reaches useful held-out absolute and differen
 Final GO at00:22:46KST2026-10-29 for `dc6a5326b3abf0d962c18f3536e7b1cf376fe624`. Exact commands through `experiments/fnto_rule57/run.sh`: `tests/test_r57.py <out>`, `tests/test_preflight.py <out>`, `tests/test_supervisor.py <out>`, `r57_resource.py`. The last invokes fresh untrained `r57_cost.py worker rest {D,R} 5701 {compact,full} <out> untrained` processes and paired-gradient smoke. Environment is recorded in `environment.json`; split/budget controls are in `protocol/rule57.json`; raw file hashes are in `artifact_manifest.json`.
 
 The user's latest instruction explicitly superseded the preflight-only no-launch request: **on final GO automatically continue**. The detached preflight process exec'd the primary supervisor with the same PID/SID1371033 and PPID1. It independently continues reference completion → data gate → four fixed model/seed fits → held-out evaluation → fresh-process cost → conditional composition → server report, with finite OOM recovery and atomic resume. A failed gate or unrecoverable defect stops with logs; it never reports batch success merely because execution started. Current preflight completion is distinct from completion of WL57's architecture experiment.
+
+
+## Primary chain outcome — Gate1 stop (2026-10-29)
+
+**Implementation fact.** The detached chain completed physical supervision at00:39:18KST, evaluated Gate1 at00:39:21, wrote its stop report and exited at00:39:23 with `STOPPED_GATE1`. The user's later status request was checked at01:05KST: no WL57 process remained, GPU0%/1MiB. No OOM or lost SSH session caused this stop. Checkpoint directory is empty; no D/R training, held-out model comparison, primary model-cost evaluation or composition occurred. Earlier preflight GO is implementation/resource readiness, not a pass of the subsequently measured reference detectability gate.
+
+**Measurement.** All24 physical target packages were completed (19 base poses plus rest/four tests with second seeds);24/24 package physical checks pass, maximum leak/wrong-side fraction6.28e-7. Stored oracle matrices occupy26GiB and geometry/action data15GiB on server. Final resumed supervision-stage wall time was986.6s, excluding earlier generation/reused caches; this is not a total offline-construction cost claim.
+
+The frozen signal rule requires SNR>=3 in at least4/16 concentrated fields in at least two channels, on at least3/4 test poses. Actual R/G/B counts:
+
+| Held-out pose | R | G | B | Qualifying channels |
+|---|---:|---:|---:|---:|
+| te0 |1|2|0|0|
+| te1 |0|0|0|0|
+| te2 |0|1|0|0|
+| te3 |2|3|1|0|
+
+The independent-seed action difference relative L2 averages3.07–3.35% over the test distributions. Some individual concentrated fields exceed SNR3 (maximum5.22), but the declared population-level requirement fails on every test pose. This is not evidence that geometry never changes K.
+
+**Independent validation.** A CPU-only NumPy float64 replay used direct nested-cell/angular reshaping and sums, without importing production `aggregate()` or `data_gate()`. All twelve qualifying fractions replay exactly (absolute difference0); the stop is reproduced. A separately saved post hoc replay script is `experiments/fnto_rule57/r57_gate_audit.py`. Original gate output/logs/report/manifests and replay output are retained in [results/fnto_rule57/gate1_stop](../../results/fnto_rule57/gate1_stop/). This audit performs no new oracle generation or model fitting and changes no criterion.
+
+**Interpretation.** The fixed2048-photon-per-input-cell, independent-seed target/action setup did not supply the declared deformation detectability across the fixed held-out light population. The gate's noise definition is the per-operator independent-seed difference divided bysqrt2, while the compared response is a two-seed mean; this conservative, frozen definition is reproduced rather than changed after results. The audit confirms the implemented decision; it does not prove that every uncertainty formulation or higher-budget estimator would fail. No threshold, split, geometry/light distribution, seed budget or architecture was changed to obtain a pass.
+
+**Architecture verdict.** Data readiness for the declared learned dynamic comparison: **NOT SUPPORTED** at this budget/distribution. D viability, R viability, R advantage and learned-K readiness: **INCONCLUSIVE**, because neither model was trained. Coupled physical GI and global-deformation/self-contact claims remain unmeasured; WL56 negative physical findings are preserved. This is a data-gate closure of the attempted batch, not a falsification of either neural architecture. Preflight resource/operator controls remain supported in their limited scope.
+
+**Unresolved question.** Whether a justified different estimator/sample budget can resolve the declared geometry effect is the remaining prerequisite; the present evidence does not select a new estimator, altered population or research batch. Existing stop conditions prevent automatic training after this failure. The chain is intentionally not restarted and no subsequent architecture batch is initiated.
+
+**Reproducibility.** Primary source remains `dc6a5326b3abf0d962c18f3536e7b1cf376fe624`; exact protocol and splits are unchanged. Server artifacts: `~/rest_wl57/out/gate1.json`, `out/verdict.json`, `out/SERVER_REPORT.md`, `logs/data_gate.attempt0.log`, all oracle/target manifests, and status `STOPPED_GATE1`. The original generic server-report footer lists possible downstream filenames; heldout/cost/composition outputs do **not** exist for this stopped run. Raw matrices/actions remain on the server; small committed artifacts contain their identities/hashes. The post hoc replay is evidence verification, not predeclared confirmatory training evidence.

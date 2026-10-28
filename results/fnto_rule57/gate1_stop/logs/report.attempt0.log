@@ -1,0 +1,184 @@
+{
+ "data_gate": false,
+ "useful_models": {},
+ "comparison": [],
+ "composition": false,
+ "primary_commit": "dc6a5326b3abf0d962c18f3536e7b1cf376fe624",
+ "checkpoints": {},
+ "execution_attempts": {
+  "data_gate.attempt0": {
+   "stage": "data_gate",
+   "args": [
+    "r57_data.py",
+    "gate"
+   ],
+   "attempt": 0,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 1,
+   "wall_seconds": 3.402092218399048,
+   "GPU_processes_before": "",
+   "commit": "dc6a5326b3abf0d962c18f3536e7b1cf376fe624",
+   "log": "/home/nd/rest_wl57/logs/data_gate.attempt0.log"
+  },
+  "environment.attempt0": {
+   "stage": "environment",
+   "args": [
+    "r57_environment.py"
+   ],
+   "attempt": 0,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 1.5897493362426758,
+   "GPU_processes_before": "1366642, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4040 MiB\n",
+   "commit": "c7fd067405489f1545987749f159e7c8a97822dc",
+   "log": "/home/nd/rest_wl57/logs/environment.attempt0.log"
+  },
+  "environment.attempt1": {
+   "stage": "environment",
+   "args": [
+    "r57_environment.py"
+   ],
+   "attempt": 1,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 1.3904917240142822,
+   "GPU_processes_before": "",
+   "commit": "44180a30f6925572757066048ed559eb4a7e05fc",
+   "log": "/home/nd/rest_wl57/logs/environment.attempt1.log"
+  },
+  "environment.attempt2": {
+   "stage": "environment",
+   "args": [
+    "r57_environment.py"
+   ],
+   "attempt": 2,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 1.396923303604126,
+   "GPU_processes_before": "",
+   "commit": "dc6a5326b3abf0d962c18f3536e7b1cf376fe624",
+   "log": "/home/nd/rest_wl57/logs/environment.attempt2.log"
+  },
+  "focused.attempt0": {
+   "stage": "focused",
+   "args": [
+    "tests/test_r57.py",
+    "/home/nd/rest_wl57/out/tests/focused.json"
+   ],
+   "attempt": 0,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 4.297345161437988,
+   "GPU_processes_before": "1366642, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4040 MiB\n",
+   "commit": "c7fd067405489f1545987749f159e7c8a97822dc",
+   "log": "/home/nd/rest_wl57/logs/focused.attempt0.log"
+  },
+  "focused.attempt1": {
+   "stage": "focused",
+   "args": [
+    "tests/test_r57.py",
+    "/home/nd/rest_wl57/out/tests/focused.json"
+   ],
+   "attempt": 1,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 3.866786479949951,
+   "GPU_processes_before": "",
+   "commit": "44180a30f6925572757066048ed559eb4a7e05fc",
+   "log": "/home/nd/rest_wl57/logs/focused.attempt1.log"
+  },
+  "focused.attempt2": {
+   "stage": "focused",
+   "args": [
+    "tests/test_r57.py",
+    "/home/nd/rest_wl57/out/tests/focused.json"
+   ],
+   "attempt": 2,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 3.859151601791382,
+   "GPU_processes_before": "",
+   "commit": "dc6a5326b3abf0d962c18f3536e7b1cf376fe624",
+   "log": "/home/nd/rest_wl57/logs/focused.attempt2.log"
+  },
+  "supervision.attempt0": {
+   "stage": "supervision",
+   "args": [
+    "r57_data.py",
+    "build"
+   ],
+   "attempt": 0,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 986.5753433704376,
+   "GPU_processes_before": "",
+   "commit": "dc6a5326b3abf0d962c18f3536e7b1cf376fe624",
+   "log": "/home/nd/rest_wl57/logs/supervision.attempt0.log"
+  },
+  "supervisor_tests.attempt0": {
+   "stage": "supervisor_tests",
+   "args": [
+    "tests/test_supervisor.py",
+    "/home/nd/rest_wl57/out/tests/supervisor.json"
+   ],
+   "attempt": 0,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 0.10824990272521973,
+   "GPU_processes_before": "1366642, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4040 MiB\n",
+   "commit": "c7fd067405489f1545987749f159e7c8a97822dc",
+   "log": "/home/nd/rest_wl57/logs/supervisor_tests.attempt0.log"
+  },
+  "supervisor_tests.attempt1": {
+   "stage": "supervisor_tests",
+   "args": [
+    "tests/test_supervisor.py",
+    "/home/nd/rest_wl57/out/tests/supervisor.json"
+   ],
+   "attempt": 1,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 0.12085342407226562,
+   "GPU_processes_before": "",
+   "commit": "44180a30f6925572757066048ed559eb4a7e05fc",
+   "log": "/home/nd/rest_wl57/logs/supervisor_tests.attempt1.log"
+  },
+  "supervisor_tests.attempt2": {
+   "stage": "supervisor_tests",
+   "args": [
+    "tests/test_supervisor.py",
+    "/home/nd/rest_wl57/out/tests/supervisor.json"
+   ],
+   "attempt": 2,
+   "resource_policy": 0,
+   "environment": {},
+   "returncode": 0,
+   "wall_seconds": 0.10082197189331055,
+   "GPU_processes_before": "",
+   "commit": "dc6a5326b3abf0d962c18f3536e7b1cf376fe624",
+   "log": "/home/nd/rest_wl57/logs/supervisor_tests.attempt2.log"
+  }
+ },
+ "actual_stage_wall_including_failures": {
+  "focused": 12.023283243179321,
+  "data_gate": 3.402092218399048,
+  "supervisor_tests": 0.3299252986907959,
+  "supervision": 986.5753433704376,
+  "environment": 4.377164363861084
+ },
+ "verdict": {
+  "data_readiness": "NOT SUPPORTED",
+  "learned_architecture": "INCONCLUSIVE",
+  "reason": "Preregistered data gate failed; no primary training."
+ }
+}

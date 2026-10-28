@@ -1,0 +1,103 @@
+{
+ "method": "Independent NumPy float64 nested geometry/angular sums; no production aggregation/gate call",
+ "rows": [
+  {
+   "pose": "te0",
+   "independent_fraction_ge3": [
+    0.0625,
+    0.125,
+    0
+   ],
+   "focused_count_ge3": [
+    1,
+    2,
+    0
+   ],
+   "maximum_focused_SNR": [
+    4.820256310366637,
+    4.985509879068449,
+    2.771888689213284
+   ],
+   "meaningful_channels": [
+    false,
+    false,
+    false
+   ],
+   "replay_fraction_error": 0
+  },
+  {
+   "pose": "te1",
+   "independent_fraction_ge3": [
+    0,
+    0,
+    0
+   ],
+   "focused_count_ge3": [
+    0,
+    0,
+    0
+   ],
+   "maximum_focused_SNR": [
+    2.5400430809738572,
+    2.3793202064805836,
+    1.055086029486705
+   ],
+   "meaningful_channels": [
+    false,
+    false,
+    false
+   ],
+   "replay_fraction_error": 0
+  },
+  {
+   "pose": "te2",
+   "independent_fraction_ge3": [
+    0,
+    0.0625,
+    0
+   ],
+   "focused_count_ge3": [
+    0,
+    1,
+    0
+   ],
+   "maximum_focused_SNR": [
+    2.8858266050086336,
+    3.028794779731589,
+    1.5495963659535898
+   ],
+   "meaningful_channels": [
+    false,
+    false,
+    false
+   ],
+   "replay_fraction_error": 0
+  },
+  {
+   "pose": "te3",
+   "independent_fraction_ge3": [
+    0.125,
+    0.1875,
+    0.0625
+   ],
+   "focused_count_ge3": [
+    2,
+    3,
+    1
+   ],
+   "maximum_focused_SNR": [
+    5.048751631885862,
+    5.217940782307144,
+    3.3096173417693606
+   ],
+   "meaningful_channels": [
+    false,
+    false,
+    false
+   ],
+   "replay_fraction_error": 0
+  }
+ ],
+ "signal_gate_passed": false,
+ "status": "REPRODUCED_STOP; no evidence of aggregation/count implementation defect in Gate1"
+}
