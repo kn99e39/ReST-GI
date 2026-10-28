@@ -240,3 +240,31 @@ Multiple factors are present together, as the brief anticipated; the dominant on
 **Verified by source and recomputed data (this batch):** claims A, B, C, E; the replay; the decomposition A / B / C / T; the coverage, pixel-size and ρ findings; all of Stages C–F. **Relying on WL53's description only:** the TR oracle's physics and K properties (WL53's tests re-run unchanged), the Cycles volume validation (H-function, furnace, etc.), and the origin of the gap8 oblique group beyond what is stated in D.
 
 No later batch is started or recommended.
+
+---
+
+## Addendum (same session, 2026-10-28 14:40 KST) — amendment 3 completed (protocol amendment 5)
+
+**What changed.** With the user's explicit approval the `nd`-owned scratch in LabServer69's `/tmp` (`p53_ply_*`, `pytest-of-nd`; no process was using them) was deleted, freeing 924 MB on the root filesystem. Docker could start and the amendment-3 renders ran unchanged. Nothing outside `nd`'s own files was modified. The rest of the root filesystem is held by `/var/log/pcp/pmcd/openmetrics.log` (16.6 GB, root-owned; the PCP / Grafana monitoring stack is managed by the lab administrators). It was only read: the openmetrics PMDA is configured to scrape `http://localhost:3000/metrics`, which now returns an HTML page, and the log is a repetition of "could not convert string to float" warnings, last written 2026-08-16. That is a question for the administrators, not for this batch.
+
+**gap8 oblique lower-side group (claim D) — rule evaluated.** The V1 reference signal of `slab_lo:-y` changes by +0.6 / +0.5 / +0.3 % between 0.5 mm and 0.25 mm pixels (rule: ≥ 5 % would mean a pixel-size effect), so it is **not** a pixel-size effect. Against the 0.25 mm reference the stored WL53 prediction is **−22.1 / −20.0 / −10.7 %** (against WL53's own 1 mm reference −16.2 / −14.3 / −6.4 %; WL53's interior unit −24.3 / −22.5 / −13.9 %). Together with Stage E (CASP = C0) and the matched 5 mm K control (worse, −23.5 %), this group is a **real transport under-prediction that is neither a comparison artifact nor a C-resolution effect**. Its cause — presumably on the K side of the lower slab's side face — remains unattributed.
+
+**Lambert near-contact groups at 0.25 mm (2 seeds for the gap cameras, 1 for the floor cameras).** Every amended ruled group is reference-validated (|F16| ≤ 2.9 %):
+
+| fixture / camera / group | C0 | F16 | CASP C1 | c = 4 (sensitivity) |
+|---|---|---|---|---|
+| gap4 / gapdown / slab_lo:top | +20.0 % | +1.4 % | +2.2 % | +1.5 % |
+| gap4 / gapup / slab_hi:bot | +42.2 % | −0.2 % | +1.0 % | −0.3 % |
+| gap8 / gapdown / slab_lo:top | +7.5 % | +1.7 % | +2.9 % | +1.9 % |
+| gap8 / gapup / slab_hi:bot | +17.6 % | +0.0 % | +2.4 % | +0.8 % |
+| gap8 / obot / slab_hi:bot (10 ports) | +17.9 % | +2.9 % | **+6.3 %** | +4.1 % |
+| floor_lam / underup / dom:bot | +6.1 % | −0.0 % | +1.6 % | −0.3 % |
+| floor_lam / underdown / floor | +2.0 % | +0.0 % | +0.6 % | −0.1 % |
+| rot_lam / underup / dom:bot | +4.6 % | −0.0 % | +1.3 % | +0.2 % |
+| rot_lam / underdown / floor | +1.3 % | −0.0 % | +0.5 % | +0.0 % |
+| lblock_lam / underup / dom:bot | +3.4 % | −0.1 % | +0.6 % | −0.3 % |
+| lblock_lam / underdown / floor | +1.2 % | +0.1 % | +0.3 % | −0.0 % |
+
+The one CASP failure is confirmed against the converged reference (+6.3 %, larger than at 0.5 mm); even the unselected c = 4 arm misses it (+4.1 %). The floor-under-box group's true C0 error is +2.0 % (spatial, within 3 %).
+
+**Verdict changes.** None to the table above, except that the oblique items are now better informed: "Near-contact and oblique-view fidelity" stays CONDITIONALLY SUPPORTED (face-on) and the gap8 oblique lower-side group moves from "comparison-limited / unresolved" to "**real transport error, not C-spatial, cause unattributed**". Outputs: `results/fnto_c54/final/amend3_vol.json`, `amend3_lam.json`, `final/cycles_hi/`. Scripts: `c54_amend3.py`.
