@@ -60,7 +60,7 @@ def group_stats(pred, ref, ok, groups, se=None, tol=0.03):
 
 
 def run_fixture(name, levels, out, cdir, seeds_off=0, with_cycles=True, extra_levels_noise=True, kv=None):
-    kv = kv or {}
+    kv = kv or {}; sref = int(kv.get("sref", levels[-1]))
     t_all = time.time(); sd = CF.scene_def(name); groups = CF.coarse_labels(name); res = dict(fixture=name, levels=levels, arms={})
     LM.log("fixture", name, "levels", levels)
     # ---- coarse arms
@@ -92,9 +92,9 @@ def run_fixture(name, levels, out, cdir, seeds_off=0, with_cycles=True, extra_le
                             t_C=f.t_C, t_ext=f.t_ext, wall=time.time() - t0, Gal_rho=rg["rho"], Gal_iters=rg["iters"],
                             gpu_peak_gb=torch.cuda.max_memory_allocated() / 1e9)
         LM.log(name, "s", s, json.dumps({k: v for k, v in res[f"F{s}"].items() if k != "closure"}))
-        if s == levels[-1]:
+        if s == sref:
             fine_lam = (f, rf["L"])
-            if extra_levels_noise:                                                    # replicate at the finest level (noise estimate)
+            if extra_levels_noise:                                                    # replicate at the reference level (noise estimate)
                 f2 = LM.Lam(name, s, (1, 1)).build(M=MS[s], seed_C=5510 + s + seeds_off, K_ext=KEXT[s], seed_E=5520 + s + seeds_off)
                 r2 = f2.solve(); arrays[f"F{s}_rep"] = f2.project(r2["L"]); arrays[f"G{s}_rep"] = LM.solve_coarse_from_fine(f2)["L"]; del f2
         else:
@@ -120,7 +120,7 @@ def run_fixture(name, levels, out, cdir, seeds_off=0, with_cycles=True, extra_le
                 rc[f"T:{arm}_vs_cycles_V1"] = group_stats(arrays[arm], refm, ok, groups, se)
                 rc[f"T:{arm}_vs_cycles_V0"] = group_stats(arrays[arm], ref0.mean(0), ok0, groups, ref0.std(0, ddof=1) / np.sqrt(len(ref0)))
         m = ok if cyc else np.ones(len(groups), bool)
-        sm = f"{levels[-1]}"
+        sm = f"{sref}"
         rc["A:G_vs_F"] = group_stats(arrays[f"G{sm}"], arrays[f"F{sm}"], m, groups)
         rc["B:C0prod_vs_G"] = group_stats(arrays["C0prod"], arrays[f"G{sm}"], m, groups)
         rc["B:C0inf_vs_G"] = group_stats(arrays["C0inf"], arrays[f"G{sm}"], m, groups)
