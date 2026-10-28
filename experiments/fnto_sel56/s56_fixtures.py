@@ -24,7 +24,12 @@ def scene(state):
              ('upper', 'medium', m, u + (0, 0, 0.009) + shift)]
     # 20 cm square, 2.5 mm triangles. Downward, absorbing on return, unit radiance.
     em = G.open_grid(20, 20, 0.01, (-0.1, -0.1, 0.054), sub=4)
-    em = dict(em); em['F'] = em['F'][:, ::-1].copy()
+    # Preserve voxel/open_grid's triangle-corner order required by CASP refinement.
+    # Reflect the parameter grid in y to reverse orientation without reversing triangle indices.
+    em = dict(em)
+    for key in ('V', 'port_center', 'port_normal', 'port_tangent'):
+        em[key] = em[key] * np.array((1, -1, 1))
+    em['port_normal'] = np.tile((0., 0., -1.), (len(em['port_area']), 1))
     comps.append(('source', 'emitter', em, em['V'].copy()))
     cams = KF.gap_cams(0.009, 0.009)
     cams['top'] = FX._cam('top', (0, 0, 0.009), 0, 0.11, 220, origin=(0, 0, 0.04))

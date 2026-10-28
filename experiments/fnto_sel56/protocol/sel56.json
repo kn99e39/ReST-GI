@@ -114,6 +114,12 @@
  },
  "tests": "Focused small block shared F/S construction, cache signatures, rigid vs dent invalidation, source field linearity and zero, K/C closure/ownership, passivity, fixed point residual, current C update, ballistic readout, deterministic masks; relevant WL53/WL54/WL55 regressions with skipped checks explicitly counted",
  "resource": "LabServer69 RTX3090; scratch/output exclusively ~/rest_wl56; no deletion or infrastructure changes. GPU workloads sequential except CUDA reference may run while CPU-only audit. Resource bounded by declared number of full operators and scenes, no sweeps.",
- "amendments": [],
+ "amendments": [
+  {
+   "id": "debug1",
+   "type": "pre-primary focused implementation fix",
+   "fact": "First focused test run: 5/6 passed; flipping emitter triangle corner order breaks CASP port-grid reconstruction and produces degenerate subdivided emitter triangles. Fixed orientation by reflecting the open_grid parameter geometry in y, keeping triangle ordering. Physical source extent/position/emission unchanged, no threshold changed. Original failed results preserved as focused_v1.json/preflight_v1.log."
+  }
+ ],
  "readout_comparison": "F/S physical primary = current KC + KB. For stale loss, compare F/S/T using the identical current-frame outgoing-bin readout (includes unscattered transport), and report its bias against the renderer separately. Stale rest KC on the dented upper top is diagnostic only, never a valid precise camera response."
 }
