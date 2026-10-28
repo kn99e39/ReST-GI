@@ -1,8 +1,27 @@
 # Baseline Roles and Evidence Strategy — Surface-Owned Selective Neural Transport Recomputation
 
-**Updated:** 2026-10-23 (FNTO v0.1 Batch 6 NOT SUPPORTED, worklog 41; worklogs 37–41 reviewed)  
-**Status:** Active evidence/control contract. Surface-Owned oracle edit reconstruction demonstrated on one diffuse Lego edit, WL37 CONDITIONAL, WL38 3-seed WITHIN_MARGIN; SPT-1 WL39 NOT SUPPORTED; FNTO v0.1 is designed but unimplemented.  
+**Updated:** 2026-10-28 (major Dynamic Transport Reuse decision after Worklog 55; historical evidence preserved)  
+**Status:** Dynamic Transport Reuse is the current objective; WL56 is designed, not executed. Full/Selective/Stale are internal baselines; TransGI is a future matched external comparator; CAK and within-K Rule–State are not adopted.
 **Project:** ReST-GI (formerly NeuralShaderDemo) / Selective_Recompute
+
+## Current Dynamic Transport Reuse Evaluation Contract (2026-10-28)
+
+**Decision — objective:** Preserve high-quality, physically valid dynamic learned GI by reusing valid intrinsic transport and updating invalid transport after geometry edits. Compression is a potential means, not the objective. Preserve FNTO intrinsic K versus editable free-space C ownership; WL53–55 support a sufficiently resolved near-contact boundary and a scattered-plus-ballistic readout. CAK is NOT adopted.
+
+**Hypothesis — not adopted:** A reusable transport rule may be separated from geometry-dependent state inside K. Test its feasibility and incremental value beyond exact domain-level selective recomputation; do not assume that non-rigid K changes are local, sparse, low-rank, or negligible.
+
+**Next bounded evaluation — WL56 is designed, not yet executed:**
+- Full Recompute: rebuild every optical-domain K at matching quality, then update current C, illumination, solve and readout.
+- Exact Selective Recompute: reuse K of unchanged optical domains, rebuild K of invalidated domains, and update all necessary current-state coupling and GI. An oracle invalidation set is an experimental control, not a novel learned selector.
+- Stale K: preserve invalid K intentionally as a negative physical-validity control.
+- TransGI: an external dynamic-GI comparator, requiring matched scenes, materials, edits, references, hardware and end-to-end update/inference/memory accounting before performance or novelty claims.
+- RNA, Surface-Owned and SPT-1: retain their documented historical baseline roles and regimes.
+
+**Evidence distinctions:** Measure operator equivalence of Full/Selective separately from their physical reference accuracy. Report unchanged-K identity, stationary-receiver signed radiance changes, uncertainty, K rebuild versus cache/update costs, C, aggregation, solve, readout, warm/cold end-to-end time and memory. Oracle Monte Carlo rebuilding cost is not a learned neural inference benchmark. Quantify the remaining invalid-domain cost before selecting a Rule–State representation.
+
+**Scenario coverage:** Preserve (1) rigid motion, (2) local deformation, (3) global bending/twisting, and (4) self-contact/contact changes as long-horizon architectural requirements. Run bounded tests sequentially; at every major architecture decision discuss all four and distinguish tested from untested cases. The immediate primary experiment is local dent in one of multiple interacting optical domains with rigid control. No new branch or Git worktree without explicit user authorization.
+
+---
 
 ## FNTO Evidence and Baseline Separation (2026-10-23)
 
