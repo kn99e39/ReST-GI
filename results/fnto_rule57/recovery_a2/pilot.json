@@ -1,0 +1,89 @@
+{
+ "passed": true,
+ "controls": [
+  {
+   "field": 0,
+   "L2_error": [
+    0.0005245447794435638,
+    0.00046734563668830633,
+    0.00031783640587509877
+   ],
+   "combined_norm_SE": [
+    0.0005055425870592995,
+    0.00044945351585765303,
+    0.0003065918964904469
+   ],
+   "integrated_error": [
+    1.4464693025573183e-05,
+    2.2575051173090444e-05,
+    1.8128315976220615e-05
+   ],
+   "integrated_SE": [
+    1.5934491875335743e-05,
+    6.0179936583522584e-05,
+    0.00015636722778430653
+   ],
+   "physical": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "passed": true,
+   "seconds": [
+    2.08334100805223,
+    2.041993075981736,
+    2.0742517076432705,
+    1.9270850755274296
+   ]
+  },
+  {
+   "field": 48,
+   "L2_error": [
+    0.004105935480739604,
+    0.00365610426587981,
+    0.0023590298629204655
+   ],
+   "combined_norm_SE": [
+    0.0043991727424956655,
+    0.003958518868992201,
+    0.002758858575413599
+   ],
+   "integrated_error": [
+    2.6393917130918508e-05,
+    0.00040401943629348683,
+    0.000785088916743752
+   ],
+   "integrated_SE": [
+    7.244677873445155e-05,
+    0.0002927584738123859,
+    0.0003949911392454304
+   ],
+   "physical": [
+    true,
+    true,
+    true,
+    true
+   ],
+   "passed": true,
+   "seconds": [
+    1.992150653153658,
+    2.110513923689723,
+    1.9462868236005306,
+    2.0181031450629234
+   ]
+  }
+ ],
+ "superposition_relative_L1": 6.2007341483649725e-09,
+ "zero_exact": true,
+ "resources": {
+  "disk_free": 1366054387712,
+  "CPU_available": 127579373568,
+  "GPU_available_before_this_process_reservations": 25058541568,
+  "GPU_total": 25430654976,
+  "pilot_peak_reserved": 536870912,
+  "conservative_primary_peak": 4073741824,
+  "feasible": true
+ },
+ "strategy": "Fixed64M per replica; pilot validates estimator and resource feasibility only, never selects favorable final fields or changes budget."
+}

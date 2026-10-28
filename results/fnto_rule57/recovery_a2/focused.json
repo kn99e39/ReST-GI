@@ -1,0 +1,99 @@
+{
+ "passed": 7,
+ "total": 7,
+ "tests": [
+  {
+   "name": "disjoint_geometry_and_parameter_budgets",
+   "passed": true,
+   "measured": {
+    "D_parameters": 160458,
+    "R_parameters": 162048,
+    "train": [
+     "rest",
+     "tr00",
+     "tr01",
+     "tr02",
+     "tr03",
+     "tr04",
+     "tr05",
+     "tr06",
+     "tr07",
+     "tr08",
+     "tr09",
+     "tr10",
+     "tr11"
+    ],
+    "val": [
+     "va0",
+     "va1"
+    ],
+    "test": [
+     "cf0",
+     "cf1",
+     "cf2",
+     "cf3"
+    ]
+   }
+  },
+  {
+   "name": "disjoint_lights_flux_and_directional_pairs",
+   "passed": true,
+   "measured": {
+    "fields": 64,
+    "train_fields": 96,
+    "unit_flux": true,
+    "equal_irradiance_pairs": 8
+   }
+  },
+  {
+   "name": "runtime_oracle_independence_and_passivity",
+   "passed": true,
+   "measured": {
+    "no_target_IO": true,
+    "metadata_not_model_input": true,
+    "max_column_sum": 0.9671472311019897
+   }
+  },
+  {
+   "name": "zero_linearity_nonnegative_passive_and_fair_cache",
+   "passed": true,
+   "measured": {
+    "D": {
+     "linearity": 6.899182380948332e-08,
+     "cache_equivalence": 9.794817401598266e-08,
+     "max_colsum": 0.9671472311019897
+    },
+    "R": {
+     "linearity": 6.907464467076352e-08,
+     "cache_equivalence": 1.0638748904057138e-07,
+     "max_colsum": 0.9671472311019897
+    }
+   }
+  },
+  {
+   "name": "differentiable_full_spatial_angular_operator",
+   "passed": true,
+   "measured": {
+    "finite_loss": 6.5178846853086725e-06,
+    "finite_gradients": true
+   }
+  },
+  {
+   "name": "OOM_fallback_preserves_model_and_effective_batch",
+   "passed": true,
+   "measured": {
+    "checkpoint_and_microbatch_gradient_relative_L2": 2.3823191138865882e-07,
+    "unchanged_effective_batch": 2
+   }
+  },
+  {
+   "name": "boundary_identity_rigid_frame_and_invalidation",
+   "passed": true,
+   "measured": {
+    "nested_material_cells": true,
+    "rigid_frame_inverse_max": 1.3877787807814457e-17,
+    "dent_changes_geometry": true
+   }
+  }
+ ]
+}
