@@ -33,14 +33,16 @@ def log(*a):
 class Lam:
     """One scene at refinement s. coarse_mesh=True with bins=(64, 16) is literally the WL53 production C0 configuration."""
 
-    def __init__(self, name, s=1, bins=(1, 1), coarse_mesh=False):
+    def __init__(self, name, s=1, bins=(1, 1), coarse_mesh=False, rigid=None):
         self.name, self.s, self.bins = name, s, bins
         comps = CF.comps_at(name, s, coarse=coarse_mesh)
+        if rigid is not None:                                  # (R, t): rigid map of the whole scene (sun direction rotates with it)
+            R, t = rigid; comps = [(n, m, V @ np.asarray(R).T + np.asarray(t)) for n, m, V in comps]
         self.ss = CP.SceneSet([CP.Comp(n, "lambert", m, V, rho=RHO) for n, m, V in comps], bins[0], bins[1])
         self.parent = np.arange(self.ss.Ptot) if (coarse_mesh or s == 1) else CF.parents(name, s)
         self.nc = int(self.parent.max()) + 1
         self.area = self.ss.port_area.double().cpu().numpy()
-        self.sun = np.asarray(CF.light_of(name), float)
+        self.sun = np.asarray(CF.light_of(name), float) if rigid is None else np.asarray(rigid[0]) @ np.asarray(CF.light_of(name), float)
         self.C = self.esc = self.stats = self.Ep = None
 
     # -- building blocks
