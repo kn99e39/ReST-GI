@@ -61,12 +61,15 @@ def tables(out, cdir, bdir, sdir, fixtures):
 
 
 def resolution(out, rdir, bdir):
-    name = "gap4"; sd = CF.scene_def(name); groups = CF.coarse_labels(name); ss = CC.sceneset_of(sd); arr = np.load(bdir / f"{name}_coarse_arrays.npz"); geo = json.load(open(rdir / f"ccam_{name}.json")); res = {}
+    name = "gap4"; sd = CF.scene_def(name); groups = CF.coarse_labels(name); ss = CC.sceneset_of(sd); arr = dict(np.load(bdir / f"{name}_coarse_arrays.npz")); geo = json.load(open(rdir / f"ccam_{name}.json")); res = {}
+    sdir = bdir.parent / "stageC"
+    if (sdir / f"{name}_casp_arrays.npz").exists():
+        arr.update({k: v for k, v in np.load(sdir / f"{name}_casp_arrays.npz").items() if k.startswith("C1")})
     for key, g in geo.items():
         cam, px = key.split("@"); pid = CP.classify(ss, CC.blender_ortho_rays(g, SB.V1_OFF)); img = np.load(rdir / f"cimg_{name}_{cam}_px{px}.npy").reshape(-1, 3)
         m, cnt = CP.port_means(pid, img, ss.Ptot); m = m[:, 0]; ok = cnt >= 0.9 * expected_pixels(ss, g)
         gname = "slab_lo:top" if cam == "gapdown" else "slab_hi:bot"; sel = ok & (groups == gname)
-        res[key] = dict(group=gname, n=int(sel.sum()), **{arm: float((arr[arm][sel] - m[sel]).sum() / m[sel].sum()) for arm in ("C0prod", "F16", "G16")}, signal=float(m[sel].sum()))
+        res[key] = dict(group=gname, n=int(sel.sum()), **{arm: float((arr[arm][sel] - m[sel]).sum() / m[sel].sum()) for arm in ("C0prod", "F16", "G16", "C1", "C1_c1", "C1_c4", "C1_b4") if arm in arr}, signal=float(m[sel].sum()))
         print(key, json.dumps(res[key]))
     for cam, gname in (("gapdown", "slab_lo:top"), ("gapup", "slab_hi:bot")):
         e5, e125 = abs(res[f"{cam}@0.5"]["F16"]), abs(res[f"{cam}@0.125"]["F16"])
