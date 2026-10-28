@@ -16,6 +16,7 @@ def main():
             for ro in ('nee','bin'):data[key+'|'+ro][480:]=L
             data[key+'|ball'][480:]=0
         dt=time.perf_counter()-a
+        assert all(np.array_equal(data[k],z[k]) if k.startswith('phi_') else np.array_equal(data[k][:480],z[k][:480]) for k in data)
         np.savez(dst/p.name,**data);records.append(dict(file=p.name,assignment_seconds=dt,transport_flux_unchanged=True,medium_readouts_unchanged=True))
     camera={}
     import c54_common as CC

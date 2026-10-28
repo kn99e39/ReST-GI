@@ -89,8 +89,10 @@ def report():
     for ax,v,title in zip(axs,vals,['Cycles signed change','Selective signed change','Stale signed change']):
         im=ax.scatter(xy[sel,0]*100,xy[sel,1]*100,c=v,cmap='RdBu_r',vmin=-vmax,vmax=vmax,s=170,marker='s')
         ax.set(title=title,xlabel='Receiver x (cm)',aspect='equal')
-    axs[0].set_ylabel('Receiver y (cm)');fig.colorbar(im,ax=axs,label='Green radiance change',shrink=.7)
-    fig.suptitle('Unchanged lower slab: complete K reused, radiance solved again');fig.subplots_adjust(top=.82,right=.84,wspace=.3)
+    axs[0].set_ylabel('Receiver y (cm)')
+    fig.subplots_adjust(top=.80,right=.87,wspace=.28)
+    cb=fig.add_axes([.90,.22,.015,.50]);fig.colorbar(im,cax=cb,label='Green radiance change')
+    fig.suptitle('Unchanged lower slab: signed change (bin readout), complete K reused',fontsize=12)
     fig.savefig(figdir/'stationary_receiver_change.png',bbox_inches='tight');plt.close(fig)
     print(json.dumps(summary['cost_A1'],indent=1))
 
@@ -110,10 +112,11 @@ def export():
                 for k in ('seeds','mean','sel','cnt','cov'):data[f'{cam}|{unit}|{k}']=u[k]
         np.savez(dst/f'boundary_reference_{state}.npz',**data)
     rows=[]
-    for root in (S.OPS,S.CACHE,S.OUT/'cycles',S.OUT/'runs'):
+    for root in (S.OPS,S.CACHE,S.OUT/'cycles',S.OUT/'runs',S.OUT/'readout_v2/runs'):
         for p in sorted(root.rglob('*')):
             if p.is_file():rows.append(dict(path=str(p),bytes=p.stat().st_size,sha256=S.hash_file(p)))
-    S.dump(dict(server='LabServer69',files=rows,code_commit=(S.ROOT/'repo_commit.txt').read_text().strip()),dst/'raw_artifact_manifest.json')
+    S.dump(dict(server='LabServer69',files=rows,primary_code_commit=(S.ROOT/'repo_commit.txt').read_text().strip(),
+        report_code_commit=(S.ROOT/'report_commit.txt').read_text().strip()),dst/'raw_artifact_manifest.json')
     print('EXPORTED',len(rows))
 
 if __name__=='__main__':{'report':report,'export':export}[sys.argv[1]]();sys.stdout.flush();__import__('os')._exit(0)
