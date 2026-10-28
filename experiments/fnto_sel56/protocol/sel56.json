@@ -68,7 +68,7 @@
    5614
   ]
  },
- "illumination": "64M source rays per geometry and replicate; 8M chunks; exact intersections -> current input flux; regenerated identically inside timed F/S/T update, not target images; field is shared only in shared-operator correctness diagnostic",
+ "illumination": "64M source rays per geometry and arm, 8M chunks; fixed seed5661 across K replicates; separately labelled seed5662 diagnostic. Every arm regenerates current external field during timing.",
  "arms": {
   "F": "Actually rebuild both complete domain T/KC packages on primary dent scene each seed; current C, current incident field, global solve, current KB",
   "S": "Actually rebuild dirty upper domain, preserve cached lower package identity; same geometry/C/field seeds, global solve",
@@ -130,6 +130,12 @@
    "id": "debug3",
    "type": "pre-primary wrapper setup fix",
    "fact": "Reference wrapper must set inherited p53_cycles.OUT/LOG as its original main does. First real render attempt failed before any image with OUT=None; fixed initialization, retain reference_v1.log. No reference settings or geometry changed."
+  },
+  {
+   "id": "A0",
+   "type": "pre-primary variance-isolation clarification",
+   "timing": "Before any WL56 K construction/application or comparison; rest reference images being generated, no arm outputs observed.",
+   "change": "Use fixed external field seed 5661 for both K replicates to isolate independent K sampling. Add two no-new-K dent S0 diagnostic recompositions: field seed5662 with C5681, and C5682 with field5661. These quantify incident quadrature and C noise separately. Historical 3%+3SE_ref,K acceptance rule unchanged; additional noise sensitivities are reported and cannot rescue a failed primary rule."
   }
  ],
  "readout_comparison": "F/S physical primary = current KC + KB. For stale loss, compare F/S/T using the identical current-frame outgoing-bin readout (includes unscattered transport), and report its bias against the renderer separately. Stale rest KC on the dented upper top is diagnostic only, never a valid precise camera response."

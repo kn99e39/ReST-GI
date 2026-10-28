@@ -32,5 +32,6 @@ for rep in 0 1; do
     step s56.py replay dent S "$rep"
 done
 step s56.py resident
+step s56.py noise
 step s56_analyze.py
 echo done > "$STATUS"

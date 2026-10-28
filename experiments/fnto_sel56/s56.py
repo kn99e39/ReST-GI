@@ -97,7 +97,7 @@ def load_packages(state,arm,rep,do_build=False,independent=False):
         total+=dt+md['identity_check_seconds']; data[ci]=r; meta[str(ci)]=md
     return data,meta,time.perf_counter()-started
 
-def compose(state,raw,rep,arm,external_N=64_000_000,prepared_K=None):
+def compose(state,raw,rep,arm,external_N=64_000_000,prepared_K=None,seed_field=5661,seed_C=5681):
     """Rebuild every current boundary/C/input; solve all domains. Timings disjoint, CUDA fenced."""
     begun=time.perf_counter()
     sd=SF.scene(state); timings={}; levels=[np.full(len(m['port_area']),4 if k=='medium' else 1) for n,k,m,V in sd['comps']]
@@ -115,9 +115,9 @@ def compose(state,raw,rep,arm,external_N=64_000_000,prepared_K=None):
     cnt=np.bincount(parent); mp=np.maximum(1,np.round(128/cnt[parent])).astype(int)
     for ci,c in enumerate(ss.comps):
         if c.kind=='black': mp[ss.comp_ports(ci)]=1
-    (C,esc,cst),timings['C']=timed(lambda:CA.cast_adaptive(ss,mp,5681))
+    (C,esc,cst),timings['C']=timed(lambda:CA.cast_adaptive(ss,mp,seed_C))
     def field():
-        gen=torch.Generator(device='cuda'); gen.manual_seed(5661+rep)
+        gen=torch.Generator(device='cuda'); gen.manual_seed(seed_field)
         v=torch.zeros(ss.Ptot*16,device='cuda',dtype=torch.float64)
         for i in range(0,external_N,8_000_000):
             n=min(8_000_000,external_N-i); x,d,w=KP.emitter_rays(ss,sd,n,gen); w=w*n/external_N
@@ -162,7 +162,7 @@ def compose(state,raw,rep,arm,external_N=64_000_000,prepared_K=None):
        converged=sol['converged'],iterations=sol['iters'],last_rel=sol['last_rel'],fixed_point_rel=rel_residual,
        closure_max=float((closure-1).abs().max()),back_hits=cst['back_hits'],max_colsum=cs,transport_stats=stats,
        cells=ss.Ptot,C_nnz=C._nnz(),C_bytes=C._indices().numel()*8+C._values().numel()*4,
-       external_flux=ext.sum(0).cpu().tolist(),field_seed=5661+rep,source_not_target=True,
+       external_flux=ext.sum(0).cpu().tolist(),field_seed=seed_field,C_seed=seed_C,source_not_target=True,
        gpu_allocated_peak=torch.cuda.max_memory_allocated(),gpu_reserved_peak=torch.cuda.max_memory_reserved(),cpu_rss_peak_bytes=resource.getrusage(resource.RUSAGE_SELF).ru_maxrss*1024)
     return pred,meta
 
@@ -209,6 +209,13 @@ def resident():
     dump(dict(initial_cache_load_and_check=lt,initial_CSR=ct,records=records,
         note='Measured rigid updates only. Do not add a hypothetical removed TR cost and call it a measured dent resident update.'),OUT/'resident_rigid.json')
 
+def noise():
+    """Isolate external quadrature and C sampling from K-seed uncertainty, no new K."""
+    raw,_,_=load_packages('dent','S',0)
+    for label,kw in (('field',dict(seed_field=5662)),('C',dict(seed_C=5682))):
+        p,md=compose('dent',raw,0,'noise_'+label,**kw)
+        np.savez(OUT/f'noise_{label}.npz',**p);dump(md,OUT/f'noise_{label}.json')
+
 def extract(state):
     sd=SF.scene(state); ss=CM.classify_sceneset(sd); geo=json.load(open(OUT/'cycles'/f'ccam_{state}.json')); res={}
     for cam,g in geo.items():
@@ -243,7 +250,7 @@ def audit():
 
 if __name__=='__main__':
     OUT.mkdir(parents=True,exist_ok=True);cmd=sys.argv[1]
-    if cmd in ('prepare','reference_gate','audit','resident'):globals()[cmd]()
+    if cmd in ('prepare','reference_gate','audit','resident','noise'):globals()[cmd]()
     elif cmd=='verify':verify(sys.argv[2],int(sys.argv[3]))
     elif cmd in ('update','replay'):update(sys.argv[2],sys.argv[3],int(sys.argv[4]),replay=cmd=='replay',independent='ind' in sys.argv[5:])
     sys.stdout.flush();os._exit(0)
