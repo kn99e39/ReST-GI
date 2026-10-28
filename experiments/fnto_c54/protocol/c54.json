@@ -157,6 +157,15 @@
    "diagnostic": "gap4 cameras gapdown and gapup re-rendered with Cycles at pixel sizes 0.5, 0.25, 0.125 mm (one seed 5499, 2048 spp, otherwise the declared reference settings) into out/cycles_res",
    "interpretation_rule_fixed_now": "a group whose F16-vs-Cycles bias at 0.5 mm exceeds 3 % is attributed to REFERENCE POINT-SAMPLING (aliasing of a sharp sun / shadow edge) if the Cycles port average moves toward F16 as the pixel shrinks: |F16 - Cycles(0.125 mm)| <= 0.5 |F16 - Cycles(0.5 mm)|; otherwise the discrepancy stays UNATTRIBUTED and the group's reference is reported as not validated at that tolerance",
    "consequence_for_verdicts": "composition-restoration is evaluated on the amended ruled set against the Cycles reference ONLY for groups whose F16-vs-Cycles agreement is within 3 % + 3 SE (validated reference groups); groups where the fine reference and Cycles disagree by more than that are reported with both references and are not counted as pass or fail of C1 against Cycles; C1 is then judged against the fine reference F16 for them (labelled as such)"
+  },
+  {
+   "id": 2,
+   "date": "2026-10-28 13:05 KST",
+   "type": "POST HOC (labelled): audit finding on the spectral-radius estimator; implementation correction of MY metric (no rule, threshold or verdict-mapping change)",
+   "observed": "Stage E first run (preserved in out/stageE_v1_wl53rho): the floor scene (WL53 slab over a Lambert floor) reported rho(R) = 0.7244 (C0, equal to WL53's stored value), 0.3866 (CASP) and 0.1795 (uniform s = 4) from p53_compose.spectral_radius, although all arms converged in the same 38 iterations to the same totals (slab R flux 21.86 / 21.99, floor 104.38 / 104.48) and one K-C step transfers identical fluxes (floor to slab 0.1294-0.1295, slab to floor 0.4852). scipy Arnoldi on the matrix-free K C operator gives top |lambda| = 0.7292 / 0.7318 / 0.7324 (s = 1 / 2 / 4), each as a +- pair (bipartite slab <-> floor exchange)",
+   "diagnosis": "p53_compose.spectral_radius iterates A and reports the last norm ratio; with a +- pair the iterate alternates between two modes and the ratio is not |lambda_1|. It is not a valid estimator for bipartite couplings; it was within 1 % for the coarse floor scene by luck and under-reports refined operators by 2-4x. The WL53 values of rho (gap4 0.816 / 0.738 / 0.452, ...) used this estimator; WL53's convergence statements (iterations, residual 1e-7) do not depend on it",
+   "change": "c54_casp.rho_robust: power iteration on A^2 from a positive start, sqrt of the flux-sum ratio. Every WL54 arm reports rho (robust) and rho_wl53_power300 side by side. Validation rule fixed now: the robust estimator is accepted if it matches the Arnoldi top |lambda| within 2 % in every case of c54_rho_check.py (floor and gap4, s = 1 and 2); otherwise rho is reported as the Arnoldi value only",
+   "consequence": "Stage E was re-run with the robust estimator (same seeds, same predictions); the K control (c54_kfine.py) was launched before the correction and reports only the WL53 estimator: its rho values are not used"
   }
  ]
 }
