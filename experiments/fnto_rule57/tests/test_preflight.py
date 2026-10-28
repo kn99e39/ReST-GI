@@ -18,9 +18,11 @@ def main(out):
     def memory():
         x=torch.zeros(1024,device='cuda');g=dict(node=x);st=dict(z=x,s=x[:10],d=x.view(256,4));co=dict(W=torch.ones(37,device='cuda'))
         m=cache_record(g,st,co);assert m['geometry_bytes']==4096 and m['compact_incremental_bytes']==0 and m['coefficient_incremental_bytes']==148 and m['full_total_bytes']==4244
+        parameter=torch.nn.Parameter(torch.ones(13,device='cuda'));pm=cache_record(g,st,co,iter([parameter]))
+        assert pm['parameters_bytes']==52 and pm['all_retained_bytes']==4296
         sparse=torch.sparse_coo_tensor(torch.tensor([[0,1],[1,2]],device='cuda'),torch.ones(2,device='cuda'),(3,3)).coalesce()
         assert bytes_of(sparse)==40
-        return dict(aliased_D_storage_counted_once=m,sparse_indices_values_bytes=bytes_of(sparse))
+        return dict(aliased_D_storage_counted_once=m,parameter_iterator_counted_in_total=pm,sparse_indices_values_bytes=bytes_of(sparse))
     test('unique_storage_identity_alias_views_and_sparse',memory)
     def rigid():
         _,v=RG.mesh('rest');R=RG.G.rot((1,2,3),37);t=np.array([.03,-.02,.011]);world=RG.G.map_rigid(v,R,t)
