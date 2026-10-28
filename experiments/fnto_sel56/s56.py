@@ -167,11 +167,13 @@ def compose(state,raw,rep,arm,external_N=64_000_000,prepared_K=None,seed_field=5
     return pred,meta
 
 def update(state,arm,rep,replay=False,independent=False):
+    before=subprocess.run(['nvidia-smi','--query-compute-apps=pid,process_name,used_memory','--format=csv,noheader'],capture_output=True,text=True).stdout.strip()
     torch.cuda.reset_peak_memory_stats(); a=time.perf_counter()
     raw,ownership,package_time=load_packages(state,arm,rep,do_build=not replay,independent=independent)
     pred,meta=compose(state,raw,rep,arm)
     meta.update(state=state,arm=arm,rep=rep,replay=replay,independent_clean=independent,packages=ownership,dirty_domains=SF.dirty(state),
        package_seconds=package_time,total_update_seconds=package_time+meta['update_shared_seconds'],observed_wall_seconds=time.perf_counter()-a,
+       gpu_processes_before=before,process_pid=os.getpid(),
        start_commit=(ROOT/'repo_commit.txt').read_text().strip(),hardware=subprocess.run(['nvidia-smi','--query-gpu=name,utilization.gpu,memory.used','--format=csv,noheader'],capture_output=True,text=True).stdout.strip())
     tag=f'{state}_{arm}_r{rep}'+('_ind' if independent else '_replay' if replay else '')
     out=OUT/'runs';out.mkdir(parents=True,exist_ok=True); np.savez(out/(tag+'.npz'),**pred);dump(meta,out/(tag+'.json'))
@@ -241,11 +243,12 @@ def reference_gate():
 
 def audit():
     import platform
+    import importlib.metadata as im
     files={}
     for folder in ('phys_ref53','fnto_c54','fnto_k55'):
         for p in sorted((Path(__file__).resolve().parent.parent/folder).rglob('*')):
             if p.is_file() and '__pycache__' not in str(p): files[str(p.relative_to(Path(__file__).resolve().parent.parent))]=hash_file(p)
-    dump(dict(platform=platform.platform(),python=sys.version,torch=torch.__version__,cuda=torch.version.cuda,source_hashes=files,
+    dump(dict(platform=platform.platform(),python=sys.version,torch=torch.__version__,cuda=torch.version.cuda,packages={p:im.version(p) for p in ('numpy','torch','mitsuba','drjit','scipy','matplotlib')},source_hashes=files,
         historical_repo_commit=(HIST/'repo_commit.txt').read_text(),gpu=subprocess.run(['nvidia-smi'],capture_output=True,text=True).stdout),OUT/'environment.json')
 
 if __name__=='__main__':

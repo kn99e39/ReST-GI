@@ -132,6 +132,23 @@ def main():
                 diff=(b-a)/np.maximum(den,1e-30);noise=np.hypot(np.abs(a[0]-a[1])/2,np.abs(b[0]-b[1])/2)/np.maximum(den,1e-30)
                 independent.append(dict(cam=cam,group=gn,mode=mode,difference_by_seed=diff,empirical_SE=noise,passed=np.abs(diff)<=3*noise+1e-4))
     res['independent_clean']=independent
+    sensitivities={}
+    for kind in ('field','C'):
+        f=S.OUT/f'noise_{kind}.npz'
+        if not f.exists():continue
+        z=np.load(f);base=load('dent','S',0);rr=[]
+        for cam,units in cyc.items():
+            key=S.CM.dirkey(F.scene('dent')['cams'][cam]['dir']);u=units['amended']
+            for gn in np.unique(lab[u['sel']]):
+                mask=u['sel']&(lab==gn)
+                if mask.sum()<5:continue
+                den=u['mean'][mask].mean(0)
+                for mode in ('nee_ball','bin'):
+                    diff=(pred(z,key,mode)[mask]-pred(base,key,mode)[mask]).mean(0)/np.maximum(den,1e-30)
+                    rr.append(dict(cam=cam,group=gn,mode=mode,relative_group_difference=diff))
+        sensitivities[kind]=rr
+    res['sampling_sensitivity']=sensitivities
+    if (S.OUT/'resident_rigid.json').exists():res['resident_rigid']=json.load(open(S.OUT/'resident_rigid.json'))
     S.dump(res,S.OUT/'analysis.json')
     print(json.dumps(S.CM.jclean(dict(equivalence=res['equivalence'],cost_summary=res['cost_summary'])),indent=1))
 
