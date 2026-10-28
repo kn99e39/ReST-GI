@@ -1,0 +1,186 @@
+{
+ "protocol": "fnto_k55",
+ "title": "WL55 - Spatially Resolved Intrinsic K Boundary Interface: Bounded Architecture Falsification",
+ "date": "2026-10-28",
+ "status": "committed with the Stage A / B code BEFORE any WL55 evidence run; Stage C/D/E/F rules below are fixed now; amendments are appended, never edited in place",
+ "authorisation": "user brief 'ReST-GI - Worklog 55: Spatially Resolved Intrinsic K Boundary Interface - Bounded Architecture Falsification' (2026-10-28) + branch policy: work directly on Selective_Recompute, no branch / worktree",
+ "base_commit": "4269869ce5ab965c30eb1994ccf26c660ea55de6",
+ "isolation": {
+  "code": "experiments/fnto_k55 (new). experiments/phys_ref53 and experiments/fnto_c54 are imported unchanged.",
+  "results": "results/fnto_k55 (small files), results/evaluation/55 (figures + manifest); operators and images stay on LabServer69 ~/rest_wl55",
+  "server": "LabServer69 (RTX 3090 24 GB, 16 cores, 125 GB RAM), TMPDIR on /home (root filesystem 99 % full; lab-managed, untouched)",
+  "frozen": [
+   "WL53 TR oracle, C caster, solver, sun term, fixtures, stored T matrices and Cycles references",
+   "WL54 C0 / CASP code, parameters and stored results",
+   "material parameters (sigma_t 1000 m^-1, albedo 0.999/0.99/0.9, isotropic), lights, the 3 % rule and the WL53 / WL54 comparison rules",
+   "K44 / DASQ / WL52 Learned C / production FNTO (not read or written)"
+  ]
+ },
+ "source_verification_result_before_protocol": {
+  "local_head_equals_origin": "Selective_Recompute == origin/Selective_Recompute (c69900a at session start; 1a9970c committed 14:59 by a parallel session: bpy_native.sh + launcher switch)",
+  "wl54_branch": "wl54_explicit_c was fast-forwarded into Selective_Recompute and deleted (user request, 2026-10-28); all WL54 commits 7d7a348..c69900a are ancestors of HEAD and visible on GitHub (gh api commits/c69900a resolves). The reviewer's access gap is the deleted branch name, not missing evidence.",
+  "evidence": "results/fnto_c54 (JSON + coarse arrays) committed; Cycles images and T matrices present on LabServer69 (~/rest_wl53/results 19 GB T, ~/rest_wl54/out)",
+  "provenance_note": "WL54 amendment-3 renders used experiments/fnto_c54/bpy_native.sh, which was committed only afterwards (1a9970c).",
+  "parallel_session_commits": "1a9970c (bpy_native.sh, Cycles without Docker) and 4269869 (p53_mi temporary PLY files under $P53_TMPDIR, results unchanged per that session: WL53 tests 9/9 identical) were committed by a parallel session during WL55 setup; WL55 code runs on 4269869 and re-runs the WL53 / WL54 regression tests itself"
+ },
+ "disclosed_priors": [
+  "P1 (formed by the agent from stored WL54 numbers before any WL55 run): WL53's camera readout KC (p53_tracer) records next-event estimates at collisions only and excludes the unscattered (ballistic) term, justified as exp(-10) through 1 cm. For OBLIQUE views near an edge the line of sight crosses a thin medium wedge (e.g. obot through the top 1-3 mm of slab_lo's -y face) and sees another bright surface (slab_hi's bottom) through it. A rough estimate from amend3_vol.json signals (transmission ~0.3 over a 2 mm band, seen radiance 3.7x / 3.5x / 1.6x the group's mean in R / G / B) predicts a missing ~23 / 22 / 10 %, close to the observed -22.1 / -20.0 / -10.7 %. This is a HYPOTHESIS to be tested by rule B-E, not a result.",
+  "P2: WL54's matched-resolution K control (c54_kfine) used Dout = Din = 16 (4x4 / 4x4) at both resolutions and C with 128 / 32 rays per out-cell, unlike WL53 production (8x8 out / 4x4 in, 128 rays per out-cell at 64 out-bins). WL55's matched arms use 8x8 / 4x4 at every resolution.",
+  "P3: before this commit only implementation smoke runs were made on LabServer69 (tests/test_k55.py, two debug passes: a COR source-weight bug (each pool refill normalised to the full source flux) was found and fixed, and two test tolerances were set to their declared values (ballistic MC sample count; leak rate per stage_D). No comparison against any reference or stored WL54 evidence was computed."
+ ],
+ "definitions": {
+  "groups": "port group = component : rest face (WL53 p53_report.port_groups); ruled iff >= 5 ports and >= 2 % of the camera's reference signal",
+  "units": {
+   "declared": "WL53: interior unit (centre + 4 corner rays at 0.1/0.9 hit the same port), >= 30 pixels per port",
+   "amended": "WL54 A1: centre-ray unit, >= 30 pixels AND >= 90 % of the port's expected pixel count (projected area / pixel area)",
+   "primary": "amended; the declared unit is always reported next to it"
+  },
+  "bias": "B = sum_ports(pred - ref) / sum_ports(ref) per group and channel",
+  "SE": "sqrt(SE_ref^2 + SE_oracle^2); SE_ref from Cycles seeds (std/sqrt(n) per port, summed in quadrature); SE_oracle = |B(seed 1) - B(seed 2)| / 2 where two oracle (K) seeds exist",
+  "rule_3pct": "a ruled group/channel passes iff |B| <= 0.03 + 3 SE (WL53 historical composition contract, unchanged)",
+  "reference": "Cycles 3.5.1 volume path tracing (WL53 validated scope), CPU, 1024 spp, 0.5 mm pixels unless stated, 2 seeds (WL55 renders 5501 / 5502; known-field 5511 / 5512; held-out 5521 / 5522; Stage E 5531 / 5532)"
+ },
+ "stage_A": {
+  "purpose": "independent audit of WL54 (source + evidence)",
+  "A1_provenance": "list WL54 commits, confirm ancestry; diff the LabServer69 code copy (~/rest_wl54/repo, recorded commit ea6555c) against git for experiments/phys_ref53 and experiments/fnto_c54",
+  "A2_replay": "recompute with NEW group-statistics code (k55_common.group_bias, written from these definitions; WL54's group_stats is not called) from stored arrays + Cycles images: (a) the 36 amended Lambert groups at 0.5 mm (C0, F16, C1) and the 0.25 mm addendum table; (b) the CASP gap8 obot slab_hi:bot +6.3 %; (c) Stage E CASP vs C0 on gap4 / gap8 medium (max |delta| over groups); (d) the matched 1 cm / 5 mm K control table; (e) gap8 obot slab_lo:-y at 1 / 0.5 / 0.25 mm. Rule: REPRODUCED iff |replay - reported| <= 0.1 percentage point; otherwise DISCREPANCY, investigated and reported.",
+  "A3_code_audit": "refine_mesh area conservation on bend90 / dent (<= 1e-12 rel); cast_adaptive column closure (C column sum + escape == 1 per out-cell within float32 1e-6); ray-budget equality across arms; coarse aggregation weights (area vs projected area) on curved ports; A^2 spectral-radius estimator vs scipy Arnoldi on 2 operators (<= 1e-4 rel); coverage rule effect (groups changing ruled status declared -> amended); kfine configuration differences (P2).",
+  "defect_rule": "a defect that changes a WL54 conclusion is fixed in isolation (new file), the original run is preserved, affected controls are repeated"
+ },
+ "stage_B": {
+  "purpose": "attribute the residual medium-transport errors BEFORE choosing a representation",
+  "instruments": {
+   "COR": "continuous oracle (k55_cor.py): a multi-domain path tracer with TR's medium physics (same free flight, phase, albedo weighting, Russian roulette, float64 accumulators), exact positions / directions everywhere, air segments traced with the scene intersector, Lambert reflection, black absorbers, Lambertian emitters; NO ports and NO bins in the transport. Readout per port: medium = next-event radiance toward each camera direction (identical estimator to KC), Lambert = rho/pi E. It is the limit of the K/C composition for infinitely fine ports and bins. Diagnostic instrument, never the reference.",
+   "KB": "ballistic (unscattered) camera-readout term. Composition: KB[i <- (j,b)] = projected-area average over port i of exp(-sigma_t s) / (A_j pi / Din) for the backward camera ray from port i that exits the medium through cell j with outward direction in bin b (interface-consistent: in-cell radiance uniform over cell and bin). COR: the same backward ray continued through air to the seen surface, whose radiance toward the camera is COR's own per-triangle readout (medium NEE, Lambert rho/pi E, emitter analytic). Readouts: nee (= WL53) and nee+KB.",
+   "OPS": "sparse TR operators (k55_ops.py) on refined cell meshes of the WL53 ports (c54_casp.refine_mesh, welded): uniform levels s = 1 / 2 / 4 (10 / 5 / 2.5 mm) with 8x8 out / 4x4 in bins, 2048 photons per in-cell, T stored sparse (<= one entry per photon exit), KC accumulated on the coarse 1 cm output ports (the compared quantity; exact aggregation of NEE flux). Seeds: 1 cm 5541 / 5542, 5 mm 5551 / 5552, 2.5 mm 5561 / 5562 (slab rest); bend90 2.5 mm 5563 / 5564, dent 2.5 mm 5565 / 5566 (also used by Stage E); 1 cm Din 64 (8x8 in) 5543. Camera directions: top, bot, otop, obot, obotx = (-sin50, 0, -cos50).",
+   "matched_composition": "K and C at the same cells: C = c54_casp.cast_adaptive with equal ray density (128 rays per out-cell at 1 cm, 32 at 5 mm, 8 at 2.5 mm, 64 out-bins), sun term = TR.run_sun on the cell mesh (16 M photons per medium domain, seeds 5591 + domain), Lambert floor at the same cell level; solve = p53_compose.solve unchanged; spectral radius = A^2 estimator (c54_casp.rho_robust); C seeds 5581 (replicate 5582 at 1 cm).",
+   "known_field_fixtures": "gap4 / gap8 geometry; slab_lo = medium; slab_hi replaced by a black box. Fields: U = slab_hi bottom is a one-sided Lambertian emitter of radiance 1; X = radiance exp(-(x + 0.05)/0.005) (decay from the -x opening, ~7x per cm, the WL54 near-contact profile); S = no emitter, the gap8/gap4 sun (black slab_hi). Single flight by construction (exits are absorbed). Cycles cams gapdown, obot, obotx, bot (0.5 mm, 2 seeds). Arms: COR (exact field and transport) and K_s (s = 1, 2, 4) applied to the exactly cast binned field (64 M emitter rays) with nee and nee+KB readouts. For S: TR.run_sun exact sun term (= composition L0) and the binned-sun diagnostic.",
+   "outgoing_test": "S fixtures: arrival flux on the black slab_hi bottom per 2.5 mm triangle pair and per 1 cm port from (i) COR (exact exits) vs (ii) TR.run_sun out-cells at level s emitted uniformly per (cell, out-bin) through C (equal ray density). Measures the outgoing spatial / directional aggregation B relative to the continuous field (same TR physics).",
+   "cycles_full": "gap4, gap8 (cams gapdown, gapup, obot, obotx, bot, top, otop), floor, bend90 (cams top, otop, underup, underdown) at 0.5 mm, 2 seeds; WL53 1 mm renders are reported as the historical reference"
+  },
+  "scenes": [
+   "gap4",
+   "gap8",
+   "floor",
+   "bend90"
+  ],
+  "arms": {
+   "P10_wl53": "stored WL53 production prediction (part_s1 / current), frozen baseline",
+   "P10": "1 cm K + 1 cm C (rebuilt with the WL55 operators; seeds s1 / s2)",
+   "P05": "5 mm K + 5 mm C (matched; s1 / s2)",
+   "P025": "2.5 mm K + 2.5 mm C (declared finer diagnostic: purpose = test whether the spatial part converges; cost limit: one 126 M-photon TR run per seed per geometry, operators <= 20 GB each)",
+   "P10_din64": "1 cm with 8x8 incoming bins (directional control)",
+   "P10_c2": "1 cm with C seed 5582 (C sampling noise)",
+   "COR": "two seeds 5571 / 5572, 64 M sun photons each"
+  },
+  "decomposition": "per ruled group / channel / readout: T = B(arm vs Cycles); R = B(COR vs Cycles); I = B(arm vs COR) (interface)",
+  "rules": {
+   "B-COR-valid": "COR is usable iff (i) isolated slab iso_L2: COR vs TR.run_sun KC group bias <= 0.3 % on ruled groups; (ii) floor_lam (Lambert only): COR vs WL54 F16 <= 1 % on the ruled amended groups; (iii) COR vs Cycles on directly lit medium faces (top / -x of the full scenes) <= 1 %. If it fails, COR is not used for attribution and the failure is reported.",
+   "B-E (readout)": "a group's error is readout-dominant iff adding KB reduces |T| by >= 50 % in >= 2 channels (applied to P10 and to COR vs Cycles). The gap8 obot slab_lo:-y group is the explicit target of P1.",
+   "B-R (reference / physics / comparison)": "after the readout correction, |R| > max(1 %, 3 SE) and |R| >= 0.5 |T| -> the group's error is not the interface; reported with its comparison-unit (declared / amended) and pixel-size sensitivity",
+   "B-I (interface)": "|I| >= max(1 %, 0.5 |T|): interface error. Sub-attribution: SPATIAL iff |I| decreases monotonically 10 -> 5 -> 2.5 mm and |I(2.5)| <= 0.5 |I(10)|; DIRECTIONAL iff |I(din64) - I(10)| >= |I(10)| / 3; ORACLE NOISE iff |I(s1) - I(s2)| >= |I| / 2; C NOISE iff |I(c1) - I(c2)| >= |I| / 2",
+   "B-KF (K-side spatial loss, single flight)": "on the known fields U / X, the K_s vs COR group bias at s = 1 >= 1 % (|.| > 3 SE) and at s = 4 <= half of it -> incident spatial aggregation loss (A) demonstrated for that group; the outgoing test with pooled |error| >= 1 % or per-port p90 >= 5 % at s = 1 that halves at s = 4 -> outgoing aggregation loss (B) demonstrated",
+   "gate_C": "the K boundary-information limit is DEMONSTRATED iff (B-I SPATIAL on >= 1 ruled medium near-contact group in >= 2 channels, after the readout correction) AND (B-KF shows A or B loss). Otherwise Stage C is not entered and the actual limiting factor is reported."
+  }
+ },
+ "stage_C": {
+  "candidate": "CAK - contact-adaptive co-refined K/C boundary cells (ONE mechanism, predeclared before Stage B evidence)",
+  "semantics": {
+   "boundary_coordinates": "cells are sub-squares of the WL53 rest ports (material coordinates), built exactly on the triangulated surface (c54_casp.refine_mesh, welded); levels l in {1, 2, 4} per port (10 / 5 / 2.5 mm)",
+   "level_rule": "the CASP geometry-only rule on the CURRENT geometry of all components (256 cosine rays per coarse port, near if t < 4 h, nu_min 0.05, l = clamp(2^ceil(log2(c h / d)), 1, l_max), c = 2), l_max = 4. Applied to medium AND Lambert ports.",
+   "spatial_directional_basis": "piecewise constant per cell; directions 8x8 out / 4x4 in (Shirley-Chiu + Malley, equal projected solid angle) in each triangle's frame (current normal + affine image of the rest tangent), unchanged",
+   "normalisation": "flux per (cell, bin); in-cell radiance uniform over cell and bin (L = phi / (A pi / D))",
+   "K_on_cells": "K_cells = R_out K_fine P_in, K_fine = TR oracle on the uniform 2.5 mm cell mesh of the domain (material coordinates); P_in distributes a cell's in-flux over its fine sub-cells by area (same in-bin); R_out sums fine out-cells (same out-bin); KC_cells = KC_fine P_in (coarse output ports). Equal in expectation to a TR run on the cells.",
+   "correspondence": "source and receiver cells are the same objects for K and C (identity mapping)",
+   "C": "c54_casp.cast_adaptive on the cell mesh, equal ray budget per coarse port (8192 = 128 x 64)",
+   "sun_term": "TR.run_sun on the 2.5 mm mesh, out-cells summed to the cells (exact first order)",
+   "readout": "L0 + (KC_cells [+ KB_cells if B-E adopts it]) phi_in_ind; Lambert rho/pi (E_ext + E_ind)",
+   "rigid": "K_fine is reused (invariant in material coordinates, WL53); a rigid move that changes contacts re-levels the cells and re-aggregates K_cells, no new TR",
+   "non_rigid": "K_fine is configuration dependent (stale vs current evaluated in Stage E); levels follow the current geometry",
+   "cost": "K_fine storage and TR time are oracle costs; K_cells nnz <= nnz(K_fine); unknowns follow near-contact area"
+  },
+  "falsifiers": "CAK is falsified for its purpose if it fails to recover >= 50 % of the uniform-2.5 mm arm's error reduction on the ruled near-contact medium groups, or if it fails a Stage D operator test, or if its coupled errors on the held-out geometry exceed the uniform 1 cm arm's",
+  "reference_arms": "uniform 10 / 5 mm (mandatory matched pair) and 2.5 mm (declared finer diagnostic) - all with matched K/C",
+  "amendment_condition": "if Stage B shows that the dominant K-side loss is not spatial (e.g. directional) CAK is not built and the dependency is reported (no second candidate)"
+ },
+ "held_out": {
+  "gap6s": "two slabs, 6 mm gap, slab_hi translated by (3.7, -2.1) mm in x / y (port grids misaligned, no rotation so camera directions stay valid for KC), sun zenith 35 deg azimuth 25 deg; cams gapdown, gapup, obot, obotx, bot; Cycles 5521 / 5522 rendered only after the candidate and every rule are frozen; NOT used in Stage B or to design / select anything",
+  "floor_c4": "Stage E near-contact geometry change: the floor scene's slab rigidly lowered to 4 mm clearance and shifted (2.3, 1.7) mm; under-cameras at z = 2 mm; Cycles 5531 / 5532 after freeze"
+ },
+ "stage_D": {
+  "operator_tests": [
+   "zero field -> 0",
+   "linearity / superposition <= 1e-6 rel",
+   "passivity: max column sum <= 1 + 3 SE",
+   "energy closure at albedo 1 on a small 2 x 2 x 1 cm block at 2.5 mm: column sums == 1 (leaks <= 1e-5)",
+   "reciprocity: port-pair area-weighted asymmetry <= cross-seed noise x 1.2",
+   "boundary correspondence: cells nest in ports, area sums exact (1e-12)",
+   "flux preservation across resolutions: K_cells column sums == area-weighted K_fine column sums (1e-6)",
+   "rigid-frame consistency: K_fine of the small block at a rigid pose vs rest, ||dK|| / ||seed noise|| in [0.85, 1.15]",
+   "no K/C overlap: zero C back-face hits, K walk isolated (leaks + wrong side <= 1e-5)",
+   "stable repeated composition: rho (A^2) < 1 and converged",
+   "directional readout: KC + KB vs COR on directly lit faces <= 1 %"
+  ],
+  "coupled": "arms P10, P10 + CASP (WL54 C1 equivalent: medium coarse), P05, P025, CAK on gap4, gap8, floor, bend90 (design) and gap6s (held-out); readout nee and nee+KB; both units",
+  "verdict": "RESTORED iff every ruled medium group / channel passes rule_3pct on design and held-out scenes; otherwise PARTIAL with counts per arm; operator correctness separately"
+ },
+ "stage_E": {
+  "conditions": [
+   "rigid: floor -> floor_c4 (K_fine reused, cells re-levelled) and the small-block rigid test",
+   "bend90 (stale rest K_fine vs current)",
+   "dent",
+   "near contact: floor_c4"
+  ],
+  "metrics": [
+   "||K_cur - K_rest|| / ||seed noise|| at 2.5 mm, aggregated to CAK cells and to 1 cm port pairs",
+   "spatial support (energy within distance bins / dent support)",
+   "directional structure (energy by out-bin ring)",
+   "column-sum changes",
+   "coupled radiance difference D = pred(stale) - pred(current) per group with K-seed SE",
+   "error vs Cycles for both",
+   "temporal change tracking rest -> deformed (per-port slope / corr)"
+  ],
+  "rules": {
+   "A_detect": "||dK|| / ||noise|| >= 3",
+   "B_predict": "predicted temporal change (current K) vs Cycles: per-port slope in [0.9, 1.1] and corr >= 0.9 on ruled groups",
+   "C_rank": "per group: |D| > 2 (|B_current| + 3 SE) AND |B_current| < |B_stale| by > 3 SE_D (WL54 rule extended); otherwise ranking NOT SUPPORTED with the limiting term (bias floor vs oracle variance) identified"
+  }
+ },
+ "stage_F": {
+  "measure": [
+   "TR oracle construction time / photons",
+   "K storage (nnz, bytes)",
+   "cell counts per arm",
+   "C build time",
+   "K application and C application time per iteration",
+   "coupled solve time and iterations",
+   "re-levelling + re-aggregation time after a rigid contact change",
+   "peak GPU / CPU memory"
+  ],
+  "scaling": [
+   "port resolution 10 / 5 / 2.5 mm",
+   "number of domains (1 / 2 slabs)",
+   "near-contact density (gap 4 / 6 / 8 mm, floor 1 cm / 4 mm)",
+   "directional coefficients (Din 16 / 64)",
+   "deformation complexity (rigid / dent / bend)"
+  ],
+  "tractability_rule": "CONDITIONALLY SUPPORTED iff CAK recovers >= 80 % of the uniform-2.5 mm error reduction (vs P10) at <= 50 % of its unknowns on the design scenes; no inference-speed claim"
+ },
+ "resource_limits": {
+  "gpu": "24 GB, one process at a time",
+  "operators_on_home": "<= 150 GB",
+  "gpu_time_guideline": "<= 16 h",
+  "cycles_cpu_guideline": "<= 12 h"
+ },
+ "stop_conditions": [
+  "source / evidence unverifiable",
+  "unresolved reference error blocks attribution",
+  "dominant error not related to K boundary representation (-> report, no candidate)",
+  "K/C ownership breaks",
+  "a Stage D physical test fails without a defect fix",
+  "a second architecture hypothesis would be needed",
+  "unbounded representation-class expansion",
+  "further compute cannot change the decision"
+ ],
+ "amendments": []
+}

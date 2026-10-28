@@ -1,0 +1,117 @@
+"""WL55 Cycles 3.5.1 references (protocol fnto_k55): WL53 settings (p53_cycles.reset: CPU, no denoising / adaptive sampling / clamping,
+1024 bounces, Gaussian 0.01 point-sampled pixels) and materials (volume = Volume Scatter + Absorption inside a white Transparent BSDF),
+plus WL55's one-sided Lambertian emitter (Emission, strength = radiance profile; back faces emit nothing; no BSDF, so it absorbs).
+
+    bpy_native.sh k55_cycles.py -- <out dir> units
+    bpy_native.sh k55_cycles.py -- <out dir> render <scene> <cam,...|all> <seed,...> [spp=1024] [threads=12]
+Image rows are bottom-up (bpy); camera geometry is saved to ccam_<scene>.json for pixel classification."""
+import json
+import math
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE)); sys.path.insert(0, str(HERE.parent / "phys_ref53")); sys.path.insert(0, str(HERE.parent / "fnto_c54"))
+import bpy  # noqa: E402
+
+import p53_cycles as PC  # noqa: E402
+import k55_fixtures as KF  # noqa: E402
+
+
+def emitter_material(profile):
+    m = bpy.data.materials.new(f"emit_{profile}"); m.use_nodes = True; nt = m.node_tree; nt.nodes.clear()
+    out = nt.nodes.new("ShaderNodeOutputMaterial"); em = nt.nodes.new("ShaderNodeEmission"); em.inputs["Color"].default_value = (1, 1, 1, 1)
+    geo = nt.nodes.new("ShaderNodeNewGeometry")
+    if profile == "U":
+        em.inputs["Strength"].default_value = 1.0
+    elif profile == "X":
+        sep = nt.nodes.new("ShaderNodeSeparateXYZ"); nt.links.new(geo.outputs["Position"], sep.inputs[0])
+        a = nt.nodes.new("ShaderNodeMath"); a.operation = "ADD"; a.inputs[1].default_value = 0.05; nt.links.new(sep.outputs["X"], a.inputs[0])
+        b = nt.nodes.new("ShaderNodeMath"); b.operation = "MULTIPLY"; b.inputs[1].default_value = -1.0 / KF.LAMBDA_X; nt.links.new(a.outputs[0], b.inputs[0])
+        e = nt.nodes.new("ShaderNodeMath"); e.operation = "POWER"; e.inputs[0].default_value = math.e; nt.links.new(b.outputs[0], e.inputs[1])
+        nt.links.new(e.outputs[0], em.inputs["Strength"])
+    else:
+        raise KeyError(profile)
+    blk = nt.nodes.new("ShaderNodeEmission"); blk.inputs["Strength"].default_value = 0.0
+    mix = nt.nodes.new("ShaderNodeMixShader"); nt.links.new(geo.outputs["Backfacing"], mix.inputs[0])
+    nt.links.new(em.outputs[0], mix.inputs[1]); nt.links.new(blk.outputs[0], mix.inputs[2]); nt.links.new(mix.outputs[0], out.inputs["Surface"])
+    return m
+
+
+def build(sd):
+    for n, k, m, V in sd["comps"]:
+        if k == "medium":
+            mat = PC.material("vol")
+        elif k == "lambert":
+            mat = PC.material("lam", 0.8)
+        elif k == "black":
+            mat = PC.material("black")
+        else:
+            mat = emitter_material(sd["emit"][n])
+        PC.mesh_obj(n, V, m["F"], mat)
+
+
+def setup(spp, seed, threads):
+    sc = PC.reset(spp, seed, bounces=1024); sc.render.threads_mode = "FIXED"; sc.render.threads = threads
+    return sc
+
+
+def st_units(out, threads):
+    """Emitter calibration: (a) a camera sees an emitter of strength 1 directly -> radiance 1; (b) a Lambert 0.8 square (2 cm) 1 cm below
+    a 1 m x 1 m emitter -> radiance 0.8 F (F = 0.99960 at the centre, area mean computed in the analysis); (c) the X profile seen directly."""
+    rec = {}
+    for case in ("direct_U", "lambert_U", "direct_X"):
+        sc = setup(256, 5509, threads)
+        prof = "X" if case.endswith("X") else "U"
+        if case == "lambert_U":
+            Ve = np.array([[-0.5, -0.5, 0.01], [-0.5, 0.5, 0.01], [0.5, 0.5, 0.01], [0.5, -0.5, 0.01]]); Fe = np.array([[0, 1, 2], [0, 2, 3]])  # normal -z
+            PC.mesh_obj("e", Ve, Fe, emitter_material(prof))
+            Vr = np.array([[-0.01, -0.01, 0], [0.01, -0.01, 0], [0.01, 0.01, 0], [-0.01, 0.01, 0]]); Fr = np.array([[0, 1, 2], [0, 2, 3]])         # normal +z
+            PC.mesh_obj("r", Vr, Fr, PC.material("lam", 0.8))
+            cam = dict(origin=(0, 0, 0.005), target=(0, 0, 0), width=0.02)
+        else:
+            Ve = np.array([[-0.06, -0.06, 0.0], [-0.06, 0.06, 0.0], [0.06, 0.06, 0.0], [0.06, -0.06, 0.0]]); Fe = np.array([[0, 1, 2], [0, 2, 3]])  # normal -z
+            PC.mesh_obj("e", Ve, Fe, emitter_material(prof))
+            cam = dict(origin=(0, 0, -0.05), target=(0, 0, 0), width=0.11)
+        res = 110 if case != "lambert_U" else 40
+        ob, g = PC.ortho(case, cam, res); img = PC.render(sc, ob, res, 256, 5509)
+        np.save(out / f"units_{case}.npy", img.astype(np.float32)); rec[case] = dict(geo=g, mean=float(img.mean()))
+        PC.log("units", case, rec[case]["mean"])
+    json.dump(rec, open(out / "units.json", "w"), indent=1)
+
+
+def st_render(out, scene, cams, seeds, spp, threads):
+    sd = KF.scene_def(scene); geo = {}
+    if (out / f"ccam_{scene}.json").exists():
+        geo = json.load(open(out / f"ccam_{scene}.json"))
+    cams = list(sd["cams"]) if cams == ["all"] else cams
+    for seed in seeds:
+        todo = [c for c in cams if not (out / f"cimg_{scene}_{c}_s{seed}.npy").exists()]
+        if not todo:
+            continue
+        sc = setup(spp, seed, threads); build(sd)
+        for i, (s, E) in enumerate(sd["lights"]):
+            PC.sun(s, E, f"sun{i}")
+        for cam in todo:
+            c = sd["cams"][cam]; ob, g = PC.ortho(cam, c, c["res"]); geo[cam] = g
+            t0 = time.time(); img = PC.render(sc, ob, c["res"], spp, seed)
+            np.save(out / f"cimg_{scene}_{cam}_s{seed}.npy", img.astype(np.float32)); PC.log(scene, cam, seed, c["res"], f"{time.time() - t0:.0f}s")
+            json.dump(geo, open(out / f"ccam_{scene}.json", "w"), indent=1)
+
+
+def main():
+    a = sys.argv[sys.argv.index("--") + 1:]; out = Path(a[0]); out.mkdir(parents=True, exist_ok=True)
+    PC.OUT = out; PC.LOG = open(out / "cycles.log", "a")
+    kv = dict(x.split("=") for x in a if "=" in x); pos = [x for x in a if "=" not in x]
+    threads = int(kv.get("threads", 12)); spp = int(kv.get("spp", 1024))
+    if pos[1] == "units":
+        st_units(out, threads)
+    elif pos[1] == "render":
+        st_render(out, pos[2], pos[3].split(","), [int(s) for s in pos[4].split(",")], spp, threads)
+
+
+if __name__ == "__main__":
+    main()
