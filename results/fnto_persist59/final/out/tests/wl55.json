@@ -1,0 +1,112 @@
+{
+ "tests": [
+  {
+   "slab": {
+    "area_rel_err": 8.131516293641281e-16,
+    "max_cell_to_port_centroid": 0.005303300858899138,
+    "counts_ok": true,
+    "welded_vertices": 3842
+   },
+   "bend90": {
+    "area_rel_err": 1.0053146159836201e-15,
+    "max_cell_to_port_centroid": 0.005513462382196741,
+    "counts_ok": true,
+    "welded_vertices": 3842
+   },
+   "dent": {
+    "area_rel_err": 8.131516293641281e-16,
+    "max_cell_to_port_centroid": 0.005568437851093699,
+    "counts_ok": true,
+    "welded_vertices": 3842
+   },
+   "name": "boundary_correspondence_and_area",
+   "passed": true,
+   "seconds": 0.2
+  },
+  {
+   "area_rel": 8.131516293641286e-16,
+   "max_d_over_halfdiag": 0.7641154503139274,
+   "name": "fine_to_cells_nesting",
+   "passed": true,
+   "seconds": 0.2
+  },
+  {
+   "max_rel_T": 0.0,
+   "max_rel_KC": 2.8155287168374343e-07,
+   "nnz": 36705,
+   "stats_equal": true,
+   "name": "sparse_tr_equals_dense_tr",
+   "passed": true,
+   "seconds": 4.3
+  },
+  {
+   "colsum_dev": 7.215021358142337e-09,
+   "portpair_rel_fro": 0.004340803250670433,
+   "name": "aggregation_flux_preservation_and_expectation",
+   "passed": true,
+   "seconds": 4.0
+  },
+  {
+   "zero": 0.0,
+   "linearity": 1.2906482993457757e-07,
+   "fixed_point_vs_dense": 7.6629439899901e-08,
+   "back_hits": 0,
+   "name": "zero_linearity_and_fixed_point",
+   "passed": true,
+   "seconds": 1.6
+  },
+  {
+   "L1": {
+    "mean": 0.06431662063849364,
+    "analytic": 0.06427874970589567,
+    "max_rel": 0.005858875718596931
+   },
+   "L2": {
+    "mean": 0.06438263734434393,
+    "analytic": 0.06427874970589567,
+    "max_rel": 0.01529126624477357
+   },
+   "name": "ballistic_analytic_side_face",
+   "passed": true,
+   "seconds": 0.4
+  },
+  {
+   "lambert_plane_max_rel": 0.002137041221866323,
+   "zero": 0.0,
+   "iso_top_pooled_rel": 0.00027921059380722735,
+   "leak_rate": 3.125e-07,
+   "leaks": 4,
+   "wrong": 1,
+   "back_hits": 0,
+   "name": "cor_zero_lambert_plane_and_isolated_slab",
+   "passed": true,
+   "seconds": 23.2
+  },
+  {
+   "back_hits": 0,
+   "closure_dev": 0.0,
+   "name": "ownership_no_back_hits_refined_media",
+   "passed": true,
+   "seconds": 0.1
+  },
+  {
+   "frame_err": 2.5923707624997405e-14,
+   "area_err": 2.1955093992831367e-14,
+   "name": "rigid_frames_refined",
+   "passed": true,
+   "seconds": 0.1
+  },
+  {
+   "bias": [
+    0.019999999999999987,
+    0.020000000000000046,
+    0.020000000000000018
+   ],
+   "name": "deterministic_group_stats_json",
+   "passed": true,
+   "seconds": 0.0
+  }
+ ],
+ "passed": 10,
+ "total": 10
+}

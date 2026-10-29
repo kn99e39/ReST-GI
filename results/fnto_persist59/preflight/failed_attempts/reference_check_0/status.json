@@ -1,0 +1,7 @@
+{
+ "stage": "batch",
+ "status": "FAILED",
+ "pid": 1478994,
+ "time": "2026-10-29T14:43:24+0900",
+ "error": "Traceback (most recent call last):\n  File \"/home/nd/rest_persist_v1/repo/experiments/fnto_persist59/supervisor.py\", line 59, in <module>\n    try:main()\n  File \"/home/nd/rest_persist_v1/repo/experiments/fnto_persist59/supervisor.py\", line 50, in main\n    run('reference_check',['reference_check.py'])\n  File \"/home/nd/rest_persist_v1/repo/experiments/fnto_persist59/supervisor.py\", line 34, in run\n    if not any(s in text for s in inherited.OOM):raise RuntimeError(f'{stage}: implementation or primary gate failure; see {log}')\nRuntimeError: reference_check: implementation or primary gate failure; see /home/nd/rest_persist_v1/logs/reference_check.0.log\n"
+}

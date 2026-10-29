@@ -1,5 +1,7 @@
 # Working On This Repo
 
+**persistent_intrinsic_FS_v1 COMPLETE (2026-10-29).** Actual same-checkpoint F/S execution, dependency controls, two fixed fits and uncontended cost evaluation completed. Computational equivalence/retention supported; full required learned fidelity and a physically qualified cost advantage not supported. Full evidence and scope: `docs/worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md`, `results/fnto_persist59/final/`. No candidate adoption, automatic successor or training rescue is authorised. Preserve all historical results.
+
 **2026-10-29 — persistent_intrinsic_FS_v1 authorised.** New bounded actual F/S successor in the established homogeneous-medium regime; same rule/checkpoint for full rebuild and resident selective updates. Design `docs/plans/PERSISTENT_INTRINSIC_FS_V1.md`, protocol `experiments/fnto_persist59/protocol/persist_v1.json`, chronological Worklog59. WL58 is preserved as an angular preflight negative, not an F/S result. No sharp-glossy/global-bend/self-contact claim, historical rewrite, automatic second architecture or successor. Central documents retain their assigned roles.
 
 **Document roles (user instruction, 2026-10-29).** `docs/Architecture.md` contains central structure and design contracts only. Do not append batch status, authorisation histories, measurements or verdicts there. Put execution/evidence in `docs/worklogs/`, unadopted designs in `docs/plans/`; see `docs/README.md`. Human-facing new documents belong under `docs/`.
