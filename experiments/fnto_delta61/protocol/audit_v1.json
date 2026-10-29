@@ -1,0 +1,61 @@
+{
+  "batch_id": "clean_paired_delta_audit_v1",
+  "worklog": 61,
+  "starting_commit": "bcf2932cdeb9c938d672255317103e1a58c3b8aa",
+  "poses": [
+    "rest",
+    "tr11",
+    "va1"
+  ],
+  "fields": [
+    8,
+    9
+  ],
+  "light_split": "train",
+  "replicas": 2,
+  "halves_per_replica": 2,
+  "photons_per_half": 32000000,
+  "total_photons": 768000000,
+  "seed_formula": "610000000 + pose_index*10000 + field_id*100 + replica*10 + half",
+  "reference": "Unmodified WL59 r57_action_oracle + fast walker; isolated homogeneous medium entry to first exit; no air continuation",
+  "action_chunk": 2000000,
+  "checkpoints": [
+    5901,
+    5902
+  ],
+  "coarse_noise_max": 0.02,
+  "delta_SNR_min": 3,
+  "historical_delta_error_bound": 0.35,
+  "historical_delta_correlation_min": 0.9,
+  "qualification": "Fixed two-field pooled conservative replica-difference SNR >=3 per pose/channel. All fields retained. Per-field SNR also reported; no mask/threshold change to old tests.",
+  "stop": "Identity/source mismatch, physical validation failure, or fixed-budget insufficient delta precision. No automatic retries with changed seeds/budgets or successor.",
+  "source_expected_sha256": {
+    "experiments/fnto_rule57/r57_geometry.py": "6f5ee9611217eeef61d51d3f6108c34b51c4bd63efa74505ce09a172a95fb9f9",
+    "experiments/fnto_rule57/r57_action_oracle.py": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+    "experiments/fnto_rule57/r57_fastwalk.py": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+    "experiments/fnto_rule57/r57_model.py": "d861614b4b88ea3e0c39e119d5cfcb6f4117f6a9b00be7d4fe982bb4be3d63cf",
+    "experiments/phys_ref53/p53_geom.py": "224f919742273a2e93aa41561e4fb16cee733746b32b204956204d6049597e93",
+    "experiments/phys_ref53/p53_fixtures.py": "cdccc551fbd48c518214696d854713ebde3abc8e673485ef5c5f5956ef204500",
+    "experiments/phys_ref53/p53_tracer.py": "0a5b82dd227cc7becf03b8fefaecbcf5cb9d0bf4a43889906a236cd5e65b926a",
+    "experiments/fnto_k55/k55_ops.py": "ef357a8b1ff67f1ea4f869efad7dc39ad302eb6795d914309f8b36fe3acfc3e6",
+    "experiments/fnto_c54/c54_casp.py": "06d813dc3e62fe52cb57b4d5bfeb62c94fe7b47cdff76dcffc3067f9fd5d70c0",
+    "experiments/fnto_persist59/protocol/persist_v1.json": "1e84a085c0a1916ecefe1a2607d1df30fa22fd2fbe38a2bf02a3bd0b4cc0134b"
+  },
+  "input_expected_sha256": {
+    "data/geometry/rest.pt": "7cfbcba7000ff47f0f81fa41a645566e5957d7762afec79f00ad601ff49322ac",
+    "data/training_targets/rest_r0.pt": "ab56e7d51be37657f523fa45f98741c3610900c6527368f161bf842c603cab3f",
+    "data/geometry/tr11.pt": "48220a31d5d547ab1008efe6b78cd159cd7cc129c3b1b15c8a090c37acc9361f",
+    "data/training_targets/tr11_r0.pt": "0ecb6a3b529657034d035bf6e9e2e6ef00df1dbe7a77a8723cd4e231d8b8db47",
+    "data/geometry/va1.pt": "9026c2b6ccfb04572211e1a407af7525dd6f0518abe224097bf14c5076cf73ac",
+    "data/training_targets/va1_r0.pt": "85984700eafb1b22c2c895ce57c48ccab40ebe766c68118aaa14ea089312d5b3",
+    "data/lights.pt": "a3b50edb18d5dd17915816ea57857b3204063a8a6eac55c1201126496467f46f",
+    "checkpoints/P_5901.pt": "59685b214bdf1f81079dcd56fe7a61173b90640b3c5c9fb8b3f14094729aaad6",
+    "checkpoints/P_5902.pt": "c92e4fda4bbe9cf5569d55c45a2881d95eaa58df3896748088d060b55f1aab3f"
+  },
+  "frozen_replay_dependencies": {
+    "experiments/fnto_attr60/replay.py": "b7882e850657699c5ba300dee255f8afad39ed3cc6c349359e986abb684e2436",
+    "experiments/fnto_attr60/analyze_stored.py": "058623dbb1f15ade2b7af5be96ae6d576b74ed8e850468431f495b138b657de8"
+  },
+  "baseline_replay_sha256": "f8c58f2cb074385abf3236e81d2c6907d89a613f88da9cc014be5c051212dd1e",
+  "implementation": "New audit scripts only; no original code or data mutation"
+}
