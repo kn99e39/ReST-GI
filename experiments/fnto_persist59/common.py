@@ -15,7 +15,9 @@ RG.POSES.update({k:tuple(v) for k,v in CFG['primary_pose'].items()})
 PRIMARY = list(CFG['primary_pose'])
 DIAGNOSTIC = CFG['diagnostic_poses']
 OUT, DATA = ROOT/'out', ROOT/'data'
-CONTRACT = hashlib.sha256(json.dumps(CFG['representation'],sort_keys=True).encode()).hexdigest()
+CONTRACT = hashlib.sha256(json.dumps(dict(interface=CFG['representation'],
+    material=dict(sigma_t=float(RG.FX.SIGMA_T),albedo=list(map(float,RG.FX.ALBEDO)),phase_g=float(RG.FX.G_PHASE)),
+    units='metres/flux',frame='supplied rigid material frame; current triangle normal/tangent'),sort_keys=True).encode()).hexdigest()
 
 def geometry(name, **kw):
     g=RG.geometry(name, **kw)

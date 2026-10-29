@@ -31,7 +31,16 @@ def main():
             retained=bool(torch.equal(raw[~mask['edges']],c['raw'][~mask['edges']]) and torch.equal(head[~mask['nodes']],c['head'][~mask['nodes']]))
             assert error<=1e-5 and retained
             records.append(dict(step=step,error=error,retained_bitwise=retained,audit=audit));g=new
-    dump(dict(passed=True,device='CPU',nonzero_decoder_weights=True,edits=records,
+        rejected=False
+        try:selective(Transport().eval(),c,g)
+        except ValueError:rejected=True
+        assert rejected,'A different rule object must not inherit a resident learned cache'
+        bad=dict(g,cache_contract='different-material-or-interface')
+        rejected_material=False
+        try:selective(m,c,bad)
+        except ValueError:rejected_material=True
+        assert rejected_material
+    dump(dict(passed=True,device='CPU',nonzero_decoder_weights=True,edits=records,different_rule_rejected=rejected,different_material_rejected=rejected_material,
               purpose='Exercise all learned dependency paths; complements real-geometry initial-weight GPU tests'),OUT/'nonzero_dependency_tests.json')
     print('12 sequential nonzero-weight CPU F/S dependency tests passed',flush=True)
 
