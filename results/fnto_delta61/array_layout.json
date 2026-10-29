@@ -1,0 +1,47 @@
+{
+  "poses": [
+    "rest",
+    "tr11",
+    "va1"
+  ],
+  "fields": [
+    8,
+    9
+  ],
+  "split": "train",
+  "checkpoints": [
+    5901,
+    5902
+  ],
+  "units": "RGB outgoing flux; sum aggregation, no radiance/image readout",
+  "axes": {
+    "half_actions": [
+      "pose",
+      "field",
+      "replica",
+      "half",
+      "coarse_material_port(240)",
+      "out_bin(16)",
+      "RGB"
+    ],
+    "half_variances": "same axes as half_actions; per aggregated half-mean variance",
+    "reference": [
+      "pose",
+      "field",
+      "coarse_material_port(240)",
+      "out_bin(16)",
+      "RGB"
+    ],
+    "reference_mean_variance": "same axes as reference; four-half-mean variance",
+    "historical_r0": "same axes as reference",
+    "predictions": [
+      "checkpoint",
+      "pose",
+      "field",
+      "coarse_material_port(240)",
+      "out_bin(16)",
+      "RGB"
+    ]
+  },
+  "note": "Full 2.5mm/64-out half response and second moments stay on server, with exact hashes in reference_complete.json. No independent-pixel confidence intervals."
+}

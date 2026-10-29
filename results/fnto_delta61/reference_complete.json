@@ -1,0 +1,1497 @@
+{
+  "total_photons": 768000000,
+  "halves": 24,
+  "physical_passed": true,
+  "seconds": 653.7640253901482,
+  "source_commit": "7e339c6",
+  "files": [
+    {
+      "path": "/home/nd/rest_delta61/halves/rest_f8_r0_h0.pt",
+      "sha256": "51644a03d4a9792c0b46bb6589a5f39a6b403a65b1259913ede54b6da6d7b50e",
+      "pose": "rest",
+      "field": 8,
+      "replica": 0,
+      "half": 0,
+      "seed": 610000800,
+      "N": 32000000,
+      "seconds": 28.191118927672505,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999991,
+        "leaks": 6,
+        "wrong_side": 3,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 670,
+        "collisions": 609274315,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9815949235320023,
+          0.8572747179797556,
+          0.4891289896194847
+        ],
+        "flux_leak": [
+          1.8339652463339462e-07,
+          1.6124814639084661e-07,
+          1.2150004233239814e-07
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9815892822901304,
+          0.857292274262879,
+          0.48903391039942534
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.6917087298080146e-05,
+          3.478877999770052e-05,
+          6.146905045703634e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/rest_f8_r0_h1.pt",
+      "sha256": "b130f59705e789243d189841f52b3b7fb9de51f9dd8d0f2df028a6ea85021b45",
+      "pose": "rest",
+      "field": 8,
+      "replica": 0,
+      "half": 1,
+      "seed": 610000801,
+      "N": 32000000,
+      "seconds": 28.15376116707921,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999994,
+        "leaks": 4,
+        "wrong_side": 2,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 703,
+        "collisions": 609340590,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9815930802052613,
+          0.857264949024367,
+          0.48914165721011343
+        ],
+        "flux_leak": [
+          1.2178736241708066e-07,
+          1.0177926323962083e-07,
+          6.131136300773551e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9815938086388538,
+          0.8572755221982993,
+          0.48904154778764364
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.6921456223464683e-05,
+          3.4790213809986836e-05,
+          6.147023955521057e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/rest_f8_r1_h0.pt",
+      "sha256": "fc129b358f3543bd2c79c871d7ad587a2667ee94889ff4c5cdfc0b3752c6f190",
+      "pose": "rest",
+      "field": 8,
+      "replica": 1,
+      "half": 0,
+      "seed": 610000810,
+      "N": 32000000,
+      "seconds": 28.21716562844813,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999990,
+        "leaks": 4,
+        "wrong_side": 6,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 708,
+        "collisions": 609344128,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9815931305344439,
+          0.8572766668067432,
+          0.48918693368216115
+        ],
+        "flux_leak": [
+          1.1994894677513912e-07,
+          9.34729436075088e-08,
+          4.5198697768434476e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9815973783546443,
+          0.8572914053620755,
+          0.48909086794517453
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.691854292678616e-05,
+          3.47955289147263e-05,
+          6.146860535294381e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/rest_f8_r1_h1.pt",
+      "sha256": "fa447bf524538edebc115bb45f4a42667463805724e73072a07f8f067b2552fa",
+      "pose": "rest",
+      "field": 8,
+      "replica": 1,
+      "half": 1,
+      "seed": 610000811,
+      "N": 32000000,
+      "seconds": 27.586112620308995,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999993,
+        "leaks": 3,
+        "wrong_side": 4,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 590,
+        "collisions": 609151392,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9815991441376894,
+          0.8573235350526612,
+          0.48924956462423597
+        ],
+        "flux_leak": [
+          9.334463157983919e-08,
+          8.977380083763364e-08,
+          6.076239777996761e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9815779139172331,
+          0.8573536865910402,
+          0.48915394277274
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.6920112339631688e-05,
+          3.4790460232971e-05,
+          6.1462690240941e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/rest_f9_r0_h0.pt",
+      "sha256": "ecad597f81000af5f259de1979a38169bd0a6d23eedaad0dcfd7ba537251207d",
+      "pose": "rest",
+      "field": 9,
+      "replica": 0,
+      "half": 0,
+      "seed": 610000900,
+      "N": 32000000,
+      "seconds": 28.777112683281302,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999993,
+        "leaks": 2,
+        "wrong_side": 5,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 729,
+        "collisions": 641069083,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9806633042686741,
+          0.8515294935965458,
+          0.48125857851517573
+        ],
+        "flux_leak": [
+          6.03783458785756e-08,
+          4.6116674923268874e-08,
+          2.053296660475823e-08
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9806600727184502,
+          0.8515328032347133,
+          0.4812579248812012
+        ]
+      ],
+      "energy_SE": [
+        [
+          6.5739412144652266e-06,
+          3.4298671472036985e-05,
+          6.15039847018952e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/rest_f9_r0_h1.pt",
+      "sha256": "458e2745e5da5119b334d6fd8800d1f1d14b2c002d84293fcd022ec29dcfd758",
+      "pose": "rest",
+      "field": 9,
+      "replica": 0,
+      "half": 1,
+      "seed": 610000901,
+      "N": 32000000,
+      "seconds": 28.406043838709593,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999994,
+        "leaks": 3,
+        "wrong_side": 3,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 629,
+        "collisions": 640872423,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9806684103948964,
+          0.8515337436885111,
+          0.48115235359587394
+        ],
+        "flux_leak": [
+          9.056512695337915e-08,
+          7.235503929337028e-08,
+          5.062560262756449e-08
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9806710505227478,
+          0.8515275748797748,
+          0.48115390460576535
+        ]
+      ],
+      "energy_SE": [
+        [
+          6.570413567465598e-06,
+          3.428581660084296e-05,
+          6.150002658222376e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/rest_f9_r1_h0.pt",
+      "sha256": "3e6476ee9fd45ad9789084c41b6e98b520a3f8e611b7521d73b16f0279dca3fa",
+      "pose": "rest",
+      "field": 9,
+      "replica": 1,
+      "half": 0,
+      "seed": 610000910,
+      "N": 32000000,
+      "seconds": 29.29511276073754,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999991,
+        "leaks": 5,
+        "wrong_side": 4,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 705,
+        "collisions": 641014498,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9806643792506922,
+          0.8515241955025096,
+          0.48121473477998944
+        ],
+        "flux_leak": [
+          1.530434943219916e-07,
+          1.2773483248906814e-07,
+          3.4796820036486764e-08
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9806637136224463,
+          0.8515264678081841,
+          0.48121568520915026
+        ]
+      ],
+      "energy_SE": [
+        [
+          6.5718368473909665e-06,
+          3.4296264331611285e-05,
+          6.150235290990336e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/rest_f9_r1_h1.pt",
+      "sha256": "7ec94b9fbfe8fa5eb0f648d29b543e10e96dea3af708d618751df8b54307ef1c",
+      "pose": "rest",
+      "field": 9,
+      "replica": 1,
+      "half": 1,
+      "seed": 610000911,
+      "N": 32000000,
+      "seconds": 28.347973307594657,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999994,
+        "leaks": 2,
+        "wrong_side": 4,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 640,
+        "collisions": 640971436,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9806655245821911,
+          0.851517115508546,
+          0.4811464204542795
+        ],
+        "flux_leak": [
+          6.194087021071937e-08,
+          5.719867601783335e-08,
+          2.9215343921862313e-08
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9806682726767697,
+          0.8515131993963608,
+          0.4811468144694364
+        ]
+      ],
+      "energy_SE": [
+        [
+          6.57060747605772e-06,
+          3.429029152493779e-05,
+          6.150092093096752e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/tr11_f8_r0_h0.pt",
+      "sha256": "2c02a85ef00f48c30f043445625fc240c06eb137833e75858a890ac16ae6c71e",
+      "pose": "tr11",
+      "field": 8,
+      "replica": 0,
+      "half": 0,
+      "seed": 610010800,
+      "N": 32000000,
+      "seconds": 26.33772524818778,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999993,
+        "leaks": 5,
+        "wrong_side": 2,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 588,
+        "collisions": 567658533,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.982806456605644,
+          0.8642337343723269,
+          0.4933952097810917
+        ],
+        "flux_leak": [
+          1.531612738858712e-07,
+          1.3417217470390597e-07,
+          9.618923071279869e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9827981148009339,
+          0.864324117700099,
+          0.4933836545101009
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.6740703177538226e-05,
+          3.3220444975173764e-05,
+          6.0904740227880224e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/tr11_f8_r0_h1.pt",
+      "sha256": "18e1faba383c289644fdbab7c61e7c6a723d49881565eb84597ef0e63d536fe9",
+      "pose": "tr11",
+      "field": 8,
+      "replica": 0,
+      "half": 1,
+      "seed": 610010801,
+      "N": 32000000,
+      "seconds": 27.156845254823565,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999990,
+        "leaks": 5,
+        "wrong_side": 5,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 641,
+        "collisions": 567779588,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9828029275982892,
+          0.8642167224578492,
+          0.49338169744124444
+        ],
+        "flux_leak": [
+          1.5503960071328038e-07,
+          1.4486133359525866e-07,
+          8.895235970030058e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9827625890599023,
+          0.864344877273589,
+          0.4933682764027604
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.674154543179153e-05,
+          3.322786361366137e-05,
+          6.0907446974897075e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/tr11_f8_r1_h0.pt",
+      "sha256": "fe79cb2aa3768d97a85d2f241fbe7e806d05ff87a3868481eabc83fa4e65da4f",
+      "pose": "tr11",
+      "field": 8,
+      "replica": 1,
+      "half": 0,
+      "seed": 610010810,
+      "N": 32000000,
+      "seconds": 27.08092592470348,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999989,
+        "leaks": 8,
+        "wrong_side": 3,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 854,
+        "collisions": 567730637,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9828038814368476,
+          0.8642049254740448,
+          0.4932994544470664
+        ],
+        "flux_leak": [
+          2.469322062381707e-07,
+          2.2151982648210833e-07,
+          9.622624741467689e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9827749926856928,
+          0.8643136153962598,
+          0.4932896299309625
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.674263635701284e-05,
+          3.321993125909627e-05,
+          6.090833840336311e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/tr11_f8_r1_h1.pt",
+      "sha256": "7190d1d8ecf17301099e1f0244241967e5df64e14373459d28da641ba7067b65",
+      "pose": "tr11",
+      "field": 8,
+      "replica": 1,
+      "half": 1,
+      "seed": 610010811,
+      "N": 32000000,
+      "seconds": 26.382885795086622,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999995,
+        "leaks": 2,
+        "wrong_side": 3,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 668,
+        "collisions": 567880726,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9827997888328159,
+          0.8641835847664093,
+          0.4932600159621215
+        ],
+        "flux_leak": [
+          5.851669726553155e-08,
+          3.8755808340340536e-08,
+          2.5312521849484677e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9827787892552937,
+          0.8642957687434153,
+          0.4932450140921635
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.6742483207548576e-05,
+          3.322430684181449e-05,
+          6.090797000205625e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/tr11_f9_r0_h0.pt",
+      "sha256": "42f3c69ec900bea9ef43d98ece37841ea0e3499b4565618fbcd687cac4d071a7",
+      "pose": "tr11",
+      "field": 9,
+      "replica": 0,
+      "half": 0,
+      "seed": 610010900,
+      "N": 32000000,
+      "seconds": 24.59740662947297,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999993,
+        "leaks": 5,
+        "wrong_side": 2,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 591,
+        "collisions": 428262170,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9869007876275937,
+          0.8891727282626628,
+          0.508135477433471
+        ],
+        "flux_leak": [
+          1.5491609062223688e-07,
+          1.4374531787098022e-07,
+          8.189573108552395e-08
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9869363542132152,
+          0.8889885734482342,
+          0.5080793456141098
+        ]
+      ],
+      "energy_SE": [
+        [
+          5.293862093788358e-06,
+          2.4777119077730867e-05,
+          5.788601691217118e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/tr11_f9_r0_h1.pt",
+      "sha256": "7331f8e07aae2833e409c6c69ea5c8adbd70e9afb8775a6303f2e3b469ef98c2",
+      "pose": "tr11",
+      "field": 9,
+      "replica": 0,
+      "half": 1,
+      "seed": 610010901,
+      "N": 32000000,
+      "seconds": 24.48638941347599,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999992,
+        "leaks": 6,
+        "wrong_side": 2,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 592,
+        "collisions": 428037213,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9869076873649423,
+          0.8892297842356779,
+          0.508222997282338
+        ],
+        "flux_leak": [
+          1.8571473958672868e-07,
+          1.718045297138815e-07,
+          1.1273632063990568e-07
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9869446621325011,
+          0.889049898550876,
+          0.508164930212891
+        ]
+      ],
+      "energy_SE": [
+        [
+          5.294355486273318e-06,
+          2.4768268764768342e-05,
+          5.7873994934396534e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/tr11_f9_r1_h0.pt",
+      "sha256": "11f827d0d4d98d240209bec96dbfc279f51f9f68d7441894a8dfb7ddb2354305",
+      "pose": "tr11",
+      "field": 9,
+      "replica": 1,
+      "half": 0,
+      "seed": 610010910,
+      "N": 32000000,
+      "seconds": 24.55709906294942,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999992,
+        "leaks": 7,
+        "wrong_side": 1,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 615,
+        "collisions": 428306588,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9868993483415398,
+          0.8891588501987989,
+          0.508033781475913
+        ],
+        "flux_leak": [
+          2.1575370290349838e-07,
+          1.9369473314156949e-07,
+          1.0622111248567712e-07
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9869388617879391,
+          0.8889717961089264,
+          0.5079788321706646
+        ]
+      ],
+      "energy_SE": [
+        [
+          5.293716597468884e-06,
+          2.4774632838669275e-05,
+          5.7877068278915e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/tr11_f9_r1_h1.pt",
+      "sha256": "695cdc614d7fd6f426633be8d54d62004c10ac0738b9f1dfdd9280556fced8eb",
+      "pose": "tr11",
+      "field": 9,
+      "replica": 1,
+      "half": 1,
+      "seed": 610010911,
+      "N": 32000000,
+      "seconds": 24.41843256726861,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999993,
+        "leaks": 5,
+        "wrong_side": 2,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 646,
+        "collisions": 428103428,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9869058074139918,
+          0.8892201001535254,
+          0.5081929294936679
+        ],
+        "flux_leak": [
+          1.5507118433788492e-07,
+          1.451972817534397e-07,
+          8.991110167499983e-08
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9869399456378112,
+          0.8890393424670269,
+          0.5081355651438925
+        ]
+      ],
+      "energy_SE": [
+        [
+          5.295007634121625e-06,
+          2.4772200927487402e-05,
+          5.786930400191247e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/va1_f8_r0_h0.pt",
+      "sha256": "0a73b2cf47d8ab42f676dc326db0f99c8cd79536b622be2caee4ce195684b398",
+      "pose": "va1",
+      "field": 8,
+      "replica": 0,
+      "half": 0,
+      "seed": 610020800,
+      "N": 32000000,
+      "seconds": 26.46058734692633,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999993,
+        "leaks": 5,
+        "wrong_side": 2,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 635,
+        "collisions": 585153400,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9822940055399716,
+          0.8611452136105396,
+          0.4910022066771073
+        ],
+        "flux_leak": [
+          1.5562629229748381e-07,
+          1.5012640197653582e-07,
+          1.049605522496222e-07
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9822466422617051,
+          0.8613753039845575,
+          0.49093412036709133
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.6775361582126468e-05,
+          3.390746313847497e-05,
+          6.119086391352107e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/va1_f8_r0_h1.pt",
+      "sha256": "dfc0b7ed8e6c6aec985958e14f96e4ce63251def9c2ff1c95fdb8967742531c0",
+      "pose": "va1",
+      "field": 8,
+      "replica": 0,
+      "half": 1,
+      "seed": 610020801,
+      "N": 32000000,
+      "seconds": 28.098685773089528,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999995,
+        "leaks": 3,
+        "wrong_side": 2,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 693,
+        "collisions": 584916174,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.982301208921692,
+          0.8611973869102925,
+          0.49111933024774185
+        ],
+        "flux_leak": [
+          9.340709894445354e-08,
+          9.039567494539824e-08,
+          6.669989893737238e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9822613982663384,
+          0.8614147901821994,
+          0.4910649398726883
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.6770982170129346e-05,
+          3.390055651006058e-05,
+          6.119015762502775e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/va1_f8_r1_h0.pt",
+      "sha256": "b2a403325ff2a285cfa0aa33bc5d64084ccede0a5cc252f254c35ddd7d784d43",
+      "pose": "va1",
+      "field": 8,
+      "replica": 1,
+      "half": 0,
+      "seed": 610020810,
+      "N": 32000000,
+      "seconds": 27.232179552316666,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999991,
+        "leaks": 5,
+        "wrong_side": 4,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 630,
+        "collisions": 585131836,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9822949963955736,
+          0.8611704293269618,
+          0.4911127845063914
+        ],
+        "flux_leak": [
+          1.54666469853737e-07,
+          1.4128890413189765e-07,
+          6.384181427954161e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9822485870737871,
+          0.8613946508886086,
+          0.49105069134775214
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.6771730527286205e-05,
+          3.3908890168838484e-05,
+          6.119140883448832e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/va1_f8_r1_h1.pt",
+      "sha256": "77a4890f0e3d859224d85a66ec128fb831b68c0be79d66eecef9d2ae96457489",
+      "pose": "va1",
+      "field": 8,
+      "replica": 1,
+      "half": 1,
+      "seed": 610020811,
+      "N": 32000000,
+      "seconds": 27.801983335986733,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999990,
+        "leaks": 6,
+        "wrong_side": 4,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 659,
+        "collisions": 584970958,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9822997011747177,
+          0.861201192082648,
+          0.49119574864894444
+        ],
+        "flux_leak": [
+          1.8131221501960226e-07,
+          1.45773417337125e-07,
+          4.782384383299124e-08
+        ]
+      },
+      "expected_input": [
+        [
+          1.0000000000436557,
+          1.0000000002764864,
+          1.0000000003929017
+        ]
+      ],
+      "output_energy": [
+        [
+          0.982281665327406,
+          0.8613934120724328,
+          0.49114021823227716
+        ]
+      ],
+      "energy_SE": [
+        [
+          1.6772122634618235e-05,
+          3.390825514385554e-05,
+          6.119424137356602e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/va1_f9_r0_h0.pt",
+      "sha256": "7839323173174bf872be6af1d74f22d9929e7116f282ee490cf0d7b0bafd8e1d",
+      "pose": "va1",
+      "field": 9,
+      "replica": 0,
+      "half": 0,
+      "seed": 610020900,
+      "N": 32000000,
+      "seconds": 27.656632252037525,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999992,
+        "leaks": 4,
+        "wrong_side": 4,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 646,
+        "collisions": 609412664,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9815710613512589,
+          0.856157223915915,
+          0.48275858858389836
+        ],
+        "flux_leak": [
+          1.2422206552287207e-07,
+          1.1750741713001389e-07,
+          7.093648912714912e-08
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9815826319533691,
+          0.8560460270035306,
+          0.482767087763343
+        ]
+      ],
+      "energy_SE": [
+        [
+          6.381767325745716e-06,
+          3.2949644620244694e-05,
+          6.126454325347346e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/va1_f9_r0_h1.pt",
+      "sha256": "2df728143adf177e5b1f7617e279b43aca010fa915cc230ceaa6536503e476fa",
+      "pose": "va1",
+      "field": 9,
+      "replica": 0,
+      "half": 1,
+      "seed": 610020901,
+      "N": 32000000,
+      "seconds": 27.527916949242353,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999990,
+        "leaks": 5,
+        "wrong_side": 5,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 649,
+        "collisions": 609522370,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9815672299533045,
+          0.8561051732174791,
+          0.48254378159683503
+        ],
+        "flux_leak": [
+          1.5494597249698927e-07,
+          1.4393114255994988e-07,
+          7.858397199633771e-08
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9815856508725478,
+          0.8559823670605072,
+          0.48255471484061585
+        ]
+      ],
+      "energy_SE": [
+        [
+          6.3805299129171955e-06,
+          3.294265991704279e-05,
+          6.126847436655195e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/va1_f9_r1_h0.pt",
+      "sha256": "c34e623dd899dfa904c13e6f4b1dca565f3700048442546db4418b59bcf6b28b",
+      "pose": "va1",
+      "field": 9,
+      "replica": 1,
+      "half": 0,
+      "seed": 610020910,
+      "N": 32000000,
+      "seconds": 28.411101009696722,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999991,
+        "leaks": 8,
+        "wrong_side": 1,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 691,
+        "collisions": 609829002,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9815588401572022,
+          0.8560770379034648,
+          0.4826238122213746
+        ],
+        "flux_leak": [
+          2.456538688022647e-07,
+          2.1529476956771987e-07,
+          1.24709080378399e-07
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9815727180004696,
+          0.8559613096728047,
+          0.48263237956837113
+        ]
+      ],
+      "energy_SE": [
+        [
+          6.383595716891433e-06,
+          3.296026606360884e-05,
+          6.127166919171298e-05
+        ]
+      ]
+    },
+    {
+      "path": "/home/nd/rest_delta61/halves/va1_f9_r1_h1.pt",
+      "sha256": "4f1f68b5ff3df2bae474c4868faf045dbd6c60a6750fa3b373e968b67c1c4714",
+      "pose": "va1",
+      "field": 9,
+      "replica": 1,
+      "half": 1,
+      "seed": 610020911,
+      "N": 32000000,
+      "seconds": 27.58011723868549,
+      "physical_passed": true,
+      "source_commit": "7e339c6",
+      "protocol_sha256": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+      "reference_implementation_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "fastwalk_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999995,
+        "leaks": 4,
+        "wrong_side": 1,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 642,
+        "collisions": 609337231,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9815730190795566,
+          0.856149187709092,
+          0.48264700928070736
+        ],
+        "flux_leak": [
+          1.20479356269243e-07,
+          9.714944138039527e-08,
+          6.0200647856381e-08
+        ]
+      },
+      "expected_input": [
+        [
+          0.9999999958976495,
+          0.9999999950098432,
+          1.0000000004550331
+        ]
+      ],
+      "output_energy": [
+        [
+          0.9815888203638199,
+          0.856028396622397,
+          0.48265962691225606
+        ]
+      ],
+      "energy_SE": [
+        [
+          6.378277791872874e-06,
+          3.294035063070217e-05,
+          6.126392249970259e-05
+        ]
+      ]
+    }
+  ]
+}

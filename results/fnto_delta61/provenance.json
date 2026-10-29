@@ -1,0 +1,92 @@
+{
+  "batch_id": "clean_paired_delta_audit_v1",
+  "closure_client_date": "2026-10-30",
+  "protocol_start_date": "2026-10-29",
+  "commits": {
+    "bcf2932": "bcf2932cdeb9c938d672255317103e1a58c3b8aa",
+    "edf2da5": "edf2da53ce2206ead97af7d2b0d3fcf33febb3de",
+    "7e339c6": "7e339c6d1710d5f3b38c1b5a552b2210aaa47dbc",
+    "d0f3d10": "d0f3d10f0da6491cc02b0cb712ecd6bd8e42350c",
+    "4c8d75f": "4c8d75fa55dc2536541ec396023870930d15148f"
+  },
+  "reference_source_commit": "7e339c6d1710d5f3b38c1b5a552b2210aaa47dbc",
+  "reference_status": "STOP_FIXED_BUDGET_PRECISION",
+  "new_reference_photons": 768000000,
+  "failed_preflight_reference_photons": 0,
+  "extra_reference_photons": 0,
+  "checkpoints_unchanged": {
+    "checkpoints/P_5901.pt": {
+      "sha256": "59685b214bdf1f81079dcd56fe7a61173b90640b3c5c9fb8b3f14094729aaad6",
+      "resolved": "/home/nd/rest_persist_v1/checkpoints/P_5901.pt",
+      "bytes": 636582
+    },
+    "checkpoints/P_5902.pt": {
+      "sha256": "c92e4fda4bbe9cf5569d55c45a2881d95eaa58df3896748088d060b55f1aab3f",
+      "resolved": "/home/nd/rest_persist_v1/checkpoints/P_5902.pt",
+      "bytes": 636582
+    }
+  },
+  "original_scientific_paths_unchanged": [
+    "experiments/fnto_rule57",
+    "experiments/fnto_persist59",
+    "experiments/fnto_attr60",
+    "results/fnto_persist59",
+    "results/fnto_attr60",
+    "docs/worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md",
+    "docs/worklogs/60_WORKLOG_FROZEN_K_FIDELITY_ATTRIBUTION.md",
+    "docs/Architecture.md",
+    "docs/RESEARCH_CENTRIC_TOPIC.md",
+    "docs/RESEARCH_ROADMAP.md"
+  ],
+  "diagnostic_code_sha256": {
+    "experiments/fnto_delta61/launch.sh": "5df9313b7c3783c2dca87ed2646f34b1d7db2380c474761b563e70f629caa3f2",
+    "experiments/fnto_delta61/metrics.py": "f518233877571bc01038e90e7c935fc695bbd624dd95a90a3be3b0634f48e1b7",
+    "experiments/fnto_delta61/test_metrics.py": "63a352617ab201a6b011986217d0f22ae8f96ee568557d194acec988b80ba87f",
+    "experiments/fnto_delta61/noise_review.py": "f8592c32e3a5c656c5dbebf724dbb7e9227c6c48d4f9b93f83dccac3e4871733",
+    "experiments/fnto_delta61/review.py": "7752544a56067396fc1b123bcd55cec66abcfb34d710b7a2b585a37ca0ae05d4",
+    "experiments/fnto_delta61/test_noise_review.py": "a00550be3d536c9134c8e73de2d898e27e161715eadd855838212cbd43e8a218",
+    "experiments/fnto_delta61/audit_run.py": "f3fb6aecc07b8aa8ef128d01a5e7154943d4c131133ba9b85d6ff85b41edb677",
+    "experiments/fnto_delta61/analyze.py": "f436a6414f6b0430a5cbe6820edba392e34e7b0f1ca386be6321d205486f4020",
+    "experiments/fnto_delta61/protocol/audit_v1.json": "d2f27a401f7e429b64a3091280ba7157fadfe027b40311359e2e1eb2b3a54110",
+    "experiments/fnto_delta61/protocol/identity_checker_a1.json": "b8c8eef5f31d95f69c8c65ee832e1790ecaef8779628c0d088f6b620557b6912"
+  },
+  "checks": {
+    "physical_packets_passed": 24,
+    "six_focused_metrics_tests": "PASS",
+    "independent_cross_residual_expectation_test": "PASS",
+    "exact_population_and_unique_seeds": "PASS",
+    "frozen_WL60_replay_agreement": "PASS within 2e-6",
+    "coarse_evidence_and_reviewer_checksums": "PASS",
+    "source_syntax_and_worklog_links": "PASS",
+    "worklog_local_links": 12,
+    "historical_code_data_contracts": "UNCHANGED",
+    "visual_QA": "PNG inspected; unqualified va1 blue explicitly hatched/labeled"
+  },
+  "artifacts": {
+    "results/fnto_delta61/coarse_evidence.npz": "323a7780401b0302aa9a497f0065125efdf7b1d4a814b24325a618bf9e1cea59",
+    "results/fnto_delta61/preflight.log": "91f489295da3fa576eebf78cb58a43bfd1b2e2c88470739b8fdda1571dd0d237",
+    "results/fnto_delta61/identity_comparison.json": "56555191db11c0a29e9d850be8ac6efba92bfdf6f0657aa23c189453dd8fdda6",
+    "results/fnto_delta61/noise_review.json": "dfb3fcedf8d43127b8669a1fd4a1f866126350b1f1ccfec75760d650eb4db7a6",
+    "results/fnto_delta61/noise_review_tests.log": "4d1fc13fa8b2dd89b0b483d8959159eb18199c2ceef9affa97f54aad32865d29",
+    "results/fnto_delta61/reference_complete.json": "2405cc531a971dc4edde03dabb0f6b644c95267d3386e0c7370426fd053cfe9a",
+    "results/fnto_delta61/tests.log": "833c16c383312f70c017034547f6da36b6d7048c4b3585362a29064a96c1eb67",
+    "results/fnto_delta61/analysis.json": "9c24a5159404a7775a71efb9e5832124447c18dc758e5ee8d7314ea3bfed88c0",
+    "results/fnto_delta61/launch.json": "cfc23ec3fedad5844e62c9a2418905bf463c7c8727b0dcc7382a51948a9603cc",
+    "results/fnto_delta61/status.txt": "5c9162e0f6e43fd341115018459041dffb3e1c6b761860a1ea0b7b9b52f665d9",
+    "results/fnto_delta61/preflight.json": "862d05b64e0668ee4704ef859e83a9fea8bf2033c0d53748fc18be4d134e6c51",
+    "results/fnto_delta61/generate.log": "5461f5f6cd28413fad0dafc81b2c5be7f7ffe69d10ee33e876cfe0d70eafc678",
+    "results/fnto_delta61/analyze.log": "5c9162e0f6e43fd341115018459041dffb3e1c6b761860a1ea0b7b9b52f665d9",
+    "results/fnto_delta61/array_layout.json": "8ccc2aa88552e937095ec05031c64a05bc169ce6e67d653c4e3090eedc82770b",
+    "results/fnto_delta61/failed_attempts/preflight_edf2da5/preflight.log": "c926c16846194239002da72042abd150c35de2bc72097ce2495df7fc2e353acf",
+    "results/fnto_delta61/failed_attempts/preflight_edf2da5/source.tar.gz": "24490fa7ac922729684c6037da8725a1c977eeae5ab5faeabc7d8f7b12397a71",
+    "results/fnto_delta61/failed_attempts/preflight_edf2da5/tests.log": "833c16c383312f70c017034547f6da36b6d7048c4b3585362a29064a96c1eb67",
+    "results/fnto_delta61/failed_attempts/preflight_edf2da5/launch.json": "0776f65b3966b79c17840a588462a3bb6b3f4a62ea3c9c09a61a6ed8dfe431e7",
+    "results/fnto_delta61/failed_attempts/preflight_edf2da5/status.txt": "6d5dd5742621b35d83a73805e6189c69f236611fa4040287b22dcd03f4631013",
+    "results/evaluation/61/absolute_all.csv": "832661fc48912ca521db30e035e35e30550289bc9492eef8a6a9d7c3b5009730",
+    "results/evaluation/61/paired_delta_all.csv": "0f0304abaacafdec611fb897dda6b3a64ca08a04f7cf705283785f8174ad0e7b",
+    "results/evaluation/61/manifest.json": "2a39edb11ddf7fd77db40f5ca0e774adca42262aed1beeb7d10b055d06b6a3d9",
+    "results/evaluation/61/paired_delta_comparison.pdf": "6061c04d43521c98b2f9ecd929c8ed05a69b0d80e49db349f39cc2c20522cb50",
+    "results/evaluation/61/paired_delta_comparison.png": "4b07e98182c179a6f9cb3e0ec41a4044a81e7270ec491b479840b675a2f91503"
+  },
+  "evidence_limits": "Partial qualified R/G findings; va1 blue unqualified. Post hoc noise corrections do not change readiness. No new architecture, training or successor."
+}
