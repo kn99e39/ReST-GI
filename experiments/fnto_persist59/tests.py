@@ -24,8 +24,10 @@ def main():
     y=apply(m,s,x)
     checks['independent_source_output_difference']=relative(y[:1],y[1:])
     # Same-state no-op, no light-specific cache update.
+    co_identity=id(s['co'])
     noop,_=selective(m,s,current)
     checks['noop']=relative(apply(m,noop,x),y)
+    checks['noop_cache_identity']=id(noop['co'])==co_identity
     # Bounded 37-degree rigid material-frame pullback; S retains B and all coefficients.
     axis=np.array([1.,2.,3.]);axis/=np.linalg.norm(axis);a0=np.deg2rad(37.)
     cross=np.array([[0,-axis[2],axis[1]],[axis[2],0,-axis[0]],[-axis[1],axis[0],0]])
@@ -51,7 +53,9 @@ def main():
     ok=checks['FS']<=1e-5 and checks['raw_reconstruction']<=1e-5 and checks['head_reconstruction']<=1e-5
     ok &= checks['retained_raw_bitwise'] and checks['retained_head_bitwise'] and checks['physics']['passed']
     ok &= checks['independent_B_indices'] and checks['independent_B_values']<=1e-6
-    ok &= checks['rigid']<=1e-6 and checks['rigid_all_retained'] and checks['noop']<=1e-8
+    # Repeated CUDA index_add can differ in summation order with unchanged state.
+    # Check exact cache reuse, and the SAME preregistered F/S output tolerance.
+    ok &= checks['rigid']<=1e-6 and checks['rigid_all_retained'] and checks['noop_cache_identity'] and checks['noop']<=CFG['criteria']['FS_relative_L1']
     ok &= checks['weight_change_rejected'] and checks['correspondence_change_rejected'] and checks['pair_edge_marked'] and checks['pair_dependency']<=1e-5
     dump(dict(passed=bool(ok),checks=checks,audit=audit,commit=(ROOT/'repo_commit.txt').read_text().strip()),OUT/'preflight.json')
     assert ok,checks
