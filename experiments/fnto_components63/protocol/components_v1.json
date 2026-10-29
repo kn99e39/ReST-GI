@@ -1,0 +1,59 @@
+{
+  "batch_id": "physical_components_pair7_v1",
+  "worklog": 63,
+  "starting_commit": "5a5df265c34cd1276b73ad1493944ad5f1db2794",
+  "pose": "pt0",
+  "pose_parameters": [
+    0.00575,
+    0.0225,
+    0.005,
+    -0.005
+  ],
+  "split": "test",
+  "fields": [
+    62,
+    63
+  ],
+  "field_sha256": {
+    "62": "857dee78f555db377dde3d18688b66ab588c78cd6755e3c7994398e996b02c7c",
+    "63": "bf0419116701c31baf732d3b560312e89f842aa3aeed35aa42c7752cf8cd1158"
+  },
+  "replicas": 2,
+  "halves": 2,
+  "N_per_half": 32000000,
+  "total_photons": 256000000,
+  "action_chunk": 32000000,
+  "seed_formula": "630000000 + field*100 + replica*10 + half",
+  "checkpoint_seeds": [
+    5901,
+    5902
+  ],
+  "source_expected_sha256": {
+    "experiments/fnto_rule57/r57_geometry.py": "6f5ee9611217eeef61d51d3f6108c34b51c4bd63efa74505ce09a172a95fb9f9",
+    "experiments/fnto_rule57/r57_action_oracle.py": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+    "experiments/fnto_rule57/r57_fastwalk.py": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+    "experiments/fnto_rule57/r57_model.py": "d861614b4b88ea3e0c39e119d5cfcb6f4117f6a9b00be7d4fe982bb4be3d63cf",
+    "experiments/phys_ref53/p53_geom.py": "224f919742273a2e93aa41561e4fb16cee733746b32b204956204d6049597e93",
+    "experiments/phys_ref53/p53_fixtures.py": "cdccc551fbd48c518214696d854713ebde3abc8e673485ef5c5f5956ef204500",
+    "experiments/phys_ref53/p53_tracer.py": "0a5b82dd227cc7becf03b8fefaecbcf5cb9d0bf4a43889906a236cd5e65b926a",
+    "experiments/fnto_k55/k55_ops.py": "ef357a8b1ff67f1ea4f869efad7dc39ad302eb6795d914309f8b36fe3acfc3e6",
+    "experiments/fnto_c54/c54_casp.py": "06d813dc3e62fe52cb57b4d5bfeb62c94fe7b47cdff76dcffc3067f9fd5d70c0",
+    "experiments/fnto_persist59/protocol/persist_v1.json": "1e84a085c0a1916ecefe1a2607d1df30fa22fd2fbe38a2bf02a3bd0b4cc0134b"
+  },
+  "input_expected_sha256": {
+    "data/geometry/pt0.pt": "4c8783da1d452d26fece75d3441d4338a6b980faf1df905c9954fd11965a9b10",
+    "data/lights.pt": "a3b50edb18d5dd17915816ea57857b3204063a8a6eac55c1201126496467f46f",
+    "checkpoints/P_5901.pt": "59685b214bdf1f81079dcd56fe7a61173b90640b3c5c9fb8b3f14094729aaad6",
+    "checkpoints/P_5902.pt": "c92e4fda4bbe9cf5569d55c45a2881d95eaa58df3896748088d060b55f1aab3f"
+  },
+  "frozen_replay_dependencies": {
+    "experiments/fnto_attr60/replay.py": "b7882e850657699c5ba300dee255f8afad39ed3cc6c349359e986abb684e2436",
+    "experiments/fnto_attr60/analyze_stored.py": "058623dbb1f15ade2b7af5be96ae6d576b74ed8e850468431f495b138b657de8"
+  },
+  "gate_A_B_relative_L1": 1e-12,
+  "variance_closure_relative": 1e-10,
+  "contrast_SNR_min": 3,
+  "classification": "Dominated if squared component error>=4x other, aligned with total, abs(cross)<=.5 dominant squared error; consistent across both seeds and all qualified replica choices. Else interacting/mixed; prerequisite failure inconclusive.",
+  "physical": "Homogeneous index-matched first exit only; zero collisions vs >=1 collision; no air continuation, renormalization or model change",
+  "preserve": "All previous protocols/source/evidence/checkpoints; no new architecture, training, B optimization or automatic successor"
+}
