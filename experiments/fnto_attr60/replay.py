@@ -40,13 +40,13 @@ def main():
                 er=relative(yy.double(),stored.double());assert er<2e-5,'CPU replay does not reproduce immutable primary actions'
                 rows['replay_verification_relative_L2']=er;del obj;continue
             tp=root/'data/training_targets'/f'{pose}_r0.pt';record(tp);tt=load(tp)
-            splits=('train','validation') if pose=='rest' else (('train',) if pose=='tr11' else ('validation',))
+            splits=('train','validation')
             for split in splits:
                 ids=[8,9,94,95] if split=='train' else [8,9,30,31]
                 xx=lights[split][ids];yy=agg(action(g,xx,co),g['parent']);rr=agg(tt[split][ids],g['parent'])
                 pred[pose,split]=yy;target[pose,split]=rr
                 rows[f'{pose}_{split}']=dict(fields=ids,absolute_relative_L2=[[(float((yy[j,:,:,c]-rr[j,:,:,c]).norm()/rr[j,:,:,c].norm())) for c in range(3)] for j in range(4)],directional_pair_error=[relative(yy[2,:,:,c]-yy[3,:,:,c],rr[2,:,:,c]-rr[3,:,:,c]) for c in range(3)])
-        for pose,split in [('tr11','train'),('va1','validation')]:
+        for pose,split in [('tr11','train'),('tr11','validation'),('va1','train'),('va1','validation')]:
             yd=pred[pose,split][:2]-pred['rest',split][:2];td=target[pose,split][:2]-target['rest',split][:2]
             rows[f'{pose}_{split}']['focused_delta_error_unqualified']=[relative(yd[:,:,:,c],td[:,:,:,c]) for c in range(3)]
         out['seeds'][str(seed)]=rows
