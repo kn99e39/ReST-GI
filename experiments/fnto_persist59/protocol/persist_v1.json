@@ -1,0 +1,96 @@
+{
+  "batch_id": "persistent_intrinsic_FS_v1",
+  "worklog": 59,
+  "starting_head": "c9e69b4",
+  "scope": "WL53 homogeneous isotropic index-matched medium; actual F/S; no sharp glossy/global bending/self-contact claims",
+  "representation": {
+    "cell_mm": 2.5,
+    "incoming": 16,
+    "outgoing": 64,
+    "state_channels": 32,
+    "local_features": 16,
+    "message_hops": 2,
+    "neighbors": 16,
+    "material_edges": 128,
+    "mixtures": 8,
+    "tail_rank": 16,
+    "pair_hidden": 128,
+    "node_hidden": 144,
+    "ballistic_q": 256,
+    "ballistic_seed": 57501
+  },
+  "candidate": "The WL58 proposed dependency-local positive graph family, scoped to the established volume basis. Keep WL57 kernel ranks/capacity; remove broadcast global geometry inputs/pooling so dependency closure is explicit. Not a WL58 glossy repair or second family.",
+  "state_policy": "Persistent encoder intermediates, affine projections, raw edge/head coefficients. S recomputes exact changed-input dependency closure. Global normalisation and B are conservatively rebuilt for every nonrigid edit; all costs charged. Rigid material-frame state reused. No oracle K for invalidation.",
+  "primary_pose": {
+    "pt0": [
+      0.00575,
+      0.0225,
+      0.005,
+      -0.005
+    ]
+  },
+  "diagnostic_poses": [
+    "cf0",
+    "cf1",
+    "cf2",
+    "cf3"
+  ],
+  "training": {
+    "seeds": [
+      5901,
+      5902
+    ],
+    "steps": 6000,
+    "batch": 2,
+    "poses": "WL57 rest +12 train dents; 2validation, unchanged",
+    "targets": "unchanged WL57 training-only targets; provenance and known noise retained",
+    "optimizer": "AdamW .003 cosine .00003, wd1e-5, gradient clip1",
+    "loss": "same static/delta action objective as WL57",
+    "precision": "FP32 TF32 off",
+    "checkpoint": "final step; no post-edit fit or heldout selection"
+  },
+  "references": {
+    "lights": "unchanged 64 WL57 A2 heldout fields seed578103; disjoint train/validation",
+    "pt0": "new independent first-exit actions,2replicas x2halves x32M photons perfield; float64 moments; no air continuation",
+    "seed": "599000000+field*100+replica*10+half",
+    "rest_cf": "immutable WL57 A2 two64M independent-replica bundles",
+    "minimum_reference_precision": "mean coarse relative seed difference/sqrt2 <=.02 eachchannel; report dynamic detectability from independent seeds, never require undetectable differences to pass a prediction test"
+  },
+  "criteria": {
+    "zero": 1e-08,
+    "linear_relative": 1e-05,
+    "nonnegative_min": -1e-08,
+    "max_column": 1.000001,
+    "FS_relative_L1": 1e-05,
+    "rigid_relative_L1": 1e-06,
+    "coarse_mean_relative_L2": 0.1,
+    "coarse_p90": 0.2,
+    "fine16_mean_relative_L2": 0.15,
+    "delta_relative_L2": 0.35,
+    "delta_correlation": 0.9,
+    "directional_pair_relative_L2": 0.25,
+    "noise_qualification_SNR": 3,
+    "cost": "Both F and S pass full primary quality for both seeds; for at least one COMMON N in {1,4}, each seed has S/F update+Nquery median ratio<1 and paired bootstrap95 upper bound<1 on uncontended workers. All N and raw costs reported; no fast inaccurate winner."
+  },
+  "cost": {
+    "queries": [
+      1,
+      4,
+      16,
+      64
+    ],
+    "repeats": 7,
+    "bootstrap_seed": 592001,
+    "bootstrap_samples": 10000,
+    "include": "current geometry and B, dependency detection, retained/raw update, global normalisation, queries; actual per-policy runs; initial rest construction reported separately; C and coupled solve shared unchanged and timed only if eligible",
+    "memory": "unique persistent storages, CPU RSS, allocated/reserved CUDA peak; before/after peer checks"
+  },
+  "execution": {
+    "server": "LabServer69 ~/rest_persist_v1",
+    "chain": "detached server supervisor; exclusive lock; atomic checksummed receipts/checkpoints; finite OOM fallback without budget/architecture changes",
+    "fallbacks": "edge chunk65536->32768->8192, activation checkpoint then microbatch1 accumulation; reference32M->16M->8M->2M chunks, total photons unchanged; preserve all attempts"
+  },
+  "stops": "primary reference or physical ownership invalidity, unresolved identity, irreparable F/S dependency defects. No GGX gate. Trained fidelity failures recorded after executing F/S evaluation and cost, not replaced by a new architecture.",
+  "composition": "same unchanged WL56 scene/C/solver; only eligible learned checkpoint enters. Separate oracle/reference and model/reference, preserve historical blue floor. If none eligible report skipped.",
+  "preserve": "WL53-58 source/evidence and historical FNTO contract; no branch/worktree, production changes or successor"
+}

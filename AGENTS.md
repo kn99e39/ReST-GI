@@ -1,5 +1,7 @@
 # Working On This Repo
 
+**2026-10-29 — persistent_intrinsic_FS_v1 authorised.** New bounded actual F/S successor in the established homogeneous-medium regime; same rule/checkpoint for full rebuild and resident selective updates. Design `docs/plans/PERSISTENT_INTRINSIC_FS_V1.md`, protocol `experiments/fnto_persist59/protocol/persist_v1.json`, chronological Worklog59. WL58 is preserved as an angular preflight negative, not an F/S result. No sharp-glossy/global-bend/self-contact claim, historical rewrite, automatic second architecture or successor. Central documents retain their assigned roles.
+
 **Document roles (user instruction, 2026-10-29).** `docs/Architecture.md` contains central structure and design contracts only. Do not append batch status, authorisation histories, measurements or verdicts there. Put execution/evidence in `docs/worklogs/`, unadopted designs in `docs/plans/`; see `docs/README.md`. Human-facing new documents belong under `docs/`.
 
 **intrinsic_state_reuse_v1 closure (2026-10-29).** The frozen finite angular interface failed the prospectively included sharp-GGX admission probe. Stop condition reached before training/F-S implementation; those fidelity, invalidation and cost questions remain unmeasured. Worklog58 and `results/fnto_reuse58/preflight/` contain the full bounded result. No automatic successor, representation expansion or adoption is authorised.
