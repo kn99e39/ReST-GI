@@ -1,0 +1,22 @@
+{
+ "stage": "exhausted",
+ "args": [
+  "fake.py"
+ ],
+ "attempt": 2,
+ "resource_policy": 2,
+ "environment": {
+  "WL57_EDGE_CHUNK": "8192",
+  "WL57_CHECKPOINT_EDGES": "1",
+  "WL57_MICROBATCH": "1",
+  "WL57_STREAM_GEOMETRY": "1",
+  "WL57_RAY_CHUNK": "250000",
+  "WL57_TR_CHUNK": "250000",
+  "WL57_EVAL_BATCH": "1"
+ },
+ "returncode": 1,
+ "wall_seconds": 8.654594421386719e-05,
+ "GPU_processes_before": "test GPU",
+ "commit": "fault-injection-only",
+ "log": "/home/nd/rest_wl57_recovery/out/supervisor_faults_c11e3855/logs/exhausted.attempt2.log"
+}

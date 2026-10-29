@@ -197,3 +197,90 @@ Execution-only amendment: `protocol/rule57_execution_a3.json`; implementation09f
 Independent supervisor PID/SID1390733 (PPID1) resumed confirm_focus attempt1 at02:37:39KST. Initial live fast packets take~2.94s, agreeing with the benchmark;82fast packets had completed with all physical checks passing by the subsequent audit. This is actual confirmation throughput, not just a synthetic benchmark. The observer uses timings from the current execution policy only, so the earlier~12hour extrapolation is superseded: remaining data construction is approximately one hour at the new initial rate if the signal gate passes, with the signal gate's remaining data approximately10–15minutes after restart. Geometry/field runtime can vary; training/evaluation/cost follow separately. Scientific GO is still pending at this execution update.
 
 Small original-source snapshots, all timing/physical/equivalence data, profiler failure logs, CPU profiles, deployment policy and preserved-packet hashes are in `results/fnto_rule57/recovery_a3_execution/`. The A2 conditional sequence remains: full independent signal gate → fixed primary if GO; else clean NO-GO with evidence, no adaptive budget/threshold change.
+
+
+## A2/A3 primary completion — measured bounded negative result (2026-10-29)
+
+### Implementation Fact
+
+The detached server chain **finished normally**, rather than failing or losing its session. Server log records COMPLETE at04:01:35KST on2026-10-29 (server clock was several minutes behind the client; use approximately4am for wall-clock communication). It completed1280independent32M-photon half packets, all4fixed6000-step model fits, held-out evaluation, both fair cache policies across all declared query counts, eligibility checking for composition, and final server reports. GPU became idle because no work remained. No OOM, unknown exception, retraining, best-checkpoint selection, threshold change or later batch occurred after A3 resumption.
+
+Scientific source/protocol identity remains e809c15/A2; A3 execution09f5af3 preserves that contract and its52already-completed packets. The original dc6a532 STOPPED_GATE1 remains an unchanged historical failure. Auxiliary reporting/cost correction cffe2b0 and read-only observer/source hashes are recorded separately. Final weights for D/R seeds5701/5702 were copied locally and independently SHA256-verified against the server's recorded checkpoint identities.
+
+### Measurement — independent reference/data gate
+
+The single prospective confirmation passed: all4fresh geometry cases satisfy the original population thresholds under the new unbiased importance estimator. Counts of qualifying focused fields out of16, R/G/B: cf0 **5/5/4**, cf1 **11/9/9**, cf2 **9/9/8**, cf3 **7/7/5**. Physical validity and photon/independent-half noise calibration pass. The completed test reference uses40.96Bphotons in1280half packets and two independent64Mreplica bundles per pose/light. All1280packets pass their physical checks. No original observed test field was relabelled as independent confirmation.
+
+The maximum across poses/channels of the mean coarse relative independent-bundle noise norm is0.356%. This is an empirical noise measure, not a proof of zero bias or a physical image-error bound. The new reference makes the declared deformation effect resolvable; it does not make either neural representation successful.
+
+### Measurement — fixed learned candidates
+
+All4training runs reached exactly6000steps and finite losses. D took329.1/328.9s and R420.7/421.1s of recorded training time; end-to-end stage wall times were335.0/333.5s and425.4/425.7s respectively. Peak PyTorch training GPU allocations: D3.348GB, R4.603GB. Training CPU high-water RSS was not captured; do not substitute the resource-preflight estimate for a measurement. Fresh inference workers report CPU high-water1.397–1.479GB and PyTorch allocated peaks up to0.419GB, excluding non-PyTorch driver allocations.
+
+Worst mean error across all5geometry cases (rest+4held-out) and RGB, plus worst detectable deformation error:
+
+| Model | Coarse mean relL2 max | Fine16 mean relL2 max | Delta relL2 max | Delta correlation min | Dynamic groups passed/12 | Angular pair/channel failures/96 |
+|---|---:|---:|---:|---:|---:|---:|
+| D5701 |7.041%|11.475%|66.34%|0.7652|7/12|53/96|
+| D5702 |7.055%|11.577%|65.79%|0.7535|6/12|60/96|
+| R5701 |6.762%|11.249%|62.47%|0.8216|7/12|36/96|
+| R5702 |6.784%|11.262%|59.92%|0.8335|7/12|36/96|
+
+**Absolute-action norm subsets pass** at every pose/channel: coarse mean<=10%, coarse p90<=20% (worst11.84%), fine2.5mm/16out mean<=15%. Fine64bin mean errors are reported diagnostically (worst14.99%). **This is not complete static directional fidelity**: the independent equal-irradiance directional-contrast requirement fails on every test geometry for every model. All96pair/channel cases per model are detectable; these are descriptive counts over repeated light pairs/geometry conditions, not96independent statistical trials. Every row is retained in `heldout.json` and the post hoc `directional_all.csv`.
+
+**Deformation fidelity also fails**: the declared delta relativeL2<=35% and correlation>=0.90 contract is not met for all qualified channels/groups. R/G pass oncf0–cf2; cf3 R/G and most blue responses fail. R is somewhat better, particularly in blue and directional contrast, but still misses the complete contract in both seeds. Detection masks are generated by reference noise only, identically for both models. The confirmation gate uses the preregistered four-half variance estimator, while the frozen evaluator uses two independent bundle differences; e.g.cf1blue is9qualified fields at the readiness gate and8in the evaluator. This implementation distinction is documented and was not changed to favour a model.
+
+Zero input, fixed-geometry linearity, nonnegativity, analytical passivity and repeated-cache agreement pass all20model/geometry checks. This supports those mathematical/implementation constraints only; it is not a claim of complete physical transport accuracy or learned reciprocity. Directional/dynamic fidelity remains deficient despite passivity.
+
+**O/S/D/R interpretation.** The stale exact rest operator's largest coarse mean absolute error on the new geometry/light population is1.113%, below the learned models'~7% absolute errors. Its predicted intrinsic delta is exactly0, hence relative delta error1on a nonzero detected change. Learned models reduce that delta error to~0.2–0.66 on qualified groups and thus learn part of the geometry response, while their shared absolute approximation bias is much larger. Partial change prediction must not be confused with better absolute physical accuracy than the exact stale control.
+
+### Measurement — cost, memory and conditional composition
+
+Both legitimate cache policies were measured in fresh per-model/pose/policy processes with unique-storage accounting, CUDA fences and before/after external-process checks. All reported comparisons were uncontended. Including the common geometry build, R/D lifecycle-time ratios across4poses,2seeds and1/4/16/64queries range **0.9925–1.0115**; none demonstrates the preregistered25%benefit. Typical first-query total: D0.340s, R0.343s;64-query totals~0.432–0.438s. The common geometry preparation is~0.329s. It contains mesh/boundary/features/analytic-ballistic work and is common to both; its internal production optimisation was not studied. Even excluding it oncf0/seed5701, measured learned cache-build+query is10.60ms D versus13.76ms R at1query, and103.18ms versus103.85ms at64queries. Thus no hidden R speed win appears in this measured learned portion either.
+
+Example full geometry+coefficient caches oncf0: D177.08MB, R171.43MB, within the same512MBlimit. R saves about5.65MB through compact state, but no useful quality-matched speed advantage is established. Training's R GPU peak is higher; do not generalise compact-state savings to all memory scopes. Raw oracle/data-generation and training costs are separate from online cost. The interrupted original slow52packets, A3 performance validation, both actual confirmation attempts and completed fast data construction are preserved; the final reference stages alone total approximately5013.5s including the deliberate interruption's stage wall record. This is not an end-to-end neural GI speed claim.
+
+**Conditional K/C composition was intentionally skipped**, after testing eligibility: no model passes the complete operator fidelity contract. The logged composition stage is the eligibility-check script, not a coupled GI solve. The existing WL56 oracle-vs-Cycles blue floor is neither repaired nor newly evaluated here. No monolithic-reference GI accuracy is inferred from K-only norm agreement.
+
+### Observation
+
+Intrinsic geometry changes are independently detectable. Both learned models approximate absolute actions and partially track changes while obeying zero/linearity/energy constraints. R modestly improves several errors and has fewer directional failures, but neither candidate preserves the required directional and deformation responses. Their fair cached runtime is almost equal at the measured complete-update boundary, with R slightly slower in most low-query cases.
+
+### Interpretation
+
+This is a **completed negative result for the fixed recipes and acceptance contract**, not another reference-readiness stop. It is stronger than the original Gate1 failure because the independent data gate passed and the full matched learned comparison actually ran. Nevertheless it does **not falsify every possible Rule–State architecture** or establish that direct conditioning is universally preferable. Neither candidate reaches useful complete fidelity, so a quality-matched runtime winner cannot be selected.
+
+The remaining error is much larger than the measured new-reference seed noise. Its precise cause is not isolated: the common finite spatial/angular kernel basis, geometry-only ballistic quadrature, original noisy training supervision and optimisation could contribute. Validation loss improved substantially and both seeds give similar results; this does not prove global optimisation convergence or that capacity alone is responsible. R's nonlinear aggregation/inductive bias and parameter allocation remain bundled by design; no abstract state-separation-only causal claim follows. No after-the-fact capacity/angle-rank/sample-budget/threshold sweep or retraining is started.
+
+### Unresolved Question
+
+Which shared approximation or supervision/optimisation limit prevents sufficiently accurate angular and deformation response is the material unresolved dependency before another representation decision. This batch does not choose a new mechanism to repair it.
+
+### Architecture Verdict (separate scopes)
+
+| Question | Verdict | Scope |
+|---|---|---|
+| Independent reference/data readiness | SUPPORTED | Fresh A2population and fixed sample contract; old failed gate retained |
+| Absolute-action norm thresholds | SUPPORTED | Declared coarse/fine16 aggregate norms only |
+| Directional-contrast fidelity | NOT SUPPORTED | Every learned model/geometry has failures |
+| Deformation-response fidelity | NOT SUPPORTED | Both seeds/classes miss required groups |
+| Hard zero/linear/nonnegative/passive/cache constraints | SUPPORTED | Tested numerical constraints; not complete physical fidelity |
+| Direct learned K viability | NOT SUPPORTED | This frozen model/training recipe |
+| Rule–State learned K viability | NOT SUPPORTED | This frozen model/training recipe |
+| R advantage under declared success rule | NOT SUPPORTED | No useful eligible model and no measured25%cost benefit |
+| Quality-matched D/R runtime winner | INCONCLUSIVE | Both miss full quality; raw costs still reported |
+| General abstract Rule–State hypothesis | INCONCLUSIVE | Not an exhaustive class/abstraction test |
+| Learned-K integration/composition readiness | NOT SUPPORTED | Operator eligibility fails |
+| Actual coupled GI accuracy | INCONCLUSIVE | Not run after eligibility failure; historical blue floor retained |
+| Rigid material-frame reuse | CONDITIONALLY SUPPORTED | Physical baseline and A1operator/frame controls; no new coupled learned-rigid claim |
+| Local deformation | NOT SUPPORTED | Complete learned response contract fails despite partial learning |
+| Global bending/twisting; self-contact | INCONCLUSIVE | Not tested |
+| TransGI comparison readiness | INCONCLUSIVE | No aligned comparator experiment |
+
+The machine-generated primary verdicts remain unchanged. Post hoc `review/review_summary.json` separates these scopes and does not replace any acceptance score. No candidate is adopted, no canonical K/C ownership changes, and no WL58/new hypothesis is authorised by this result.
+
+### Reproducibility and artifacts
+
+All final evidence is under [results/fnto_rule57/recovery_a2/final](../../results/fnto_rule57/recovery_a2/final/): original gate, full heldout/cost/physics/directional records, training histories,32fresh cost-worker measurements, stage receipts/logs, original server reports, terminal hashes,4verified final checkpoints and a report-only review. [Summary figure](../../results/fnto_rule57/recovery_a2/final/out/review/summary.png) and PDF/CSV counterparts are post hoc visualisation of existing measurements; they execute no model or oracle. Reviewer script `r57_final_summary.py` only reads completed JSON. Large complete actions/half second moments and coarse per-case prediction arrays remain on LabServer69 under `~/rest_wl57_recovery`, with their source/seeds/hash manifests retained.
+
+Executable scientific source e809c15; A3execution09f5af3; pre-result cost/report correction cffe2b0; post hoc formatting source2bbeb47. Protocol files `rule57_recovery_a2.json` and `rule57_execution_a3.json` coexist with all original failed protocols. Physical model, model parameters/counts, data splits, seeds5701/5702,6000steps, precision, losses, checkpoint choice and thresholds stayed fixed. All historical53–56 negative results are unchanged. The authorised conditional batch is now closed with the bounded verdict above; no remaining server job is expected.
