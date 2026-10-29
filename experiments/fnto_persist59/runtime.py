@@ -6,6 +6,7 @@ its inherited quadrature has no segment certificates, NONRIGID S conservatively
 rebuilds B in full; this shared cost is never hidden from the comparison.
 """
 import sys
+import weakref
 from pathlib import Path
 
 import torch
@@ -70,14 +71,14 @@ def full(model, g):
     zs = model.layers(g)
     st = dict(z=zs[-1], s=model.src_layer(zs[-1]), d=model.dst_layer(zs[-1]))
     cache = dict(g=g, zs=zs, st=st, raw=edge_values(model, g, st, torch.arange(len(g['src']), device=g['src'].device)),
-                 head=model.node_head(zs[-1]), versions=versions(model), rule_identity=id(model))
+                 head=model.node_head(zs[-1]), versions=versions(model), rule_identity=weakref.ref(model))
     finish(model, cache)
     return cache
 
 
 @torch.no_grad()
 def selective(model, cache, g):
-    if cache['rule_identity'] != id(model):
+    if cache['rule_identity']() is not model:
         raise ValueError('Different rule instance/checkpoint: explicitly rebuild resident state')
     if versions(model) != cache['versions']:
         raise ValueError('Rule weights changed: invalidate resident state explicitly')
