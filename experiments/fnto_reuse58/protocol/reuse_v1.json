@@ -1,0 +1,31 @@
+{
+  "batch_id": "intrinsic_state_reuse_v1",
+  "worklog": 58,
+  "date": "2026-10-29",
+  "starting_head": "29fd693",
+  "branch": "Selective_Recompute",
+  "authorization": "User pasted DIRECTION Validate a source-independent reusable intrinsic transport rule with persistent selectively updated geometry-dependent transport state",
+  "contract": "docs/plans/INTRINSIC_STATE_REUSE_V1.md",
+  "candidate": {"name": "dependency-certified persistent graph transport state", "input_grid": 8, "output_grid": 16, "cell_mm": 2.5, "state_channels": 32, "graph_hops": 2, "graph_neighbors": 16, "material_edges": 128, "dense_tail_rank": 16, "angular_mixtures": 64, "pair_hidden": 128, "node_hidden": 144, "analytic_specular_bypass": false},
+  "preflight": {
+    "ordered_first_gate": "angular representation and independent analytic reference",
+    "probe": "static local GGX conductor, F=1, correlated Smith, collimated unit incident flux; not a changed volume material",
+    "alpha": [0.04, 0.25],
+    "theta_degrees": [0, 30, 60],
+    "phi_degrees": [17, 61],
+    "reference_grids": [512, 1024, 2048],
+    "pair_input_bins": [18, 27],
+    "pair_offsets": [[0.2, 0.5], [0.8, 0.5]],
+    "output_projection_rel_l2_max": 0.10,
+    "source_alias_pair_lower_bound_max": 0.25,
+    "reference_relative_convergence_max": 0.01,
+    "reference_energy_max": 1.001,
+    "reciprocity_relative_max": 1e-10,
+    "precision": "numpy float64 CPU; evaluate grids sequentially, no neural training or target K access",
+    "failure_action": "write STOPPED_ANGULAR_REPRESENTATION report, no training, no second candidate",
+    "pass_action": "continue same batch: implement and commit full F/S resource, identity, dependency and physical tests before supervision/training"
+  },
+  "preserve": ["WL53-57 implementations/results", "physical K/C ownership", "production FNTO", "K44/DASQ", "all historical thresholds"],
+  "artifacts": {"server": "LabServer69 ~/rest_reuse_v1", "results": "results/fnto_reuse58", "documents": "docs"},
+  "interpretation": "Finite-interface preflight rejection is not a learned-weight, state-update, volume-reference or abstract-reuse falsification. Unexecuted stages are INCONCLUSIVE. No after-result bin/rank sweep."
+}
