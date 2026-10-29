@@ -1,0 +1,516 @@
+{
+  "source_commit": "272b13a",
+  "photons": 256000000,
+  "physical_passed": true,
+  "gates_A_B_passed": true,
+  "seconds": 22.29575220681727,
+  "peak_GPU_allocated": 9742388736,
+  "peak_GPU_reserved": 10599006208,
+  "CPU_maxrss_KiB": 1541908,
+  "records": [
+    {
+      "path": "/home/nd/rest_components63/halves/pt0_f62_r0_h0.pt",
+      "sha256": "96daaab20f19fce069c80b92dc802f0346ae75220f3c1d87e7e83639ffeea72d",
+      "field": 62,
+      "replica": 0,
+      "half": 0,
+      "seed": 630006200,
+      "N": 32000000,
+      "chunk": 32000000,
+      "seconds": 2.7316221203655005,
+      "physical_passed": true,
+      "gate_A_B_passed": true,
+      "gates_A_B": {
+        "original_vs_tagged_total": 9.061042363328123e-17,
+        "original_vs_tagged_second": 8.681630156650057e-17,
+        "component_first_closure": 1.107615828641626e-16,
+        "component_second_closure": 1.1099245446772229e-16,
+        "untagged_float32_response_matches": true,
+        "exclusive_exit_count_matches": true
+      },
+      "source_commit": "272b13a",
+      "reference_source_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "original_walker_source_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "instrumentation": {
+        "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+        "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+        "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+        "strip_added_assignment_restores_original_AST": true,
+        "added_assignments": 1,
+        "added_RNG_calls": 0
+      },
+      "event_counts": {
+        "B": 61235,
+        "Scat": 31938741
+      },
+      "rng_state_sha256": "c288bb70267c27a16dd75a71d4052e7fc7bb71b04a87eb792604ee9728a696e2",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999976,
+        "leaks": 14,
+        "wrong_side": 10,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 605,
+        "collisions": 455043687,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.986156732101378,
+          0.8871693011776107,
+          0.5317478612994117
+        ],
+        "flux_leak": [
+          4.343193076294938e-07,
+          4.087348326464735e-07,
+          2.8094813497858695e-07
+        ]
+      },
+      "peak_GPU_bytes": 9408857088
+    },
+    {
+      "path": "/home/nd/rest_components63/halves/pt0_f62_r0_h1.pt",
+      "sha256": "a91a82d0606a01f09ccb19af9870804487bbe251bb2ff53fa6e1e6ae19f5dcd5",
+      "field": 62,
+      "replica": 0,
+      "half": 1,
+      "seed": 630006201,
+      "N": 32000000,
+      "chunk": 32000000,
+      "seconds": 2.6463402193039656,
+      "physical_passed": true,
+      "gate_A_B_passed": true,
+      "gates_A_B": {
+        "original_vs_tagged_total": 8.665598650073315e-17,
+        "original_vs_tagged_second": 8.401929022514988e-17,
+        "component_first_closure": 1.0705273406311898e-16,
+        "component_second_closure": 1.0678045932631513e-16,
+        "untagged_float32_response_matches": true,
+        "exclusive_exit_count_matches": true
+      },
+      "source_commit": "272b13a",
+      "reference_source_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "original_walker_source_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "instrumentation": {
+        "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+        "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+        "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+        "strip_added_assignment_restores_original_AST": true,
+        "added_assignments": 1,
+        "added_RNG_calls": 0
+      },
+      "event_counts": {
+        "B": 61407,
+        "Scat": 31938573
+      },
+      "rng_state_sha256": "f09218a044a97242a485fd3b39e7bb022315f5d5f448aac794fe82d1e5046fc8",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999980,
+        "leaks": 6,
+        "wrong_side": 14,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 606,
+        "collisions": 454888574,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9861612735633827,
+          0.8871943266304888,
+          0.5318318263781496
+        ],
+        "flux_leak": [
+          1.8248066169235244e-07,
+          1.454960454339016e-07,
+          5.015435930455503e-08
+        ]
+      },
+      "peak_GPU_bytes": 9460659200
+    },
+    {
+      "path": "/home/nd/rest_components63/halves/pt0_f62_r1_h0.pt",
+      "sha256": "5160d20acd0196361746a72bdd7acc1552c04a226050ec81dc12b376287edad1",
+      "field": 62,
+      "replica": 1,
+      "half": 0,
+      "seed": 630006210,
+      "N": 32000000,
+      "chunk": 32000000,
+      "seconds": 2.5191043466329575,
+      "physical_passed": true,
+      "gate_A_B_passed": true,
+      "gates_A_B": {
+        "original_vs_tagged_total": 8.995731542563518e-17,
+        "original_vs_tagged_second": 8.359762474623295e-17,
+        "component_first_closure": 1.0701744991997228e-16,
+        "component_second_closure": 1.1157406233191434e-16,
+        "untagged_float32_response_matches": true,
+        "exclusive_exit_count_matches": true
+      },
+      "source_commit": "272b13a",
+      "reference_source_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "original_walker_source_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "instrumentation": {
+        "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+        "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+        "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+        "strip_added_assignment_restores_original_AST": true,
+        "added_assignments": 1,
+        "added_RNG_calls": 0
+      },
+      "event_counts": {
+        "B": 61186,
+        "Scat": 31938796
+      },
+      "rng_state_sha256": "47d644b2b3d1b2ab0e7a7c010df6c032e5fd72cdb674a06385cdd64918380d33",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999982,
+        "leaks": 13,
+        "wrong_side": 5,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 548,
+        "collisions": 454903162,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9861611404939605,
+          0.8872028511112319,
+          0.531870471450065
+        ],
+        "flux_leak": [
+          3.986079857298819e-07,
+          3.4058875719722437e-07,
+          1.390715886392252e-07
+        ]
+      },
+      "peak_GPU_bytes": 9511058432
+    },
+    {
+      "path": "/home/nd/rest_components63/halves/pt0_f62_r1_h1.pt",
+      "sha256": "31984de6180f60bbf08de311a2899240371bae4c8ad83f336684fa9a7f18dc51",
+      "field": 62,
+      "replica": 1,
+      "half": 1,
+      "seed": 630006211,
+      "N": 32000000,
+      "chunk": 32000000,
+      "seconds": 2.5891243889927864,
+      "physical_passed": true,
+      "gate_A_B_passed": true,
+      "gates_A_B": {
+        "original_vs_tagged_total": 8.577447795932832e-17,
+        "original_vs_tagged_second": 8.54236302884017e-17,
+        "component_first_closure": 1.0892869198919244e-16,
+        "component_second_closure": 1.0819628662421135e-16,
+        "untagged_float32_response_matches": true,
+        "exclusive_exit_count_matches": true
+      },
+      "source_commit": "272b13a",
+      "reference_source_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "original_walker_source_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "instrumentation": {
+        "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+        "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+        "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+        "strip_added_assignment_restores_original_AST": true,
+        "added_assignments": 1,
+        "added_RNG_calls": 0
+      },
+      "event_counts": {
+        "B": 61437,
+        "Scat": 31938541
+      },
+      "rng_state_sha256": "577f88bf4a214d952b20aa50d12052c04ede417ebb9f8b3935ee3d237ae97691",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999978,
+        "leaks": 14,
+        "wrong_side": 8,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 574,
+        "collisions": 455004568,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9861581008578479,
+          0.8871861576844944,
+          0.531816534671836
+        ],
+        "flux_leak": [
+          4.297001439113046e-07,
+          3.702444697495366e-07,
+          1.64803393161439e-07
+        ]
+      },
+      "peak_GPU_bytes": 9560582144
+    },
+    {
+      "path": "/home/nd/rest_components63/halves/pt0_f63_r0_h0.pt",
+      "sha256": "efd734bb6baea9456ad2838c3eeac2664225ac169e045c4da57bc4a0da5a7d8a",
+      "field": 63,
+      "replica": 0,
+      "half": 0,
+      "seed": 630006300,
+      "N": 32000000,
+      "chunk": 32000000,
+      "seconds": 2.677246095612645,
+      "physical_passed": true,
+      "gate_A_B_passed": true,
+      "gates_A_B": {
+        "original_vs_tagged_total": 9.261615024223409e-17,
+        "original_vs_tagged_second": 8.58324270113327e-17,
+        "component_first_closure": 1.9179720750662876e-16,
+        "component_second_closure": 1.6814738444637523e-16,
+        "untagged_float32_response_matches": true,
+        "exclusive_exit_count_matches": true
+      },
+      "source_commit": "272b13a",
+      "reference_source_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "original_walker_source_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "instrumentation": {
+        "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+        "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+        "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+        "strip_added_assignment_restores_original_AST": true,
+        "added_assignments": 1,
+        "added_RNG_calls": 0
+      },
+      "event_counts": {
+        "B": 228471,
+        "Scat": 31771505
+      },
+      "rng_state_sha256": "9f6e9feabe366000bc27e8d8ebb9ce62743927e290ede3ca44678833cc62400e",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999976,
+        "leaks": 15,
+        "wrong_side": 9,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 624,
+        "collisions": 426809128,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9870067450993787,
+          0.8935321385236902,
+          0.5475339360274116
+        ],
+        "flux_leak": [
+          4.5904520717954256e-07,
+          3.932834191644474e-07,
+          1.8619420307618156e-07
+        ]
+      },
+      "peak_GPU_bytes": 9586917888
+    },
+    {
+      "path": "/home/nd/rest_components63/halves/pt0_f63_r0_h1.pt",
+      "sha256": "deafd971b3494f702acbb10582bb441c8cefad42183cb4b04d8b80e8bc076004",
+      "field": 63,
+      "replica": 0,
+      "half": 1,
+      "seed": 630006301,
+      "N": 32000000,
+      "chunk": 32000000,
+      "seconds": 2.782731281593442,
+      "physical_passed": true,
+      "gate_A_B_passed": true,
+      "gates_A_B": {
+        "original_vs_tagged_total": 9.341316327262273e-17,
+        "original_vs_tagged_second": 8.56155161033741e-17,
+        "component_first_closure": 1.914681702805836e-16,
+        "component_second_closure": 1.7317390223963145e-16,
+        "untagged_float32_response_matches": true,
+        "exclusive_exit_count_matches": true
+      },
+      "source_commit": "272b13a",
+      "reference_source_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "original_walker_source_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "instrumentation": {
+        "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+        "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+        "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+        "strip_added_assignment_restores_original_AST": true,
+        "added_assignments": 1,
+        "added_RNG_calls": 0
+      },
+      "event_counts": {
+        "B": 227965,
+        "Scat": 31772018
+      },
+      "rng_state_sha256": "ced8f98e7e1a0d70bac757dd82594147ac20643aac1a7e17299599553cd849e3",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999983,
+        "leaks": 11,
+        "wrong_side": 6,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 680,
+        "collisions": 426906453,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9870039545271965,
+          0.8935075016452235,
+          0.5474669638289532
+        ],
+        "flux_leak": [
+          3.3918784581032924e-07,
+          3.1029434222062946e-07,
+          2.1384243377794857e-07
+        ]
+      },
+      "peak_GPU_bytes": 9636637184
+    },
+    {
+      "path": "/home/nd/rest_components63/halves/pt0_f63_r1_h0.pt",
+      "sha256": "86405efd4e1b0e6c4524f0b55e90fd853851b99b731a78ea645392d3c5ab50e2",
+      "field": 63,
+      "replica": 1,
+      "half": 0,
+      "seed": 630006310,
+      "N": 32000000,
+      "chunk": 32000000,
+      "seconds": 2.5729598309844732,
+      "physical_passed": true,
+      "gate_A_B_passed": true,
+      "gates_A_B": {
+        "original_vs_tagged_total": 9.557293350794123e-17,
+        "original_vs_tagged_second": 9.160757442349987e-17,
+        "component_first_closure": 1.9074915158438924e-16,
+        "component_second_closure": 1.74010277811147e-16,
+        "untagged_float32_response_matches": true,
+        "exclusive_exit_count_matches": true
+      },
+      "source_commit": "272b13a",
+      "reference_source_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "original_walker_source_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "instrumentation": {
+        "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+        "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+        "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+        "strip_added_assignment_restores_original_AST": true,
+        "added_assignments": 1,
+        "added_RNG_calls": 0
+      },
+      "event_counts": {
+        "B": 228647,
+        "Scat": 31771334
+      },
+      "rng_state_sha256": "738335c57583f8ac9615a0baae3ae70f3c80d730207c7537e82003b3e5717110",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999981,
+        "leaks": 10,
+        "wrong_side": 9,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 587,
+        "collisions": 426984869,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9870015591330272,
+          0.8934926038433683,
+          0.5474492013402545
+        ],
+        "flux_leak": [
+          3.0701250786080436e-07,
+          2.6577038880759574e-07,
+          1.2959447099301913e-07
+        ]
+      },
+      "peak_GPU_bytes": 9687503872
+    },
+    {
+      "path": "/home/nd/rest_components63/halves/pt0_f63_r1_h1.pt",
+      "sha256": "44fb185fe615e16d162a8aebf8a7b9d8a1664c332659436240d1e1e708dd3e63",
+      "field": 63,
+      "replica": 1,
+      "half": 1,
+      "seed": 630006311,
+      "N": 32000000,
+      "chunk": 32000000,
+      "seconds": 2.4953282456845045,
+      "physical_passed": true,
+      "gate_A_B_passed": true,
+      "gates_A_B": {
+        "original_vs_tagged_total": 9.67863387890932e-17,
+        "original_vs_tagged_second": 8.777087691553648e-17,
+        "component_first_closure": 1.8939493845213165e-16,
+        "component_second_closure": 1.7260980421382583e-16,
+        "untagged_float32_response_matches": true,
+        "exclusive_exit_count_matches": true
+      },
+      "source_commit": "272b13a",
+      "reference_source_sha256": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+      "original_walker_source_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+      "instrumentation": {
+        "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+        "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+        "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+        "strip_added_assignment_restores_original_AST": true,
+        "added_assignments": 1,
+        "added_RNG_calls": 0
+      },
+      "event_counts": {
+        "B": 228113,
+        "Scat": 31771865
+      },
+      "rng_state_sha256": "57e5cdcba80ccc905f67ca630c57f7fdd9c976f01e08fdcd12b11f5692fe095d",
+      "stats": {
+        "photons": 32000000,
+        "exits": 31999978,
+        "leaks": 11,
+        "wrong_side": 11,
+        "truncated": 0,
+        "nee_invalid": 0,
+        "steps": 556,
+        "collisions": 426652834,
+        "flux_in": [
+          0.9999999974752427,
+          0.9999999974752427,
+          0.9999999974752427
+        ],
+        "flux_out": [
+          0.9870112283580799,
+          0.8935526750469099,
+          0.5474975550603897
+        ],
+        "flux_leak": [
+          3.398799393039553e-07,
+          3.080668147248389e-07,
+          1.5106760109517836e-07
+        ]
+      },
+      "peak_GPU_bytes": 9742388736
+    }
+  ]
+}

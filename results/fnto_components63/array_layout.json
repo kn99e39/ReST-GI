@@ -1,0 +1,58 @@
+{
+  "fields": [
+    62,
+    63
+  ],
+  "split": "test",
+  "pose": "pt0",
+  "components": [
+    "T",
+    "B",
+    "Scat"
+  ],
+  "checkpoints": [
+    5901,
+    5902
+  ],
+  "half_order": [
+    "r0h0",
+    "r0h1",
+    "r1h0",
+    "r1h1"
+  ],
+  "coarse_interface": "1cm material-coordinate flux,16 outgoing bins,240 ports",
+  "axes": {
+    "half_first": [
+      "field",
+      "half4",
+      "component",
+      "port",
+      "bin",
+      "RGB"
+    ],
+    "half_second": "same as half_first; raw sum of squared photon contributions, not variance",
+    "reference": [
+      "field",
+      "component",
+      "port",
+      "bin",
+      "RGB"
+    ],
+    "reference_variance": "same as reference; four-half-mean variance",
+    "reference_B_Scat_covariance": [
+      "field",
+      "port",
+      "bin",
+      "RGB"
+    ],
+    "predictions": [
+      "checkpoint",
+      "component",
+      "field",
+      "port",
+      "bin",
+      "RGB"
+    ]
+  },
+  "covariance": "Paired same-path B/Scat; raw per-photon product zero, sample covariance negative. Cross-field contrast covariance adds. Components/RGB are not independent trials."
+}

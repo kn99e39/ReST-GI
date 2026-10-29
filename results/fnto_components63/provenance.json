@@ -1,0 +1,101 @@
+{
+  "batch": "physical_components_pair7_v1",
+  "worklog": 63,
+  "date": "2026-10-30",
+  "commits": {
+    "5a5df26": "5a5df265c34cd1276b73ad1493944ad5f1db2794",
+    "272b13a": "272b13ad1c1b238617ccf49d740d7ed5c187398d",
+    "f11fb98": "f11fb983d2a087b33d170c73c4b65866c17af792",
+    "59de951": "59de9514361d1bb883c2950e524a3fd9ca8ccb36"
+  },
+  "reference_source_commit": "272b13ad1c1b238617ccf49d740d7ed5c187398d",
+  "photons": 256000000,
+  "extra_physical_pilot_photons": 0,
+  "synthetic_gate_A": "Three scripted-intersection rays, original/tagged cloned-RNG comparison; not physical reference samples",
+  "status": "COMPLETE",
+  "classification": "Outcome B: scattering-dominated in all RGB/checkpoint/replica cases",
+  "checkpoints_unchanged": {
+    "checkpoints/P_5901.pt": {
+      "sha256": "59685b214bdf1f81079dcd56fe7a61173b90640b3c5c9fb8b3f14094729aaad6",
+      "bytes": 636582,
+      "resolved": "/home/nd/rest_persist_v1/checkpoints/P_5901.pt"
+    },
+    "checkpoints/P_5902.pt": {
+      "sha256": "c92e4fda4bbe9cf5569d55c45a2881d95eaa58df3896748088d060b55f1aab3f",
+      "bytes": 636582,
+      "resolved": "/home/nd/rest_persist_v1/checkpoints/P_5902.pt"
+    }
+  },
+  "protected_original_paths": [
+    "experiments/fnto_rule57",
+    "experiments/fnto_persist59",
+    "experiments/fnto_attr60",
+    "experiments/fnto_delta61",
+    "experiments/fnto_attr62",
+    "results/fnto_rule57",
+    "results/fnto_persist59",
+    "results/fnto_attr60",
+    "results/fnto_delta61",
+    "results/fnto_attr62",
+    "docs/worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md",
+    "docs/worklogs/60_WORKLOG_FROZEN_K_FIDELITY_ATTRIBUTION.md",
+    "docs/worklogs/61_WORKLOG_CLEAN_PAIRED_DELTA_LABEL_AUDIT.md",
+    "docs/worklogs/62_WORKLOG_FROZEN_K_PRIMARY_EVIDENCE_RECONCILIATION.md",
+    "docs/Architecture.md",
+    "docs/RESEARCH_CENTRIC_TOPIC.md",
+    "docs/RESEARCH_ROADMAP.md",
+    "docs/FNTO_ARCHITECTURE_CONTRACT_V0_1.md"
+  ],
+  "source_sha256": {
+    "experiments/fnto_components63/launch.sh": "30c4800568f4ff5dc102fd574d276663546144aced33c96590e8f4ba20979c7c",
+    "experiments/fnto_components63/metrics63.py": "72b9b33c10e51b271e9c14812e12c964c9fafec9698a403e2cfba726b623d1dc",
+    "experiments/fnto_components63/test_components.py": "47e30360f2de28280824855e39048ed18b46237c98e7a43b0c8e69d5d2e9e8cf",
+    "experiments/fnto_components63/detail63.py": "e5abdb5a546eba715e22f9fffb84d379915006826c5b4186f0a6b1a8fdc8d9c2",
+    "experiments/fnto_components63/analyze63.py": "2592ef52d0bcc63e9ad6a2aee4bd3e8faa22ee2f5f886344f226579fc7c12c79",
+    "experiments/fnto_components63/common63.py": "2bf12c02bc50e386b312e655506c69466d87ca66cbe78238c3874bd37e0bc0ad",
+    "experiments/fnto_components63/review63.py": "4731a382e74fdcc96248af74183a264b776079c11b8f6111468db4182e4fa2ac",
+    "experiments/fnto_components63/tag_reference.py": "98dedccb5138e686776da3b4ae235e5566e62b315d0b24d93526dfb1bc2ecc64",
+    "experiments/fnto_components63/run63.py": "f47fc049d941b9045004305eb66fe1da32aa9836d986d5c97b459789e938ea92",
+    "experiments/fnto_components63/protocol/components_v1.json": "215727d434685c26079610134e70e4a576b4cfe27bb101b338450e507e37d06f"
+  },
+  "checks": {
+    "four_focused_tests": "PASS",
+    "actual_same_path_total_comparison": "PASS all8",
+    "component_moment_covariance_closure": "PASS",
+    "component_precision": "RGB qualified for T/B/Scat",
+    "physical_packets": "8/8",
+    "source_input_hashes": "PASS",
+    "original_actions_hashes": "MATCH WL60",
+    "all_replica_attributions": "24/24 scattering-dominated; six mean cases also agree",
+    "original_science_and_contract_diff": "EMPTY",
+    "worklog_local_links": 13,
+    "syntax_markdown": "PASS",
+    "visual_QA": "Final PNG inspected; same-path covariance wording and annotation clearance verified"
+  },
+  "artifacts": {
+    "results/fnto_components63/preflight.log": "91f489295da3fa576eebf78cb58a43bfd1b2e2c88470739b8fdda1571dd0d237",
+    "results/fnto_components63/original_actions_identity.json": "3768b0aa21bd1b06248e3abb7039bb19e9f3c61836c5868ebf6b14287f29afb1",
+    "results/fnto_components63/component_detail.json": "eb8942694c2713d73934bd44a4a663d7ff6113f45ad684a8176dd112c8a67a55",
+    "results/fnto_components63/coarse_components.npz": "b2571bff61125ad691714034df9e49ff3573236905e857652896274778c20584",
+    "results/fnto_components63/reference_complete.json": "31d8ac26a003fdf316edfc4627a46430a0e7aea4be59e92aa456e88daebe0786",
+    "results/fnto_components63/tests.log": "09f3b31f873d0eac7c2f9aa56550abc11fefaf319204f6c7ecfacf551d4ffeeb",
+    "results/fnto_components63/analysis.json": "131e344e80b88d37e5786aaf8cc96d1155d0a551cae103d8b6b9e9d39f4dbfaa",
+    "results/fnto_components63/launch.json": "282acedb9df46811c3a7174e9b65395d6a9e07ff29c7922d5d06816e473bbf83",
+    "results/fnto_components63/status.txt": "a4bccf5c13ef5ff8311e59b34d492bc7072a55298723601a6a9c127053aee8fc",
+    "results/fnto_components63/preflight.json": "1156029dc7483dbde80d0057a1649a27739b5a9a4ca05783e7da812258283a3a",
+    "results/fnto_components63/generate.log": "551dfb605df96bf516daab50c37878adf2495d49f450c8a5e96f0f7011e31545",
+    "results/fnto_components63/analyze.log": "53a3c964beace19e006c60dbc5ab6788f4698b69e89406a0125378fbad305b29",
+    "results/fnto_components63/array_layout.json": "8c623cd0d7b58ad13e399706cc14fac92e2edab61d224945122ae70c1186f8c2",
+    "results/fnto_components63/review_versions/f11fb98/component_attribution_all.csv": "95d7265018c165d525cefa8ce7fad06924d6335d9c8bf5146dbdda5b882c98d5",
+    "results/fnto_components63/review_versions/f11fb98/manifest.json": "563e0d0eaee70790e734ce882da23e0f300c8e4687c70ea8cd7b6c88a4389b2d",
+    "results/fnto_components63/review_versions/f11fb98/component_error_decomposition.png": "7033b7c4d02985358990f01414fb062603a995b80b7906107fe471c9b1cf2925",
+    "results/fnto_components63/review_versions/f11fb98/replica_attribution_all.csv": "2fce597471bef0875de1a3b30e996f8151d9e1a8333e8be55652cfc9c19e51b2",
+    "results/fnto_components63/review_versions/f11fb98/component_error_decomposition.pdf": "aa6d20cc12ed2d9d034f407ae3d374fffbbeefc41c41968da214cb3fef3fffa6",
+    "results/evaluation/63/component_attribution_all.csv": "95d7265018c165d525cefa8ce7fad06924d6335d9c8bf5146dbdda5b882c98d5",
+    "results/evaluation/63/manifest.json": "577e75fe03c8123f3d7225a2338b86ead2a926514bbf8b47b4aca966b06064f7",
+    "results/evaluation/63/component_error_decomposition.png": "cb9f3ebd61364ced871b6f426ddaba6c16835dcba94eaa17d225a2365d950938",
+    "results/evaluation/63/replica_attribution_all.csv": "2fce597471bef0875de1a3b30e996f8151d9e1a8333e8be55652cfc9c19e51b2",
+    "results/evaluation/63/component_error_decomposition.pdf": "aaea7359e4371c81b827210568836602734af090372effb0906b24b5dbe9ccf3"
+  },
+  "limits": "Component localization, not a specific optimizer/representation/normalization defect or adopted correction. No training, B optimization or successor."
+}

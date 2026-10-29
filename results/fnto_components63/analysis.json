@@ -1,0 +1,916 @@
+{
+  "batch_id": "physical_components_pair7_v1",
+  "source_commit": "272b13a",
+  "script_sha256": "2592ef52d0bcc63e9ad6a2aee4bd3e8faa22ee2f5f886344f226579fc7c12c79",
+  "fields": [
+    62,
+    63
+  ],
+  "split": "test",
+  "pose": "pt0",
+  "gate_A_B": true,
+  "per_half_variance_checks": [
+    {
+      "field": 62,
+      "replica": 0,
+      "half": 0,
+      "variance_covariance_closure": 5.986132277608289e-17,
+      "minimum_variance": 0.0,
+      "raw_BS_cross_moment": 0.0
+    },
+    {
+      "field": 62,
+      "replica": 0,
+      "half": 1,
+      "variance_covariance_closure": 5.750459955519026e-17,
+      "minimum_variance": 0.0,
+      "raw_BS_cross_moment": 0.0
+    },
+    {
+      "field": 62,
+      "replica": 1,
+      "half": 0,
+      "variance_covariance_closure": 6.06674540797943e-17,
+      "minimum_variance": 0.0,
+      "raw_BS_cross_moment": 0.0
+    },
+    {
+      "field": 62,
+      "replica": 1,
+      "half": 1,
+      "variance_covariance_closure": 5.643929087847959e-17,
+      "minimum_variance": 0.0,
+      "raw_BS_cross_moment": 0.0
+    },
+    {
+      "field": 63,
+      "replica": 0,
+      "half": 0,
+      "variance_covariance_closure": 9.358348901844198e-17,
+      "minimum_variance": 0.0,
+      "raw_BS_cross_moment": 0.0
+    },
+    {
+      "field": 63,
+      "replica": 0,
+      "half": 1,
+      "variance_covariance_closure": 9.675657098590973e-17,
+      "minimum_variance": 0.0,
+      "raw_BS_cross_moment": 0.0
+    },
+    {
+      "field": 63,
+      "replica": 1,
+      "half": 0,
+      "variance_covariance_closure": 1.0294341055132164e-16,
+      "minimum_variance": 0.0,
+      "raw_BS_cross_moment": 0.0
+    },
+    {
+      "field": 63,
+      "replica": 1,
+      "half": 1,
+      "variance_covariance_closure": 9.717311505578647e-17,
+      "minimum_variance": 0.0,
+      "raw_BS_cross_moment": 0.0
+    }
+  ],
+  "precision": {
+    "T": {
+      "contrast_norm_RGB": [
+        0.005703988863107332,
+        0.005655970316578091,
+        0.005312309769646655
+      ],
+      "single_replica_contrast_noise_norm_ratio": [
+        0.03257532645875071,
+        0.03033366279639064,
+        0.02192996032237993
+      ],
+      "SNR_RGB": [
+        30.69808068589194,
+        32.96667490214827,
+        45.59971770580366
+      ],
+      "qualified_RGB": [
+        true,
+        true,
+        true
+      ],
+      "final_mean_SE_over_component_contrast": [
+        0.021599718881717696,
+        0.01994102004126168,
+        0.014849571983875754
+      ],
+      "final_mean_SE_over_total_contrast": [
+        0.021599718881717696,
+        0.01994102004126168,
+        0.014849571983875754
+      ]
+    },
+    "B": {
+      "contrast_norm_RGB": [
+        0.004872724252953086,
+        0.004873689735286147,
+        0.004914334906295765
+      ],
+      "single_replica_contrast_noise_norm_ratio": [
+        0.002183303117748697,
+        0.002093471109904619,
+        0.0020933328152707457
+      ],
+      "SNR_RGB": [
+        458.02160582775406,
+        477.67556727618813,
+        477.7071245934024
+      ],
+      "qualified_RGB": [
+        true,
+        true,
+        true
+      ],
+      "final_mean_SE_over_component_contrast": [
+        0.0017284591037527318,
+        0.0017135960346297285,
+        0.0017135879691178451
+      ],
+      "final_mean_SE_over_total_contrast": [
+        0.001476563997094713,
+        0.0014765875591537228,
+        0.0015852135016223693
+      ]
+    },
+    "Scat": {
+      "contrast_norm_RGB": [
+        0.002986313329708045,
+        0.0028875129108081863,
+        0.002019821684924162
+      ],
+      "single_replica_contrast_noise_norm_ratio": [
+        0.06222532152564334,
+        0.059411950228588736,
+        0.05760501461089845
+      ],
+      "SNR_RGB": [
+        16.070628089690068,
+        16.83163060886705,
+        17.359599797945496
+      ],
+      "qualified_RGB": [
+        true,
+        true,
+        true
+      ],
+      "final_mean_SE_over_component_contrast": [
+        0.0411600070675866,
+        0.038952732287708215,
+        0.0388326516542351
+      ],
+      "final_mean_SE_over_total_contrast": [
+        0.021549249254643625,
+        0.019886334456589157,
+        0.014764769995622307
+      ]
+    }
+  },
+  "models": {
+    "5901": {
+      "replay_relative_L2": 1.0599251908423293e-07,
+      "rows": [
+        {
+          "channel": 0,
+          "total_relative_L2": 0.5045810155663455,
+          "B_error_on_total_norm": 0.07914396716739133,
+          "Scat_error_on_total_norm": 0.49814891501368336,
+          "B_error_relative_to_B": 0.09264556824272276,
+          "Scat_error_relative_to_Scat": 0.9514861803482864,
+          "B_squared_over_total_signal": 0.006263767538993117,
+          "Scat_squared_over_total_signal": 0.24815234152930993,
+          "cross_over_total_signal": 0.00018589220166164528,
+          "total_squared_over_total_signal": 0.25460200126996463,
+          "error_energy_identity_abs": 2.118409548748304e-21,
+          "error_cosine": 0.0023575134048046398,
+          "B_alignment_with_total": 0.1591783230726087,
+          "Scat_alignment_with_total": 0.987622369061688,
+          "B_projection_share": 0.0249672571626162,
+          "Scat_projection_share": 0.9750327428373848,
+          "classification": "B_SCATTERING_DOMINATED",
+          "qualified": true,
+          "B_error_SNR": 53.60009273090465,
+          "Scat_error_SNR": 23.116764260654833,
+          "post_hoc_moment_corrected_B_squared": 0.0062615872977556004,
+          "post_hoc_moment_corrected_Scat_squared": 0.24768797138587112,
+          "post_hoc_moment_corrected_cross": 0.00018589473056868831,
+          "post_hoc_moment_corrected_total_squared": 0.2541354534141954,
+          "reference_B_Scat_covariance_trace": -4.113961357769265e-14,
+          "classification_stable_across_replicas": true
+        },
+        {
+          "channel": 1,
+          "total_relative_L2": 0.48879074174068393,
+          "B_error_on_total_norm": 0.08091128521508088,
+          "Scat_error_on_total_norm": 0.48199557554688405,
+          "B_error_relative_to_B": 0.09389843266783446,
+          "Scat_error_relative_to_Scat": 0.9441179146977848,
+          "B_squared_over_total_signal": 0.006546636075156166,
+          "Scat_squared_over_total_signal": 0.232319734846772,
+          "cross_over_total_signal": 5.001828947979814e-05,
+          "total_squared_over_total_signal": 0.23891638921140795,
+          "error_energy_identity_abs": 5.442848430598922e-22,
+          "error_cosine": 0.0006412785133135114,
+          "B_alignment_with_total": 0.16616595136795947,
+          "Scat_alignment_with_total": 0.9862041586526527,
+          "B_projection_share": 0.02750604611758579,
+          "Scat_projection_share": 0.9724939538824141,
+          "classification": "B_SCATTERING_DOMINATED",
+          "qualified": true,
+          "B_error_SNR": 54.79613092599383,
+          "Scat_error_SNR": 24.237527363278375,
+          "post_hoc_moment_corrected_B_squared": 0.006544455764336318,
+          "post_hoc_moment_corrected_Scat_squared": 0.23192426854865267,
+          "post_hoc_moment_corrected_cross": 5.002061813297096e-05,
+          "post_hoc_moment_corrected_total_squared": 0.2385187449311219,
+          "reference_B_Scat_covariance_trace": -3.7246807757809566e-14,
+          "classification_stable_across_replicas": true
+        },
+        {
+          "channel": 2,
+          "total_relative_L2": 0.4196326826872743,
+          "B_error_on_total_norm": 0.08686460277361532,
+          "Scat_error_on_total_norm": 0.41049445917730504,
+          "B_error_relative_to_B": 0.09389911081550054,
+          "Scat_error_relative_to_Scat": 1.079636753159861,
+          "B_squared_over_total_signal": 0.007545459215017978,
+          "Scat_squared_over_total_signal": 0.16850570101526816,
+          "cross_over_total_signal": 4.0428149032566846e-05,
+          "total_squared_over_total_signal": 0.17609158837931865,
+          "error_energy_identity_abs": 1.1667382540060455e-21,
+          "error_cosine": 0.0005668964337398961,
+          "B_alignment_with_total": 0.20755607037286233,
+          "Scat_alignment_with_total": 0.9783406282412634,
+          "B_projection_share": 0.04296442186231553,
+          "Scat_projection_share": 0.9570355781376847,
+          "classification": "B_SCATTERING_DOMINATED",
+          "qualified": true,
+          "B_error_SNR": 54.79678458751072,
+          "Scat_error_SNR": 27.802292842964164,
+          "post_hoc_moment_corrected_B_squared": 0.007542946313172252,
+          "post_hoc_moment_corrected_Scat_squared": 0.16828770258224454,
+          "post_hoc_moment_corrected_cross": 4.042969579761377e-05,
+          "post_hoc_moment_corrected_total_squared": 0.17587107859121437,
+          "reference_B_Scat_covariance_trace": -2.1825345978578364e-14,
+          "classification_stable_across_replicas": true
+        }
+      ],
+      "replica_variants": [
+        {
+          "field62_replica": 0,
+          "field63_replica": 0,
+          "rows": [
+            {
+              "channel": 0,
+              "total_relative_L2": 0.5042099206924988,
+              "B_error_on_total_norm": 0.07983291422863449,
+              "Scat_error_on_total_norm": 0.4976721619152999,
+              "B_error_relative_to_B": 0.09339876086232257,
+              "Scat_error_relative_to_Scat": 0.9509472203779886,
+              "B_squared_over_total_signal": 0.006373294194236511,
+              "Scat_squared_over_total_signal": 0.2476775807454485,
+              "cross_over_total_signal": 0.00017676918505120717,
+              "total_squared_over_total_signal": 0.254227644124736,
+              "error_energy_identity_abs": 8.730891365497207e-21,
+              "error_cosine": 0.00222459641239536,
+              "B_alignment_with_total": 0.1605284438342952,
+              "Scat_alignment_with_total": 0.9873858833362896,
+              "B_projection_share": 0.025416900703338585,
+              "Scat_projection_share": 0.9745830992966618,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 1,
+              "total_relative_L2": 0.48885031714196725,
+              "B_error_on_total_norm": 0.08158633842307592,
+              "Scat_error_on_total_norm": 0.48193509080538477,
+              "B_error_relative_to_B": 0.09463639047338836,
+              "Scat_error_relative_to_Scat": 0.944315457093426,
+              "B_squared_over_total_signal": 0.006656330617284672,
+              "Scat_squared_over_total_signal": 0.23226143174959446,
+              "cross_over_total_signal": 5.687020292272819e-05,
+              "total_squared_over_total_signal": 0.23897463256980198,
+              "error_energy_identity_abs": 3.2247636180379784e-21,
+              "error_cosine": 0.0007231839686803182,
+              "B_alignment_with_total": 0.1676072680768997,
+              "Scat_alignment_with_total": 0.985974798084095,
+              "B_projection_share": 0.027972700059674692,
+              "Scat_projection_share": 0.972027299940325,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 2,
+              "total_relative_L2": 0.41962863789079685,
+              "B_error_on_total_norm": 0.08754266169406051,
+              "Scat_error_on_total_norm": 0.410357599343881,
+              "B_error_relative_to_B": 0.09463698407273244,
+              "Scat_error_relative_to_Scat": 1.0791307960226881,
+              "B_squared_over_total_signal": 0.007663717616480729,
+              "Scat_squared_over_total_signal": 0.16839335933927316,
+              "cross_over_total_signal": 3.1116782331568964e-05,
+              "total_squared_over_total_signal": 0.1760881937380855,
+              "error_energy_identity_abs": 1.829516719814159e-21,
+              "error_cosine": 0.0004330942908230359,
+              "B_alignment_with_total": 0.20904289485209157,
+              "Scat_alignment_with_total": 0.9779969156386887,
+              "B_projection_share": 0.043610396839374205,
+              "Scat_projection_share": 0.9563896031606257,
+              "classification": "B_SCATTERING_DOMINATED"
+            }
+          ]
+        },
+        {
+          "field62_replica": 0,
+          "field63_replica": 1,
+          "rows": [
+            {
+              "channel": 0,
+              "total_relative_L2": 0.5046127573292901,
+              "B_error_on_total_norm": 0.07842362490690492,
+              "Scat_error_on_total_norm": 0.4982363492836636,
+              "B_error_relative_to_B": 0.09179108721586515,
+              "Scat_error_relative_to_Scat": 0.9520927133571924,
+              "B_squared_over_total_signal": 0.006150264943538918,
+              "Scat_squared_over_total_signal": 0.24823945974751283,
+              "cross_over_total_signal": 0.000244310168417708,
+              "total_squared_over_total_signal": 0.254634034859469,
+              "error_energy_identity_abs": 1.5145677015845937e-20,
+              "error_cosine": 0.003126289746838475,
+              "B_alignment_with_total": 0.15850026567001743,
+              "Scat_alignment_with_total": 0.9878496272991152,
+              "B_projection_share": 0.024633077943447292,
+              "Scat_projection_share": 0.9753669220565541,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 1,
+              "total_relative_L2": 0.48888050162562224,
+              "B_error_on_total_norm": 0.08019388300997762,
+              "Scat_error_on_total_norm": 0.4821445103387494,
+              "B_error_relative_to_B": 0.09305295533371424,
+              "Scat_error_relative_to_Scat": 0.9447111567107865,
+              "B_squared_over_total_signal": 0.006431058872217978,
+              "Scat_squared_over_total_signal": 0.2324633288497924,
+              "cross_over_total_signal": 0.00010975714770963784,
+              "total_squared_over_total_signal": 0.23900414486972005,
+              "error_energy_identity_abs": 9.202384314652433e-22,
+              "error_cosine": 0.0014193331549014507,
+              "B_alignment_with_total": 0.16543553369385675,
+              "Scat_alignment_with_total": 0.9864544210131596,
+              "B_projection_share": 0.027137342951136883,
+              "Scat_projection_share": 0.9728626570488632,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 2,
+              "total_relative_L2": 0.4198081816399754,
+              "B_error_on_total_norm": 0.08608682925559658,
+              "Scat_error_on_total_norm": 0.41081864350199354,
+              "B_error_relative_to_B": 0.09305371144765365,
+              "Scat_error_relative_to_Scat": 1.0800041237785014,
+              "B_squared_over_total_signal": 0.007410942171282239,
+              "Scat_squared_over_total_signal": 0.16877195784881804,
+              "cross_over_total_signal": 5.600935176232078e-05,
+              "total_squared_over_total_signal": 0.17623890937186257,
+              "error_energy_identity_abs": 7.314344566500147e-22,
+              "error_cosine": 0.0007918514096314548,
+              "B_alignment_with_total": 0.20583719030912784,
+              "Scat_alignment_with_total": 0.9787489368929524,
+              "B_projection_share": 0.0422094466748389,
+              "Scat_projection_share": 0.9577905533251612,
+              "classification": "B_SCATTERING_DOMINATED"
+            }
+          ]
+        },
+        {
+          "field62_replica": 1,
+          "field63_replica": 0,
+          "rows": [
+            {
+              "channel": 0,
+              "total_relative_L2": 0.5052201520905479,
+              "B_error_on_total_norm": 0.07984317852908203,
+              "Scat_error_on_total_norm": 0.49874510690767315,
+              "B_error_relative_to_B": 0.09351783463559424,
+              "Scat_error_relative_to_Scat": 0.9510456355675392,
+              "B_squared_over_total_signal": 0.006374933157626867,
+              "Scat_squared_over_total_signal": 0.2487466816643463,
+              "cross_over_total_signal": 0.00012578725642323684,
+              "total_squared_over_total_signal": 0.2552474020783964,
+              "error_energy_identity_abs": 8.255262513279216e-22,
+              "error_cosine": 0.0015793929073924307,
+              "B_alignment_with_total": 0.15959555983641288,
+              "Scat_alignment_with_total": 0.9874333171257489,
+              "B_projection_share": 0.025221909149387454,
+              "Scat_projection_share": 0.9747780908506125,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 1,
+              "total_relative_L2": 0.489302457256926,
+              "B_error_on_total_norm": 0.08161062297758294,
+              "Scat_error_on_total_norm": 0.4824600534498264,
+              "B_error_relative_to_B": 0.09475963412888919,
+              "Scat_error_relative_to_Scat": 0.9436958381733528,
+              "B_squared_over_total_signal": 0.006660293782789188,
+              "Scat_squared_over_total_signal": 0.23276770317480935,
+              "cross_over_total_signal": -1.1102279932651581e-05,
+              "total_squared_over_total_signal": 0.2394168946776659,
+              "error_energy_identity_abs": 7.517003816575639e-23,
+              "error_cosine": -0.00014098539456241453,
+              "B_alignment_with_total": 0.16665071255460714,
+              "Scat_alignment_with_total": 0.9859924886717242,
+              "B_projection_share": 0.02779562675300063,
+              "Scat_projection_share": 0.9722043732469999,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 2,
+              "total_relative_L2": 0.4198913954155705,
+              "B_error_on_total_norm": 0.08763761208588873,
+              "Scat_error_on_total_norm": 0.4106139891179449,
+              "B_error_relative_to_B": 0.0947602325300455,
+              "Scat_error_relative_to_Scat": 1.0790362548918822,
+              "B_squared_over_total_signal": 0.00768035105211671,
+              "Scat_squared_over_total_signal": 0.16860384805935177,
+              "cross_over_total_signal": 2.4584832566385998e-05,
+              "total_squared_over_total_signal": 0.176308783944035,
+              "error_energy_identity_abs": 4.030437534664627e-21,
+              "error_cosine": 0.00034159616196914263,
+              "B_alignment_with_total": 0.20904899982946265,
+              "Scat_alignment_with_total": 0.9779765202939216,
+              "B_projection_share": 0.04363165178906657,
+              "Scat_projection_share": 0.9563683482109333,
+              "classification": "B_SCATTERING_DOMINATED"
+            }
+          ]
+        },
+        {
+          "field62_replica": 1,
+          "field63_replica": 1,
+          "rows": [
+            {
+              "channel": 0,
+              "total_relative_L2": 0.5057301981428812,
+              "B_error_on_total_norm": 0.0784323623495629,
+              "Scat_error_on_total_norm": 0.49941992782883765,
+              "B_error_relative_to_B": 0.09191320985475736,
+              "Scat_error_relative_to_Scat": 0.9522110219186078,
+              "B_squared_over_total_signal": 0.006151635463733131,
+              "Scat_squared_over_total_signal": 0.24942026431256142,
+              "cross_over_total_signal": 0.0001911335373434969,
+              "total_squared_over_total_signal": 0.25576303331363787,
+              "error_energy_identity_abs": 6.940045339319902e-21,
+              "error_cosine": 0.0024397523121224224,
+              "B_alignment_with_total": 0.15749667226852068,
+              "Scat_alignment_with_total": 0.9879008317100205,
+              "B_projection_share": 0.024425743437066782,
+              "Scat_projection_share": 0.9755742565629337,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 1,
+              "total_relative_L2": 0.48944540389782376,
+              "B_error_on_total_norm": 0.08021642387063761,
+              "Scat_error_on_total_norm": 0.4827857474805402,
+              "B_error_relative_to_B": 0.09317918537429573,
+              "Scat_error_relative_to_Scat": 0.9441238930832808,
+              "B_squared_over_total_signal": 0.006434674658593799,
+              "Scat_squared_over_total_signal": 0.23308207797034391,
+              "cross_over_total_signal": 4.00507677661621e-05,
+              "total_squared_over_total_signal": 0.23955680339670382,
+              "error_energy_identity_abs": 1.1675654346185986e-21,
+              "error_cosine": 0.0005170863968078345,
+              "B_alignment_with_total": 0.16440253636548757,
+              "Scat_alignment_with_total": 0.9864782107606014,
+              "B_projection_share": 0.026944340344147763,
+              "Scat_projection_share": 0.9730556596558522,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 2,
+              "total_relative_L2": 0.4201079973239949,
+              "B_error_on_total_norm": 0.08618325708225896,
+              "Scat_error_on_total_norm": 0.41111556621840784,
+              "B_error_relative_to_B": 0.0931799462593152,
+              "Scat_error_relative_to_Scat": 1.0798868616309945,
+              "B_squared_over_total_signal": 0.0074275538013067405,
+              "Scat_squared_over_total_signal": 0.16901600878708206,
+              "cross_over_total_signal": 4.716682718874622e-05,
+              "total_squared_over_total_signal": 0.1764907294155777,
+              "error_energy_identity_abs": 4.007896862972557e-21,
+              "error_cosine": 0.0006656100081682318,
+              "B_alignment_with_total": 0.20579684335542525,
+              "Scat_alignment_with_total": 0.9787315006520877,
+              "B_projection_share": 0.04221829236909171,
+              "Scat_projection_share": 0.9577817076309081,
+              "classification": "B_SCATTERING_DOMINATED"
+            }
+          ]
+        }
+      ],
+      "total_vs_component_contrast_closure": [
+        5.576149743120385e-19,
+        3.1867369255278475e-19,
+        3.351710365031103e-19
+      ]
+    },
+    "5902": {
+      "replay_relative_L2": 1.1363389501589336e-07,
+      "rows": [
+        {
+          "channel": 0,
+          "total_relative_L2": 0.4847914248127975,
+          "B_error_on_total_norm": 0.07914396716739133,
+          "Scat_error_on_total_norm": 0.47820820505983724,
+          "B_error_relative_to_B": 0.09264556824272276,
+          "Scat_error_relative_to_Scat": 0.9133985535853176,
+          "B_squared_over_total_signal": 0.006263767538993117,
+          "Scat_squared_over_total_signal": 0.22868308738655133,
+          "cross_over_total_signal": 7.587064647790695e-05,
+          "total_squared_over_total_signal": 0.23502272557202233,
+          "error_energy_identity_abs": 4.958947772255401e-22,
+          "error_cosine": 0.001002325893032222,
+          "B_alignment_with_total": 0.16424235982377366,
+          "Scat_alignment_with_total": 0.9865841444949174,
+          "B_projection_share": 0.02681316390529615,
+          "Scat_projection_share": 0.9731868360947036,
+          "classification": "B_SCATTERING_DOMINATED",
+          "qualified": true,
+          "B_error_SNR": 53.60009273090465,
+          "Scat_error_SNR": 22.191409056015846,
+          "post_hoc_moment_corrected_B_squared": 0.0062615872977556004,
+          "post_hoc_moment_corrected_Scat_squared": 0.22821871724311257,
+          "post_hoc_moment_corrected_cross": 7.587317538494998e-05,
+          "post_hoc_moment_corrected_total_squared": 0.23455617771625314,
+          "reference_B_Scat_covariance_trace": -4.113961357769265e-14,
+          "classification_stable_across_replicas": true
+        },
+        {
+          "channel": 1,
+          "total_relative_L2": 0.47095640837685565,
+          "B_error_on_total_norm": 0.08091128521508088,
+          "Scat_error_on_total_norm": 0.46387156947274866,
+          "B_error_relative_to_B": 0.09389843266783446,
+          "Scat_error_relative_to_Scat": 0.9086171763325661,
+          "B_squared_over_total_signal": 0.006546636075156166,
+          "Scat_squared_over_total_signal": 0.2151768329651111,
+          "cross_over_total_signal": 7.646955096040182e-05,
+          "total_squared_over_total_signal": 0.22179993859122762,
+          "error_energy_identity_abs": 8.970773743137585e-22,
+          "error_cosine": 0.0010187126264230694,
+          "B_alignment_with_total": 0.1728054562850726,
+          "Scat_alignment_with_total": 0.9851315038256488,
+          "B_projection_share": 0.029688334868172073,
+          "Scat_projection_share": 0.9703116651318286,
+          "classification": "B_SCATTERING_DOMINATED",
+          "qualified": true,
+          "B_error_SNR": 54.79613092599383,
+          "Scat_error_SNR": 23.326147434830553,
+          "post_hoc_moment_corrected_B_squared": 0.006544455764336318,
+          "post_hoc_moment_corrected_Scat_squared": 0.21478136666699177,
+          "post_hoc_moment_corrected_cross": 7.647187961357464e-05,
+          "post_hoc_moment_corrected_total_squared": 0.2214022943109416,
+          "reference_B_Scat_covariance_trace": -3.7246807757809566e-14,
+          "classification_stable_across_replicas": true
+        },
+        {
+          "channel": 2,
+          "total_relative_L2": 0.43321827183862105,
+          "B_error_on_total_norm": 0.08686460277361532,
+          "Scat_error_on_total_norm": 0.4243428713419725,
+          "B_error_relative_to_B": 0.09389911081550054,
+          "Scat_error_relative_to_Scat": 1.1160593026282426,
+          "B_squared_over_total_signal": 0.007545459215017978,
+          "Scat_squared_over_total_signal": 0.18006687245874986,
+          "cross_over_total_signal": 6.573938107341714e-05,
+          "total_squared_over_total_signal": 0.18767807105484136,
+          "error_energy_identity_abs": 2.4869185116406777e-21,
+          "error_cosine": 0.0008917351104899746,
+          "B_alignment_with_total": 0.20138348237392936,
+          "Scat_alignment_with_total": 0.9796916684904386,
+          "B_projection_share": 0.040379405345338557,
+          "Scat_projection_share": 0.9596205946546612,
+          "classification": "B_SCATTERING_DOMINATED",
+          "qualified": true,
+          "B_error_SNR": 54.79678458751072,
+          "Scat_error_SNR": 28.74022903626579,
+          "post_hoc_moment_corrected_B_squared": 0.007542946313172252,
+          "post_hoc_moment_corrected_Scat_squared": 0.17984887402572622,
+          "post_hoc_moment_corrected_cross": 6.574092783846406e-05,
+          "post_hoc_moment_corrected_total_squared": 0.18745756126673707,
+          "reference_B_Scat_covariance_trace": -2.1825345978578364e-14,
+          "classification_stable_across_replicas": true
+        }
+      ],
+      "replica_variants": [
+        {
+          "field62_replica": 0,
+          "field63_replica": 0,
+          "rows": [
+            {
+              "channel": 0,
+              "total_relative_L2": 0.48456203881390114,
+              "B_error_on_total_norm": 0.07983291422863449,
+              "Scat_error_on_total_norm": 0.4778718782848698,
+              "B_error_relative_to_B": 0.09339876086232257,
+              "Scat_error_relative_to_Scat": 0.9131130272646181,
+              "B_squared_over_total_signal": 0.006373294194236511,
+              "Scat_squared_over_total_signal": 0.22836153205550944,
+              "cross_over_total_signal": 6.554320973868587e-05,
+              "total_squared_over_total_signal": 0.23480036945948463,
+              "error_energy_identity_abs": 1.9356026333740848e-22,
+              "error_cosine": 0.0008590219333868308,
+              "B_alignment_with_total": 0.16559988242134602,
+              "Scat_alignment_with_total": 0.9863349132323416,
+              "B_projection_share": 0.02728303117176838,
+              "Scat_projection_share": 0.972716968828231,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 1,
+              "total_relative_L2": 0.470657013472615,
+              "B_error_on_total_norm": 0.08158633842307592,
+              "Scat_error_on_total_norm": 0.4634408550866276,
+              "B_error_relative_to_B": 0.09463639047338836,
+              "Scat_error_relative_to_Scat": 0.9080773972601677,
+              "B_squared_over_total_signal": 0.006656330617284672,
+              "Scat_squared_over_total_signal": 0.21477742616342455,
+              "cross_over_total_signal": 8.426755025198349e-05,
+              "total_squared_over_total_signal": 0.2215180243309613,
+              "error_energy_identity_abs": 3.111026283811937e-21,
+              "error_cosine": 0.001114342292884462,
+              "B_alignment_with_total": 0.17444289114567008,
+              "Scat_alignment_with_total": 0.9848610706425287,
+              "B_projection_share": 0.030238913572119785,
+              "Scat_projection_share": 0.9697610864278803,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 2,
+              "total_relative_L2": 0.43321099646514377,
+              "B_error_on_total_norm": 0.08754266169406051,
+              "Scat_error_on_total_norm": 0.424206821883463,
+              "B_error_relative_to_B": 0.09463698407273244,
+              "Scat_error_relative_to_Scat": 1.1155505493483966,
+              "B_squared_over_total_signal": 0.007663717616480729,
+              "Scat_squared_over_total_signal": 0.17995142773246808,
+              "cross_over_total_signal": 5.66221093739544e-05,
+              "total_squared_over_total_signal": 0.1876717674583228,
+              "error_energy_identity_abs": 2.208572235516584e-21,
+              "error_cosine": 0.0007623574580898437,
+              "B_alignment_with_total": 0.20282508903387367,
+              "Scat_alignment_with_total": 0.979369323831656,
+              "B_projection_share": 0.04098660536607305,
+              "Scat_projection_share": 0.9590133946339268,
+              "classification": "B_SCATTERING_DOMINATED"
+            }
+          ]
+        },
+        {
+          "field62_replica": 0,
+          "field63_replica": 1,
+          "rows": [
+            {
+              "channel": 0,
+              "total_relative_L2": 0.4847814055689366,
+              "B_error_on_total_norm": 0.07842362490690492,
+              "Scat_error_on_total_norm": 0.47825416030317897,
+              "B_error_relative_to_B": 0.09179108721586515,
+              "Scat_error_relative_to_Scat": 0.9139082321313673,
+              "B_squared_over_total_signal": 0.006150264943538918,
+              "Scat_squared_over_total_signal": 0.2287270418472988,
+              "cross_over_total_signal": 0.0001357043945561293,
+              "total_squared_over_total_signal": 0.23501301118539383,
+              "error_energy_identity_abs": 6.815968247436948e-22,
+              "error_cosine": 0.001809081977265619,
+              "B_alignment_with_total": 0.1635558315109242,
+              "Scat_alignment_with_total": 0.986828351034107,
+              "B_projection_share": 0.026458608012607972,
+              "Scat_projection_share": 0.9735413919873916,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 1,
+              "total_relative_L2": 0.4711077694608248,
+              "B_error_on_total_norm": 0.08019388300997762,
+              "Scat_error_on_total_norm": 0.4640849416676952,
+              "B_error_relative_to_B": 0.09305295533371424,
+              "Scat_error_relative_to_Scat": 0.9093253426175342,
+              "B_squared_over_total_signal": 0.006431058872217978,
+              "Scat_squared_over_total_signal": 0.21537483308270805,
+              "cross_over_total_signal": 0.00013663849142759536,
+              "total_squared_over_total_signal": 0.22194253044635365,
+              "error_energy_identity_abs": 6.86559908419013e-22,
+              "error_cosine": 0.0018357111392072177,
+              "B_alignment_with_total": 0.17203241839906586,
+              "Scat_alignment_with_total": 0.9854054307007895,
+              "B_projection_share": 0.029284058827574556,
+              "Scat_projection_share": 0.9707159411724261,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 2,
+              "total_relative_L2": 0.43337673597990156,
+              "B_error_on_total_norm": 0.08608682925559658,
+              "Scat_error_on_total_norm": 0.4246455584284419,
+              "B_error_relative_to_B": 0.09305371144765365,
+              "Scat_error_relative_to_Scat": 1.1163538011261558,
+              "B_squared_over_total_signal": 0.007410942171282239,
+              "Scat_squared_over_total_signal": 0.1803238502930033,
+              "cross_over_total_signal": 8.060282430762903e-05,
+              "total_squared_over_total_signal": 0.18781539528859328,
+              "error_energy_identity_abs": 3.237998507838827e-21,
+              "error_cosine": 0.001102445085626787,
+              "B_alignment_with_total": 0.19972225197762658,
+              "Scat_alignment_with_total": 0.980072138551501,
+              "B_projection_share": 0.03967323111072245,
+              "Scat_projection_share": 0.9603267688892769,
+              "classification": "B_SCATTERING_DOMINATED"
+            }
+          ]
+        },
+        {
+          "field62_replica": 1,
+          "field63_replica": 0,
+          "rows": [
+            {
+              "channel": 0,
+              "total_relative_L2": 0.48551796527301305,
+              "B_error_on_total_norm": 0.07984317852908203,
+              "Scat_error_on_total_norm": 0.47889279844453125,
+              "B_error_relative_to_B": 0.09351783463559424,
+              "Scat_error_relative_to_Scat": 0.9131897226807449,
+              "B_squared_over_total_signal": 0.006374933157626867,
+              "Scat_squared_over_total_signal": 0.22933831240203442,
+              "cross_over_total_signal": 1.4449043185476125e-05,
+              "total_squared_over_total_signal": 0.23572769460284673,
+              "error_energy_identity_abs": 1.0900172521917522e-21,
+              "error_cosine": 0.0001889439409348334,
+              "B_alignment_with_total": 0.1646358490087138,
+              "Scat_alignment_with_total": 0.9863855069915783,
+              "B_projection_share": 0.02707428030453632,
+              "Scat_projection_share": 0.9729257196954633,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 1,
+              "total_relative_L2": 0.47144332005415424,
+              "B_error_on_total_norm": 0.08161062297758294,
+              "Scat_error_on_total_norm": 0.4643098233524732,
+              "B_error_relative_to_B": 0.09475963412888919,
+              "Scat_error_relative_to_Scat": 0.9081938386144548,
+              "B_squared_over_total_signal": 0.006660293782789188,
+              "Scat_squared_over_total_signal": 0.2155836120616049,
+              "cross_over_total_signal": 1.489817928955357e-05,
+              "total_squared_over_total_signal": 0.2222588040236837,
+              "error_energy_identity_abs": 2.1331954021976892e-21,
+              "error_cosine": 0.00019658421181724343,
+              "B_alignment_with_total": 0.17330163666092632,
+              "Scat_alignment_with_total": 0.9849028440134261,
+              "B_projection_share": 0.029999904398493288,
+              "Scat_projection_share": 0.9700000956015066,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 2,
+              "total_relative_L2": 0.43347450643681057,
+              "B_error_on_total_norm": 0.08763761208588873,
+              "Scat_error_on_total_norm": 0.42446341786893393,
+              "B_error_relative_to_B": 0.0947602325300455,
+              "Scat_error_relative_to_Scat": 1.1154306207145424,
+              "B_squared_over_total_signal": 0.00768035105211671,
+              "Scat_squared_over_total_signal": 0.18016919310897722,
+              "cross_over_total_signal": 5.060356954255785e-05,
+              "total_squared_over_total_signal": 0.1879001477306365,
+              "error_energy_identity_abs": 6.119068581361022e-22,
+              "error_cosine": 0.0006801745136562786,
+              "B_alignment_with_total": 0.20284081296374892,
+              "Scat_alignment_with_total": 0.9793494667742255,
+              "B_projection_share": 0.04100929632016254,
+              "Scat_projection_share": 0.9589907036798376,
+              "classification": "B_SCATTERING_DOMINATED"
+            }
+          ]
+        },
+        {
+          "field62_replica": 1,
+          "field63_replica": 1,
+          "rows": [
+            {
+              "channel": 0,
+              "total_relative_L2": 0.4858531025182927,
+              "B_error_on_total_norm": 0.0784323623495629,
+              "Scat_error_on_total_norm": 0.47939459221924735,
+              "B_error_relative_to_B": 0.09191320985475736,
+              "Scat_error_relative_to_Scat": 0.9140300358935464,
+              "B_squared_over_total_signal": 0.006151635463733131,
+              "Scat_squared_over_total_signal": 0.22981917504905844,
+              "cross_over_total_signal": 8.24267138590743e-05,
+              "total_squared_over_total_signal": 0.23605323722665067,
+              "error_energy_identity_abs": 4.607396011920364e-22,
+              "error_cosine": 0.0010960984501101863,
+              "B_alignment_with_total": 0.16251378371328376,
+              "Scat_alignment_with_total": 0.9868838118451732,
+              "B_projection_share": 0.02623496671099029,
+              "Scat_projection_share": 0.9737650332890092,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 1,
+              "total_relative_L2": 0.47201131480573616,
+              "B_error_on_total_norm": 0.08021642387063761,
+              "Scat_error_on_total_norm": 0.46507469368255844,
+              "B_error_relative_to_B": 0.09317918537429573,
+              "Scat_error_relative_to_Scat": 0.9094885933677831,
+              "B_squared_over_total_signal": 0.006434674658593799,
+              "Scat_squared_over_total_signal": 0.21629447070392555,
+              "cross_over_total_signal": 6.553594212051176e-05,
+              "total_squared_over_total_signal": 0.22279468130463975,
+              "error_energy_identity_abs": 3.4551334186339966e-21,
+              "error_cosine": 0.0008783417893668304,
+              "B_alignment_with_total": 0.17081141040540232,
+              "Scat_alignment_with_total": 0.9854533917503172,
+              "B_projection_share": 0.02902871195928936,
+              "Scat_projection_share": 0.9709712880407114,
+              "classification": "B_SCATTERING_DOMINATED"
+            },
+            {
+              "channel": 2,
+              "total_relative_L2": 0.43367562755582284,
+              "B_error_on_total_norm": 0.08618325708225896,
+              "Scat_error_on_total_norm": 0.42494084758677714,
+              "B_error_relative_to_B": 0.0931799462593152,
+              "Scat_error_relative_to_Scat": 1.1162020511660982,
+              "B_squared_over_total_signal": 0.0074275538013067405,
+              "Scat_squared_over_total_signal": 0.18057472394776855,
+              "cross_over_total_signal": 7.227218686146181e-05,
+              "total_squared_over_total_signal": 0.18807454993593678,
+              "error_energy_identity_abs": 7.9657492988856565e-22,
+              "error_cosine": 0.0009867106539234135,
+              "B_alignment_with_total": 0.19969429970493935,
+              "Scat_alignment_with_total": 0.980054811749872,
+              "B_projection_share": 0.03968474148830773,
+              "Scat_projection_share": 0.9603152585116922,
+              "classification": "B_SCATTERING_DOMINATED"
+            }
+          ]
+        }
+      ],
+      "total_vs_component_contrast_closure": [
+        5.799876543707891e-19,
+        3.475109955291685e-19,
+        3.316116391858486e-19
+      ]
+    }
+  },
+  "old_reference_comparison": {
+    "5901": {
+      "new_vs_old_total_action_relative": [
+        0.0023325620231980848,
+        0.0022572232408888957,
+        0.002339942703407738
+      ],
+      "new_vs_old_total_contrast_relative": [
+        0.028835509218693427,
+        0.0264588393713824,
+        0.019661627767120448
+      ]
+    },
+    "5902": {
+      "new_vs_old_total_action_relative": [
+        0.0023325620231980848,
+        0.0022572232408888957,
+        0.002339942703407738
+      ],
+      "new_vs_old_total_contrast_relative": [
+        0.028835509218693427,
+        0.0264588393713824,
+        0.019661627767120448
+      ]
+    }
+  },
+  "qualified_RGB": [
+    true,
+    true,
+    true
+  ],
+  "gate_C_passed": true,
+  "contrast_moment_closure": 6.051662260093305e-17,
+  "classification_RGB": [
+    "B_SCATTERING_DOMINATED",
+    "B_SCATTERING_DOMINATED",
+    "B_SCATTERING_DOMINATED"
+  ],
+  "status": "COMPLETE",
+  "covariance_note": "B*Scat per-photon raw cross moment is zero; Cov(Bmean,Scatmean) is negative and retained. Error cross terms and noise corrections explicitly include it. Ratios are not unbiased and no confidence interval is claimed.",
+  "seconds": 3.529212061315775,
+  "coarse_arrays_sha256": "b2571bff61125ad691714034df9e49ff3573236905e857652896274778c20584"
+}
