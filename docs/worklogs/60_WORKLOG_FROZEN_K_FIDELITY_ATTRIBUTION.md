@@ -177,3 +177,5 @@ python3 experiments/fnto_attr60/export_tables.py
 These commands do not run WL59's supervisor. Use the recorded source versions for exact native/crossed reproduction and fresh output paths; do not overwrite completed evidence. No replacement model or next hypothesis has been started. This diagnostic batch is complete at the existing-evidence boundary.
 
 Concurrent work note: commit `c8057e4` added append-only visual supplements to WL57–59 and their visual gallery during this diagnosis. Those changes were made by the separate visual-review session, not this batch. Verification compares scientific inputs with the starting source and those three Worklogs with that visual-supplement commit; both comparisons are unchanged.
+
+Reproducibility note: `08a0b28` fixes reviewer CSV serialization to LF so Git newline normalization cannot invalidate their hashes, and excludes batch provenance from the reviewer manifest to avoid a hash cycle. Tables and manifests were regenerated; measurements, interpretation and verdicts are unchanged.

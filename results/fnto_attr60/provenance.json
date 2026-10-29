@@ -10,7 +10,8 @@
     "b423de4": "b423de4cdcd0715b4021d969f2e6a9b223f304b2",
     "f988b06": "f988b06bc2565440d345a0dcaa6d232f1abe72e8",
     "8cb7f6f": "8cb7f6f1df90d80ba7c1ee8a87bc8d34cd64087f",
-    "05f1b20": "05f1b2068cd22835043fece33b5c207c2a996d2a"
+    "05f1b20": "05f1b2068cd22835043fece33b5c207c2a996d2a",
+    "08a0b28": "08a0b289786a59c6576aa216d7f8a1843867d18a"
   },
   "scope": "read-only CPU analysis and finite frozen replay; no training/new reference/GPU/F-S/production changes",
   "source_hashes": {
@@ -18,7 +19,7 @@
     "experiments/fnto_attr60/summarize.py": "cd1c1e046ab04d4bb0c57d3d9932c4bf52f7472b590aa3c54d805c5e5ef36bcc",
     "experiments/fnto_attr60/replay.py": "b7882e850657699c5ba300dee255f8afad39ed3cc6c349359e986abb684e2436",
     "experiments/fnto_attr60/supervision.py": "d53ac04356f3764bbb052435132ec81ccb191e5b0e4c72d75dec05ddda9f4c6a",
-    "experiments/fnto_attr60/export_tables.py": "fb2729c456b8619ca3e6dfe1ad20c279f06f36c9bf33c8d483cddee54bcd31b0",
+    "experiments/fnto_attr60/export_tables.py": "34dba125b5bf7e0662ed02b11e07f1062e0aea5e0c2c6c422fe6f5f30e1741da",
     "experiments/fnto_attr60/analyze_stored.py": "058623dbb1f15ade2b7af5be96ae6d576b74ed8e850468431f495b138b657de8"
   },
   "artifacts": {
@@ -32,10 +33,10 @@
     "results/fnto_attr60/replay_native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "results/fnto_attr60/supervision.json": "175ef4ad14fc0b64100c9b2db85da95df0446df7d338aeaf8294a64903842055",
     "results/fnto_attr60/stored_analysis.json": "0b3e06d499ef689c7f6358d60bf5147ff5caac68eb9908d2b44ab50400a201fb",
-    "results/evaluation/60/all_primary_secondary_failures.csv": "2c71543fe55daf805cc4d3f804f735790264c2ae5939a31a76d446ae5dd6c8a3",
-    "results/evaluation/60/crossed_replay.csv": "463251f2812b2cfaabc902f663152fa0096455566b9de9df3601b2c36b09b52b",
-    "results/evaluation/60/manifest.json": "33a12ad3a0bdee13773bbae7bdd5128c550714868d8b4cd4806e82ed4dcfc7e2",
-    "results/evaluation/60/primary_bounds.csv": "7d91048a928b60670be0902fb224458eeba42d7dbc30b6bebf31a7b275df8808"
+    "results/evaluation/60/all_primary_secondary_failures.csv": "d3872e881ee902dbe0639d24f1ea29ee8cae443101c7ab490b0100f2e282975d",
+    "results/evaluation/60/crossed_replay.csv": "e64c853ada25923604cf535db35e86c67b9debf1ad5b9df2f3493e0c021c62e9",
+    "results/evaluation/60/manifest.json": "f2d750b3ec41d8933845f292d4b2065a2eb50616d466214021edc5885aa9f38d",
+    "results/evaluation/60/primary_bounds.csv": "43a6c044c3770a652cb47328f8cff87c21ae99e763a1c6b4221fc48cdfdf9b6c"
   },
   "historical_inputs_unchanged_from_starting_commit": [
     "experiments/fnto_rule57",
@@ -72,7 +73,8 @@
       "all_primary_secondary_failures.csv": 270,
       "crossed_replay.csv": 36,
       "primary_bounds.csv": 54
-    }
+    },
+    "portable_csv_and_manifest_hashes": "PASS; LF CSV and acyclic manifests"
   },
   "original_input_hashes": "Each diagnostic JSON includes exact full data/checkpoint/action and script SHA256 values."
 }
