@@ -1,0 +1,54 @@
+{
+  "batch": "frozen_K_primary_evidence_reconciliation_v1",
+  "worklog": 62,
+  "date": "2026-10-30",
+  "starting_commit": "2570510df9da238a60ff79bfbe042224d9b81196",
+  "analysis_commit": "f0a022910c7ddc7f66e2c521239023b6c193ccf2",
+  "conclusion": "B: primary failure remains; minimum tagged component control specified, not executed",
+  "source_sha256": {
+    "experiments/fnto_attr62/test_reconcile.py": "90dafb5ea2ce7dc76ff1de03ebcc49306469a19248202d3f5634a2d46febd759",
+    "experiments/fnto_attr62/reconcile.py": "b8999b313a17377799ea9bc17bb466facf74b359c3c7f04d4311560d5ed1c805"
+  },
+  "checkpoint_sha256": {
+    "P_5901.pt": "59685b214bdf1f81079dcd56fe7a61173b90640b3c5c9fb8b3f14094729aaad6",
+    "P_5902.pt": "c92e4fda4bbe9cf5569d55c45a2881d95eaa58df3896748088d060b55f1aab3f"
+  },
+  "original_science_paths_unchanged": [
+    "experiments/fnto_rule57",
+    "experiments/fnto_persist59",
+    "experiments/fnto_attr60",
+    "experiments/fnto_delta61",
+    "results/fnto_rule57",
+    "results/fnto_persist59",
+    "results/fnto_attr60",
+    "results/fnto_delta61",
+    "docs/worklogs/57_WORKLOG_LEARNED_INTRINSIC_K_RULE_STATE.md",
+    "docs/worklogs/58_WORKLOG_PERSISTENT_INTRINSIC_STATE_REUSE.md",
+    "docs/worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md",
+    "docs/worklogs/60_WORKLOG_FROZEN_K_FIDELITY_ATTRIBUTION.md",
+    "docs/worklogs/61_WORKLOG_CLEAN_PAIRED_DELTA_LABEL_AUDIT.md",
+    "docs/Architecture.md",
+    "docs/RESEARCH_CENTRIC_TOPIC.md",
+    "docs/RESEARCH_ROADMAP.md",
+    "docs/FNTO_ARCHITECTURE_CONTRACT_V0_1.md"
+  ],
+  "new_photons": 0,
+  "new_inference": false,
+  "new_training": false,
+  "server_contact": false,
+  "checks": {
+    "five_focused_tests": "PASS",
+    "script_input_hashes": "PASS",
+    "all_primary_rows": 54,
+    "split_identity_guard": "PASS",
+    "historical_science_diff": "EMPTY",
+    "worklog_local_links": 7,
+    "syntax_and_markdown": "PASS"
+  },
+  "artifacts": {
+    "results/fnto_attr62/reconciliation.json": "6bb1a396bbeb518cb31a0f9bcb4b681f785283b3fe02c35d1ea0341bc6a707db",
+    "results/fnto_attr62/tests.log": "fea05ab9bb5392f36ff7a53b5ae3878754c26312ab04b20b3803ee100bb8bf86",
+    "results/evaluation/62/manifest.json": "626103a745502c1de14b2cf0c89679e4f534d0178795b6c8d3d05756c6bedc4c",
+    "results/evaluation/62/all_primary_noise_sensitivity.csv": "99689d53eb1d39c3dc54486a63c77cd5b8991ac9c8f76d442c709277f5a63a72"
+  }
+}
