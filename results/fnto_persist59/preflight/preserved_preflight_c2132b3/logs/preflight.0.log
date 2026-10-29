@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/nd/rest_persist_v1/repo/experiments/fnto_persist59/tests.py", line 61, in <module>
+    if __name__=='__main__':main();sys.stdout.flush();os._exit(0)
+  File "/home/nd/rest_persist_v1/repo/experiments/fnto_persist59/tests.py", line 57, in main
+    assert ok,checks
+AssertionError: {'FS': 8.87474769228902e-08, 'independent_B_indices': True, 'independent_B_values': 0.0, 'retained_raw_bitwise': True, 'retained_head_bitwise': True, 'raw_reconstruction': 0.0, 'head_reconstruction': 0.0, 'physics': {'zero': 0.0, 'minimum': 1.451601065127761e-06, 'linearity': 6.893173321032009e-08, 'max_colsum': 0.9271720051765442, 'cache_error': 8.696573416955289e-08, 'passed': True}, 'independent_source_output_difference': 0.049273889511823654, 'noop': 2.761635009562724e-08, 'rigid': 2.7390381518443974e-08, 'rigid_all_retained': True, 'weight_change_rejected': True, 'correspondence_change_rejected': True, 'pair_dependency': 9.157359670552978e-08, 'pair_edge_marked': True}

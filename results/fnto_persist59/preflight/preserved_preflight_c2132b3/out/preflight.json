@@ -1,0 +1,42 @@
+{
+ "passed": false,
+ "checks": {
+  "FS": 8.87474769228902e-08,
+  "independent_B_indices": true,
+  "independent_B_values": 0.0,
+  "retained_raw_bitwise": true,
+  "retained_head_bitwise": true,
+  "raw_reconstruction": 0.0,
+  "head_reconstruction": 0.0,
+  "physics": {
+   "zero": 0.0,
+   "minimum": 1.451601065127761e-06,
+   "linearity": 6.893173321032009e-08,
+   "max_colsum": 0.9271720051765442,
+   "cache_error": 8.696573416955289e-08,
+   "passed": true
+  },
+  "independent_source_output_difference": 0.049273889511823654,
+  "noop": 2.761635009562724e-08,
+  "rigid": 2.7390381518443974e-08,
+  "rigid_all_retained": true,
+  "weight_change_rejected": true,
+  "correspondence_change_rejected": true,
+  "pair_dependency": 9.157359670552978e-08,
+  "pair_edge_marked": true
+ },
+ "audit": {
+  "node_updates": [
+   568,
+   828,
+   1131
+  ],
+  "node_total": 3840,
+  "edge_updates": 166561,
+  "edge_total": 491520,
+  "raw_retained_fraction": 0.6611307779947917,
+  "normalisation": "global full reduction and derived-coefficient rebuild",
+  "ballistic": "full current-geometry rebuild on every nonrigid update"
+ },
+ "commit": "c2132b3"
+}
