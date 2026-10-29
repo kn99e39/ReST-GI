@@ -1,0 +1,8 @@
+{
+  "amendment": "A1 implementation-only identity serialization correction, before any new reference photons",
+  "original_source": "edf2da5",
+  "finding": "All three inherited WL57 geometry files store SHA256 of raw float64 refined material vertices. Current r57_geometry computes a rounded/canonicalized signature instead. The checker incorrectly compared the latter to the legacy metadata.",
+  "control": "Raw reconstructed vertex hashes exactly equal saved signatures for rest/tr11/va1. Recomputed xyz/rest_xyz/area/node/pair/prior are bitwise equal to saved tensors for all three, and parent correspondence is exact.",
+  "correction": "Check exact legacy raw vertex SHA against inherited signature; record current canonical SHA separately and require recomputed geometry features to be bitwise equal. No tolerance relaxation, source field, geometry, reference semantics, samples, seed or evaluation criterion changes.",
+  "preserve": "Original failed preflight source archive, logs/status and recorded diagnostic identity comparison retained under failed_attempts/preflight_edf2da5. No reference packet existed at failure."
+}

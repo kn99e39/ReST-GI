@@ -49,10 +49,16 @@ def main():
     for pose in CFG['poses']:
         g=load(orig/'data/geometry'/f'{pose}.pt');mesh,V=RG.mesh(pose);fm,VC,parent=RG.KO.refined(mesh,V,4)
         vv=np.round(VC,12);vv[np.abs(vv)<.5e-12]=0.
-        sig=hashlib.sha256(np.ascontiguousarray(vv).tobytes()).hexdigest();assert sig==g['signature'],f'Geometry mismatch: {pose}'
+        canonical_sig=hashlib.sha256(np.ascontiguousarray(vv).tobytes()).hexdigest()
+        sig=hashlib.sha256(np.ascontiguousarray(VC).tobytes()).hexdigest()
+        assert sig==g['signature'],f'Legacy raw-vertex geometry mismatch: {pose}'
+        fresh=RG.geometry(pose,ballistic=False)
+        assert fresh['signature']==canonical_sig
+        for key in ('xyz','rest_xyz','area','node','pair','prior'):
+            assert torch.equal(fresh[key].cpu(),g[key]),f'Geometry feature mismatch: {pose}/{key}'
         assert np.array_equal(parent,g['parent'].numpy());assert fields.shape[1:]==(g['P'],16,3)
         parents.append(g['parent']);meshes[pose]=(fm,VC)
-        geometry[pose]=dict(signature=sig,pose_parameters=list(RG.POSES[pose]),P=g['P'],parent_sha256=hashlib.sha256(g['parent'].numpy().tobytes()).hexdigest())
+        geometry[pose]=dict(signature=sig,signature_serialization='legacy raw float64 VC bytes',current_canonical_signature=canonical_sig,derived_geometry_features_bitwise_equal=True,pose_parameters=list(RG.POSES[pose]),P=g['P'],parent_sha256=hashlib.sha256(g['parent'].numpy().tobytes()).hexdigest())
     assert all(torch.equal(parents[0],p) for p in parents[1:]),'Material correspondence differs'
     peers=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid,process_name,used_gpu_memory','--format=csv,noheader'],text=True)
     manifest=dict(source_commit=a.source_commit,protocol_sha256=sha(HERE/'protocol/audit_v1.json'),scripts={p.name:sha(p) for p in HERE.glob('*.py')},inputs=inputs,sources=sources,fields=field_hashes,geometry=geometry,material=dict(sigma_t=float(RG.FX.SIGMA_T),albedo=list(map(float,RG.FX.ALBEDO)),phase_g=float(RG.FX.G_PHASE)),python=platform.python_version(),torch=torch.__version__,numpy=np.__version__,cuda=torch.version.cuda,gpu=subprocess.check_output(['nvidia-smi'],text=True),external_processes=peers,cpu=subprocess.check_output(['lscpu'],text=True),new_reference=True,estimator='Existing importance-sampled action + validated fast first-exit walk, unchanged')
