@@ -42,7 +42,7 @@ def plots58(repo,dest):
     maxv=max(z.max() for z in maps);fig,axs=plt.subplots(1,4,figsize=(13,3.8),layout='constrained')
     for ax,z,title in zip(axs,maps,['Source X: analytic GGX','X: best 256-bin projection','Source Y: analytic GGX','Y: best 256-bin projection']):
         im=ax.imshow(np.log10(1+z),origin='lower',extent=(0,1,0,1),vmin=0,vmax=np.log10(1+maxv),cmap='magma');ax.set(title=title,xlabel='Concentric-square u',ylabel='v')
-    fig.colorbar(im,ax=axs,label='log10(1 + outgoing radiance / unit incident flux)',shrink=.75)
+    fig.colorbar(im,ax=axs,label='log10(1 + radiance)',shrink=.75)
     fig.suptitle('WL58 lobe illustration: alpha=0.04; X/Y both encode to input cell18',fontsize=12)
     save(fig,dest,'angular_lobes')
 
@@ -103,7 +103,7 @@ def plots59(repo,dest):
     save(fig,dest,'cost_and_state')
 
 def poly(ax,tri,values,cmap=None,vmin=None,vmax=None):
-    coll=PolyCollection(tri[:,:,:2]*1000,edgecolors='none',rasterized=True)
+    coll=PolyCollection(tri[:,:,:2]*1000,edgecolors='none',linewidths=0,antialiaseds=False,rasterized=True)
     if cmap is None:coll.set_facecolors(values)
     else:coll.set_array(values);coll.set_cmap(cmap);coll.set_clim(vmin,vmax)
     ax.add_collection(coll);ax.set(xlim=(-50,50),ylim=(-50,50),aspect='equal',xlabel='Material x (mm)',ylabel='Material y (mm)')
@@ -114,6 +114,7 @@ def readouts(npz,meta,dest):
     jobs=[(5901,f,v) for f in fields for v in ('top','bottom')]+[(5902,strong,'top'),(5902,strong,'bottom')]
     for seed,field,view in jobs:
         k=fields.index(field);tri=a[f'pt0_{view}_triangles'];ref=a[f'pt0_{view}_oracle'][k]
+        assert np.allclose(tri[:,:,:2],a[f'rest_{view}_triangles'][:,:,:2]),'Material triangle correspondence is required for delta images'
         full=a[f'pt0_{view}_F_{seed}'][k];selective=a[f'pt0_{view}_S_{seed}'][k];stale=a[f'pt0_{view}_stale_physical'][k]
         # Shared exposure based ONLY on the current reference; disclose clipping.
         exposure=max(float(np.percentile(ref,99)),1e-30)
@@ -124,15 +125,15 @@ def readouts(npz,meta,dest):
         limit=max(float(np.abs(np.r_[dr,df,ds]).max()),1e-30)
         fig,axs=plt.subplots(2,4,figsize=(14,8),layout='constrained')
         src=a[f'pt0_{view}_incident'][k,:,2];source=poly(axs[0,0],tri,src,'Greys',0,max(float(src.max()),1e-30))
-        axs[0,0].set_title('Incident blue irradiance\n(own scale)',fontsize=10);fig.colorbar(source,ax=axs[0,0],shrink=.6,label='flux / area')
+        axs[0,0].set_title(f'Incident blue irradiance\n0 to {src.max():.3g} flux / area (own scale)',fontsize=9)
         for ax,z,title in [(axs[0,1],ref,'Current physical oracle'),(axs[0,2],full,'Full rebuilt learned state F'),(axs[0,3],selective,'Selective resident state S'),(axs[1,0],stale,'Stale physical K, current readout')]:
-            poly(ax,tri,display(z));clip=100*np.mean(z>exposure);ax.set_title(title+f'\nRGB shared exposure; {clip:.2f}% components clipped',fontsize=8.5)
+            poly(ax,tri,display(z));clip=100*np.mean(z>exposure);ax.set_title(title+f'\n{clip:.2f}% RGB components clipped',fontsize=9)
         for ax,z,title in zip(axs[1,1:],[dr,df,ds],['Oracle geometry delta — blue','F geometry delta — blue','S geometry delta — blue']):
             im=poly(ax,tri,z,'RdBu_r',-limit,limit);ax.set_title(title,fontsize=10)
         fig.colorbar(im,ax=list(axs[1,1:]),shrink=.65,label='Signed blue outgoing-bin radiance change')
         err=float(np.abs(full-selective).sum()/max(np.abs(full).sum(),1e-30))
         fig.suptitle(f'WL59 K-only boundary readout | seed{seed} | field{field:02} | {view} | face-readout F/S L1 {err:.2e}',fontsize=12)
-        fig.supxlabel('Stored first-exit flux / (current cell area x projected-bin angle). Not Cycles or coupled GI.\nRGB = log display, reference p99 exposure; delta = shared symmetric scale. Post hoc diagnostic views.',fontsize=9)
+        fig.supxlabel('Stored first-exit flux / (current cell area x projected-bin angle). Not Cycles or coupled GI.\nAll RGB panels share log display and reference p99 exposure; delta panels share a symmetric scale. Post hoc views.',fontsize=9)
         save(fig,dest,f'K_only_seed{seed}_field{field:02}_{view}')
     # Actual geometry is separate from response colours; no artificial lighting.
     fig=plt.figure(figsize=(11,4.5),layout='constrained')
