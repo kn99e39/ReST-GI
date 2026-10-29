@@ -1,0 +1,78 @@
+{
+  "batch": "frozen_K_attribution_v1",
+  "worklog": 60,
+  "date": "2026-10-29",
+  "conclusion": "B: insufficient causal evidence; minimum clean paired-label control specified, not executed",
+  "commits": {
+    "f0035fb": "f0035fbbc69a405c17f13204e9653ddd75608d1b",
+    "f051cec": "f051cec56f0f352ea32b7ffc038068b53ac9cfaf",
+    "c8057e4": "c8057e40a1aa56d65551969ba924eee3b4745a8d",
+    "b423de4": "b423de4cdcd0715b4021d969f2e6a9b223f304b2",
+    "f988b06": "f988b06bc2565440d345a0dcaa6d232f1abe72e8",
+    "8cb7f6f": "8cb7f6f1df90d80ba7c1ee8a87bc8d34cd64087f",
+    "05f1b20": "05f1b2068cd22835043fece33b5c207c2a996d2a"
+  },
+  "scope": "read-only CPU analysis and finite frozen replay; no training/new reference/GPU/F-S/production changes",
+  "source_hashes": {
+    "experiments/fnto_attr60/test_analysis.py": "b454bb00ef15103e57e63d3e355eec88e8cfcb3d2f52cf988271dbe3caff25e5",
+    "experiments/fnto_attr60/summarize.py": "cd1c1e046ab04d4bb0c57d3d9932c4bf52f7472b590aa3c54d805c5e5ef36bcc",
+    "experiments/fnto_attr60/replay.py": "b7882e850657699c5ba300dee255f8afad39ed3cc6c349359e986abb684e2436",
+    "experiments/fnto_attr60/supervision.py": "d53ac04356f3764bbb052435132ec81ccb191e5b0e4c72d75dec05ddda9f4c6a",
+    "experiments/fnto_attr60/export_tables.py": "fb2729c456b8619ca3e6dfe1ad20c279f06f36c9bf33c8d483cddee54bcd31b0",
+    "experiments/fnto_attr60/analyze_stored.py": "058623dbb1f15ade2b7af5be96ae6d576b74ed8e850468431f495b138b657de8"
+  },
+  "artifacts": {
+    "results/fnto_attr60/replay_native.json": "f6a42e65802f2d27ac131b2d02e17e74f5381e3bb86a0dd784247f0cc3006bd6",
+    "results/fnto_attr60/supervision.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/fnto_attr60/replay.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/fnto_attr60/replay.json": "f8c58f2cb074385abf3236e81d2c6907d89a613f88da9cc014be5c051212dd1e",
+    "results/fnto_attr60/stored_analysis.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/fnto_attr60/tests.log": "33dbf72b73092679d631dbdf8e7e02c22bfeb9b9b9726f9f75f2104f9f2ba566",
+    "results/fnto_attr60/local_summary.json": "72fbb5fb1c54f767a5aa3a8f729d10ce805f6c3fd61c770a2e9f9c57a924f600",
+    "results/fnto_attr60/replay_native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "results/fnto_attr60/supervision.json": "175ef4ad14fc0b64100c9b2db85da95df0446df7d338aeaf8294a64903842055",
+    "results/fnto_attr60/stored_analysis.json": "0b3e06d499ef689c7f6358d60bf5147ff5caac68eb9908d2b44ab50400a201fb",
+    "results/evaluation/60/all_primary_secondary_failures.csv": "2c71543fe55daf805cc4d3f804f735790264c2ae5939a31a76d446ae5dd6c8a3",
+    "results/evaluation/60/crossed_replay.csv": "463251f2812b2cfaabc902f663152fa0096455566b9de9df3601b2c36b09b52b",
+    "results/evaluation/60/manifest.json": "33a12ad3a0bdee13773bbae7bdd5128c550714868d8b4cd4806e82ed4dcfc7e2",
+    "results/evaluation/60/primary_bounds.csv": "7d91048a928b60670be0902fb224458eeba42d7dbc30b6bebf31a7b275df8808"
+  },
+  "historical_inputs_unchanged_from_starting_commit": [
+    "experiments/fnto_rule57",
+    "experiments/fnto_persist59",
+    "experiments/fnto_reuse58",
+    "results/fnto_rule57",
+    "results/fnto_persist59",
+    "results/fnto_reuse58",
+    "docs/Architecture.md",
+    "docs/RESEARCH_CENTRIC_TOPIC.md",
+    "docs/RESEARCH_ROADMAP.md",
+    "docs/FNTO_ARCHITECTURE_CONTRACT_V0_1.md"
+  ],
+  "concurrent_external_change": {
+    "commit": "c8057e40a1aa56d65551969ba924eee3b4745a8d",
+    "paths": [
+      "docs/worklogs/57_WORKLOG_LEARNED_INTRINSIC_K_RULE_STATE.md",
+      "docs/worklogs/58_WORKLOG_PERSISTENT_INTRINSIC_STATE_REUSE.md",
+      "docs/worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md"
+    ],
+    "description": "Five-line append-only visual report supplements per Worklog, outside this diagnostic. No original measured verdict edited."
+  },
+  "checks": {
+    "four_focused_tests": "PASS; tests.log",
+    "frozen_replay_primary_equivalence": [
+      1.0333886691506374e-07,
+      1.0149162447500806e-07
+    ],
+    "syntax": "PASS",
+    "worklog_local_links_checked": 7,
+    "original_scientific_diff": "EMPTY",
+    "historical_worklog_diff_from_concurrent_visual_commit": "EMPTY",
+    "review_csv_rows": {
+      "all_primary_secondary_failures.csv": 270,
+      "crossed_replay.csv": 36,
+      "primary_bounds.csv": 54
+    }
+  },
+  "original_input_hashes": "Each diagnostic JSON includes exact full data/checkpoint/action and script SHA256 values."
+}
