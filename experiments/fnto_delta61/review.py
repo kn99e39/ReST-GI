@@ -31,6 +31,11 @@ def main():
             yy=[r['models'][seed]['dynamic'][p]['prediction_vs_'+target][c] for p in ('tr11','va1')]
             x=[i+(k-1.5)*.18 for i in range(2)]
             ax.bar(x,yy,width=.17,color=colors[int(seed)-5901],alpha=.45 if target=='old' else 1.,label=f'{seed}: '+('historical r0' if target=='old' else 'independent mean'))
+        
+        if not r['dynamic']['va1']['qualified_RGB'][c]:
+            ax.text(.5,.97,'va1: delta precision unqualified',transform=ax.transAxes,ha='center',va='top',fontsize=8,color='#993333')
+            for bar in ax.patches:
+                if bar.get_x()>.5:bar.set_hatch('//')
         ax.axhline(.35,color='#777777',lw=.9,ls='--');ax.set_title(ch);ax.set_xticks([0,1],['trained tr11','validation va1']);ax.grid(axis='y',alpha=.18);ax.set_axisbelow(True)
     axes[0].set_ylabel('Paired delta relative L2 error')
     handles,labels=axes[0].get_legend_handles_labels();fig.legend(handles,labels,loc='lower center',ncol=2,frameon=False,bbox_to_anchor=(.5,.025),fontsize=8)
