@@ -4,7 +4,7 @@ from pathlib import Path
 
 def write(path,rows):
     with path.open('w',newline='') as f:
-        w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+        w=csv.DictWriter(f,fieldnames=list(rows[0]),lineterminator="\n");w.writeheader();w.writerows(rows)
 def main():
     root=Path(__file__).resolve().parents[2];src=root/'results/fnto_attr60';dest=root/'results/evaluation/60';dest.mkdir(exist_ok=True,parents=True)
     a=json.loads((src/'stored_analysis.json').read_text());l=json.loads((src/'local_summary.json').read_text());r=json.loads((src/'replay.json').read_text())
@@ -23,6 +23,6 @@ def main():
             for c,error in enumerate(p['directional_pair_error']):
                 replay.append(dict(seed=seed,pose_light=key,channel=c,original_label_pair_error=error,focused_delta_error_unqualified=p.get('focused_delta_error_unqualified',['','',''])[c]))
     write(dest/'primary_bounds.csv',bounds);write(dest/'all_primary_secondary_failures.csv',allrows);write(dest/'crossed_replay.csv',replay)
-    manifest=dict(scope='Post hoc frozen-model diagnostics; not new primary evidence or adopted architecture',source_script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),inputs={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in src.glob('*.json')},artifacts={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in dest.glob('*.csv')})
+    manifest=dict(scope='Post hoc frozen-model diagnostics; not new primary evidence or adopted architecture',source_script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),inputs={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in src.glob('*.json') if p.name!='provenance.json'},artifacts={p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in dest.glob('*.csv')})
     (dest/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
 if __name__=='__main__':main()
