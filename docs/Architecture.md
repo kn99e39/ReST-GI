@@ -16,7 +16,7 @@ An optical domain is a connected material/medium region or a local surface inter
 
 - **K** maps spatially and directionally varying boundary incidence to outgoing response at the first exit into free space. It owns local surface response, transport inside the medium, internal scattering and transmission.
 - **C** maps an outgoing boundary event through editable free space to the next boundary entry. It includes exposed same-asset and same-domain exit/re-entry paths.
-- External illumination enters as a current incident boundary field. Direct and C-mediated incidence use the same intrinsic response rule.
+- External illumination enters as a current incident boundary field. Direct and C-mediated incidence use the same intrinsic response rule; no source-identity or direct/indirect response branch is required. The rule models material/medium response to the current spatial/angular incident field, not a memorized X/Y reflection or a fixed irradiance image. Sharp specular/glossy response demands sufficient directional information; glossiness controls angular selectivity, not inherently the strength of C coupling.
 
 The current physical reference for the canonical medium fixtures is the path-history-independent homogeneous RTE volume model, not the historical object-scoped Burley target. A single recursively applied K cannot silently absorb the renderer’s different observed/interior-vertex semantics. Evidence: [reference-semantics attribution](worklogs/51_WORKLOG_FNTO_TRANSPORT_OWNERSHIP.md) and [physical reference contract](worklogs/53_WORKLOG_PHYSICAL_INTRINSIC_TRANSPORT_REFERENCE.md). This reference choice is not a claim of full-material or production validation.
 
@@ -45,7 +45,7 @@ At fixed geometry/state, K is linear, nonnegative and passive. Scattered and uns
 | Free-space state | Current visibility, directions and transport relations for C | Update for affected editable air paths |
 | Incident/outgoing radiance | Response to current external and inter-domain illumination | Recompute through the current coupled solve |
 
-A rule/state split inside K is a research hypothesis, distinct from physical K/C ownership. No particular learned state representation or selective-update algorithm is adopted here. Reusing network weights is different from preserving computed transport state.
+A rule/state split inside K is a research hypothesis, distinct from physical K/C ownership. No particular learned state representation or selective-update algorithm is adopted here. Reusing network weights is different from preserving computed transport state. Source-swap response correctness at fixed geometry is necessary input-generalization evidence, not evidence of selective geometry-state reuse or update savings.
 
 Runtime rule/state inputs exclude target K, reference images, source-object identities, pose-specific oracle lookups and baked final radiance. Different sources are represented by different incident fields.
 
@@ -94,7 +94,7 @@ A free-space radiosity solver, SH2-only Lambertian model, scene-baked monolithic
 ## 9. Unresolved design decisions
 
 - **INCONCLUSIVE — learned K adequacy:** which spatial/angular representation and supervision can meet physical, directional and deformation fidelity while remaining passive under composed incidence? Passing algebraic constraints alone does not answer this.
-- **INCONCLUSIVE — persistent within-K state:** can geometry-only dependency certificates preserve enough computed state to beat same-architecture full rebuilding at matched quality, including globally affected normalization and ballistic paths?
+- **INCONCLUSIVE — persistent within-K state:** can geometry-only dependency certificates preserve enough computed state to beat same-architecture full rebuilding at matched quality, including globally affected normalization and ballistic paths? WL58's sharp-GGX finite-interface stop left F/S unimplemented and unmeasured; it does not adjudicate reuse in the homogeneous-medium regime.
 - **INCONCLUSIVE — complete physical GI:** the oracle baseline’s residual physical error remains open. Exact F/S equivalence must not be promoted to reference accuracy.
 - **INCONCLUSIVE — general edit coverage:** global bending/twisting and self-contact, changing domain topology and correspondence, and broader refractive/anisotropic or full-material regimes remain unvalidated. Rigid and local fixture evidence does not close these questions.
 - **Contract version boundary:** current reference semantics, explicit ballistic readout, near-contact spatial requirements and geometry-state invalidation are later requirements, not retroactive contents or validation of v0.1. A materially different detailed learned implementation needs an explicitly versioned successor design if adopted; the present candidate plan is not that adoption.
