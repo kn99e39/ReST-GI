@@ -14,7 +14,7 @@ The physical and representation requirements are owned by [Architecture](Archite
 
 ## Scope and research constraints
 
-- Preserve intrinsic optical-domain K versus editable free-space C ownership, spatial boundary information near contact, directional incidence/response, and scattered plus ballistic readout. Learn transport response to illumination, rather than one configuration's radiance.
+- Preserve intrinsic optical-domain K versus editable free-space C ownership, spatial boundary information near contact, directional incidence/response, and scattered plus ballistic readout. Direct and C-mediated illumination must share the same source-independent K response; learn the response rule rather than one configuration's irradiance or reflected object identity.
 - Consider rigid motion, local deformation, global bending/twisting and self-contact/contact changes as mandatory long-term coverage. Test sequentially; every major design decision must state the implications and untested limitations for all four.
 - Do not infer non-rigid validity from fixed weights or geometric locality. Intrinsic changes may be nonlocal, dense or high rank. Parameter preservation, output preservation and radiometric validity are separate properties.
 - Quality-matched Full Recompute is the primary dynamic baseline. Exact domain-selective and stale-K controls isolate avoided work and invalidation. Oracle recomputation savings do not establish a learned contribution.
@@ -42,7 +42,7 @@ Novelty cannot rest on a hierarchy, selective updating, per-region neural models
 
 Stop a bounded route when its baseline/reference is invalid, its interface loses required information, ownership or correspondence cannot be maintained, composition fundamentally fails, or controls cannot be preserved. Attribute the failure before interpreting it. A route ending does not end the research direction.
 
-Predeclare conditions and thresholds; never move them after results. No automatic successor, rescue architecture or production adoption follows from a gate result. A publication target (SIGGRAPH 2027; deadline not verified here) never overrides a scientific stop.
+Predeclare conditions and thresholds; never move them after results. Interpret representation gates within their declared physical scope: failure of an added sharp-glossy probe cannot substitute for an unexecuted homogeneous-volume F/S state-reuse test. No automatic successor, rescue architecture or production adoption follows from a gate result. A publication target (SIGGRAPH 2027; deadline not verified here) never overrides a scientific stop.
 
 ## Provenance
 
