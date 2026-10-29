@@ -1,0 +1,18 @@
+{
+  "kind": "POST_HOC_STORED_BOUNDARY_BIN_READOUT",
+  "fields": [
+    0,
+    8,
+    62,
+    63
+  ],
+  "field_selection": {
+    "field0": "fixed first focused field",
+    "strongest_blue_field": 8,
+    "strongest_rule": "reference-only max blue integrated-flux delta L2 among first16; post hoc display selection",
+    "62_63": "both fields of primary failing directional pair7"
+  },
+  "readout": "Lo=outgoing cell/bin flux / (current port area*pi/64); per-triangle current material normal/tangent; face-on +-z",
+  "scope": "K-only prescribed incident fields; includes stored scattered+ballistic flux. Not monolithic Cycles or coupled GI. Current/stale evaluated in same current bin interface.",
+  "source": "completed ~/rest_persist_v1 stored actions and independently seeded references; no fitting/inference/acceptance changes"
+}

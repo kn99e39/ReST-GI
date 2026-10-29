@@ -118,3 +118,8 @@ python experiments/fnto_reuse58/angular_preflight.py --out <new-empty-output-dir
 ```
 
 The gate rejects overwriting completed evidence.512/1024/2048 grids, alpha/angles, input cells/offsets, thresholds and float64 arithmetic are in the committed protocol. This deterministic gate has no photon seed or neural checkpoint. Seed580101 is used only for the fixed reciprocity implementation check. All case-level outputs, controls, source-pair bounds, logs, tests and hardware/runtime records are in [the original evidence](../../results/fnto_reuse58/preflight/). GGX/Smith equations follow the linked primary PBRT4 definition in the design; performance and failure bounds are measured here, not inferred from that source. Historical results are inherited and were not independently rerun in this batch.
+
+
+## Visual supplement — post hoc report only (2026-10-29)
+
+완료된 angular JSON의 전체 case/pair 그래프와 고정 analytic evaluator의 lobe 설명 그림을 추가했다. 사후 보고용이며 새로운 gate, F/S 실행 또는 GI 렌더가 아니다. [시각화 산출물 색인](../evaluation/57_59_VISUAL_REVIEW.md).

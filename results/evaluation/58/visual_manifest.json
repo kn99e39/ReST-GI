@@ -1,0 +1,34 @@
+{
+  "kind": "POST_HOC_VISUALIZATION",
+  "changes_primary_verdict": false,
+  "artifacts": {
+    "angular_lobes.pdf": {
+      "bytes": 40246,
+      "sha256": "1b8efeda33631c14d7ce5093e89a163f3f1b24708ed30414e4882394e245b752"
+    },
+    "angular_lobes.png": {
+      "bytes": 136910,
+      "sha256": "201c804cc9498c13a4cbe30bd12190c70c2f0ecfb5367f89692a0cb80bac3d8f"
+    },
+    "angular_gate.png": {
+      "bytes": 126540,
+      "sha256": "70f81cd04d83ad571e84a48f37c240ef3c9b1990eb3ff1a7c28e577041b406f2"
+    },
+    "angular_gate.pdf": {
+      "bytes": 20881,
+      "sha256": "40a9603a4a1d575ce01bf784ddbca0c31ab266efd5ed4795e68a3996f674634f"
+    }
+  },
+  "plot_source_commit": "71ba696f71bba45f6083d4be74dbc85d6a0f4d1e",
+  "plot_script_sha256": "18dc227f604b1f16483ebb2933eabf42ac0eddbc3b47d2484dcd0d74a9951175",
+  "environment": {
+    "python": "3.13.9",
+    "numpy": "2.3.5",
+    "matplotlib": "3.10.6"
+  },
+  "scope": "post hoc visualization only; original primary verdicts and input files unchanged",
+  "inputs": {
+    "results/fnto_reuse58/preflight/out/angular.json": "1d68225c6a9ee5fa44bbb4c4117a79e24c8c7d544e9d72a6cead31c953e65f23"
+  },
+  "analytic_illustration_source_sha256": "886ef13b2b4f39bad7b84ba7f8db791cc040e4fe752e9811b53e118768b0340a"
+}

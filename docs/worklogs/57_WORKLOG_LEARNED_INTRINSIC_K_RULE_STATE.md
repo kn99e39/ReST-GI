@@ -284,3 +284,8 @@ The machine-generated primary verdicts remain unchanged. Post hoc `review/review
 All final evidence is under [results/fnto_rule57/recovery_a2/final](../../results/fnto_rule57/recovery_a2/final/): original gate, full heldout/cost/physics/directional records, training histories,32fresh cost-worker measurements, stage receipts/logs, original server reports, terminal hashes,4verified final checkpoints and a report-only review. [Summary figure](../../results/fnto_rule57/recovery_a2/final/out/review/summary.png) and PDF/CSV counterparts are post hoc visualisation of existing measurements; they execute no model or oracle. Reviewer script `r57_final_summary.py` only reads completed JSON. Large complete actions/half second moments and coarse per-case prediction arrays remain on LabServer69 under `~/rest_wl57_recovery`, with their source/seeds/hash manifests retained.
 
 Executable scientific source e809c15; A3execution09f5af3; pre-result cost/report correction cffe2b0; post hoc formatting source2bbeb47. Protocol files `rule57_recovery_a2.json` and `rule57_execution_a3.json` coexist with all original failed protocols. Physical model, model parameters/counts, data splits, seeds5701/5702,6000steps, precision, losses, checkpoint choice and thresholds stayed fixed. All historical53–56 negative results are unchanged. The authorised conditional batch is now closed with the bounded verdict above; no remaining server job is expected.
+
+
+## Visual supplement — post hoc report only (2026-10-29)
+
+기존 요약 PNG/PDF를 새 시각화 색인에서 바로 찾을 수 있도록 연결했다. 기존 결과나 판정은 변경하지 않았다. [시각화 산출물 색인](../evaluation/57_59_VISUAL_REVIEW.md).

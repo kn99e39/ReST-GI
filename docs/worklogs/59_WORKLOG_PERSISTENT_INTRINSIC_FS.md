@@ -234,3 +234,8 @@ P59=$HOME/rest_persist_v1 bash $HOME/rest_persist_v1/repo/experiments/fnto_persi
 ```
 
 **Bounded completion:** actual persistent F/S state reuse is numerically correct and slightly cheaper for this recipe, but a physically qualified saving is not established. This valid negative F/S result closes the batch. No central architecture is adopted, no historical result is rewritten and no successor is launched.
+
+
+## Visual supplement — post hoc report only (2026-10-29)
+
+완료된 JSON에서 요약·방향성·학습·비용/메모리 그래프를 추가하고, 저장된 reference/F/S/stale first-exit 출력에서 face-on K-only boundary-bin readout 비교 이미지를 생성했다. Field0/8/62/63 선택과 공통 exposure/색상 척도는 시각화 색인 및 manifest에 명시했다. 새 학습·추론·coupled GI 실행이나 원래 판정 변경은 없다. [시각화 산출물 색인](../evaluation/57_59_VISUAL_REVIEW.md).
