@@ -5,14 +5,15 @@ ROOT=Path.home()/'rest_direction64';ORIG=Path.home()/'rest_persist_v1'
 os.environ['P59']=str(ORIG);os.environ['WL57']=str(ORIG)
 sys.path.insert(0,str(ORIG/'repo/experiments/fnto_persist59'))
 import torch
-from common import loaded_geometry,rigid_geometry
+from common import loaded_geometry,rigid_geometry,geometry
 from runtime import Transport,full,selective,apply
 from r57_eval import physics
 from r57_data import dump
 
 def main():
     assert not (ROOT/'trained_invariants.json').exists();torch.set_num_threads(8);torch.set_grad_enabled(False);torch.backends.cuda.matmul.allow_tf32=False
-    rest=loaded_geometry('rest');rigid=rigid_geometry(ballistic=False);x=torch.load(ORIG/'data/lights.pt')['test'][:2].cuda();out={}
+    # Match the original trained-rigid control: both states use current canonical geometry construction.
+    rest=geometry('rest');rigid=rigid_geometry(ballistic=False);x=torch.load(ORIG/'data/lights.pt')['test'][:2].cuda();out={}
     rel=lambda a,b:float((a-b).abs().sum()/b.abs().sum().clamp(min=1e-30))
     for arm in ('A','B'):
         for seed in (5901,5902):

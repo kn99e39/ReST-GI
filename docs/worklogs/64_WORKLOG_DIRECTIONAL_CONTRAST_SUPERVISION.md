@@ -31,3 +31,9 @@ Report-only source adds post-training rigid/no-op/source-swap/physics checks on 
 ### Precision sensitivity in report
 
 Before held-out candidate outcomes exist, report-only export also specifies all4 even/odd-field independent-replica assignments for the fresh total contrast A/B mean-error ratio. This is sensitivity reporting, not a confidence interval or a replacement for the already frozen mean-reference gate. No training/objective/source population changes. Final noisy original training/validation pair risk is reported alongside held-out metrics, without interpreting original r0 as a clean component reference.
+
+### Post-training measurement harness correction (no scientific rerun)
+
+All four fixed6,000-step training runs and the frozen original A/B evaluation/cost/comparison completed. The extra trained-rigid helper then stopped with `KeyError: beta`: it mixed an inherited stored rest geometry's historical raw signature with a newly generated canonical-signature rigid geometry lacking B/beta. Their differing cache identities sent the helper through the non-rigid update path. This is the already known raw/canonical signature distinction (WL61); no original runtime, checkpoint, label or quality measurement is changed.
+
+Repair only this helper to construct both rest and rigid geometry through the same current geometry constructor, exactly as WL59's archived final trained-rigid control (`results/fnto_persist59/final/validation/5c25f3c/verify_rigid.py`). Preserve `invariants64_attempt0.log` and `finish_attempt0.log`. The frozen scientific chain remains complete/negative and is not repeated; only previously uncompleted post-training measurements resume. No threshold is relaxed.
