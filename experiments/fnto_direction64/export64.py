@@ -36,7 +36,8 @@ for arm in ('A','B'):
                 for ch,label in enumerate('RGB'):
                     q=bool(prec['SNR_pairs_components_RGB'][pair][['T','B','Scat'].index(comp)][ch]>=3) if pop=='fresh' else True
                     components.append(dict(arm=arm,seed=seed,population=pop,component=comp,pair=pair if pop=='fresh' else 7,channel=label,error=r['error'][pair][ch],amplitude=r['amplitude'][pair][ch],correlation=r['correlation'][pair][ch],qualified=q))
-    for v in read(ROOT/'arms'/arm/'out/cost.json')['comparisons']:costs.append(dict(arm=arm,**v))
+    for v in read(ROOT/'arms'/arm/'out/cost.json')['comparisons']:
+        if v['seed']==seed:costs.append(dict(arm=arm,**v))
 table('directional_original_all.csv',list(rows[0]),rows)
 table('directional_components_all.csv',list(components[0]),components)
 table('absolute_all.csv',list(absolute[0]),absolute)
