@@ -1,0 +1,11 @@
+# Worklog65 — Partial clean-supervision A/B (2026-10-30)
+
+## Phase A — Authorisation and prospective reference preparation
+
+The user's explicit brief authorises **only pre-training reference generation/qualification** before2026-10-31 14:00KST. This Worklog owns the whole eventual Clean Supervision experiment; completing Phase A does not complete that research experiment. Starting HEAD `002c625`, branch `Selective_Recompute`; no branch/worktree change. Read current living documents, WL59 model/training/reference protocol, WL60–61 supervision findings, WL63 physical component result and WL64 negative objective intervention. Do not repeat those completed diagnostics.
+
+[Plan](../plans/CLEAN_SUPERVISION65_V1.md) and [fixed protocol](../../experiments/fnto_clean65/protocol/clean_v1.json) define208 original training actions,832 independent32M packets /26.624B photons, exact source/label identities, covariance and precision gates. All13 original training geometries and all16 original directional fields80–95 are retained. Phase B is **not authorised**: model157,024 parameters, original96-field sampling/partitions, action+.25delta objective, optimizer/6,000steps/checkpoint, B and F/S must remain unchanged in any separately authorised continuation.
+
+Feasibility before generation: historical32M timings1.980–3.096s project32–43min packet time, conservative40–90min total. Prior GPU peak10.38GB; budget16GiB/24GB. Raw packets49.073GB plus labels/variance4.907GB and small reduced outputs; reserve60GiB, require100GiB free. Server read-only inventory shows idle GPU and~1.2TB available. Unlike WL61's2M chunks, this experiment fixes32M chunks prospectively. No physical photon or model execution has occurred at this entry. New samples use one field per action, so no field-mixture dilution of the proposed photon budget.
+
+Preflight/tests and actual identities/resource estimates will be committed before generation. Sufficient precision cannot be guaranteed for weak differences: the unchanged original delta loss floor provides a separate uncertainty scale, while pure delta SNR remains explicitly reported. No field filtering, count extension, changed loss or automatic training is authorised.
