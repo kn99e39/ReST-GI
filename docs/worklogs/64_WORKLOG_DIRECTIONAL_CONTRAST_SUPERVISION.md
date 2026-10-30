@@ -7,3 +7,7 @@ The user's explicit bounded brief authorises one objective intervention after co
 Implementation scope: original P model, parameters, B, input/output basis, geometry, F/S, labels, original objectives, seeds and optimizer budget preserved. A/B isolated under `~/rest_direction64/arms`; only B adds explicit directional-contrast supervision. Original sources and checkpoints are read-only. Calibration uses training values only and will be committed numerically before training. A fresh eight-pair source population is predeclared for evaluation-only on known pt0; Pair7 remains a historically inspected diagnostic.
 
 Execution pending calibration/tests, final numeric freeze, independent-reference qualification, four controlled training runs, unchanged original evaluation/cost, and component/comparison reporting. No scientific outcome exists at this entry. No coupled solve or automatic successor is authorised by recording this plan.
+
+### Pre-training implementation-test correction
+
+Initial setup stopped before producing calibration or training: a focused identical-target test required bit-exact zero from two separate GPU atomic aggregations. Direct diagnostic measured 9.95e-14 GPU normalized residual versus exact0 on CPU float64. This is aggregation roundoff, not a changed objective. Repair the test to require CPU-double exact0 and GPU residual<=1e-10; retain the original failed setup log. No scientific loss, weight rule, threshold or budget changed.

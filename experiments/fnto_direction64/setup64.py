@@ -50,7 +50,9 @@ def setup():
     # Focused mathematical and actual-model controls.
     x=lights[80:82].cuda();t=ta[80:82].cuda();y=m(g,x)
     c=contrast(y,t,g['parent'],eta);sw=contrast(y.flip(0),t.flip(0),g['parent'],eta)
-    assert torch.allclose(c,sw);assert float(contrast(t,t,g['parent'],eta))==0
+    assert torch.allclose(c,sw)
+    gpu_zero=float(contrast(t,t,g['parent'],eta));assert gpu_zero<=1e-10
+    assert float(contrast(t.cpu().double(),t.cpu().double(),g['parent'].cpu(),eta))==0
     base=loss_metric(y,t,g['parent']);assert total(base,c,0) is base
     m.zero_grad();base.backward();gr=[p.grad.clone() if p.grad is not None else None for p in m.parameters()]
     m.zero_grad();y2=m(g,x);b2=loss_metric(y2,t,g['parent']);total(b2,contrast(y2,t,g['parent'],eta),0).backward()
@@ -59,7 +61,7 @@ def setup():
     from r57_eval import physics
     with torch.no_grad():ph=physics(m,g,x,m.coefficients(g))
     assert ph['passed'];assert sum(p.numel() for p in m.parameters())==157024
-    tests={'all8_training_pairs_equal_spatial_distinct_angular':all(pair_tests),'swap_invariant':True,'exact_target_zero':True,'lambda_zero_identical_tensor':True,'baseline_gradient_max_abs_difference':maxdiff,'source_independent_runtime_unchanged':True,'physical':ph,'parameter_count':157024}
+    tests={'all8_training_pairs_equal_spatial_distinct_angular':all(pair_tests),'swap_invariant':True,'CPU_double_exact_target_zero':True,'GPU_identical_target_roundoff':gpu_zero,'lambda_zero_identical_tensor':True,'baseline_gradient_max_abs_difference':maxdiff,'source_independent_runtime_unchanged':True,'physical':ph,'parameter_count':157024}
     # Original train/eval inputs symlinked, original files never written.
     for arm in ('A','B'):
         ar=ROOT/'arms'/arm;ar.mkdir(parents=True);(ar/'data').symlink_to(ORIG/'data',target_is_directory=True);(ar/'out').mkdir();(ar/'checkpoints').mkdir()
