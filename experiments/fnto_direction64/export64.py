@@ -61,6 +61,13 @@ for seed in (5901,5902):
             variants.append(dict(even_field_replica=ra,odd_field_replica=rb,mean_A=float(ea.mean()),mean_B=float(eb.mean()),mean_ratio_B_A=float(eb.mean()/ea.mean()),failures_A=int((ea>.25).sum()),failures_B=int((eb>.25).sum())))
     sensitivity[str(seed)]=variants
 summary['fresh_replica_sensitivity']=sensitivity
+freshref=np.load(ROOT/'independent_reference.npz')['reference']
+for key in summary['primary']:
+    pp=pred[f'{key}_fresh'];absolute_fresh={}
+    for ci,name in enumerate(('T','B','Scat')):
+        ee=np.linalg.norm((pp[:,ci]-freshref[:,ci]).reshape(16,-1,3),axis=1)/np.maximum(np.linalg.norm(freshref[:,ci].reshape(16,-1,3),axis=1),1e-30)
+        absolute_fresh[name]={'coarse_mean_RGB':ee.mean(0).tolist(),'coarse_p90_RGB':np.quantile(ee,.9,axis=0).tolist()}
+    summary['primary'][key]['fresh_absolute_diagnostic']=absolute_fresh
 risk=read(ROOT/'final_pair_risk.json');risk_summary={}
 for key,rows in risk['models'].items():
     risk_summary[key]={split:float(np.mean([v['mean_objective'] for k,v in rows.items() if k.startswith(split+'/')])) for split in ('train','validation')}
