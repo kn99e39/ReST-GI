@@ -1,6 +1,6 @@
 # Research Topic — Physically Valid Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-10-29. **Role:** research problem, objective, scope and scientific decision frontier. [Document ownership](README.md) defines the other sources of authority.
+**Current as of:** 2026-10-30. **Role:** research problem, objective, scope and scientific decision frontier. [Document ownership](README.md) defines the other sources of authority.
 
 ## Research problem and motivation
 
@@ -27,6 +27,8 @@ The physical and representation requirements are owned by [Architecture](Archite
 Exact domain-selective oracle recomputation can reproduce full recomputation on the tested edit, but complete physical GI quality remains unsupported. The fixed direct and Rule–State learned recipes are not eligible for integration; the abstract rule/state hypothesis remains INCONCLUSIVE. These are distinct conclusions, preserved in the [selective-oracle evidence](worklogs/56_WORKLOG_EXACT_SELECTIVE_K_RECOMPUTE.md) and [completed learned-candidate evidence](worklogs/57_WORKLOG_LEARNED_INTRINSIC_K_RULE_STATE.md).
 
 The [intrinsic-state reuse v1 candidate](plans/INTRINSIC_STATE_REUSE_V1.md) stopped at its sharp-GGX angular gate before F/S implementation; that scoped negative remains in [WL58](worklogs/58_WORKLOG_PERSISTENT_INTRINSIC_STATE_REUSE.md). A separate [persistent intrinsic F/S candidate](plans/PERSISTENT_INTRINSIC_FS_V1.md) subsequently executed Full Rebuild and Selective Update on homogeneous-volume local edits. Computational F/S equivalence and limited raw update savings are supported for this fixed recipe, but both policies fail required directional/deformation fidelity; a quality-matched coupled-GI benefit and general rule/state viability remain unestablished. [WL59](worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md) owns the full evidence and the [roadmap](RESEARCH_ROADMAP.md) owns the next decision.
+
+Recent evidence further narrows this frontier: [WL63](worklogs/63_WORKLOG_PHYSICAL_BALLISTIC_SCATTERED_ATTRIBUTION.md) identifies the learned collided response as the dominant error component for qualified Pair7; [WL64](worklogs/64_WORKLOG_DIRECTIONAL_CONTRAST_SUPERVISION.md) finds a controlled fixed contrast-loss intervention worsens original and independent held-out directional fidelity. Neither supplies an accepted correction, coupled-GI quality or external-baseline advantage.
 
 Broader open questions are whether a sufficiently accurate learned K can be composed stably, whether validity certificates permit useful selective work after non-rigid edits, and whether benefits survive global deformation and contact changes. None has a general affirmative answer.
 
