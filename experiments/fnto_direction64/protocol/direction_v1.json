@@ -1,0 +1,64 @@
+{
+  "batch": "directional_contrast64_v1",
+  "starting_commit": "bad10d5",
+  "worklog": 64,
+  "seeds": [
+    5901,
+    5902
+  ],
+  "steps": 6000,
+  "parameters": 157024,
+  "arms": {
+    "A": "WL59 unchanged objective",
+    "B": "WL59 objective + fixed directional contrast"
+  },
+  "pair_schedule": "p=(zero_based_step//12)%8; fields 80+2p,81+2p; same rest/current geometry as original step",
+  "calibration": {
+    "eta": "per resolution max(1e-4, median rest train pair/channel single-label contrast-noise squared / midpoint pair-mean action squared); noise=(r0-r1)/sqrt(2)",
+    "lambda": ".25 * median original deformation loss / median new directional loss; untrained seed5901; tr00,tr04,tr08,tr11 crossed with all8pairs; no optimizer step",
+    "weight_sweep": false
+  },
+  "loss": "Average rest/current and coarse/fine16 and RGB: ||pred(a)-pred(b)-(target(a)-target(b))||\u00b2 / (||target(a)-target(b)||\u00b2+eta_resolution*||.5*(target(a)+target(b))||\u00b2+1e-20). Original r0 targets only.",
+  "independent": {
+    "generator": "unchanged r57_data.light_fields(rest,64,6408103,test); retain fields48:64 only",
+    "pose": "pt0",
+    "replicas": 2,
+    "halves": 2,
+    "N_per_half": 32000000,
+    "action_chunk": 32000000,
+    "seed_formula": "640000000+field*100+replica*10+half",
+    "qualification": "all24 total contrast pair/channels SNR>=3; else limited/inconclusive independent confirmation; no extra sampling"
+  },
+  "evaluation": {
+    "original": "Unchanged WL59 evaluate.py, all rest/primary/diagnostic fields, thresholds and F/S/physics; Pair7 historically inspected",
+    "improvement": "B mean primary directional relative error <=.90*A for BOTH seeds and no increase qualified failure count; all channels/pairs retained",
+    "beyond_pair7": "same10% mean reduction on original pairs0..6 and fresh independent8pairs, both seeds; fresh all24 qualification required",
+    "complete": "all original static/dynamic/directional/reference/physics/F-S thresholds for both seeds; any failure precludes complete correction and coupled GI",
+    "scattered": "WL63 tagged Pair7 diagnostic + independently tagged fresh population; no tags enter training/calibration",
+    "cost": "same unchanged WL59 fresh-process cost suite per arm; inference/update/GPU plus training overhead; no quality-cost superiority if ineligible"
+  },
+  "preserve": "Original files/checkpoints unchanged; no production adoption, coupled solve before eligibility, retuning or successor",
+  "source_expected_sha256": {
+    "experiments/fnto_rule57/r57_geometry.py": "6f5ee9611217eeef61d51d3f6108c34b51c4bd63efa74505ce09a172a95fb9f9",
+    "experiments/fnto_rule57/r57_action_oracle.py": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+    "experiments/fnto_rule57/r57_fastwalk.py": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+    "experiments/fnto_rule57/r57_model.py": "d861614b4b88ea3e0c39e119d5cfcb6f4117f6a9b00be7d4fe982bb4be3d63cf",
+    "experiments/phys_ref53/p53_geom.py": "224f919742273a2e93aa41561e4fb16cee733746b32b204956204d6049597e93",
+    "experiments/phys_ref53/p53_fixtures.py": "cdccc551fbd48c518214696d854713ebde3abc8e673485ef5c5f5956ef204500",
+    "experiments/phys_ref53/p53_tracer.py": "0a5b82dd227cc7becf03b8fefaecbcf5cb9d0bf4a43889906a236cd5e65b926a",
+    "experiments/fnto_k55/k55_ops.py": "ef357a8b1ff67f1ea4f869efad7dc39ad302eb6795d914309f8b36fe3acfc3e6",
+    "experiments/fnto_c54/c54_casp.py": "06d813dc3e62fe52cb57b4d5bfeb62c94fe7b47cdff76dcffc3067f9fd5d70c0",
+    "experiments/fnto_persist59/protocol/persist_v1.json": "1e84a085c0a1916ecefe1a2607d1df30fa22fd2fbe38a2bf02a3bd0b4cc0134b",
+    "experiments/fnto_persist59/train.py": "cd28e59af28b4d49bb0ee3c3079a4b337f2966428d72cfaf1cd48cb634d887ab",
+    "experiments/fnto_persist59/runtime.py": "0783a3d26fb64708b4f7bc07ce342604405a7c55d80247ee09b7cb9fb8e444ab",
+    "experiments/fnto_persist59/common.py": "40784c38c434329b9a151faaec416b84ad4c6bc22ec53f2568d9cb3dbc46ff21",
+    "experiments/fnto_persist59/evaluate.py": "9f31923dabd0a66f6cb5b44e095d9870a2b2a5049e5d31f8688143d14579e91d",
+    "experiments/fnto_persist59/cost.py": "6e4e9675323d39eced3609f93e105821088685df370f0a4583c213a83ad95144"
+  },
+  "input_expected_sha256": {
+    "data/geometry/pt0.pt": "4c8783da1d452d26fece75d3441d4338a6b980faf1df905c9954fd11965a9b10",
+    "data/lights.pt": "a3b50edb18d5dd17915816ea57857b3204063a8a6eac55c1201126496467f46f",
+    "checkpoints/P_5901.pt": "59685b214bdf1f81079dcd56fe7a61173b90640b3c5c9fb8b3f14094729aaad6",
+    "checkpoints/P_5902.pt": "c92e4fda4bbe9cf5569d55c45a2881d95eaa58df3896748088d060b55f1aab3f"
+  }
+}
