@@ -21,3 +21,7 @@ Available disk **1,319.25GB**; deadline about **20.10h** away at server prefligh
 ### User steering — event-only waiting
 
 The user requested stopping conversational progress polling to avoid token waste. Leave the existing server generate→analyze→report chain untouched. Install a token-free server stage observer and local SSH→`codex queue` bridge for this existing thread. Notify only on stage completion or failure; no periodic agent turns/progress reports. Stage callbacks must return idle until a real completion/error needs action. No new agent or Phase B is created. The frozen scientific source directory remains unchanged; watcher helpers live outside it.
+
+### Terminal Stage events received
+
+Event-only callbacks confirm generation832/832 packets /26.624B photons, physical pass; analysis and reviewer report completed. Frozen readiness is **STOP_INSUFFICIENT_PRECISION**: all624 coarse/fine16 absolute cells and all312 coarse directional cells pass, but107/576 original-loss-scaled delta cells fail. No photons, fields, gates or labels are changed after this outcome. Final immutable provenance collection/download runs once in the background and queues this same thread only on terminal completion/error; no conversational polling. The complete Clean Supervision research experiment remains open and Phase B unauthorised.
