@@ -1,20 +1,16 @@
 # Research Roadmap — Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-10-29. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
+**Current as of:** 2026-10-30. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
 
 ## Current frontier
 
-The latest completed bounded experiment is [WL59 actual persistent F/S](worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md). Same-rule Selective Update matches Full Rebuild numerically on tested rigid/local edits and saves a small amount of raw update work. Both learned policies fail required directional/deformation fidelity, however, so no quality-matched coupled-GI benefit or general Rule–State viability has been established. [WL56](worklogs/56_WORKLOG_EXACT_SELECTIVE_K_RECOMPUTE.md) retains the unresolved physical-GI reference floor; [WL57](worklogs/57_WORKLOG_LEARNED_INTRINSIC_K_RULE_STATE.md) retains the D/R comparison negative result.
+The latest completed controlled intervention is [WL64](worklogs/64_WORKLOG_DIRECTIONAL_CONTRAST_SUPERVISION.md): NOT SUPPORTED. Fixed-capacity contrast supervision lowered noisy training-pair risk but worsened both original and independently qualified new-field directional fidelity. The [WL63 physical component audit](worklogs/63_WORKLOG_PHYSICAL_BALLISTIC_SCATTERED_ATTRIBUTION.md) localizes qualified Pair7 error predominantly to learned collided transport, not the direct ballistic B output; it does not identify why that learned response fails. [WL60–62](worklogs/60_WORKLOG_FROZEN_K_FIDELITY_ATTRIBUTION.md) record earlier diagnostic and label-precision findings. [WL59](worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md) remains the F/S correctness baseline without qualified complete GI fidelity; the [WL56](worklogs/56_WORKLOG_EXACT_SELECTIVE_K_RECOMPUTE.md) physical GI floor remains open. [WL58](worklogs/58_WORKLOG_PERSISTENT_INTRINSIC_STATE_REUSE.md) remains a separate sharp-GGX representation preflight.
 
-The separately scoped [WL58 sharp-GGX preflight](worklogs/58_WORKLOG_PERSISTENT_INTRINSIC_STATE_REUSE.md) remains a valid angular representation negative result; it neither executed F/S nor constrains WL59's homogeneous-volume numerical equivalence.
+No learned corrective recipe or successor architecture is adopted. Work on `Selective_Recompute` only; no branch/worktree change without user consent.
 
-**No successor or learned architecture adoption is authorised by these results.** Work on `Selective_Recompute` only; no new branch or worktree without user consent.
+## Current decision boundary
 
-## Completed F/S evidence and next decision
-
-WL59 supports dependency-correct selective reconstruction for its tested learned computational model, not accurate physical K or complete coupled GI. The non-rigid lifecycle gain is small because common geometry/ballistic and global normalization work is still charged. Replacing those costs would be a separate, unadopted mechanism question.
-
-The next decision must distinguish shared learned-K directional/deformation fidelity limitations from state-update efficiency. A causal diagnosis of representation, noisy training supervision and optimization is needed before selecting another model or tuning capacity; complete-GI comparisons require qualified fidelity. This roadmap authorises no successor, rescue mechanism, or threshold change.
+The immediate unresolved hypothesis is the cause of inaccurate learned collided directional response: noisy/biased supervision, objective-induced fitting or generalization, and constraints of the spatial/angular/geometry-conditioned family remain confounded. Do not repeat WL63 tagging or re-run the rejected WL64 fixed loss. Select at most one prospectively controlled differentiating intervention, with genuinely independent physical labels and held-out qualification, before changing representation or retuning. Keep F/S update efficiency as a required later objective, not a parallel change. The user plans substantial experiments after the 2026-10-31 14:00 KST agent-token reset, with a 2026-11-02 competitive-evidence target; neither timing nor the target relaxes physical or matched-cost evidence. No successor, sweep, or coupled solve is automatically authorized.
 
 ## Longer-term decisions, without implementation permission
 
