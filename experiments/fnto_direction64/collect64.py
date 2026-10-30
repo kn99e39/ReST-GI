@@ -1,5 +1,5 @@
 """Final provenance and small review bundle; large immutable evidence remains hashed on server."""
-import json,hashlib,os,sys,subprocess,time,tarfile
+import json,hashlib,os,sys,subprocess,time,tarfile,importlib.metadata as metadata
 from pathlib import Path
 R=Path.home()/'rest_direction64';O=Path.home()/'rest_persist_v1'
 def sha(p):
@@ -8,7 +8,7 @@ def sha(p):
         for b in iter(lambda:f.read(16*1024*1024),b''):h.update(b)
     return h.hexdigest()
 def main():
-    assert json.loads((R/'status.json').read_text())['state']=='COMPLETE';assert (R/'review_complete.json').exists();assert not (R/'provenance.json').exists()
+    assert json.loads((R/'status.json').read_text())['state']=='COMPLETE';assert (R/'review_complete.json').exists();assert (R/'review_v2/summary.json').exists();assert not (R/'provenance.json').exists()
     cal=json.loads((R/'calibration.json').read_text());checked={}
     for rel,expected in cal['identities'].items():
         p=O/rel;actual=sha(p);assert actual==expected,rel;checked[str(p)]=actual
@@ -26,7 +26,7 @@ def main():
         if not p.is_file() or p.is_symlink() or any(k in rel.parts for k in ('tmp','__pycache__','data')):continue
         if p.name in ('provenance.json','review_bundle.tar.gz','collect64.log'):continue
         files[str(rel)]=dict(bytes=p.stat().st_size,sha256=sha(p))
-    (R/'provenance.json').write_text(json.dumps(dict(scientific_source_commit='05bb858',calibration_commit='7594e35',report_source_commit=(R/'report_commit.txt').read_text().strip(),branch='Selective_Recompute',original_inputs_rehashed_unchanged=checked,original_sources_unchanged=True,frozen_execution_source_unchanged=True,files=files,large_evidence_location=str(R),complete_epoch=time.time(),final_GPU_processes=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid,process_name,used_gpu_memory','--format=csv,noheader'],text=True),environment={'python':sys.version,'executable':sys.executable,'uname':subprocess.check_output(['uname','-a'],text=True),'CPU':subprocess.check_output(['lscpu'],text=True),'GPU':subprocess.check_output(['nvidia-smi'],text=True),'packages':subprocess.check_output([sys.executable,'-m','pip','freeze'],text=True)},scope='one objective, same model/data/budget; no adoption or automatic successor'),indent=2)+'\n')
+    (R/'provenance.json').write_text(json.dumps(dict(scientific_source_commit='05bb858',calibration_commit='7594e35',report_source_commit=(R/'report_commit.txt').read_text().strip(),branch='Selective_Recompute',original_inputs_rehashed_unchanged=checked,original_sources_unchanged=True,frozen_execution_source_unchanged=True,files=files,large_evidence_location=str(R),complete_epoch=time.time(),final_GPU_processes=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid,process_name,used_gpu_memory','--format=csv,noheader'],text=True),environment={'python':sys.version,'executable':sys.executable,'uname':subprocess.check_output(['uname','-a'],text=True),'CPU':subprocess.check_output(['lscpu'],text=True),'GPU':subprocess.check_output(['nvidia-smi'],text=True),'packages':sorted(f'{d.metadata["Name"]}=={d.version}' for d in metadata.distributions())},scope='one objective, same model/data/budget; no adoption or automatic successor'),indent=2)+'\n')
     selected=[R/'independent_lights.pt',R/'source_05bb858.tar.gz']
     for p in R.iterdir():
         if p.is_file() and p.suffix in ('.json','.npz','.txt','.log'):selected.append(p)
@@ -34,7 +34,8 @@ def main():
         ar=R/'arms'/arm
         for seed in (5901,5902):selected.append(ar/'checkpoints'/f'P_{seed}.pt')
         selected.extend((ar/'out').rglob('*.json'))
-    selected.extend(p for p in (R/'review_v1').rglob('*') if p.is_file())
+    for folder in ('review_v1','review_v2','report_versions'):
+        selected.extend(p for p in (R/folder).rglob('*') if p.is_file())
     with tarfile.open(R/'review_bundle.tar.gz','w:gz') as tf:
         for p in sorted(set(selected)):tf.add(p,arcname=str(p.relative_to(R)))
     print('BUNDLE_COMPLETE',sha(R/'review_bundle.tar.gz'),(R/'review_bundle.tar.gz').stat().st_size,flush=True)

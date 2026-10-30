@@ -41,3 +41,7 @@ Repair only this helper to construct both rest and rigid geometry through the sa
 ### Report-only duplicate cost-row correction
 
 Visual QA of the completed report passes. Inspection found the report export appended the whole unchanged cost comparison list once per seed, duplicating every cost row twice. Raw cost workers/medians/bootstraps and every quality result are unaffected. Repair export to append only the current seed's existing records. Preserve review_v1 and its manifest, original export source and first provenance/bundle; generate review_v2 with32 unique arm/seed/edit/query rows. No measurement or scientific criterion is repeated or changed.
+
+### Environment-metadata collection repair
+
+The first final collector stopped while asking the existing uv-managed venv for `python -m pip freeze`: pip is not installed in that venv. No provenance JSON or bundle was written, so no incomplete collection is treated as verified. Preserve `collect64_attempt0.log`; read installed distribution names/versions through standard-library `importlib.metadata` instead, without installing/upgrading packages. Repeat final unchanged-input/hash collection after report_v2; no training/reference/evaluation rerun.
