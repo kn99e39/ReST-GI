@@ -48,7 +48,24 @@ table('cache_lifecycle_cost.csv',list(costs[0]),costs)
 summary={'adjudication':{k:v for k,v in c.items() if k!='models'},'precision':{'fresh_all24_qualified':prec['total_all24_qualified'],'fresh_min_total_SNR':float(np.asarray(prec['SNR_pairs_components_RGB'])[:,0].min()),'rest_original_training_noise_to_contrast_coarse_range':list(np.asarray(cal['precision']['True']['noise_to_contrast']).reshape(-1)[[np.argmin(np.asarray(cal['precision']['True']['noise_to_contrast'])),np.argmax(np.asarray(cal['precision']['True']['noise_to_contrast']))]])},'training_cost':training,'primary':{}}
 for key,r in c['models'].items():
     o=r['original'];p=o['poses']['pt0'];rr=o['poses']['rest'];dp=np.array(p['directional_pairs']['F']['errors']);cp=r['fresh']['Scat'];p7=r['pair7_historically_inspected']['Scat']
-    summary['primary'][key]=dict(static_primary_all=all(o['poses'][g]['static_useful']['F'] for g in ('rest','pt0')),physics_primary_all=all(o['poses'][g]['physics']['passed'] for g in ('rest','pt0')),FS_primary_all=all(o['poses'][g]['F_S_passed'] for g in ('rest','pt0')),pt0_absolute_coarse_mean=p['metrics']['F']['coarse']['mean'],pt0_absolute_fine16_mean=p['metrics']['F']['fine16']['mean'],rest_absolute_coarse_mean=rr['metrics']['F']['coarse']['mean'],delta=p['dynamic']['F'],direction_mean=float(dp.mean()),direction_failures=int((dp>.25).sum()),direction_pair7=dp[7].tolist(),fresh_scattered_mean=float(np.mean(cp['error'])),pair7_scattered_error=p7['error'][0],pair7_scattered_amplitude=p7['amplitude'][0],pair7_scattered_correlation=p7['correlation'][0],historical_baseline_direction_max_abs_drift=float(np.abs(r['historical_direction_error_change']).max()),max_primary_FS_error=max(o['poses'][g]['F_S']['max_relative_L1'] for g in ('rest','pt0')))
+    summary['primary'][key]=dict(static_primary_all=all(o['poses'][g]['static_useful']['F'] for g in ('rest','pt0')),physics_primary_all=all(o['poses'][g]['physics']['passed'] for g in ('rest','pt0')),FS_primary_all=all(o['poses'][g]['F_S_passed'] for g in ('rest','pt0')),pt0_absolute_coarse_mean=p['metrics']['F']['coarse']['mean'],pt0_absolute_fine16_mean=p['metrics']['F']['fine16']['mean'],rest_absolute_coarse_mean=rr['metrics']['F']['coarse']['mean'],delta=p['dynamic']['F'],direction_mean=float(dp.mean()),direction_failures=int((dp>.25).sum()),direction_pair7=dp[7].tolist(),fresh_scattered_mean=float(np.mean(cp['error'])),pair7_scattered_error=p7['error'][0],pair7_scattered_amplitude=p7['amplitude'][0],pair7_scattered_correlation=p7['correlation'][0],direction_change_from_preserved_WL59_max_abs=float(np.abs(r['historical_direction_error_change']).max()),max_primary_FS_error=max(o['poses'][g]['F_S']['max_relative_L1'] for g in ('rest','pt0')))
+# Report-only sensitivity: retain the predeclared mean-reference gate, show all4 replica assignments.
+rep=np.load(ROOT/'independent_reference.npz')['replicas'];pred=np.load(ROOT/'comparison_components.npz');sensitivity={}
+for seed in (5901,5902):
+    aa=pred[f'A_{seed}_fresh'][:,0];bb=pred[f'B_{seed}_fresh'][:,0];variants=[]
+    for ra in range(2):
+        for rb in range(2):
+            q=rep[ra,::2,0]-rep[rb,1::2,0]
+            norm=lambda z:np.linalg.norm(z.reshape(len(z),-1,3),axis=1)
+            ea=norm(aa[::2]-aa[1::2]-q)/np.maximum(norm(q),1e-30);eb=norm(bb[::2]-bb[1::2]-q)/np.maximum(norm(q),1e-30)
+            variants.append(dict(even_field_replica=ra,odd_field_replica=rb,mean_A=float(ea.mean()),mean_B=float(eb.mean()),mean_ratio_B_A=float(eb.mean()/ea.mean()),failures_A=int((ea>.25).sum()),failures_B=int((eb>.25).sum())))
+    sensitivity[str(seed)]=variants
+summary['fresh_replica_sensitivity']=sensitivity
+risk=read(ROOT/'final_pair_risk.json');risk_summary={}
+for key,rows in risk['models'].items():
+    risk_summary[key]={split:float(np.mean([v['mean_objective'] for k,v in rows.items() if k.startswith(split+'/')])) for split in ('train','validation')}
+summary['final_original_noisy_pair_objective']=risk_summary
+summary['raw_lifecycle_costs']=costs
 (OUT/'summary.json').write_text(json.dumps(summary,indent=2)+'\n')
 # Four panels expose both gains and regressions, across both fixed seeds.
 plt.rcParams.update({'font.size':10,'axes.spines.top':False,'axes.spines.right':False})

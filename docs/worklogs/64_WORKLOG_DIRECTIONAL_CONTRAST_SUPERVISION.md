@@ -27,3 +27,7 @@ Original rest compatible single-label contrast noise relative to midpoint contra
 ### Reporting measurements pinned during A training, before candidate training
 
 Report-only source adds post-training rigid/no-op/source-swap/physics checks on each trained checkpoint and exhaustive final native-split pair risk (rest+12 training geometries; rest+2 validation geometries, all8 pairs). These measurements use original r0 targets, are explicitly noisy/unqualified diagnostics, and cannot select checkpoints or change the frozen objective, rules or 6,000-step budget. The originally committed comparison and numeric freeze remain `05bb858`; additional report execution follows the complete serial scientific chain without GPU contention.
+
+### Precision sensitivity in report
+
+Before held-out candidate outcomes exist, report-only export also specifies all4 even/odd-field independent-replica assignments for the fresh total contrast A/B mean-error ratio. This is sensitivity reporting, not a confidence interval or a replacement for the already frozen mean-reference gate. No training/objective/source population changes. Final noisy original training/validation pair risk is reported alongside held-out metrics, without interpreting original r0 as a clean component reference.
