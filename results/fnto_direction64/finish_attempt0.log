@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/nd/rest_direction64/finish64.py", line 11, in <module>
+    with open(r/f'{name}.log','w') as f:subprocess.run([sys.executable,str(r/f'{name}.py')],stdout=f,stderr=subprocess.STDOUT,check=True)
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python', '/home/nd/rest_direction64/invariants64.py']' returned non-zero exit status 1.

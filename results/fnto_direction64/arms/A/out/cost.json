@@ -1,0 +1,1584 @@
+{
+ "attempt": "0",
+ "workers": {
+  "5901_dent_F": {
+   "policy": "F",
+   "seed": 5901,
+   "edit": "dent",
+   "records": [
+    {
+     "rep": 0,
+     "initial_rest_seconds": 0.7413282990455627,
+     "geometry_and_B_seconds": 0.33398730494081974,
+     "update_seconds": 0.3470056504011154,
+     "lifecycle_seconds": {
+      "1": 0.3557088356465101,
+      "4": 0.361021114513278,
+      "16": 0.381151407957077,
+      "64": 0.46423913538455963
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 1863115776,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1421119488,
+     "audit": {}
+    },
+    {
+     "rep": 1,
+     "initial_rest_seconds": 0.3347553424537182,
+     "geometry_and_B_seconds": 0.37736931815743446,
+     "update_seconds": 0.3900328204035759,
+     "lifecycle_seconds": {
+      "1": 0.3919737096875906,
+      "4": 0.3970683738589287,
+      "16": 0.4160913620144129,
+      "64": 0.4939557630568743
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 1952621568,
+     "peak_GPU_reserved": 2214592512,
+     "CPU_peak_RSS_bytes": 1448554496,
+     "audit": {}
+    },
+    {
+     "rep": 2,
+     "initial_rest_seconds": 0.335767038166523,
+     "geometry_and_B_seconds": 0.3201537039130926,
+     "update_seconds": 0.3328184448182583,
+     "lifecycle_seconds": {
+      "1": 0.3347262404859066,
+      "4": 0.33967427536845207,
+      "16": 0.3587560597807169,
+      "64": 0.43445195630192757
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1453871104,
+     "audit": {}
+    },
+    {
+     "rep": 3,
+     "initial_rest_seconds": 0.34386372193694115,
+     "geometry_and_B_seconds": 0.31968667171895504,
+     "update_seconds": 0.3323150034993887,
+     "lifecycle_seconds": {
+      "1": 0.3342286106199026,
+      "4": 0.33917429484426975,
+      "16": 0.35819159634411335,
+      "64": 0.43367951549589634
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1455648768,
+     "audit": {}
+    },
+    {
+     "rep": 4,
+     "initial_rest_seconds": 0.33295397460460663,
+     "geometry_and_B_seconds": 0.3206370957195759,
+     "update_seconds": 0.33330292254686356,
+     "lifecycle_seconds": {
+      "1": 0.33525586500763893,
+      "4": 0.3403450734913349,
+      "16": 0.3601064123213291,
+      "64": 0.4360236395150423
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1455648768,
+     "audit": {}
+    },
+    {
+     "rep": 5,
+     "initial_rest_seconds": 0.3371357433497906,
+     "geometry_and_B_seconds": 0.3208067864179611,
+     "update_seconds": 0.33346095122396946,
+     "lifecycle_seconds": {
+      "1": 0.33538115955889225,
+      "4": 0.3404834996908903,
+      "16": 0.360093442723155,
+      "64": 0.435642471536994
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1456283648,
+     "audit": {}
+    },
+    {
+     "rep": 6,
+     "initial_rest_seconds": 0.3410864043980837,
+     "geometry_and_B_seconds": 0.31821265257894993,
+     "update_seconds": 0.33088207617402077,
+     "lifecycle_seconds": {
+      "1": 0.33284164778888226,
+      "4": 0.33791978284716606,
+      "16": 0.357007035985589,
+      "64": 0.4326611999422312
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2403336192,
+     "CPU_peak_RSS_bytes": 1456283648,
+     "audit": {}
+    }
+   ],
+   "peers_before": [],
+   "peers_after": [],
+   "uncontended": true
+  },
+  "5901_dent_S": {
+   "policy": "S",
+   "seed": 5901,
+   "edit": "dent",
+   "records": [
+    {
+     "rep": 0,
+     "initial_rest_seconds": 0.6852808073163033,
+     "geometry_and_B_seconds": 0.33598189428448677,
+     "update_seconds": 0.34801859967410564,
+     "lifecycle_seconds": {
+      "1": 0.35594238340854645,
+      "4": 0.36087552830576897,
+      "16": 0.3799618910998106,
+      "64": 0.45479823276400566
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 1863115776,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1423855616,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 1,
+     "initial_rest_seconds": 0.34830455109477043,
+     "geometry_and_B_seconds": 0.37827047146856785,
+     "update_seconds": 0.38638330064713955,
+     "lifecycle_seconds": {
+      "1": 0.3883079867810011,
+      "4": 0.3932988550513983,
+      "16": 0.41223704256117344,
+      "64": 0.4872704800218344
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 1952621568,
+     "peak_GPU_reserved": 2214592512,
+     "CPU_peak_RSS_bytes": 1459773440,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 2,
+     "initial_rest_seconds": 0.34204252250492573,
+     "geometry_and_B_seconds": 0.3196656573563814,
+     "update_seconds": 0.32776628620922565,
+     "lifecycle_seconds": {
+      "1": 0.3296842649579048,
+      "4": 0.3346326928585768,
+      "16": 0.3536793999373913,
+      "64": 0.4292853996157646
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1471557632,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 3,
+     "initial_rest_seconds": 0.34251673333346844,
+     "geometry_and_B_seconds": 0.3233350869268179,
+     "update_seconds": 0.3315071277320385,
+     "lifecycle_seconds": {
+      "1": 0.33342239633202553,
+      "4": 0.33837046287953854,
+      "16": 0.3573744520545006,
+      "64": 0.4328156318515539
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1471557632,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 4,
+     "initial_rest_seconds": 0.34322620555758476,
+     "geometry_and_B_seconds": 0.32333085127174854,
+     "update_seconds": 0.3314344920217991,
+     "lifecycle_seconds": {
+      "1": 0.3333691041916609,
+      "4": 0.33838426880538464,
+      "16": 0.35756635293364525,
+      "64": 0.43632345274090767
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1471557632,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 5,
+     "initial_rest_seconds": 0.3415315970778465,
+     "geometry_and_B_seconds": 0.32887861132621765,
+     "update_seconds": 0.3369824346154928,
+     "lifecycle_seconds": {
+      "1": 0.33891103975474834,
+      "4": 0.3438765499740839,
+      "16": 0.36299386061728,
+      "64": 0.43870964273810387
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1471557632,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 6,
+     "initial_rest_seconds": 0.33236341923475266,
+     "geometry_and_B_seconds": 0.31891963444650173,
+     "update_seconds": 0.32703412510454655,
+     "lifecycle_seconds": {
+      "1": 0.32900578156113625,
+      "4": 0.3340272270143032,
+      "16": 0.35319153405725956,
+      "64": 0.4289492033421993
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2403336192,
+     "CPU_peak_RSS_bytes": 1471557632,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    }
+   ],
+   "peers_before": [],
+   "peers_after": [],
+   "uncontended": true
+  },
+  "5901_rigid_F": {
+   "policy": "F",
+   "seed": 5901,
+   "edit": "rigid",
+   "records": [
+    {
+     "rep": 0,
+     "initial_rest_seconds": 0.7088541351258755,
+     "geometry_and_B_seconds": 0.37094106152653694,
+     "update_seconds": 0.3841019757091999,
+     "lifecycle_seconds": {
+      "1": 0.39207346364855766,
+      "4": 0.3968828618526459,
+      "16": 0.41518157348036766,
+      "64": 0.4876947198063135
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 1863115776,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1425338368,
+     "audit": {}
+    },
+    {
+     "rep": 1,
+     "initial_rest_seconds": 0.3990881145000458,
+     "geometry_and_B_seconds": 0.35623304173350334,
+     "update_seconds": 0.3688764311373234,
+     "lifecycle_seconds": {
+      "1": 0.3707621730864048,
+      "4": 0.37556832656264305,
+      "16": 0.3941534534096718,
+      "64": 0.4670298621058464
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 1863115776,
+     "peak_GPU_reserved": 2424307712,
+     "CPU_peak_RSS_bytes": 1441501184,
+     "audit": {}
+    },
+    {
+     "rep": 2,
+     "initial_rest_seconds": 0.34198411740362644,
+     "geometry_and_B_seconds": 0.36096569895744324,
+     "update_seconds": 0.373602245002985,
+     "lifecycle_seconds": {
+      "1": 0.3755086585879326,
+      "4": 0.38034540973603725,
+      "16": 0.398898933082819,
+      "64": 0.4732541386038065
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2319450112,
+     "CPU_peak_RSS_bytes": 1444347904,
+     "audit": {}
+    },
+    {
+     "rep": 3,
+     "initial_rest_seconds": 0.34096691384911537,
+     "geometry_and_B_seconds": 0.35642935894429684,
+     "update_seconds": 0.3690910581499338,
+     "lifecycle_seconds": {
+      "1": 0.3709773514419794,
+      "4": 0.3758339714258909,
+      "16": 0.39426171220839024,
+      "64": 0.4672335758805275
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1444347904,
+     "audit": {}
+    },
+    {
+     "rep": 4,
+     "initial_rest_seconds": 0.34524058550596237,
+     "geometry_and_B_seconds": 0.36235649324953556,
+     "update_seconds": 0.3750744257122278,
+     "lifecycle_seconds": {
+      "1": 0.37701068073511124,
+      "4": 0.38186872005462646,
+      "16": 0.4003856051713228,
+      "64": 0.4740309212356806
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2487222272,
+     "CPU_peak_RSS_bytes": 1444347904,
+     "audit": {}
+    },
+    {
+     "rep": 5,
+     "initial_rest_seconds": 0.34449050948023796,
+     "geometry_and_B_seconds": 0.35767028853297234,
+     "update_seconds": 0.37032534927129745,
+     "lifecycle_seconds": {
+      "1": 0.37221273221075535,
+      "4": 0.3770196810364723,
+      "16": 0.3958053160458803,
+      "64": 0.4695884399116039
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1448017920,
+     "audit": {}
+    },
+    {
+     "rep": 6,
+     "initial_rest_seconds": 0.33590433932840824,
+     "geometry_and_B_seconds": 0.3599548861384392,
+     "update_seconds": 0.3726977240294218,
+     "lifecycle_seconds": {
+      "1": 0.3746201694011688,
+      "4": 0.37950342893600464,
+      "16": 0.39806830883026123,
+      "64": 0.4723493680357933
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1448017920,
+     "audit": {}
+    }
+   ],
+   "peers_before": [],
+   "peers_after": [],
+   "uncontended": true
+  },
+  "5901_rigid_S": {
+   "policy": "S",
+   "seed": 5901,
+   "edit": "rigid",
+   "records": [
+    {
+     "rep": 0,
+     "initial_rest_seconds": 0.7130552753806114,
+     "geometry_and_B_seconds": 0.2813881542533636,
+     "update_seconds": 0.28500526398420334,
+     "lifecycle_seconds": {
+      "1": 0.29334793984889984,
+      "4": 0.2982045467942953,
+      "16": 0.3173418790102005,
+      "64": 0.39215999469161034
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 616746496,
+     "peak_GPU_reserved": 2151677952,
+     "CPU_peak_RSS_bytes": 1446174720,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 1,
+     "initial_rest_seconds": 0.40353595092892647,
+     "geometry_and_B_seconds": 0.2685512416064739,
+     "update_seconds": 0.26900309696793556,
+     "lifecycle_seconds": {
+      "1": 0.2712691854685545,
+      "4": 0.27617707662284374,
+      "16": 0.29478769190609455,
+      "64": 0.36925029568374157
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 376761856,
+     "peak_GPU_reserved": 1941962752,
+     "CPU_peak_RSS_bytes": 1492705280,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 2,
+     "initial_rest_seconds": 0.34689725562930107,
+     "geometry_and_B_seconds": 0.26762302219867706,
+     "update_seconds": 0.2681004051119089,
+     "lifecycle_seconds": {
+      "1": 0.2703253794461489,
+      "4": 0.27536544390022755,
+      "16": 0.29409247636795044,
+      "64": 0.36878209002316
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1492705280,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 3,
+     "initial_rest_seconds": 0.34442855045199394,
+     "geometry_and_B_seconds": 0.27284187264740467,
+     "update_seconds": 0.27327484264969826,
+     "lifecycle_seconds": {
+      "1": 0.275463642552495,
+      "4": 0.2803884670138359,
+      "16": 0.2994081526994705,
+      "64": 0.3741278909146786
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1492705280,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 4,
+     "initial_rest_seconds": 0.34970530681312084,
+     "geometry_and_B_seconds": 0.26715183071792126,
+     "update_seconds": 0.26761000603437424,
+     "lifecycle_seconds": {
+      "1": 0.2699257582426071,
+      "4": 0.2747821807861328,
+      "16": 0.29373606108129025,
+      "64": 0.3686680141836405
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1493319680,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 5,
+     "initial_rest_seconds": 0.34484286792576313,
+     "geometry_and_B_seconds": 0.27036764472723007,
+     "update_seconds": 0.2708232458680868,
+     "lifecycle_seconds": {
+      "1": 0.2731364630162716,
+      "4": 0.27824560180306435,
+      "16": 0.2977199386805296,
+      "64": 0.37159780226647854
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1493319680,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 6,
+     "initial_rest_seconds": 0.34650520607829094,
+     "geometry_and_B_seconds": 0.26441625505685806,
+     "update_seconds": 0.26488412730395794,
+     "lifecycle_seconds": {
+      "1": 0.26722303219139576,
+      "4": 0.27246349677443504,
+      "16": 0.2918038796633482,
+      "64": 0.36709020286798477
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1493319680,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    }
+   ],
+   "peers_before": [],
+   "peers_after": [],
+   "uncontended": true
+  },
+  "5902_dent_S": {
+   "policy": "S",
+   "seed": 5902,
+   "edit": "dent",
+   "records": [
+    {
+     "rep": 0,
+     "initial_rest_seconds": 0.6942582502961159,
+     "geometry_and_B_seconds": 0.33364482782781124,
+     "update_seconds": 0.3453128095716238,
+     "lifecycle_seconds": {
+      "1": 0.3533300720155239,
+      "4": 0.35834135487675667,
+      "16": 0.37733244709670544,
+      "64": 0.45271313190460205
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 1863115776,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1421922304,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 1,
+     "initial_rest_seconds": 0.34639082849025726,
+     "geometry_and_B_seconds": 0.38509797118604183,
+     "update_seconds": 0.3932197876274586,
+     "lifecycle_seconds": {
+      "1": 0.3951536361128092,
+      "4": 0.40017153322696686,
+      "16": 0.4195014722645283,
+      "64": 0.5016258843243122
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 1952621568,
+     "peak_GPU_reserved": 2214592512,
+     "CPU_peak_RSS_bytes": 1457881088,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 2,
+     "initial_rest_seconds": 0.34308669343590736,
+     "geometry_and_B_seconds": 0.32073270343244076,
+     "update_seconds": 0.32889440283179283,
+     "lifecycle_seconds": {
+      "1": 0.3308300394564867,
+      "4": 0.3358761202543974,
+      "16": 0.35530366003513336,
+      "64": 0.43243491277098656
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1458229248,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 3,
+     "initial_rest_seconds": 0.34663756005465984,
+     "geometry_and_B_seconds": 0.3196594286710024,
+     "update_seconds": 0.32777467742562294,
+     "lifecycle_seconds": {
+      "1": 0.3297284413129091,
+      "4": 0.33485026843845844,
+      "16": 0.3544131722301245,
+      "64": 0.4315794948488474
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1458229248,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 4,
+     "initial_rest_seconds": 0.3454239424318075,
+     "geometry_and_B_seconds": 0.3215636536478996,
+     "update_seconds": 0.3297204952687025,
+     "lifecycle_seconds": {
+      "1": 0.3316572532057762,
+      "4": 0.33670367300510406,
+      "16": 0.3560970313847065,
+      "64": 0.4331341125071049
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1458556928,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 5,
+     "initial_rest_seconds": 0.35020211338996887,
+     "geometry_and_B_seconds": 0.3228417932987213,
+     "update_seconds": 0.331006184220314,
+     "lifecycle_seconds": {
+      "1": 0.3329589683562517,
+      "4": 0.3379541728645563,
+      "16": 0.35721677727997303,
+      "64": 0.43365639448165894
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1459007488,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    },
+    {
+     "rep": 6,
+     "initial_rest_seconds": 0.345226276665926,
+     "geometry_and_B_seconds": 0.3209445867687464,
+     "update_seconds": 0.3290602397173643,
+     "lifecycle_seconds": {
+      "1": 0.33100179955363274,
+      "4": 0.3360425643622875,
+      "16": 0.35548219084739685,
+      "64": 0.4315675962716341
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2403336192,
+     "CPU_peak_RSS_bytes": 1459236864,
+     "audit": {
+      "node_updates": [
+       568,
+       828,
+       1131
+      ],
+      "node_total": 3840,
+      "edge_updates": 166561,
+      "edge_total": 491520,
+      "raw_retained_fraction": 0.6611307779947917,
+      "normalisation": "global full reduction and derived-coefficient rebuild",
+      "ballistic": "full current-geometry rebuild on every nonrigid update"
+     }
+    }
+   ],
+   "peers_before": [],
+   "peers_after": [],
+   "uncontended": true
+  },
+  "5902_dent_F": {
+   "policy": "F",
+   "seed": 5902,
+   "edit": "dent",
+   "records": [
+    {
+     "rep": 0,
+     "initial_rest_seconds": 0.6868293769657612,
+     "geometry_and_B_seconds": 0.3319386299699545,
+     "update_seconds": 0.34458474069833755,
+     "lifecycle_seconds": {
+      "1": 0.35249971225857735,
+      "4": 0.35749283246695995,
+      "16": 0.3760731089860201,
+      "64": 0.4498452842235565
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 1863115776,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1424314368,
+     "audit": {}
+    },
+    {
+     "rep": 1,
+     "initial_rest_seconds": 0.34207882918417454,
+     "geometry_and_B_seconds": 0.37837740406394005,
+     "update_seconds": 0.3910418264567852,
+     "lifecycle_seconds": {
+      "1": 0.39295288920402527,
+      "4": 0.3978214729577303,
+      "16": 0.41662953048944473,
+      "64": 0.49092950858175755
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 1952621568,
+     "peak_GPU_reserved": 2214592512,
+     "CPU_peak_RSS_bytes": 1457029120,
+     "audit": {}
+    },
+    {
+     "rep": 2,
+     "initial_rest_seconds": 0.3414983469992876,
+     "geometry_and_B_seconds": 0.3184193279594183,
+     "update_seconds": 0.33109016343951225,
+     "lifecycle_seconds": {
+      "1": 0.3330005258321762,
+      "4": 0.33791009336709976,
+      "16": 0.35684045031666756,
+      "64": 0.43119189143180847
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1457029120,
+     "audit": {}
+    },
+    {
+     "rep": 3,
+     "initial_rest_seconds": 0.33675019815564156,
+     "geometry_and_B_seconds": 0.319070216268301,
+     "update_seconds": 0.3317280188202858,
+     "lifecycle_seconds": {
+      "1": 0.3336280081421137,
+      "4": 0.3385206423699856,
+      "16": 0.3572822120040655,
+      "64": 0.43152402713894844
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1457389568,
+     "audit": {}
+    },
+    {
+     "rep": 4,
+     "initial_rest_seconds": 0.33593263663351536,
+     "geometry_and_B_seconds": 0.3234384320676327,
+     "update_seconds": 0.3360926862806082,
+     "lifecycle_seconds": {
+      "1": 0.3380411434918642,
+      "4": 0.3430846370756626,
+      "16": 0.3623299188911915,
+      "64": 0.43649255484342575
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1457389568,
+     "audit": {}
+    },
+    {
+     "rep": 5,
+     "initial_rest_seconds": 0.3321446031332016,
+     "geometry_and_B_seconds": 0.3200265597552061,
+     "update_seconds": 0.33270316012203693,
+     "lifecycle_seconds": {
+      "1": 0.33465322852134705,
+      "4": 0.3397098910063505,
+      "16": 0.35904073528945446,
+      "64": 0.43367435596883297
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1457451008,
+     "audit": {}
+    },
+    {
+     "rep": 6,
+     "initial_rest_seconds": 0.3344804085791111,
+     "geometry_and_B_seconds": 0.31925354339182377,
+     "update_seconds": 0.33190977573394775,
+     "lifecycle_seconds": {
+      "1": 0.33382734283804893,
+      "4": 0.3387032374739647,
+      "16": 0.35741614922881126,
+      "64": 0.43150691874325275
+     },
+     "persistent_GPU_bytes": 231471140,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2403336192,
+     "CPU_peak_RSS_bytes": 1457451008,
+     "audit": {}
+    }
+   ],
+   "peers_before": [],
+   "peers_after": [],
+   "uncontended": true
+  },
+  "5902_rigid_S": {
+   "policy": "S",
+   "seed": 5902,
+   "edit": "rigid",
+   "records": [
+    {
+     "rep": 0,
+     "initial_rest_seconds": 0.6937276534736156,
+     "geometry_and_B_seconds": 0.27488083951175213,
+     "update_seconds": 0.2785278707742691,
+     "lifecycle_seconds": {
+      "1": 0.2866761293262243,
+      "4": 0.2915400546044111,
+      "16": 0.3101718910038471,
+      "64": 0.38393831066787243
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 616746496,
+     "peak_GPU_reserved": 2151677952,
+     "CPU_peak_RSS_bytes": 1424703488,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 1,
+     "initial_rest_seconds": 0.4010925628244877,
+     "geometry_and_B_seconds": 0.26047803461551666,
+     "update_seconds": 0.2609296590089798,
+     "lifecycle_seconds": {
+      "1": 0.26321531273424625,
+      "4": 0.2681273762136698,
+      "16": 0.28685969673097134,
+      "64": 0.3614327758550644
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 376761856,
+     "peak_GPU_reserved": 1941962752,
+     "CPU_peak_RSS_bytes": 1460445184,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 2,
+     "initial_rest_seconds": 0.3434459138661623,
+     "geometry_and_B_seconds": 0.26417163386940956,
+     "update_seconds": 0.26461886055767536,
+     "lifecycle_seconds": {
+      "1": 0.26688493974506855,
+      "4": 0.2717708330601454,
+      "16": 0.29053983464837074,
+      "64": 0.3645937032997608
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1471946752,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 3,
+     "initial_rest_seconds": 0.34322997368872166,
+     "geometry_and_B_seconds": 0.2630891315639019,
+     "update_seconds": 0.2635571360588074,
+     "lifecycle_seconds": {
+      "1": 0.2658287510275841,
+      "4": 0.2707495205104351,
+      "16": 0.2893292214721441,
+      "64": 0.36323671229183674
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1471946752,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 4,
+     "initial_rest_seconds": 0.3453488741070032,
+     "geometry_and_B_seconds": 0.26673766411840916,
+     "update_seconds": 0.2671951651573181,
+     "lifecycle_seconds": {
+      "1": 0.26944934763014317,
+      "4": 0.2743115033954382,
+      "16": 0.29300749115645885,
+      "64": 0.3676941227167845
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1471946752,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 5,
+     "initial_rest_seconds": 0.34058530256152153,
+     "geometry_and_B_seconds": 0.26409077271819115,
+     "update_seconds": 0.26455166563391685,
+     "lifecycle_seconds": {
+      "1": 0.2668190561234951,
+      "4": 0.27168790623545647,
+      "16": 0.29030437022447586,
+      "64": 0.3643805216997862
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1472475136,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    },
+    {
+     "rep": 6,
+     "initial_rest_seconds": 0.3401659056544304,
+     "geometry_and_B_seconds": 0.2629368472844362,
+     "update_seconds": 0.26339706405997276,
+     "lifecycle_seconds": {
+      "1": 0.26566370017826557,
+      "4": 0.27066230587661266,
+      "16": 0.2892872076481581,
+      "64": 0.3631274290382862
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 664743424,
+     "peak_GPU_reserved": 2088763392,
+     "CPU_peak_RSS_bytes": 1472475136,
+     "audit": {
+      "node_updates": [
+       0,
+       0,
+       0
+      ],
+      "node_total": 3840,
+      "edge_updates": 0,
+      "edge_total": 491520,
+      "raw_retained_fraction": 1.0,
+      "normalisation": "reused",
+      "ballistic": "reused material-frame intrinsic geometry"
+     }
+    }
+   ],
+   "peers_before": [],
+   "peers_after": [],
+   "uncontended": true
+  },
+  "5902_rigid_F": {
+   "policy": "F",
+   "seed": 5902,
+   "edit": "rigid",
+   "records": [
+    {
+     "rep": 0,
+     "initial_rest_seconds": 0.685863807797432,
+     "geometry_and_B_seconds": 0.370065500959754,
+     "update_seconds": 0.38342273235321045,
+     "lifecycle_seconds": {
+      "1": 0.39125979132950306,
+      "4": 0.39613565243780613,
+      "16": 0.4146864265203476,
+      "64": 0.48795249685645103
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 1863115776,
+     "peak_GPU_reserved": 2445279232,
+     "CPU_peak_RSS_bytes": 1419964416,
+     "audit": {}
+    },
+    {
+     "rep": 1,
+     "initial_rest_seconds": 0.3961468040943146,
+     "geometry_and_B_seconds": 0.3552789259701967,
+     "update_seconds": 0.36793047934770584,
+     "lifecycle_seconds": {
+      "1": 0.36982617154717445,
+      "4": 0.3746774233877659,
+      "16": 0.39328137785196304,
+      "64": 0.46683624759316444
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 1863115776,
+     "peak_GPU_reserved": 2424307712,
+     "CPU_peak_RSS_bytes": 1442430976,
+     "audit": {}
+    },
+    {
+     "rep": 2,
+     "initial_rest_seconds": 0.34185213781893253,
+     "geometry_and_B_seconds": 0.3576713763177395,
+     "update_seconds": 0.37039331160485744,
+     "lifecycle_seconds": {
+      "1": 0.37243070267140865,
+      "4": 0.3775572031736374,
+      "16": 0.397277532145381,
+      "64": 0.4717966802418232
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2319450112,
+     "CPU_peak_RSS_bytes": 1454608384,
+     "audit": {}
+    },
+    {
+     "rep": 3,
+     "initial_rest_seconds": 0.3430389575660229,
+     "geometry_and_B_seconds": 0.35830347426235676,
+     "update_seconds": 0.3709459565579891,
+     "lifecycle_seconds": {
+      "1": 0.3728390149772167,
+      "4": 0.3776883352547884,
+      "16": 0.39634657092392445,
+      "64": 0.4701763242483139
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1454608384,
+     "audit": {}
+    },
+    {
+     "rep": 4,
+     "initial_rest_seconds": 0.3375887107104063,
+     "geometry_and_B_seconds": 0.35372508503496647,
+     "update_seconds": 0.3663859888911247,
+     "lifecycle_seconds": {
+      "1": 0.3682875223457813,
+      "4": 0.3731280043721199,
+      "16": 0.391770688816905,
+      "64": 0.46556403674185276
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2487222272,
+     "CPU_peak_RSS_bytes": 1454608384,
+     "audit": {}
+    },
+    {
+     "rep": 5,
+     "initial_rest_seconds": 0.3386875204741955,
+     "geometry_and_B_seconds": 0.3540571704506874,
+     "update_seconds": 0.36670139990746975,
+     "lifecycle_seconds": {
+      "1": 0.36863948218524456,
+      "4": 0.37358530797064304,
+      "16": 0.3922149036079645,
+      "64": 0.4661643784493208
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1455263744,
+     "audit": {}
+    },
+    {
+     "rep": 6,
+     "initial_rest_seconds": 0.33889214508235455,
+     "geometry_and_B_seconds": 0.35763111524283886,
+     "update_seconds": 0.37037817761301994,
+     "lifecycle_seconds": {
+      "1": 0.3722970690578222,
+      "4": 0.37716080620884895,
+      "16": 0.39591202698647976,
+      "64": 0.4700131546705961
+     },
+     "persistent_GPU_bytes": 230918520,
+     "peak_GPU_allocated": 2240603136,
+     "peak_GPU_reserved": 2466250752,
+     "CPU_peak_RSS_bytes": 1455263744,
+     "audit": {}
+    }
+   ],
+   "peers_before": [],
+   "peers_after": [],
+   "uncontended": true
+  }
+ },
+ "comparisons": [
+  {
+   "seed": 5901,
+   "edit": "dent",
+   "queries": 1,
+   "F_seconds": 0.33525586500763893,
+   "S_seconds": 0.33342239633202553,
+   "ratio": 0.9945311361649956,
+   "bootstrap95": [
+    0.9849370174245001,
+    1.0105249805937184
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5901,
+   "edit": "dent",
+   "queries": 4,
+   "F_seconds": 0.3403450734913349,
+   "S_seconds": 0.33838426880538464,
+   "ratio": 0.9942387745888727,
+   "bootstrap95": [
+    0.9851575969230917,
+    1.0099653882971538
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5901,
+   "edit": "dent",
+   "queries": 16,
+   "F_seconds": 0.360093442723155,
+   "S_seconds": 0.35756635293364525,
+   "ratio": 0.9929821277210742,
+   "bootstrap95": [
+    0.9858492708208786,
+    1.0080546256887961
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5901,
+   "edit": "dent",
+   "queries": 64,
+   "F_seconds": 0.435642471536994,
+   "S_seconds": 0.43632345274090767,
+   "ratio": 1.00156316532112,
+   "bootstrap95": [
+    0.9796637079880535,
+    1.0070405697366664
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5901,
+   "edit": "rigid",
+   "queries": 1,
+   "F_seconds": 0.3746201694011688,
+   "S_seconds": 0.2712691854685545,
+   "ratio": 0.7241179403185336,
+   "bootstrap95": [
+    0.7159631597606056,
+    0.7425349323396022
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5901,
+   "edit": "rigid",
+   "queries": 4,
+   "F_seconds": 0.37950342893600464,
+   "S_seconds": 0.27617707662284374,
+   "ratio": 0.727732756979688,
+   "bootstrap95": [
+    0.7195723722718769,
+    0.7460434349509688
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5901,
+   "edit": "rigid",
+   "queries": 16,
+   "F_seconds": 0.39806830883026123,
+   "S_seconds": 0.29478769190609455,
+   "ratio": 0.7405454927380161,
+   "bootstrap95": [
+    0.7336329210826702,
+    0.7594147324689137
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5901,
+   "edit": "rigid",
+   "queries": 64,
+   "F_seconds": 0.4723493680357933,
+   "S_seconds": 0.36925029568374157,
+   "ratio": 0.7817313214987954,
+   "bootstrap95": [
+    0.7777298856847034,
+    0.800729892344774
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5902,
+   "edit": "dent",
+   "queries": 1,
+   "F_seconds": 0.33465322852134705,
+   "S_seconds": 0.3316572532057762,
+   "ratio": 0.9910475230470406,
+   "bootstrap95": [
+    0.9811150494281723,
+    1.0023556324390344
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5902,
+   "edit": "dent",
+   "queries": 4,
+   "F_seconds": 0.3397098910063505,
+   "S_seconds": 0.33670367300510406,
+   "ratio": 0.991150631521676,
+   "bootstrap95": [
+    0.9814011955622737,
+    1.002373536845316
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5902,
+   "edit": "dent",
+   "queries": 16,
+   "F_seconds": 0.35904073528945446,
+   "S_seconds": 0.3560970313847065,
+   "ratio": 0.9918011979828005,
+   "bootstrap95": [
+    0.9827977564603029,
+    1.00334865237794
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5902,
+   "edit": "dent",
+   "queries": 64,
+   "F_seconds": 0.43367435596883297,
+   "S_seconds": 0.4331341125071049,
+   "ratio": 0.9987542646820304,
+   "bootstrap95": [
+    0.9923058427937549,
+    1.0063751867177968
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5902,
+   "edit": "rigid",
+   "queries": 1,
+   "F_seconds": 0.3722970690578222,
+   "S_seconds": 0.2668190561234951,
+   "ratio": 0.7166832035469366,
+   "bootstrap95": [
+    0.7129853377705877,
+    0.7309291615561203
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5902,
+   "edit": "rigid",
+   "queries": 4,
+   "F_seconds": 0.37716080620884895,
+   "S_seconds": 0.27168790623545647,
+   "ratio": 0.7203503167956748,
+   "bootstrap95": [
+    0.7168596306470191,
+    0.7342673749284435
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5902,
+   "edit": "rigid",
+   "queries": 16,
+   "F_seconds": 0.39591202698647976,
+   "S_seconds": 0.29030437022447586,
+   "ratio": 0.7332547395292683,
+   "bootstrap95": [
+    0.7299904747445854,
+    0.7470585346479651
+   ],
+   "uncontended": true
+  },
+  {
+   "seed": 5902,
+   "edit": "rigid",
+   "queries": 64,
+   "F_seconds": 0.4700131546705961,
+   "S_seconds": 0.3643805216997862,
+   "ratio": 0.7752560073667694,
+   "bootstrap95": [
+    0.7725542388221164,
+    0.7887649501231859
+   ],
+   "uncontended": true
+  }
+ ],
+ "kind": "actual intrinsic update+queries; C/solve eligibility recorded separately"
+}

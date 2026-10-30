@@ -1,0 +1,13 @@
+{
+ "eta": [
+  0.0020228057947454018,
+  0.02429031329894211
+ ],
+ "lambda": 1.4493619017035815,
+ "rule": {
+  "eta": "per resolution max(1e-4, median rest train pair/channel single-label contrast-noise squared / midpoint pair-mean action squared); noise=(r0-r1)/sqrt(2)",
+  "lambda": ".25 * median original deformation loss / median new directional loss; untrained seed5901; tr00,tr04,tr08,tr11 crossed with all8pairs; no optimizer step",
+  "weight_sweep": false
+ },
+ "train_only": true
+}

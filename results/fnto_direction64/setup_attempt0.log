@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/nd/rest_direction64/source/experiments/fnto_direction64/setup64.py", line 70, in <module>
+    if __name__=='__main__':setup();sys.stdout.flush();os._exit(0)
+  File "/home/nd/rest_direction64/source/experiments/fnto_direction64/setup64.py", line 53, in setup
+    assert torch.allclose(c,sw);assert float(contrast(t,t,g['parent'],eta))==0
+AssertionError

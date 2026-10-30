@@ -1,0 +1,11 @@
+/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python: No module named pip
+Traceback (most recent call last):
+  File "/home/nd/rest_direction64/collect64.py", line 41, in <module>
+    if __name__=='__main__':main()
+  File "/home/nd/rest_direction64/collect64.py", line 29, in main
+    (R/'provenance.json').write_text(json.dumps(dict(scientific_source_commit='05bb858',calibration_commit='7594e35',report_source_commit=(R/'report_commit.txt').read_text().strip(),branch='Selective_Recompute',original_inputs_rehashed_unchanged=checked,original_sources_unchanged=True,frozen_execution_source_unchanged=True,files=files,large_evidence_location=str(R),complete_epoch=time.time(),final_GPU_processes=subprocess.check_output(['nvidia-smi','--query-compute-apps=pid,process_name,used_gpu_memory','--format=csv,noheader'],text=True),environment={'python':sys.version,'executable':sys.executable,'uname':subprocess.check_output(['uname','-a'],text=True),'CPU':subprocess.check_output(['lscpu'],text=True),'GPU':subprocess.check_output(['nvidia-smi'],text=True),'packages':subprocess.check_output([sys.executable,'-m','pip','freeze'],text=True)},scope='one objective, same model/data/budget; no adoption or automatic successor'),indent=2)+'\n')
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/subprocess.py", line 421, in check_output
+    return run(*popenargs, stdout=PIPE, timeout=timeout, check=True,
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python', '-m', 'pip', 'freeze']' returned non-zero exit status 1.

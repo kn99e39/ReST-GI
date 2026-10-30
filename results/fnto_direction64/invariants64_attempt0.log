@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/nd/rest_direction64/invariants64.py", line 27, in <module>
+    if __name__=='__main__':main();sys.stdout.flush();os._exit(0)
+  File "/home/nd/rest_direction64/invariants64.py", line 21, in main
+    c,a=selective(m,c,rigid);er=rel(apply(m,c,x),base);ph=physics(m,rest,x,m.coefficients(rest))
+  File "/home/nd/rest_persist_v1/repo/experiments/fnto_persist59/runtime.py", line 126, in apply
+    return model.apply(cache['g'], x, cache['co'])
+  File "/home/nd/rest_persist_v1/repo/experiments/fnto_rule57/r57_model.py", line 72, in apply
+    q=torch.einsum('biac,rac->birc',x*(1-g['beta'])[None,:,:,None],coeff['A'])
+KeyError: 'beta'
