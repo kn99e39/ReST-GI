@@ -1,6 +1,6 @@
 # Architecture — FNTO Dynamic Transport Reuse
 
-**Current as of:** 2026-10-29. **Role:** current physical/representation contracts, candidate status and unresolved design decisions. See [document ownership](README.md).
+**Current as of:** 2026-10-30. **Role:** current physical/representation contracts, candidate status and unresolved design decisions. See [document ownership](README.md).
 
 ## 1. Objective and design boundary
 
@@ -88,6 +88,7 @@ These are current dispositions with brief rationale, not a new adjudication. Wor
 | Fixed learned direct D / Rule–State R | Both recipes NOT SUPPORTED for integration; quality-matched runtime winner and abstract Rule–State superiority INCONCLUSIVE | [completed evaluation](worklogs/57_WORKLOG_LEARNED_INTRINSIC_K_RULE_STATE.md) |
 | Dependency-certified persistent graph transport state (`intrinsic_state_reuse_v1`) | Not adopted; angular representation NOT SUPPORTED on the prospectively included sharp GGX probe. Candidate stopped before learned rule/F/S implementation; state correctness, fidelity and cost remain INCONCLUSIVE | [candidate plan](plans/INTRINSIC_STATE_REUSE_V1.md), [preflight closure](worklogs/58_WORKLOG_PERSISTENT_INTRINSIC_STATE_REUSE.md) |
 | Actual persistent F/S (`persistent_intrinsic_FS_v1`) | TESTED, NOT ADOPTED; same-rule selective state matches full rebuild on tested local/rigid edits and saves limited raw work. Both policies fail required directional/deformation fidelity; quality-matched GI cost benefit is not supported for this recipe, and general viability remains INCONCLUSIVE | [design](plans/PERSISTENT_INTRINSIC_FS_V1.md), [evidence](worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md) |
+| Fixed-family directional-contrast supervision | NOT SUPPORTED under its fixed objective/label/budget contract; seen-pair loss improves but independently qualified held-out directional quality worsens. This does not falsify the general model class or every possible contrast objective | [component attribution](worklogs/63_WORKLOG_PHYSICAL_BALLISTIC_SCATTERED_ATTRIBUTION.md), [negative intervention](worklogs/64_WORKLOG_DIRECTIONAL_CONTRAST_SUPERVISION.md) |
 | Algorithmic spatial/directional discovery with optional learned scoring | Unvalidated design preference; no specific hierarchy or learned selector adopted. Candidate coverage and algorithm-only comparison required | [research constraints](RESEARCH_CENTRIC_TOPIC.md), [selection evidence contract](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) |
 
 A free-space radiosity solver, SH2-only Lambertian model, scene-baked monolithic radiance MLP or SPT-1 repair is not an interchangeable implementation of this contract. A genuine contract conflict must be reported before changing scope.
