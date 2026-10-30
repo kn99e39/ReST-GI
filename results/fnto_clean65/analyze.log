@@ -1,0 +1,52 @@
+ANALYZED rest
+ANALYZED tr00
+ANALYZED tr01
+ANALYZED tr02
+ANALYZED tr03
+ANALYZED tr04
+ANALYZED tr05
+ANALYZED tr06
+ANALYZED tr07
+ANALYZED tr08
+ANALYZED tr09
+ANALYZED tr10
+ANALYZED tr11
+{
+  "status": "STOP_INSUFFICIENT_PRECISION",
+  "phase": "A",
+  "whole_batch_complete": false,
+  "phase_B_authorized": false,
+  "checks": {
+    "absolute_coarse": true,
+    "absolute_fine16": true,
+    "directional_coarse": true,
+    "delta_original_loss_precision": false,
+    "rest_precision_gain": true
+  },
+  "coverage": {
+    "actions": 208,
+    "packets": 832,
+    "photons": 26624000000,
+    "geometries": 13,
+    "fields": 16,
+    "pairs": 8
+  },
+  "qualified_direction_cells": 312,
+  "weak_delta_cells": 516,
+  "delta_loss_precision_failed_cells": 107,
+  "absolute_coarse_failed_cells": 0,
+  "absolute_fine16_failed_cells": 0,
+  "rest_pooled_new_SE_over_old_single_noise_RGB": [
+    0.026058652961552506,
+    0.026047037305207077,
+    0.02505841810850664
+  ],
+  "max_coarse_absolute_SE_ratio": 0.0036996273753188906,
+  "max_fine16_absolute_SE_ratio": 0.014628047331853354,
+  "minimum_direction_SNR": 10.980567368105671,
+  "maximum_direction_SE_ratio": 0.061926082383268334,
+  "maximum_delta_loss_scale_SE": 0.4572601094266554,
+  "analysis_seconds": 64.63423862494528,
+  "CPU_maxrss_KiB": 1965524,
+  "note": "Readiness is reference precision only. No model quality or architecture success. No Phase B before explicit user decision; complete population retained; weak delta detectability separate from original loss-scale uncertainty."
+}
