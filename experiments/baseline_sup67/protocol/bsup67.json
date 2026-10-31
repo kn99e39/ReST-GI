@@ -1,0 +1,159 @@
+{
+  "protocol": "baseline_sup67_v1",
+  "worklog": 67,
+  "date": "2026-11-01",
+  "authorization": "User brief 2026-11-01 'Baseline Superiority Evidence': bounded, executed baseline comparison in parallel with the separately approved WL66 representation study. Isolated adapters, common-scene/reference preparation, instrumentation, tests and new outputs only. No ReST-GI K tuning, no baseline hyper-parameter/schedule change, no threshold/mask change, no new FNTO architecture or coupled solver, no dependence on unreported WL66 results.",
+  "worklog_number_rule": "WL66 is reserved by the concurrent representation study (experiments/fnto_rank66, untracked at start). This batch is Worklog 67; code experiments/baseline_sup67, results results/baseline_sup67, reviewer exports results/evaluation/67, server ~/rest_bsup67. Nothing under fnto_rank66 / rest_rank66 is read or written.",
+  "status": "PREDECLARED before any comparative outcome of this batch was computed. Historical WL22/WL27/WL56/WL59 numbers were known when this contract was written; they are inherited, not selected.",
+  "central_question": "On which physically aligned workloads, if any, does ReST-GI provide a measured quality-matched advantage over Full Recompute or relevant neural GI baselines, and what prevents that advantage where it has not been established?",
+  "baseline_availability_audit": {
+    "A_full_recompute": "EXECUTABLE. W1: official Blender 3.5.1 CUDA Cycles volume path tracing (the validated WL53/WL56 physical reference renderer) re-rendered after the edit; W2: Mitsuba 3.5.1 scene path integrator (the WL22 reference renderer) re-rendered after the edit.",
+    "ReST_GI_oracle": "EXECUTABLE on W1 only: WL56 exact optical-domain Full / Selective / Stale pipeline, source unchanged (experiments/fnto_sel56 at the start commit), re-executed into an isolated root.",
+    "ReST_GI_learned": "WL59 persistent F/S learned rule exists but fails its own required fidelity and has no executed coupled solve; its geometry (single-domain held-out dent) is not W1. Reported with inherited measurements, labelled PHYSICALLY INELIGIBLE / NOT COMPARABLE to W1. Running it inside the WL56 coupled solve would be a new composition and is not done.",
+    "RNA": "EXECUTED historically on W2 (WL22 bridge, WL27 rebuild). Native generator semantics to be checked against W1 (see blockers).",
+    "8DNA": "EXECUTED historically on W2 (WL21/22, WL27). Training draws Mitsuba path samples; W1 volume semantics checked against the WL53 Mitsuba float32 boundary-layer finding.",
+    "TransGI": "Paper arXiv 2506.09909 (Deng, Han, Fang; v1 2025-06-11). The arXiv abstract page lists no code/project link; no official repository was found by GitHub repository search on 2026-11-01. The paper states rigid object motion without retraining, glossy surfaces, test scenes modified to exclude transparent objects, scene-specific training (~30 min sampling + ~2 h training on an RTX 5000). No surrogate is implemented."
+  },
+  "workloads": {
+    "W1_medium_two_slab": {
+      "fixture": "WL56 fnto_sel56_v1 two-medium slab fixture unchanged: rest, dent (upper-slab top cos^2 dent 5 mm / 20 mm, lower slab stationary receiver), rigid (upper slab translated (+3.7,-2.1,+2.0) mm). Homogeneous sigma_t 1000 m^-1, isotropic, albedo (0.999,0.99,0.9), index-matched transparent boundary; 20x20 cm unit-radiance downward emitter at z=54 mm.",
+      "reference": "WL56 Cycles 3.5.1 e1ccd9d4a1d3 CUDA, 1024 spp x 4 seeds (rest/dent 5601-5604, rigid 5611-5614), 1024 bounces, no clamp/denoise/adaptive, GAUSSIAN 0.01, 0.5 mm pixels, 220^2, LabServer69. Read-only from ~/rest_wl56/out/cycles; SHA256 recorded.",
+      "query_workload": "Four primary face-on orthographic views top, gapdown, gapup, bot (220^2, 0.5 mm). otop excluded (WL56: rays start inside the medium, comparison-invalid).",
+      "comparison_unit": "WL56 amended masks (centre ray + >=90% coverage), port groups and the historical rule |bias| <= 3% + 3 SE with >=5 ports and >=2% signal share, applied by the unchanged s56_analyze.group_stats. Primary population: the 12 dent face-on group x channel tests (amended).",
+      "edits": {
+        "rigid": "rigid relative motion",
+        "dent": "local deformation with a stationary receiver (lower top) and changed interreflection through the 8 mm gap"
+      }
+    },
+    "W2_teaset_common_light": {
+      "fixture": "WL22 regime teaset_cross_backbone_common_light unchanged: released 8DNA teaset, Ni_palik rough conductors, 15 deg area light (to_light [-0.6647,0.7071,0.2418], E 5), 512^2 upstream camera; states T0 and T3 (teapot2 +0.16 m x).",
+      "reference": "WL22 GT_A / GT_B, Mitsuba 3.5.1 path, 32768 spp each, RTX 5080 Windows (results/8dna_replication/gt_design/common_light). Read-only, SHA256 recorded.",
+      "comparison_unit": "WL22 interaction / tray / far / mover ROIs (rois_T*.npz) and the WL22 display-MAE metric (ednalib.pixel_metrics); WL22 gain = <dN,dG>/<dG,dG> in the interaction ROI; whole-image display MAE / PSNR secondary.",
+      "edits": {
+        "T3": "rigid relative motion that changes inter-part interreflection / indirect occlusion (WL21-24)"
+      }
+    }
+  },
+  "eligibility_criteria": {
+    "rule": "A method/workload pair is PHYSICALLY ALIGNED only if (a) the method executes its own native or previously qualified semantics on the workload's exact geometry, materials, lighting and cameras, (b) its outputs are scored against the workload's physical reference with the workload's masks/metric, (c) the reference is physically valid for the regime, (d) no runtime access to reference/target transport, (e) timings are measured locally on the stated hardware. PARTIALLY ALIGNED / CONDITIONAL: (a)-(d) hold but timing is inherited from other hardware, or output semantics are compatible only for a declared subset. NOT COMPARABLE: any of (a)-(c) fails or the method cannot execute.",
+    "superiority_classes": {
+      "A": "Quality-matched measured superiority: PHYSICALLY ALIGNED, ReST-GI meets the comparison quality bar and is measured faster/cheaper.",
+      "B": "Scoped computational advantage with insufficient physical fidelity.",
+      "C": "No demonstrated advantage (aligned comparison executed, ReST-GI not better at matched quality).",
+      "D": "Comparison blocked or incomparable."
+    }
+  },
+  "W1_arms": {
+    "CY": {
+      "what": "Quality-matched physical Full Recompute: Cycles volume path tracing after the edit, identical renderer/build/settings to the reference (k55_cycles.setup + s56_fixtures.scene via k55_cycles.build), new independent seeds only.",
+      "spp_ladder": [
+        1,
+        4,
+        16,
+        64,
+        256,
+        1024
+      ],
+      "realizations": 2,
+      "seed_rule": "seed = 670000 + 1000*state_index(rest 0, dent 1, rigid 2) + 10*ladder_index + realization; disjoint from 5601-5614 and from every WL53-56 seed.",
+      "states": [
+        "rest",
+        "dent",
+        "rigid"
+      ],
+      "timing": "One Blender process per state on the idle GPU. Per (spp, realization): scene reset+build (geometry/material update) and each camera render (bpy render incl. sync/BVH and EXR film write/read) timed separately; update total = build + sum of four camera renders. A 1-spp warm-up render per process (device/kernel init) is excluded and reported. Blender process startup reported separately, excluded like the CUDA/process startup excluded in WL56."
+    },
+    "F_S_T": {
+      "what": "WL56 exact domain-selective oracle, unchanged source, isolated root WL56=~/rest_bsup67/w1oracle; rest packages read from ~/rest_wl56/cache via read-only symlink; new dirty packages built fresh.",
+      "runs": [
+        "dent F r0",
+        "dent S r0",
+        "dent T r0",
+        "rigid S r0",
+        "resident rigid (3 GPU-resident updates)"
+      ],
+      "determinism_test": "Re-executed dent packages use the WL56 r0 seeds; their content hashes are compared with WL56 r0 (reported, not a gate on the comparison).",
+      "second_realization": "WL56 r1 outputs (independent K seeds 5562/5566) are inherited read-only as the second realization for single-realization quality statistics."
+    },
+    "B_RNA_bounce_check": "Executed W1 interoperability check of RNA's native data-generator transport settings: dent state, cameras top and bot, 1024 spp, seed 679001, rendered twice in one process: 'bounce' with max_bounces 32 + sample_clamp_direct 20 (RNA training_dataset/blender_render_dataset.py), and 'bouncectl' with the reference settings and the same seed. Group means of both are scored with the same rule; the paired ratio bounce/bouncectl - 1 isolates the two settings from sampling noise. Not an RNA execution."
+  },
+  "W1_quality_metrics": {
+    "M1": "Pass count of the 12 primary dent group x channel tests (amended mask) with the historical rule, single-realization form: SE = reference SE only (prediction-replicate SE set to 0). Reported per realization. The WL56 two-replicate form (prediction SE included) is also reported for F/S/T and for CY.",
+    "M2": "Maximum |relative group bias| over the 12 primary tests.",
+    "M3": "Port-level relative L2 per primary group and channel (s56_analyze.group_stats relative_L2), max over primary groups per channel. Reference floor reported as the split-half estimate ||(mean(s1,s2)-mean(s3,s4))/2|| / ||ref||.",
+    "M4": "Stationary-receiver signed change on gapdown lower:top (amended): per-port dent-rest change of the arm vs the 4-seed reference change; slope, correlation, relative change L2 error per channel. For CY both states at the same spp/realization index (independent seeds). For F/S/T the WL56 definition (dent arm minus rest S of the same replicate).",
+    "secondary": "rest and rigid M1-M3; rigid has no change population."
+  },
+  "W1_quality_matching": {
+    "QM_contract": "Lowest ladder spp at which BOTH CY realizations reach M1 = 12/12 on dent (required physical contract).",
+    "QM_FNTO": "Lowest ladder spp at which BOTH CY realizations are at least as good as the ReST-GI arm being matched on every metric: M1 >= arm M1 (worst realization of the arm), M2 <= arm M2, M3 per channel <= arm M3, M4 relative change L2 error per channel <= arm value. Matched separately to S (F identical) .",
+    "cost_comparison": "Edit-to-valid-output latency for the fixed four-view query workload: CY build + four renders at the matched spp (median of realizations) vs S total_update_seconds (package + shared update incl. C, source field, solve, readout). Resident rigid S and dent S are compared with CY rigid / dent respectively. Offline costs (initial rest K construction, WL56 356.5 s TR + checks) reported separately.",
+    "verdict_map": "If S does not meet QM_contract, no class-A claim is possible on W1. If CY at QM_FNTO is faster than S: class C (Full Recompute faster at matched quality). If S is faster than CY at QM_FNTO: class B (scoped computational advantage with insufficient physical fidelity), never A."
+  },
+  "W2_arms": {
+    "PT": {
+      "what": "Quality-matched physical Full Recompute: Mitsuba 3.5.1 cuda_ad_rgb scene integrator (path, max_depth -1, rr 5), wavefront (LoopRecord off), via unchanged ednalib.render_chunked and teaset_parts.scene_dict; T0 and T3.",
+      "spp_ladder": [
+        1,
+        4,
+        16,
+        64,
+        256,
+        1024
+      ],
+      "chunk": "min(spp, 32)",
+      "realizations": 2,
+      "seed_rule": "seed = 6700000 + 100000*state_index(T0 0, T3 1) + 1000*ladder_index + 100*realization (chunk seeds seed..seed+n-1); disjoint from GT seeds 1000000/2000000 and their chunk ranges.",
+      "cross_machine_check": "One T3 render at 4096 spp (seed 6790000) on LabServer69. Predeclared consistency: interaction-ROI display MAE(69 render vs GT mean) <= 1.5 x display MAE(GT_A vs GT_B) x sqrt(1/4096+1/65536)/sqrt(2/32768), and interaction-ROI mean linear ratio (69 / GT mean) within 1%. If it fails, all W2 PT quality numbers are labelled cross-machine and the comparison is PARTIALLY ALIGNED.",
+      "timing": "Per (state, spp, realization): scene load (mi.load_dict, geometry update) and render (synchronised) timed separately, one process per state on the idle GPU after a 1-spp warm-up render (excluded, reported)."
+    },
+    "neural": {
+      "what": "Stored native WL22 outputs re-scored with this batch's metric code (bit-reproduction of the historical WL22 numbers is a test): RNA canonical frozen T0/T3, RNA T3 refit; 8DNA attached frozen T0/T3, 8DNA T3 refit (WL22 renders). WL27 rebuild timings (RTX 5080) inherited; refit = offline from-scratch rebuild per WL27 semantics.",
+      "inference_reexecution": "Optional: 8DNA attached frozen T3 render re-executed on LabServer69 with the unchanged WL22 code path (1 spp timing x5 warm, and the WL22 evaluation spp), only if the inherited code runs unchanged; otherwise WL27 inference timing is inherited and labelled RTX 5080."
+    },
+    "ReST_GI": "NOT COMPARABLE: no ReST-GI K exists for rough conductors (Ni_palik GGX alpha 0.05-0.1); WL58 stopped at its sharp-GGX angular gate and WL46's glossy plane was an analytic K. Implementing one is out of scope."
+  },
+  "W2_quality_metrics": {
+    "E_roi": "Interaction-ROI display MAE vs the WL22 GT mean 0.5(GT_A+GT_B), computed by the unchanged cross_backbone_eval.refit_block (T3 error on ROI m, T0 error on the same surfaces i0, gain on the paired change). For every arm, T0 and T3 outputs of the same arm are passed (PT: same realization index, same spp; frozen neural: T0 and T3 frozen; refit: WL22 convention, the T0 model's T0 render and the refit's T3 render).",
+    "gain": "refit_block gain = <dN,dG>/<dG,dG> on the paired interaction ROI; recovery flag = WL22 rule (e3 <= 1.25 e0_same and gain >= 0.5).",
+    "static": "T0 interaction-ROI display MAE.",
+    "QM_neural": "Lowest PT ladder spp at which both PT realizations have E_roi(T3) <= the neural arm's E_roi(T3), separately for each neural arm (RNA frozen, RNA refit, 8DNA frozen, 8DNA refit) and for the WL22 recovery bound (1.25 x the arm's own T0 error).",
+    "cost_comparison": "PT scene load + render at QM spp (LabServer69) vs neural update: frozen = 0 update (but invalid), refit = WL27 rebuild latency (RTX 5080, offline) + inference. Hardware difference labelled; no published or theoretical FPS used."
+  },
+  "blocker_evidence": {
+    "RNA_on_W1": [
+      "native generator samples training cameras on the upper hemisphere around a fixed centre (training_dataset/blender_render_dataset.py create_random_camera 'hemisphere'), so face-on bottom (-z) queries are never supervised",
+      "gap faces: geometric maximum elevation of an exterior viewing ray reaching a lower-top / upper-bottom port through the 8 mm side aperture, computed per port and compared with the +z/-z face-on query directions",
+      "distant (sun) light conditioning only; W1 source is a near-field 20 cm emitter 45 mm above a scattering medium",
+      "native generator settings max_bounces 32 + sample_clamp_direct 20 + CPU-only custom light-direction query: measured by B_RNA_bounce_check",
+      "Transparent-BSDF boundary: Cycles data passes are written only above the pass alpha threshold, so RNA's position/normal G-buffer for an index-matched medium boundary is not defined by the native generator (code citation)"
+    ],
+    "8DNA_on_W1": "8DNA trains from Mitsuba path samples; WL53 measured Mitsuba 3.5.1 float32 volpath skipping ~89 um at null interfaces (-12% at sigma_t 1000 m^-1): reference-incompatible supervision for this medium. Inherited evidence, not re-measured.",
+    "TransGI": "implementation unavailable (see audit); semantics: rigid only, transparent objects excluded, no SSS/volume evaluation.",
+    "ReST_GI_on_W2": "see W2_arms.ReST_GI"
+  },
+  "tests": [
+    "W1 scene identity: s56_fixtures.scene(state) signatures equal WL56 recorded package signatures; CY camera geometry (ccam) written by the ladder equals the reference ccam to 1e-6",
+    "W1 lighting/camera equivalence: identical emitter mesh hash and camera dicts between reference and ladder builds",
+    "W1 reference semantics: Cycles settings read back from bpy (bounces, clamps, filter, adaptive, denoise, device, build hash) asserted equal to the reference settings in every ladder render; B_RNA_bounce_check asserts only its two declared settings differ",
+    "W1 source identity: SHA256 of fnto_sel56 / fnto_k55 / fnto_c54 / phys_ref53 sources equals the WL56 environment record; reference images SHA256",
+    "W1 seed isolation: ladder seeds disjoint from reference seeds; oracle runs never read reference images",
+    "W1 no-op / rigid invariance: rigid S reuses rest packages (content hash equality); CY rest ladder vs rest reference shows no bias beyond 3SE+noise at 1024 spp (reported)",
+    "W1 mask validity: amended selection masks recomputed equal WL56's for ladder images (same geometry); group populations equal",
+    "W1 timing completeness: component sums <= totals, no double counting of build/render; FNTO totals = package + shared",
+    "W2 identity: GT/ROI/neural output SHA256 recorded; scene_dict(512, T3, lighting) equal to WL22 protocol states/lighting; re-scored neural metrics reproduce the WL22 record to 1e-6",
+    "W2 seed isolation and cross-machine check as declared",
+    "Contention: nvidia-smi compute apps empty before and after each timed stage; the chain waits (serially) while any foreign compute process is present and records the wait"
+  ],
+  "resources": {
+    "machine": "LabServer69 (RTX 3090 24 GB, driver 550.54.15). WL66 has priority on its own schedule; this chain waits for an idle GPU before every timed stage and never runs concurrently with another GPU job.",
+    "estimates": "W1 CY ~25 min, W1 oracle ~11 min, bounce check ~1 min, W2 PT ~30-60 min (measured per-spp cost unknown on the 3090), analysis CPU."
+  },
+  "stop_rules": [
+    "Stop a W1 arm if its source identity or reference SHA256 differs from WL56's record",
+    "Stop W2 PT quality claims (keep timings) if the cross-machine check fails; label PARTIAL",
+    "Never tune spp, seeds, masks or thresholds after outcomes; any amendment is post hoc and labelled"
+  ],
+  "amendments": [],
+  "chain": "experiments/baseline_sup67/chain.sh: tests -> W1 oracle -> W1 Cycles ladder + bounce check -> W2 PT ladder -> W2 8DNA re-execution -> blockers -> analysis. Stage outputs under ~/rest_bsup67/out; GPU idle wait before each stage."
+}
