@@ -1,0 +1,131 @@
+{
+ "batch": "incoming_rank_feasibility_v1",
+ "worklog": 66,
+ "branch": "Selective_Recompute",
+ "starting_head": "2731a933bf0c4f86b22c380ae93ef2ae07467077",
+ "authorisation": "User brief 2026-11-01: bounded architectural feasibility experiment on the frozen WL59 P intrinsic K's shared 16-input-to-8-mixture incoming angular compression under qualified, independently tagged collided first-exit references. Isolated probe generation and representation-space analysis only; no model, checkpoint, rank, loss, threshold, K/C ownership, F/S or coupled-GI change; no successor.",
+ "root": "~/rest_rank66",
+ "original_root": "~/rest_persist_v1",
+ "implemented_algebra": {
+  "source": "experiments/fnto_rule57/r57_model.py Transport.apply/coefficients with experiments/fnto_persist59/runtime.py state (frozen WL59 P)",
+  "equation": "scatter[j,o,c] = sum_r O[r,o,c] * ( sum_{e:dst_e=j} W[e,r,c] q[src_e,r,c] + sum_k U[j,k,r,c] sum_i V[i,k,r,c] q[i,r,c] ),  q[i,r,c] = sum_a A[r,a,c] (1-beta[i,a]) x[i,a,c];  total = scatter + B x",
+  "A": "softmax(in_logits, dim=0): (8 mixtures x 16 incoming bins) per RGB channel, column-stochastic, one global matrix per channel shared by every port and geometry",
+  "O": "softmax(out_logits, dim=1): (8 mixtures x 64 outgoing bins) per channel, global",
+  "beta": "geometry-only zero-collision quadrature of the archived geometry file (q=256, seed 57501); model collided budget d[i,a] = 1-beta[i,a]",
+  "port_factorisation": "for fixed geometry, source port i and channel c the scattered response to unit incident flux in bin a is row a of D_i A_c^T G_i with D_i = diag(d[i,:]) and G_i[r,(j,o)] = T_r[j,i,c] O[r,o,c], T_r[j,i,c] = sum_{e:src=i,dst=j} W[e,r,c] + sum_k U[j,k,r,c] V[i,k,r,c]",
+  "normalised_coordinates": "Z_i = D_i^{-1} R_i (16 x Q). Model: Zhat_i = A_c^T G_i exactly. Because every column of A_c sums to one, A_c^T 1_8 = 1_16, so 1_16 lies in range(A_c^T) for every parameter value of the architecture.",
+  "consequence": "With P1 = 11^T/16 and C_i = (I-P1) Z_i, every member of the architecture family (any parameters, any training) has incoming column space span(1) + T with T a subspace of 1-perp of dimension <= 7 shared by all ports/geometries of a channel. Absolute and contrast errors in Z coordinates both equal ||(I-P_T) C_i||^2 after the free span(1) component.",
+  "raw_metric_conversion": "raw error = D_i (Z error); per probe row a the raw squared error equals d[i,a]^2 times the Z squared error, so raw bounds lie within [min d^2, max d^2] of the Z bounds; min d over selected ports and geometries is recorded."
+ },
+ "geometries": ["rest", "pt0"],
+ "pt0_pose": [0.00575, 0.0225, 0.005, -0.005],
+ "geometry_files": {"rest": "data/geometry/rest.pt", "pt0": "data/geometry/pt0.pt"},
+ "port_selection": {
+  "information_used": "archived geometry only (rest material coordinates rest_xyz, face index node[:,15]*5, parent, model beta). No probe response, model output, error or checkpoint is read.",
+  "slots": [
+   {"slot": 0, "name": "top_dent_centre", "face": 5, "target_rest_xy": [0.005, -0.005]},
+   {"slot": 1, "name": "top_dent_flank", "face": 5, "target_rest_xy": [0.01625, -0.005], "note": "dent centre + radius/2 along +x"},
+   {"slot": 2, "name": "top_far_control", "face": 5, "target_rest_xy": [-0.03, 0.03], "note": "4.95 cm from dent centre, 2 cm from slab sides"},
+   {"slot": 3, "name": "bottom_below_dent", "face": 4, "target_rest_xy": [0.005, -0.005]}
+  ],
+  "ordering": "ports on the slot face sorted lexicographically by (round(rest-xy distance to target, 1e-9 m), port index)",
+  "nondegeneracy": "accept the first port in that order with min over the 16 bins of (1-beta) >= 0.5 at BOTH geometries and rest-xy distance >= 0.01 m from every slab side; otherwise continue in the same order",
+  "correspondence": "identical port index at rest and pt0 (fixed refined-mesh topology); record rest_xyz, current xyz, face, parent, area, mean triangle normal/tangent and beta rows for both geometries before any reference generation"
+ },
+ "probes": {
+  "definition": "x[i,a,c] = 1 for the selected port i and incoming bin a in all three channels, else 0: unit incident flux, uniform on the port area and uniform in projected solid angle inside bin a (r57/p53 cell_source semantics, bins defined in each triangle's current frame)",
+  "count": "2 geometries x 4 ports x 16 bins = 128 probes",
+  "estimator": "unchanged WL57 importance first-exit action (fast walker) with WL63 observational zero-collision/collided tags (tag_reference.py, AST-stripping proof); proposal is the one-hot field itself",
+  "packet_photons": 32000000,
+  "action_chunk": 32000000,
+  "seed_formula": "680000000 + geometry_index*100000 + slot*10000 + bin*100 + replica",
+  "preflight_smoke_seeds": "689000000 + k (non-evidence throughput/memory only; preserved under preflight/, never analysed)",
+  "budget_rule": "Resource preflight times one 32M tagged packet for each geometry (slot 0, bin 0, smoke seed). Predicted generation time = mean packet seconds x 128 x K. K = 8 replicas if prediction <= 4 h; else K = 4 if prediction for K=4 <= 4 h; else STOP_RESOURCE. The resulting numeric budget is written to budget.json and committed before generation.",
+  "replica_independence": "every (probe, replica) packet is a separate action call with its own seed; probes and replicas are statistically independent"
+ },
+ "output_spaces": {
+  "native": "3840 ports x 64 outgoing bins",
+  "fine16": "3840 ports x 16 outgoing bins (r57 aggregate coarse=False: flux sum over nested 8x8->4x4 bins)",
+  "coarse": "240 x 1 cm material cells x 16 outgoing bins (r57 aggregate coarse=True); PRIMARY verdict space = WL59 directional evaluation interface",
+  "validity": "all bounds are for the Frobenius norm of the stated space; output aggregation is a fixed linear map applied after the incoming map, so incoming-rank constraints are preserved"
+ },
+ "estimators": {
+  "matrices": "R_k[g,p,c,space] = 16 x Q collided first moments of replica k; Z_k = rows divided by d[i,a]; C_k = (I-P1) Z_k; zero-collision components and totals analysed separately",
+  "signal": "S_C = U-statistic mean over ordered replica pairs k!=l of <C_k, C_l> (unbiased for ||C*||^2); S_Z likewise",
+  "cross_gram": "Ghat = U-statistic mean over k!=l of C_k C_l^T (unbiased for C* C*^T)",
+  "relaxed_lower": "L = sum of eigenvalues of Ghat beyond the 7 largest. tail-sum is concave in the Gram, so E[L] <= true floor (low-biased).",
+  "relaxed_upper": "split replicas into first and second halves; V = top-7 eigenvectors of the half-1 U-statistic Gram; U12 = tr((I-VV^T) Ghat_half2); symmetrise with U21; E[U | V] = true residual for a fixed suboptimal V >= true floor (high-biased).",
+  "per_port_relaxed": "per (geometry, port, channel) matrix",
+  "pooled_shared_relaxed": "PRIMARY: one 7-dim T per channel shared by all 8 (geometry, port) matrices: Gram sum over matrices, same L/U construction",
+  "frozen_A": "F_A = tr((I-P_TA) Ghat), TA = orthonormal basis of (I-P1) range(A_c^T) of the frozen checkpoint; fixed projector, unbiased",
+  "frozen_AO": "frozen A and O with free signed spatial coefficients: for every destination cell the 16 x n_out block is projected onto span{a_r otilde_r^T} (absolute, Z) and span{(I-P1)a_r otilde_r^T} (contrast, C); otilde = O aggregated to the space; fixed projector, unbiased",
+  "frozen_O": "every outgoing vector (per probe row, destination cell) of Z resp. C projected onto range(Otilde^T); secondary",
+  "outgoing_relaxed": "generic rank-8 outgoing-mode bound of the n_out x (16*cells) matrix per port and pooled, same L/U construction; secondary",
+  "model": "E_M = U-statistic of <Zhat-Z_k, Zhat-Z_l> (absolute) and of centered versions (contrast); raw collided, zero-collision (B column vs tagged physical) and total errors reported separately",
+  "uncertainty": "delete-one-replica jackknife over the K independent replicas for every statistic and every pooled ratio; 95% interval = estimate +/- t(0.975, K-1) x SE_jk. L lower bound = L - t SE; U upper bound = U + t SE.",
+  "noise_reporting": "per-entry packet variance (second - first^2/N) N/(N-1) summed to the replica-mean noise energy, compared with the across-replica sample variance; eigenvalues with jackknife SE, components with lambda > 3 SE are reported as physically resolved"
+ },
+ "nesting_invariants": "In expectation: relaxed pooled <= frozen A <= frozen AO(contrast) <= model contrast error; frozen O(contrast) <= frozen AO(contrast); reported with intervals, not used to amend estimates",
+ "checkpoints": {
+  "primary": {"WL59_P_5901": "rest_persist_v1/checkpoints/P_5901.pt", "WL59_P_5902": "rest_persist_v1/checkpoints/P_5902.pt"},
+  "secondary_descriptive": {"WL64_B_5901": "rest_direction64/arms/B/checkpoints/P_5901.pt", "WL64_B_5902": "rest_direction64/arms/B/checkpoints/P_5902.pt", "WL65_B_5901": "rest_clean65_ext/arms/B/checkpoints/P_5901.pt", "WL65_B_5902": "rest_clean65_ext/arms/B/checkpoints/P_5902.pt"},
+  "sha256": {
+   "WL59_P_5901": "59685b214bdf1f81079dcd56fe7a61173b90640b3c5c9fb8b3f14094729aaad6",
+   "WL59_P_5902": "c92e4fda4bbe9cf5569d55c45a2881d95eaa58df3896748088d060b55f1aab3f",
+   "WL64_B_5901": "51911397b711889512573c50679387af60cdf98b58a6ffe0777d62ae6542373f",
+   "WL64_B_5902": "8dbce4637d25ab1c31e0c7834e0854b64f15af2999b32c2c539b6f777fb6e3ef",
+   "WL65_B_5901": "9eda903da8173b76513bb2a273c417940c0c203b1001b5e00bcf2f786dcbafb6",
+   "WL65_B_5902": "7f053fbc610d174405fd7c04f3dc6e58125d34193d7c8e6f937bf2dc332ae95d"
+  },
+  "model_independence": "model predictions are computed in a stage that reads no physical probe data; analysis reads both"
+ },
+ "gates": {
+  "packet_physical": "physical_passed (nonnegative, energy <= input + 5 SE, leaks+wrong_side <= 1e-5, no truncation), photons == N, expected_input == [1,1,1], proposal one-hot at the probe cell; any failure = STOP, failed packet preserved",
+  "tag_closure_relative_L1": 1e-12,
+  "replay_relative_L2": 2e-5,
+  "replay_definition": "frozen GPU replay of WL59 P on archived pt0 against immutable WL59 actions_<seed>.pt pt0 F predictions for test fields 8, 9, 62, 63",
+  "factorisation_relative_L2": 1e-5,
+  "factorisation_definition": "model scatter on the 16 probes of each (geometry, port) equals D_i A_c^T G_i built directly from the frozen coefficients; model Z prediction lies in range(A_c^T) and in the frozen AO block span to relative residual <= 1e-5",
+  "geometry_identity": "fresh r57 geometry features (xyz, rest_xyz, area, node, pair, prior, parent) bitwise equal to the archived files for rest and pt0",
+  "precision": "PRIMARY coarse space: every (geometry, port, channel) contrast signal S_C / SE_jk(S_C) >= 10 and pooled per-channel SE_jk(S_C)/S_C <= 0.05; else STOP_INSUFFICIENT_PRECISION (outcome D)"
+ },
+ "decision": {
+  "metric": "contrast metric in normalised coordinates: rho_X = sqrt(F_X / S_C) pooled over the 8 primary (geometry, port) matrices per channel in the coarse space. Rationale fixed before evidence: the architecture represents the span(1) component exactly for every parameter value, so the absolute-response floor equals the contrast floor numerator and is dominated in its denominator by a component the interface cannot lose. Absolute-metric values are reported, not adjudicated.",
+  "thresholds": {"significant": 0.10, "small": 0.05, "share_of_model_error_energy": 0.25},
+  "per_channel": [
+   "A if sqrt(lower bound of L_pool / S_C) >= 0.10",
+   "else if sqrt(upper bound of U_pool / S_C) < 0.05: B if, for both primary seeds, sqrt(lower bound of F_A / S_C) >= 0.10; C if, for both primary seeds, upper bound of F_A <= 0.25 x lower bound of E_M (contrast energies) and sqrt(upper bound of F_A / S_C) < 0.10; otherwise nondecisive",
+   "else nondecisive"
+  ],
+  "overall": "Any precision/identity STOP -> D. Otherwise A if any channel is A; else B if any channel is B; else C if every channel is C; else D (nondecisive). Per-channel categories are always reported.",
+  "descriptive_attribution": "Frozen AO contrast floor versus model contrast error: if the upper bound of F_AO <= 0.25 x lower bound of E_M, at least 75% of the probe model contrast error energy is attainable within the frozen angular bases with free signed spatial coefficients and is attributed to unisolated spatial coefficient / geometry-conditioning / positivity-passivity / fitting constraints. Not a verdict criterion.",
+  "scope": "Verdict applies only to the tested probe population (2 geometries, 4 ports, 16 bins, homogeneous slab material) and the stated norms; no whole-architecture viability or falsification claim; no successor."
+ },
+ "t_quantiles": {"3": 3.182446, "7": 2.364624},
+ "source_expected_sha256": {
+  "experiments/fnto_rule57/r57_geometry.py": "6f5ee9611217eeef61d51d3f6108c34b51c4bd63efa74505ce09a172a95fb9f9",
+  "experiments/fnto_rule57/r57_action_oracle.py": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+  "experiments/fnto_rule57/r57_fastwalk.py": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+  "experiments/fnto_rule57/r57_model.py": "d861614b4b88ea3e0c39e119d5cfcb6f4117f6a9b00be7d4fe982bb4be3d63cf",
+  "experiments/fnto_rule57/r57_data.py": "f99de4884e3b28fd3b49dad01b63bd125cdda224085ca51f4ff85d16313e3c2c",
+  "experiments/phys_ref53/p53_geom.py": "224f919742273a2e93aa41561e4fb16cee733746b32b204956204d6049597e93",
+  "experiments/phys_ref53/p53_fixtures.py": "cdccc551fbd48c518214696d854713ebde3abc8e673485ef5c5f5956ef204500",
+  "experiments/phys_ref53/p53_tracer.py": "0a5b82dd227cc7becf03b8fefaecbcf5cb9d0bf4a43889906a236cd5e65b926a",
+  "experiments/phys_ref53/p53_mi.py": "349a437a3c035fb479a3c8bac81f9e6a8c6eb83c2317c110c1fa4adafbeed969",
+  "experiments/fnto_k55/k55_ops.py": "ef357a8b1ff67f1ea4f869efad7dc39ad302eb6795d914309f8b36fe3acfc3e6",
+  "experiments/fnto_c54/c54_casp.py": "06d813dc3e62fe52cb57b4d5bfeb62c94fe7b47cdff76dcffc3067f9fd5d70c0",
+  "experiments/fnto_persist59/protocol/persist_v1.json": "1e84a085c0a1916ecefe1a2607d1df30fa22fd2fbe38a2bf02a3bd0b4cc0134b",
+  "experiments/fnto_persist59/runtime.py": "0783a3d26fb64708b4f7bc07ce342604405a7c55d80247ee09b7cb9fb8e444ab",
+  "experiments/fnto_persist59/common.py": "40784c38c434329b9a151faaec416b84ad4c6bc22ec53f2568d9cb3dbc46ff21"
+ },
+ "tag_reference_sha256": "98dedccb5138e686776da3b4ae235e5566e62b315d0b24d93526dfb1bc2ecc64",
+ "input_expected_sha256": {
+  "data/geometry/rest.pt": "7cfbcba7000ff47f0f81fa41a645566e5957d7762afec79f00ad601ff49322ac",
+  "data/geometry/pt0.pt": "4c8783da1d452d26fece75d3441d4338a6b980faf1df905c9954fd11965a9b10",
+  "data/lights.pt": "a3b50edb18d5dd17915816ea57857b3204063a8a6eac55c1201126496467f46f",
+  "out/actions_5901.pt": "706dd5c1ce22f3b100353508ccc02b2a1bdc0e5ccfd2a05243aa4a68c7818874",
+  "out/actions_5902.pt": "0e44defd5115fac409b2d989d8dfc30d6394634a8c34f447373ba7cc101aa17c"
+ },
+ "historical_context": "WL59 Pair7 total directional error .42-.51 (1 cm/16-out, field62-field63, broad fields); WL63 tagged Pair7 collided error .41-.50 of the total-contrast norm; WL65 primary/U65 directional ratios. Different source populations and normalisations: context only, never pooled with probe metrics.",
+ "prohibited": ["rank or mixture-count change or sweep", "retraining or fine-tuning", "checkpoint modification", "loss/threshold change", "clean-label intervention", "K/C ownership change", "F/S cache change", "coupled GI", "architecture successor", "photon top-up after outcomes", "port reselection after outcomes"]
+}
