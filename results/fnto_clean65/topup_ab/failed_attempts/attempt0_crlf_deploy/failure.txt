@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/nd/rest_clean65_ext/source/experiments/fnto_clean65/chain65.py", line 48, in <module>
+    try:main()
+  File "/home/nd/rest_clean65_ext/source/experiments/fnto_clean65/chain65.py", line 28, in main
+    run('topup_preflight',[PY,HERE/'topup65.py','preflight','--root',ROOT,'--source-commit',commit])
+  File "/home/nd/rest_clean65_ext/source/experiments/fnto_clean65/chain65.py", line 17, in run
+    with open(ROOT/f'{name}.log','w') as f:subprocess.run(list(map(str,cmd)),env=env or dict(os.environ,**RUNENV,TMPDIR=str(ROOT/'tmp'),P53_TMPDIR=str(ROOT/'tmp')),cwd=cwd,stdout=f,stderr=subprocess.STDOUT,check=True)
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/subprocess.py", line 526, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python', '/home/nd/rest_clean65_ext/source/experiments/fnto_clean65/topup65.py', 'preflight', '--root', '/home/nd/rest_clean65_ext', '--source-commit', '259177e']' returned non-zero exit status 1.

@@ -131,3 +131,165 @@ The user's 2026-10-31 brief continues this Worklog's hypothesis after the Phase-
 If READY: a new uninspected pt0 source population (U65, 2.048B tagged photons) is generated and qualified before training; then the frozen WL59 runner trains A (original labels) and B (fields 80–95 replaced on the 13 training geometries only) for seeds 5901/5902, alternated, 6,000 steps, final checkpoint; unchanged WL59 evaluation/cost, trained invariants, Pair7 / WL64 (historically inspected) and U65 (uninspected) comparisons. Arm A must reproduce the preserved WL59 evaluation within 2e-3. Outcome rules A–D are fixed in the protocol before any new evidence.
 
 No physical photon, model training or held-out evaluation for this extension has occurred at this entry. A non-evidence smoke harness (`smoke65.py`, scratch root, discarded) checks the code paths before launch.
+
+### Deployment correction before evidence (no scientific change)
+
+The first chain launch stopped at the top-up preflight's first identity assertion (`protocol_sha256`), before any photon. The cause: on this Windows checkout (`core.autocrlf=true`) `git archive` emitted CRLF text, but the index and Phase A's executed server source are LF. Every inherited Phase-A file (`clean_v1.json`, `run65.py`, `moments65.py`, `common65.py`, `analyze65.py`, `test65.py`, …) was diff-identical modulo CR. The deployed inherited files were replaced by Phase A's executed LF bytes, whose hashes equal Phase A's source manifest. `fnto_components63/tag_reference.py` was replaced by the LF copy WL64 executed (identical modulo CR). The new extension files ran as CRLF renditions of the `259177e` blobs; their executed hashes are in [source_manifest_deployed.txt](../../results/fnto_clean65/topup_ab/source_manifest_deployed.txt). The failed attempt's logs are kept under `failed_attempts/attempt0_crlf_deploy`.
+
+Earlier, the non-evidence smoke run exposed a second gap: the Mitsuba/LLVM exports of WL59 `run.sh` were missing from stages that do not go through `run.sh`. The chain now applies exactly those exports (`RUNENV`) to every stage. Neither change touches a population, estimator, gate, label or model.
+
+## Extension v2 — completed result: Gate 2 READY, A/B outcome **B (no meaningful benefit)**
+
+### Implementation Fact
+
+The fixed v2 protocol from commit **259177e** was executed once, serially, on LabServer69, with no GPU contention at any stage.
+
+- **Before Gate 1:** Phase A's 832 packets, 26 bank files and full v1 identity manifest were rehashed and found unchanged.
+- **Gate 1:** exactly 624 new 32M packets (19.968B photons) were generated for fields 84–87 × rest + 12 training dents, 6 per original replica group. All physical and observer checks passed, and the estimator source hashes are identical to Phase A's.
+- **Gate 2:** every original Phase-A gate was recomputed on the complete 13×16 combined bank (46.592B photons in total).
+- **U65:** because Gate 2 passed, a new uninspected source population was generated and qualified.
+- **A/B training:** the frozen WL59 `train.py`/`run.sh` trained A (original r0 labels) and B (only `train[80:96]` on the 13 training geometries replaced by the combined bank). Seeds 5901/5902 ran in alternating order, each for 6,000 steps with the final checkpoint and 157,024 parameters.
+- **Evaluation:** unchanged WL59 `evaluate.py`/`cost.py`, trained rigid/no-op checks and the frozen comparison followed.
+
+No gate, population, photon count, loss, optimizer, step count, checkpoint rule or capacity changed after any outcome. There was no second top-up, no WL64 contrast term, no coupled GI and no successor.
+
+B's replaced labels are **partially clean**. Only 16 of 96 fields were replaced, and only on the 13 training geometries. Fields 0–79 and every validation and test input are byte-identical in both arms. Over the 6,000 steps, 1,915 of 12,000 label draws (16.0 %) hit replaced fields. Per geometry, the replaced `train[80:96]` tensors differ from the original r0 by a relative L2 of 0.201–0.212 at full 64-bin resolution.
+
+### Measurement
+
+**Gate 2 (reference precision, not model quality).** Status: **READY_FOR_CONTROLLED_TRAINING**.
+
+| Frozen check | Phase A | Combined bank | Gate | Result |
+|---|---:|---:|---:|---|
+|Coarse absolute SE/norm, max of 624|0.003700|0.001850|≤0.01|pass|
+|Fine16 absolute SE/norm, max of 624|0.014628|0.007315|≤0.05|pass|
+|Coarse directional SNR, min of 312|10.98|22.04|≥3|pass|
+|Coarse directional SE/contrast, max|0.0619|0.0310|≤0.10|pass|
+|Delta SE / original loss scale, max of 576|0.4573 (107 fail)|**0.2481 (0 fail)**|≤0.25|pass|
+|Rest pooled contrast SE / old single-label noise, RGB|0.0261/0.0260/0.0251|0.0235/0.0236/0.0229|≤0.5|pass|
+
+- **Delta gate margin.** The delta gate passes with only **0.0019** margin. Its worst cell is topped-up (0.2481, as projected prospectively at 0.249). The worst untouched cell is unchanged at 0.2124.
+- **Weak deltas.** 492 of 576 pure delta cells still have SNR <3. They qualify through the original loss-scale floor, not as resolved deformation signals.
+- **Phase A vs top-up consistency.** The two independent mean estimates of the same 52 actions have a normalised squared difference D with median 0.9993 (range 0.889–1.097 over 156 cells; gate [0.67, 1.5]). There is no estimator or semantics mismatch.
+- **Untouched rows.** Unchanged fields reproduce the Phase-A bank bitwise. Every unchanged Phase-A analysis row (936 absolute, 468 directional, 864 delta) reproduces with drift 0.0.
+- **Bank shift.** For the 52 topped-up actions, the combined mean differs from the Phase-A mean by a relative L2 of 0.015–0.025.
+
+**Remaining uncertainty in untouched fields.** This is the original rest single-label noise, (r0−r1)/√2, relative to the midpoint:
+
+| Resolution | Fields 0–79 (kept in both arms) | Fields 80–95 (replaced in B) |
+|---|---|---|
+| Coarse | 0.54–2.75 % (median 0.94 %) | 2.40–4.53 % (median 3.12 %) |
+| Fine16 | 2.2–6.4 % | 7.5–13.6 % |
+
+The replaced fields were therefore the noisiest absolute labels at rest. Deformed-geometry original labels have no independent replicate, so their noise remains unmeasured.
+
+**U65 uninspected population.** Generator seed 6508103, indices 48:64, with hashes disjoint from all original splits and from WL64. It uses pt0 and 2.048B tagged photons (179.7 s). All 24 total-contrast cells and all 72 component cells qualify; the minimum total SNR is 47.26. It was generated before any A/B training and is used only for evaluation.
+
+**Controls — all valid.**
+
+- **Schedule and optimizer:** in both seeds, the final numpy RNG state of A equals B's and equals the independent 6,000-step reconstruction. Optimizer hyperparameters are identical.
+- **A reproduces WL59:** A matches the preserved WL59 evaluation with maximum absolute drift **5.3e-5 / 1.7e-4** over every directional, static and dynamic metric (tolerance 2e-3). Eligibility flags and pt0 failure counts are identical.
+- **Physics and F/S:** all four models pass the unchanged physics and F/S checks (max relative F/S L1 ≤9.73e-8).
+- **Trained invariants:** 4/4 pass (rigid ≤2.74e-8, no-op ≤2.80e-8, max column sum ≤0.99661).
+
+**A/B directional fidelity.** Total-response relative L2; ratios are B/A. Frozen rule: ≤0.90 is an improvement, ≥1.10 a regression.
+
+| Seed | Primary pt0 mean A → B (ratio) | Failures A → B /24 | Cells improved /24 | Old pairs 0–6 | **U65 uninspected** A → B (ratio) | WL64 (inspected) | Pair7 (inspected) |
+|---|---|---:|---:|---:|---|---:|---:|
+|5901|0.24266 → 0.25089 (**1.034**)|5 → 5|11|1.008|0.32907 → 0.32423 (**0.985**)|0.987|1.115|
+|5902|0.23548 → 0.24219 (**1.029**)|4 → 4|11|0.991|0.31899 → 0.31796 (**0.997**)|0.980|1.144|
+
+- **Primary channels:** R/G/B ratios are 1.048/1.037/1.011 (seed 5901) and 0.995/1.055/1.038 (seed 5902).
+- **U65 detail:** the ratio is insensitive to the four even/odd reference-replica assignments (0.9853–0.9854 and 0.9967–0.9968). Failures stay 10 → 10 and 8 → 8, and 12 and 13 of 24 cells improve. U65 Scat mean error changes 0.592 → 0.586 and 0.571 → 0.576.
+- **Pair7 (historically inspected, WL63 tags):** B is worse in both seeds. Total error goes 0.471 → 0.525 and 0.463 → 0.530 (0/3 cells improved). Scat error goes 0.992 → 1.104 and 0.979 → 1.122. Scat contrast correlation turns from +0.17/+0.21 to −0.24/−0.23.
+
+**Signed deformation** (pt0, F policy; gate: error ≤0.35 and corr ≥0.90). Errors A → B per seed (5901; 5902):
+
+- R: 0.191 → 0.204; 0.210 → 0.197
+- G: 0.190 → 0.198; 0.200 → 0.200
+- **B: 0.410 → 0.424; 0.409 → 0.383**
+
+Blue fails in every arm and seed, so no model is eligible.
+
+**Static.** Every primary and diagnostic static gate passes for all four models. The pt0 coarse mean error (RGB) moves in mixed directions, and fine16 does the same:
+
+- Seed 5901: A 0.0615/0.0620/0.0668 → B 0.0622/0.0627/0.0668
+- Seed 5902: A 0.0618/0.0627/0.0664 → B 0.0605/0.0619/0.0657
+
+The U65 absolute total coarse error is 0.0823 → 0.0822 and 0.0814 → 0.0808.
+
+**Training and validation.** The final original-label objective is 0.17255/0.17271 (A) versus 0.17271/0.17241 (B). The unchanged noisy-label validation loss is 0.01020/0.01026 versus 0.01030/0.01003. Both pairs are indistinguishable at this scale.
+
+**Costs.**
+
+- **Top-up:** 1,850 s stage time (packet walls 2.57–3.39 s), peak GPU 11.25 GB allocated, 9.203 GB raw packets.
+- **Gate 2 and storage:** Gate 2 took 95 s. The combined bank plus variance is 1.227 GB; B's targets are 4.907 GB.
+- **U65:** 180 s.
+- **Training:** A 418.8/420.5 s, B 420.6/419.9 s, peak 4.60 GB each — equal cost per arm. The extension's end-to-end wall time was about 69 min.
+- **Lifecycle suite (uncontended):** raw S/F dent ratios are 0.986–0.999 (A) and 0.985–0.992 (B); rigid ratios are 0.706–0.775 (A) and 0.711–0.773 (B). These are intrinsic update and query costs only, and the label intervention leaves them unchanged.
+
+### Observation
+
+The precision intervention did what it was designed to do for the references: the complete fixed bank now meets every frozen readiness gate, with no estimator inconsistency.
+
+The learned K barely moves:
+
+- **Primary:** B is 3 % worse in both seeds, with equal failure counts and 11/24 cells improved.
+- **U65 (uninspected):** B is 1.5 % and 0.3 % better.
+- **WL64:** B is 1–2 % better.
+
+All of these lie inside the ±10 % no-meaningful-change band. The only change beyond ±10 % is on historically inspected Pair7: B is 11–14 % worse there, and its Scat contrast correlation flips sign. Pair7 is not part of the frozen decision rule, and the regression rule does not fire.
+
+The training objective, validation loss, static errors and R/G deformation all shift by amounts comparable to the difference between A's two seeds. Blue deformation stays above 0.35 in every model.
+
+### Interpretation
+
+**Outcome B: the top-up qualifies the complete fixed population, but clean-label training gives no meaningful benefit.** The sub-label is "no meaningful or mixed benefit", not a regression under the frozen rule.
+
+Within this fixed representation, objective, training distribution and 6,000-step budget, Monte Carlo precision of the 16 directional training fields on the training geometries is **not** a material limit on held-out directional transport fidelity. B's labels for those fields changed by about 20 % relative L2 per geometry, yet independent directional error changed by at most a few percent. Training-label noise in the replaced subset is therefore an unlikely primary cause of the WL59–64 directional and deformation shortfall. The remaining candidates are capacity, geometry conditioning, source-distribution coverage and optimisation; this extension does not isolate any of them.
+
+What this does **not** imply:
+
+- **Fully clean supervision was not tested.** Fields 0–79 remain original. At rest they were already about 3× less noisy than the replaced fields, and their noise on deformed geometries is unmeasured.
+- **Representation adequacy is not addressed.** A label intervention neither establishes nor refutes it, and it does not separate capacity from geometry conditioning or optimisation.
+- **Scope is narrow:** two seeds, one held-out geometry (pt0) for the U65 sources, and one fixed budget.
+- **Training risk is not physical correctness.** Lower or equal training risk is not evidence of physical correctness.
+- **Pair7 is not read causally.** Its deterioration is a historically inspected diagnostic, and the uninspected population shows no matching change.
+
+### Unresolved Question
+
+- Why does the fixed P family plateau at about 0.24 primary and 0.32 U65 directional error, with blue deformation at about 0.38–0.42, regardless of objective (WL64) or partial label precision (here)? This extension cannot separate capacity from geometry conditioning, source coverage or optimisation.
+- Would fully clean deformed-geometry labels for all 96 fields give a different result?
+- Why does B's Pair7 Scat pattern flip sign while U65 stays unchanged?
+
+### Architecture Verdict
+
+| Question | Adjudication |
+|---|---|
+|Supervision precision improvement|**SUPPORTED** for the fixed 16-field bank: every original readiness gate passes (delta margin 0.0019). The other 80 fields are not newly qualified.|
+|Held-out model fidelity improvement|**NOT SUPPORTED**: primary 1.034/1.029 and U65 0.985/0.997, both inside the no-change band, in both seeds.|
+|Complete physical eligibility|**INELIGIBLE** in both arms and seeds (blue deformation fails); coupled GI not run.|
+|Representation adequacy|**UNRESOLVED**; a label intervention does not test it.|
+|General Rule/State viability|**INCONCLUSIVE**; unchanged.|
+
+No change to representation, objective, label set, training distribution, F/S or C is adopted. The Phase-A STOP verdict above remains the correct record of Phase A; this extension is a separate, completed bounded continuation. The living architecture and research documents are unchanged because no new long-term decision was made. No successor, coupled GI, additional photons or new hypothesis follows automatically.
+
+### Reproducibility
+
+- **Commits and tests.** Protocol, code and design were frozen in **259177e** before any new evidence. The deployment byte correction is described above; executed hashes are in `source_manifest_deployed.txt`. The focused tests (`test65.py` 7/7, `test65b.py` 10/10) were rerun inside the chain.
+- **Smoke run.** The non-evidence harness `smoke65.py` used a scratch root that was deleted afterwards. It replayed the Phase-A-only qualification (drift 0.0, 107 failures), ran one 2M-photon packet, and ran 100-step A/B training through evaluate, cost, compare and export.
+- **Seeds.**
+  - Top-up: `660000000 + pose*100000 + field*100 + replica*10 + k`.
+  - U65: generator 6508103; packets `670000000 + field*100 + replica*10 + half`.
+  - Training: seeds 5901/5902; schedule `default_rng(574001)` (reconstruction sha `21e33923…`).
+- **Where the identities are recorded.**
+  - Every packet's seed, RNG digest and hash: [topup_complete.json](../../results/fnto_clean65/topup_ab/topup_complete.json) and [fresh/independent_complete.json](../../results/fnto_clean65/topup_ab/fresh/independent_complete.json).
+  - Label, bank and B-target hashes: [labels_v2_manifest.json](../../results/fnto_clean65/topup_ab/labels_v2_manifest.json) and [arms_manifest.json](../../results/fnto_clean65/topup_ab/arms_manifest.json).
+  - Final checkpoints: `results/fnto_clean65/topup_ab/arms/*/checkpoints`, with hashes in [comparison.json](../../results/fnto_clean65/topup_ab/comparison.json).
+- **Environment.** LabServer69, RTX 3090 24 GB, Torch 2.3.1+cu121 in the original venv, TF32 off, WL59 `run.sh` environment, resource policy 0. Stage receipts, with before/after GPU peer lists (all empty), are in `results/fnto_clean65/topup_ab/stages/`.
+- **Server data.** `~/rest_clean65_ext` keeps the raw top-up packets (8.6 GB), the U65 halves (2.7 GB), the banks and the arm roots. Phase A's `~/rest_clean65` and all WL59–64 roots are unchanged. The downloaded bundle SHA is `cb0025f6b87cda19827d6a9746ae48dcc4811c89258cb5fc474891fc50eca4a8` (31.4 MB).
+- **Reviewer exports and figure:** [results/evaluation/65/topup_ab](../../results/evaluation/65/topup_ab). The manifest is verified, and the Phase-A evaluation files are untouched. In the figure's first panel, "failing cells" counts pose×field cells, taking the maximum over RGB; Phase A's 43 such cells are the same failures as its 107 RGB cells.
+
+![WL65 extension: Gate 2 precision, A/B directional/deformation/validation](../../results/evaluation/65/topup_ab/topup_ab.png)
+
+**Completion answer.** Under the unchanged fixed K representation, training objective and population, the prospectively qualified partial clean-supervision intervention does **not** meaningfully improve independent physical directional fidelity: primary B/A is 1.034/1.029 and uninspected U65 B/A is 0.985/0.997. The reference precision qualified completely. This bounded continuation is complete.

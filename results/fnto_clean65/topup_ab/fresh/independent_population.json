@@ -1,0 +1,58 @@
+{
+ "seed": 6508103,
+ "retained_generator_indices": [
+  48,
+  49,
+  50,
+  51,
+  52,
+  53,
+  54,
+  55,
+  56,
+  57,
+  58,
+  59,
+  60,
+  61,
+  62,
+  63
+ ],
+ "sha256": [
+  "0b1eac9e8869f5e9e92e93ca9e30355ce1c6e7ef6c974eeeffc7983499f293f3",
+  "0e30a2f98b7ebfd584021146091dd419aa696d6ca0602dbcc712ddadc780c296",
+  "17ef0c572728c2f5b9d57e33da0f519f9a2e5375ad8364db8051d826a2df08aa",
+  "d513b630623e273a40f6ea5b611fe658861ad0cea52c2ad767df90b5364f4d13",
+  "dab03f40d92514fc0d962d2dcf17eaced5ee33b238b063a8ba621c18e7ae44a7",
+  "3db7c5b45980e25a90700f96f443592e8a06c4f8513548540850fe2444aa02a8",
+  "20e6edc521128d6ee76c6ea62dafb6c99c0b96a775ddf4e787e84271d11d764d",
+  "faeaf3595bf45f63b7a70cfbd490703c356bf88a03384f38989a3491d3877c35",
+  "ef72c9e4e2ae4faec03ad5fc63e94bf36f8a76e819270eeb9b683f86df854bc3",
+  "74608200ba93f82269aff12b97cfbe77abadfbc98759424f668218f130c9fd91",
+  "a91a03ad94e2a9ade506c18d428e205cfe9c8b797de253e9574221777b6f2e4f",
+  "0e13a967618746e0b27dd59a3dd5f4dedd20194437fb11aaf51bfba6ea4ca1d6",
+  "12aadf88e52d238349ef3cb3ea097799f85c98b3bb04dbcb7d1fb85c13d070d9",
+  "7fb734b1a97bb8dbd491faf5ac56382399f3e5a6796144933cba9a643e988e97",
+  "8e23b7d76ffa7867bfcee820135246181f84745038628a0ec60257f2fdd5e2d1",
+  "26a540939bca6f5add96db560f710f10730a2614ac96236cf34f5dd77693788f"
+ ],
+ "disjoint_from": [
+  "WL57 train/validation/test",
+  "WL64 independent"
+ ],
+ "pre_model_outcome": true,
+ "protocol": {
+  "name": "U65 (uninspected)",
+  "generator": "unchanged r57_data.light_fields(rest geometry,64,6508103,'test'); retain indices 48:64 (8 equal-flux directional pairs)",
+  "disjoint": "sha256 of every field disjoint from WL57 train/validation/test and from WL64 independent fields",
+  "pose": "pt0",
+  "replicas": 2,
+  "halves": 2,
+  "N_per_half": 32000000,
+  "photons": 2048000000,
+  "seed_formula": "670000000 + field*100 + replica*10 + half",
+  "estimator": "WL63 observational tagged_action (T/B/Scat) on the unchanged first-exit action, as WL64",
+  "qualification": "all 24 total contrast pair/channel cells SNR>=3 for full confirmation; otherwise limited, no extra sampling",
+  "timing": "Generated and qualified only after Gate 2 READY and before any A/B training. Evaluation-only: never enters training, label construction, checkpoint selection or loss calibration."
+ }
+}
