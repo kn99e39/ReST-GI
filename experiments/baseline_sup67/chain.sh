@@ -19,7 +19,7 @@ peers() { nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=
 wait_idle() {
     local n=0
     while true; do
-        if [ -z "$(peers)" ]; then sleep 60; [ -z "$(peers)" ] && break; fi
+        if [ -z "$(peers)" ]; then sleep 60; if [ -z "$(peers)" ]; then sleep 60; [ -z "$(peers)" ] && break; fi; fi
         n=$((n+1)); echo "$(date -Is) waiting for GPU: $(peers | tr '\n' ';')" >> "$R/launcher/gpu_wait.log"; sleep 120
     done
     echo "$(date -Is) idle after $n waits" >> "$R/launcher/gpu_wait.log"
@@ -56,6 +56,15 @@ analyze() {
     (cd "$EXP" && "$PY" b67_w2_analyze.py "$R/w2in" "$R/out/w2_pt" "$R/out/analysis")
 }
 
+# Contention record: every 15 s, all GPU compute processes with cwd and command (own and foreign), for post hoc stage screening.
+( while true; do
+    for p in $(nvidia-smi --query-compute-apps=pid --format=csv,noheader); do
+        echo "$(date -Is) $p $(readlink /proc/$p/cwd 2>/dev/null) $(tr '\0' ' ' < /proc/$p/cmdline 2>/dev/null | head -c 200)"
+    done >> "$R/launcher/gpu_samples.log"; echo "$(date -Is) tick $(cat $R/launcher/stage 2>/dev/null)" >> "$R/launcher/gpu_samples.log"; sleep 15
+  done ) &
+SAMPLER=$!
+trap 'kill $SAMPLER 2>/dev/null; echo "failed $(cat $R/launcher/stage 2>/dev/null)" > "$STATUS"' ERR
+
 stage tests "$PY" "$EXP/tests/test_b67.py" "$R/out/tests.json"
 stage w1_oracle w1_oracle
 stage w1_cycles w1_cycles
@@ -63,4 +72,5 @@ stage w2_pt w2_pt
 stage w2_8dna w2_8dna
 stage blockers blockers
 stage analyze analyze
+kill $SAMPLER 2>/dev/null || true
 echo done > "$STATUS"
