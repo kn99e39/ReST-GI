@@ -1,0 +1,152 @@
+{
+  "batch": "partial_clean_supervision65_v2_topup_ab",
+  "worklog": 65,
+  "starting_head": "e7ff6ea",
+  "extends": "Completed WL65 Phase A (clean_v1.json, STOP_INSUFFICIENT_PRECISION). clean_v1.json, its 832 packets, labels, analysis and verdict are preserved unchanged; this is a separate prospectively declared extension.",
+  "authorisation": "User brief 2026-10-31: one fixed reference top-up, conditional matched Noisy/Clean A/B, independent evaluation. No new architecture, no repeated top-up, no successor.",
+  "phase_A": {
+    "root": "~/rest_clean65",
+    "packets": 832,
+    "photons": 26624000000,
+    "sha256": {
+      "reference_complete.json": "690177799b58e9f301269257cf172c10a1ea205a88c8f53e1146bf6e349cc4cc",
+      "labels_manifest.json": "b49d6fbfebcee5504fdb8a0cee201d466d71fb91f791bafa7804962c54e677b0",
+      "preflight.json": "e32df01babefe8d041a9144e4e9555b65f86b83a810542461efdee65e3bd25df",
+      "phaseA_status.json": "fff5b25afc02787cb0b1e48ea6ca0cc4e569d6989fc9e7ee47138d5d0b09eef8",
+      "analysis.json": "5de22e6b0eabe55400bc6e0c5652299db70ec7880ae9446c3389b86a60a7a87c"
+    },
+    "identity_check": "Rehash all 832 packets against their Phase-A receipts and all 26 label/variance bank files against labels_manifest.json before any new photon; any mismatch is STOP_INVALID_REFERENCE."
+  },
+  "root": "~/rest_clean65_ext",
+  "topup": {
+    "poses": ["rest", "tr00", "tr01", "tr02", "tr03", "tr04", "tr05", "tr06", "tr07", "tr08", "tr09", "tr10", "tr11"],
+    "fields": [84, 85, 86, 87],
+    "actions": 52,
+    "photons_per_action": 384000000,
+    "N_per_packet": 32000000,
+    "packets_per_replica_group": 6,
+    "packets_per_action": 12,
+    "total_packets": 624,
+    "total_photons": 19968000000,
+    "action_chunk": 32000000,
+    "seed_formula": "660000000 + pose_index*100000 + field_id*100 + replica*10 + k, k=0..5 (disjoint from Phase A 650000000-range, WL64 640000000-range, WL59 599000000-range)",
+    "estimator": "Identical to Phase A: unchanged WL59 incident-field-importance first-exit action and validated fast walker via moments65.observed_action; one field per call, its own RGB-mean proposal; no source/walker/path/sink/RNG change; same frozen source hashes; same physical packet checks.",
+    "fixed": "Population, photon count, chunk and seeds fixed before any new outcome. No field selection, count adjustment, replacement or second top-up after outcomes."
+  },
+  "combination": {
+    "replica_groups": "Group r = Phase-A replica r halves {h0,h1} + top-up replica r packets {k0..k5}: 8 packets / 256M photons per group for fields 84-87; Phase-A fields keep 2 packets / 64M per group.",
+    "mean": "sum_i w_i m_i with w_i = N_i / sum N (float64 accumulation in fixed packet order; for equal N this is Phase A's mean exactly)",
+    "variance_of_mean": "sum_i w_i^2 v_i, v_i = per-packet variance of mean from aggregated first/second moments (aggregate exclusive bins BEFORE variance)",
+    "replica_mean": "count-weighted mean within each replica group; conservative noise = (group0-group1)/sqrt(2) as in Phase A",
+    "covariance": "Independent packets/fields/geometries: variances add. delta = current - rest: Var = Var_current + Var_rest (independent streams). Shared rest across dents: Cov(delta_g, delta_h) = Var(rest), cancels in delta_g - delta_h. RGB correlated; no iid-cell significance claim.",
+    "bank": "Combined 16-field bank: fields 80-83, 88-95 must equal Phase-A bank bitwise; fields 84-87 = combined 512M-photon mean. Original Phase-A bank files remain unchanged."
+  },
+  "gates": {
+    "absolute_coarse_mean_SE_ratio_max": 0.01,
+    "absolute_fine16_mean_SE_ratio_max": 0.05,
+    "direction_coarse_SNR_min": 3.0,
+    "direction_coarse_mean_SE_ratio_max": 0.1,
+    "delta_coarse_loss_scale_SE_max": 0.25,
+    "rest_pooled_contrast_new_SE_over_old_single_noise_max": 0.5,
+    "population": "All 624 absolute, 312 directional and 576 delta coarse cells of the complete 13x16 bank; no cell, field or geometry removed",
+    "physical": "All 624 new packets: exact budget, finite nonnegative, AO physical_passed, observer response/second-moment equality, no leak/truncation; identical frozen estimator source hashes",
+    "identity": "All Phase-A packet/bank hashes, original source/input/geometry identities (run65.manifest) re-verified unchanged",
+    "semantic_consistency": "For the 52 top-up actions: D = ||m_PhaseA - m_topup||^2 / (trV_PhaseA + trV_topup) per pose/field/channel at coarse aggregation; median over 156 cells must lie in [0.67, 1.5] (gross estimator mismatch only). Otherwise STOP_INVALID_REFERENCE.",
+    "unchanged_from_v1": true
+  },
+  "precision_projection": {
+    "prospective_only": "Computed before generation from Phase-A deformation_all.csv assuming SE halves with 4x photons on current and rest and the bias-corrected weak-delta norm shrinks accordingly.",
+    "expected_max_delta_loss_scale_SE": 0.249,
+    "expected_failures": 0,
+    "warning": "Marginal: the worst projected cell (tr03 field85 B) sits at 0.249 against 0.25. A realised failure is possible and would be STOP, not a reason to add photons."
+  },
+  "statuses": ["READY_FOR_CONTROLLED_TRAINING", "STOP_INSUFFICIENT_PRECISION", "STOP_INVALID_REFERENCE", "STOP_RESOURCE_OR_SCOPE"],
+  "independent_population": {
+    "name": "U65 (uninspected)",
+    "generator": "unchanged r57_data.light_fields(rest geometry,64,6508103,'test'); retain indices 48:64 (8 equal-flux directional pairs)",
+    "disjoint": "sha256 of every field disjoint from WL57 train/validation/test and from WL64 independent fields",
+    "pose": "pt0",
+    "replicas": 2,
+    "halves": 2,
+    "N_per_half": 32000000,
+    "photons": 2048000000,
+    "seed_formula": "670000000 + field*100 + replica*10 + half",
+    "estimator": "WL63 observational tagged_action (T/B/Scat) on the unchanged first-exit action, as WL64",
+    "qualification": "all 24 total contrast pair/channel cells SNR>=3 for full confirmation; otherwise limited, no extra sampling",
+    "timing": "Generated and qualified only after Gate 2 READY and before any A/B training. Evaluation-only: never enters training, label construction, checkpoint selection or loss calibration."
+  },
+  "historically_inspected": ["Original pt0 test Pair7 (fields 62/63) and its WL63 tagged components", "WL64 independent population (seed 6408103 fields 48:64)", "Original pt0 primary pairs 0-7 (informed WL60-64 decisions)"],
+  "ab": {
+    "runner": "Original WL59 train.py, evaluate.py, cost.py and run.sh executed unmodified from the frozen ~/rest_persist_v1/repo copy, resource policy 0 (WL57_ACTION_CHUNK=32000000, WL57_EDGE_CHUNK=65536, WL57_EVAL_BATCH=4, default microbatch 2), each arm in its own root.",
+    "A": "data -> original ~/rest_persist_v1/data; training_targets = original r0 for all 96 fields",
+    "B": "training_targets: for rest + 12 train dents, train[80:96] replaced by the qualified combined bank; train[0:80] and validation tensors byte-identical original; va0/va1 targets are the original files. Every evaluation input (geometry, lights, test targets) is the original file.",
+    "identical": "Model class/157,024 parameters, init torch.manual_seed(seed), field schedule numpy default_rng(574001), geometry schedule TRAIN[1+step%12], AdamW .003/wd1e-5, cosine to 3e-5, clip 1, action + .25 deformation objective, 6000 steps, final checkpoint, seeds 5901/5902, FP32 TF32 off",
+    "order": "seed 5901: A then B; seed 5902: B then A (alternated, serial, no GPU contention)",
+    "no_reuse": "Historical WL59/WL64 checkpoints are not reused as arms; A is retrained in the same runner."
+  },
+  "controls": {
+    "label_isolation": "Per B file: keys identical; train[:80] and validation torch.equal original; train[80:96] torch.equal bank v2; A training_targets resolve to the protocol-hashed originals",
+    "schedule": "Final progress.pt numpy_rng state identical across arms per seed and equal to an independent reconstruction of 6000 steps of default_rng(574001).integers(0,96,2)",
+    "optimizer": "Final optimizer param_group hyperparameters identical across arms; checkpoints report steps 6000 and 157,024 parameters",
+    "A_reproduction": "Per seed, A versus preserved WL59 out/heldout.json: max absolute drift <= 2e-3 over every directional pair error, static coarse/fine16 mean and p90, and dynamic error/corr/slope (all poses, F and S); identical eligible F/S, useful_and_physical and pt0 qualified directional failure counts. Failure = outcome D.",
+    "physical": "Unchanged WL59 zero/linearity/nonnegative/passive/cache and F/S checks plus WL64-style trained rigid/no-op checks for every checkpoint"
+  },
+  "decisions": {
+    "metric": "Total-response directional relative L2 per pair/channel (WL59 definition)",
+    "primary": "pt0 F-policy original 8 pairs x RGB, cells detectable in both arms: per seed B_mean/A_mean <= 0.90 and B qualified failures (>0.25) <= A",
+    "uninspected": "U65 all-24 total-contrast mean error per seed B/A <= 0.90 (requires full U65 qualification, else INCONCLUSIVE)",
+    "regression": "B/A >= 1.10 on primary or U65 in either seed",
+    "secondary_reported": "Old pairs 0-6, WL64 independent population, Pair7 T/B/Scat, per-channel/per-pair cells, signed deformation, static, F/S, physics, costs, training/validation histories",
+    "outcome_A": "Gate 2 READY, controls valid, primary AND uninspected improvement in both seeds",
+    "outcome_B": "Gate 2 READY, controls valid, not A (sub-label: regression if the regression rule fires, otherwise no meaningful/mixed benefit)",
+    "outcome_C": "Gate 2 not READY because of precision: no training",
+    "outcome_D": "A/B uninterpretable: identity/semantic/physical-reference failure, label isolation, schedule/optimizer divergence, A reproduction failure or irreparable physical invariant failure",
+    "complete_K": "Separately: every original WL59 static/dynamic/directional/reference/physics/F-S gate for both seeds and policies. A directional gain alone is not complete K."
+  },
+  "resource": {
+    "require_free_GiB": 100,
+    "expected_topup_minutes": [22, 40],
+    "expected_total_minutes": [80, 150],
+    "raw_topup_bytes_estimate": 9203107680,
+    "bank_v2_bytes_estimate": 1226969432,
+    "B_targets_bytes_estimate": 4907335680,
+    "GPU_limit_GiB": 23
+  },
+  "source_expected_sha256": {
+    "experiments/fnto_rule57/r57_geometry.py": "6f5ee9611217eeef61d51d3f6108c34b51c4bd63efa74505ce09a172a95fb9f9",
+    "experiments/fnto_rule57/r57_action_oracle.py": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+    "experiments/fnto_rule57/r57_fastwalk.py": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+    "experiments/fnto_rule57/r57_model.py": "d861614b4b88ea3e0c39e119d5cfcb6f4117f6a9b00be7d4fe982bb4be3d63cf",
+    "experiments/fnto_rule57/r57_data.py": "f99de4884e3b28fd3b49dad01b63bd125cdda224085ca51f4ff85d16313e3c2c",
+    "experiments/fnto_rule57/r57_eval.py": "eec20cdb29833b61949fc2f9ac09ee508b0bd7251e54ef5b52a899d09ee96539",
+    "experiments/fnto_rule57/r57_memory.py": "306201852f1fdc980676ff99fd66de71a03d1ca7554059d2f791f39b4c8c09f8",
+    "experiments/fnto_persist59/protocol/persist_v1.json": "1e84a085c0a1916ecefe1a2607d1df30fa22fd2fbe38a2bf02a3bd0b4cc0134b",
+    "experiments/fnto_persist59/run.sh": "c1bc1ffda18b04b7f652b8737c4d25c8282300fa67f01b5174b554e5e6a7e624",
+    "experiments/fnto_persist59/train.py": "cd28e59af28b4d49bb0ee3c3079a4b337f2966428d72cfaf1cd48cb634d887ab",
+    "experiments/fnto_persist59/runtime.py": "0783a3d26fb64708b4f7bc07ce342604405a7c55d80247ee09b7cb9fb8e444ab",
+    "experiments/fnto_persist59/common.py": "40784c38c434329b9a151faaec416b84ad4c6bc22ec53f2568d9cb3dbc46ff21",
+    "experiments/fnto_persist59/evaluate.py": "9f31923dabd0a66f6cb5b44e095d9870a2b2a5049e5d31f8688143d14579e91d",
+    "experiments/fnto_persist59/cost.py": "6e4e9675323d39eced3609f93e105821088685df370f0a4583c213a83ad95144"
+  },
+  "input_expected_sha256": {
+    "data/training_targets/va0_r0.pt": "381c41f0eeed7eba9c0cc17df37fb1a40bbae14b80e0e641ce474a49767c8116",
+    "data/training_targets/va1_r0.pt": "85984700eafb1b22c2c895ce57c48ccab40ebe766c68118aaa14ea089312d5b3",
+    "data/geometry/pt0.pt": "4c8783da1d452d26fece75d3441d4338a6b980faf1df905c9954fd11965a9b10",
+    "data/geometry/va0.pt": "4ab5d4065c79b65be8fbe3c7da8d6e2fdc191f2c8116e83018b25ec0bcd4cb06",
+    "data/geometry/va1.pt": "9026c2b6ccfb04572211e1a407af7525dd6f0518abe224097bf14c5076cf73ac",
+    "data/targets/pt0_r0.pt": "4032e38945b830c76d2b2376efa26ea16a236a7491d0c2898bb48eef734b690c",
+    "data/targets/pt0_r1.pt": "3f9655c72ca136ff38af0fb5e7ab43300c527b4e9cf0fa61ac5661a40d163ed8",
+    "data/targets/rest_r0.pt": "59e5f03eb5d38ce5c8227414ce966ee0395db539ad49c64fef34bc35e2017a96",
+    "data/targets/rest_r1.pt": "b9f6cc637fc35565d606c0a297b26f7b7069e376d0d55db8a6a73c8d0d08cfe9",
+    "out/heldout.json": "724dcb2d30724bf2b391b26baf45bb293af58321083f8165526519d28e56dd55",
+    "out/gate1.json": "26f28c66bac56fc80e81a4e81c45f706405da3c28c530585b162c2c7dd2c63ff"
+  },
+  "external_expected_sha256": {
+    "~/rest_direction64/independent_reference.npz": "1bce2fe0767cd69ce7b1b31531bf9f98b989317cc45dc30363b6bfa84e51d110",
+    "~/rest_direction64/independent_lights.pt": "c256bd3ef72a12bf11435b1d3f582418ca5ae6297a660a95c7b86e76baad1851",
+    "~/rest_direction64/independent_complete.json": "bf12aa93fe92a539cfef2b314bc050df977efa533aa837c4c6826731393627da",
+    "~/rest_components63/coarse_components.npz": "b2571bff61125ad691714034df9e49ff3573236905e857652896274778c20584",
+    "~/rest_wl57/data/targets/rest_r1.pt": "56902ca77ce70f4d3f540e55e111648e392876ef579cc34cb7b8b216b31169fd"
+  },
+  "prohibited": "No gate relaxation, field removal, second top-up, model-family/capacity/loss/optimizer/step/distribution change, hyperparameter tuning, checkpoint selection, WL64 contrast term, F/S or C optimisation, coupled GI with ineligible K, or automatic successor."
+}

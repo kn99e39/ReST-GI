@@ -119,3 +119,15 @@ Phase A is complete with a precision stop. The complete Clean Supervision A/B hy
 ![Phase-A reference precision, all fixed geometries and fields](../../results/evaluation/65/reference_precision.png)
 
 **Phase-A completion answer:** independently precise coarse directional labels were constructed, but the complete unchanged-objective partial-label intervention does not meet its frozen delta precision prerequisite. Stop here with all evidence preserved. No model-performance or architecture-success claim, and no Phase B authorisation, follows.
+
+## 2026-10-31 — Extension v2: fixed reference top-up, conditional A/B, independent evaluation
+
+### Authorisation and prospective record
+
+The user's 2026-10-31 brief continues this Worklog's hypothesis after the Phase-A precision stop. It authorises exactly one prospectively controlled extension: (1) a fixed reference top-up, (2) matched Noisy/Clean A/B training only if the combined bank passes every original readiness gate, (3) independent evaluation and verdict. Starting HEAD `e7ff6ea`, branch `Selective_Recompute`, no branch/worktree. **The Phase-A STOP_INSUFFICIENT_PRECISION verdict above stays as recorded**; `clean_v1.json`, its 832 packets, banks and analysis are read-only inputs. No new architecture, repeated top-up or successor is authorised.
+
+[Design](../plans/CLEAN_SUPERVISION65_V2_TOPUP_AB.md) and [fixed v2 protocol](../../experiments/fnto_clean65/protocol/topup_ab_v2.json). Fixed population: fields 84–87 × rest + 12 training dents = 52 actions, +384M photons each as 12 × 32M packets (6 per original replica group), 624 packets / 19.968B photons, seeds `660000000 + pose*100000 + field*100 + replica*10 + k`. Unchanged first-exit estimator and physical checks; count-weighted moment/variance combination; all original Phase-A gates re-evaluated on the complete 13×16 bank, plus a gross Phase-A-vs-top-up estimator consistency check. Prospective projection from the Phase-A rows puts the worst cell at ≈0.249 against 0.25: the fixed budget may still fail, and that would be a STOP without more photons.
+
+If READY: a new uninspected pt0 source population (U65, 2.048B tagged photons) is generated and qualified before training; then the frozen WL59 runner trains A (original labels) and B (fields 80–95 replaced on the 13 training geometries only) for seeds 5901/5902, alternated, 6,000 steps, final checkpoint; unchanged WL59 evaluation/cost, trained invariants, Pair7 / WL64 (historically inspected) and U65 (uninspected) comparisons. Arm A must reproduce the preserved WL59 evaluation within 2e-3. Outcome rules A–D are fixed in the protocol before any new evidence.
+
+No physical photon, model training or held-out evaluation for this extension has occurred at this entry. A non-evidence smoke harness (`smoke65.py`, scratch root, discarded) checks the code paths before launch.
