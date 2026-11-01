@@ -76,6 +76,19 @@ def test_no_reference_access_in_predictors():
         assert "cimg_" not in src, f                      # predictors never open reference images (ccam geometry only)
 
 
+def test_rg_readout_is_wl55_nee_plus_ball():
+    """Amendment 2: the analysed ReST-GI port prediction is nee + ball (k55_analyze.load_arm), equal to WL55's stored arm."""
+    import k55_common as KCm
+    root = Path.home() / "rest_xbench69"; w55 = Path.home() / "rest_wl55" / "out" / "stageB"
+    for scene in ("floor", "floor_c4"):
+        sd = KF.scene_def(scene)
+        for cam in ("top", "underup", "underdown"):
+            k = KCm.dirkey(sd["cams"][cam]["dir"]); z = np.load(root / "rg" / f"{scene}__CAK_s1.npz"); r = np.load(w55 / scene / "CAK_s1.npz")
+            p = z[f"{k}|nee"] + z[f"{k}|ball"]; q = r[f"{k}|nee"] + r[f"{k}|ball"]
+            assert np.abs(p).max() > 0 and np.abs(p - q).max() <= 1e-6 * np.abs(q).max()
+            assert np.abs(z[f"{k}|ball"]).max() < 1e-2 * np.abs(p).max()      # ball alone is the small unscattered term
+
+
 if __name__ == "__main__":                                    # pytest is not installed on LabServer69 (no internet): plain runner
     fails = 0
     for name, fn in sorted((k, v) for k, v in globals().items() if k.startswith("test_") and callable(v)):

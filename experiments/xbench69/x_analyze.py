@@ -83,7 +83,8 @@ def main():
         P = {}; A = {}
         for st, scene in STATES.items():
             z = [np.load(root / "rg" / f"{scene}__{arm}_s{i}.npz") for i in (1, 2)]
-            seeds = [{cam: zz[f"{KCm.dirkey(R[st]['sd']['cams'][cam]['dir'])}|ball"] for cam in ALLC} for zz in z]
+            # WL55 ballistic readout = nee + ball (k55_analyze.load_arm); amendment 2 fixes a read of the ball term alone
+            seeds = [{cam: zz[f"{k}|nee"] + zz[f"{k}|ball"] for cam in ALLC for k in [KCm.dirkey(R[st]['sd']['cams'][cam]['dir'])]} for zz in z]
             P[st] = {cam: 0.5 * (seeds[0][cam] + seeds[1][cam]) for cam in ALLC}
             sc = [score(R, st, s_) for s_ in seeds]
             so = {cam: {gn: [abs(a - b) / 2 for a, b in zip(sc[0]["cams"][cam][gn]["bias"], sc[1]["cams"][cam][gn]["bias"])] for gn in sc[0]["cams"][cam]} for cam in ALLC}

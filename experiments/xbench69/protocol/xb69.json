@@ -127,6 +127,15 @@
         "analysis": "x_analyze.py exactly as committed: WL55 amended unit and group_bias; RG as WL55 (mean of the two K seeds, SE_total with the seed half-difference); single realizations of CY/D8 with SE = reference SE; M1-M4 and QM as the protocol; D8 seeds reported separately.",
         "verdict_reading": "Outcome per protocol verdict_map. A requires ReST-GI to beat 8DNA at matched quality AND not be dominated by quality-matched Full Recompute."
       }
+    },
+    {
+      "id": 2,
+      "date": "2026-11-02",
+      "status": "POST HOC (labelled): written after the Stage-4 chain finished and after analysis.json had been read. Corrects an implementation defect in x_analyze.py only; no estimator, rule, threshold, arm, setting, seed or output of any arm changes.",
+      "defect": "x_analyze.py read the ReST-GI port prediction as the '<key>|ball' array alone. In WL55 (k55_analyze.load_arm) the ballistic camera readout is '<key>|nee' + '<key>|ball'; the 'ball' array is only the small unscattered add-on. The first analysis therefore scored RG_CAK / RG_P10 as zero predictions (every ruled group -100.0 %, M4 slope 0), which contradicts the declared 'RG as WL55' form and the x_rg check that the predictions equal WL55's stored ones (<= 2.6e-7).",
+      "fix": "RG port prediction = nee + ball for each K seed, then the unchanged mean / SE_oracle procedure. A focused test (test_rg_readout_is_wl55_nee_plus_ball) checks the read against WL55's stored CAK arrays. The analysis is re-run on the unchanged stored outputs; the first analysis.json is kept as analysis_defective_a1.json.",
+      "observed_before_fix": "CY and D8 ladder scores and the STALE control in the first analysis.json do not depend on the defect and were seen before this amendment; the quality matching against RG was invalid (RG quality = zero prediction).",
+      "native_failures_recorded": "8DNA neuralvolpath raised the released code's empty-batch reshape error (cu_ext cuvrqs_sample, same as X2) on 6 / 96 (seed 0) and 9 / 96 (seed 1) renders, all on the in-gap cameras underup / underdown (mostly 1024 spp). Per amendment 1 they are recorded, not retried: an spp level is scored only where all four cameras of both states exist for that realization (x_analyze unchanged), so the D8 1024 level is unscored for both seeds and D8 QM uses levels 1-256."
     }
   ]
 }
