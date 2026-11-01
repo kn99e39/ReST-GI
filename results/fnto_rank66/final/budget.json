@@ -1,0 +1,13 @@
+{
+  "rule": "Resource preflight times one 32M tagged packet for each geometry (slot 0, bin 0, smoke seed). Predicted generation time = mean packet seconds x 128 x K. K = 8 replicas if prediction <= 4 h; else K = 4 if prediction for K=4 <= 4 h; else STOP_RESOURCE. The resulting numeric budget is written to budget.json and committed before generation.",
+  "replicas": 8,
+  "packet_photons": 32000000,
+  "probes": 128,
+  "packets": 1024,
+  "photons_per_probe": 256000000,
+  "total_photons": 32768000000,
+  "predicted_hours": 0.755672217739953,
+  "bytes_per_packet": 44241928,
+  "predicted_bytes": 45303734272,
+  "t_quantile": 2.364624
+}

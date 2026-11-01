@@ -1,0 +1,27 @@
+{
+  "worklog": 66,
+  "protocol": "experiments/fnto_rank66/protocol/rank66_v1.json",
+  "protocol_commit": "a3ba1ae",
+  "budget_commit": "12732d7",
+  "source_commit_deployed": "a3ba1ae",
+  "server": "LabServer69 RTX 3090 / i7-6900K",
+  "server_root": "~/rest_rank66 (1024 raw probe packets, 45 GB, retained)",
+  "evidence_bundle_sha256": "7b3f7e5798e907666fc9e7e7c954eaae68db13780c763f06bbf8be92c983f163",
+  "inputs": {
+    "analysis.json": "c692650b798f0fb192eceee5cf5566051338acaba9cba15b4f23455871c7c3d9",
+    "probes_complete.json": "8f90269a9b97f02c721ad0a7b331a71e71fc961e01ed2d36d7fc641979511ba7",
+    "model_complete.json": "1669ee8a384e23758e3c1def4f8f3a6cd64e7e117fa1f1daa00317614f075f6a",
+    "ports.json": "35053f79355a73e2b756ed6a6623558c8404f8d2352dd297ffa8a55e855be14d",
+    "budget.json": "e137ce77ad276ace1bb3b847b7f00fca27963d4bce278068823beaecea2bb025",
+    "preflight.json": "dede36d5eeea2c2bfaa76bb8f5ad5889473b8cadc435350799b2eed9d52c830a"
+  },
+  "checkpoints": {
+    "WL59_P_5901": "59685b214bdf1f81079dcd56fe7a61173b90640b3c5c9fb8b3f14094729aaad6",
+    "WL59_P_5902": "c92e4fda4bbe9cf5569d55c45a2881d95eaa58df3896748088d060b55f1aab3f",
+    "WL64_B_5901": "51911397b711889512573c50679387af60cdf98b58a6ffe0777d62ae6542373f",
+    "WL64_B_5902": "8dbce4637d25ab1c31e0c7834e0854b64f15af2999b32c2c539b6f777fb6e3ef",
+    "WL65_B_5901": "9eda903da8173b76513bb2a273c417940c0c203b1001b5e00bcf2f786dcbafb6",
+    "WL65_B_5902": "7f053fbc610d174405fd7c04f3dc6e58125d34193d7c8e6f937bf2dc332ae95d"
+  },
+  "note": "Reviewer copies of results/fnto_rank66/final/review (exported by export66.py); no new measurement."
+}

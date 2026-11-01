@@ -1,0 +1,25 @@
+test_family_error_never_below_contrast_bound (__main__.Bounds)
+Any column-stochastic A (any G) has squared Z error >= tail_7(H Z Z^T H); pooled sharing >= sum of per-port bounds. ... ok
+test_frozen_contrast_basis_is_architecture_exact (__main__.Bounds)
+float32 column-stochastic A: TA has rank 7 and the contrast residual equals the absolute range(A^T) residual. ... ok
+test_lower_low_biased_upper_high_biased_and_unbiased_fixed_projector (__main__.Bounds) ... ok
+test_tail_is_minimum_over_projectors (__main__.Bounds) ... ok
+test_ports_fixed_and_reproducible (__main__.Correspondence) ... ok
+test_beta_aware_factorisation_random_parameters (__main__.Factorisation) ... ok
+test_aggregation_conserves_flux (__main__.Normalisation) ... ok
+test_equal_projected_solid_angle_bins (__main__.Normalisation) ... ok
+test_frozen_checkpoint_reproducibility (__main__.Replay) ... ok
+test_one_hot_source_and_tag_closure (__main__.Source)
+Every sampled photon starts in the probe cell, on port i, travelling inward, from bin a; unit flux; tags close. ... /home/nd/rest_persist_v1/repo/experiments/fnto_rule57/r57_action_oracle.py:55: ResourceWarning: unclosed file <_io.BufferedReader name='/home/nd/rest_persist_v1/repo/experiments/fnto_rule57/r57_action_oracle.py'>
+  return dict(response=y,second=s2,N=N,seed=seed,seconds=time.perf_counter()-t0,chunk=chunk,walker=walker,execution_source_sha256=hashlib.sha256(open(__file__,'rb').read()).hexdigest(),fastwalk_source_sha256=hashlib.sha256(open(FW.__file__,'rb').read()).hexdigest() if walker=='fast' else None,execution_policy_sha256=hashlib.sha256(open(policy,'rb').read()).hexdigest() if policy else None,rng_state_sha256=hashlib.sha256(gen.get_state().cpu().numpy().tobytes()).hexdigest(),stats=stats,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+/home/nd/rest_persist_v1/repo/experiments/fnto_rule57/r57_action_oracle.py:55: ResourceWarning: unclosed file <_io.BufferedReader name='/home/nd/rest_persist_v1/repo/experiments/fnto_rule57/r57_fastwalk.py'>
+  return dict(response=y,second=s2,N=N,seed=seed,seconds=time.perf_counter()-t0,chunk=chunk,walker=walker,execution_source_sha256=hashlib.sha256(open(__file__,'rb').read()).hexdigest(),fastwalk_source_sha256=hashlib.sha256(open(FW.__file__,'rb').read()).hexdigest() if walker=='fast' else None,execution_policy_sha256=hashlib.sha256(open(policy,'rb').read()).hexdigest() if policy else None,rng_state_sha256=hashlib.sha256(gen.get_state().cpu().numpy().tobytes()).hexdigest(),stats=stats,
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+ok
+test_packet_moment_variance_and_jackknife_coverage (__main__.Uncertainty) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 7.497s
+
+OK

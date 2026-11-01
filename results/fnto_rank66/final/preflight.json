@@ -1,0 +1,114 @@
+{
+  "source_commit": "a3ba1ae",
+  "protocol_sha256": "cf6b1f4e8f65d42b3a9eeda8ae381a6072960749c11b885220e54b2f170e81b3",
+  "scripts": {
+    "analyze66.py": "9f6a73281d75b7b9db8a0b8864725609cfdf0cfaf084a6f4cb19392034458f7c",
+    "chain66.py": "9aa4c73ea9703f085d94e8b059f79d1c210e1fbf1e9e529f0334a3f492834027",
+    "common66.py": "220d41c3be8f8f1fa00bb3e71b0edb6731453807ebe6afab344df7c54bec324b",
+    "estimators66.py": "6ddaf11b8c22155eae5f3e32462e883b440e42acb54488d813ecc1c9fb863f1c",
+    "export66.py": "531bf63bf103f3e9defd40a7d4fcf9ae7839ef8599b39bd0c05bfdcb6af729de",
+    "model66.py": "128fc46fedf42a6d88b405b746ae95af3fbf3eb8c6e88844b82e8dfa0228514d",
+    "ports66.py": "ca21dd4b3cda20b05424f2719897086b2476c3ccd598ff36b6d68634e40b01c9",
+    "probes66.py": "4f354e9ee3648ff6e213e030a1bc862ace0c14d3fff199d8a0a64f2b9c669842",
+    "smoke66.py": "c0f7ee1b83f8a108eb35c73cc59f66fb4ec3ac29782d0bc8e0ab4bb2405988bb",
+    "test66.py": "b35a93b1ded5082f67f38946f8e6e0cbd0bcca78db9cdd172cd55f65257ed3e0"
+  },
+  "verified_hashes": {
+    "experiments/fnto_rule57/r57_geometry.py": "6f5ee9611217eeef61d51d3f6108c34b51c4bd63efa74505ce09a172a95fb9f9",
+    "experiments/fnto_rule57/r57_action_oracle.py": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+    "experiments/fnto_rule57/r57_fastwalk.py": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+    "experiments/fnto_rule57/r57_model.py": "d861614b4b88ea3e0c39e119d5cfcb6f4117f6a9b00be7d4fe982bb4be3d63cf",
+    "experiments/fnto_rule57/r57_data.py": "f99de4884e3b28fd3b49dad01b63bd125cdda224085ca51f4ff85d16313e3c2c",
+    "experiments/phys_ref53/p53_geom.py": "224f919742273a2e93aa41561e4fb16cee733746b32b204956204d6049597e93",
+    "experiments/phys_ref53/p53_fixtures.py": "cdccc551fbd48c518214696d854713ebde3abc8e673485ef5c5f5956ef204500",
+    "experiments/phys_ref53/p53_tracer.py": "0a5b82dd227cc7becf03b8fefaecbcf5cb9d0bf4a43889906a236cd5e65b926a",
+    "experiments/phys_ref53/p53_mi.py": "349a437a3c035fb479a3c8bac81f9e6a8c6eb83c2317c110c1fa4adafbeed969",
+    "experiments/fnto_k55/k55_ops.py": "ef357a8b1ff67f1ea4f869efad7dc39ad302eb6795d914309f8b36fe3acfc3e6",
+    "experiments/fnto_c54/c54_casp.py": "06d813dc3e62fe52cb57b4d5bfeb62c94fe7b47cdff76dcffc3067f9fd5d70c0",
+    "experiments/fnto_persist59/protocol/persist_v1.json": "1e84a085c0a1916ecefe1a2607d1df30fa22fd2fbe38a2bf02a3bd0b4cc0134b",
+    "experiments/fnto_persist59/runtime.py": "0783a3d26fb64708b4f7bc07ce342604405a7c55d80247ee09b7cb9fb8e444ab",
+    "experiments/fnto_persist59/common.py": "40784c38c434329b9a151faaec416b84ad4c6bc22ec53f2568d9cb3dbc46ff21",
+    "tag_reference.py": "98dedccb5138e686776da3b4ae235e5566e62b315d0b24d93526dfb1bc2ecc64",
+    "data/geometry/rest.pt": "7cfbcba7000ff47f0f81fa41a645566e5957d7762afec79f00ad601ff49322ac",
+    "data/geometry/pt0.pt": "4c8783da1d452d26fece75d3441d4338a6b980faf1df905c9954fd11965a9b10",
+    "data/lights.pt": "a3b50edb18d5dd17915816ea57857b3204063a8a6eac55c1201126496467f46f",
+    "out/actions_5901.pt": "706dd5c1ce22f3b100353508ccc02b2a1bdc0e5ccfd2a05243aa4a68c7818874",
+    "out/actions_5902.pt": "0e44defd5115fac409b2d989d8dfc30d6394634a8c34f447373ba7cc101aa17c",
+    "WL59_P_5901": "59685b214bdf1f81079dcd56fe7a61173b90640b3c5c9fb8b3f14094729aaad6",
+    "WL59_P_5902": "c92e4fda4bbe9cf5569d55c45a2881d95eaa58df3896748088d060b55f1aab3f",
+    "WL64_B_5901": "51911397b711889512573c50679387af60cdf98b58a6ffe0777d62ae6542373f",
+    "WL64_B_5902": "8dbce4637d25ab1c31e0c7834e0854b64f15af2999b32c2c539b6f777fb6e3ef",
+    "WL65_B_5901": "9eda903da8173b76513bb2a273c417940c0c203b1001b5e00bcf2f786dcbafb6",
+    "WL65_B_5902": "7f053fbc610d174405fd7c04f3dc6e58125d34193d7c8e6f937bf2dc332ae95d"
+  },
+  "ports_sha256": "35053f79355a73e2b756ed6a6623558c8404f8d2352dd297ffa8a55e855be14d",
+  "AST_equivalence": {
+    "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+    "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+    "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+    "strip_added_assignment_restores_original_AST": true,
+    "added_assignments": 1,
+    "added_RNG_calls": 0
+  },
+  "python": "3.10.21",
+  "torch": "2.3.1+cu121",
+  "numpy": "1.26.4",
+  "cuda": "12.1",
+  "gpu": "Sun Nov  1 01:30:58 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 550.54.15              Driver Version: 550.54.15      CUDA Version: 12.4     |\n|-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 3090        Off |   00000000:05:00.0 Off |                  N/A |\n| 36%   32C    P8             32W /  370W |       1MiB /  24576MiB |      0%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n                                                                                         \n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI        PID   Type   Process name                              GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|  No running processes found                                                             |\n+-----------------------------------------------------------------------------------------+\n",
+  "compute_processes": "",
+  "cpu": "Architecture:        x86_64\nCPU op-mode(s):      32-bit, 64-bit\nByte Order:          Little Endian\nCPU(s):              16\nOn-line CPU(s) list: 0-15\nThread(s) per core:  2\nCore(s) per socket:  8\nSocket(s):           1\nNUMA node(s):        1\nVendor ID:           GenuineIntel\nCPU family:          6\nModel:               79\nModel name:          Intel(R) Core(TM) i7-6900K CPU @ 3.20GHz\nStepping:            1\nCPU MHz:             3276.982\nCPU max MHz:         4000.0000\nCPU min MHz:         1200.0000\nBogoMIPS:            6396.46\nL1d cache:           32K\nL1i cache:           32K\nL2 cache:            256K\nL3 cache:            20480K\nNUMA node0 CPU(s):   0-15\nFlags:               fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid dca sse4_1 sse4_2 x2apic movbe popcnt aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb cat_l3 cdp_l3 invpcid_single pti intel_ppin fsgsbase tsc_adjust bmi1 hle avx2 smep bmi2 erms invpcid rtm cqm rdt_a rdseed adx smap intel_pt xsaveopt cqm_llc cqm_occup_llc cqm_mbm_total cqm_mbm_local dtherm ida arat pln pts\n",
+  "env": {
+    "WL57_WALKER": "fast",
+    "WL57_ACTION_CHUNK": "32000000",
+    "P53_MI_VARIANT": "cuda_ad_rgb",
+    "DRJIT_LIBLLVM_PATH": "/usr/lib64/libLLVM-11.so",
+    "OMP_NUM_THREADS": "8"
+  },
+  "smoke": [
+    {
+      "geometry": "rest",
+      "port": 2085,
+      "bin": 0,
+      "seed": 689000000,
+      "N": 32000000,
+      "seconds": 3.193929184228182,
+      "peak_GPU_bytes": 9373433856,
+      "gates": {
+        "physical": true,
+        "tag_closure": true,
+        "one_hot_proposal": true,
+        "unit_input": true,
+        "finite_nonnegative": true
+      },
+      "passed": true,
+      "sha256": "6979f8a8872d371b0ff65e15900652d9f41c4626ce2c5c455b86b631cc9b77ab",
+      "bytes": 44241928,
+      "evidence": false
+    },
+    {
+      "geometry": "pt0",
+      "port": 2085,
+      "bin": 0,
+      "seed": 689000001,
+      "N": 32000000,
+      "seconds": 2.1193910967558622,
+      "peak_GPU_bytes": 9435734016,
+      "gates": {
+        "physical": true,
+        "tag_closure": true,
+        "one_hot_proposal": true,
+        "unit_input": true,
+        "finite_nonnegative": true
+      },
+      "passed": true,
+      "sha256": "75351404f366e66b671a5fa0518486bde5d5925494695875beca39f106154d1f",
+      "bytes": 44241916,
+      "evidence": false
+    }
+  ],
+  "mean_packet_seconds": 2.656660140492022,
+  "predicted_hours": {
+    "8": 0.755672217739953,
+    "4": 0.3778361088699765
+  }
+}
