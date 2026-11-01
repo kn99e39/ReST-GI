@@ -122,3 +122,11 @@ The fitting stage can read only `fit_targets.pt` (the mean of WL66 replicas 0–
 **Preflight.** Packets per hour: 1057 for 1 worker × 32M, 993 for 2 workers × 16M. By the rule this gives K=8, 1 worker, 2048 packets, predicted 1.94 h.
 
 **Procedural slip, corrected before any evidence.** A first main-phase launch started before the budget commit existed: `results/` is git-ignored, so `git add` failed and the chained launch still ran. I killed it during its GPU-idle wait, with zero packets generated. It is recorded in `aborted_main_launch.txt` and `logs/gpu_sampler_aborted_main_launch.log`. The budget was then committed (`git add -f`) and main was relaunched with `budget_commit.txt` = a2a802c.
+
+**Amendment 1 (55c36f5, execution only).** Held-out generation stopped on a CUDA OOM after 73 of 2048 packets. No foreign GPU process was present.
+
+- **Cause.** On the 12 GB RTX 3080 Ti, 32M-chunk packets at slot 4 reached 10.9–11.0 GB peak allocation. The preflight had timed slot 0 only and measured 9.48 GB.
+- **Change.** Generation resumed with 1 worker × 16M action chunk (`heldout/execution_amendment.json`). The 2 × 16M configuration was not used: each worker peaked at 4.8 GB in the preflight, so two workers would approach the limit under the same tail growth.
+- **Unchanged.** The estimator, per-packet seeds, K=8, populations and all rules. The 73 completed 32M-chunk packets passed every gate and were kept; each packet records its chunk.
+- **Cost.** Packets now take about 5.4 s each, against about 3.4 s at 32M, so the remaining generation is about 3 h instead of the predicted 1.94 h.
+- **Logs.** The failed log is `logs/generate_w0_attempt1_oom.log`.
