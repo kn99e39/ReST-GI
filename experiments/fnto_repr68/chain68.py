@@ -24,6 +24,7 @@ def sampler():
     return subprocess.Popen(['bash','-c',f'while true; do echo "$(date +%s) $(nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader,nounits) | $(nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader | tr "\\n" ";")" >> {ROOT}/logs/gpu_sampler.log; sleep 15; done'])
 
 def pre():
+    stage('prepare',['fit68.py','prepare'],'inputs/fit_targets.pt')
     stage('tests',['test68.py'])
     stage('ports',['ports68.py'],'heldout/ports.json')
     stage('wl66_reproduction',['eval68.py','repro'],'wl66_reproduction.json')
