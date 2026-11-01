@@ -100,3 +100,25 @@ The fitting stage can read only `fit_targets.pt` (the mean of WL66 replicas 0–
   - cross-machine packets statistically identical (|energy z| ≤ 0.6, coarse mean z² 0.83–1.41), not bitwise;
   - preflight: 1 worker × 32M (1074 packets/h) beat 2 workers × 16M (917/h).
 - The dev smoke's evaluation log printed the decision label of the 30-step smoke (D). It carries no information about the 20,000-step fits, and nothing was changed in response. The fixes made during the dev smoke were limited to the robustness items listed above (plus the convergence window for very short runs, the oracle replica split when K < 6, and a missing t(2) quantile).
+
+## Execution
+
+**Commits:**
+
+- 7f9c28a: input staging;
+- 0ffc700: protocol, code and tests frozen before evidence;
+- 9b437b2: execution-order fix. The pre phase failed its first attempt because two tests need `fit_targets.pt`, which the chain prepared only in the main phase. Preparation now runs first. No evidence existed at that point, and the failed log is preserved as `logs_failed_tests_attempt1`;
+- a2a802c: budget fixed before generation.
+
+**Pre-phase gates on LabServer63** (`results/fnto_repr68/pre/`):
+
+- tests 10/10;
+- fit targets prepared (sha 3c21b619…);
+- geometry features bitwise equal for rest, pt0 and cf3;
+- held-out ports 2148, 1025, 2707 and 2422;
+- WL66 pooled statistics reproduced (max relative difference ~1e-6);
+- cross-machine packets statistically identical to LabServer69 (|energy z| ≤ 0.6), not bitwise.
+
+**Preflight.** Packets per hour: 1057 for 1 worker × 32M, 993 for 2 workers × 16M. By the rule this gives K=8, 1 worker, 2048 packets, predicted 1.94 h.
+
+**Procedural slip, corrected before any evidence.** A first main-phase launch started before the budget commit existed: `results/` is git-ignored, so `git add` failed and the chained launch still ran. I killed it during its GPU-idle wait, with zero packets generated. It is recorded in `aborted_main_launch.txt` and `logs/gpu_sampler_aborted_main_launch.log`. The budget was then committed (`git add -f`) and main was relaunched with `budget_commit.txt` = a2a802c.
