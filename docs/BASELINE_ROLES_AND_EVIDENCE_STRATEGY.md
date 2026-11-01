@@ -1,6 +1,6 @@
 # Baseline Roles and Evidence Strategy
 
-**Current as of:** 2026-11-01. **Role:** baseline roles, comparison controls, evidence limits and evaluation accounting. [Architecture](Architecture.md) owns candidate dispositions; the [roadmap](RESEARCH_ROADMAP.md) owns current bounded scope. This document neither grants implementation permission nor specifies replacement thresholds for frozen protocols.
+**Current as of:** 2026-11-02. **Role:** baseline roles, comparison controls, evidence limits and evaluation accounting. [Architecture](Architecture.md) owns candidate dispositions; the [roadmap](RESEARCH_ROADMAP.md) owns current bounded scope. This document neither grants implementation permission nor specifies replacement thresholds for frozen protocols.
 
 ## Baseline roles
 
@@ -17,6 +17,8 @@
 | Cycles volume plus independent analytic controls | Physical intrinsic-transport reference for canonical homogeneous medium fixtures | Not a full-material production reference; [reference contract](worklogs/53_WORKLOG_PHYSICAL_INTRINSIC_TRANSPORT_REFERENCE.md) |
 
 **External comparison record (WL67).** Comparability classes: physically aligned (same geometry, materials, lighting, cameras and physical reference, native semantics, locally measured timing), partially aligned (timing inherited from other hardware or a declared subset only), not comparable. On the WL22 teaset (aligned for quality, cross-machine reference check passed; neural timings inherited from the RTX 5080), 64-spp Mitsuba path tracing (0.5 s) beats frozen and refitted RNA/8DNA, and ReST-GI has no rough-conductor K. RNA and 8DNA cannot run W1 under native semantics (hemisphere training views never see the gap or bottom faces; native 32-bounce / direct-clamp settings bias the medium by up to −83%; Mitsuba volume boundary-layer bias). Superiority classes A–D and the full table are in the [Worklog](worklogs/67_WORKLOG_BASELINE_SUPERIORITY_EVIDENCE.md).
+
+**Common-workload record (WL69).** The first physically aligned workload shared by ReST-GI and an external neural baseline is the WL55 floor fixture (homogeneous medium slab over a Lambert floor, rigid 1 cm → 4 mm move). The released 8DNA runs there natively: one trained slab asset is moved by its instance transform, and Mitsuba volpath passes the contract at 8DNA's native units. RNA is blocked by its position-AOV semantics at transparent medium boundaries; Neural Radiosity has no medium transport. Under the WL55 rule, ReST-GI CAK passes 12/12 on both states, while 8DNA fails at every spp for both seeds (3–7/12; up to −20 % blue on the medium faces, static bias), so 8DNA is ineligible for superiority claims. Cycles Full Recompute matches CAK's quality at 16 spp in 2.4 s, against a 24 s CAK update (dominated by the Monte Carlo sun term), so class A is not reached (outcome B). Details and costs are in the [Worklog](worklogs/69_WORKLOG_COMMON_WORKLOAD_EXTERNAL_BASELINE.md).
 
 Implementation baselines are not scientific replications. RNA/Rain correspondence confounds, 8DNA/Teaset staleness, sparse relational-state failures, intra-model masking and complete-unit reconstruction answer different questions. Their scoped historical roles and original numerical evidence remain in the [source archive](history/living_document_cleanup_2026-10-29/README.md) and [Worklogs](worklogs/).
 

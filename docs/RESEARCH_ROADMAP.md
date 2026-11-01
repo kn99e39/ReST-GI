@@ -1,12 +1,14 @@
 # Research Roadmap — Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-11-01. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
+**Current as of:** 2026-11-02. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
 
 ## Current frontier
 
 The latest completed controlled intervention is [WL64](worklogs/64_WORKLOG_DIRECTIONAL_CONTRAST_SUPERVISION.md): NOT SUPPORTED. Fixed-capacity contrast supervision lowered noisy training-pair risk but worsened both original and independently qualified new-field directional fidelity. The [WL63 physical component audit](worklogs/63_WORKLOG_PHYSICAL_BALLISTIC_SCATTERED_ATTRIBUTION.md) localizes qualified Pair7 error predominantly to learned collided transport, not the direct ballistic B output; it does not identify why that learned response fails. [WL60–62](worklogs/60_WORKLOG_FROZEN_K_FIDELITY_ATTRIBUTION.md) record earlier diagnostic and label-precision findings. [WL59](worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md) remains the F/S correctness baseline without qualified complete GI fidelity; the [WL56](worklogs/56_WORKLOG_EXACT_SELECTIVE_K_RECOMPUTE.md) physical GI floor remains open. [WL58](worklogs/58_WORKLOG_PERSISTENT_INTRINSIC_STATE_REUSE.md) remains a separate sharp-GGX representation preflight.
 
 [WL67](worklogs/67_WORKLOG_BASELINE_SUPERIORITY_EVIDENCE.md) executed the first quality-matched external comparison: on no workload does ReST-GI show a measured quality-matched advantage. On the WL56 medium fixture, Cycles Full Recompute meets the complete 3% contract at 4 spp in 4.7 s for four views, while the exact oracle Selective update takes 190 s and fails it (9/12); the oracle is ahead only in per-port stationary-receiver signed-change precision and in a 0.69 s rigid resident update that fails the contract. On the WL22 teaset, 64-spp path tracing (0.5 s) beats every frozen or refitted RNA/8DNA output; ReST-GI has no K there, and TransGI has no released implementation.
+
+[WL69](worklogs/69_WORKLOG_COMMON_WORKLOAD_EXTERNAL_BASELINE.md) established one common workload with an external neural baseline: the WL55 floor medium fixture under a rigid edit, with released 8DNA. ReST-GI CAK meets the 3 % contract on both states; 8DNA does not (3–7/12, static blue bias). Quality-matched Cycles Full Recompute still dominates ReST-GI (16 spp in 2.4 s vs a 24 s update), so the outcome is B. RNA, Neural Radiosity and TransGI could not run this workload.
 
 No learned corrective recipe or successor architecture is adopted. Work on `Selective_Recompute` only; no branch/worktree change without user consent.
 

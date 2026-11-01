@@ -1,0 +1,25 @@
+{
+ "worklog": 69,
+ "protocol": "xbench69_v1 + amendments 1-2",
+ "generator": "experiments/xbench69/x_figures.py (run on LabServer69 from experiments/fnto_k55 with the 8dna26 venv)",
+ "sources": {
+  "analysis": "results/xbench69/stage4/analysis.json (sha256 b1e0ffa764a1812461da5d58e3adaa92b296144b8465ac90aa8ea82f02eaa025)",
+  "rg": "results/xbench69/stage4/rg.json",
+  "d8": "results/xbench69/stage4/d8_eval_s{0,1}.json",
+  "cy": "LabServer69 ~/rest_xbench69/cy/spp*/ (images + render_manifest.jsonl; manifest copied to results/xbench69/stage4/cy_render_manifest.jsonl)",
+  "reference": "LabServer69 ~/rest_wl55/out/cycles_cuda/cimg_floor_c4_underup_s553{1,2}.npy (WL55, read-only)"
+ },
+ "contention": "15 s GPU sampler: only this chain's processes, never more than one at a time (results/xbench69/stage4/gpu_sampler.log)",
+ "items": [
+  {
+   "file": "01_quality_vs_latency.png",
+   "sha256": "6116186fcf87a9d733793adf69ff61c16eaa12aa34932b764977707f81a56608",
+   "description": "T1 max |group bias| over ruled cameras vs edit-to-output latency (top+underup+underdown): Cycles Full Recompute ladder (2 realizations), 8DNA seeds 0/1 (frozen asset moved, r0), ReST-GI CAK / P10 (rest K reused). LabServer69 RTX 3090, uncontended."
+  },
+  {
+   "file": "02_underup_T1.png",
+   "sha256": "c6e9a26645d26221f3af56d0264757eb935030c881d212773d32b98313f4d6ee",
+   "description": "T1 underup view: reference (Cycles 2x1024 spp), Cycles 1 spp (QM contract) and 16 spp (QM vs CAK), 8DNA s0/s1 1024 spp; row 2 per-pixel |error| on one shared sqrt scale (radiance); row 3 blue-channel 8x8-block signed error on one shared symmetric scale (radiance). ReST-GI predicts ports, not images, so it has no panel."
+  }
+ ]
+}

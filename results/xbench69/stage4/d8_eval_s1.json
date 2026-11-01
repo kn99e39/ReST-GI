@@ -1,0 +1,957 @@
+{
+ "protocol": "xbench69_v1",
+ "arm": "D8",
+ "tag": "s1",
+ "ckpt": "/home/nd/rest_xbench69/d8_logs/xbslab_s1/final.ckpt",
+ "renders": [
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 1,
+   "r": 0,
+   "seed_base": 7000000,
+   "seconds": 0.34715708531439304,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 1,
+   "r": 1,
+   "seed_base": 7000500,
+   "seconds": 0.34445102885365486,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 4,
+   "r": 0,
+   "seed_base": 7001000,
+   "seconds": 0.5743090249598026,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 4,
+   "r": 1,
+   "seed_base": 7001500,
+   "seconds": 0.5599284060299397,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 16,
+   "r": 0,
+   "seed_base": 7002000,
+   "seconds": 1.5615736246109009,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 16,
+   "r": 1,
+   "seed_base": 7002500,
+   "seconds": 1.5489174872636795,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 64,
+   "r": 0,
+   "seed_base": 7003000,
+   "seconds": 6.167824536561966,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 64,
+   "r": 1,
+   "seed_base": 7003500,
+   "seconds": 6.17151278629899,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 256,
+   "r": 0,
+   "seed_base": 7004000,
+   "seconds": 24.73531699925661,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 256,
+   "r": 1,
+   "seed_base": 7004500,
+   "seconds": 24.788517847657204,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 1024,
+   "r": 0,
+   "seed_base": 7005000,
+   "seconds": 99.49346566386521,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "top",
+   "spp": 1024,
+   "r": 1,
+   "seed_base": 7005500,
+   "seconds": 99.7502269577235,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 1,
+   "r": 0,
+   "seed_base": 7000000,
+   "seconds": 0.2462072093039751,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 1,
+   "r": 1,
+   "seed_base": 7000500,
+   "seconds": 0.24586113169789314,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 4,
+   "r": 0,
+   "seed_base": 7001000,
+   "seconds": 0.5127760637551546,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 4,
+   "r": 1,
+   "seed_base": 7001500,
+   "seconds": 0.512923626229167,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 16,
+   "r": 0,
+   "seed_base": 7002000,
+   "seconds": 1.657409681007266,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 16,
+   "r": 1,
+   "seed_base": 7002500,
+   "seconds": 1.6568822581321,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 64,
+   "r": 0,
+   "seed_base": 7003000,
+   "seconds": 6.624037316069007,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 256,
+   "r": 0,
+   "seed_base": 7004000,
+   "seconds": 26.479107862338424,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 256,
+   "r": 1,
+   "seed_base": 7004500,
+   "seconds": 26.47924423404038,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 1,
+   "r": 0,
+   "seed_base": 7000000,
+   "seconds": 0.20768372155725956,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 1,
+   "r": 1,
+   "seed_base": 7000500,
+   "seconds": 0.20766733027994633,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 4,
+   "r": 0,
+   "seed_base": 7001000,
+   "seconds": 0.4347971919924021,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 4,
+   "r": 1,
+   "seed_base": 7001500,
+   "seconds": 0.43403877690434456,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 16,
+   "r": 0,
+   "seed_base": 7002000,
+   "seconds": 1.4036718346178532,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 16,
+   "r": 1,
+   "seed_base": 7002500,
+   "seconds": 1.400860583409667,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 64,
+   "r": 0,
+   "seed_base": 7003000,
+   "seconds": 5.611307447776198,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 64,
+   "r": 1,
+   "seed_base": 7003500,
+   "seconds": 5.619260724633932,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 256,
+   "r": 1,
+   "seed_base": 7004500,
+   "seconds": 22.431467100977898,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 1,
+   "r": 0,
+   "seed_base": 7000000,
+   "seconds": 0.32336048409342766,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 1,
+   "r": 1,
+   "seed_base": 7000500,
+   "seconds": 0.323589950799942,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 4,
+   "r": 0,
+   "seed_base": 7001000,
+   "seconds": 0.44768984988331795,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 4,
+   "r": 1,
+   "seed_base": 7001500,
+   "seconds": 0.44840676710009575,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 16,
+   "r": 0,
+   "seed_base": 7002000,
+   "seconds": 1.026838231831789,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 16,
+   "r": 1,
+   "seed_base": 7002500,
+   "seconds": 1.027268573641777,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 64,
+   "r": 0,
+   "seed_base": 7003000,
+   "seconds": 4.109417786821723,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 64,
+   "r": 1,
+   "seed_base": 7003500,
+   "seconds": 4.108861969783902,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 256,
+   "r": 0,
+   "seed_base": 7004000,
+   "seconds": 16.436437480151653,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 256,
+   "r": 1,
+   "seed_base": 7004500,
+   "seconds": 16.417491665109992,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 1024,
+   "r": 0,
+   "seed_base": 7005000,
+   "seconds": 65.65112292207778,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T0",
+   "cam": "otop",
+   "spp": 1024,
+   "r": 1,
+   "seed_base": 7005500,
+   "seconds": 65.60196216776967,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 1,
+   "r": 0,
+   "seed_base": 7100000,
+   "seconds": 0.34360456466674805,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 1,
+   "r": 1,
+   "seed_base": 7100500,
+   "seconds": 0.3461238853633404,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 4,
+   "r": 0,
+   "seed_base": 7101000,
+   "seconds": 0.5635498445481062,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 4,
+   "r": 1,
+   "seed_base": 7101500,
+   "seconds": 0.5515619441866875,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 16,
+   "r": 0,
+   "seed_base": 7102000,
+   "seconds": 1.5042037945240736,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 16,
+   "r": 1,
+   "seed_base": 7102500,
+   "seconds": 1.5066034868359566,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 64,
+   "r": 0,
+   "seed_base": 7103000,
+   "seconds": 5.999241249635816,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 64,
+   "r": 1,
+   "seed_base": 7103500,
+   "seconds": 6.009573932737112,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 256,
+   "r": 0,
+   "seed_base": 7104000,
+   "seconds": 24.031246358528733,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 256,
+   "r": 1,
+   "seed_base": 7104500,
+   "seconds": 24.02798335067928,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 1024,
+   "r": 0,
+   "seed_base": 7105000,
+   "seconds": 96.02794637903571,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "top",
+   "spp": 1024,
+   "r": 1,
+   "seed_base": 7105500,
+   "seconds": 96.01312383078039,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 1,
+   "r": 0,
+   "seed_base": 7100000,
+   "seconds": 0.25774058140814304,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 1,
+   "r": 1,
+   "seed_base": 7100500,
+   "seconds": 0.2575010973960161,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 4,
+   "r": 0,
+   "seed_base": 7101000,
+   "seconds": 0.5769863538444042,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 4,
+   "r": 1,
+   "seed_base": 7101500,
+   "seconds": 0.5766527689993382,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 16,
+   "r": 0,
+   "seed_base": 7102000,
+   "seconds": 1.9254440236836672,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 16,
+   "r": 1,
+   "seed_base": 7102500,
+   "seconds": 1.927947361022234,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 64,
+   "r": 0,
+   "seed_base": 7103000,
+   "seconds": 7.714581113308668,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 64,
+   "r": 1,
+   "seed_base": 7103500,
+   "seconds": 7.706926370039582,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 256,
+   "r": 0,
+   "seed_base": 7104000,
+   "seconds": 30.82342933677137,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 256,
+   "r": 1,
+   "seed_base": 7104500,
+   "seconds": 30.819391595199704,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 1024,
+   "r": 0,
+   "seed_base": 7105000,
+   "seconds": 123.30490223132074,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underup",
+   "spp": 1024,
+   "r": 1,
+   "seed_base": 7105500,
+   "seconds": 123.2477671019733,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 1,
+   "r": 0,
+   "seed_base": 7100000,
+   "seconds": 0.21881508827209473,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 1,
+   "r": 1,
+   "seed_base": 7100500,
+   "seconds": 0.21871799789369106,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 4,
+   "r": 0,
+   "seed_base": 7101000,
+   "seconds": 0.492707883939147,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 4,
+   "r": 1,
+   "seed_base": 7101500,
+   "seconds": 0.4930353406816721,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 16,
+   "r": 0,
+   "seed_base": 7102000,
+   "seconds": 1.648409752175212,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 64,
+   "r": 0,
+   "seed_base": 7103000,
+   "seconds": 6.604769039899111,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 64,
+   "r": 1,
+   "seed_base": 7103500,
+   "seconds": 6.599831886589527,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 256,
+   "r": 0,
+   "seed_base": 7104000,
+   "seconds": 26.390853183344007,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 256,
+   "r": 1,
+   "seed_base": 7104500,
+   "seconds": 26.380485773086548,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 1,
+   "r": 0,
+   "seed_base": 7100000,
+   "seconds": 0.3182537741959095,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 1,
+   "r": 1,
+   "seed_base": 7100500,
+   "seconds": 0.31841856986284256,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 4,
+   "r": 0,
+   "seed_base": 7101000,
+   "seconds": 0.43363030813634396,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 4,
+   "r": 1,
+   "seed_base": 7101500,
+   "seconds": 0.43276103399693966,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 16,
+   "r": 0,
+   "seed_base": 7102000,
+   "seconds": 0.9750547297298908,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 16,
+   "r": 1,
+   "seed_base": 7102500,
+   "seconds": 0.9795643165707588,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 64,
+   "r": 0,
+   "seed_base": 7103000,
+   "seconds": 3.909197488799691,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 64,
+   "r": 1,
+   "seed_base": 7103500,
+   "seconds": 3.910773880779743,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 256,
+   "r": 0,
+   "seed_base": 7104000,
+   "seconds": 15.620859840884805,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 256,
+   "r": 1,
+   "seed_base": 7104500,
+   "seconds": 15.583352478221059,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 1024,
+   "r": 0,
+   "seed_base": 7105000,
+   "seconds": 62.24781287461519,
+   "orient": "ud",
+   "finite": true
+  },
+  {
+   "state": "T1",
+   "cam": "otop",
+   "spp": 1024,
+   "r": 1,
+   "seed_base": 7105500,
+   "seconds": 62.190398279577494,
+   "orient": "ud",
+   "finite": true
+  }
+ ],
+ "failures": [
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 64,
+   "r": 1,
+   "error": "RuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous",
+   "tb": ".sample_xo(channel_,sample2_1.torch()[mask],cond_)\n  File \"/home/nd/rest_xbench69/8dna_work/models/eight_dna.py\", line 105, in sample_xo\n    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)\n  File \"/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py\", line 115, in decorate_context\n    return func(*args, **kwargs)\n  File \"/home/nd/rest_xbench69/8dna_work/models/normflow.py\", line 88, in sample\n    z,pdf_z = cuvrqs_sample(channel,params_z,inputs[...,0])\n  File \"/home/nd/rest_xbench69/8dna_work/models/cu_ext/__init__.py\", line 151, in cuvrqs_sample\n    params = params.reshape(B,3,-1)\nRuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous\n"
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 1024,
+   "r": 0,
+   "error": "RuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous",
+   "tb": ".sample_xo(channel_,sample2_1.torch()[mask],cond_)\n  File \"/home/nd/rest_xbench69/8dna_work/models/eight_dna.py\", line 105, in sample_xo\n    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)\n  File \"/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py\", line 115, in decorate_context\n    return func(*args, **kwargs)\n  File \"/home/nd/rest_xbench69/8dna_work/models/normflow.py\", line 88, in sample\n    z,pdf_z = cuvrqs_sample(channel,params_z,inputs[...,0])\n  File \"/home/nd/rest_xbench69/8dna_work/models/cu_ext/__init__.py\", line 151, in cuvrqs_sample\n    params = params.reshape(B,3,-1)\nRuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous\n"
+  },
+  {
+   "state": "T0",
+   "cam": "underup",
+   "spp": 1024,
+   "r": 1,
+   "error": "RuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous",
+   "tb": ".sample_xo(channel_,sample2_1.torch()[mask],cond_)\n  File \"/home/nd/rest_xbench69/8dna_work/models/eight_dna.py\", line 105, in sample_xo\n    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)\n  File \"/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py\", line 115, in decorate_context\n    return func(*args, **kwargs)\n  File \"/home/nd/rest_xbench69/8dna_work/models/normflow.py\", line 88, in sample\n    z,pdf_z = cuvrqs_sample(channel,params_z,inputs[...,0])\n  File \"/home/nd/rest_xbench69/8dna_work/models/cu_ext/__init__.py\", line 151, in cuvrqs_sample\n    params = params.reshape(B,3,-1)\nRuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous\n"
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 256,
+   "r": 0,
+   "error": "RuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous",
+   "tb": ".sample_xo(channel_,sample2_1.torch()[mask],cond_)\n  File \"/home/nd/rest_xbench69/8dna_work/models/eight_dna.py\", line 105, in sample_xo\n    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)\n  File \"/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py\", line 115, in decorate_context\n    return func(*args, **kwargs)\n  File \"/home/nd/rest_xbench69/8dna_work/models/normflow.py\", line 88, in sample\n    z,pdf_z = cuvrqs_sample(channel,params_z,inputs[...,0])\n  File \"/home/nd/rest_xbench69/8dna_work/models/cu_ext/__init__.py\", line 151, in cuvrqs_sample\n    params = params.reshape(B,3,-1)\nRuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous\n"
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 1024,
+   "r": 0,
+   "error": "RuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous",
+   "tb": ".sample_xo(channel_,sample2_1.torch()[mask],cond_)\n  File \"/home/nd/rest_xbench69/8dna_work/models/eight_dna.py\", line 105, in sample_xo\n    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)\n  File \"/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py\", line 115, in decorate_context\n    return func(*args, **kwargs)\n  File \"/home/nd/rest_xbench69/8dna_work/models/normflow.py\", line 88, in sample\n    z,pdf_z = cuvrqs_sample(channel,params_z,inputs[...,0])\n  File \"/home/nd/rest_xbench69/8dna_work/models/cu_ext/__init__.py\", line 151, in cuvrqs_sample\n    params = params.reshape(B,3,-1)\nRuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous\n"
+  },
+  {
+   "state": "T0",
+   "cam": "underdown",
+   "spp": 1024,
+   "r": 1,
+   "error": "RuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous",
+   "tb": ".sample_xo(channel_,sample2_1.torch()[mask],cond_)\n  File \"/home/nd/rest_xbench69/8dna_work/models/eight_dna.py\", line 105, in sample_xo\n    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)\n  File \"/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py\", line 115, in decorate_context\n    return func(*args, **kwargs)\n  File \"/home/nd/rest_xbench69/8dna_work/models/normflow.py\", line 88, in sample\n    z,pdf_z = cuvrqs_sample(channel,params_z,inputs[...,0])\n  File \"/home/nd/rest_xbench69/8dna_work/models/cu_ext/__init__.py\", line 151, in cuvrqs_sample\n    params = params.reshape(B,3,-1)\nRuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous\n"
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 16,
+   "r": 1,
+   "error": "RuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous",
+   "tb": ".sample_xo(channel_,sample2_1.torch()[mask],cond_)\n  File \"/home/nd/rest_xbench69/8dna_work/models/eight_dna.py\", line 105, in sample_xo\n    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)\n  File \"/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py\", line 115, in decorate_context\n    return func(*args, **kwargs)\n  File \"/home/nd/rest_xbench69/8dna_work/models/normflow.py\", line 88, in sample\n    z,pdf_z = cuvrqs_sample(channel,params_z,inputs[...,0])\n  File \"/home/nd/rest_xbench69/8dna_work/models/cu_ext/__init__.py\", line 151, in cuvrqs_sample\n    params = params.reshape(B,3,-1)\nRuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous\n"
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 1024,
+   "r": 0,
+   "error": "RuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous",
+   "tb": ".sample_xo(channel_,sample2_1.torch()[mask],cond_)\n  File \"/home/nd/rest_xbench69/8dna_work/models/eight_dna.py\", line 105, in sample_xo\n    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)\n  File \"/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py\", line 115, in decorate_context\n    return func(*args, **kwargs)\n  File \"/home/nd/rest_xbench69/8dna_work/models/normflow.py\", line 88, in sample\n    z,pdf_z = cuvrqs_sample(channel,params_z,inputs[...,0])\n  File \"/home/nd/rest_xbench69/8dna_work/models/cu_ext/__init__.py\", line 151, in cuvrqs_sample\n    params = params.reshape(B,3,-1)\nRuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous\n"
+  },
+  {
+   "state": "T1",
+   "cam": "underdown",
+   "spp": 1024,
+   "r": 1,
+   "error": "RuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous",
+   "tb": ".sample_xo(channel_,sample2_1.torch()[mask],cond_)\n  File \"/home/nd/rest_xbench69/8dna_work/models/eight_dna.py\", line 105, in sample_xo\n    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)\n  File \"/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py\", line 115, in decorate_context\n    return func(*args, **kwargs)\n  File \"/home/nd/rest_xbench69/8dna_work/models/normflow.py\", line 88, in sample\n    z,pdf_z = cuvrqs_sample(channel,params_z,inputs[...,0])\n  File \"/home/nd/rest_xbench69/8dna_work/models/cu_ext/__init__.py\", line 151, in cuvrqs_sample\n    params = params.reshape(B,3,-1)\nRuntimeError: cannot reshape tensor of 0 elements into shape [0, 3, -1] because the unspecified dimension size -1 can be any value and is ambiguous\n"
+  }
+ ],
+ "t_load_model_T0_s": 0.887216730043292,
+ "t_scene_load_T0_s": 0.9482538886368275,
+ "t_load_model_T1_s": 0.0306173637509346,
+ "t_scene_load_T1_s": 0.9345669932663441,
+ "peak_gpu_gb": 4.998775296
+}

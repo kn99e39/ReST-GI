@@ -1,8 +1,9 @@
 """WL69 reviewer figures (report-only; reads analysis.json and the stored images/timings, computes no new metric).
 
 01_quality_vs_latency.png  T1 (edited state) max |group bias| over the ruled cameras vs edit-to-output latency of those views.
-02_underup_T1.png          underup view of T1 (slab underside at 4 mm clearance): reference, CY, D8 and absolute-error maps on one
-                           shared sqrt scale (max error over every panel of the figure; real radiance units on the colour bar).
+02_underup_T1.png          underup view of T1 (slab underside at 4 mm clearance): reference, CY (QM_contract and QM vs RG_CAK), D8;
+                           row 2 per-pixel |error| on one shared sqrt scale (max over the figure; radiance units); row 3 blue-channel
+                           signed error of 8x8-pixel block means (noise-reduced bias view) on one shared symmetric scale (radiance units).
 
     cd <repo>/experiments/fnto_k55 && python ../xbench69/x_figures.py <root> <out_dir>
 """
@@ -57,25 +58,32 @@ def main():
     # images
     ref = np.mean([np.load(f)[..., :3] for f in sorted(CYC.glob("cimg_floor_c4_underup_s*.npy"))], 0)
     panels = [("Reference (Cycles 2x1024 spp)", ref)]
-    qm = A.get("QM", {}).get("CY", {}).get("contract")
-    if qm:
-        f = sorted((root / "cy" / f"spp{qm}").glob("cimg_floor_c4_underup_s*.npy"))[0]; panels.append((f"Full Recompute {qm} spp", np.load(f)[..., :3]))
+    for lab, qm in (("QM contract", A.get("QM", {}).get("CY", {}).get("contract")), ("QM vs CAK", A.get("QM", {}).get("CY", {}).get("RG_CAK"))):
+        if qm:
+            f = sorted((root / "cy" / f"spp{qm}").glob("cimg_floor_c4_underup_s*.npy"))[0]; panels.append((f"Full Recompute {qm} spp ({lab})", np.load(f)[..., :3]))
     for tag in ("s0", "s1"):
         f = root / "d8" / f"d8_{tag}_T1_underup_spp1024_r0.npy"
         if f.exists():
             panels.append((f"8DNA {tag} 1024 spp", np.load(f)))
     errs = [np.abs(p - ref).mean(-1) for _, p in panels[1:]]; emax = max(float(e.max()) for e in errs) if errs else 1.0
     vmax = float(np.percentile(ref, 99.5))
-    fig, axs = plt.subplots(2, len(panels), figsize=(3.0 * len(panels), 6.2), squeeze=False)
+    def blk(x, b=8):
+        H, W = (x.shape[0] // b) * b, (x.shape[1] // b) * b
+        return x[:H, :W].reshape(H // b, b, W // b, b).mean((1, 3))
+    rb = blk(ref[..., 2]); sgn = [blk(p[..., 2]) - rb for _, p in panels[1:]]; smax = max(float(np.abs(e).max()) for e in sgn) if sgn else 1.0
+    fig, axs = plt.subplots(3, len(panels), figsize=(3.0 * len(panels), 9.2), squeeze=False)
     for j, (t, p) in enumerate(panels):
         axs[0, j].imshow(np.clip(p / vmax, 0, 1) ** (1 / 2.2), origin="lower"); axs[0, j].set_title(t, fontsize=8); axs[0, j].axis("off")
         if j == 0:
-            axs[1, j].axis("off"); continue
+            axs[1, j].axis("off"); axs[2, j].axis("off"); continue
+        im2 = axs[2, j].imshow(sgn[j - 1], origin="lower", cmap="RdBu_r", vmin=-smax, vmax=smax); axs[2, j].axis("off")
+        axs[2, j].set_title(f"blue 8x8 signed, mean {sgn[j - 1][rb > 0.05 * rb.max()].mean():+.4f}", fontsize=8)
         im = axs[1, j].imshow(np.sqrt(errs[j - 1]), origin="lower", cmap="magma", vmin=0, vmax=np.sqrt(emax)); axs[1, j].axis("off")
         axs[1, j].set_title(f"|error| mean {errs[j - 1].mean():.4f}", fontsize=8)
     if errs:
         cb = fig.colorbar(im, ax=axs[1, 1:].tolist(), shrink=0.8); tk = np.linspace(0, np.sqrt(emax), 5); cb.set_ticks(tk); cb.set_ticklabels([f"{x * x:.3g}" for x in tk])
         cb.set_label("|error| (radiance, sqrt scale)", fontsize=8)
+        cb2 = fig.colorbar(im2, ax=axs[2, 1:].tolist(), shrink=0.8); cb2.set_label("blue signed error (radiance)", fontsize=8)
     fig.suptitle("T1 underup (slab underside, 4 mm clearance)", fontsize=10); fig.savefig(out / "02_underup_T1.png", dpi=140); plt.close(fig)
 
 
