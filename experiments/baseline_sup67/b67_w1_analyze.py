@@ -202,7 +202,7 @@ def main():
     json.dump(A_(res), open(OUT / 'w1_analysis.json', 'w'), indent=1, default=lambda o: o.tolist() if hasattr(o, 'tolist') else str(o))
     with open(OUT / 'w1_dent_quality.csv', 'w') as f:
         f.write('arm,realization,M1_passed,ruled,M2_max_abs_bias,M3_R,M3_G,M3_B\n')
-        for k, v in list(res['cycles'].items()) + [(k + '|' + r, v[r]) for k, vv in res['fnto'].items() for r, v in vv.items()]:
+        for k, v in list(res['cycles'].items()) + [(k + '|' + r, v) for k, vv in res['fnto'].items() for r, v in vv.items()]:
             if not k.startswith('dent'): continue
             f.write(','.join([k, '', str(v['M1_passed']), str(v['ruled']), f"{v['M2_max_abs_bias']:.6f}"] + [f'{x:.6f}' for x in v['M3_rel_L2_max_per_channel']]) + '\n')
     print(json.dumps(A_(dict(quality_matching=qm, wl56_repro=res['wl56_reproduction_max_abs_bias_diff'])), indent=1, default=str))
