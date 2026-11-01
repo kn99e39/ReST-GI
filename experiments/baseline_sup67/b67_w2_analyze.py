@@ -30,7 +30,7 @@ def main():
     import cross_backbone_eval as CB
     from teaset_frozen_eval import load_rois
     inp, pt, out = (Path(a) for a in sys.argv[1:4]); out.mkdir(parents=True, exist_ok=True)
-    L.init_upstream()
+    sys.path.insert(0, str(HERE)); import b67_w2_pt; b67_w2_pt.init_mitsuba()
     states = ('T0', 'T3')
     gt = {s: (exr(inp / f'frozen/{s}/gt_A.exr'), exr(inp / f'frozen/{s}/gt_B.exr')) for s in states}
     rois = load_rois(inp / 'gt_design', states)

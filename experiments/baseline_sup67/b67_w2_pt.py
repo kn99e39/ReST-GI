@@ -5,6 +5,7 @@ python b67_w2_pt.py <out> eightdna   # released 8DNA, WL22 'attached' contract, 
 Scene, lighting, integrator and chunked rendering are the unchanged WL22 code (ednalib, teaset_parts); seeds are disjoint from GT.
 """
 import json
+import os
 import sys
 import time
 from pathlib import Path
@@ -19,6 +20,21 @@ import teaset_parts as T  # noqa: E402
 PROTO22 = HERE.parent / '8dna_deformation_replication/protocol/teaset_cross_backbone_locked.json'
 LADDER = (1, 4, 16, 64, 256, 1024)
 STATES = ('T0', 'T3')
+
+
+def init_mitsuba():
+    """ednalib.init_upstream() minus its `import models.integrator` (registers only the 8DNA neural integrators, whose CUDA
+    extension cannot be JIT-built on LabServer69: host GCC 8.4 < the GCC 9 torch requires). Same chdir / sys.path, variant
+    cuda_ad_rgb, LoopRecord off, VCallRecord on; the path integrator and teaset scene need nothing else (WL67 pre-evidence correction)."""
+    if L._mi is not None:
+        return L._mi, L._dr
+    os.chdir(L.UPSTREAM); sys.path.insert(0, str(L.UPSTREAM))
+    import mitsuba as mi
+    mi.set_variant('cuda_ad_rgb')
+    import drjit as dr
+    dr.set_flag(dr.JitFlag.LoopRecord, False); dr.set_flag(dr.JitFlag.VCallRecord, True)
+    L._mi, L._dr = mi, dr
+    return mi, dr
 
 
 def seed_of(state, li, r):
@@ -62,6 +78,14 @@ def ladder(out, mi, proto):
 
 
 def eightdna(out, mi, proto):
+    # Protocol W2_arms.neural.inference_reexecution: run only if the inherited code runs unchanged; otherwise record why.
+    try:
+        import models.integrator  # noqa: F401  (ednalib.init_upstream's neural-integrator registration)
+    except Exception as e:  # noqa: BLE001
+        import traceback
+        rec = dict(kind='8dna_blocked', reason=f'{type(e).__name__}: {e}', traceback=traceback.format_exc()[-1500:],
+                   fallback='WL27 inference timing inherited (RTX 5080), per protocol')
+        json.dump(rec, open(out / '8dna_blocked.json', 'w'), indent=1); log(out, rec); return
     ck = L.sha256(L.checkpoint_path(proto['asset']))
     assert ck == proto['checkpoint_sha256'], 'released 8DNA checkpoint differs from the WL22 locked protocol'
     nr = proto['neural']; scene0, _ = load(mi, proto, 'T0'); bbox0 = scene0.shapes()[0].bbox()
@@ -82,7 +106,7 @@ def eightdna(out, mi, proto):
 if __name__ == '__main__':
     out = Path(sys.argv[1]); out.mkdir(parents=True, exist_ok=True)
     proto = json.loads(PROTO22.read_text(encoding='utf-8'))
-    mi, dr = L.init_upstream()
+    mi, dr = init_mitsuba()
     log(out, dict(kind='env', mode=sys.argv[2], environment=L.environment_record(), peers_at_start=gpu_peers()))
     {'ladder': ladder, 'eightdna': eightdna}[sys.argv[2]](out, mi, proto)
     sys.stdout.flush(); __import__('os')._exit(0)

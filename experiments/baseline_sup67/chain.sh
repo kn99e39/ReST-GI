@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # WL67 server chain (protocol baseline_sup67_v1). Launch detached: setsid nohup bash chain.sh > $R/launcher/chain.log 2>&1 < /dev/null &
 # Every timed GPU stage first waits for an idle GPU (no compute process for two checks 60 s apart) and records peers before/after.
-set -euo pipefail
+set -Eeuo pipefail
 R=$HOME/rest_bsup67
 REPO=$R/repo
 EXP=$REPO/experiments/baseline_sup67
@@ -9,10 +9,10 @@ PY=$HOME/NeuralShaderDemo/external/8dna26/.venv/bin/python
 BL=$HOME/rest_wl55/blender-3.5.1-linux-x64/blender
 STATUS=$R/launcher/chain.status
 mkdir -p "$R/launcher" "$R/tmp" "$R/out"
-trap 'echo "failed $(cat $R/launcher/stage 2>/dev/null)" > "$STATUS"' ERR
 echo running > "$STATUS"
 export TMPDIR=$R/tmp P53_TMPDIR=$R/tmp PYTHONUNBUFFERED=1 P53_MI_VARIANT=cuda_ad_rgb
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True DRJIT_LIBLLVM_PATH=/usr/lib64/libLLVM-11.so
+export PATH=$HOME/NeuralShaderDemo/external/8dna26/.venv/bin:$PATH
 export B67_ROOT=$R B67_W2IN=$R/w2in WL56=$R/w1oracle
 
 peers() { nvidia-smi --query-compute-apps=pid,process_name,used_memory --format=csv,noheader; }
