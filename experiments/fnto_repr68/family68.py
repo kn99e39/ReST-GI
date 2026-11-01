@@ -59,13 +59,22 @@ class Target:
         self.S={'native':S,'fine16':aggregate(S,'fine16',parent,bm),'coarse':aggregate(S,'coarse',parent,bm)}
         self.HZ=torch.einsum('ab,nbqoc->naqoc',Hm,self.S['coarse']/d[:,:,None,None,None])
         self.den={s:v.square().sum((1,2,3)) for s,v in self.S.items()};self.den['con']=self.HZ.square().sum((1,2,3))
+        # Channel-major copies (C, n*a*j, o) for so_contract (execution amendment 2; same values, layout only).
+        self.Sc={s:self.S[s].permute(4,0,1,2,3).reshape(S.shape[-1],-1,self.S[s].shape[-2]).contiguous() for s in ('native','fine16')}
 
-def sq_error(T,d,A,O,S,den):
+def so_contract(S,O,Sc=None):
+    """X[n,a,j,r,c] = sum_o S[n,a,j,o,c] O[r,o,c]. Given Sc (S laid out channel-major) the O-gradient is a wide GEMM
+    instead of a ~245k-long cuBLAS reduction (amendment 2: same contraction, float32 round-off only)."""
+    if Sc is None:return torch.einsum('najoc,roc->najrc',S,O)
+    n,a,j=S.shape[:3]
+    return torch.bmm(O.permute(2,0,1),Sc.transpose(1,2)).view(S.shape[-1],O.shape[0],n,a,j).permute(2,3,4,1,0)
+
+def sq_error(T,d,A,O,S,den,Sc=None):
     """|S_hat - S|^2 per (source, channel) without materialising S_hat (exact algebraic identity):
     |S_hat|^2 = sum_a d^2 sum_rs A_ra A_sa (T'T)_rs (OO')_rs ; <S_hat,S> = sum_a d sum_r A_ra sum_j T_jr (S O')_ajr."""
     GT=torch.einsum('njrc,njsc->nrsc',T,T);GO=torch.einsum('roc,soc->rsc',O,O)
     hh=torch.einsum('na,rac,sac,nrsc,rsc->nc',d*d,A,A,GT,GO)
-    hs=torch.einsum('na,rac,njrc,najrc->nc',d,A,T,torch.einsum('najoc,roc->najrc',S,O))
+    hs=torch.einsum('na,rac,njrc,najrc->nc',d,A,T,so_contract(S,O,Sc))
     return hh-2*hs+den
 
 def objective(T,A,O,tg,parts=False):
@@ -73,8 +82,8 @@ def objective(T,A,O,tg,parts=False):
     [mean over spaces of |S_hat-S|^2/|S|^2 (native, fine16, coarse)] + |H(Z_hat-Z)|^2/|HZ|^2 (coarse contrast)."""
     out={}
     O16=torch.zeros(O.shape[0],NB,C,device=O.device,dtype=O.dtype).index_add(1,tg.bm,O)
-    out['native']=sq_error(T,tg.d,A,O,tg.S['native'],tg.den['native'])/tg.den['native']
-    out['fine16']=sq_error(T,tg.d,A,O16,tg.S['fine16'],tg.den['fine16'])/tg.den['fine16']
+    out['native']=sq_error(T,tg.d,A,O,tg.S['native'],tg.den['native'],tg.Sc['native'])/tg.den['native']
+    out['fine16']=sq_error(T,tg.d,A,O16,tg.S['fine16'],tg.den['fine16'],tg.Sc['fine16'])/tg.den['fine16']
     for s in ('coarse',):
         out[s]=(predict(T,tg.d,A,O,s,tg.parent,tg.bm)-tg.S[s]).square().sum((1,2,3))/tg.den[s]
     zc=predict(T,tg.d,A,O,'coarse',tg.parent,tg.bm)/tg.d[:,:,None,None,None]

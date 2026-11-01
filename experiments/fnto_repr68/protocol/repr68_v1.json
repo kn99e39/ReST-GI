@@ -565,6 +565,15 @@
       "reason": "CUDA OOM on LabServer63 (12 GB): 32M-chunk packets reached 10.9-11.0 GB peak allocation at slot 4 (preflight measured 9.48 GB at slot 0 only); no foreign GPU process",
       "change": "execution only: 1 worker x 16M action chunk (heldout/execution_amendment.json). Estimator, seeds, K=8, packet photons, populations and every rule unchanged; the chunk only partitions photons into independent batches. The 73 completed 32M-chunk packets passed every gate and are kept; each packet records its chunk.",
       "not_used": "the measured 2 x 16M configuration (worker peaks 4.8 GB each) is not used because two workers would approach the 12 GB limit under the same tail growth"
+    },
+    {
+      "id": 2,
+      "date": "2026-11-02",
+      "requested_by": "user (separate instruction during execution: analyse and fix the low GPU utilisation of the fits)",
+      "stage": "fitting, after net_A/net_O/net_AO/net_net x 2 seeds completed and while net_all_5901 ran (both on the original code); before any evaluation or analysis",
+      "reason": "profiling (non-evidence root on idle LabServer69): in the A/O-trainable runs the O-gradient of the S x_o O contraction inside sq_error ran as a ~245k-long cuBLAS reduction (2 x 12.7 ms per call) plus layout copies, ~60 % of a step; the net-group runs are CPU kernel-launch bound (1287 kernels/step)",
+      "change": "execution only: Target keeps channel-major copies of the native/fine16 targets and so_contract computes the identical contraction as a wide batched GEMM (family68.py). Objective, data, optimizer, steps, schedules, inits, runs, rules unchanged. Measured before deployment: J bitwise equal; gradient vs float64 reference 5.7e-7 / 6.5e-7 (original 5.3e-7 / 6.7e-7), new vs original 4e-7; 1000-step trajectories differ less than two repeated runs of the original code (CUDA index_add is nondeterministic); tests 10/10.",
+      "applies_to": "every fit stage started after deployment (net_all_5902 onward, coef, teachers; the convex floors do not call sq_error and are unaffected); earlier runs keep the original code. Per-run seconds are therefore not comparable across this boundary and are labelled by implementation."
     }
   ]
 }
