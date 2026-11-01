@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/home/nd/rest_bsup67/repo/experiments/baseline_sup67/b67_w1_analyze.py", line 212, in <module>
+    main(); sys.stdout.flush(); os._exit(0)
+  File "/home/nd/rest_bsup67/repo/experiments/baseline_sup67/b67_w1_analyze.py", line 205, in main
+    for k, v in list(res['cycles'].items()) + [(k + '|' + r, v[r]) for k, vv in res['fnto'].items() for r, v in vv.items()]:
+  File "/home/nd/rest_bsup67/repo/experiments/baseline_sup67/b67_w1_analyze.py", line 205, in <listcomp>
+    for k, v in list(res['cycles'].items()) + [(k + '|' + r, v[r]) for k, vv in res['fnto'].items() for r, v in vv.items()]:
+KeyError: 'r0'
+repo/experiments/baseline_sup67/chain.sh: line 54: 2032220 Terminated              ( while true; do
+    for p in $(nvidia-smi --query-compute-apps=pid --format=csv,noheader);
+    do
+        echo "$(date -Is) $p $(readlink /proc/$p/cwd 2>/dev/null) $(tr '\0' ' ' < /proc/$p/cmdline 2>/dev/null | head -c 200)";
+    done >> "$R/launcher/gpu_samples.log"; echo "$(date -Is) tick $(cat $R/launcher/stage 2>/dev/null)" >> "$R/launcher/gpu_samples.log"; sleep 15;
+done )

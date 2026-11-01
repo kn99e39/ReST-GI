@@ -1,0 +1,129 @@
+{
+ "protocol": "baseline_sup67_v1",
+ "gap_aperture": [
+  {
+   "face": "lower:top",
+   "n_ports": 100,
+   "e_max_deg": {
+    "min": 10.08059798754232,
+    "median": 28.07248693585296,
+    "max": 57.99461679191651
+   },
+   "angular_gap_to_face_on_query_deg": {
+    "min": 32.00538320808349,
+    "median": 61.927513064147035,
+    "max": 79.91940201245768
+   },
+   "fraction_ports_within_30deg_of_query": 0.0
+  },
+  {
+   "face": "upper:bot",
+   "n_ports": 100,
+   "e_max_deg": {
+    "min": 10.08059798754232,
+    "median": 28.07248693585296,
+    "max": 57.99461679191651
+   },
+   "angular_gap_to_face_on_query_deg": {
+    "min": 32.00538320808349,
+    "median": 61.927513064147035,
+    "max": 79.91940201245768
+   },
+   "fraction_ports_within_30deg_of_query": 0.0
+  }
+ ],
+ "bottom_face": "lower:bot faces -z at z = -14 mm. RNA native hemisphere cameras have z >= look-at z (create_random_camera 'hemisphere': z in [0, 0.9999) x radius + target); with the look-at at the asset (all shipped configs use [0,0,0] or near it) no training view lies below the face plane, so the bot face-on query (-z) is never supervised.",
+ "rna_native_generator": [
+  {
+   "needle": "elif mode == \"hemisphere\":",
+   "file": "training_dataset/blender_render_dataset.py",
+   "lines": [
+    [
+     117,
+     "elif mode == \"hemisphere\":"
+    ]
+   ]
+  },
+  {
+   "needle": "z = np.random.random() * 0.9999",
+   "file": "training_dataset/blender_render_dataset.py",
+   "lines": [
+    [
+     118,
+     "z = np.random.random() * 0.9999"
+    ]
+   ]
+  },
+  {
+   "needle": "mode=\"hemisphere\", center=[0.5, -0.5, 0.5], radius=camera_radius",
+   "file": "training_dataset/blender_render_dataset.py",
+   "lines": [
+    [
+     258,
+     "mode=\"hemisphere\", center=[0.5, -0.5, 0.5], radius=camera_radius"
+    ]
+   ]
+  },
+  {
+   "needle": "blu.add_sun_light(light_energy, light_radius)",
+   "file": "training_dataset/blender_render_dataset.py",
+   "lines": [
+    [
+     210,
+     "blu.add_sun_light(light_energy, light_radius)"
+    ]
+   ]
+  },
+  {
+   "needle": "scene.world.cycles.query_filename = query_file",
+   "file": "training_dataset/blender_render_dataset.py",
+   "lines": [
+    [
+     230,
+     "scene.world.cycles.query_filename = query_file"
+    ]
+   ]
+  },
+  {
+   "needle": "scene.cycles.max_bounces = 32",
+   "file": "training_dataset/blender_render_dataset.py",
+   "lines": [
+    [
+     232,
+     "scene.cycles.max_bounces = 32"
+    ]
+   ]
+  },
+  {
+   "needle": "scene.cycles.device = \"CPU\"  # GPU not supported",
+   "file": "training_dataset/blender_render_dataset.py",
+   "lines": [
+    [
+     234,
+     "scene.cycles.device = \"CPU\"  # GPU not supported"
+    ]
+   ]
+  },
+  {
+   "needle": "scene.cycles.sample_clamp_direct = (",
+   "file": "training_dataset/blender_render_dataset.py",
+   "lines": [
+    [
+     235,
+     "scene.cycles.sample_clamp_direct = ("
+    ]
+   ]
+  },
+  {
+   "needle": "self.h5file[\"position\"][i, ...] = pos_out",
+   "file": "training_dataset/blender_render_dataset.py",
+   "lines": [
+    [
+     292,
+     "self.h5file[\"position\"][i, ...] = pos_out"
+    ]
+   ]
+  }
+ ],
+ "not_executed": "Transparent-BSDF boundary G-buffer (Cycles writes data passes only above pass_alpha_threshold): code-level concern only, not executed in WL67 and not used for any verdict."
+}

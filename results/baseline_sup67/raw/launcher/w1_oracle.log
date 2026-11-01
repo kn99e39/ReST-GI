@@ -1,0 +1,30 @@
+02:33:58 dent/d0/5561 cells 1953/61440 5s steps 489
+02:34:54 dent/d0/5561 cells 21483/61440 60s steps 632
+02:35:52 dent/d0/5561 cells 41013/61440 118s steps 704
+02:36:47 dent/d0/5561 cells 60543/61440 174s steps 704
+02:37:04 dent/d1/5565 cells 1953/61440 5s steps 500
+02:37:59 dent/d1/5565 cells 21483/61440 59s steps 637
+02:38:57 dent/d1/5565 cells 41013/61440 117s steps 839
+02:39:51 dent/d1/5565 cells 60543/61440 172s steps 839
+/home/nd/rest_bsup67/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+02:40:07 UPDATE dent_F_r0 371.8993859887123 {'boundary': 0.1409019287675619, 'CSR_and_transfer': 0.3160188291221857, 'C': 0.06758713908493519, 'illumination': 0.15119449980556965, 'K_direct': 0.04438980109989643, 'solve': 0.21453340351581573, 'readout': 0.1915467604994774, 'other_bookkeeping_and_state_transfer': 0.09875375032424927} True
+02:40:21 dent/d1/5565 cells 1953/61440 5s steps 500
+02:41:14 dent/d1/5565 cells 21483/61440 59s steps 637
+02:42:11 dent/d1/5565 cells 41013/61440 116s steps 839
+02:43:05 dent/d1/5565 cells 60543/61440 169s steps 839
+/home/nd/rest_bsup67/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+02:43:21 UPDATE dent_S_r0 189.80549857579172 {'boundary': 0.10970518738031387, 'CSR_and_transfer': 0.2967647761106491, 'C': 0.025923417881131172, 'illumination': 0.14616640657186508, 'K_direct': 0.008853038772940636, 'solve': 0.20118185691535473, 'readout': 0.18563773855566978, 'other_bookkeeping_and_state_transfer': 0.09915995225310326} True
+02:43:22 VERIFIED dent 0
+/home/nd/rest_bsup67/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+02:43:37 UPDATE dent_T_r0 11.804341638460755 {'boundary': 0.3509763218462467, 'CSR_and_transfer': 0.320224167779088, 'C': 0.10115635581314564, 'illumination': 0.15528855100274086, 'K_direct': 0.008850522339344025, 'solve': 0.20470934733748436, 'readout': 0.18773877434432507, 'other_bookkeeping_and_state_transfer': 0.10120376013219357} True
+/home/nd/rest_bsup67/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+02:43:50 UPDATE rest_S_r0 9.325494892895222 {'boundary': 0.38804815523326397, 'CSR_and_transfer': 0.31926519982516766, 'C': 0.09348072297871113, 'illumination': 0.15535898134112358, 'K_direct': 0.008854566141963005, 'solve': 0.20035847648978233, 'readout': 0.1870593447238207, 'other_bookkeeping_and_state_transfer': 0.0640601608902216} True
+/home/nd/rest_bsup67/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]
+02:44:03 UPDATE rigid_S_r0 9.190928561612964 {'boundary': 0.37590797431766987, 'CSR_and_transfer': 0.3202956113964319, 'C': 0.0999938864260912, 'illumination': 0.15646842122077942, 'K_direct': 0.009337080642580986, 'solve': 0.17762842029333115, 'readout': 0.18592225201427937, 'other_bookkeeping_and_state_transfer': 0.062017111107707024} True
+/home/nd/rest_bsup67/repo/experiments/fnto_k55/k55_ops.py:176: UserWarning: Sparse CSR tensor support is in beta state. If you miss a functionality in the sparse tensor support, please submit a feature request to https://github.com/pytorch/pytorch/issues. (Triggered internally at ../aten/src/ATen/SparseCsrTensorImpl.cpp:53.)
+  self.ch = [_Chan(torch.sparse_csr_tensor(crow, cols, val[k].contiguous(), shape)) for k in range(3)]

@@ -1,0 +1,6 @@
+repo/experiments/baseline_sup67/chain.sh: line 77: 2035082 Terminated              ( while true; do
+    for p in $(nvidia-smi --query-compute-apps=pid --format=csv,noheader);
+    do
+        echo "$(date -Is) $p $(readlink /proc/$p/cwd 2>/dev/null) $(tr '\0' ' ' < /proc/$p/cmdline 2>/dev/null | head -c 200)";
+    done >> "$R/launcher/gpu_samples.log"; echo "$(date -Is) tick $(cat $R/launcher/stage 2>/dev/null)" >> "$R/launcher/gpu_samples.log"; sleep 15;
+done )

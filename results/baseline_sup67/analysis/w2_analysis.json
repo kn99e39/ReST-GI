@@ -1,0 +1,555 @@
+{
+ "protocol": "baseline_sup67_v1",
+ "inherited": {
+  "hardware": "RTX 5080 16 GB (personal PC), WL27",
+  "rebuild_8dna_full_schedule_s": 6354,
+  "rebuild_8dna_first_rule_checkpoint_envmap_s": 2333,
+  "rebuild_8dna_common_light_first_rule_s": 3810,
+  "rebuild_rna_full_schedule_s": 11648,
+  "rna_target_rendering_s": 8450.9,
+  "infer_8dna_1spp_s": 0.159,
+  "infer_8dna_1024spp_s": 100.7,
+  "infer_rna_network_s": 3.04,
+  "infer_rna_inputs_s": 5.0,
+  "infer_rna_full_call_s": 6.8
+ },
+ "wl22_reproduction_abs_diff": {
+  "RNA_refit": 0.0,
+  "8DNA_refit": 0.0,
+  "RNA_refit_gain": 5.960464477539063e-08,
+  "8DNA_refit_gain": 5.960464477539063e-08
+ },
+ "scores": {
+  "RNA_frozen": {
+   "refit_T3_interaction_error": 0.12426209449768066,
+   "T0_model_error_same_surface": 0.08995186537504196,
+   "T0_model_error_roi": 0.08995186537504196,
+   "error_ratio": 1.3814287672588768,
+   "gain": 0.0023682706523686647,
+   "recovers": false,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.06897738575935364,
+    "linear_rmse": 0.2942328155040741,
+    "linear_relmse": 0.6452398896217346,
+    "display_mae": 0.05720159411430359,
+    "display_psnr_db": 17.677746994943572
+   }
+  },
+  "RNA_refit": {
+   "refit_T3_interaction_error": 0.10939919948577881,
+   "T0_model_error_same_surface": 0.08995186537504196,
+   "T0_model_error_roi": 0.08995186537504196,
+   "error_ratio": 1.2161971186439977,
+   "gain": 0.5588870048522949,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.0668439194560051,
+    "linear_rmse": 0.284041166305542,
+    "linear_relmse": 0.831258237361908,
+    "display_mae": 0.057383980602025986,
+    "display_psnr_db": 17.940494952522464
+   }
+  },
+  "8DNA_frozen_WL22": {
+   "refit_T3_interaction_error": 0.11439482122659683,
+   "T0_model_error_same_surface": 0.07175768166780472,
+   "T0_model_error_roi": 0.07175768166780472,
+   "error_ratio": 1.5941822334252191,
+   "gain": -0.0005469148745760322,
+   "recovers": false,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.043321285396814346,
+    "linear_rmse": 0.1784690022468567,
+    "linear_relmse": 0.2793208956718445,
+    "display_mae": 0.041572242975234985,
+    "display_psnr_db": 19.56117903680939
+   }
+  },
+  "8DNA_refit": {
+   "refit_T3_interaction_error": 0.10329509526491165,
+   "T0_model_error_same_surface": 0.08063451200723648,
+   "T0_model_error_roi": 0.08063451200723648,
+   "error_ratio": 1.281028342499816,
+   "gain": 0.5779862403869629,
+   "recovers": false,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.03808664157986641,
+    "linear_rmse": 0.14620116353034973,
+    "linear_relmse": 0.15539811551570892,
+    "display_mae": 0.037055354565382004,
+    "display_psnr_db": 21.390606573507323
+   }
+  },
+  "PT|1|r0": {
+   "refit_T3_interaction_error": 0.2670460641384125,
+   "T0_model_error_same_surface": 0.2436385303735733,
+   "T0_model_error_roi": 0.2436385303735733,
+   "error_ratio": 1.0960748438637689,
+   "gain": 1.1690099239349365,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.13238362967967987,
+    "linear_rmse": 0.6550692915916443,
+    "linear_relmse": 2.842118978500366,
+    "display_mae": 0.08700994402170181,
+    "display_psnr_db": 13.242366636542721
+   }
+  },
+  "PT|4|r0": {
+   "refit_T3_interaction_error": 0.19445887207984924,
+   "T0_model_error_same_surface": 0.17867431044578552,
+   "T0_model_error_roi": 0.17867431044578552,
+   "error_ratio": 1.088342647550629,
+   "gain": 0.9361392855644226,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.07844246178865433,
+    "linear_rmse": 0.3244992196559906,
+    "linear_relmse": 0.7365266680717468,
+    "display_mae": 0.06903859227895737,
+    "display_psnr_db": 15.167037592060575
+   }
+  },
+  "PT|16|r0": {
+   "refit_T3_interaction_error": 0.13049069046974182,
+   "T0_model_error_same_surface": 0.12158388644456863,
+   "T0_model_error_roi": 0.12158388644456863,
+   "error_ratio": 1.0732564510448832,
+   "gain": 0.9959531426429749,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.043333347886800766,
+    "linear_rmse": 0.1632923185825348,
+    "linear_relmse": 0.17955447733402252,
+    "display_mae": 0.046350765973329544,
+    "display_psnr_db": 18.649299315598128
+   }
+  },
+  "PT|64|r0": {
+   "refit_T3_interaction_error": 0.07730250060558319,
+   "T0_model_error_same_surface": 0.06976582854986191,
+   "T0_model_error_roi": 0.06976582854986191,
+   "error_ratio": 1.1080281308539868,
+   "gain": 0.9987103343009949,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.022666973993182182,
+    "linear_rmse": 0.0818512886762619,
+    "linear_relmse": 0.04571147635579109,
+    "display_mae": 0.02622566930949688,
+    "display_psnr_db": 23.4887060579944
+   }
+  },
+  "PT|256|r0": {
+   "refit_T3_interaction_error": 0.040600843727588654,
+   "T0_model_error_same_surface": 0.03595086932182312,
+   "T0_model_error_roi": 0.03595086932182312,
+   "error_ratio": 1.1293424747017975,
+   "gain": 1.0237147808074951,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.011457156389951706,
+    "linear_rmse": 0.040727339684963226,
+    "linear_relmse": 0.011571952141821384,
+    "display_mae": 0.01379550714045763,
+    "display_psnr_db": 29.134295820353092
+   }
+  },
+  "PT|1024|r0": {
+   "refit_T3_interaction_error": 0.020229678601026535,
+   "T0_model_error_same_surface": 0.0188796017318964,
+   "T0_model_error_roi": 0.0188796017318964,
+   "error_ratio": 1.0715098172250757,
+   "gain": 1.0042295455932617,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.005827844608575106,
+    "linear_rmse": 0.020495574921369553,
+    "linear_relmse": 0.002937629586085677,
+    "display_mae": 0.007370656821876764,
+    "display_psnr_db": 34.75309977766689
+   }
+  },
+  "PT|1|r1": {
+   "refit_T3_interaction_error": 0.26735296845436096,
+   "T0_model_error_same_surface": 0.24489183723926544,
+   "T0_model_error_roi": 0.24489183723926544,
+   "error_ratio": 1.0917185785704668,
+   "gain": 1.0944970846176147,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.13199041783809662,
+    "linear_rmse": 0.6550063490867615,
+    "linear_relmse": 3.3598175048828125,
+    "display_mae": 0.0870593786239624,
+    "display_psnr_db": 13.231472943851406
+   }
+  },
+  "PT|4|r1": {
+   "refit_T3_interaction_error": 0.19684012234210968,
+   "T0_model_error_same_surface": 0.1798822283744812,
+   "T0_model_error_roi": 0.1798822283744812,
+   "error_ratio": 1.094272203101272,
+   "gain": 1.0887961387634277,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.07852723449468613,
+    "linear_rmse": 0.3253585994243622,
+    "linear_relmse": 0.7221755981445312,
+    "display_mae": 0.06908784061670303,
+    "display_psnr_db": 15.165851847527714
+   }
+  },
+  "PT|16|r1": {
+   "refit_T3_interaction_error": 0.1314990073442459,
+   "T0_model_error_same_surface": 0.12217123806476593,
+   "T0_model_error_roi": 0.12217123806476593,
+   "error_ratio": 1.0763499611466252,
+   "gain": 0.9499825239181519,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.04331359267234802,
+    "linear_rmse": 0.16243204474449158,
+    "linear_relmse": 0.18179307878017426,
+    "display_mae": 0.046222373843193054,
+    "display_psnr_db": 18.682681141445343
+   }
+  },
+  "PT|64|r1": {
+   "refit_T3_interaction_error": 0.07604306191205978,
+   "T0_model_error_same_surface": 0.07061547785997391,
+   "T0_model_error_roi": 0.07061547785997391,
+   "error_ratio": 1.0768611105747727,
+   "gain": 0.9693039059638977,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.022514574229717255,
+    "linear_rmse": 0.08096891641616821,
+    "linear_relmse": 0.04597671702504158,
+    "display_mae": 0.02617950737476349,
+    "display_psnr_db": 23.499631978402252
+   }
+  },
+  "PT|256|r1": {
+   "refit_T3_interaction_error": 0.04086015373468399,
+   "T0_model_error_same_surface": 0.036095425486564636,
+   "T0_model_error_roi": 0.036095425486564636,
+   "error_ratio": 1.1320036592972944,
+   "gain": 0.993079423904419,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.01150667667388916,
+    "linear_rmse": 0.0409432128071785,
+    "linear_relmse": 0.011376687325537205,
+    "display_mae": 0.013789701275527477,
+    "display_psnr_db": 29.13276018897345
+   }
+  },
+  "PT|1024|r1": {
+   "refit_T3_interaction_error": 0.020338494330644608,
+   "T0_model_error_same_surface": 0.018899986520409584,
+   "T0_model_error_roi": 0.018899986520409584,
+   "error_ratio": 1.076111578634282,
+   "gain": 0.9976595044136047,
+   "recovers": true,
+   "T3_whole_image": {
+    "pixels": 262144,
+    "linear_mae": 0.005763467866927385,
+    "linear_rmse": 0.020471841096878052,
+    "linear_relmse": 0.0028654125053435564,
+    "display_mae": 0.007315546739846468,
+    "display_psnr_db": 34.814609601236064
+   }
+  }
+ },
+ "cross_machine_check": {
+  "display_mae_69_vs_gtmean": 0.010138244368135929,
+  "gt_A_vs_B": 0.005074965767562389,
+  "bound": 0.015693464929540154,
+  "roi_mean_ratio": 1.0000139474868774,
+  "passed": true
+ },
+ "quality_matching": {
+  "RNA_frozen": {
+   "arm_T3_roi_error": 0.12426209449768066,
+   "arm_gain": 0.0023682706523686647,
+   "arm_recovers": false,
+   "pt_matched_spp": 64,
+   "pt_update_seconds_T3": 0.516797136515379
+  },
+  "RNA_refit": {
+   "arm_T3_roi_error": 0.10939919948577881,
+   "arm_gain": 0.5588870048522949,
+   "arm_recovers": true,
+   "pt_matched_spp": 64,
+   "pt_update_seconds_T3": 0.516797136515379
+  },
+  "8DNA_frozen_WL22": {
+   "arm_T3_roi_error": 0.11439482122659683,
+   "arm_gain": -0.0005469148745760322,
+   "arm_recovers": false,
+   "pt_matched_spp": 64,
+   "pt_update_seconds_T3": 0.516797136515379
+  },
+  "8DNA_refit": {
+   "arm_T3_roi_error": 0.10329509526491165,
+   "arm_gain": 0.5779862403869629,
+   "arm_recovers": false,
+   "pt_matched_spp": 64,
+   "pt_update_seconds_T3": 0.516797136515379
+  }
+ },
+ "timing": {
+  "T0|1": {
+   "update": [
+    0.14769119955599308,
+    0.1337278075516224
+   ],
+   "load": [
+    0.0052864328026771545,
+    0.005061423406004906
+   ],
+   "render": [
+    0.14240476675331593,
+    0.12866638414561749
+   ],
+   "median": 0.14070950355380774,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 1488 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 1488 MiB"
+   ]
+  },
+  "T0|4": {
+   "update": [
+    0.152660908177495,
+    0.19483059644699097
+   ],
+   "load": [
+    0.004610899835824966,
+    0.0052646007388830185
+   ],
+   "render": [
+    0.14805000834167004,
+    0.18956599570810795
+   ],
+   "median": 0.17374575231224298,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 1488 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 1712 MiB"
+   ]
+  },
+  "T0|16": {
+   "update": [
+    0.20046956650912762,
+    0.2150879167020321
+   ],
+   "load": [
+    0.006892809644341469,
+    0.005329372361302376
+   ],
+   "render": [
+    0.19357675686478615,
+    0.2097585443407297
+   ],
+   "median": 0.20777874160557985,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 1712 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 2704 MiB"
+   ]
+  },
+  "T0|64": {
+   "update": [
+    0.5642772857099771,
+    0.5525016635656357
+   ],
+   "load": [
+    0.005078481510281563,
+    0.007662072777748108
+   ],
+   "render": [
+    0.5591988041996956,
+    0.5448395907878876
+   ],
+   "median": 0.5583894746378064,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 2704 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB"
+   ]
+  },
+  "T0|256": {
+   "update": [
+    1.9571659453213215,
+    2.1164015289396048
+   ],
+   "load": [
+    0.006681609898805618,
+    0.005491076037287712
+   ],
+   "render": [
+    1.9504843354225159,
+    2.110910452902317
+   ],
+   "median": 2.036783737130463,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB"
+   ]
+  },
+  "T0|1024": {
+   "update": [
+    8.33101586252451,
+    8.060649372637272
+   ],
+   "load": [
+    0.005131348967552185,
+    0.005199108272790909
+   ],
+   "render": [
+    8.325884513556957,
+    8.055450264364481
+   ],
+   "median": 8.19583261758089,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB"
+   ]
+  },
+  "T3|1": {
+   "update": [
+    0.1560705080628395,
+    0.1515154242515564
+   ],
+   "load": [
+    0.006356589496135712,
+    0.004824738949537277
+   ],
+   "render": [
+    0.1497139185667038,
+    0.14669068530201912
+   ],
+   "median": 0.15379296615719795,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB"
+   ]
+  },
+  "T3|4": {
+   "update": [
+    0.16047193482518196,
+    0.15013246051967144
+   ],
+   "load": [
+    0.0044766683131456375,
+    0.005196377635002136
+   ],
+   "render": [
+    0.15599526651203632,
+    0.1449360828846693
+   ],
+   "median": 0.1553021976724267,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB"
+   ]
+  },
+  "T3|16": {
+   "update": [
+    0.20728640258312225,
+    0.23620572872459888
+   ],
+   "load": [
+    0.006224280223250389,
+    0.005015216767787933
+   ],
+   "render": [
+    0.20106212235987186,
+    0.23119051195681095
+   ],
+   "median": 0.22174606565386057,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB"
+   ]
+  },
+  "T3|64": {
+   "update": [
+    0.5256146397441626,
+    0.5079796332865953
+   ],
+   "load": [
+    0.006791179999709129,
+    0.005026690661907196
+   ],
+   "render": [
+    0.5188234597444534,
+    0.5029529426246881
+   ],
+   "median": 0.516797136515379,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB"
+   ]
+  },
+  "T3|256": {
+   "update": [
+    2.090234987437725,
+    2.137626962736249
+   ],
+   "load": [
+    0.004862695932388306,
+    0.004685899242758751
+   ],
+   "render": [
+    2.0853722915053368,
+    2.13294106349349
+   ],
+   "median": 2.113930975086987,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB"
+   ]
+  },
+  "T3|1024": {
+   "update": [
+    8.551648162305355,
+    8.38321884162724
+   ],
+   "load": [
+    0.005189336836338043,
+    0.004566619172692299
+   ],
+   "render": [
+    8.546458825469017,
+    8.378652222454548
+   ],
+   "median": 8.467433501966298,
+   "peers": [
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB",
+    "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 4656 MiB"
+   ]
+  },
+  "8dna": [
+   {
+    "kind": "8dna_blocked",
+    "reason": "RuntimeError: Error building extension 'cu8dna_ext': [1/4] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output rqs.cuda.o.d -DTORCH_EXTENSION_NAME=cu8dna_ext -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\\\"_gcc\\\" -DPYBIND11_STDLIB=\\\"_libstdcpp\\\" -DPYBIND11_BUILD_ABI=\\\"_cxxabi1011\\\" -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda/include -isystem /home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_86,code=compute_86 -gencode=arch=compute_86,code=sm_86 --compiler-options '-fPIC' -O3 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__ -U__CUDA_NO_HALF2_OPERATORS__ -std=c++17 -c /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/rqs.cu -o rqs.cuda.o \nFAILED: [code=1] rqs.cuda.o \n/usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output rqs.cuda.o.d -DTORCH_EXTENSION_NAME=cu8dna_ext -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\\\"_gcc\\\" -DPYBIND11_STDLIB=\\\"_libstdcpp\\\" -DPYBIND11_BUILD_ABI=\\\"_cxxabi1011\\\" -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda/include -isystem /home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_86,code=compute_86 -gencode=arch=compute_86,code=sm_86 --compiler-options '-fPIC' -O3 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__ -U__CUDA_NO_HALF2_OPERATORS__ -std=c++17 -c /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/rqs.cu -o rqs.cuda.o \nIn file included from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/core/TensorBase.h:14,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/core/TensorBody.h:38,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/core/Tensor.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/Tensor.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/function_hook.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/cpp_hook.h:2,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/variable.h:6,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/autograd.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include/torch/autograd.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include/torch/all.h:7,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/extension.h:5,\n                 from /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/rqs.cu:1:\n/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/c10/util/C++17.h:13:2: error: #error \"You're trying to build PyTorch with a too old version of GCC. We need GCC 9 or later.\"\n #error \\\n  ^~~~~\n[2/4] /usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output fetchcube.cuda.o.d -DTORCH_EXTENSION_NAME=cu8dna_ext -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\\\"_gcc\\\" -DPYBIND11_STDLIB=\\\"_libstdcpp\\\" -DPYBIND11_BUILD_ABI=\\\"_cxxabi1011\\\" -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda/include -isystem /home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_86,code=compute_86 -gencode=arch=compute_86,code=sm_86 --compiler-options '-fPIC' -O3 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__ -U__CUDA_NO_HALF2_OPERATORS__ -std=c++17 -c /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/fetchcube.cu -o fetchcube.cuda.o \nFAILED: [code=1] fetchcube.cuda.o \n/usr/local/cuda/bin/nvcc --generate-dependencies-with-compile --dependency-output fetchcube.cuda.o.d -DTORCH_EXTENSION_NAME=cu8dna_ext -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\\\"_gcc\\\" -DPYBIND11_STDLIB=\\\"_libstdcpp\\\" -DPYBIND11_BUILD_ABI=\\\"_cxxabi1011\\\" -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda/include -isystem /home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -D__CUDA_NO_HALF_OPERATORS__ -D__CUDA_NO_HALF_CONVERSIONS__ -D__CUDA_NO_BFLOAT16_CONVERSIONS__ -D__CUDA_NO_HALF2_OPERATORS__ --expt-relaxed-constexpr -gencode=arch=compute_86,code=compute_86 -gencode=arch=compute_86,code=sm_86 --compiler-options '-fPIC' -O3 -U__CUDA_NO_HALF_OPERATORS__ -U__CUDA_NO_HALF_CONVERSIONS__ -U__CUDA_NO_HALF2_OPERATORS__ -std=c++17 -c /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/fetchcube.cu -o fetchcube.cuda.o \nIn file included from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/core/TensorBase.h:14,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/core/TensorBody.h:38,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/core/Tensor.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/Tensor.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/function_hook.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/cpp_hook.h:2,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/variable.h:6,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/autograd.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include/torch/autograd.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include/torch/all.h:7,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/extension.h:5,\n                 from /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/fetchcube.cu:1:\n/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/c10/util/C++17.h:13:2: error: #error \"You're trying to build PyTorch with a too old version of GCC. We need GCC 9 or later.\"\n #error \\\n  ^~~~~\n[3/4] c++ -MMD -MF binding.o.d -DTORCH_EXTENSION_NAME=cu8dna_ext -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\\\"_gcc\\\" -DPYBIND11_STDLIB=\\\"_libstdcpp\\\" -DPYBIND11_BUILD_ABI=\\\"_cxxabi1011\\\" -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda/include -isystem /home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -fPIC -std=c++17 -O3 -c /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/binding.cpp -o binding.o \nFAILED: [code=1] binding.o \nc++ -MMD -MF binding.o.d -DTORCH_EXTENSION_NAME=cu8dna_ext -DTORCH_API_INCLUDE_EXTENSION_H -DPYBIND11_COMPILER_TYPE=\\\"_gcc\\\" -DPYBIND11_STDLIB=\\\"_libstdcpp\\\" -DPYBIND11_BUILD_ABI=\\\"_cxxabi1011\\\" -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/TH -isystem /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/THC -isystem /usr/local/cuda/include -isystem /home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/include/python3.10 -D_GLIBCXX_USE_CXX11_ABI=0 -fPIC -std=c++17 -O3 -c /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/binding.cpp -o binding.o \nIn file included from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/core/TensorBase.h:14,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/core/TensorBody.h:38,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/core/Tensor.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/Tensor.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/function_hook.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/cpp_hook.h:2,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/variable.h:6,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/autograd.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include/torch/autograd.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include/torch/all.h:7,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/extension.h:5,\n                 from /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/binding.cpp:1:\n/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/c10/util/C++17.h:13:2: error: #error \"You're trying to build PyTorch with a too old version of GCC. We need GCC 9 or later.\"\n #error \\\n  ^~~~~\nninja: build stopped: subcommand failed.\n",
+    "traceback": "ShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/ATen/Tensor.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/function_hook.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/cpp_hook.h:2,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/variable.h:6,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/autograd/autograd.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include/torch/autograd.h:3,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/csrc/api/include/torch/all.h:7,\n                 from /home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/torch/extension.h:5,\n                 from /home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/src/binding.cpp:1:\n/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/include/c10/util/C++17.h:13:2: error: #error \"You're trying to build PyTorch with a too old version of GCC. We need GCC 9 or later.\"\n #error \\\n  ^~~~~\nninja: build stopped: subcommand failed.\n\n",
+    "fallback": "WL27 inference timing inherited (RTX 5080), per protocol"
+   }
+  ]
+ }
+}

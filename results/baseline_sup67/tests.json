@@ -1,0 +1,63 @@
+{
+ "passed": 13,
+ "total": 13,
+ "results": [
+  {
+   "test": "W1 seeds disjoint from WL53-56 seeds",
+   "passed": true,
+   "n": 38
+  },
+  {
+   "test": "W2 PT seed ranges disjoint from GT and from each other",
+   "passed": true
+  },
+  {
+   "test": "W1 oracle/renderer sources identical to the WL56 server snapshot",
+   "passed": true,
+   "differing": []
+  },
+  {
+   "test": "W1 k55/c54/p53 sources match WL56 environment.json hashes",
+   "passed": true,
+   "differing": []
+  },
+  {
+   "test": "W1 reference images present (60 = 3 states x 5 cams x 4 seeds)",
+   "passed": true,
+   "n": 60
+  },
+  {
+   "test": "W1 dent intrinsic signatures equal WL56 packages",
+   "passed": true
+  },
+  {
+   "test": "W1 rigid has no dirty domain, dent dirties only the upper",
+   "passed": true
+  },
+  {
+   "test": "W1 fixture deterministic (emitter + cameras)",
+   "passed": true
+  },
+  {
+   "test": "W2 WL22 input copies match PC sha256 manifest",
+   "passed": true,
+   "differing": []
+  },
+  {
+   "test": "W2 lighting/states/res equal between GT design and the WL22 locked protocol",
+   "passed": true
+  },
+  {
+   "test": "W2 frozen-dir GT equals design GT (byte identity)",
+   "passed": true
+  },
+  {
+   "test": "W2 released 8DNA teaset checkpoint sha equals WL22 protocol",
+   "passed": true
+  },
+  {
+   "test": "protocol ladders as declared",
+   "passed": true
+  }
+ ]
+}

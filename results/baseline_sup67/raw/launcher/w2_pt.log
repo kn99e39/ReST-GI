@@ -1,0 +1,122 @@
+14:54:34 {"kind": "env", "mode": "ladder", "environment": {"os": "Linux-4.18.0-305.3.1.el8.x86_64-x86_64-with-glibc2.28", "cuda_home": null, "msvc": null, "python": "3.10.21", "executable": "/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "torch": "2.3.1+cu121", "torch_cuda_build": "12.1", "torch_arch_list": ["sm_50", "sm_60", "sm_70", "sm_75", "sm_80", "sm_86", "sm_90"], "mitsuba": "3.5.1", "drjit": "0.4.6", "numpy": "1.26.4", "gpu": "NVIDIA GeForce RTX 3090", "gpu_capability": [8, 6], "nvidia_smi": "NVIDIA GeForce RTX 3090, 550.54.15, 24576 MiB", "nvcc": [], "project_commit": "354675c7c1e1dbf5debe91b542140eb10bf51bcb", "project_dirty": [], "upstream_commit": "4a2157ca24e506c5ac0831f27d656ecc50a64f07", "jit_flags": {"LoopRecord": false, "VCallRecord": true}}, "peers_at_start": "2032569, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python, 286 MiB"}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:34 {"kind": "warmup", "state": "T0", "seconds": 0.1421875860542059}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:35 {"kind": "pt", "state": "T0", "spp": 1, "r": 0, "seed": 6700000, "load_seconds": 0.0052864328026771545, "render_seconds": 0.14240476675331593, "update_seconds": 0.14769119955599308}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:35 {"kind": "pt", "state": "T0", "spp": 1, "r": 1, "seed": 6700100, "load_seconds": 0.005061423406004906, "render_seconds": 0.12866638414561749, "update_seconds": 0.1337278075516224}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:35 {"kind": "pt", "state": "T0", "spp": 4, "r": 0, "seed": 6701000, "load_seconds": 0.004610899835824966, "render_seconds": 0.14805000834167004, "update_seconds": 0.152660908177495}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:35 {"kind": "pt", "state": "T0", "spp": 4, "r": 1, "seed": 6701100, "load_seconds": 0.0052646007388830185, "render_seconds": 0.18956599570810795, "update_seconds": 0.19483059644699097}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:35 {"kind": "pt", "state": "T0", "spp": 16, "r": 0, "seed": 6702000, "load_seconds": 0.006892809644341469, "render_seconds": 0.19357675686478615, "update_seconds": 0.20046956650912762}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:36 {"kind": "pt", "state": "T0", "spp": 16, "r": 1, "seed": 6702100, "load_seconds": 0.005329372361302376, "render_seconds": 0.2097585443407297, "update_seconds": 0.2150879167020321}
+  render MonteCarloIntegrator 1/2 chunks, 0s
+  render MonteCarloIntegrator 2/2 chunks, 1s
+14:54:36 {"kind": "pt", "state": "T0", "spp": 64, "r": 0, "seed": 6703000, "load_seconds": 0.005078481510281563, "render_seconds": 0.5591988041996956, "update_seconds": 0.5642772857099771}
+  render MonteCarloIntegrator 1/2 chunks, 0s
+  render MonteCarloIntegrator 2/2 chunks, 1s
+14:54:37 {"kind": "pt", "state": "T0", "spp": 64, "r": 1, "seed": 6703100, "load_seconds": 0.007662072777748108, "render_seconds": 0.5448395907878876, "update_seconds": 0.5525016635656357}
+  render MonteCarloIntegrator 1/8 chunks, 0s
+  render MonteCarloIntegrator 2/8 chunks, 1s
+  render MonteCarloIntegrator 3/8 chunks, 1s
+  render MonteCarloIntegrator 4/8 chunks, 1s
+  render MonteCarloIntegrator 5/8 chunks, 1s
+  render MonteCarloIntegrator 6/8 chunks, 1s
+  render MonteCarloIntegrator 7/8 chunks, 2s
+  render MonteCarloIntegrator 8/8 chunks, 2s
+14:54:39 {"kind": "pt", "state": "T0", "spp": 256, "r": 0, "seed": 6704000, "load_seconds": 0.006681609898805618, "render_seconds": 1.9504843354225159, "update_seconds": 1.9571659453213215}
+  render MonteCarloIntegrator 1/8 chunks, 0s
+  render MonteCarloIntegrator 2/8 chunks, 0s
+  render MonteCarloIntegrator 3/8 chunks, 1s
+  render MonteCarloIntegrator 4/8 chunks, 1s
+  render MonteCarloIntegrator 5/8 chunks, 1s
+  render MonteCarloIntegrator 6/8 chunks, 2s
+  render MonteCarloIntegrator 7/8 chunks, 2s
+  render MonteCarloIntegrator 8/8 chunks, 2s
+14:54:41 {"kind": "pt", "state": "T0", "spp": 256, "r": 1, "seed": 6704100, "load_seconds": 0.005491076037287712, "render_seconds": 2.110910452902317, "update_seconds": 2.1164015289396048}
+  render MonteCarloIntegrator 4/32 chunks, 1s
+  render MonteCarloIntegrator 8/32 chunks, 2s
+  render MonteCarloIntegrator 12/32 chunks, 3s
+  render MonteCarloIntegrator 16/32 chunks, 4s
+  render MonteCarloIntegrator 20/32 chunks, 5s
+  render MonteCarloIntegrator 24/32 chunks, 6s
+  render MonteCarloIntegrator 28/32 chunks, 7s
+  render MonteCarloIntegrator 32/32 chunks, 8s
+14:54:49 {"kind": "pt", "state": "T0", "spp": 1024, "r": 0, "seed": 6705000, "load_seconds": 0.005131348967552185, "render_seconds": 8.325884513556957, "update_seconds": 8.33101586252451}
+  render MonteCarloIntegrator 4/32 chunks, 1s
+  render MonteCarloIntegrator 8/32 chunks, 2s
+  render MonteCarloIntegrator 12/32 chunks, 3s
+  render MonteCarloIntegrator 16/32 chunks, 4s
+  render MonteCarloIntegrator 20/32 chunks, 5s
+  render MonteCarloIntegrator 24/32 chunks, 6s
+  render MonteCarloIntegrator 28/32 chunks, 7s
+  render MonteCarloIntegrator 32/32 chunks, 8s
+14:54:57 {"kind": "pt", "state": "T0", "spp": 1024, "r": 1, "seed": 6705100, "load_seconds": 0.005199108272790909, "render_seconds": 8.055450264364481, "update_seconds": 8.060649372637272}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:57 {"kind": "warmup", "state": "T3", "seconds": 0.12307328917086124}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:58 {"kind": "pt", "state": "T3", "spp": 1, "r": 0, "seed": 6800000, "load_seconds": 0.006356589496135712, "render_seconds": 0.1497139185667038, "update_seconds": 0.1560705080628395}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:58 {"kind": "pt", "state": "T3", "spp": 1, "r": 1, "seed": 6800100, "load_seconds": 0.004824738949537277, "render_seconds": 0.14669068530201912, "update_seconds": 0.1515154242515564}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:58 {"kind": "pt", "state": "T3", "spp": 4, "r": 0, "seed": 6801000, "load_seconds": 0.0044766683131456375, "render_seconds": 0.15599526651203632, "update_seconds": 0.16047193482518196}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:58 {"kind": "pt", "state": "T3", "spp": 4, "r": 1, "seed": 6801100, "load_seconds": 0.005196377635002136, "render_seconds": 0.1449360828846693, "update_seconds": 0.15013246051967144}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:58 {"kind": "pt", "state": "T3", "spp": 16, "r": 0, "seed": 6802000, "load_seconds": 0.006224280223250389, "render_seconds": 0.20106212235987186, "update_seconds": 0.20728640258312225}
+  render MonteCarloIntegrator 1/1 chunks, 0s
+14:54:59 {"kind": "pt", "state": "T3", "spp": 16, "r": 1, "seed": 6802100, "load_seconds": 0.005015216767787933, "render_seconds": 0.23119051195681095, "update_seconds": 0.23620572872459888}
+  render MonteCarloIntegrator 1/2 chunks, 0s
+  render MonteCarloIntegrator 2/2 chunks, 1s
+14:54:59 {"kind": "pt", "state": "T3", "spp": 64, "r": 0, "seed": 6803000, "load_seconds": 0.006791179999709129, "render_seconds": 0.5188234597444534, "update_seconds": 0.5256146397441626}
+  render MonteCarloIntegrator 1/2 chunks, 0s
+  render MonteCarloIntegrator 2/2 chunks, 1s
+14:55:00 {"kind": "pt", "state": "T3", "spp": 64, "r": 1, "seed": 6803100, "load_seconds": 0.005026690661907196, "render_seconds": 0.5029529426246881, "update_seconds": 0.5079796332865953}
+  render MonteCarloIntegrator 1/8 chunks, 0s
+  render MonteCarloIntegrator 2/8 chunks, 1s
+  render MonteCarloIntegrator 3/8 chunks, 1s
+  render MonteCarloIntegrator 4/8 chunks, 1s
+  render MonteCarloIntegrator 5/8 chunks, 1s
+  render MonteCarloIntegrator 6/8 chunks, 2s
+  render MonteCarloIntegrator 7/8 chunks, 2s
+  render MonteCarloIntegrator 8/8 chunks, 2s
+14:55:02 {"kind": "pt", "state": "T3", "spp": 256, "r": 0, "seed": 6804000, "load_seconds": 0.004862695932388306, "render_seconds": 2.0853722915053368, "update_seconds": 2.090234987437725}
+  render MonteCarloIntegrator 1/8 chunks, 0s
+  render MonteCarloIntegrator 2/8 chunks, 1s
+  render MonteCarloIntegrator 3/8 chunks, 1s
+  render MonteCarloIntegrator 4/8 chunks, 1s
+  render MonteCarloIntegrator 5/8 chunks, 1s
+  render MonteCarloIntegrator 6/8 chunks, 2s
+  render MonteCarloIntegrator 7/8 chunks, 2s
+  render MonteCarloIntegrator 8/8 chunks, 2s
+14:55:04 {"kind": "pt", "state": "T3", "spp": 256, "r": 1, "seed": 6804100, "load_seconds": 0.004685899242758751, "render_seconds": 2.13294106349349, "update_seconds": 2.137626962736249}
+  render MonteCarloIntegrator 4/32 chunks, 1s
+  render MonteCarloIntegrator 8/32 chunks, 2s
+  render MonteCarloIntegrator 12/32 chunks, 3s
+  render MonteCarloIntegrator 16/32 chunks, 4s
+  render MonteCarloIntegrator 20/32 chunks, 5s
+  render MonteCarloIntegrator 24/32 chunks, 6s
+  render MonteCarloIntegrator 28/32 chunks, 7s
+  render MonteCarloIntegrator 32/32 chunks, 9s
+14:55:13 {"kind": "pt", "state": "T3", "spp": 1024, "r": 0, "seed": 6805000, "load_seconds": 0.005189336836338043, "render_seconds": 8.546458825469017, "update_seconds": 8.551648162305355}
+  render MonteCarloIntegrator 4/32 chunks, 1s
+  render MonteCarloIntegrator 8/32 chunks, 2s
+  render MonteCarloIntegrator 12/32 chunks, 3s
+  render MonteCarloIntegrator 16/32 chunks, 4s
+  render MonteCarloIntegrator 20/32 chunks, 5s
+  render MonteCarloIntegrator 24/32 chunks, 6s
+  render MonteCarloIntegrator 28/32 chunks, 7s
+  render MonteCarloIntegrator 32/32 chunks, 8s
+14:55:21 {"kind": "pt", "state": "T3", "spp": 1024, "r": 1, "seed": 6805100, "load_seconds": 0.004566619172692299, "render_seconds": 8.378652222454548, "update_seconds": 8.38321884162724}
+  render MonteCarloIntegrator 16/128 chunks, 4s
+  render MonteCarloIntegrator 32/128 chunks, 8s
+  render MonteCarloIntegrator 48/128 chunks, 12s
+  render MonteCarloIntegrator 64/128 chunks, 17s
+  render MonteCarloIntegrator 80/128 chunks, 21s
+  render MonteCarloIntegrator 96/128 chunks, 25s
+  render MonteCarloIntegrator 112/128 chunks, 28s
+  render MonteCarloIntegrator 128/128 chunks, 32s
+14:55:53 {"kind": "xcheck", "state": "T3", "spp": 4096, "seed": 6790000, "load_seconds": 0.004464419558644295, "render_seconds": 32.42881498299539}

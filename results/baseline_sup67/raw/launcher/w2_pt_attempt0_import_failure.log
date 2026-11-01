@@ -1,0 +1,22 @@
+Traceback (most recent call last):
+  File "/home/nd/rest_bsup67/repo/experiments/baseline_sup67/b67_w2_pt.py", line 85, in <module>
+    mi, dr = L.init_upstream()
+  File "/home/nd/rest_bsup67/repo/experiments/8dna_deformation_replication/ednalib.py", line 54, in init_upstream
+    import models.integrator  # noqa: F401  registers neuralpath / neuralvolpath
+  File "/home/nd/rest_bsup67/repo/external/8dna26/models/integrator.py", line 11, in <module>
+    from .eight_dna import EightDNA
+  File "/home/nd/rest_bsup67/repo/external/8dna26/models/eight_dna.py", line 10, in <module>
+    from .mlps import make_mlp, make_encoding
+  File "/home/nd/rest_bsup67/repo/external/8dna26/models/mlps.py", line 5, in <module>
+    from .cu_ext import fetch_cube
+  File "/home/nd/rest_bsup67/repo/external/8dna26/models/cu_ext/__init__.py", line 24, in <module>
+    _ext = load(name='cu8dna_ext', 
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1309, in load
+    return _jit_compile(
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1719, in _jit_compile
+    _write_ninja_file_and_build_library(
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1802, in _write_ninja_file_and_build_library
+    verify_ninja_availability()
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/cpp_extension.py", line 1851, in verify_ninja_availability
+    raise RuntimeError("Ninja is required to load C++ extensions")
+RuntimeError: Ninja is required to load C++ extensions

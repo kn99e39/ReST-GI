@@ -1,0 +1,13 @@
+PASS W1 seeds disjoint from WL53-56 seeds 
+PASS W2 PT seed ranges disjoint from GT and from each other 
+PASS W1 oracle/renderer sources identical to the WL56 server snapshot 
+PASS W1 k55/c54/p53 sources match WL56 environment.json hashes 
+PASS W1 reference images present (60 = 3 states x 5 cams x 4 seeds) 
+PASS W1 dent intrinsic signatures equal WL56 packages 
+PASS W1 rigid has no dirty domain, dent dirties only the upper 
+PASS W1 fixture deterministic (emitter + cameras) 
+PASS W2 WL22 input copies match PC sha256 manifest 
+PASS W2 lighting/states/res equal between GT design and the WL22 locked protocol 
+PASS W2 frozen-dir GT equals design GT (byte identity) 
+PASS W2 released 8DNA teaset checkpoint sha equals WL22 protocol 
+PASS protocol ladders as declared 
