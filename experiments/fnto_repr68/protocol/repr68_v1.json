@@ -1,0 +1,560 @@
+{
+  "batch": "constrained_K_representability_v1 (Track A)",
+  "worklog": "docs/worklogs/68_WORKLOG_CONSTRAINED_K_REPRESENTABILITY.md",
+  "branch": "Selective_Recompute",
+  "starting_head": "418b1f8722391ed169e79d23730322f6d68d8ff2",
+  "authorisation": "User brief 2026-11-01 'TRACK A - CONSTRAINED K REPRESENTABILITY'. Existence/attainability probe on experimental copies of the unchanged WL59 P family; no adoption, production change, rank/width change, coupled GI or successor.",
+  "execution": {
+    "server": "LabServer63 (main server by the user's 2026-11-01 rule); WL59/WL66 inputs relayed from LabServer69 through the PC, hash-verified",
+    "root": "~/rest_repr68 (Track A only; separate from any Track B root)",
+    "inputs": "~/rest_repr68/inputs/manifest.json (written by extract68.py on LabServer69 at commit 7f9c28a)",
+    "python": "~/NeuralShaderDemo/external/8dna26/.venv/bin/python (torch 2.3.1+cu121, Mitsuba 3.5.1)",
+    "runtime_env": {
+      "P53_MI_VARIANT": "cuda_ad_rgb",
+      "LD_LIBRARY_PATH": "$HOME/nvlibs/optix595 (LabServer63 OptiX driver workaround; ray intersection only, no film)",
+      "WL57_WALKER": "fast",
+      "PYTHONUNBUFFERED": "1"
+    },
+    "cross_machine": "Fitting references (WL66) were traced on LabServer69, held-out references on LabServer63. The cross-machine gate below must pass before any held-out reference is generated; the split is recorded in every result.",
+    "inputs_manifest_sha256": "2abf3ba649a1fee944ddf6cca53c5fb3e3909d27c08d142f9c76b546cd772a4d",
+    "fit_targets": "inputs/fit_targets.pt = mean of WL66 replicas 0-3 per geometry (fit68.py prepare); dev value 3c21b619593dfcf60c8ca7b44402ee632bc8eeebe0c187eba818c070acb2ae75"
+  },
+  "implemented_family": {
+    "source": "fnto_rule57/r57_model.py Transport.coefficients/apply + fnto_persist59/runtime.py P state (encoder Linear(16,32) on node[:, :16], two residual message layers); 157,024 parameters",
+    "probe_response": "scatter[a,j,o,c] = d[i,a] sum_r A[r,a,c] T[j,r,c] O[r,o,c] with d = 1 - beta_model (geometry-only q=256 zero-collision quadrature, not learned)",
+    "A": "softmax(in_logits, dim mixture): 8x16 per channel, strictly positive, every incoming-bin column sums to 1; one global matrix for all ports and geometries",
+    "O": "softmax(out_logits, dim outgoing bin): every mixture is a strictly positive probability distribution over 64 outgoing bins; one global matrix",
+    "T": "T[j,r,c] = sum_{e: src=i,dst=j} W[e,r,c] + sum_k U[j,k,r,c] V[i,k,r,c]; W = softplus(edge MLP(src_layer(z_i)+dst_layer(z_j)+pair_layer(pair_ij))) * prior_c(dist) on the 128 nearest rest-coordinate neighbours (per-channel decay lengths 18.1/5.8/1.8 mm); U = softmax over ALL destination ports (rank 16 per mixture/channel, per geometry); V = softplus; mass = sigmoid; W and V rescaled so sum_j T[j,r,c] = mass[i,r,c] in (0,1)",
+    "passivity": "column sum = beta + (1-beta) sum_r A[r,a,c] mass[i,r,c] < 1 for every parameter value; T >= 0, O > 0, A > 0, output >= 0",
+    "geometry_conditioning": "all spatial coefficients are functions of the current 16 local node features (two-hop message passing), pair geometry and the fixed prior; A and O do not depend on geometry",
+    "ballistic": "B x is geometry-only and not learned; one-hot scatter is linear in the remaining budget d",
+    "lifecycle": "experimental copies only; production checkpoints are read, never written"
+  },
+  "wl66_relaxations": [
+    "Relaxed rank-8 floor: any shared 1-containing 8-dim incoming subspace with SIGNED, unconstrained (space x outgoing) response. Forbidden by the family: negative coefficients, non-simplex A, response rows that are not convex combinations of 8 nonnegative rank-1 (space x outgoing) fields with GLOBAL outgoing lobes.",
+    "Frozen A floor: frozen A but arbitrary signed response per bin. Forbidden: signed/unconstrained outgoing structure, mass > 1.",
+    "Frozen A+O floor: frozen A and O with free SIGNED spatial coefficients t_rj. Forbidden: t_rj < 0, sum_j t_rj >= 1, spatial coefficients not produced by the geometry-conditioned network.",
+    "None of the WL66 floors is constrained by the network map from geometry to coefficients."
+  ],
+  "coefficient_class": "FCoef: global simplex A/O (logit-parameterised), per-source T >= 0 with sum_j T = sigmoid(mass) < 1. With 4 probe sources per geometry and rank 16 >= 4, the closure of the network family's response set on the probe population is contained in FCoef; FCoef removes only geometry conditioning/parameter sharing of the spatial coefficients.",
+  "populations": {
+    "fit": {
+      "source": "WL66 qualified probes (previously inspected; diagnostic fitting data, never fresh confirmation)",
+      "geometries": [
+        "rest",
+        "pt0"
+      ],
+      "slots": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "ports": [
+        2085,
+        2441,
+        1123,
+        2069
+      ],
+      "fit_replicas": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "eval_replicas": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "note": "fit statistics use only replicas 4-7, which no fit sees"
+    },
+    "heldout": {
+      "matrices": {
+        "rest": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "pt0": [
+          4,
+          5,
+          6,
+          7
+        ],
+        "cf3": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "groups": {
+        "H1_rest_newports": [
+          [
+            "rest",
+            4
+          ],
+          [
+            "rest",
+            5
+          ],
+          [
+            "rest",
+            6
+          ],
+          [
+            "rest",
+            7
+          ]
+        ],
+        "H1_pt0_newports": [
+          [
+            "pt0",
+            4
+          ],
+          [
+            "pt0",
+            5
+          ],
+          [
+            "pt0",
+            6
+          ],
+          [
+            "pt0",
+            7
+          ]
+        ],
+        "H2_cf3_fitports": [
+          [
+            "cf3",
+            0
+          ],
+          [
+            "cf3",
+            1
+          ],
+          [
+            "cf3",
+            2
+          ],
+          [
+            "cf3",
+            3
+          ]
+        ],
+        "H3_cf3_newports": [
+          [
+            "cf3",
+            4
+          ],
+          [
+            "cf3",
+            5
+          ],
+          [
+            "cf3",
+            6
+          ],
+          [
+            "cf3",
+            7
+          ]
+        ]
+      }
+    },
+    "deformation": {
+      "fit_pt0": {
+        "geometry": "pt0",
+        "slots": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "h1_pt0": {
+        "geometry": "pt0",
+        "slots": [
+          4,
+          5,
+          6,
+          7
+        ]
+      },
+      "cf3": {
+        "geometry": "cf3",
+        "slots": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7
+        ]
+      }
+    }
+  },
+  "heldout_geometry_rule": "cf3 = the WL59 diagnostic pose (cf0..cf3, WL57 A2 confirmation poses) whose dent centre is farthest from the pt0 dent centre (0.005,-0.005): distances cf0 14.0, cf1 4.4, cf2 18.2, cf3 24.0 mm. Never seen by any WL68 fit; WL59 trained on rest+tr00..tr11 only.",
+  "heldout_ports": {
+    "slots": [
+      {
+        "slot": 4,
+        "name": "top_dent_inner_y",
+        "face": 5,
+        "target_rest_xy": [
+          0.005,
+          0.011875
+        ],
+        "note": "pt0 dent centre + 0.75 radius along +y"
+      },
+      {
+        "slot": 5,
+        "name": "top_outside_dent_x",
+        "face": 5,
+        "target_rest_xy": [
+          -0.02875,
+          -0.005
+        ],
+        "note": "pt0 dent centre - 1.5 radius along x"
+      },
+      {
+        "slot": 6,
+        "name": "bottom_far_control",
+        "face": 4,
+        "target_rest_xy": [
+          0.03,
+          -0.03
+        ]
+      },
+      {
+        "slot": 7,
+        "name": "bottom_below_flank",
+        "face": 4,
+        "target_rest_xy": [
+          0.01625,
+          -0.005
+        ]
+      }
+    ],
+    "ordering": "WL66 rule: ports on the slot face sorted by (round(rest-xy distance to target, 1e-9 m), port index)",
+    "nondegeneracy": "first port with min over bins of (1-beta) >= 0.5 at rest, pt0 AND cf3, >= 0.01 m from every slab side and >= min_separation_m (rest xy) from every fitting port and previously chosen held-out port on the same face",
+    "min_separation_m": 0.01,
+    "fitting_ports_at_cf3": "a fitting port with min (1-beta) < 0.5 at cf3 is recorded and excluded from H2 (not reselected)",
+    "information_used": "archived geometry only; no probe response, model output or error"
+  },
+  "heldout_references": {
+    "geometry_order": [
+      "rest",
+      "pt0",
+      "cf3"
+    ],
+    "estimator": "unchanged WL66 estimator: WL57 first-exit importance action with the one-hot proposal, fast walker, WL63 observational zero-collision/collided tags (tag_reference.py)",
+    "packet_photons": 32000000,
+    "seed_formula": "683000000 + geometry_index*100000 + slot*10000 + bin*100 + replica (geometry order above); smoke 688000000 + worker*10 + k (non-evidence)",
+    "configurations": [
+      {
+        "workers": 1,
+        "chunk": 32000000
+      },
+      {
+        "workers": 2,
+        "chunk": 16000000
+      }
+    ],
+    "budget_rule": "Preflight times each configuration with non-evidence smoke packets (2 per worker, rest, slot 0). The configuration with the highest measured packets/hour is used. K = 8 replicas if 256 probes x 8 packets are predicted to take <= max_hours, else K = 4 if <= max_hours, else STOP_RESOURCE. budget.json is committed before generation.",
+    "max_hours": 3.0,
+    "chunk_note": "The action chunk only partitions photons into independent batches of the same estimator; per-packet seeds make results independent of worker assignment."
+  },
+  "objective": {
+    "name": "diagnostic physical fitting objective J (existence probe; not a training recipe)",
+    "definition": "J = mean over geometry (rest, pt0), probe source (4) and channel of [ mean over spaces {native 3840x64, fine16 3840x16, coarse 240x16} of |S_hat - S|^2 / |S|^2 + |H D^-1 (S_hat - S)|^2 / |H D^-1 S|^2 in coarse ]; S = mean of fitting replicas 0-3 of the collided (scattered) first-exit response; D = model budget 1-beta per bin; H = I - 11'/16 over incoming bins",
+    "note": "Ballistic B is geometry-only and not fitted. Absolute and directional-contrast terms are each normalised per matrix and channel."
+  },
+  "optimizer": {
+    "net": {
+      "algorithm": "Adam (betas 0.9/0.999, eps 1e-8), full batch (2 geometries x 4 sources x 16 bins), float32, TF32 off",
+      "lr": 0.003,
+      "lr_min": 3e-05,
+      "schedule": "cosine over steps",
+      "steps": 20000,
+      "clip": 1.0,
+      "log_every": 25
+    },
+    "coef": {
+      "algorithm": "Adam, full batch, float32",
+      "lr": 0.01,
+      "lr_min": 0.0001,
+      "schedule": "cosine over steps",
+      "steps": 20000,
+      "clip": 1.0,
+      "log_every": 25
+    },
+    "convergence_relative_change": 0.01,
+    "convergence_definition": "|mean J over the last 10% of logged steps - mean J over the preceding 10%| / mean J(last 10%) < 0.01; fixed step count, no early stopping, final iterate kept"
+  },
+  "runs": {
+    "net_A_5901": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5901",
+      "group": "A"
+    },
+    "net_A_5902": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5902",
+      "group": "A"
+    },
+    "net_O_5901": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5901",
+      "group": "O"
+    },
+    "net_O_5902": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5902",
+      "group": "O"
+    },
+    "net_AO_5901": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5901",
+      "group": "AO"
+    },
+    "net_AO_5902": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5902",
+      "group": "AO"
+    },
+    "net_net_5901": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5901",
+      "group": "net"
+    },
+    "net_net_5902": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5902",
+      "group": "net"
+    },
+    "net_all_5901": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5901",
+      "group": "all"
+    },
+    "net_all_5902": {
+      "kind": "net",
+      "target": "phys",
+      "init": "P_5902",
+      "group": "all"
+    },
+    "net_all_scratch6801": {
+      "kind": "net",
+      "target": "phys",
+      "init": "scratch_6801",
+      "group": "all"
+    },
+    "coef_5901": {
+      "kind": "coef",
+      "target": "phys",
+      "init": "P_5901"
+    },
+    "coef_5902": {
+      "kind": "coef",
+      "target": "phys",
+      "init": "P_5902"
+    },
+    "coef_rand6811": {
+      "kind": "coef",
+      "target": "phys",
+      "init": "rand_6811"
+    },
+    "coef_rand6812": {
+      "kind": "coef",
+      "target": "phys",
+      "init": "rand_6812"
+    },
+    "tch_T1_all": {
+      "kind": "net",
+      "target": "T1",
+      "init": "P_5901",
+      "group": "all"
+    },
+    "tch_T1r_all": {
+      "kind": "net",
+      "target": "T1r",
+      "init": "P_5902",
+      "group": "all"
+    },
+    "tch_T2_all": {
+      "kind": "net",
+      "target": "T2",
+      "init": "P_5901",
+      "group": "all"
+    },
+    "tch_Tcoef": {
+      "kind": "coef",
+      "target": "Tcoef",
+      "init": "P_5901"
+    }
+  },
+  "run_groups": {
+    "A": "in_logits only",
+    "O": "out_logits only",
+    "AO": "in_logits + out_logits",
+    "net": "every parameter except in/out logits (spatial coefficients and geometry conditioning)",
+    "all": "all 157,024 parameters"
+  },
+  "teachers": {
+    "T1": {
+      "kind": "net",
+      "model": "P_5902",
+      "note": "known admissible member: the other WL59 seed"
+    },
+    "T1r": {
+      "kind": "net",
+      "model": "P_5901"
+    },
+    "T2": {
+      "kind": "net",
+      "model": "P_5902",
+      "angular_from": "best_physical_coef",
+      "note": "P_5902 network with A/O logits of the physical coefficient-level restart with the lowest final training objective: a known admissible member whose angular bases differ from WL59's"
+    },
+    "Tcoef": {
+      "kind": "coef",
+      "seed": 68021,
+      "logit_sd": 1.0,
+      "spatial_from": "P_5902",
+      "note": "random global A/O logits N(0,1), spatial T of P_5902; coefficient-optimizer control"
+    }
+  },
+  "convex": {
+    "cvx_J_5901": {
+      "init": "P_5901",
+      "objective": "J",
+      "iters": 3000,
+      "note": "frozen WL59 A,O; best admissible native spatial coefficients (T>=0, sum_j T<=1) under J"
+    },
+    "cvx_J_5902": {
+      "init": "P_5902",
+      "objective": "J",
+      "iters": 3000
+    },
+    "cvx_conAO_5901": {
+      "init": "P_5901",
+      "objective": "con_AO",
+      "iters": 3000,
+      "note": "frozen A,O, nonnegative capped coarse spatial coefficients, coarse contrast only: admissible counterpart of WL66 PAOc"
+    },
+    "cvx_conAO_5902": {
+      "init": "P_5902",
+      "objective": "con_AO",
+      "iters": 3000
+    },
+    "cvx_conA_5901": {
+      "init": "P_5901",
+      "objective": "con_A_freeout",
+      "iters": 3000,
+      "note": "frozen A, nonnegative capped per-cell (mixture x outgoing) blocks, coarse contrast only: admissible counterpart of WL66 F_A with free outgoing"
+    },
+    "cvx_conA_5902": {
+      "init": "P_5902",
+      "objective": "con_A_freeout",
+      "iters": 3000
+    }
+  },
+  "oracle": {
+    "iters": 1500,
+    "label": "angular-transfer ORACLE: admissible spatial coefficients fitted on the first K/2 held-out replicas (first 1 if K<6), scored on the remaining replicas, for fixed A/O of frozen 5901/5902, the primary candidate and the best coefficient-level restart. Uses held-out references; never a candidate."
+  },
+  "gates": {
+    "inputs": "every input file sha256 equals inputs/manifest.json; WL59 sources equal the WL66-verified hashes",
+    "geometry_identity": "fresh LabServer63 geometry equals archived WL59/WL57 geometry bitwise for xyz, rest_xyz, area, node, pair, prior, parent, src, dst, graph (beta/B differences reported)",
+    "replay_relative_L2": 2e-05,
+    "factorisation_relative_L2": 1e-05,
+    "wl66_reproduction": "on all 8 fit replicas, frozen-checkpoint E_Mc, F_A, PAOc and L7 ratios reproduce WL66 analysis.json pooled coarse values within 1e-4 relative",
+    "cross_machine": {
+      "packets": "rest_s0_a00_k0, rest_s2_a07_k3, pt0_s1_a13_k5, pt0_s3_a08_k2 (WL66 seeds, chunk 32M)",
+      "energy_z": 4.0,
+      "coarse_mean_z2": 1.5,
+      "rule": "pass iff every packet passes the physical/tag gates and, for Scat and B, max channel |energy z| <= 4 and mean coarse-cell z^2 <= 1.5 against the LabServer69 packet (packet variances from second moments)"
+    },
+    "precision_signal_over_SE": 10,
+    "passivity_max_column_sum": 1.000001
+  },
+  "metrics": {
+    "rho": "sqrt(E/S) per channel, pooled over matrices: E unbiased cross-replica error energy, S unbiased signal energy; jackknife over replicas, 95% t bounds; criteria use the upper bound",
+    "abs": "collided (scattered) raw flux in native/fine16/coarse",
+    "con": "directional contrast H D^-1 (WL66 Z normalisation)",
+    "tot": "absolute first-exit response (collided + zero-collision), fine16/coarse",
+    "also": "per-matrix values, per-probe (bin) relative error, Pair7 bins (8,13), energy ratios, signed deformation (Delta_k = R(geometry)_k - R(rest)_k), corr/slope, fixed-basis floors (L7, F_A, PAOc) for every candidate's A/O, WL59 original extended-field metrics for every network candidate"
+  },
+  "criteria": {
+    "quality": {
+      "abs_coarse_hi": 0.1,
+      "abs_fine16_hi": 0.15,
+      "con_coarse_hi": 0.25,
+      "source": "WL59 original thresholds: coarse mean relative L2 0.10, fine16 0.15, directional pair relative L2 0.25",
+      "apply": "all three channels, upper 95% bound, pooled per group over precision-qualified matrices"
+    },
+    "teacher": {
+      "con_coarse": 0.1,
+      "abs_coarse": 0.04,
+      "abs_fine16": 0.06,
+      "informative_con_coarse": 0.25,
+      "informative_abs_coarse": 0.1,
+      "apply": "noise-free student vs teacher, each fit geometry and channel; informative iff the initial student error exceeds an informative threshold somewhere"
+    }
+  },
+  "decision": {
+    "primary_candidate": "the physical net/all run (net_all_5901, net_all_5902, net_all_scratch6801) with the lowest final TRAINING objective J; all runs reported",
+    "S_fit": "quality criteria hold for the primary candidate on the fit population, separately for rest and pt0 (eval replicas 4-7)",
+    "S_gen": "quality criteria hold for the primary candidate on every held-out group H1_rest, H1_pt0, H2, H3",
+    "optimizer_adequate": "at least one informative net teacher control (T1, T1r, T2) exists and every informative one passes",
+    "outcome": "A if S_fit and S_gen; B if S_fit and not S_gen; C if not S_fit and optimizer_adequate and the primary candidate converged; else D",
+    "family_status": "A: still a viable candidate on the tested population; B: needs a specific additional falsification (independent generalization); C: unsupported for the tested physical requirements (constructive attainment failed; impossibility not established); D: needs a specific additional falsification (representation vs optimization/reference not separated)",
+    "attribution_descriptive": "convex frozen-basis floors vs WL66 signed floors (what the relaxations permitted); A/O/AO/net groups (angular alignment vs spatial/geometry conditioning); coefficient class FCoef vs network (geometry conditioning); Tcoef (coefficient optimizer); angular-transfer oracle on held-out (bases vs spatial generalization)"
+  },
+  "t_quantiles": {
+    "1": 12.706205,
+    "2": 4.302653,
+    "3": 3.182446,
+    "7": 2.364624
+  },
+  "prohibited": [
+    "rank/mixture/width/depth/parameter-count change",
+    "new encoder or transport module",
+    "changing the meaning of A, O, B or K",
+    "relaxing positivity/passivity",
+    "a production training objective",
+    "retuning WL59/WL64/WL65",
+    "modifying production checkpoints",
+    "post hoc hyperparameter search",
+    "reading held-out references in any fit",
+    "F/S semantics change",
+    "coupled GI",
+    "a new architecture or successor"
+  ],
+  "pre_evidence_disclosures": [
+    "Dev timing used synthetic teacher targets only.",
+    "A dev pipeline smoke (~/rest_repr68_dev) ran 30-step fits / 20-iteration convex solves on the physical fitting targets, 1M-photon K=4 held-out packets and a 5-iteration oracle; metric values were not inspected. Its log printed the smoke decision label (D), which carries no information about 20,000-step fits; nothing was changed in response.",
+    "Dev bug fixes before this commit: FISTA grad mode, test tensor shape, contrast dtype, native Gram flattening, convergence window for short runs, oracle replica split for small K, t(2) quantile.",
+    "Fresh LabServer63 beta (q=256 quadrature) differs from the archived WL59/WL57 beta by relative L2 ~0.10 (Monte Carlo re-sampling); the model uses the archived geometry as in WL59/WL66; all node/pair/prior features are bitwise equal."
+  ]
+}
