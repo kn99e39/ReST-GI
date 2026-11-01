@@ -1,0 +1,17 @@
+{
+ "protocol": "xbench69_v1",
+ "check": "X2",
+ "CC": "/home/nd/toolchains/xb69_gcc11/bin/x86_64-conda-linux-gnu-gcc",
+ "torch": "2.3.1+cu121",
+ "mitsuba": "3.5.1",
+ "import_and_build_s": 0.49939751625061035,
+ "render_16spp_256px_s": 1.861025333404541,
+ "finite": true,
+ "mean_rgb": [
+  0.0965384766459465,
+  0.0691257119178772,
+  0.04691079258918762
+ ],
+ "peak_gpu_gb": 0.387922944,
+ "pass": true
+}
