@@ -108,7 +108,10 @@ def smoke(W,w,chunk):
 def generate(w):
     """Worker w of W: packets with list index % W == w. Each packet has its own seed and receipt; failed gate => STOP."""
     import torch
-    b=json.loads((ROOT/'heldout/budget.json').read_text());W=b['workers'];os.environ['WL57_ACTION_CHUNK']=str(b['chunk'])
+    b=json.loads((ROOT/'heldout/budget.json').read_text())
+    am=ROOT/'heldout/execution_amendment.json'
+    if am.exists():b.update({k:v for k,v in json.loads(am.read_text()).items() if k in ('workers','chunk')})  # amendment 1 (OOM)
+    W=b['workers'];os.environ['WL57_ACTION_CHUNK']=str(b['chunk'])
     RG,AO,FW,tagged,proof=setup();lock=open(ROOT/f'heldout/worker{w}.lock','a');fcntl.flock(lock,fcntl.LOCK_EX|fcntl.LOCK_NB)
     doms={};N=b['packet_photons']
     if 'R68_SMOKE_N' in os.environ:assert ROOT!=Path.home()/'rest_repr68','smoke override never in the evidence root';N=int(os.environ['R68_SMOKE_N'])

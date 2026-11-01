@@ -556,5 +556,15 @@
     "A dev pipeline smoke (~/rest_repr68_dev) ran 30-step fits / 20-iteration convex solves on the physical fitting targets, 1M-photon K=4 held-out packets and a 5-iteration oracle; metric values were not inspected. Its log printed the smoke decision label (D), which carries no information about 20,000-step fits; nothing was changed in response.",
     "Dev bug fixes before this commit: FISTA grad mode, test tensor shape, contrast dtype, native Gram flattening, convergence window for short runs, oracle replica split for small K, t(2) quantile.",
     "Fresh LabServer63 beta (q=256 quadrature) differs from the archived WL59/WL57 beta by relative L2 ~0.10 (Monte Carlo re-sampling); the model uses the archived geometry as in WL59/WL66; all node/pair/prior features are bitwise equal."
+  ],
+  "amendments": [
+    {
+      "id": 1,
+      "date": "2026-11-01",
+      "stage": "held-out reference generation, after 73 of 2048 packets, before any fit or analysis",
+      "reason": "CUDA OOM on LabServer63 (12 GB): 32M-chunk packets reached 10.9-11.0 GB peak allocation at slot 4 (preflight measured 9.48 GB at slot 0 only); no foreign GPU process",
+      "change": "execution only: 1 worker x 16M action chunk (heldout/execution_amendment.json). Estimator, seeds, K=8, packet photons, populations and every rule unchanged; the chunk only partitions photons into independent batches. The 73 completed 32M-chunk packets passed every gate and are kept; each packet records its chunk.",
+      "not_used": "the measured 2 x 16M configuration (worker peaks 4.8 GB each) is not used because two workers would approach the 12 GB limit under the same tail growth"
+    }
   ]
 }

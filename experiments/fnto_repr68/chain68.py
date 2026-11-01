@@ -35,6 +35,7 @@ def pre():
 def main():
     assert (ROOT/'budget_commit.txt').exists(),'commit budget.json first'
     b=json.loads((ROOT/'heldout/budget.json').read_text())
+    if (ROOT/'heldout/execution_amendment.json').exists():b.update(json.loads((ROOT/'heldout/execution_amendment.json').read_text()))
     stage('prepare',['fit68.py','prepare'],'inputs/fit_targets.pt')
     if not (ROOT/'heldout/complete.json').exists():
         status(f"running generate x{b['workers']}");procs=[]
