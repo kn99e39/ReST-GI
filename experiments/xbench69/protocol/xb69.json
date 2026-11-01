@@ -1,0 +1,103 @@
+{
+  "protocol": "xbench69_v1",
+  "worklog": 69,
+  "date": "2026-11-01",
+  "authorisation": "User brief 2026-11-01 'TRACK B - Common Workload / External Baseline: Independent Benchmark Feasibility Experiment'. Bounded batch: capability intersection, candidate common workloads, a prospectively declared feasibility gate and, only if a candidate passes, the direct comparison in this same batch. Branch Selective_Recompute, no branch/worktree. Not authorised: a new or modified ReST-GI K, surface/glossy K support, RNA/8DNA architecture changes, simplified proxies, method-specific material changes, relaxed references/thresholds, a TransGI surrogate, re-running WL67 without a new reason, any successor.",
+  "worklog_number_rule": "WL68 is presumed reserved by the concurrent Track A (server root ~/rest_repr68 exists on LabServer63; no WL68 file in the repo at start). Track B is Worklog 69: code experiments/xbench69, results results/xbench69, reviewer exports results/evaluation/69, server root ~/rest_xbench69 (LabServer69 and, for RNA checks, LabServer63). Nothing under *repr68* / *68* paths is read or written; no Track A result is used.",
+  "base_commit": "418b1f8722391ed169e79d23730322f6d68d8ff2",
+  "status": "PREDECLARED before any comparative outcome of this batch. Historical WL22/27/35/53/55/56/67 numbers and the disclosed priors below were known when this was written.",
+  "central_question": "Can the currently implemented ReST-GI and at least one external Neural GI baseline execute the same physically meaningful geometry-edit workload without a new architecture? If yes, is there a measured quality/cost advantage?",
+
+  "disclosed_priors": {
+    "P1_wl67_blockers": "WL67 executed: RNA on W1 (two-slab, near-field emitter) blocked by upper-hemisphere training cameras (gap faces 32-80 deg from any observable direction), native max_bounces 32 / sample_clamp_direct 20 bias (-15.5/-9.1% upper top, -83.3/-65.4% lower bottom), distant-light conditioning; 8DNA blocked by Mitsuba float32 volume boundary layer (WL53, -12% at sigma_t 1000 m^-1) and GCC 8.4 on LabServer69.",
+    "P2_exploratory_signal": "BEFORE this protocol, a read-only script (scratch, recorded in results/xbench69/precheck/) read the WL55 Cycles references of floor (T0) and floor_c4 (T1) on the exterior views. top: floor group -0.37/-0.24/+0.04 %, dom:top -0.61/-0.67/+0.06 % (SE <= 0.013 %); 7/5/2 % of 780 floor ports change by > 3 % and > 3 SE, max 42 %. otop: dom:+y -2.9/-3.3/-3.8 %. The in-gap views (underup/underdown) carry WL55's large near-contact changes (P10 1 cm interface errors up to 19 %) but were not re-read. The gate criterion G8 below is the generic contract-level criterion, not tuned to these values.",
+    "P3_code_reading": "Source reading done before this protocol: RNA generator (custom Cycles query hook, CPU only, hemisphere cameras, sun angle and energy from the generate config, hard-coded max_bounces 32 / clamp 20, AOV shader outputs), WL22 RNA bridge (data producer replaced, RNA code unchanged), 8DNA NeuralVolPathIntegrator (physical first free flight inside the asset with si.spawn_ray(ray.d), neural transport from first scatter to exit, asset instance transform), official 8DNA volumetric assets (homogeneous candle/milk, bbox diagonal 2.10-2.40 units, sigma_t 15-50 per unit), Neural Radiosity (surface residual only; no medium transport, no dynamic conditioning), TransGI availability (2026-11-01: arXiv v1 only, no code link; GitHub repository search 'TransGI' 39 hits, none graphics; title search 0)."
+  },
+
+  "stage1_capability_status_vocabulary": ["EXECUTED (executed code in this project)", "SUPPORTED-UNQUALIFIED (code path exists, not qualified here)", "UNSUPPORTED (code path absent)", "UNKNOWN"],
+
+  "stage2_candidates": {
+    "C1_floor_rigid": "WL55 'floor' fixture (fnto_k55 k55_fixtures): 10x10x1 cm homogeneous isotropic medium slab (sigma_t 1000 m^-1, albedo 0.999/0.99/0.9, index-matched transparent boundary) 1 cm above a 30x30 cm Lambert floor (rho 0.8), collimated sun E=1 at zenith 40 deg azimuth 20 deg. Edit T0 floor -> T1 floor_c4 (rigid move to 4 mm clearance, shifted (2.3,1.7) mm). Stationary receiver: the floor. ReST-GI K exists (WL55 oracle, CAK face-on 18/18 on both states).",
+    "C2_W1_two_slab_dent": "WL56/WL67 W1. Inherited WL67 blockers; not re-executed.",
+    "C3_lego_box": "WL41-44 Lego + red box T0/T1 with K44 and native RNA (historical comparison exists: FNTO r1 24.49 dB vs RNA 33.57 dB). Inherited evidence only.",
+    "C4_teaset": "WL22/67 W2 teaset rough conductors (RNA/8DNA qualified, no ReST-GI K). Inherited evidence only.",
+    "C5_floor_lam": "WL54/55 floor_lam: the floor fixture with the slab as an opaque Lambert box (Cycles reference exists). ReST-GI would run with analytic local Lambert K only.",
+    "selection_order": "Stage-2 priority follows the brief: no new ReST-GI K, a real transport change, a stationary receiver, both states, a common independent physical reference, an external baseline with valid semantics. C1 is the only candidate that a priori meets every item; it is the one carried to Stage 3 with execution checks. C2-C5 are assessed at Stage 3 from inherited/source evidence only."
+  },
+
+  "stage3_gate": {
+    "unit": "A (candidate workload, external baseline) pair. The gate passes for a pair only if G1-G10 all hold; a blocked baseline does not stop the assessment of the others.",
+    "G1_correspondence": "Identical geometry, materials and placement for every arm (same fixture vertices; any unit change is a similarity transform applied to geometry, cameras and sigma_t together, so radiance is invariant).",
+    "G2_illumination": "The baseline represents the workload's light (collimated sun, E, direction) within its native light model and native configuration space.",
+    "G3_outputs_and_views": "Outputs are radiance in the same units; the measurement population consists of views that are (a) inside the baseline's supported query distribution and (b) validated ReST-GI readouts (WL55 face-on views: top, underup, underdown) and (c) contain the stationary receiver.",
+    "G4_reference": "An independent physical reference valid for the regime exists for both states (WL53-validated Cycles 3.5.1 volume path tracing).",
+    "G5_no_leakage": "No runtime access to reference images or reference transport by any arm.",
+    "G6_execution": "The baseline's native (or previously qualified, WL22-style data-producer) training and inference run on the designated server.",
+    "G7_restgi_k": "A supported ReST-GI K exists for the exact regime (no new K): C1 yes (WL55 oracle K, CAK).",
+    "G8_signal": "In the common measurement population, the T0->T1 reference change on the stationary receiver exceeds both the contract tolerance (3 %) and 3 reference SE on a non-empty set of receiver ports, in at least one channel.",
+    "G9_baseline_physics": "The radiance the baseline is trained on / renders with obeys the workload physics within the historical rule (|group bias| <= 3 % + 3 SE on every ruled amended group of the measurement population) against the Cycles reference, under the baseline's own renderer and native settings.",
+    "G10_budget": "Projected Stage-4 cost for the pair (data generation + training + evaluation, both states, primary seed) <= 36 h wall-clock on the designated server. Projection from a measured smoke on that server."
+  },
+
+  "stage3_checks": {
+    "X1_8dna_renderer_physics": {
+      "what": "Mitsuba 3.5.1 volpath (cuda_ad_rgb on LabServer69, the 8dna26 build; WL53: exact film there) renders the C1 floor scene with WL53 scene/port machinery, cameras top/underup/underdown, 1024 spp x 2 seeds, compared per WL55 amended group with the unchanged k55 group_bias rule against the WL55 Cycles references (floor seeds 5501/5502).",
+      "unit_convention": "8DNA-native authoring rule, fixed before results: asset (slab) centred at the origin, bounding-box diagonal 2.0 units (official volumetric assets 2.10-2.40), i.e. s = 2.0 / 0.141774 units per metre; sigma_t = 1000 / s per unit; every vertex, camera origin/target/width transformed by the same similarity.",
+      "control": "The same render at metres (s = 1, untranslated): must reproduce a WL53-type low bias on media faces (otherwise the check cannot discriminate).",
+      "pass": "G9 for 8DNA: every ruled amended group of top/underup/underdown passes at the 8DNA convention. Failure -> 8DNA blocked on C1 (physical reference semantics cannot be aligned under its renderer)."
+    },
+    "X2_8dna_environment": "On LabServer69: the 8DNA CUDA extension builds with a user-space GCC >= 9 (no root), `import models.integrator` succeeds, and a released-asset smoke render runs. On LabServer63 Mitsuba cuda film accumulation is wrong (WL53), so 8DNA rendering is designated to LabServer69.",
+    "X3_8dna_asset_semantics": "Source reading + smoke: PathSamplingDataset trains on the slab asset with a null (index-matched) boundary, incident samples cover the whole boundary and hemisphere of directions; a short training smoke runs and its per-epoch time projects the native schedule (train.py default max_epochs 30, configs/default.yaml unchanged except scene).",
+    "X4_rna_producer": "On LabServer63 with the RNA custom Cycles wheel (3.5.1, 75b072e3ad79): (a) AOV semantics on the transparent-boundary slab (position AOV of slab pixels lies on the slab top within 1 mm on >= 99 % of slab pixels); (b) at reference transport settings the custom CPU build matches the official CUDA reference per G9 on the top view (the only RNA-supported view: training cameras are on the exterior upper hemisphere; in-gap views are outside its query distribution).",
+    "X5_rna_cost": "Measured CPU seconds per view of the RNA generator on the C1 scene at the native Lego generate config (1024^2, 1024 spp, 400 views) and reference transport settings, projected for 2 states x (train + 40-view val) plus native HQ training (lego_vis) -> G10.",
+    "rna_settings_rule": "RNA data producer: its own custom Cycles and generate-config fields (resolution, num_images, sample_count, camera hemisphere, light_radius 0 = collimated as in generate_Lego, light_energy = E). The two hard-coded transport settings (max_bounces 32, sample_clamp_direct 20) are replaced by the common reference's (WL55: 1024 bounces, no clamp), the WL22 precedent of a data producer equal to the workload's physical reference renderer; RNA source/network/training/checkpoint rules unchanged. The native-setting bias is inherited from WL67, not re-trained."
+  },
+
+  "stage4_conditional": {
+    "trigger": "Executed only for pairs whose gate passes. Priority among external baselines (fixed by semantic alignment, not by scores): 8DNA first (native volumetric intrinsic asset with path-traced exterior and native rigid transform), RNA second (whole-scene relightable asset; edit requires retraining), executed if its gate passes and the 36 h budget allows.",
+    "freeze": "Before any Stage-4 comparative output, an amendment records the exact frozen settings (scene transform, 8DNA config/seed/checkpoint rule, spp ladders, seeds) and is committed.",
+    "states": ["T0 floor", "T1 floor_c4"],
+    "population": "WL55 amended port groups of cameras top, underup, underdown (WL55 rule: >=30 px, >=90 % coverage, >=5 ports, >=2 % share; |bias| <= 3 % + 3 SE). otop reported, not ruled (WL55: oblique readouts reference-limited). RNA population restricted to top (G3).",
+    "reference": "WL55 Cycles 3.5.1 CUDA references, 1024 spp x 2 seeds per state (floor 5501/5502, floor_c4 5531/5532), LabServer69, read-only.",
+    "arms": {
+      "CY": "Quality-matched Full Recompute: Cycles volume path tracing with the reference renderer/settings (k55_cycles), spp ladder {1,4,16,64,256,1024} x 2 realizations, seeds 690000 + 1000*state + 10*level + r.",
+      "RG_CAK": "ReST-GI: WL55 CAK interface, rest oracle K reused for T1 (rigid), re-aggregation + C rebuild + solve + ballistic readout, re-executed for timing (predictions must equal WL55's stored CAK within 1e-6 relative).",
+      "RG_P10": "ReST-GI production-resolution control (1 cm ports, WL55 P10), same reuse.",
+      "STALE": "No-update control: T0 reference port values used as the T1 prediction (measures the edit signal).",
+      "D8": "8DNA: one asset (the slab, native scale per X1 convention, null boundary, interior homogeneous medium), trained once with the native schedule (configs/default.yaml, max_epochs 30, seed 0); T1 rendered by moving the asset instance (native rigid transform, no retraining). Floor = Mitsuba diffuse 0.8, directional emitter. NeuralVolPathIntegrator spp ladder {1,4,16,64,256,1024} x 2 realizations, seeds 691000 + 1000*state + 10*level + r. A second training seed (1) if the budget allows (uncertainty).",
+      "RNA": "If executed: T0 model trained natively (lego_vis HQ) on producer data, T1 = frozen T0 model on T1 G-buffers and a T1 model refit per the WL22 refit definition; top view only."
+    },
+    "metrics": {
+      "M1": "Passes among ruled group x channel tests per state (T0 static, T1 edited).",
+      "M2": "max |group bias|.",
+      "M3": "Per-port relative L2 on selected ports.",
+      "M4": "Stationary-receiver signed change (floor ports of top and underdown): per-port change error ||dP - dR|| / ||dR||, slope and correlation of dP on dR.",
+      "costs": "Edit-to-valid-output latency per arm split into update, solve/render, readout; offline training/refit; peak GPU memory; persistent state size; CPU threads used. Uncontended (GPU-idle gating + 15 s sampler as WL67).",
+      "quality_matching": "QM_contract: lowest CY spp with both realizations passing every ruled test. QM_arm: lowest CY (and D8) spp at which both realizations are >= the arm on M1, <= on M2, M3, M4."
+    },
+    "verdict_map": {
+      "A": "Physically aligned workload established and ReST-GI has a quality-matched measured superiority over the executed external baseline AND is not dominated by quality-matched Full Recompute.",
+      "B": "Physically aligned workload established and executed, no ReST-GI superiority measured.",
+      "C": "Common workload exists but an execution/reference/quality gate blocks the verdict.",
+      "D": "No meaningful current capability intersection; direct comparison requires a new approved architecture or material-support decision."
+    },
+    "eligibility": "An arm that fails the required physical fidelity (M1 below all-pass) is reported INELIGIBLE for superiority claims; its measurements are kept."
+  },
+
+  "tests": [
+    "scene/material identity: fixture vertices of every arm equal the WL55 fixture (after the declared similarity)",
+    "geometry correspondence: port counts/labels equal between Cycles and Mitsuba classification; T1 = T0 asset under the declared rigid transform",
+    "light consistency: sun direction/E identical across Cycles, Mitsuba, 8DNA scenes",
+    "reference validity: WL55 reference SHA256 and render manifest settings",
+    "baseline I/O semantics: 8DNA asset/instance transform equals the fixture placement; RNA AOV semantics (X4a)",
+    "mask identity: amended selection identical to WL55 for the reference",
+    "split isolation: 8DNA/RNA training data use no reference image; seeds disjoint from every reference seed",
+    "timing completeness: every arm records update/render/readout components",
+    "no leakage: arms read no file under the reference directories at prediction time",
+    "energy/physics: X1 control reproduces the WL53 bias direction; furnace-type sanity of the scaled medium (sigma_t*s invariance)"
+  ],
+
+  "resource_rules": "LabServer69 hosts every Mitsuba/8DNA/ReST-GI/Cycles step (WL55 environment and references live there; LabServer63's Mitsuba cuda film is wrong). This is a declared exception to the user's 'LabServer63 main' rule for technical reasons. RNA producer checks run on LabServer63 (custom wheel installed there) as short CPU jobs, after checking that no Track A job is timing-sensitive. No cross-machine pairing of renders of the same renderer without an explicit cross-build check (X4b).",
+  "stop_conditions": "Stop a baseline's route at the first failed G criterion; stop the batch with a documented feasibility STOP if no pair passes. Never alter renderer semantics, the ReST-GI K or thresholds to obtain a pass.",
+  "amendments": []
+}
