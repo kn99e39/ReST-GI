@@ -1,0 +1,51 @@
+{
+  "smoke": [
+    {
+      "workers": 1,
+      "chunk": 32000000,
+      "packets_per_hour": 1056.9379943013034,
+      "packet_seconds": [
+        6.812129974365234
+      ],
+      "peak_GPU_bytes": [
+        9483366912
+      ],
+      "wall": 9.524543285369873,
+      "failed": false
+    },
+    {
+      "workers": 2,
+      "chunk": 16000000,
+      "packets_per_hour": 993.2737753671335,
+      "packet_seconds": [
+        13.969294786453247,
+        14.497512102127075
+      ],
+      "peak_GPU_bytes": [
+        4804146176,
+        4772525056
+      ],
+      "wall": 17.27930521965027,
+      "failed": false
+    }
+  ],
+  "probes": 256,
+  "predicted_hours": {
+    "8": 1.937672797309028,
+    "4": 0.968836398654514
+  },
+  "chosen": {
+    "workers": 1,
+    "chunk": 32000000,
+    "packets_per_hour": 1056.9379943013034,
+    "packet_seconds": [
+      6.812129974365234
+    ],
+    "peak_GPU_bytes": [
+      9483366912
+    ],
+    "wall": 9.524543285369873,
+    "failed": false
+  },
+  "evidence": false
+}

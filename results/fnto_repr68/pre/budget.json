@@ -1,0 +1,11 @@
+{
+  "rule": "Preflight times each configuration with non-evidence smoke packets (2 per worker, rest, slot 0). The configuration with the highest measured packets/hour is used. K = 8 replicas if 256 probes x 8 packets are predicted to take <= max_hours, else K = 4 if <= max_hours, else STOP_RESOURCE. budget.json is committed before generation.",
+  "replicas": 8,
+  "workers": 1,
+  "chunk": 32000000,
+  "packet_photons": 32000000,
+  "probes": 256,
+  "packets": 2048,
+  "total_photons": 65536000000,
+  "predicted_hours": 1.937672797309028
+}
