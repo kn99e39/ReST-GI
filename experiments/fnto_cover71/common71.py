@@ -19,4 +19,4 @@ def environment():
 
 def seed(g,slot,a,rep):
     """WL71 reference seeds: disjoint from WL66 (66xxxxxxx), WL68 (683xxxxxx/688xxxxxx) and dev smoke (719xxxxxx)."""
-    return 713000000+g*100000+slot*10000+a*100+rep
+    return 713000000+g*1000000+slot*10000+a*100+rep

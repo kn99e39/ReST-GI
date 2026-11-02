@@ -17,31 +17,37 @@ def ck(spec):
 def rel(a,b):return float((a-b).double().norm()/b.double().norm())
 P_FIT=[2085,2441,1123,2069]
 
+def g64(g):return {k:(v.double() if isinstance(v,torch.Tensor) and v.is_floating_point() else v) for k,v in g.items() if not k.startswith('_')}
+
 def test_batched_columns_equal_wl68():
-    """family71.network_columns == family68.network_columns (values and gradients) for frozen and fitted members, every geometry."""
+    """family71.network_columns == family68.network_columns in float64 (values and every parameter gradient <= 1e-10) for a frozen
+    and a fitted member at every geometry; float32 values agree to 1e-6 (float32 gradients differ only by summation order)."""
     for spec in ('P_5902','net_all_5902'):
         m=ck(spec);ports=P_FIT+[2148,1025,7,3000]
-        for g in G:
-            with torch.no_grad():
-                a=FW.network_columns(m,G[g],ports);b=FM.network_columns(m,G[g],ports)
-            for x,y in zip(a,b):assert rel(x,y)<=1e-6
-        m.train()
-        for p in m.parameters():p.grad=None
-        T,_,_=FW.network_columns(m,G['rest'],ports);(T*torch.linspace(0,1,T.numel(),device='cuda').view_as(T)).sum().backward();ga=[p.grad.clone() for p in m.parameters() if p.grad is not None]
-        for p in m.parameters():p.grad=None
-        T,_,_=FM.network_columns(m,G['rest'],ports);(T*torch.linspace(0,1,T.numel(),device='cuda').view_as(T)).sum().backward();gb=[p.grad.clone() for p in m.parameters() if p.grad is not None]
-        assert len(ga)==len(gb) and all(rel(x,y)<=1e-5 for x,y in zip(ga,gb))
+        with torch.no_grad():
+            for g in G:
+                for x,y in zip(FW.network_columns(m,G[g],ports),FM.network_columns(m,G[g],ports)):assert rel(x,y)<=1e-6
+        m=m.double().train();gg=g64(G['rest'])
+        def grads(f):
+            for p in m.parameters():p.grad=None
+            T,A,O=f(m,gg,ports);w=torch.linspace(0,1,T.numel(),device='cuda',dtype=T.dtype).view_as(T);(T*w).sum().backward()
+            return T.detach(),{n:p.grad.clone() for n,p in m.named_parameters() if p.grad is not None}
+        Ta,ga=grads(FW.network_columns);Tb,gb=grads(FM.network_columns)
+        assert rel(Ta,Tb)<=1e-12 and set(ga)==set(gb) and all(rel(ga[n],gb[n])<=1e-10 for n in ga)
 
 def test_objective_wrapper_identity():
-    """fit71.objective (native target held channel-major only) == family68.objective, value and gradient."""
+    """fit71.objective (native target held channel-major only) == family68.objective: identical float32 value; float64 gradient <= 1e-10."""
     import fit71
-    m=ck('net_all_5902');m.train();g=G['pt0'];ports=P_FIT
+    m=ck('net_all_5902').train();g=G['pt0'];ports=P_FIT;bm=FM.bin_map('cuda')
     with torch.no_grad():T,A,O=FW.network_columns(m,g,ports);y=FM.predict(T,(1-g['beta'][ports]).float(),A,O,'native')
-    S=(y*(1+.1*torch.randn_like(y))).clamp(min=0);d=(1-g['beta'][ports]).float();bm=FM.bin_map('cuda')
+    S=(y*(1+.1*torch.randn_like(y))).clamp(min=0);d=(1-g['beta'][ports]).float()
     t1=FM.Target(S,d,g['parent'],bm);t2=FM.Target(S.clone(),d,g['parent'],bm);del t2.S['native']
-    T,A,O=FW.network_columns(m,g,ports);j1=FM.objective(T,A,O,t1);g1=torch.autograd.grad(j1,[m.in_logits,m.edge[-1].weight])
-    T,A,O=FW.network_columns(m,g,ports);j2=fit71.objective(T,A,O,t2,False);g2=torch.autograd.grad(j2,[m.in_logits,m.edge[-1].weight])
-    assert float(j1)==float(j2) and all(rel(a,b)<=1e-6 for a,b in zip(g1,g2))
+    with torch.no_grad():T,A,O=FW.network_columns(m,g,ports);assert float(FM.objective(T,A,O,t1))==float(fit71.objective(T,A,O,t2,False))
+    m=m.double();gg=g64(g);S=S.double();d=d.double()
+    t1=FM.Target(S,d,g['parent'],bm);t2=FM.Target(S.clone(),d,g['parent'],bm);del t2.S['native']
+    T,A,O=FW.network_columns(m,gg,ports);g1=torch.autograd.grad(FM.objective(T,A,O,t1),[m.in_logits,m.edge[-1].weight,m.src_layer.weight])
+    T,A,O=FW.network_columns(m,gg,ports);g2=torch.autograd.grad(fit71.objective(T,A,O,t2,False),[m.in_logits,m.edge[-1].weight,m.src_layer.weight])
+    assert all(rel(a,b)<=1e-10 for a,b in zip(g1,g2))
 
 def test_parameters_teachers_and_passivity():
     """157,024 parameters; WL68 angular bases installed; TB = P_5902 + those bases; T >= 0, sum < 1, column sums <= 1 (also perturbed)."""
