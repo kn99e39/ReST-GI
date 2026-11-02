@@ -59,11 +59,12 @@ def test_parameters_teachers_and_passivity():
         base=ck(spec);assert all(torch.equal(x,y) for (n,x),(_,y) in zip(m.state_dict().items(),base.state_dict().items()) if n not in ('in_logits','out_logits'))
     ta=fit71.teacher('TA');assert all(torch.equal(x,y) for x,y in zip(ta.state_dict().values(),ref.state_dict().values()))
     tb=fit71.teacher('TB');assert torch.equal(tb.in_logits.cpu(),a)
+    torch.manual_seed(71071)
     with torch.no_grad():
         for m in (ta,tb,fit71.model_from('P_5901')):
             for p in list(m.parameters())[::3]:p.add_(torch.randn_like(p)*.3)
             for g in G.values():
-                T,A,O=FW.network_columns(m,g,P_FIT);assert float(T.min())>=0 and float(T.sum(1).max())<1
+                T,A,O=FW.network_columns(m,g,P_FIT);assert float(T.min())>=0 and float(T.sum(1).max())<=1+1e-6  # sigmoid mass < 1 exactly; float32 may round to 1
                 assert float(m.column_sums(g,m.coefficients(g)).max())<=1+1e-6
 
 def test_ports_rule_and_correspondence():
