@@ -1,0 +1,50 @@
+{
+  "name": "fine_tuning_drift_smoke",
+  "status": "NON-EVIDENCE diagnostic smoke (user brief 2026-11-02, 'Does sparse-source physical fine-tuning destroy an initially transferable transport rule?'). Written before any run. DEVELOPMENT ONLY: every reference used was inspected in WL66/WL68 (and WL71 dev groups). Not a numbered worklog. WL71, WL68 and earlier smoke files are read-only inputs.",
+  "machine": "LabServer63 (user instruction 2026-11-02: '이거 63번 서버에서 돌려라'), RTX 3080 Ti 12 GB, torch 2.3.1+cu121; one server chain; isolated root ~/rest_drift_smoke; code snapshot root/repo = git archive of HEAD e96a8d6",
+  "inputs_read_only": {
+    "WL68": "~/rest_repr68/inputs (fit bundles rest/pt0 slots 0-3, wl59 geometry rest/pt0/cf3, P_5902, lights, fit_targets.pt sha 3c21b619), ~/rest_repr68/heldout/bundles (rest/pt0 slots 4-7, cf3 slots 0-7), ~/rest_repr68/runs/net_all_5902.pt (sha 132303b2)",
+    "WL71": "~/rest_cover71/fit_targets71.pt and ports.json via fit71.Problem (read-only), ~/rest_cover71/runs/C_5902.pt (sha d17f1876)",
+    "smoke": "student_A.pt from C:/Users/dna10/rest_cover_smoke/smoke_tstar (sha 0a49f98d), copied to ~/rest_drift_smoke/historical/"
+  },
+  "stageA_reconciliation": {
+    "identities": ["source ports (WL66 slots 0-3 = 2085, 2441, 1123, 2069; development slots 4-7 = 2148, 1025, 2707, 2422)", "A/O: in/out logits of net_all_5902 equal those inside smoke student A and WL71 C_5902", "initial model: P_5902 + net_all_5902 A/O; tsha equals the smoke init a5d1c087", "physical target: tensor sha of the S4 targets (fit71 Problem) equals WL68 fit_targets (73b49656 / d9971065) = smoke fit_target_sha", "geometry features: archived rest/pt0/cf3 hashes equal the WL68 manifest", "objective: fit71.objective (WL71) and family68.objective (smoke) give the same J at init within 1e-6 relative", "optimizer/clipping: both torch Adam (0.9, 0.999, 1e-8), clip_grad_norm_(params, 1.0) on the 'net' group; recorded differences: smoke 2,000-step cosine and loss J/J0, WL71 20,000-step cosine and loss J; smoke torch 2.8 on RTX 5080, WL71 torch 2.3.1 on LabServer63"],
+    "reproduction": "one evaluator (this driver, eval68 estimators) re-scores smoke student A and WL71 C_5902; H3 (cf3 slots 4-7, all 8 replicas) must reproduce the reported worst-channel upper bounds within 0.01 absolute for coarse, fine16 and contrast (smoke A .070/.154/.268; C_5902 from WL71 analysis.json DEV_cf3_wl68ports). Failure -> STOP, label INCONCLUSIVE."
+  },
+  "stageB_training": {
+    "common": "fit71.Problem with spec pop S4, replicas 0-3, target phys (identical WL71 data path); init fit71.model_from('P_5902') (P_5902 + fixed net_all_5902 A/O); group 'net' (A/O frozen); Adam(0.9, 0.999, 1e-8) lr 3e-3 -> 3e-5 cosine over 20,000 steps (fit71/fit68 cosine), clip_grad_norm_ 1.0, float32, TF32 off, torch.manual_seed(0), full batch",
+    "arm_R": "loss = J (WL71 contract)",
+    "arm_N": "loss = J / J0, J0 = J of the common initial model computed once (no grad) before training; recorded; identical for both arms",
+    "only_difference": "loss scaling",
+    "checkpoints": "model (+ optimizer state) after 0, 500, 2000, 6000, 10000, 20000 updates; diagnostic observations, never selected on held-out results",
+    "logs": "every step: J (raw), pre-clip gradient norm of the optimised loss; derived: fraction of clipped steps per window, raw-J gradient norm = norm / scale",
+    "concurrency": "both arms run concurrently on the GPU (two processes, ~1 GB each); timing is contended and descriptive only"
+  },
+  "stageC_evaluation": {
+    "estimators": "eval68 unchanged (unbiased cross-replica Grams, jackknife upper 95 %, worst channel)",
+    "groups": {
+      "FIT_rest / FIT_pt0": "slots 0-3, replicas 4-7 (never used for fitting)",
+      "H1_rest / H1_pt0": "slots 4-7, all 8 replicas",
+      "H3_cf3": "cf3 slots 4-7, all 8 replicas",
+      "H2_cf3": "cf3 slots 0-3 (trained positions, changed geometry), all 8 replicas",
+      "DEF_cf3_h, DEF_pt0_h": "signed cf3 - rest and pt0 - rest at slots 4-7; DEF_pt0_fit: pt0 - rest at slots 0-3 (replicas 4-7); a matrix enters only if coarse signal/SE >= 3 in every channel"
+    },
+    "precision": "abs groups pool matrices with coarse signal/SE >= 10 in every channel",
+    "per_source": "per-matrix abs_coarse / abs_fine16 / con_coarse upper bounds",
+    "candidates": "R and N at every checkpoint (step 0 is the shared init), smoke student A, WL71 C_5902, WL68 net_all_5902, frozen P_5902",
+    "flux_concentration": "WL71 Stage-1 definition: fraction of collided flux (sum over bins, outgoing directions, channels) within 0.5 / 1 / 2 / 4 cm (rest material coordinates) of the source; model flux = sum_a d A T; physical flux = mean over all replicas; ports 0-7 at rest, pt0, cf3",
+    "T_change": "relative ||T(ckpt) - T(init)|| over (P, mixtures, channels) at ports 0-7 (rest, pt0, cf3)",
+    "physics": "eval68.passivity (rest, pt0, cf3) and eval68.extended (WL59 historical full fields) for every network candidate"
+  },
+  "classification": {
+    "H1_error": "worst over H1_rest and H1_pt0 of the worst-channel upper bound; computed separately for abs_coarse (a) and con_coarse (c)",
+    "drift_in_arm": "a or c at 20,000 >= 1.25 x its value at 2,000, AND training J(20,000) < J(2,000), AND the FIT-group worst upper bound at 20,000 <= its value at 2,000 (training-fit improvement)",
+    "TRAINING DRIFT SUPPORTED": "drift_in_arm holds in at least one arm (report which)",
+    "SCALING SENSITIVITY SUPPORTED": "at checkpoint 2,000 or 20,000, max(R/N, N/R) >= 1.25 for a or c",
+    "NO DRIFT OBSERVED": "drift_in_arm fails in both arms",
+    "INCONCLUSIVE": "Stage A reconciliation fails, a run is non-finite, A/O changes, passivity fails, or held-out data is opened during training",
+    "notes": "several findings may be reported; 1.25 = the WL71 materiality factor (0.8 inverse); the historical 2,000-step smoke uses a different schedule and is a historical diagnostic only; no finding is proof about relative-geometry kernels"
+  },
+  "focused_tests": ["same initial parameters in both arms (tsha)", "frozen angular basis (in/out logits bitwise unchanged at every checkpoint)", "objective scaling equivalence (grad of J/J0 = grad(J)/J0 at init to 1e-6)", "gradient clipping accounting (clip_grad_norm_ return value = pre-clip norm; clipped fraction counts norm > 1)", "prediction/evaluation equivalence (family71 columns vs family68 at ports 0-7 <= 1e-6)", "held-out isolation (training reads only fit71 allowed files)", "physical passivity (perturbed-weight column sums <= 1 + 1e-6)"],
+  "prohibited": ["new photons", "coverage change", "clipping or learning-rate tuning", "replacement architecture", "modifying WL71/WL68/smoke files", "production K/C change", "checkpoint selection on held-out results", "automatic follow-up"]
+}

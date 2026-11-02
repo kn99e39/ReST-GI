@@ -1,0 +1,37 @@
+{
+  "same_init": true,
+  "init_tsha": "a5d1c087e8ac259efe44c12ddb162f933681bdc91cdc59f4f4fbdf131dd0655c",
+  "init_equals_smoke_init": true,
+  "AO_frozen_group": true,
+  "AO_equal_net_all": true,
+  "AO_equal_in_smokeA": true,
+  "AO_equal_in_C_5902": true,
+  "target_identity": {
+    "rest": "73b496562b7a423f6a70a686e5fa51e40dd3dfe6d17d4b066be46304bba27b4d",
+    "pt0": "d9971065bb47ef377e4bbd0c521c33c937f775625c1fac6c0889d8d7dc65e4a6"
+  },
+  "target_equals_smoke": true,
+  "wl71_S4_targets_equal_wl68": true,
+  "J0_fit71": 1.982081651687622,
+  "J0_family68": 1.982081651687622,
+  "objective_identity": true,
+  "scaling_equivalence": true,
+  "clip_accounting": {
+    "pre": 1.0816723317250847,
+    "returned": 1.0816723108291626,
+    "post": 0.9999991589675118,
+    "ok": true
+  },
+  "columns_equivalence": 3.286281184955442e-07,
+  "passivity_perturbed_max_colsum": 0.993869423866272,
+  "held_out_isolation": [
+    "/home/nd/rest_cover71/fit_targets71.pt",
+    "/home/nd/rest_cover71/ports.json",
+    "/home/nd/rest_repr68/inputs/wl59/P_5901.pt",
+    "/home/nd/rest_repr68/inputs/wl59/P_5902.pt",
+    "/home/nd/rest_repr68/inputs/wl59/geometry_pt0.pt",
+    "/home/nd/rest_repr68/inputs/wl59/geometry_rest.pt",
+    "/home/nd/rest_repr68/runs/net_all_5902.pt"
+  ],
+  "passed": true
+}
