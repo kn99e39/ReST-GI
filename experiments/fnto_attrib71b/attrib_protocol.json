@@ -1,0 +1,35 @@
+{
+  "name": "wl71b_drift_component_attribution",
+  "status": "Read-only mechanistic attribution of the WL71A source-generalization drift (user brief 2026-11-03). Letter-suffixed Worklog 71B. Development data only; post hoc by nature (WL71A results were seen). No training, no photons, no parameter tuning. Written before any decomposition or counterfactual output exists.",
+  "machine": "LabServer63 (user instruction: run on the server), one server chain; isolated root ~/rest_attrib71b; code snapshot = git archive of the protocol commit; WL71A checkpoints read from ~/rest_drift_smoke/out (read-only, hashes checked against results/fnto_drift71a/checkpoints.sha256)",
+  "algebra": "for source i (runtime.Transport / family68.network_columns): W_raw[e,r,c] = softplus(edge(s[i] + d[dst_e] + pair_e)) * prior[e,c] on the 128 nearest edges; U[j,k,r,c] = softmax_j(node_head(z)[U part]); V_raw[i,k,r,c] = softplus(node_head(z_i)[V part]); mass[i,r,c] = sigmoid(node_head(z_i)[mass part]); scale = mass / (sum_e W_raw + sum_k V_raw + 1e-12); T = scatter_dst(W_raw * scale) + sum_k U[:,k] V_raw[i,k] * scale = T_W + T_UV; sum_j T = mass",
+  "stageA_decomposition": {
+    "checkpoints": "R and N at 0, 500, 2000, 6000, 10000, 20000 (WL71A); geometries rest, pt0, cf3; sources slots 0-7 (ports 2085, 2441, 1123, 2069, 2148, 1025, 2707, 2422)",
+    "closure": "T_W + T_UV equals family71.network_columns T (relative max abs <= 1e-6) for every checkpoint, geometry and source; predicted native response from the decomposed T equals the WL71A evaluation path",
+    "per_source": "raw sums (W_raw, V_raw), mass, scale; component flux F_X(j) = sum_c sum_a d[a] sum_r A[r,a,c] T_X[j,r,c] (outgoing directions sum to 1 through O; RGB summed as in the WL71 Stage-1 flux definition); totals, W share of flux, fraction within 1 cm and 2 cm (rest material coordinates) per component and total; UV flux fraction landing within 1 cm of any fit port (slots 0-3, other than the source itself); relative L2 change of T_W, T_UV, V_raw and mass from step 0 and from 2000 to 20000",
+    "global_U": "relative L2 change of U per geometry; mean fraction of U column mass within 1 cm of the fit ports"
+  },
+  "stageB_correlation": "per-source physical errors (abs_coarse, abs_fine16, con_coarse upper bounds) and physical / predicted near-source flux from the WL71A eval.json (same estimator); descriptive Spearman correlations over (unseen source, checkpoint) between the change in 1 cm flux and the changes in W share, UV fraction near fit ports, mass, |dT_W|, |dT_UV|; correlation is not causation",
+  "stageC_counterfactual": {
+    "pair": "Early = R@2000, Late = R@20000 (primary); N@2000 / N@20000 as a consistency control",
+    "factors": "W (W_raw on the fixed edges), U (destination basis), V (source V_raw), M (per-source mass); scale recomputed from the substituted factors with the original algebra",
+    "design": "full 2^4 factorial (16 combinations) per pair; EEEE and LLLL must reproduce the Early and Late models exactly (closure test)",
+    "constraints": "T >= 0 by construction; sum_j T = mass in (0,1); A/O = the fixed net_all_5902 bases (identical in both checkpoints); identical geometry, edges and sources; checked numerically",
+    "evaluation": "the WL71A evaluator (eval68 estimators, same references and precision rules): FIT_rest/pt0 (slots 0-3, replicas 4-7), H1_rest/pt0 (slots 4-7), H3_cf3 (cf3 slots 4-7), H2_cf3 (cf3 slots 0-3), DEF cf3-rest slots 4-5, pt0-rest slots 4 and 7, pt0-rest fit slots 0, 1, 3 (qualified matrices of WL71A); per-source upper bounds; 1 cm flux per source",
+    "label": "hybrid coefficients are diagnostic counterfactuals, not reachable networks"
+  },
+  "attribution_rule": {
+    "metrics": "primary m1 = worst over H1_rest and H1_pt0 of the worst-channel upper bound of abs_coarse; m2 = same for con_coarse; reported also: H3, slot-6 and slot-5 per-source, 1 cm flux at slots 5-6, deformation",
+    "drift": "Dm = m(LLLL) - m(EEEE)",
+    "groups": "W = {W}; GLOBAL = {U, V} moved together (U and V are the global low-rank factor and its source mixture); M = {mass}; also U alone and V alone reported",
+    "share": "for a group X: degrade_X = m(Early with X from Late) - m(EEEE); recover_X = m(LLLL) - m(Late with X from Early); share_X = (degrade_X + recover_X) / (2 Dm)",
+    "LOCAL-MECHANISM DOMINANT": "share_W >= 0.5 with degrade_W >= 0.5 Dm and recover_W >= 0.5 Dm, and share of every other group < 0.25",
+    "GLOBAL-FACTOR DOMINANT": "same with GLOBAL in place of W",
+    "NORMALIZATION DOMINANT": "same with M in place of W",
+    "INTERACTING / MULTIPLE MECHANISMS": "closure holds but no single group meets its dominance rule for the metric (several groups >= 0.25, or one-way-only effects, or large interaction terms)",
+    "combination": "the label must agree for m1 and m2; otherwise INTERACTING / MULTIPLE MECHANISMS; any closure, identity, passivity or evaluation-identity failure -> INCONCLUSIVE",
+    "consistency": "the N pair is analysed with the same rule and reported; it does not change the R-based label"
+  },
+  "tests": ["checkpoint identity (sha256 equal to WL71A record)", "A/O identical across checkpoints and equal to net_all_5902", "decomposition closure (T_W + T_UV = network_columns T)", "counterfactual closure (EEEE / LLLL = Early / Late exactly)", "nonnegativity and sum_j T = mass < 1 for all 16 combinations, response passivity beta + (1 - beta) sum_r A mass <= 1", "evaluation identity (R@2000 and R@20000 re-scored H1/H3/FIT upper bounds equal WL71A eval.json within 1e-5 (float32 reconstruction order))", "source correspondence (ports equal WL66/WL68)"],
+  "prohibited": ["training", "photons", "coefficient tuning", "loss / threshold / schedule / architecture changes", "selecting a checkpoint for deployment", "successor implementation", "automatic downstream experiments"]
+}
