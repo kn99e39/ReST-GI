@@ -550,5 +550,14 @@
     "lanes_rule": "dev-measured peaks: S4 1.06 GB, S16 3.35 GB, joint 3.72 GB per fit on the 12 GB GPU; two concurrent fits (worst 7.4 GB) leave margin, three would not. Per-run seconds are therefore contended timings (labelled in each run).",
     "dev_root": "~/rest_cover71_dev (0.5M-photon packets, 40-step fits, 5-iteration oracle; no metric used)",
     "reference_preflight": "dev-measured 32M chunk 3.40 s/packet (peak 9.53 GB) vs 16M 5.16 s; evidence preflight repeats the measurement by rule"
-  }
+  },
+  "amendments": [
+    {
+      "id": 1,
+      "date": "2026-11-02",
+      "stage": "reference generation, after 175 of 3072 packets (all gates passed), before any fit or analysis",
+      "reason": "the 32M->16M OOM fallback retried inside the except handler, where the traceback still held the failed attempt's tensors; one fallback succeeded (rest slot 9 bin 5 rep 6), the next 32M OOM (rest slot 9 bin 5 rep 7) failed again at 16M and stopped generation",
+      "change": "execution only: the retry runs after the handler exits, with gc.collect() and empty_cache() (probes71.trace). Estimator, seeds, chunk rule, packets and every rule unchanged; completed packets and receipts kept; the failed packet is regenerated from its own seed."
+    }
+  ]
 }

@@ -28,12 +28,14 @@ def packets():
 def trace(RG,AO,FW,tagged,dom,i,a,N,sd,chunk):
     """One packet at the given chunk; on CUDA OOM at 32M the packet is retried from its own seed at 16M (protocol)."""
     import torch
+    import gc
     os.environ['WL57_ACTION_CHUNK']=str(chunk)
     try:return tagged(AO,FW,dom,P68.one_hot(dom.P,i,a),N,sd),chunk
     except torch.cuda.OutOfMemoryError:
         if chunk<=16_000_000:raise
-        torch.cuda.empty_cache();os.environ['WL57_ACTION_CHUNK']='16000000'
-        return tagged(AO,FW,dom,P68.one_hot(dom.P,i,a),N,sd),16_000_000
+    # amendment 1: retry only after the handler has exited, so the failed attempt's tensors (held by the traceback) are freed
+    gc.collect();torch.cuda.empty_cache();os.environ['WL57_ACTION_CHUNK']='16000000'
+    return tagged(AO,FW,dom,P68.one_hot(dom.P,i,a),N,sd),16_000_000
 
 def preflight():
     """Non-evidence smoke timing (seeds 719000000+) of 32M and 16M chunks on rest at a final-slot port; chooses the chunk by rule."""
