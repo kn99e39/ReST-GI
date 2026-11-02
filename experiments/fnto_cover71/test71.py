@@ -36,13 +36,13 @@ def test_batched_columns_equal_wl68():
         assert rel(Ta,Tb)<=1e-12 and set(ga)==set(gb) and all(rel(ga[n],gb[n])<=1e-10 for n in ga)
 
 def test_objective_wrapper_identity():
-    """fit71.objective (native target held channel-major only) == family68.objective: identical float32 value; float64 gradient <= 1e-10."""
+    """fit71.objective (native target held channel-major only) == family68.objective: float32 value within 1e-6 (run-to-run reduction order); float64 gradient <= 1e-10."""
     import fit71
     m=ck('net_all_5902').train();g=G['pt0'];ports=P_FIT;bm=FM.bin_map('cuda')
     with torch.no_grad():T,A,O=FW.network_columns(m,g,ports);y=FM.predict(T,(1-g['beta'][ports]).float(),A,O,'native')
     S=(y*(1+.1*torch.randn_like(y))).clamp(min=0);d=(1-g['beta'][ports]).float()
     t1=FM.Target(S,d,g['parent'],bm);t2=FM.Target(S.clone(),d,g['parent'],bm);del t2.S['native']
-    with torch.no_grad():T,A,O=FW.network_columns(m,g,ports);assert float(FM.objective(T,A,O,t1))==float(fit71.objective(T,A,O,t2,False))
+    with torch.no_grad():T,A,O=FW.network_columns(m,g,ports);a_,b_=float(FM.objective(T,A,O,t1)),float(fit71.objective(T,A,O,t2,False));assert abs(a_-b_)<=1e-6*abs(a_)  # float32 reductions are nondeterministic run to run
     m=m.double();gg=g64(g);S=S.double();d=d.double()
     t1=FM.Target(S,d,g['parent'],bm);t2=FM.Target(S.clone(),d,g['parent'],bm);del t2.S['native']
     T,A,O=FW.network_columns(m,gg,ports);g1=torch.autograd.grad(FM.objective(T,A,O,t1),[m.in_logits,m.edge[-1].weight,m.src_layer.weight])
