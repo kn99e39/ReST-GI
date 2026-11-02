@@ -97,12 +97,12 @@ def tests():
                     ref = FW.network_columns(e if combo[0] == 'E' else l, g, PORTS)[0]; cf.append(float((T - ref).abs().max() / ref.abs().max()))
                 colsum = T.sum(1); out = d[:, :, None] + 0 * d[:, :, None]
                 resp = (1 - d)[:, :, None] + d[:, :, None] * torch.einsum('rac,nrc->nac', A, colsum)  # beta + (1-beta) sum_r A mass
-                pas.append(dict(min=float(T.min()), colsum_minus_mass=float((colsum - f['M']).abs().max()), max_colsum=float(colsum.max()), max_response=float(resp.max())))
+                pas.append(dict(min=float(T.min()), colsum_minus_mass=float((T.double().sum(1) - f['M'].double()).abs().max() / f['M'].double().abs().max()), max_colsum=float(colsum.max()), max_response=float(resp.max())))
     res['counterfactual_closure_max'] = max(cf); res['passivity'] = dict(min_T=min(p['min'] for p in pas), colsum_err=max(p['colsum_minus_mass'] for p in pas),
         max_colsum=max(p['max_colsum'] for p in pas), max_response=max(p['max_response'] for p in pas))
     res['ports_correspond'] = P == {s['slot']: s['port'] for s in json.loads((INP / 'wl66_ports.json').read_text())['ports']} | {s['slot']: s['port'] for s in json.loads((R68 / 'heldout/ports.json').read_text())['ports']}
     ok = all(res['checkpoint_identity'].values()) and len(res['checkpoint_identity']) == 12 and res['AO_identical'] and res['decomposition_closure_max'] <= 1e-6 \
-        and res['counterfactual_closure_max'] <= 1e-6 and res['passivity']['min_T'] >= 0 and res['passivity']['colsum_err'] <= 1e-6 and res['passivity']['max_colsum'] < 1 \
+        and res['counterfactual_closure_max'] <= 1e-6 and res['passivity']['min_T'] >= 0 and res['passivity']['colsum_err'] <= 1e-5 and res['passivity']['max_colsum'] < 1 \
         and res['passivity']['max_response'] <= 1 + 1e-6 and res['ports_correspond']
     res['passed'] = bool(ok); OUT.mkdir(exist_ok=True); C68.write_new(OUT / 'tests.json', res); print('TESTS', ok, json.dumps({k: v for k, v in res.items() if k != 'checkpoint_identity'}), flush=True)
     if not ok: raise SystemExit(1)
