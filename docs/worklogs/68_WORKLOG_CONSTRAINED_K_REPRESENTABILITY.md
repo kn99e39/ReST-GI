@@ -175,3 +175,168 @@ Per-run `seconds` are therefore labelled by implementation and are not compared 
 - **Reported utilisation fell.** In the amended runs it dropped from 98% to 65–80%. The GPU work per step shrank more than the CPU launch time, so launch overhead again leaves gaps. Throughput, not the utilisation figure, is what improved. Removing the remaining launch overhead (e.g. CUDA graphs) was not attempted.
 
 **Housekeeping.** The chain's GPU sampler loop survived `terminate()` and kept writing after `done`. It was stopped at 2026-11-02 01:38 UTC. Samples after 20:58 UTC carry no information. A copy of the log is in `results/fnto_repr68/amend2/`.
+
+## Final report (2026-11-02)
+
+The chain on LabServer63 completed on 2026-11-01 at 20:58 UTC with every stage passed. The evaluation was fixed by the protocol before results, and nothing was rerun or reselected afterwards.
+
+- **Exports:** `results/fnto_repr68/final/`.
+- **Reviewer copies:** `results/evaluation/68/`, with a provenance manifest.
+- **Metrics:** each metric is the upper 95% bound of the jackknifed relative L2 error, worst over the R, G and B channels.
+- **Triples:** "a / f / c" means coarse collided / fine16 / coarse contrast. The WL59 criteria are 0.10 / 0.15 / 0.25.
+- **Population labels:** "fit" scores fitting replicas 4–7 only. "Held-out" uses independent seeds and new references.
+
+### Implementation fact
+
+- The evaluated family is the code-level WL59 P family. It is described in "Implemented family, read from code" above; rank, width, the 157,024 parameters, and the meaning of A, O, B and K are unchanged.
+- Every fitted model is an experimental copy. Production checkpoints were not touched.
+- Passivity held for every fitted network:
+  - zero/linearity/cache tests pass at all three geometries;
+  - the maximum column sum is ≤ 0.9997 for the all-group fits;
+  - for net_net it is 1.0000002, float32 round-off of the sigmoid normalisation, inside the WL59 physics tolerance.
+- Teacher runs did not meet the last-decile convergence rule, which the adequacy rule does not require. All other runs did.
+- **Primary candidate** (predeclared: lowest final training J among the physical all-group fits): net_all_5902, J = 0.01667. It ran on the amendment-2 implementation; see Amendment 2.
+- **Reference precision:** all 24 held-out and fit matrices are qualified. The minimum per-matrix signal/SE is 988.
+
+### Measurement
+
+**Fit population and held-out groups** (upper 95%, worst channel, a / f / c):
+
+| Candidate | fit rest | fit pt0 | H1 rest new ports | H1 pt0 new ports | H2 cf3 fit ports | H3 cf3 new ports |
+|---|---|---|---|---|---|---|
+| frozen P_5901 | .104/.262/.930 | .105/.260/.899 | .153/.259/.972 | .153/.259/.969 | .104/.262/.930 | .154/.263/.971 |
+| frozen P_5902 | .104/.255/.899 | .105/.252/.872 | .154/.254/.951 | .154/.253/.948 | .104/.255/.899 | .155/.258/.950 |
+| net A, 5901 | .097/.247/.790 | .101/.242/.772 | .148/.247/.870 | .148/.247/.866 | .097/.247/.790 | .151/.251/.872 |
+| net A, 5902 | .097/.249/.782 | .102/.241/.768 | .149/.249/.883 | .150/.248/.875 | .097/.249/.782 | .151/.253/.883 |
+| net O, 5901 | .109/.267/.906 | .110/.265/.878 | .158/.264/.959 | .158/.264/.956 | .109/.267/.906 | .159/.268/.958 |
+| net O, 5902 | .106/.257/.878 | .107/.253/.852 | .156/.256/.938 | .155/.255/.934 | .106/.257/.878 | .156/.259/.937 |
+| net AO, 5901 | .094/.249/.610 | .098/.249/.604 | .142/.246/.705 | .141/.247/.710 | .094/.249/.611 | .144/.249/.709 |
+| net AO, 5902 | .090/.251/.583 | .111/.254/.573 | .142/.251/.738 | .143/.254/.737 | .090/.251/.583 | .143/.254/.737 |
+| net net, 5901 | .218/.245/.737 | .197/.235/.714 | .524/.697/.987 | .523/.701/.982 | .216/.244/.737 | .536/.689/.983 |
+| net net, 5902 | .206/.246/.758 | .189/.238/.733 | .566/.628/1.048 | .565/.629/1.056 | .200/.245/.759 | .568/.632/1.046 |
+| net all, 5901 | .041/.088/.155 | .052/.090/.153 | .337/.411/1.215 | .333/.408/1.239 | .042/.088/.156 | .340/.409/1.191 |
+| **net all, 5902 (primary)** | **.039/.087/.133** | **.049/.090/.135** | .559/.609/.942 | .546/.600/.963 | **.040/.087/.134** | .562/.606/.947 |
+| net all, scratch6801 | .043/.085/.156 | .052/.091/.154 | .423/.505/1.355 | .428/.508/1.441 | .043/.086/.157 | .423/.499/1.347 |
+| FCoef, 4 restarts | .040–.044/.086–.115/.123–.142 | .050–.053/.088–.116/.127–.141 | — | — | — | — |
+| convex J at frozen A,O | .207–.220/.244–.245/.736–.757 | .189–.197/.235–.237/.713–.731 | — | — | — | — |
+
+The coefficient class and the convex floors have no geometry map, so their held-out values are undefined (—).
+
+**Decision inputs:**
+
+- **S_fit:** passes (rest and pt0).
+- **S_gen:** fails. H1 rest, H1 pt0 and H3 fail; H2 passes.
+- **Teacher controls:** all four are informative and all pass. The final upper errors over rest and pt0 (a / f / c) are:
+  - T1: ≤ .0005 / .0006 / .0012;
+  - T1r: ≤ .0012 / .0011 / .0030;
+  - T2: ≤ .020 / .020 / .026, with initial con .93;
+  - Tcoef: ≤ .0006 / .0006 / .0010, with initial con 1.05.
+
+  T1 and T1r start at con .31–.34.
+- **Optimizer adequate:** yes. **Primary converged:** yes.
+
+**Admissible convex floors at the frozen WL59 A and O** (exact FISTA, float64; fit population, coarse contrast):
+
+| Floor | Upper 95%, worst channel |
+|---|---|
+| Nonnegative capped T under J | .736 / .757 (rest, seeds 5901 / 5902); matches the net-group fits to ≤ .02 |
+| conAO (contrast-only, nonnegative) | .59–.74 per channel |
+| conA_freeout (frozen A, free nonnegative outgoing blocks) | .54–.67 per channel |
+
+The WL66 signed floors for the same A and O are F_A .52–.56 and PAOc .60–.65; WL66's values were reproduced to ~1e-6. The relaxed L7 bound is .023–.027 for every population.
+
+**Basis floors for fitted A and O.** The signed floors (F_A / PAOc, upper, worst channel) are:
+
+| A, O from | fit | new ports |
+|---|---|---|
+| net all 5902 | .052 / .125 | .058–.059 / .141–.145 |
+| coef_5901 | .051 / .120 | .056–.057 / .134–.137 |
+
+**Labelled angular-transfer oracle.** It uses held-out references: the best admissible spatial T is fitted for fixed A and O on held-out replica half 0 and scored on half 1. Results (a / f / c):
+
+| A, O from | Held-out groups |
+|---|---|
+| net all 5902 | .056–.058 / .086–.088 / .146–.150; H2 .039 / .086 / .131 |
+| coef_5901 | .056–.058 / .087–.088 / .140–.143 |
+| frozen 5901 / 5902 | .21–.25 / .24–.25 / .74–.78 |
+
+**Signed deformation.** These are medians over matrices and channels of the coarse change error, with its correlation and slope:
+
+| Candidate | pt0−rest at fitting ports (fitted data) | cf3−rest at fit ports | cf3−rest at new ports | pt0−rest at new ports |
+|---|---|---|---|---|
+| frozen | ρ .37–.38, corr .94, slope .73–.74 | ρ .80–.88, corr .41–.49, slope .12–.18 | corr .21–.29 | corr .39–.40, slope .45 |
+| all-group fits | ρ .25–.29, corr .97, slope .93–.94 | ρ 1.63–1.70, corr −.22 to −.04 | corr ≈ 0 | corr ≈ 0, ρ 3.0–4.1 |
+
+**Original WL59 extended fields** (historical; inspected in WL59–65, so not fresh). Coarse mean error and eligibility:
+
+| Model | Coarse mean | Dynamic | Eligible |
+|---|---|---|---|
+| frozen WL59 | .062–.067 (static useful) | fails in B (error .41, corr .91) | no |
+| net AO | .072–.075 | fails in B | no |
+| all-group fits | .40–.85 | error 1.4–6.0, corr .16–.55 | no |
+
+Directional pairs fail for every model.
+
+**Cost (LabServer63):**
+
+| Item | Measured |
+|---|---|
+| Held-out generation | ≈ 3 h for 2,048 packets × 32M photons (amendment 1) |
+| Fits | 675–2,080 s each (amendment 2 labels in `runs.json`) |
+| Convex floors | ≈ 7 min |
+| Evaluation | 2,155 s; peak 2.99 GB |
+
+### Observation
+
+1. The family as fitted with all parameters free meets every WL59 quality criterion on the fitting population, at the 4 fitting ports per geometry. Two independent inits and one from-scratch init all do.
+   - The coefficient class without geometry conditioning reaches the same level (FCoef .12–.14 contrast).
+   - Same-family teachers starting at contrast .31–1.05 are recovered to ≤ .026.
+2. With WL59's own angular bases frozen, no admissible spatial coefficient reaches the contrast criterion. The exact convex floor is .74–.76, and the net-group fits land on it. Freeing O alone does not change this (.85–.91); freeing A alone reduces it to .77–.79, and freeing A and O together to .57–.61.
+3. At new source ports the fitted networks are far worse than at the fitting ports. Contrast is .94–1.44 and collided error is .33–.57. Collided error is worse than the frozen WL59 model (.15), while contrast is about the same (.95–.97). The three all-group fits differ substantially from one another at new ports (contrast .94 / 1.22 / 1.36–1.44) despite near-identical fit-population scores.
+4. The fitted angular bases are not what fails at new ports. Their admissible oracle on the held-out references reaches .056–.058 / .086–.088 / .14–.15, inside every criterion, in every held-out group, at new ports and at cf3.
+5. H2 (cf3 at the fitting ports) passes with values identical to fit-rest to three decimals. Yet the signed cf3−rest change at those ports is not predicted: correlation −.22 to −.04, against .41–.49 for the frozen model. The cf3 change at the fitting ports is therefore small relative to the response.
+6. The all-parameter fits degrade the historical full-field predictions of the network from .062 to .40–.85 coarse mean error.
+
+### Interpretation
+
+Each statement is limited to this population: one homogeneous-medium geometry family, 3 poses, 8 ports and 16 incoming bins.
+
+- **Constructive representability holds on the fitting population.** Members of the actual positive/passive family exist that realise the qualified collided directional transport at the WL59 criteria for 4 sources and 2 geometries. A constraint-violating fit is excluded by the passivity tests.
+- **WL59's shortfall on these probes is on the angular side of its learned parameters.** Its global A/O bases admit no admissible fit (Observation 2), and the WL66 relaxed floors over-stated nothing here: the admissible floors at frozen A/O are worse than WL66's signed ones.
+- **The generalisation failure is located in the geometry-to-spatial-coefficient map at unseen sources.** It is not in the angular bases (oracle), not in the optimizer (teachers) and not in passivity. Fitting 4 sources per geometry yields spatial maps that do not transfer to other sources or to deformation (corr ≈ 0), and that overwrite the network's previous whole-field behaviour.
+- **The H2 pass is not evidence of deformation generalisation** (Observation 5).
+- **Not shown:** whether any family member generalises across sources. The fit data constrain only 8 source rows, the teacher controls test recovery on the same rows, and no same-family generalisation teacher was run. A fitting failure, an identifiability limit of the 8-source data and a representational limit of the geometry map are therefore not separated for the held-out populations.
+
+### Unresolved question
+
+1. Does a member of the WL59 family with the fitted angular bases exist whose geometry-conditioned spatial map reproduces held-out sources and deformation? The oracle shows admissible coefficients exist per held-out source, but not whether the network can produce them from geometry.
+2. Is the cross-source failure a consequence of supervising 8 source rows (identifiability), or of the map's capacity or conditioning?
+3. Why do the three all-group fits disagree at new ports while agreeing on the fitting population?
+4. How does the fitted family behave on WL59's F/S execution? This is unmeasured and not authorised.
+
+### Architecture verdict
+
+- **Outcome B** by the predeclared mapping: S_fit passes, S_gen fails, the optimizer is adequate and the primary candidate converged.
+- **Family status:** the WL59 P intrinsic-K family **needs a specific additional falsification: independent generalisation**, i.e. cross-source and deformation prediction of the geometry-conditioned spatial map.
+  - It is not "viable": generalisation failed.
+  - It is not "unsupported": constructive representability on the qualified probes was demonstrated.
+- **Not claimed:** adoption, a successor, a coupled-GI or F/S claim, or impossibility.
+
+**Completion question: can the existing positive/passive WL59 family constructively represent qualified collided directional transport?**
+
+- **On the controlled fitting probes: yes**, with all parameters free and the family unchanged.
+- **With WL59's learned angular bases: no.**
+- **From geometry at unseen sources or poses: not shown.** The tested fits fail there, and the cause lies in the spatial geometry map, not the angular bases.
+
+### Reproducibility
+
+- **Commits:** 0ffc700 (protocol and code frozen), 9b437b2, a2a802c (budget), 55c36f5 (amendment 1), 968f77a (amendment 2), and this report's commit.
+- **Inputs:** manifest sha256 2abf3ba6…; fit targets 3c21b619….
+- **Server:** LabServer63, RTX 3080 Ti, torch 2.3.1+cu121, Mitsuba `cuda_ad_rgb` with the user-space OptiX library path.
+- **Held-out references:** seeds `683000000 + g·100000 + slot·10000 + a·100 + rep`, K = 8.
+- **Execution:**
+  - pre phase: `chain68.py pre`;
+  - budget commit;
+  - main phase: `chain68.py main`, under the 3-sample GPU-idle wait.
+- **Gates passed:** tests 10/10; WL66 reproduction ~1e-6; cross-machine identity |z| ≤ 0.6; geometry features bitwise.
+- **Determinism:** fits are not bitwise reproducible (CUDA `index_add`); run-to-run spread is quantified in Amendment 2. Two implementations of the objective are present, labelled per run.

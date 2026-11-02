@@ -1,0 +1,205 @@
+{
+  "scripts": {
+    "fit68.py": "e69dd69fedaa4d8a09f7bbc398d7ba1f707f7193ab9c2aeb3dd10f1c90ce5b22",
+    "export68.py": "b74f0ad71d79a8235d7b8b6e0886671f49273ca7c04ccb9614fec9271e380733",
+    "eval68.py": "bdb0f399028b9df248bbbf0dc8567a8800076bd5c3c806546aad1814bf3b7935",
+    "extract68.py": "1c92005f35676aeb4b42b09579cef83f864aabf6efa553e154435f8064016791",
+    "common68.py": "893b1188498406225ee590fff15810f3f0f17799a664fd2823535a15344ed49c",
+    "test68.py": "b4f09eed9f64b06ba0c10188bb58069ca191e6f32032caaaa66b2be1c0b41367",
+    "chain68.py": "9df52924ae1bf4b95fa89801228ef3589c97c615f15fcb6fd45c30387b1f1ce7",
+    "family68.py": "dc9ccc07b1db869053e7aa83ded94021bdb1c74cd22e8a1e296e379e0df28fd3",
+    "probes68.py": "58f4f08bd2e9813a40034ab11128c4563acc0ea2c6d45f5e2ffa677cf96029a5",
+    "ports68.py": "94f74baa00a99d2cfbc2b3b2bc6fd9961ce998b08e79666ce22501cdd3b7ab78"
+  },
+  "protocol_sha256": "8e541aeb98f47a47524822dd8655ae736deef48487fdbdb56974c70ee19e9c66",
+  "verified_sources": {
+    "experiments/fnto_rule57/r57_geometry.py": "6f5ee9611217eeef61d51d3f6108c34b51c4bd63efa74505ce09a172a95fb9f9",
+    "experiments/fnto_rule57/r57_action_oracle.py": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+    "experiments/fnto_rule57/r57_fastwalk.py": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+    "experiments/fnto_rule57/r57_model.py": "d861614b4b88ea3e0c39e119d5cfcb6f4117f6a9b00be7d4fe982bb4be3d63cf",
+    "experiments/fnto_rule57/r57_data.py": "f99de4884e3b28fd3b49dad01b63bd125cdda224085ca51f4ff85d16313e3c2c",
+    "experiments/phys_ref53/p53_geom.py": "224f919742273a2e93aa41561e4fb16cee733746b32b204956204d6049597e93",
+    "experiments/phys_ref53/p53_fixtures.py": "cdccc551fbd48c518214696d854713ebde3abc8e673485ef5c5f5956ef204500",
+    "experiments/phys_ref53/p53_tracer.py": "0a5b82dd227cc7becf03b8fefaecbcf5cb9d0bf4a43889906a236cd5e65b926a",
+    "experiments/phys_ref53/p53_mi.py": "349a437a3c035fb479a3c8bac81f9e6a8c6eb83c2317c110c1fa4adafbeed969",
+    "experiments/fnto_k55/k55_ops.py": "ef357a8b1ff67f1ea4f869efad7dc39ad302eb6795d914309f8b36fe3acfc3e6",
+    "experiments/fnto_c54/c54_casp.py": "06d813dc3e62fe52cb57b4d5bfeb62c94fe7b47cdff76dcffc3067f9fd5d70c0",
+    "experiments/fnto_persist59/protocol/persist_v1.json": "1e84a085c0a1916ecefe1a2607d1df30fa22fd2fbe38a2bf02a3bd0b4cc0134b",
+    "experiments/fnto_persist59/runtime.py": "0783a3d26fb64708b4f7bc07ce342604405a7c55d80247ee09b7cb9fb8e444ab",
+    "experiments/fnto_persist59/common.py": "40784c38c434329b9a151faaec416b84ad4c6bc22ec53f2568d9cb3dbc46ff21",
+    "tag_reference.py": "98dedccb5138e686776da3b4ae235e5566e62b315d0b24d93526dfb1bc2ecc64"
+  },
+  "AST_equivalence": {
+    "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+    "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+    "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+    "strip_added_assignment_restores_original_AST": true,
+    "added_assignments": 1,
+    "added_RNG_calls": 0
+  },
+  "python": "3.10.21",
+  "torch": "2.3.1+cu121",
+  "cuda": "12.1",
+  "gpu": "Sun Nov  1 10:43:08 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 595.71.05              Driver Version: 595.71.05      CUDA Version: 13.2     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 3080 Ti     Off |   00000000:AF:00.0 Off |                  N/A |\n| 59%   51C    P2            130W /  370W |   10864MiB /  12288MiB |      7%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|    0   N/A  N/A         3388499      C   ...ernal/8dna26/.venv/bin/python      10854MiB |\n+-----------------------------------------------------------------------------------------+\n",
+  "host": "63",
+  "env": {
+    "WL57_WALKER": "fast",
+    "WL57_ACTION_CHUNK": "32000000",
+    "P53_MI_VARIANT": "cuda_ad_rgb",
+    "LD_LIBRARY_PATH": "/home/nd/nvlibs/optix595",
+    "OMP_NUM_THREADS": null
+  },
+  "packets": [
+    {
+      "packet": "pt0_s1_a13_k5.pt",
+      "seed": 680111305,
+      "gates": {
+        "physical": true,
+        "tag_closure": true,
+        "one_hot_proposal": true,
+        "unit_input": true,
+        "finite_nonnegative": true
+      },
+      "passed_gates": true,
+      "seconds": 3.666660907678306,
+      "Scat": {
+        "bitwise_equal": false,
+        "max_abs_diff": 3.5613707913384474e-05,
+        "energy_z": [
+          -0.03593509454703772,
+          -0.2746881096071485,
+          -0.5676345196653694
+        ],
+        "coarse_mean_z2": 0.9984407761206455,
+        "cells": 6066
+      },
+      "B": {
+        "bitwise_equal": false,
+        "max_abs_diff": 4.6874999881652e-07,
+        "energy_z": [
+          -1.4323669176766936,
+          -1.4323669176766936,
+          -1.4323669176766936
+        ],
+        "coarse_mean_z2": 0.9303023176606674,
+        "cells": 24
+      },
+      "passed": true
+    },
+    {
+      "packet": "pt0_s3_a08_k2.pt",
+      "seed": 680130802,
+      "gates": {
+        "physical": true,
+        "tag_closure": true,
+        "one_hot_proposal": true,
+        "unit_input": true,
+        "finite_nonnegative": true
+      },
+      "passed_gates": true,
+      "seconds": 2.791124318726361,
+      "Scat": {
+        "bitwise_equal": false,
+        "max_abs_diff": 4.875229399559089e-05,
+        "energy_z": [
+          0.04079454403424279,
+          0.13081141787854683,
+          0.5695888044179379
+        ],
+        "coarse_mean_z2": 1.0113953523280472,
+        "cells": 5733
+      },
+      "B": {
+        "bitwise_equal": false,
+        "max_abs_diff": 7.687499980590928e-06,
+        "energy_z": [
+          -0.6994346279671121,
+          -0.6994346279671121,
+          -0.6994346279671121
+        ],
+        "coarse_mean_z2": 1.3314721083810555,
+        "cells": 27
+      },
+      "passed": true
+    },
+    {
+      "packet": "rest_s0_a00_k0.pt",
+      "seed": 680000000,
+      "gates": {
+        "physical": true,
+        "tag_closure": true,
+        "one_hot_proposal": true,
+        "unit_input": true,
+        "finite_nonnegative": true
+      },
+      "passed_gates": true,
+      "seconds": 3.579454711638391,
+      "Scat": {
+        "bitwise_equal": false,
+        "max_abs_diff": 4.494981077129978e-05,
+        "energy_z": [
+          -0.016299541966049783,
+          -0.15470406795492384,
+          -0.5907630934675894
+        ],
+        "coarse_mean_z2": 1.0036611548216205,
+        "cells": 7467
+      },
+      "B": {
+        "bitwise_equal": false,
+        "max_abs_diff": 2.499999993688107e-07,
+        "energy_z": [
+          -1.3719888059809733,
+          -1.3719888059809733,
+          -1.3719888059809733
+        ],
+        "coarse_mean_z2": 1.409091070405798,
+        "cells": 12
+      },
+      "passed": true
+    },
+    {
+      "packet": "rest_s2_a07_k3.pt",
+      "seed": 680020703,
+      "gates": {
+        "physical": true,
+        "tag_closure": true,
+        "one_hot_proposal": true,
+        "unit_input": true,
+        "finite_nonnegative": true
+      },
+      "passed_gates": true,
+      "seconds": 3.7920364337041974,
+      "Scat": {
+        "bitwise_equal": false,
+        "max_abs_diff": 5.253137443972378e-05,
+        "energy_z": [
+          0.001081714755032626,
+          -0.01791102823370152,
+          -0.331108997789815
+        ],
+        "coarse_mean_z2": 0.9968245492413216,
+        "cells": 4797
+      },
+      "B": {
+        "bitwise_equal": false,
+        "max_abs_diff": 2.1874999944770934e-07,
+        "energy_z": [
+          0.4335550425218658,
+          0.4335550425218658,
+          0.4335550425218658
+        ],
+        "coarse_mean_z2": 0.8333335190901234,
+        "cells": 9
+      },
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "rule": {
+    "packets": "rest_s0_a00_k0, rest_s2_a07_k3, pt0_s1_a13_k5, pt0_s3_a08_k2 (WL66 seeds, chunk 32M)",
+    "energy_z": 4.0,
+    "coarse_mean_z2": 1.5,
+    "rule": "pass iff every packet passes the physical/tag gates and, for Scat and B, max channel |energy z| <= 4 and mean coarse-cell z^2 <= 1.5 against the LabServer69 packet (packet variances from second moments)"
+  }
+}

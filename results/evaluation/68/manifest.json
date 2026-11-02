@@ -1,0 +1,31 @@
+{
+ "worklog": "docs/worklogs/68_WORKLOG_CONSTRAINED_K_REPRESENTABILITY.md",
+ "producer": "experiments/fnto_repr68/export68.py on LabServer63 (chain done 2026-11-01 20:58 UTC)",
+ "protocol": "experiments/fnto_repr68/protocol/repr68_v1.json (+ amendments 1-2)",
+ "items": [
+  {
+   "file": "pooled_metrics.csv",
+   "source": "results/fnto_repr68/final/pooled_metrics.csv",
+   "sha256": "2b0e118257935267f57d26fa4c96832b9f2c135e53b4432371a5ce1afb3d5a88",
+   "description": "Pooled metrics (rho, 95% bounds, signal/SE, Q pass) for every candidate/population/metric/channel"
+  },
+  {
+   "file": "repr68.pdf",
+   "source": "results/fnto_repr68/final/repr68.pdf",
+   "sha256": "3e989b1838a1e69f0ba391752ee135e2878c67b076fd59aefc5aa8688d1f014d",
+   "description": "Same figure, vector"
+  },
+  {
+   "file": "repr68.png",
+   "source": "results/fnto_repr68/final/repr68.png",
+   "sha256": "db04fb7fcae0087c88d2324ee88f6419d237520ab0083a61b88dbd5361fd5646",
+   "description": "Coarse-contrast upper-95% rho per candidate, population and channel (log scale); dashed = WL59 criterion 0.25"
+  },
+  {
+   "file": "summary.json",
+   "source": "results/fnto_repr68/final/summary.json",
+   "sha256": "64d0adbb3dfdb129e00fc97300cd3031a099b6bed9e8aa686d83ac7b92a069eb",
+   "description": "Predeclared decision record and extended-field/passivity summary"
+  }
+ ]
+}
