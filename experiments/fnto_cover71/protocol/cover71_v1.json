@@ -28,14 +28,14 @@
       {"slot": 27, "name": "bottom_far_control", "face": 4, "target_rest_xy": [-0.03, 0.03]}
     ],
     "training_new_slots": [
-      {"slot": 8, "face": 5, "target_rest_xy": [0.03, 0.03]},
-      {"slot": 9, "face": 5, "target_rest_xy": [0.03, -0.03]},
-      {"slot": 10, "face": 5, "target_rest_xy": [-0.01, -0.025]},
-      {"slot": 11, "face": 5, "target_rest_xy": [0.0, 0.03]},
-      {"slot": 12, "face": 4, "target_rest_xy": [-0.03, -0.03]},
-      {"slot": 13, "face": 4, "target_rest_xy": [-0.01, 0.0]},
-      {"slot": 14, "face": 4, "target_rest_xy": [0.0, 0.03]},
-      {"slot": 15, "face": 4, "target_rest_xy": [0.035, 0.015]}
+      {"slot": 8, "face": 5, "target_rest_xy": [0.03, 0.03], "note": "flat far"},
+      {"slot": 9, "face": 5, "target_rest_xy": [0.03, -0.03], "note": "flat far"},
+      {"slot": 10, "face": 5, "target_rest_xy": [-0.008, -0.012], "note": "inside the pt0 dent (14.8 mm from its centre)"},
+      {"slot": 11, "face": 5, "target_rest_xy": [0.012, -0.02], "note": "inside the pt0 dent (15.8 mm from its centre)"},
+      {"slot": 12, "face": 4, "target_rest_xy": [-0.03, -0.03], "note": "flat far"},
+      {"slot": 13, "face": 4, "target_rest_xy": [-0.008, -0.012], "note": "below the pt0 dent"},
+      {"slot": 14, "face": 4, "target_rest_xy": [0.0, 0.03], "note": "flat far"},
+      {"slot": 15, "face": 4, "target_rest_xy": [0.03, 0.01], "note": "flat"}
     ],
     "ordering": "WL66/WL68 rule: ports on the slot face sorted by (round(rest-xy distance to target, 1e-9 m), port index); first admissible port is taken; no reselection",
     "admissibility_final": "min over bins of (1-beta) >= 0.5 at rest AND cf2; >= 0.01 m from every slab side; >= 0.01 m (rest xy, same face) from every port that has any WL66/WL68 probe reference (WL66 slots 0-3, WL68 slots 4-7) and every previously chosen final port; never equal to such a port",
