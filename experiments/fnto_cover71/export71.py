@@ -28,7 +28,7 @@ def main():
         th={'abs_coarse':.10,'abs_fine16':.15,'con_coarse':.25}[m];ax[k].axhline(th,ls='--',c='k',lw=.8)
         ax[k].set_yscale('log');ax[k].set_xticks(range(len(cands)));ax[k].set_xticklabels(cands,rotation=90,fontsize=7);ax[k].set_title(f'{m} (upper 95 %, worst channel)')
     ax[0].legend(fontsize=7);fig.tight_layout();fig.savefig(F/'cover71.png',dpi=130);fig.savefig(F/'cover71.pdf')
-    for p in ('ports.json','refs/budget71.json','refs/complete.json','refs/manifest.json'):shutil.copy(ROOT/p,F/Path(p).name)
+    for p,n in (('ports.json','ports.json'),('refs/budget71.json','budget71.json'),('refs/complete.json','refs_complete.json'),('refs/manifest.json','refs_manifest.json')):shutil.copy(ROOT/p,F/n)
     runs={r:{k:v for k,v in json.loads(json.dumps(x,default=str)).items() if k in ('J_final','converged','seconds','peak_GPU_allocated','concurrent')} for r,x in a['results'].items()}
     write_new(F/'summary.json',dict(decision=a['decision'],precision=a['precision'],teacher={k:{x:v[x] for x in v if x!='errors'} for k,v in a['teacher'].items()},runs=runs,groups=a['groups']))
     write_new(F/'manifest.json',{p.name:hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(F.glob('*')) if p.name!='manifest.json'})
