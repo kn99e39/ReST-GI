@@ -59,7 +59,7 @@ The long-term design must accommodate rigid motion, local deformation, global be
 
 ## 6. Full and selective execution contract
 
-Full reconstruction F and selective update S use identical rule parameters, physical inputs, output interfaces and fidelity requirements. F rebuilds all relevant geometry-dependent state. S preserves certified-valid state and rebuilds every invalidated component. Neither policy receives privileged target data.
+Full reconstruction F and selective update S **inside ReST-GI** use identical rule parameters, physical inputs, output interfaces and fidelity requirements. F rebuilds all relevant geometry-dependent state. S preserves certified-valid state and rebuilds every invalidated component. Neither policy receives privileged target data. **This same-rule F/S state rebuild is NOT the external Neural Full Recompute baseline**: for 8DNA/RNA, external neural full recomputation means T1-specific learned-representation retraining/refit/rebuild when that owned representation is invalidated. Cycles/Mitsuba path tracing remains an independent physical reference or separately labelled re-render cost. Native no-retraining reuse is a separate comparator. The [binding baseline-role contract](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md#mandatory-baseline-terminology-and-comparison-gate) controls Agent comparison prompts and prevents the WL69–70 terminology error; neither Worklog measured neural T1 rebuild superiority.
 
 Selection, dependency maintenance, reconstruction, normalization, cache preparation, K/C application, coupled solving and readout belong to the relevant lifecycle cost. A state update that is cheaper only because it produces an unacceptable response does not satisfy the architecture objective.
 
