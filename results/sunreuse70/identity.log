@@ -1,0 +1,25 @@
+12:10:27 T0 5591 rec 22.2s
+12:10:48 T0 7001 rec 21.7s
+12:11:10 T0 7002 rec 21.6s
+12:11:32 T0 7003 rec 21.4s
+12:11:55 T1 5591 hist 23.1s
+12:12:18 T1 5591 rec 23.0s
+12:12:42 T1 7011 rec 23.4s
+12:13:05 T1 7012 rec 22.8s
+12:13:27 N1_sun 7021 rec 22.1s
+12:13:50 N1_sun 7022 rec 23.1s
+12:14:14 N2_occluder 7021 rec 23.0s
+12:14:36 N2_occluder 7022 rec 21.7s
+12:14:59 N3_medium 7021 rec 23.3s
+12:15:21 N3_medium 7022 rec 21.7s
+12:15:43 N4_rotate 7021 rec 21.4s
+12:16:04 N4_rotate 7022 rec 21.8s
+12:16:28 P1_offpath 7021 rec 23.4s
+12:16:50 P1_offpath 7022 rec 21.7s
+T1 accept {'D1_rest_mesh': True, 'D2_medium': True, 'D3_rigid': True, 'D4_light_material_frame': True, 'D5_cameras_material_frame': True, 'D7_estimator': True, 'D6_visibility': True}
+N1_sun reject {'D1_rest_mesh': True, 'D2_medium': True, 'D3_rigid': True, 'D4_light_material_frame': False, 'D5_cameras_material_frame': True, 'D7_estimator': True}
+N2_occluder reject {'D1_rest_mesh': True, 'D2_medium': True, 'D3_rigid': True, 'D4_light_material_frame': True, 'D5_cameras_material_frame': True, 'D7_estimator': True, 'D6_visibility': False}
+N3_medium reject {'D1_rest_mesh': True, 'D2_medium': False}
+N4_rotate reject {'D1_rest_mesh': True, 'D2_medium': True, 'D3_rigid': True, 'D4_light_material_frame': False, 'D5_cameras_material_frame': False, 'D7_estimator': True}
+P1_offpath accept {'D1_rest_mesh': True, 'D2_medium': True, 'D3_rigid': True, 'D4_light_material_frame': True, 'D5_cameras_material_frame': True, 'D7_estimator': True, 'D6_visibility': True}
+{"verdicts": {"null_T0": {"identity": true, "precise": true}, "T1": {"identity": true, "precise": true}, "N1_sun": {"identity": false, "precise": true}, "N2_occluder": {"identity": false, "precise": true}, "N3_medium": {"identity": false, "precise": true}, "N4_rotate": {"identity": false, "precise": true}, "P1_offpath": {"identity": true, "precise": true}}, "null": true, "decisions": {"T1": true, "N1_sun": false, "N2_occluder": false, "N3_medium": false, "N4_rotate": false, "P1_offpath": true}, "tests": {"same_seed_T1hist_vs_cache": {"phi_fine": 0.06338945405654675, "phi_cbin": 0.030359531380919746, "L0": 0.011902945009185805}, "replica_equals_historical_T1_5591": {"phi_f": 0.0, "L0": 0.0}, "reproduces_wl55_sun_floor": {"phi_f": 0.0, "L0": 0.0}, "reproduces_wl55_sun_floor_c4": {"phi_f": 0.0, "L0": 0.0}}}

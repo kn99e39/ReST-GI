@@ -1,0 +1,709 @@
+{
+ "protocol": "sunreuse70_v1",
+ "runs": {
+  "s1": {
+   "reps": [
+    {
+     "i": 0,
+     "arm": "A",
+     "timing": {
+      "sun_s": 22.6219980455935,
+      "levels_s": 0.011569876223802567,
+      "aggregate_s": 0.7378807719796896,
+      "compose_s": 1.2323962189257145,
+      "total_s": 24.603913174942136,
+      "peak_gpu_gb": 7.0073472,
+      "meta": {
+       "t_C": 0.039774417877197266,
+       "t_solve": 0.08559370040893555,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026283979415894,
+        0.7628312110900879,
+        0.5956934094429016
+       ]
+      }
+     },
+     "validation": null,
+     "pred_hash": "49f91cd62d11a47238a98396916ca0908cd1174768b917d41f18112c581ee3f1"
+    },
+    {
+     "i": 1,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.09948992915451527,
+      "reuse_s": 8.612498641014099e-05,
+      "levels_s": 0.011397436261177063,
+      "aggregate_s": 0.7363174427300692,
+      "compose_s": 1.2539574950933456,
+      "total_s": 2.1013247072696686,
+      "peak_gpu_gb": 7.407796736,
+      "meta": {
+       "t_C": 0.04006195068359375,
+       "t_solve": 0.08581709861755371,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026283979415894,
+        0.7628311514854431,
+        0.5956934094429016
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.0009319819509983063,
+       "rigid_s": 0.0005566850304603577,
+       "directions_s": 0.00014004111289978027,
+       "shadow_scene_build_s": 0.007453387603163719,
+       "visibility_replay_s": 0.09025438316166401
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "376d8fea34192ef0cc04e229295765c5a1339a04034aebc9558df52989c046a3"
+    },
+    {
+     "i": 2,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.09868363477289677,
+      "reuse_s": 6.94766640663147e-05,
+      "levels_s": 0.010572116822004318,
+      "aggregate_s": 0.7371688559651375,
+      "compose_s": 1.253037966787815,
+      "total_s": 2.0996036250144243,
+      "peak_gpu_gb": 7.399080448,
+      "meta": {
+       "t_C": 0.03998565673828125,
+       "t_solve": 0.0859673023223877,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026283979415894,
+        0.7628311514854431,
+        0.5956934094429016
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.0008203405886888504,
+       "rigid_s": 0.0005260761827230453,
+       "directions_s": 0.00012817233800888062,
+       "shadow_scene_build_s": 0.007012920454144478,
+       "visibility_replay_s": 0.09004588425159454
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "0b435bc2a0f9bef40444ec389273f6813369649c03ca2ad9645d0b20e48ad5c4"
+    },
+    {
+     "i": 3,
+     "arm": "A",
+     "timing": {
+      "sun_s": 22.647111205384135,
+      "levels_s": 0.012238165363669395,
+      "aggregate_s": 0.7282524425536394,
+      "compose_s": 1.2357275523245335,
+      "total_s": 24.62339586019516,
+      "peak_gpu_gb": 6.963995648,
+      "meta": {
+       "t_C": 0.03983283042907715,
+       "t_solve": 0.0857231616973877,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026283979415894,
+        0.7628312110900879,
+        0.5956934094429016
+       ]
+      }
+     },
+     "validation": null,
+     "pred_hash": "2cd11f5541a16c04363200716b43ee49920d9779bb099d31acfc20300391e7bd"
+    },
+    {
+     "i": 4,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.09881601110100746,
+      "reuse_s": 6.792880594730377e-05,
+      "levels_s": 0.010245641693472862,
+      "aggregate_s": 0.7359092608094215,
+      "compose_s": 1.2445769030600786,
+      "total_s": 2.089690212160349,
+      "peak_gpu_gb": 7.187994112,
+      "meta": {
+       "t_C": 0.03984570503234863,
+       "t_solve": 0.08573675155639648,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026283979415894,
+        0.7628312110900879,
+        0.5956934690475464
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.0008277799934148788,
+       "rigid_s": 0.0005147438496351242,
+       "directions_s": 0.00014083273708820343,
+       "shadow_scene_build_s": 0.007103975862264633,
+       "visibility_replay_s": 0.09008044749498367
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "47f0469a1aa4114c199c18f027f8463135f7877a2ecd56810ae3ce989a2f2274"
+    },
+    {
+     "i": 5,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.09995005652308464,
+      "reuse_s": 6.870180368423462e-05,
+      "levels_s": 0.010274389758706093,
+      "aggregate_s": 0.729974951595068,
+      "compose_s": 1.2476005032658577,
+      "total_s": 2.0879423208534718,
+      "peak_gpu_gb": 7.372173824,
+      "meta": {
+       "t_C": 0.03985238075256348,
+       "t_solve": 0.08581280708312988,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026283979415894,
+        0.7628311514854431,
+        0.5956934690475464
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.000840499997138977,
+       "rigid_s": 0.0005529038608074188,
+       "directions_s": 0.00013734586536884308,
+       "shadow_scene_build_s": 0.007541194558143616,
+       "visibility_replay_s": 0.0907230656594038
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "a508f0e19ba67677afa174a5975ecd695effee38eaec93392258aaa7d34718ae"
+    },
+    {
+     "i": 6,
+     "arm": "A",
+     "timing": {
+      "sun_s": 22.63016553223133,
+      "levels_s": 0.011227468028664589,
+      "aggregate_s": 0.726383700966835,
+      "compose_s": 1.2361743245273829,
+      "total_s": 24.60401382856071,
+      "peak_gpu_gb": 6.9944576,
+      "meta": {
+       "t_C": 0.039742231369018555,
+       "t_solve": 0.08568048477172852,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026283979415894,
+        0.7628311514854431,
+        0.5956934690475464
+       ]
+      }
+     },
+     "validation": null,
+     "pred_hash": "7e6a05885b779e411d760686022b191948272872c7b6eaf12508d30c6013d2d2"
+    },
+    {
+     "i": 7,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.0985116008669138,
+      "reuse_s": 6.652995944023132e-05,
+      "levels_s": 0.011432547122240067,
+      "aggregate_s": 0.7305367812514305,
+      "compose_s": 1.251538496464491,
+      "total_s": 2.0921632573008537,
+      "peak_gpu_gb": 7.405784576,
+      "meta": {
+       "t_C": 0.03987288475036621,
+       "t_solve": 0.08602738380432129,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026283979415894,
+        0.7628311514854431,
+        0.5956934094429016
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.000830329954624176,
+       "rigid_s": 0.0005083214491605759,
+       "directions_s": 0.0001320410519838333,
+       "shadow_scene_build_s": 0.00691336952149868,
+       "visibility_replay_s": 0.08997893519699574
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "91ccd956d3a586bc58181b3524b7ef0fd1cfeeb8dd7618c85f456a3b9f30e5e8"
+    }
+   ],
+   "t_load_K_s": 0.8734315019100904,
+   "t_cache_build_s": 21.656739946454763,
+   "cache_peak_gpu_gb": 2.026292224,
+   "cache_bytes": {
+    "source_record": 208000000,
+    "rest_geometry": 460848,
+    "outputs": 2957760,
+    "total": 211418608
+   },
+   "cache_out_hash": "c27c6309eeb8281ed8572e05017565f31abadf2b53b0c87e197c6eb735de823c",
+   "T0_maxrel_vs_wl69": 1.710238524118853e-07,
+   "T1_A_maxrel_vs_wl69": 1.8632419957179436e-07,
+   "T1_B_vs_A_maxrel": {
+    "bot|nee": 0.003358284194524135,
+    "bot|ball": 0.0,
+    "bot|bin": 0.035438504586767464,
+    "otop|nee": 0.010238518909710665,
+    "otop|ball": 0.0011436440162664232,
+    "otop|bin": 0.07488704947451441,
+    "top|nee": 0.00845942432697441,
+    "top|ball": 0.0030441868446585392,
+    "top|bin": 0.07173900896775319
+   },
+   "reps_identical": {
+    "A": false,
+    "B": false
+   }
+  },
+  "s2": {
+   "reps": [
+    {
+     "i": 0,
+     "arm": "A",
+     "timing": {
+      "sun_s": 22.60780354589224,
+      "levels_s": 0.012279817834496498,
+      "aggregate_s": 0.7252320721745491,
+      "compose_s": 1.2327121160924435,
+      "total_s": 24.578095080330968,
+      "peak_gpu_gb": 6.974355968,
+      "meta": {
+       "t_C": 0.03979802131652832,
+       "t_solve": 0.08532977104187012,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026702404022217,
+        0.7628857493400574,
+        0.595695436000824
+       ]
+      }
+     },
+     "validation": null,
+     "pred_hash": "fd3d449e34f4971ded7158bb3eb0033496e38094093cbd61e4b0f56229b46713"
+    },
+    {
+     "i": 1,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.09959355741739273,
+      "reuse_s": 7.172487676143646e-05,
+      "levels_s": 0.01051533967256546,
+      "aggregate_s": 0.7238017152994871,
+      "compose_s": 1.2386220209300518,
+      "total_s": 2.072676030918956,
+      "peak_gpu_gb": 7.219708416,
+      "meta": {
+       "t_C": 0.03989744186401367,
+       "t_solve": 0.08558964729309082,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026701807975769,
+        0.7628858089447021,
+        0.5956954956054688
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.0008384119719266891,
+       "rigid_s": 0.0005275476723909378,
+       "directions_s": 0.00013442523777484894,
+       "shadow_scene_build_s": 0.007286006584763527,
+       "visibility_replay_s": 0.09065217152237892
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "4d197d45e1273a1425d5221ae8706f1f940b16d0d9d02efdd0a3803c465e6c66"
+    },
+    {
+     "i": 2,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.0999608263373375,
+      "reuse_s": 6.698817014694214e-05,
+      "levels_s": 0.010330073535442352,
+      "aggregate_s": 0.7245226409286261,
+      "compose_s": 1.2431256454437971,
+      "total_s": 2.078083446249366,
+      "peak_gpu_gb": 7.4038912,
+      "meta": {
+       "t_C": 0.03984808921813965,
+       "t_solve": 0.08581733703613281,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026701807975769,
+        0.7628857493400574,
+        0.5956954956054688
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.0008275080472230911,
+       "rigid_s": 0.0005115345120429993,
+       "directions_s": 0.00013031810522079468,
+       "shadow_scene_build_s": 0.007183844223618507,
+       "visibility_replay_s": 0.09115502052009106
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "6fc601e42afb6fc0f2a772e9991e719211397c8d96398dcc2d4f5ecef7a7dde3"
+    },
+    {
+     "i": 3,
+     "arm": "A",
+     "timing": {
+      "sun_s": 22.703210778534412,
+      "levels_s": 0.011299096047878265,
+      "aggregate_s": 0.7297365590929985,
+      "compose_s": 1.2328852955251932,
+      "total_s": 24.6771976724267,
+      "peak_gpu_gb": 6.933068288,
+      "meta": {
+       "t_C": 0.039856910705566406,
+       "t_solve": 0.08564257621765137,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026701807975769,
+        0.7628857493400574,
+        0.595695436000824
+       ]
+      }
+     },
+     "validation": null,
+     "pred_hash": "17f492a133d132bc1d34fcd42eb1a296469de16663937d7933b63d76836d01c7"
+    },
+    {
+     "i": 4,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.0998412687331438,
+      "reuse_s": 6.572529673576355e-05,
+      "levels_s": 0.011308396235108376,
+      "aggregate_s": 0.7246860805898905,
+      "compose_s": 1.2472122311592102,
+      "total_s": 2.0831929929554462,
+      "peak_gpu_gb": 7.317655552,
+      "meta": {
+       "t_C": 0.03978848457336426,
+       "t_solve": 0.08632397651672363,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026702404022217,
+        0.7628857493400574,
+        0.5956954956054688
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.0008259210735559464,
+       "rigid_s": 0.0005198884755373001,
+       "directions_s": 0.00013194791972637177,
+       "shadow_scene_build_s": 0.007249576970934868,
+       "visibility_replay_s": 0.09096496179699898
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "072a9c50382d80833524bb3091fc9c92f9394bedd5806c35b34a79b6ad78479e"
+    },
+    {
+     "i": 5,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.09906878136098385,
+      "reuse_s": 6.921030580997467e-05,
+      "levels_s": 0.010550444945693016,
+      "aggregate_s": 0.7199777606874704,
+      "compose_s": 1.24355729483068,
+      "total_s": 2.073294624686241,
+      "peak_gpu_gb": 7.336014848,
+      "meta": {
+       "t_C": 0.03985285758972168,
+       "t_solve": 0.08544111251831055,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026701807975769,
+        0.7628857493400574,
+        0.595695436000824
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.0008339304476976395,
+       "rigid_s": 0.000532025471329689,
+       "directions_s": 0.00013115443289279938,
+       "shadow_scene_build_s": 0.0069295261055231094,
+       "visibility_replay_s": 0.09048336371779442
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "73c3c52268f7acea28296996a263ec61d37911f0e1b0f071cfbdcc49c7c5188a"
+    },
+    {
+     "i": 6,
+     "arm": "A",
+     "timing": {
+      "sun_s": 22.64197755046189,
+      "levels_s": 0.011155541986227036,
+      "aggregate_s": 0.7263966593891382,
+      "compose_s": 1.2444971166551113,
+      "total_s": 24.624089509248734,
+      "peak_gpu_gb": 6.973348352,
+      "meta": {
+       "t_C": 0.04039430618286133,
+       "t_solve": 0.08615422248840332,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026702404022217,
+        0.7628857493400574,
+        0.595695436000824
+       ]
+      }
+     },
+     "validation": null,
+     "pred_hash": "bdd120f0b90eae198f64d0cd9ed43d04313b73ac43fd5f984be342fec3e3ab98"
+    },
+    {
+     "i": 7,
+     "arm": "B",
+     "timing": {
+      "validate_s": 0.0991579107940197,
+      "reuse_s": 6.872601807117462e-05,
+      "levels_s": 0.01034276932477951,
+      "aggregate_s": 0.7399623636156321,
+      "compose_s": 1.2529092021286488,
+      "total_s": 2.1025122366845608,
+      "peak_gpu_gb": 7.361926656,
+      "meta": {
+       "t_C": 0.03990960121154785,
+       "t_solve": 0.08556747436523438,
+       "iters": 51,
+       "converged": true,
+       "cells": 4704,
+       "C_nnz": 951829,
+       "rho": [
+        0.8026701807975769,
+        0.7628857493400574,
+        0.5956954956054688
+       ]
+      }
+     },
+     "validation": {
+      "checks": {
+       "D1_rest_mesh": true,
+       "D2_medium": true,
+       "D3_rigid": true,
+       "D4_light_material_frame": true,
+       "D5_cameras_material_frame": true,
+       "D7_estimator": true,
+       "D6_visibility": true
+      },
+      "timing": {
+       "identity_s": 0.0008350573480129242,
+       "rigid_s": 0.0005291551351547241,
+       "directions_s": 0.0001324079930782318,
+       "shadow_scene_build_s": 0.00708090141415596,
+       "visibility_replay_s": 0.0904309842735529
+      },
+      "rigid_residual_m": 5.551115123125783e-17,
+      "visibility_mismatch": 0,
+      "visibility_samples": 16000000
+     },
+     "pred_hash": "db26ce4fc629702d0bdbaeea722e4af27cb1ef4d7a8d8a0e05680efe76fa12bc"
+    }
+   ],
+   "t_load_K_s": 0.5009354688227177,
+   "t_cache_build_s": 21.525245413184166,
+   "cache_peak_gpu_gb": 1.9302528,
+   "cache_bytes": {
+    "source_record": 208000000,
+    "rest_geometry": 460848,
+    "outputs": 2957760,
+    "total": 211418608
+   },
+   "cache_out_hash": "c27c6309eeb8281ed8572e05017565f31abadf2b53b0c87e197c6eb735de823c",
+   "T0_maxrel_vs_wl69": 1.7104646761866795e-07,
+   "T1_A_maxrel_vs_wl69": 1.8634473556447468e-07,
+   "T1_B_vs_A_maxrel": {
+    "bot|nee": 0.0033596285264297274,
+    "bot|ball": 0.0,
+    "bot|bin": 0.03550745343898734,
+    "otop|nee": 0.010237491161332084,
+    "otop|ball": 0.0011436172944180314,
+    "otop|bin": 0.0748908307716972,
+    "top|nee": 0.008458869899707679,
+    "top|ball": 0.003042747157579952,
+    "top|bin": 0.0717379710344491
+   },
+   "reps_identical": {
+    "A": false,
+    "B": false
+   }
+  }
+ }
+}

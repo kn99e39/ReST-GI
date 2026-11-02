@@ -1,0 +1,18 @@
+{
+ "worklog": 70,
+ "protocol": "sunreuse70_v1",
+ "generator": "experiments/sunreuse70/sr70_figures.py (LabServer69, 8dna26 venv)",
+ "sources": {
+  "e2e": "results/sunreuse70/e2e.json (sha256 263d2282...)",
+  "analysis": "results/sunreuse70/analysis.json (sha256 9078454...)",
+  "cycles": "WL69 results/xbench69/stage4/analysis.json + LabServer69 ~/rest_xbench69/cy manifests (unchanged)"
+ },
+ "contention": "15 s GPU sampler: only this chain's processes (tests, identity, e2e), never more than one (results/sunreuse70/gpu_sampler.log)",
+ "items": [
+  {
+   "file": "01_latency_and_quality.png",
+   "sha256": "6a577aa69b090a941bb7bac05e00aaadb28371924f04eb324b537525b611454d",
+   "description": "Left: T1 edit-to-output latency per stage for A (retraced sun) and B (validated reuse), median over repetitions (K seed s1), and WL69 Cycles ruled-view times at QM_B (16 spp) and QM_contract (1 spp). Right: T1 max |group bias| vs latency for the WL69 Cycles ladder and both ReST-GI arms (M2 only; quality matching uses M1-M4)."
+  }
+ ]
+}

@@ -10,6 +10,8 @@ The latest completed controlled intervention is [WL64](worklogs/64_WORKLOG_DIREC
 
 [WL69](worklogs/69_WORKLOG_COMMON_WORKLOAD_EXTERNAL_BASELINE.md) established one common workload with an external neural baseline: the WL55 floor medium fixture under a rigid edit, with released 8DNA. ReST-GI CAK meets the 3 % contract on both states; 8DNA does not (3–7/12, static blue bias). Quality-matched Cycles Full Recompute still dominates ReST-GI (16 spp in 2.4 s vs a 24 s update), so the outcome is B. RNA, Neural Radiosity and TransGI could not run this workload.
 
+[WL70](worklogs/70_WORKLOG_SUN_STATE_REUSE_C1.md) tested validity-aware reuse of the first-order direct-sun state on that C1 edit. The cached T0 state passed an explicit dependency contract: rest mesh, medium, rigid pose, material-frame sun and cameras, estimator, and a bit-identical replay of source visibility. It was physically identical to the retraced T1 state, and four invalidation controls were rejected. The CAK update fell from 24.6 s to 2.09 s with unchanged quality, narrowly beating quality-matched Cycles (16 spp, 2.40 s under WL69 timing; equal under Blender's internal render time). Cycles still meets the bare contract at 1 spp in 1.2 s. The diagnostic cache is not adopted.
+
 No learned corrective recipe or successor architecture is adopted. Work on `Selective_Recompute` only; no branch/worktree change without user consent.
 
 ## Current decision boundary
