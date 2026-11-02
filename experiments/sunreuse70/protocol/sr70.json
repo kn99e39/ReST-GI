@@ -1,0 +1,76 @@
+{
+  "protocol": "sunreuse70_v1",
+  "worklog": 70,
+  "date": "2026-11-02",
+  "authorisation": "User brief 2026-11-02 'one bounded validity-aware reuse experiment on the WL69 C1 rigid-edit workload' (first-order direct-sun state reuse). Branch Selective_Recompute, no branch/worktree. Changes ONLY: isolated first-order sun-state caching, state-identity/validity verification, controlled reuse, negative controls, focused tests and timing instrumentation. Not authorised: K/C ownership changes, learned K or external-baseline changes, CAK level / C / solver / readout / threshold changes, photon-budget tuning, a learned direct-sun estimator, a general illumination cache, any successor.",
+  "worklog_number_rule": "Worklog 70 agreed with the concurrent session rest-gi-0f (its WL68 follow-up takes Worklog 71 on LabServer63). Paths: experiments/sunreuse70, results/sunreuse70, results/evaluation/70, server root ~/rest_sunreuse70 on LabServer69 (separate from every *repr68* / *cover71* path).",
+  "server": "LabServer69 (RTX 3090 24 GB, driver 550.54.15): the brief asks for the WL69 hardware; WL55 operators/references and the WL69 outputs live there. GPU-idle gating (3 empty checks) before every stage, 15 s GPU-process sampler.",
+  "base_commit": "7a646f4",
+  "baseline": "WL69 frozen CAK path (experiments/xbench69/x_rg.py, results/xbench69/stage4/rg.json): floor_c4 CAK update 23.96 / 24.13 s (sun 21.72 / 21.90 s, levels 0.01, aggregation 1.0, compose 1.2 s), RG_CAK 12/12 on both states; Cycles ladder and STALE in results/xbench69/stage4/analysis.json. The arithmetic 2.2 s remainder is a projection, not a measurement.",
+  "status": "PREDECLARED before any evidence run. Development disclosure: the focused tests were run once on LabServer69 (11/11 pass) with 1M photons on development seeds 9001-9003 (no evidence seed, no evidence statistic computed).",
+  "stage1_dependency_contract": {
+    "computation": "k55_compose.sun_term: per medium comp, k55_ops.refined(level 4) -> DomainX (own Mitsuba intersector of the domain mesh, medium sigma_t / albedo / g) -> p53_tracer.run_sun(s, E, 16M, seed 5591 + ci, Dout 64, cams = FX.DIRS of the requested keys, shadow = classify_sceneset(full scene).isect) -> phi_f (fine port x out-bin, port-local frames) and L0 (per camera direction and coarse port, projected-area mean). compose then: aggregate_phi(phi_f, CAK levels of the CURRENT geometry), external Lambert sun Ep (sun_external, recomputed every edit, not cached), C build, solve, L0 + KC phi_in + KB phi_in readout.",
+    "D1_rest_mesh": "rest mesh arrays (V, F, tri_port, port_tangent, port_area, port_face) -> sha256",
+    "D2_medium": "(sigma_t, albedo, g) of the domain",
+    "D3_pose": "current vertices must be a rigid image of the rest mesh (Kabsch residual <= 1e-9 m); translation and rotation are allowed only through D4/D5",
+    "D4_light": "the full light list in the material frame (R^T s, E) equal within 1e-9",
+    "D5_cameras": "every requested camera direction key exists in the cache with equal material-frame direction (1e-9)",
+    "D6_visibility": "the cached source samples (fine triangle, two uniforms; i.e. material coordinates) mapped to the current pose and passed through the CURRENT full-scene shadow test (same 4 eps normal offset, direction -s) reproduce the cached visibility mask bit for bit",
+    "D7_estimator": "n_sun 16M, seed, chunk 4M, Dout 64, level 4 identical (the cache is built with the historical estimator only)",
+    "not_dependencies": "the walk uses only the domain's own intersector and stops at the first air exit (index-matched boundary), so other geometry enters only through D6; Ep of Lambert components, C, CAK levels and aggregation are recomputed on the current geometry (not cached).",
+    "limit": "D6 is verified at the estimator's own sample resolution: an occluder missing all 16M cached samples would also be missed by a retrace with that seed. The contract is not claimed beyond rigid motion, a single collimated sun and these estimator settings."
+  },
+  "stage2_identity": {
+    "runs": "cache = T0 seed 5591 via the recording replica (sr70_state.run_sun_rec, RNG-identical to p53_tracer.run_sun); T0 replicas 7001, 7002, 7003; T1 5591 historical TR.run_sun (arm A) and 5591 replica; T1 replicas 7011, 7012.",
+    "element_sets": "phi_fine (fine-port total flux per channel), phi_cbin (coarse port x out-bin flux), L0 (per camera key, coarse ports with L0 > 0 in both B replicas), src (incident source power per fine port)",
+    "statistic": "sr70_stats: A = tested state replicas (two independent seeds), B = T0 {7001, 7002}. R test per set and channel: D = mean A - mean B, v = ((A1-A2)^2 + (B1-B2)^2)/4, R = sum D^2 / sum v, n_eff = (sum v)^2 / sum v^2, pass R <= 1 + 4 sqrt(3/n_eff). Group test (material face for fluxes / source, camera x face means for L0; flux groups with >= 2 % share, L0 groups with >= 5 ports): pass |Delta| <= 0.1 % + 3 SE. Precision: SE/value <= 0.3 % for every tested group.",
+    "calibration": "null = T0 {7003, 5591} vs T0 {7001, 7002}: every R within 1 +- 4 sqrt(3/n_eff), else the noise model is invalid (outcome D).",
+    "identity_rule": "T1 physically identical iff every R test and every group test passes.",
+    "informational": "same-seed T1 historical vs cache max relative differences; replica vs historical run_sun at seed 5591 (must be <= 1e-5 relative, else implementation defect); reproduction of WL55's stored sun terms (floor, floor_c4)."
+  },
+  "stage3_controls": {
+    "set": {
+      "N1_sun": "T1 with sun zenith 45 deg (azimuth 20): expected reject (D4)",
+      "N2_occluder": "T1 + black 2x2x0.2 cm box 3 cm above the slab top on the sun path: expected reject (D6)",
+      "N3_medium": "T1 with albedo blue 0.8: expected reject (D2)",
+      "N4_rotate": "T1 slab rotated 90 deg about the vertical axis through its centre (same world volume, different material frame): expected reject (D4)",
+      "P1_offpath": "T1 + the same box 12 cm downstream, 3 cm above the slab (off the sun path): expected accept"
+    },
+    "physical_truth": "each control retraced with seeds 7021, 7022 (its own medium) and tested against T0 {7001, 7002} with the Stage-2 statistic; 'physically changed' = identity rule fails.",
+    "pass_rule": "every expected-reject control must be rejected (a reject control accepted = silent stale light -> stop, outcome D); P1 accepted with physical identity (P1 rejected is reported as over-conservative, not a stop). Controls are diagnostic only and never benchmark scenes."
+  },
+  "stage4_gate": "sr70_gate.py: proceed only if null calibrated, every tested group precise, T1 accepted AND physically identical, every expected-reject control rejected and the replica equals the historical run_sun (<= 1e-5). Otherwise stop: outcome C (T1 not identical or rejected: report the failing dependency) or D (calibration / precision / control / implementation).",
+  "stage4_implementation": "sr70_state.validate + reuse: all-or-nothing reuse of the cached (phi_f, L0) of the comp; on rejection the unchanged historical sun_term runs (fallback). No scene name is consulted. The cache lives resident on the GPU (source record) and CPU (outputs) after its one-time construction at T0.",
+  "stage5": {
+    "arms": {
+      "A": "historical: k55_compose.sun_term(T1) + SB.cak_levels + KP.arm_operator + KP.compose (WL69 x_rg path, unchanged, incl. its rho diagnostic)",
+      "B": "validate (identity, rigid fit, directions, shadow-scene build, visibility replay) + reuse + the same levels / aggregation / compose",
+      "CY": "unchanged WL69 Cycles ladder (results/xbench69/stage4; not re-run)",
+      "STALE": "unchanged WL69 stale control (T0 reference as T1)"
+    },
+    "repetitions": "per rest K seed (slab_L4_s1, _s2; resident, load timed once): interleaved A B B A B B A B (3 A, 5 B); CUDA-synchronised per-stage timing; per-repetition peak GPU memory; prediction hashes per repetition (must be identical within an arm).",
+    "one_time": "K load; cache construction = T0 sun term through the recording replica (time, peak memory, bytes); reported separately from the resident update path.",
+    "latency": "edit-to-valid-output = total of the update (A: sun + levels + aggregation + compose; B: validation + reuse + levels + aggregation + compose); arm latency = max over K seeds of the median over repetitions.",
+    "quality": "sr70_analyze with the unchanged WL69 machinery: T0 prediction from the cache-construction run (must equal WL69's stored T0 within 1e-6 relative), T1 per arm; M1-M4 exactly as WL69; QM against the unchanged WL69 CY quality ladder.",
+    "comparison": "CY latency at QM_B = max over the two realizations of the WL69 T1 ruled-view seconds at that spp. relation: beaten if B < 0.9 CY, matched if within +-10 %, else full recompute faster. Also reported against CY at QM_contract."
+  },
+  "verdict_map": {
+    "A": "gate passed, B meets the contract (M1 all ruled tests on T0 and T1) and B beats quality-matched CY (relation 'beaten').",
+    "B": "gate passed, B meets the contract, relation 'matched' or 'faster_full_recompute' (runtime uncompetitive).",
+    "C": "T1 rejected by the contract or not physically identical under the Stage-2 rule (the failing dependency is reported).",
+    "D": "noise calibration, precision, an invalidation control, the replica / reproduction checks, or B's quality contract (despite identity) prevents a valid conclusion."
+  },
+  "tests": [
+    "rigid material-coordinate correspondence (refined meshes, rest corners, single translation, Kabsch)",
+    "sun-direction / source consistency: recording replica bitwise equal to p53_tracer.sun_source incl. RNG state",
+    "historical run_sun reproduction by the replica (T, KC)",
+    "visibility dependency detection (N2 rejected with mismatches, P1 accepted)",
+    "intrinsic material identity (N3 rejected at D2) and rest-mesh hash (D1)",
+    "camera-frame and L0 correspondence (N4 rejected at D4; an uncached camera key rejected at D5)",
+    "valid / invalid cache states (T1 accepted; non-rigid perturbation rejected at D3)",
+    "cached first-exit flux normalisation (phi_f sum = flux_out <= flux_in = cached source power) and L0 ordering",
+    "timing / memory accounting (state bytes, validation stage timings, no scene name in the contract)",
+    "statistics (null R ~ 1, 1 % shift detected, group precision)"
+  ],
+  "stop_conditions": "gate failure stops before Stage 5; never reuse a rejected state; never change the photon budget, CAK levels, C, solver, readout or thresholds; no general cache, no learned estimator, no successor."
+}
