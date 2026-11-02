@@ -1,0 +1,686 @@
+{
+  "decision": {
+    "primary": "D1_5902",
+    "S_fit": true,
+    "S_cross": false,
+    "S_state": false,
+    "S_def": false,
+    "improves": true,
+    "adequate": true,
+    "primary_converged": true,
+    "teacher_training_recovery": true,
+    "teacher_generalizes": false,
+    "references_qualified": true,
+    "outcome": "B",
+    "label": "B",
+    "statement": "A: generalizes on the tested coverage; B: coverage helps but gates remain; C: adequately controlled supervision fails (C/teacher-generalizes: the procedure generalizes a same-family rule from this coverage, so the physical failure points at the map's reachable rule set; C/teacher-fails: the procedure/map cannot recover even a same-family rule from this coverage); D: confounded"
+  },
+  "precision": {
+    "abs_signal_over_SE": {
+      "rest_s0": [
+        34431.910755004275,
+        29958.595983353705,
+        20474.434315989107
+      ],
+      "rest_s1": [
+        259839.6469999458,
+        130449.80840296121,
+        40248.85329934399
+      ],
+      "rest_s2": [
+        57119.616984729495,
+        55103.303235991574,
+        31189.505343754845
+      ],
+      "rest_s3": [
+        39294.63422020009,
+        38023.044848528756,
+        19975.679196851466
+      ],
+      "rest_s4": [
+        23426.823922370462,
+        20117.08197455135,
+        15608.276465676707
+      ],
+      "rest_s5": [
+        31944.984431526766,
+        31488.66533246539,
+        23537.270843010945
+      ],
+      "rest_s6": [
+        34254.31868161491,
+        31314.933336457816,
+        17755.845850027657
+      ],
+      "rest_s7": [
+        174507.4281983446,
+        163164.05661441464,
+        53139.693286780275
+      ],
+      "rest_s8": [
+        24194.110740760207,
+        26601.97146864751,
+        29707.096118627032
+      ],
+      "rest_s9": [
+        22626.30502793755,
+        22539.566058303375,
+        24706.991031839552
+      ],
+      "rest_s10": [
+        27786.665686906596,
+        26199.412901243246,
+        22174.282414951147
+      ],
+      "rest_s11": [
+        32144.431014214857,
+        29974.676236697036,
+        20229.047132432795
+      ],
+      "rest_s12": [
+        105588.6580557749,
+        108945.75704680385,
+        74362.02590895984
+      ],
+      "rest_s13": [
+        22439.67798057088,
+        23834.043650164906,
+        25402.759256618523
+      ],
+      "rest_s14": [
+        42178.71735005451,
+        46268.49163715583,
+        53150.7725244116
+      ],
+      "rest_s15": [
+        37398.32230911541,
+        39970.520225071145,
+        47726.77799870513
+      ],
+      "pt0_s0": [
+        32747.510669138606,
+        29027.648763057143,
+        21552.132960327366
+      ],
+      "pt0_s1": [
+        33026.854268546806,
+        30627.11288384199,
+        26957.328887620624
+      ],
+      "pt0_s2": [
+        57004.07038176954,
+        74078.22029109202,
+        40692.281784718216
+      ],
+      "pt0_s3": [
+        53497.88836449132,
+        49120.47426415549,
+        42122.15106604411
+      ],
+      "pt0_s4": [
+        35263.644158051866,
+        35656.67998425762,
+        34444.114888576514
+      ],
+      "pt0_s5": [
+        34682.263422864504,
+        30051.50430175047,
+        33128.60525742086
+      ],
+      "pt0_s6": [
+        117372.92969178803,
+        83807.47568691096,
+        48401.472979435515
+      ],
+      "pt0_s7": [
+        66049.68015017986,
+        54565.73099952239,
+        32279.549655010334
+      ],
+      "pt0_s8": [
+        34710.447167237944,
+        34747.89423905077,
+        37760.08049337462
+      ],
+      "pt0_s9": [
+        37618.456234876685,
+        33319.72718216686,
+        24750.281318572623
+      ],
+      "pt0_s10": [
+        32648.083945802027,
+        26763.925044316944,
+        13212.470249405069
+      ],
+      "pt0_s11": [
+        47599.225665509104,
+        46632.56475492782,
+        32454.710692646306
+      ],
+      "pt0_s12": [
+        94290.96215708325,
+        120898.85239244392,
+        56479.63788638372
+      ],
+      "pt0_s13": [
+        46080.435071916734,
+        43671.19689505671,
+        35169.59990448253
+      ],
+      "pt0_s14": [
+        25006.770892256056,
+        23541.3206356653,
+        19270.56942410131
+      ],
+      "pt0_s15": [
+        34624.751491426454,
+        31339.528244535315,
+        26161.822037876096
+      ],
+      "rest_s20": [
+        277675.2385679125,
+        418879.2787485481,
+        188672.80652581144
+      ],
+      "rest_s21": [
+        33693.27306863358,
+        33099.92633614238,
+        31286.864396665787
+      ],
+      "rest_s22": [
+        42408.112216632166,
+        36337.903810049014,
+        23938.60620390712
+      ],
+      "rest_s23": [
+        54358.25982699318,
+        52899.57521311919,
+        25464.116679459898
+      ],
+      "rest_s24": [
+        31091.408007541235,
+        26785.294791531698,
+        25447.44227124466
+      ],
+      "rest_s25": [
+        45401.723816822116,
+        39772.054918203925,
+        27968.36975167802
+      ],
+      "rest_s26": [
+        39240.13876140488,
+        32091.242381026754,
+        21600.716992141894
+      ],
+      "rest_s27": [
+        21268.671109026945,
+        18033.674188254914,
+        11804.860396993916
+      ],
+      "cf2_s20": [
+        31048.80373325138,
+        27755.22077769111,
+        26315.834424802877
+      ],
+      "cf2_s21": [
+        47014.68791814672,
+        40550.63839124004,
+        29147.39670881782
+      ],
+      "cf2_s22": [
+        33698.84011876278,
+        29480.49587522961,
+        15811.137509315115
+      ],
+      "cf2_s23": [
+        28785.806241060025,
+        24660.81299928518,
+        15901.09714908734
+      ],
+      "cf2_s24": [
+        56904.9848574453,
+        45174.963490288384,
+        22089.86818054073
+      ],
+      "cf2_s25": [
+        32547.9489041301,
+        28369.644837591924,
+        15997.351824649475
+      ],
+      "cf2_s26": [
+        35228.34347159336,
+        32463.18894572024,
+        25660.869303179443
+      ],
+      "cf2_s27": [
+        35471.991272756415,
+        34437.85271990599,
+        27418.22054691561
+      ],
+      "cf3_s0": [
+        46741.244313469564,
+        46999.95926133488,
+        37607.45536119056
+      ],
+      "cf3_s1": [
+        74015.30929337439,
+        82136.99582624774,
+        75956.73638440306
+      ],
+      "cf3_s2": [
+        41268.792801552496,
+        38015.176525851086,
+        24065.27558645272
+      ],
+      "cf3_s3": [
+        67227.28212879656,
+        62343.46059112994,
+        48820.1497567846
+      ],
+      "cf3_s4": [
+        55893.3668758253,
+        57925.46935036692,
+        51533.31856847594
+      ],
+      "cf3_s5": [
+        47908.17207868868,
+        46580.50693396005,
+        30997.17897167171
+      ],
+      "cf3_s6": [
+        43496.47710334596,
+        39188.79120572867,
+        27058.875623738884
+      ],
+      "cf3_s7": [
+        58973.953157807206,
+        47708.389792628914,
+        25318.078009995115
+      ]
+    },
+    "deformation_signal_over_SE": {
+      "DEF_s20": [
+        3864.3574870956963,
+        4611.5609141984,
+        4752.578786297949
+      ],
+      "DEF_s21": [
+        409.8818555316071,
+        418.08492560650404,
+        380.08679605256134
+      ],
+      "DEF_s22": [
+        2624.6683210176984,
+        2604.4085503001056,
+        619.4766581261056
+      ],
+      "DEF_s23": [
+        12.076210244982232,
+        8.071089175579038,
+        0.4378008345496151
+      ],
+      "DEF_s24": [
+        -0.22681945623581315,
+        -0.22532477225270153,
+        0.2614968121858954
+      ],
+      "DEF_s25": [
+        4191.722434636092,
+        4878.870705543309,
+        6398.409484176161
+      ],
+      "DEF_s26": [
+        94.92976502196245,
+        49.592291207105596,
+        0.2913222118103421
+      ],
+      "DEF_s27": [
+        0.04573459803045764,
+        0.06456219948817309,
+        -0.14191016451091207
+      ]
+    },
+    "qualified": {
+      "rest_s0": true,
+      "rest_s1": true,
+      "rest_s2": true,
+      "rest_s3": true,
+      "rest_s4": true,
+      "rest_s5": true,
+      "rest_s6": true,
+      "rest_s7": true,
+      "rest_s8": true,
+      "rest_s9": true,
+      "rest_s10": true,
+      "rest_s11": true,
+      "rest_s12": true,
+      "rest_s13": true,
+      "rest_s14": true,
+      "rest_s15": true,
+      "pt0_s0": true,
+      "pt0_s1": true,
+      "pt0_s2": true,
+      "pt0_s3": true,
+      "pt0_s4": true,
+      "pt0_s5": true,
+      "pt0_s6": true,
+      "pt0_s7": true,
+      "pt0_s8": true,
+      "pt0_s9": true,
+      "pt0_s10": true,
+      "pt0_s11": true,
+      "pt0_s12": true,
+      "pt0_s13": true,
+      "pt0_s14": true,
+      "pt0_s15": true,
+      "rest_s20": true,
+      "rest_s21": true,
+      "rest_s22": true,
+      "rest_s23": true,
+      "rest_s24": true,
+      "rest_s25": true,
+      "rest_s26": true,
+      "rest_s27": true,
+      "cf2_s20": true,
+      "cf2_s21": true,
+      "cf2_s22": true,
+      "cf2_s23": true,
+      "cf2_s24": true,
+      "cf2_s25": true,
+      "cf2_s26": true,
+      "cf2_s27": true,
+      "cf3_s0": true,
+      "cf3_s1": true,
+      "cf3_s2": true,
+      "cf3_s3": true,
+      "cf3_s4": true,
+      "cf3_s5": true,
+      "cf3_s6": true,
+      "cf3_s7": true
+    },
+    "deformation_qualified": [
+      20,
+      21,
+      22,
+      25
+    ],
+    "final_qualified": true
+  },
+  "teacher": {
+    "TA_S4": {
+      "training_recovery": true,
+      "generalization_FIN": false,
+      "generalization_R64": false,
+      "deformation_FIN": false,
+      "deformation_R64": false,
+      "informative": {
+        "train_S4/rest": true,
+        "train_S4/pt0": true,
+        "train_S16/rest": true,
+        "train_S16/pt0": true,
+        "FIN/rest": true,
+        "FIN/cf2": true,
+        "R64/rest": true,
+        "R64/cf2": true
+      },
+      "converged": false,
+      "J_final": 8.774523303145543e-05,
+      "seconds": 1076.36448605638,
+      "generalizes": false
+    },
+    "TA_S16": {
+      "training_recovery": true,
+      "generalization_FIN": false,
+      "generalization_R64": false,
+      "deformation_FIN": false,
+      "deformation_R64": false,
+      "informative": {
+        "train_S4/rest": true,
+        "train_S4/pt0": true,
+        "train_S16/rest": true,
+        "train_S16/pt0": true,
+        "FIN/rest": true,
+        "FIN/cf2": true,
+        "R64/rest": true,
+        "R64/cf2": true
+      },
+      "converged": false,
+      "J_final": 0.0001936652697622776,
+      "seconds": 1385.9846887402236,
+      "generalizes": false
+    },
+    "TB_S4": {
+      "training_recovery": true,
+      "generalization_FIN": true,
+      "generalization_R64": false,
+      "deformation_FIN": true,
+      "deformation_R64": true,
+      "informative": {
+        "train_S4/rest": true,
+        "train_S4/pt0": true,
+        "train_S16/rest": true,
+        "train_S16/pt0": true,
+        "FIN/rest": true,
+        "FIN/cf2": true,
+        "R64/rest": true,
+        "R64/cf2": true
+      },
+      "converged": false,
+      "J_final": 1.6329572645190638e-06,
+      "seconds": 1040.242274149321,
+      "generalizes": false
+    },
+    "TB_S16": {
+      "training_recovery": true,
+      "generalization_FIN": true,
+      "generalization_R64": false,
+      "deformation_FIN": true,
+      "deformation_R64": true,
+      "informative": {
+        "train_S4/rest": true,
+        "train_S4/pt0": true,
+        "train_S16/rest": true,
+        "train_S16/pt0": true,
+        "FIN/rest": true,
+        "FIN/cf2": true,
+        "R64/rest": true,
+        "R64/cf2": true
+      },
+      "converged": false,
+      "J_final": 2.014407073147595e-06,
+      "seconds": 1161.026596765034,
+      "generalizes": false
+    }
+  },
+  "runs": {
+    "frozen_5901": {},
+    "frozen_5902": {},
+    "wl68_net_all_5901": {
+      "J_final": 0.017119798809289932,
+      "converged": true,
+      "seconds": 2080.3579735225067,
+      "peak_GPU_allocated": 1114960384,
+      "concurrent": null
+    },
+    "wl68_net_all_5902": {
+      "J_final": 0.016665762290358543,
+      "converged": true,
+      "seconds": 1133.7126092407852,
+      "peak_GPU_allocated": 1567680512,
+      "concurrent": null
+    },
+    "wl68_net_all_scratch6801": {
+      "J_final": 0.01723204366862774,
+      "converged": true,
+      "seconds": 1151.2814287543297,
+      "peak_GPU_allocated": 1567680512,
+      "concurrent": null
+    },
+    "C_5901": {
+      "J_final": 0.0165764968842268,
+      "converged": true,
+      "seconds": 1028.476126424037,
+      "peak_GPU_allocated": 1055639040,
+      "concurrent": "2 concurrent"
+    },
+    "C_5902": {
+      "J_final": 0.016513641923666,
+      "converged": true,
+      "seconds": 1056.5917897317559,
+      "peak_GPU_allocated": 1055639040,
+      "concurrent": "2 concurrent"
+    },
+    "D1_5901": {
+      "J_final": 0.03677183389663696,
+      "converged": true,
+      "seconds": 1607.341191825457,
+      "peak_GPU_allocated": 3354408448,
+      "concurrent": "2 concurrent"
+    },
+    "D1_5902": {
+      "J_final": 0.03676958382129669,
+      "converged": true,
+      "seconds": 1612.4230339657515,
+      "peak_GPU_allocated": 3354408448,
+      "concurrent": "2 concurrent"
+    },
+    "D2_5901": {
+      "J_final": 0.03685608506202698,
+      "converged": true,
+      "seconds": 1612.65686230734,
+      "peak_GPU_allocated": 3354408448,
+      "concurrent": "2 concurrent"
+    },
+    "D2_5902": {
+      "J_final": 0.03685503825545311,
+      "converged": true,
+      "seconds": 1615.9725389890373,
+      "peak_GPU_allocated": 3354408448,
+      "concurrent": "2 concurrent"
+    },
+    "J_5901": {
+      "J_final": 0.030079878866672516,
+      "converged": true,
+      "seconds": 5247.782749430276,
+      "peak_GPU_allocated": 3719116288,
+      "concurrent": "2 concurrent"
+    },
+    "J_5902": {
+      "J_final": 0.030113575980067253,
+      "converged": true,
+      "seconds": 5260.364686601795,
+      "peak_GPU_allocated": 3719116288,
+      "concurrent": "2 concurrent"
+    }
+  },
+  "groups": {
+    "S4_rest": [
+      "rest_s0",
+      "rest_s1",
+      "rest_s2",
+      "rest_s3"
+    ],
+    "S4_pt0": [
+      "pt0_s0",
+      "pt0_s1",
+      "pt0_s2",
+      "pt0_s3"
+    ],
+    "S16_rest": [
+      "rest_s0",
+      "rest_s1",
+      "rest_s2",
+      "rest_s3",
+      "rest_s4",
+      "rest_s5",
+      "rest_s6",
+      "rest_s7",
+      "rest_s8",
+      "rest_s9",
+      "rest_s10",
+      "rest_s11",
+      "rest_s12",
+      "rest_s13",
+      "rest_s14",
+      "rest_s15"
+    ],
+    "S16_pt0": [
+      "pt0_s0",
+      "pt0_s1",
+      "pt0_s2",
+      "pt0_s3",
+      "pt0_s4",
+      "pt0_s5",
+      "pt0_s6",
+      "pt0_s7",
+      "pt0_s8",
+      "pt0_s9",
+      "pt0_s10",
+      "pt0_s11",
+      "pt0_s12",
+      "pt0_s13",
+      "pt0_s14",
+      "pt0_s15"
+    ],
+    "S16not4_rest": [
+      "rest_s4",
+      "rest_s5",
+      "rest_s6",
+      "rest_s7",
+      "rest_s8",
+      "rest_s9",
+      "rest_s10",
+      "rest_s11",
+      "rest_s12",
+      "rest_s13",
+      "rest_s14",
+      "rest_s15"
+    ],
+    "S16not4_pt0": [
+      "pt0_s4",
+      "pt0_s5",
+      "pt0_s6",
+      "pt0_s7",
+      "pt0_s8",
+      "pt0_s9",
+      "pt0_s10",
+      "pt0_s11",
+      "pt0_s12",
+      "pt0_s13",
+      "pt0_s14",
+      "pt0_s15"
+    ],
+    "FIN_rest": [
+      "rest_s20",
+      "rest_s21",
+      "rest_s22",
+      "rest_s23",
+      "rest_s24",
+      "rest_s25",
+      "rest_s26",
+      "rest_s27"
+    ],
+    "FIN_cf2": [
+      "cf2_s20",
+      "cf2_s21",
+      "cf2_s22",
+      "cf2_s23",
+      "cf2_s24",
+      "cf2_s25",
+      "cf2_s26",
+      "cf2_s27"
+    ],
+    "DEV_cf3_fitports": [
+      "cf3_s0",
+      "cf3_s1",
+      "cf3_s2",
+      "cf3_s3"
+    ],
+    "DEV_cf3_wl68ports": [
+      "cf3_s4",
+      "cf3_s5",
+      "cf3_s6",
+      "cf3_s7"
+    ]
+  }
+}

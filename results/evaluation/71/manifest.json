@@ -1,0 +1,37 @@
+{
+ "worklog": "docs/worklogs/71_WORKLOG_SPATIAL_MAP_COVERAGE_GENERALIZATION.md",
+ "producer": "experiments/fnto_cover71/export71.py on LabServer63 (chain done 2026-11-02 14:36 UTC)",
+ "protocol": "experiments/fnto_cover71/protocol/cover71_v1.json (+ amendment 1)",
+ "items": [
+  {
+   "file": "cover71.pdf",
+   "source": "results/fnto_cover71/final/cover71.pdf",
+   "sha256": "c67d16432d67e67f8bf56b044a311b0e3f742663e870259b906563b13ff53ef9",
+   "description": "Same figure, vector"
+  },
+  {
+   "file": "cover71.png",
+   "source": "results/fnto_cover71/final/cover71.png",
+   "sha256": "2dfb9aa4809b8ef8d2b785133a5373783159f9a35c767ebb6224637b741a77cb",
+   "description": "Worst-channel upper-95% abs_coarse / abs_fine16 / con_coarse per candidate and group (log); dashed = WL59 thresholds"
+  },
+  {
+   "file": "group_metrics.csv",
+   "source": "results/fnto_cover71/final/group_metrics.csv",
+   "sha256": "e53fad9dd6c752e2acc78fc4e2d6a153fd8fb4fc9c8268fe8113af7849d5358a",
+   "description": "Pooled metrics (rho, bounds, signal/SE, Q, corr/slope) per candidate, group, metric, channel"
+  },
+  {
+   "file": "summary.json",
+   "source": "results/fnto_cover71/final/summary.json",
+   "sha256": "d505d2312093f96d462e51908b22def46ee28ff2c04f938a62c583a503c90f20",
+   "description": "Predeclared decision record, precision, teacher flags, run costs, groups"
+  },
+  {
+   "file": "teacher.csv",
+   "source": "results/fnto_cover71/final/teacher.csv",
+   "sha256": "6b1b706246c1d2f9a46490feb75c647439dc87c58edd863becb40843936df3ee",
+   "description": "Noise-free teacher-student errors (initial/final) per set and geometry"
+  }
+ ]
+}
