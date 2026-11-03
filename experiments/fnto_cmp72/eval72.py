@@ -107,6 +107,7 @@ def evaluate(name,G,P,R,D,qual,dq,lights):
 
 def oracle(G,P,R,keys,iters=1500):
     import fit71
+    if 'R72_DEV_ORACLE_ITERS' in os.environ:assert ROOT!=HOME/'rest_cmp72';iters=int(os.environ['R72_DEV_ORACLE_ITERS'])
     a,o=fit71.angular();A=torch.softmax(a,0).double().cuda();O=torch.softmax(o,1).double().cuda();bm=FM.bin_map('cuda');Hc=E.Hm().cuda();subs=[];cgs=[]
     proj=lambda T:FM.project_capped(T.permute(0,2,3,1)).permute(0,3,1,2)
     for k in keys:
