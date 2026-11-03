@@ -1,0 +1,60 @@
+{
+  "batch": "cmp72_v1",
+  "worklog": "docs/worklogs/72_WORKLOG_CONTROLLED_SPATIAL_REPRESENTATION_COMPARISON.md",
+  "design_record": "docs/plans/SPATIAL_REPRESENTATION72_V1.md (frozen with this protocol, before any candidate is trained)",
+  "branch": "Selective_Recompute",
+  "starting_head": "06e1a1d",
+  "server": "LabServer63 (main); root ~/rest_cmp72; WL68 (~/rest_repr68), WL71 (~/rest_cover71) and WL71A (~/rest_drift_smoke) are read-only inputs",
+  "common_contract": "K x = B x + O^T T A ((1-beta) x); fixed WL68 net_all_5902 A/O; T >= 0, sum_j T = mass in (0,1); unchanged B/beta; 16 in / 64 out bins",
+  "training_data": "WL71 S16 (slots 0-15), rest and pt0, mean of fitting replicas 0-3 (fit71.Problem, ~/rest_cover71/fit_targets71.pt); WL68 objective J (fit71.objective)",
+  "optimizer": {"algorithm": "Adam (0.9, 0.999, 1e-8), full batch, float32, TF32 off", "lr": 0.003, "lr_min": 3e-05, "schedule": "cosine over steps (fit71.cosine)", "steps": 20000, "clip": 1.0, "checkpoints": [2000, 6000], "final": "the 20,000-step iterate (no selection)", "convergence": "WL68 last-decile rule (<1 %) on the optimised loss"},
+  "candidates": {
+    "A": "WL59 P W+UV, group 'net' (A/O fixed), init P_590x + fixed A/O (as WL71 D1); loss J + lambda * L_sym with lambda = 1 (fixed, same relative-error normalisation as J; no search); L_sym = mean over (geometry, training source, non-identity exact symmetry, channel) of the relative squared error of the angle-integrated collided response on native receivers; symmetries: rest D4 x z-flip (15 non-identity), pt0 D4 (7 non-identity; images built by the unchanged geometry code, fit72.py geoms)",
+    "B": "RSK (rsk72.py): phi_loc (27->96->96->24), phi_far (28->96->96->24, last bias -7), phi_m (20->64->24, last bias 1.1); position-free descriptors; 128-neighbour local + 240-cell far relations; WL59 per-channel distance prior on local weights; trained from torch.manual_seed(seed); loss J"
+  },
+  "runs": {
+    "A_5901": {"candidate": "A", "init": "P_5901", "lambda_sym": 1.0},
+    "A_5902": {"candidate": "A", "init": "P_5902", "lambda_sym": 1.0},
+    "B_7201": {"candidate": "B", "seed": 7201},
+    "B_7202": {"candidate": "B", "seed": 7202}
+  },
+  "baselines": {"D1_5901": "~/rest_cover71/runs/D1_5901.pt (frozen WL71)", "D1_5902": "~/rest_cover71/runs/D1_5902.pt (frozen WL71)", "init_P5902": "P_5902 + fixed A/O (diagnostic)", "R71A_2000": "~/rest_drift_smoke/out/ckpt_R_02000.pt (WL71A early checkpoint, diagnostic)"},
+  "confirmation": {
+    "geometry": "te2",
+    "geometry_rule": "among WL57 test/confirmation/validation poses never used for any probe reference (cf0, cf1, te0-te3, va0, va1), the pose whose dent centre is farthest (rest xy) from every exact-symmetry image of the pt0 dent centre ((+-5, +-5) mm); tie (te2 and va1, 14.6 mm) broken by the larger dent depth -> te2 (depth 5.5 mm, radius 22.5 mm, centre (-17.5, 12.5) mm); te2 is not a symmetry image of rest or pt0",
+    "te2_geometry": "archived WL57 geometry LabServer69:~/rest_wl57/data/geometry/te2.pt (sha256 06b4d900bc229d06de534f9e80bcf2c1568eaefdc22015abdaaa23bc45b98116), copied to ~/rest_cmp72/inputs/geometry_te2.pt; identity gate: fresh LabServer63 build equal in xyz, rest_xyz, area, node, pair, prior, parent, src, dst, graph",
+    "slots": [
+      {"slot": 40, "name": "te2_top_centre", "face": 5, "target": [-0.0175, 0.0125, 0.005]},
+      {"slot": 41, "name": "te2_top_half_radius_plus_x", "face": 5, "target": [-0.00625, 0.0125, 0.005]},
+      {"slot": 42, "name": "te2_bottom_below_centre", "face": 4, "target": [-0.0175, 0.0125, -0.005]},
+      {"slot": 43, "name": "top_corner", "face": 5, "target": [-0.04, -0.04, 0.005]},
+      {"slot": 44, "name": "bottom_corner", "face": 4, "target": [0.04, 0.04, -0.005]},
+      {"slot": 45, "name": "top_edge_mid", "face": 5, "target": [0.04, 0.0, 0.005]},
+      {"slot": 46, "name": "side_face", "face": 1, "target": [0.05, -0.02, 0.0]},
+      {"slot": 47, "name": "top_flat", "face": 5, "target": [0.02, -0.035, 0.005]}
+    ],
+    "port_rule": "on the slot face, ports sorted by (round(3-D rest distance to target, 1e-9 m), index); first admissible: min over bins of (1-beta) >= 0.5 at rest AND te2; top/bottom ports >= 0.01 m from every slab side; >= 0.01 m (rest 3-D distance, same face) from every exact-symmetry image (D4 x z-flip, face mapped accordingly) of every port with any WL66/WL68/WL71 probe reference (slots 0-15, 20-27) and from every previously chosen confirmation port; never equal to such a port or image; no reselection",
+    "references": "unchanged WL66/WL68/WL71 estimator and packet gates; 32M photons per packet; rest and te2 x slots 40-47 x 16 bins x 4 replicas = 1024 packets; seeds 723000000 + g*1e6 + slot*1e4 + bin*100 + rep (rest 0, te2 1); chunk rule and OOM fallback as WL71 (probes71.trace); walker: the WL57 fast walker unless ~/rest_walker71c/validated.json (status PASSED, written by the separately validated WL71C rework) exists when generation starts, in which case its module path is used and recorded per packet",
+    "precision": "abs matrices: coarse signal/SE >= 10 in every channel; deformation (te2 - rest) matrices: >= 3; a group needs >= 4 of 8 qualified matrices or it is UNMEASURED"
+  },
+  "development_groups": "S16_rest / S16_pt0 (replicas 4-7), FIN71_rest / FIN71_cf2 / DEF71_cf2 (WL71 final ports, now development), H3_cf3 (WL68 cf3 slots 4-7)",
+  "evaluation": {
+    "estimators": "eval68 unchanged (unbiased cross-replica Grams, jackknife upper 95 %, worst channel)",
+    "per_source": "per-matrix coarse / fine16 / contrast upper bounds and 1 cm flux concentration",
+    "full_field": "eval68.extended (WL59 historical fields) and eval68.passivity for every candidate (RSK through its Transport-compatible adapter)",
+    "oracle": "LABELLED ORACLE: admissible T for the fixed A/O fitted on confirmation replica 0, scored on replicas 1-3 (eval68 split); a representability bound, never a candidate",
+    "cost": "parameter count, runtime state size (stored coefficient floats per geometry), training seconds per step (contended, 2 lanes), coefficient build time and 64-light application time per geometry"
+  },
+  "criteria": {"quality": {"abs_coarse_hi": 0.1, "abs_fine16_hi": 0.15, "con_coarse_hi": 0.25}, "deformation": {"abs_coarse_hi": 0.35, "corr_min": 0.9}},
+  "decision": {
+    "metrics": "for a run X: c_X = max over CONF_rest and CONF_te2 of the worst-channel upper bound of con_coarse; a_X likewise for abs_coarse; e_X = CONF_DEF worst-channel upper bound of abs_coarse",
+    "baseline": "c_D = min over D1_5901, D1_5902 of c; a_D likewise",
+    "improves": "candidate improves iff BOTH seeds have c <= 0.8 c_D and a <= 0.8 a_D",
+    "superior": "X superior to Y iff max over X seeds of c <= 0.8 x min over Y seeds of c AND the same for a AND max over X seeds of e <= 1.2 x min over Y seeds of e",
+    "verdict": "INCONCLUSIVE if confirmation groups are UNMEASURED, leakage is detected or a reference gate fails; INCOMPARABLE if a candidate fails its implementation gates (linearity, zero input, positivity, passivity, finiteness) - the valid candidate's improvement is reported; else both improve: A SUPERIOR / B SUPERIOR if superior, otherwise BOTH IMPROVE WITHOUT CLEAR WINNER; exactly one improves and is superior to the other: that SUPERIOR; exactly one improves but not superior: INCONCLUSIVE; neither improves: NEITHER IMPROVES",
+    "quality_gates": "WL59 thresholds per group are reported separately (pass/fail); they do not change the comparative verdict",
+    "not_claimed": "differences are attributable to the complete designs; no adoption"
+  },
+  "t_quantiles": {"1": 12.706205, "2": 4.302653, "3": 3.182446, "7": 2.364624},
+  "prohibited": ["coverage increase", "threshold change", "candidate tuning on confirmation or development results", "checkpoint selection on held-out results", "per-port corrections", "angular mechanism change", "coupled GI", "production K/C change", "automatic adoption"]
+}
