@@ -190,5 +190,16 @@
     "wrapper": "run72.sh: waits until no process of the TransGI-Reproduction job exists and the GPU has no compute process for 10 consecutive minutes, then runs the dev smoke chain (root ~/rest_cmp72_dev: 0.5M-photon packets, 40-step fits, 5-iteration oracle; pipeline check only, no metric used) and, only if it completes, the evidence chain (root ~/rest_cmp72); one detached server process, no session dependency",
     "fit_lanes": 2,
     "frozen_before": "any candidate training or confirmation reference; the dev smoke runs after the freeze, so any dev failure fix is a disclosed pre-evidence amendment"
-  }
+  },
+  "amendments": [
+    {
+      "id": 1,
+      "date": "2026-11-04",
+      "stage": "dev smoke (ports stage), before any candidate fit, confirmation reference or evaluation; the evidence root holds no output",
+      "reason": "the te2 identity gate required bitwise equality of the fresh LabServer63 build and the archived LabServer69 WL57 geometry; every key is bitwise equal except one of 537,600 'node' elements (port 1066, feature 6: archived -5.78e-16, fresh 0.0; feature 6 is exactly 0 for 3,578 of 3,840 ports, absmax 8.7e-4): a cross-machine float32 rounding residue",
+      "change": "ports72.py: 'node' must match to |delta| <= 1e-12 absolute (other keys stay bitwise); the non-bitwise elements and max delta are recorded in ports.json te2_identity. WL72 uses the archived geometry throughout, as before; nothing else changes.",
+      "also_recorded": "walker: the WL72A streaming engine passed its local equivalence validation but is not a drop-in for the WL63 tag instrumentation, so ~/rest_walker71c/validated.json is deliberately not created and WL72 uses the unchanged WL57 fast walker",
+      "incident": "2026-11-04 05:57-05:59 UTC an accidental interactive re-source of run72.sh during diagnosis ran idle checks only and was killed before any stage started"
+    }
+  ]
 }
