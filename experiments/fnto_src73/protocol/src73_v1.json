@@ -1,0 +1,577 @@
+{
+  "batch": "src73_v1",
+  "worklog": "docs/worklogs/73_WORKLOG_FIXED_BUDGET_SOURCE_SUPPORT_INTERVENTION.md",
+  "design_record": "docs/plans/SOURCE_SUPPORT73_V1.md",
+  "branch": "Selective_Recompute",
+  "server": "LabServer63 (main; user 2026-11-04: take the server without waiting for other jobs); root ~/rest_src73; ~/rest_repr68, ~/rest_cover71, ~/rest_cmp72, ~/rest_drift_smoke are read-only inputs",
+  "geometry": {
+    "pt0": [
+      0.00575,
+      0.0225,
+      0.005,
+      -0.005
+    ],
+    "slab_mm": [
+      100,
+      100,
+      10
+    ],
+    "contexts": {
+      "INT": "top/bottom (faces 4/5), both in-plane edge distances >= 10 mm",
+      "TBE": "top/bottom, nearest in-plane edge < 10 mm, farther >= 10 mm (edge band)",
+      "TBC": "top/bottom, both in-plane edge distances < 10 mm (corner zone)",
+      "SM": "side face, |z| = 1.25 mm row, along-edge distance to the vertical slab edge >= 10 mm",
+      "SR": "side face, |z| = 3.75 mm row (adjacent to the top/bottom edge), along-edge >= 10 mm",
+      "SV": "side face, along-edge distance to the vertical slab edge < 10 mm"
+    },
+    "images": "exact rest symmetries D4 x z-flip (sym72.ops(True), 16 permutations incl. identity); every distance is 3-D rest distance in mm"
+  },
+  "stage0": {
+    "min_collided_budget": 0.5,
+    "removal": {
+      "rule": "flat-interior S16 sources (context INT and rest-xy distance from the pt0 dent centre >= pt0 radius + 10 mm, so the source's 1 cm neighbourhood is undeformed in both training geometries) that are exact rest-symmetry images of another flat-interior S16 source; remove all but the lowest slot of each such orbit; the rule must remove exactly 4 sources or the design is infeasible (STOP). The removed sources are exact duplicates of slot 2 at REST only: at pt0 they sit at different positions relative to the dent and the response covers every receiver, so their pt0 supervision is distinct for D1, A and B alike (A's pt0 symmetry images go to the pt0 variant geometries; only the asw image fixes pt0). The removal cost is measured by REM_NEAR (decision) and TRAIN_REMOVED_rest/pt0 (descriptive; in-sample for the S16 models)",
+      "outside_pt0_footprint_mm": 10,
+      "count": 4
+    },
+    "replacements": [
+      {
+        "slot": 50,
+        "context": "TBE",
+        "face": 5,
+        "e_mm": 1.25,
+        "target_mm": [
+          48.75,
+          -31.25,
+          5.0
+        ]
+      },
+      {
+        "slot": 51,
+        "context": "TBC",
+        "face": 4,
+        "target_mm": [
+          48.75,
+          48.75,
+          -5.0
+        ]
+      },
+      {
+        "slot": 52,
+        "context": "SM",
+        "face": 0,
+        "target_mm": [
+          -50.0,
+          31.25,
+          1.25
+        ]
+      },
+      {
+        "slot": 53,
+        "context": "SR",
+        "face": 2,
+        "target_mm": [
+          -31.25,
+          -50.0,
+          3.75
+        ]
+      }
+    ],
+    "replacement_rule": "on the slot's face and context, ports ordered by (3-D rest distance to target rounded 1e-6 mm, index); first admissible: not an exact image of any previously referenced port (WL66/68/71 slots 0-15 and 20-27, WL72 slots 40-47) or of an already chosen replacement, and min over bins of (1-beta) >= 0.5 at rest and pt0 (archived geometries); no reselection. Targets sit 31.25 mm from the face centre along the edge so that a mid-edge region ~30 mm from every image of the new sources remains for 'far' confirmation and a 5 mm 'near' position exists",
+    "near_mm": 5.0,
+    "static_spacing_mm": 10.0,
+    "confirmation_static": [
+      {
+        "slot": 60,
+        "context": "INT",
+        "stratum": "near",
+        "face": 5,
+        "e_min_mm": 21.25
+      },
+      {
+        "slot": 61,
+        "context": "INT",
+        "stratum": "near",
+        "face": 4,
+        "e_min_mm": 21.25
+      },
+      {
+        "slot": 62,
+        "context": "INT",
+        "stratum": "far",
+        "face": 5,
+        "e_min_mm": 21.25
+      },
+      {
+        "slot": 63,
+        "context": "INT",
+        "stratum": "far",
+        "face": 4,
+        "e_min_mm": 21.25
+      },
+      {
+        "slot": 64,
+        "context": "TBE",
+        "stratum": "near",
+        "e_mm": 1.25
+      },
+      {
+        "slot": 65,
+        "context": "TBE",
+        "stratum": "far",
+        "e_mm": 1.25
+      },
+      {
+        "slot": 66,
+        "context": "TBC",
+        "stratum": "near"
+      },
+      {
+        "slot": 67,
+        "context": "TBC",
+        "stratum": "far"
+      },
+      {
+        "slot": 68,
+        "context": "SM",
+        "stratum": "near"
+      },
+      {
+        "slot": 69,
+        "context": "SM",
+        "stratum": "far"
+      },
+      {
+        "slot": 70,
+        "context": "SR",
+        "stratum": "near"
+      },
+      {
+        "slot": 71,
+        "context": "SR",
+        "stratum": "far"
+      },
+      {
+        "slot": 72,
+        "context": "SV",
+        "stratum": "near",
+        "row_mm": 1.25
+      },
+      {
+        "slot": 73,
+        "context": "SV",
+        "stratum": "far",
+        "row_mm": 1.25
+      },
+      {
+        "slot": 74,
+        "context": "SV",
+        "stratum": "near",
+        "row_mm": 3.75
+      },
+      {
+        "slot": 75,
+        "context": "SV",
+        "stratum": "far",
+        "row_mm": 3.75
+      },
+      {
+        "slot": 76,
+        "context": "INT",
+        "stratum": "near_removed",
+        "removed_slot": 6
+      },
+      {
+        "slot": 77,
+        "context": "INT",
+        "stratum": "near_removed",
+        "removed_slot": 8
+      },
+      {
+        "slot": 78,
+        "context": "INT",
+        "stratum": "near_removed",
+        "removed_slot": 9
+      },
+      {
+        "slot": 79,
+        "context": "INT",
+        "stratum": "near_removed",
+        "removed_slot": 12
+      },
+      {
+        "slot": 90,
+        "context": "TBE",
+        "stratum": "far",
+        "e_mm": 1.25
+      },
+      {
+        "slot": 91,
+        "context": "SM",
+        "stratum": "far"
+      },
+      {
+        "slot": 92,
+        "context": "SR",
+        "stratum": "far"
+      }
+    ],
+    "confirmation_rule": "in slot order; candidates = ports of the slot's context (and face / edge row / side row filters), not an exact image of any previously referenced port, of any S16-R source or of an already chosen confirmation port, min over bins (1-beta) >= 0.5 at rest; at least 10 mm (3-D) from every already chosen static confirmation port (decorrelation); dA = 3-D distance to the nearest actual S16-R training port, dI = to the nearest exact image of an S16-R training port; 'near' = minimise |dA - 5 mm| (so near for every architecture, with or without symmetry), 'far' = maximise dI (far from every image, hence from every actual port); ties by port index; no reselection. INT is restricted to edge distance >= 21.25 mm (the S16 support range); TBE to the 1.25 mm edge row (the S16-R TBE source row) 'near_removed' (slots 76-79): on the removed source's face, minimise |distance to that actual removed S16 source - 5 mm| (same exclusions, so never an image of slot 2 or of any training port). Second 'far' ports (90-92) for TBE, SM and SR follow the far rule after all earlier choices (the 10 mm spacing moves them to another mid-edge); the TBC corner zone is too small for a second far port.",
+    "deformation_pose": {
+      "candidates": [
+        "te0",
+        "te1",
+        "te3",
+        "va0",
+        "va1",
+        "cf0",
+        "cf1"
+      ],
+      "probed_dented_poses": [
+        "pt0",
+        "cf2",
+        "cf3",
+        "te2"
+      ],
+      "rule": "among in-family WL57 poses never used for a port-probe reference and not WL59 training poses (tr00-tr11), choose the one whose dent centre is farthest from every exact D4 image of the probed dented poses' centres; ties: larger radius, then name",
+      "selected": "te0",
+      "archived_geometry": "LabServer69:~/rest_wl57/data/geometry/te0.pt sha256 792164100e01f6932747f4a57302c24845fbdf47bd2f6c4407e92a98dc60c667, copied to ~/rest_src73/inputs/geometry_te0.pt; identity gate vs a fresh LabServer63 build: KEYS bitwise except node |delta| <= 1e-12 (WL72 amendment 1); beta is the archived one throughout"
+    },
+    "footprint": {
+      "radius_fraction": 0.6,
+      "rule": "ports on the slot face with rest-xy distance from the te0 dent centre <= 0.6 R (b >= 0.35, top dz >= 1.7 mm), ordered by (3-D distance to target, index); first admissible: not an exact image of any referenced, S16-R or already chosen confirmation port; min (1-beta) >= 0.5 at rest and te0",
+      "ports": [
+        {
+          "slot": 80,
+          "face": 5,
+          "target_mm": [
+            0.0,
+            0.0,
+            5.0
+          ]
+        },
+        {
+          "slot": 81,
+          "face": 4,
+          "target_mm": [
+            0.0,
+            0.0,
+            -5.0
+          ]
+        },
+        {
+          "slot": 82,
+          "face": 5,
+          "target_mm": [
+            7.5,
+            0.0,
+            5.0
+          ]
+        },
+        {
+          "slot": 83,
+          "face": 4,
+          "target_mm": [
+            -7.5,
+            0.0,
+            -5.0
+          ]
+        },
+        {
+          "slot": 84,
+          "face": 5,
+          "target_mm": [
+            0.0,
+            10.0,
+            5.0
+          ]
+        },
+        {
+          "slot": 85,
+          "face": 4,
+          "target_mm": [
+            0.0,
+            -10.0,
+            -5.0
+          ]
+        }
+      ]
+    }
+  },
+  "frozen": {
+    "note": "exact lists produced by the Stage 0 rules (ports73.py propose on the LabServer63 archived geometries, 2026-11-04), frozen before any new reference, fit or evaluation; ports73.py freeze recomputes them in the chain and stops on any difference (revised 2026-11-04 before freezing, after the pre-freeze design review: strata 76-79 and 90-92 added)",
+    "removed_slots": [
+      6,
+      8,
+      9,
+      12
+    ],
+    "new_ports": {
+      "50": 3439,
+      "51": 3823,
+      "52": 408,
+      "53": 527
+    },
+    "confirmation_ports": {
+      "60": 995,
+      "61": 1342,
+      "62": 975,
+      "63": 977,
+      "64": 3437,
+      "65": 232,
+      "66": 3815,
+      "67": 47,
+      "68": 362,
+      "69": 1577,
+      "70": 519,
+      "71": 269,
+      "72": 3801,
+      "73": 11,
+      "74": 460,
+      "75": 466,
+      "76": 2683,
+      "77": 2887,
+      "78": 2695,
+      "79": 571,
+      "90": 195,
+      "91": 1876,
+      "92": 1928,
+      "80": 1743,
+      "81": 1723,
+      "82": 2091,
+      "83": 1724,
+      "84": 1804,
+      "85": 1714
+    }
+  },
+  "references": {
+    "estimator": "unchanged WL66/68/71/72: tagged first-exit action (tag_reference.tagged_action) of the unchanged WL57 fast walker (r57_fastwalk; the WL72A engine is NOT used), one-hot probe (port, incoming bin) with unit flux in all channels, packet gates probes68.gates, 32M photons, 32M chunk with 16M OOM fallback from the packet's own seed (probes72.trace)",
+    "training": {
+      "slots": [
+        50,
+        51,
+        52,
+        53
+      ],
+      "geometries": [
+        "rest",
+        "pt0"
+      ],
+      "replicas": 8,
+      "fit_replicas": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "evaluation_replicas": [
+        4,
+        5,
+        6,
+        7
+      ],
+      "packets": 1024,
+      "budget": "identical to every S16 slot: 16 sources x 4 fitting replicas x 32M photons per (geometry, bin); the 12 retained sources reuse their archived WL66/68/71 bundles unchanged"
+    },
+    "confirmation": {
+      "static_slots": [
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        90,
+        91,
+        92
+      ],
+      "static_geometry": "rest",
+      "footprint_slots": [
+        80,
+        81,
+        82,
+        83,
+        84,
+        85
+      ],
+      "footprint_geometries": [
+        "rest",
+        "te0"
+      ],
+      "replicas": 4,
+      "packets": 2240
+    },
+    "seeds": "training 733000000 + g*1e6 + slot*1e4 + bin*100 + rep (rest 0, pt0 1); confirmation 736000000 + g*1e6 + ... (rest 0, te0 1); unique; disjoint from WL66-72",
+    "machine": "LabServer63 (as the WL68/71/72 references; slots 0-3 were traced on LabServer69 in WL66 and passed the WL68 cross-machine gate)"
+  },
+  "optimizer": {
+    "algorithm": "Adam (0.9, 0.999, 1e-8), full batch, float32, TF32 off, 4 CPU threads",
+    "lr": 0.003,
+    "lr_min": 3e-05,
+    "schedule": "cosine over steps (fit71.cosine)",
+    "steps": 20000,
+    "clip": 1.0,
+    "checkpoints": [
+      2000,
+      6000,
+      10000
+    ],
+    "final": "the 20,000-step iterate (no selection)",
+    "convergence": "WL68 last-decile rule (<1 %) on the optimised loss"
+  },
+  "runs": {
+    "D1R_5901": {
+      "family": "D1",
+      "init": "P_5901",
+      "lambda_sym": 0.0,
+      "population": "S16R"
+    },
+    "D1R_5902": {
+      "family": "D1",
+      "init": "P_5902",
+      "lambda_sym": 0.0,
+      "population": "S16R"
+    },
+    "AR_5901": {
+      "family": "A",
+      "init": "P_5901",
+      "lambda_sym": 1.0,
+      "population": "S16R"
+    },
+    "AR_5902": {
+      "family": "A",
+      "init": "P_5902",
+      "lambda_sym": 1.0,
+      "population": "S16R"
+    },
+    "BR_7201": {
+      "family": "B",
+      "seed": 7201,
+      "lambda_sym": 0.0,
+      "population": "S16R"
+    },
+    "BR_7202": {
+      "family": "B",
+      "seed": 7202,
+      "lambda_sym": 0.0,
+      "population": "S16R"
+    }
+  },
+  "run_rule": "every run uses the WL71/WL72 constructor of its family unchanged (fit72.model_for: D1/A = fit71.model_from(P_590x) with the net_all_5902 A/O, 'net' group; B = rsk72.RSK from torch.manual_seed(seed)), the WL68 objective J (fit71.objective, mean over rest and pt0), A's L_sym exactly as WL72 (fit72.sym_data on the S16-R labels, lambda 1) and the optimiser above; D1 differs from A only by lambda_sym = 0 (WL71's D1 used the same objective through fit71.run)",
+  "baselines": {
+    "D1_5901": "~/rest_cover71/runs/D1_5901.pt",
+    "D1_5902": "~/rest_cover71/runs/D1_5902.pt",
+    "A_5901": "~/rest_cmp72/runs/A_5901.pt",
+    "A_5902": "~/rest_cmp72/runs/A_5902.pt",
+    "B_7201": "~/rest_cmp72/runs/B_7201.pt",
+    "B_7202": "~/rest_cmp72/runs/B_7202.pt"
+  },
+  "replays": {
+    "D1_5901": {
+      "family": "D1",
+      "init": "P_5901",
+      "lambda_sym": 0.0,
+      "population": "S16",
+      "archived": "~/rest_cover71/runs/D1_5901.pt"
+    },
+    "A_5901": {
+      "family": "A",
+      "init": "P_5901",
+      "lambda_sym": 1.0,
+      "population": "S16",
+      "archived": "~/rest_cmp72/runs/A_5901.pt"
+    },
+    "B_7201": {
+      "family": "B",
+      "seed": 7201,
+      "lambda_sym": 0.0,
+      "population": "S16",
+      "archived": "~/rest_cmp72/runs/B_7201.pt"
+    }
+  },
+  "stage1": {
+    "rule": "before any new reference: (1) eval73 reproduces WL72's archived pooled upper bounds (every metric and channel) for the six historical models on S16_rest/pt0, FIN71_rest/cf2, H3_cf3, CONF72_rest/te2 and DEF71 within eval_rel_tol; (2) a 500-step replay of D1_5901 / A_5901 / B_7201 on S16 through the WL73 training path reproduces the archived initial objective within initial_rel_tol and the archived logged J trajectory (steps 0-475, historical 20k schedule) within trajectory_rel_tol (float32 GPU reductions are not bitwise reproducible); any failure stops the batch. Replays are controls, never candidates",
+    "eval_rel_tol": 0.0001,
+    "initial_rel_tol": 1e-05,
+    "trajectory_rel_tol": 0.01,
+    "replay_steps": 500
+  },
+  "precision": {
+    "abs_min": 10,
+    "deformation_min": 3,
+    "group_min_matrices": 4,
+    "rule": "eval72 sigSE per matrix (coarse signal/SE, worst channel); groups use qualified matrices only; fewer than 4 -> UNMEASURED"
+  },
+  "criteria": {
+    "quality": {
+      "abs_coarse_hi": 0.1,
+      "abs_fine16_hi": 0.15,
+      "con_coarse_hi": 0.25
+    },
+    "deformation": {
+      "abs_coarse_hi": 0.35,
+      "corr_min": 0.9
+    }
+  },
+  "groups": {
+    "TRAIN_NEW": "S16-R replacement sources 50-53 (rest, pt0; replicas 4-7): training fit of the new support (4 matrices per geometry; abs signal/SE was >= 1.5e4 for every historical matrix, so qualification is not expected to bind; if it does, the batch is INCONCLUSIVE)",
+    "TRAIN_KEEP": "12 retained S16 sources (rest, pt0; replicas 4-7)",
+    "TRAIN_REMOVED": "4 removed S16 sources 6, 8, 9, 12 (rest, pt0; replicas 4-7)",
+    "BND": "static confirmation in the newly supported boundary contexts (TBE, TBC, SM, SR; slots 64-71, 90-92, rest)",
+    "BND_NEAR": "primary: slots 64, 66, 68, 70 (5 mm from an actual new source; local interpolation)",
+    "BND_FAR": "primary: slots 65, 67, 69, 71, 90, 91, 92 (farthest from every image of an S16-R source; transfer)",
+    "UNS": "side vertical-edge context (slots 72-75, rest): no source in that context in either population, but adjacent to the images of the new TBC source; descriptive, not a support-specificity control",
+    "INT_ALL": "primary regression group: interior static confirmation (INT_DED slots 60-63 + FP_rest slots 80-85, rest); the six footprint ports are clustered (no spacing rule), INT_DED and FP_rest are also reported separately",
+    "INT_DED": "slots 60-63",
+    "FP_rest": "slots 80-85 at rest",
+    "FP_te0": "slots 80-85 at te0 (static, unscored pose)",
+    "DEF73": "te0 - rest on slots 80-85 (signed geometry change; >= 4 qualified matrices or UNMEASURED; reported separately). te0 overlaps the pt0 training dent (centre offset 7.07 mm, R 20 vs 22.5 mm, depth 5 vs 5.75 mm): DEF73 is a near-training-pose interpolation check, not a test of transfer to new deformations, and S16 vs S16-R differences in DEF73 are not attributed to boundary support",
+    "SIDE": "SM + SR",
+    "TOPBOT_EDGE": "TBE + TBC",
+    "development": "S16_rest/pt0, FIN71_rest/cf2, H3_cf3, CONF72_rest/te2 (WL72 confirmation, now development), DEF71 (cf2), CONFDEF72 (te2): labelled development evidence",
+    "REM_NEAR": "primary regression group for the removal cost: slots 76-79, 5 mm from the actual removed S16 sources (held out for every model)"
+  },
+  "decision": {
+    "metrics": "w(model, group, m) = worst-channel upper 95 % bound (eval68 pooled, jackknife, t(K-1)) for m in {con_coarse, abs_coarse}",
+    "improve_factor": 0.8,
+    "degrade_factor": 1.25,
+    "per_architecture": "for X in {D1, A, B}, S16 seeds (WL71/72 finals) vs S16-R seeds (WL73 finals): valid = implementation/passivity gates pass for all four models; fit_ok = (WL59 quality gates Q pass on TRAIN_NEW_rest and TRAIN_NEW_pt0 for both S16-R seeds) OR (relative fit: for both S16-R seeds, both geometries and both m, w(TRAIN_NEW) <= 1.25 w(TRAIN_KEEP) of the same model) - the deciding basis is reported; no_deficit = every S16 seed already passes Q on BND_FAR; far = better(BND_FAR); near = better(BND_NEAR); accurate = Q passes on BND_FAR for both S16-R seeds; regression = worse(INT_ALL) or worse(REM_NEAR)",
+    "classes": "not valid -> INCONCLUSIVE; not fit_ok -> INSUFFICIENT FIT; no_deficit -> NO SUPPORT DEFICIT; far OVERLAP -> INCONCLUSIVE (seed variance); far YES: regression YES -> TRADE-OFF / REDISTRIBUTION, else accurate -> SUPPORT-SENSITIVE GENERALIZATION, else SUPPORT-SENSITIVE GENERALIZATION (partial) + SUPPORT INSUFFICIENT (accuracy); far NO and near YES -> SUPPORT-SENSITIVE (local only) + SUPPORT INSUFFICIENT (transfer) (+ TRADE-OFF if regression YES); far NO and near not YES -> SUPPORT INSUFFICIENT (+ TRADE-OFF if regression YES); a regression OVERLAP adds 'possible regression (seed overlap)'; any primary group (BND_FAR, BND_NEAR, INT_ALL, REM_NEAR, TRAIN_NEW_rest/pt0, TRAIN_KEEP_rest/pt0) UNMEASURED, a failed Stage 1 gate, a reference gate failure or detected leakage -> INCONCLUSIVE",
+    "interpretation_mapping": "per architecture: SUPPORT-SENSITIVE GENERALIZATION (accurate) -> consistent with missing training support; partial -> mixed (support helps, representation still limits accuracy); local only or SUPPORT INSUFFICIENT with fit_ok -> insufficient transfer within represented boundary conditions (H_mapping); TRADE-OFF -> distribution trade-off; INSUFFICIENT FIT, NO SUPPORT DEFICIT or INCONCLUSIVE -> unresolved for that architecture; disagreement between architectures -> mixed distribution / representation effect",
+    "cross_architecture": "same budget (S16-R): X ranked above Y on BND_FAR iff better(BND_FAR) with X as 'new' and Y as 'old' is YES; descriptive, not an adoption decision",
+    "deformation": "DEF73 reported per model (Q_def: abs_coarse upper <= 0.35 and corr >= 0.90 per channel) and S16 vs S16-R, separately from the static endpoints; UNMEASURED if fewer than 4 matrices qualify",
+    "descriptive": "BND_NEAR, BND_FAR, UNS, INT_DED, FP_rest, FP_te0, TRAIN_KEEP, TRAIN_REMOVED, development groups, per-source rows with distances to S16 / S16-R (actual and images), model vs physical flux profiles (5/10/20/40 mm), checkpoints @2000/@6000/@10000 (drift; never selected), WL59 extended fields, passivity, labelled fixed-A/O oracle (BND_NEAR, BND_FAR, UNS, INT_DED, REM_NEAR, TRAIN_NEW_rest), cost",
+    "comparisons": "three-valued with f = 0.8 and g = 1.25 over the two seeds per condition: better(G) = YES if for both m max_new w(G) <= f min_old w(G); NO if for some m min_new w(G) > f max_old w(G); otherwise OVERLAP (seed variance). worse(G) = YES if for some m min_new w(G) >= g max_old w(G); NO if for both m max_new w(G) < g min_old w(G); otherwise OVERLAP",
+    "confounds": "removal is not information-neutral for any architecture at pt0 and is neutral at rest only for A (exact images through slot 2) and approximately for the position-free B; D1-vs-A differences are therefore not pure support-transfer differences. Source location and boundary context are crossed at different attainable distances (TBC far is 8.75 mm from both edges; INT far dI is 10.3 mm). te0 is close to the training pose pt0 (see DEF73)"
+  },
+  "prohibited": [
+    "more than 16 training sources",
+    "capacity / feature / loss changes",
+    "tuning lambda, learning rates or thresholds",
+    "held-out-based source or checkpoint selection",
+    "new architecture",
+    "production K/C change",
+    "new physics (glossy/glass/heterogeneous)",
+    "coupled GI",
+    "hidden regressions",
+    "automatic successor or adoption"
+  ],
+  "execution": {
+    "wrapper": "run73.sh: dev smoke chain (root ~/rest_src73_dev: 0.5M-photon packets, 40-step fits and replays, 5-iteration oracle, finals only; pipeline check, no metric used) then, only if it completes, the evidence chain (root ~/rest_src73); one detached server process; no wait for other users' jobs (user instruction 2026-11-04)",
+    "fit_lanes": 2,
+    "frozen_before": "any new reference, fit or evaluation; dev failure fixes are disclosed pre-evidence amendments"
+  }
+}
