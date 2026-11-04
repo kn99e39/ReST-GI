@@ -200,6 +200,13 @@
       "change": "ports72.py: 'node' must match to |delta| <= 1e-12 absolute (other keys stay bitwise); the non-bitwise elements and max delta are recorded in ports.json te2_identity. WL72 uses the archived geometry throughout, as before; nothing else changes.",
       "also_recorded": "walker: the WL72A streaming engine passed its local equivalence validation but is not a drop-in for the WL63 tag instrumentation, so ~/rest_walker71c/validated.json is deliberately not created and WL72 uses the unchanged WL57 fast walker",
       "incident": "2026-11-04 05:57-05:59 UTC an accidental interactive re-source of run72.sh during diagnosis ran idle checks only and was killed before any stage started"
+    },
+    {
+      "id": 2,
+      "date": "2026-11-04",
+      "stage": "dev smoke (eval stage), before any evidence-root fit, reference or evaluation",
+      "reason": "the dev fits (40 steps) never reach the 2,000 / 6,000-step checkpoints, so the dev evaluation could not load A_5901@2000.pt; a dev-only defect (the evidence fits run 20,000 steps)",
+      "change": "fit72.py: checkpoints are saved at round-down(c * steps / 20000) under their nominal names (A_x@2000 / @6000); in the evidence root (steps = 20000) this is the identity mapping, so evidence behaviour is unchanged. The dev runs are deleted and refitted; dev references are kept."
     }
   ]
 }

@@ -50,3 +50,10 @@ Both are compared with the preserved WL59/WL71 baselines under one physical cont
 The same entry records two more things:
 - **Walker decision.** The WL72A engine is not a drop-in, so `~/rest_walker71c/validated.json` is not created and WL72 uses the unchanged WL57 walker.
 - **Incident.** During diagnosis, an accidental interactive re-source of `run72.sh` ran idle checks only. It was killed at 05:59 UTC, before any stage started.
+
+**2026-11-04 — first rerun of the dev smoke.**
+- Started 06:14 UTC.
+- Passed: tests, the four 40-step fits, generation and bundling of all 1,024 dev packets.
+- Failed at `eval` at about 06:50 UTC. The dev fits never reach the 2,000- and 6,000-step checkpoints, so the evaluation could not find `A_5901@2000.pt`. This is a dev-only defect.
+
+**Amendment 2 (dev only, pre-evidence).** Checkpoints are now saved at ⌊c·steps/20000⌋ under their nominal names, which is the identity mapping in the evidence root. The dev runs and the partial dev evaluation are deleted and redone; the dev references are kept.

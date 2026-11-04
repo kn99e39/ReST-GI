@@ -79,7 +79,7 @@ def run(rid):
     a0=m.in_logits.detach().clone();o0=m.out_logits.detach().clone()
     opt=torch.optim.Adam(params,lr=CFG['optimizer']['lr']);hist=[];t0=time.perf_counter();torch.cuda.reset_peak_memory_stats()
     with torch.no_grad():tot0,J0,L0=(float(v) for v in loss())
-    ck=set(CFG['optimizer']['checkpoints'])
+    full=CFG['optimizer']['steps'];ck={c*steps//full:c for c in CFG['optimizer']['checkpoints']}   # amendment 2: dev runs save the nominal checkpoints at proportional steps (identity in the evidence root)
     for step in range(steps):
         for q in opt.param_groups:q['lr']=fit71.cosine(step,steps,CFG['optimizer']['lr'],CFG['optimizer']['lr_min'])
         opt.zero_grad(set_to_none=True);tot,J,L=loss();tot.backward();gn=torch.nn.utils.clip_grad_norm_(params,CFG['optimizer']['clip']);opt.step()
@@ -89,7 +89,7 @@ def run(rid):
             hist.append(dict(step=step,loss=v[0],J=v[1],L_sym=v[2],grad_norm=float(gn),seconds=time.perf_counter()-t0))
             if step%1000==0:print('FIT',rid,step,v,flush=True)
         if step+1 in ck and step+1<steps:
-            save_new(ROOT/'runs'/f'{rid}@{step+1}.pt',dict(model={k:v.detach().cpu() for k,v in m.state_dict().items()},step=step+1,spec=spec))
+            save_new(ROOT/'runs'/f'{rid}@{ck[step+1]}.pt',dict(model={k:v.detach().cpu() for k,v in m.state_dict().items()},step=step+1,spec=spec))
     torch.cuda.synchronize();sec=time.perf_counter()-t0
     with torch.no_grad():totf,Jf,Lf=(float(v) for v in loss())
     assert torch.equal(m.in_logits,a0) and torch.equal(m.out_logits,o0),'A/O changed'
