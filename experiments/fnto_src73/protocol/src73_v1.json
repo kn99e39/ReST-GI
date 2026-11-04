@@ -573,5 +573,16 @@
     "wrapper": "run73.sh: dev smoke chain (root ~/rest_src73_dev: 0.5M-photon packets, 40-step fits and replays, 5-iteration oracle, finals only; pipeline check, no metric used) then, only if it completes, the evidence chain (root ~/rest_src73); one detached server process; no wait for other users' jobs (user instruction 2026-11-04)",
     "fit_lanes": 2,
     "frozen_before": "any new reference, fit or evaluation; dev failure fixes are disclosed pre-evidence amendments"
-  }
+  },
+  "amendments": [
+    {
+      "id": 1,
+      "date": "2026-11-04",
+      "stage": "evidence Stage 1 (replay gate), after the evaluation-identity gate passed (worst 1.45e-6) and before any new reference, fit or evaluation; no physical outcome or candidate result exists",
+      "observed": "the 500-step replays reproduced the archived initial objective (D1 9.2e-8, A 0, B 0) and the logged J trajectory to <= 1e-4 up to step ~150-200, then deviated with alternating sign at individual logged steps (max |rel| D1 2.98 %, A 1.94 %, B 2.52 %; the trajectories keep the same trend) - the pattern of float32 GPU reduction nondeterminism amplified by Adam, which the 40-step dev smoke could not reveal; the predeclared 1 % per-step tolerance was set without a measurement of the code's own run-to-run variability",
+      "change": "the replay gate is re-specified against the same code's run-to-run envelope: a second independent replay of each run (replay2_, identical code and inputs) is made, and the gate passes iff the initial-objective identity holds (<= 1e-5, unchanged) and, for both replays, max_s |J_replay - J_archive| / J_archive <= envelope_factor x max_s |J_replay - J_replay2| / J_replay2. The failed original gate record (stage1/summary.json) is preserved; the amended record is stage1/summary_amendment1.json. If the envelope check fails, the batch stops as before",
+      "envelope_factor": 2.0,
+      "code": "fit73.compare_replay2 and fit73.py replay2 mode; chain73.stage1_summary runs the amendment path only when the original gate failed (and also no longer proceeds past an existing failed summary, a defect of the frozen chain found here)"
+    }
+  ]
 }

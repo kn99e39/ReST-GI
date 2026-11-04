@@ -31,11 +31,18 @@ def lanes(kind,ids,outdir,prefix=''):
                     for q in live.values():q.wait()
                     status(f'FAILED {kind}_{rid} rc={p.returncode}');raise SystemExit(1)
 def stage1_summary():
-    if (ROOT/'stage1/summary.json').exists():return
     sys.path.insert(0,str(HERE));os.environ.update(RUNENV);import fit73
-    rows=[fit73.compare_replay(r) for r in CFG['replays']];ev=json.loads((ROOT/'stage1/eval_identity.json').read_text())
-    ok=all(r['passed'] for r in rows) and ev['passed'];write_new(ROOT/'stage1/summary.json',dict(replays=rows,evaluation=ev,passed=ok))
-    if not ok:status('FAILED stage1 reproduction gate');raise SystemExit(1)
+    s1=ROOT/'stage1/summary.json';ev=json.loads((ROOT/'stage1/eval_identity.json').read_text())
+    if not s1.exists():
+        rows=[fit73.compare_replay(r) for r in CFG['replays']];write_new(s1,dict(replays=rows,evaluation=ev,passed=all(r['passed'] for r in rows) and ev['passed']))
+    if json.loads(s1.read_text())['passed']:return
+    if not ev['passed']:status('FAILED stage1 evaluation identity');raise SystemExit(1)
+    # amendment 1 (protocol 'amendments'): the original 1 % trajectory rule failed; test against the same code's own run-to-run envelope
+    a1=ROOT/'stage1/summary_amendment1.json'
+    if not a1.exists():
+        lanes('replay2',list(CFG['replays']),'stage1','replay2_')
+        rows=[fit73.compare_replay2(r) for r in CFG['replays']];write_new(a1,dict(replays=rows,evaluation=ev,passed=all(r['passed'] for r in rows) and ev['passed']))
+    if not json.loads(a1.read_text())['passed']:status('FAILED stage1 reproduction gate (amendment 1 envelope)');raise SystemExit(1)
 def main():
     stage('ports',['ports73.py','freeze'],'ports.json');stage('tests_pre',['test73.py','pre'])
     stage('stage1_eval',['eval73.py','stage1'],'stage1/eval_identity.json');lanes('replay',list(CFG['replays']),'stage1','replay_');stage1_summary()

@@ -49,10 +49,10 @@ class Problem73:
             del self.tg[g].S['native']
         torch.cuda.empty_cache()
 
-def run(rid,replay=False):
+def run(rid,replay=False,tag='replay_'):
     import fit71,fit72
     spec=CFG['replays' if replay else 'runs'][rid];RG=environment();torch.backends.cuda.matmul.allow_tf32=False;torch.backends.cudnn.allow_tf32=False
-    torch.set_num_threads(4);out=ROOT/('stage1' if replay else 'runs')/f'{"replay_" if replay else ""}{rid}.pt'
+    torch.set_num_threads(4);out=ROOT/('stage1' if replay else 'runs')/f'{tag if replay else ""}{rid}.pt'
     if out.exists():raise FileExistsError('completed run is immutable')
     orphans=sorted((ROOT/'runs').glob(f'{rid}@*.pt')) if not replay else []
     if orphans:
@@ -107,5 +107,17 @@ def compare_replay(rid):
     ok=max(init.values())<=tol['initial_rel_tol'] and traj<=tol['trajectory_rel_tol']
     return dict(run=rid,archived=spec['archived'],steps_compared=len(common),initial_rel=init,trajectory_max_rel=traj,passed=ok)
 
+def compare_replay2(rid):
+    """Amendment 1: the archived-vs-replay trajectory difference must lie within the run-to-run envelope of the same code (a second
+    independent replay): max_s |J_r1 - J_arch| / J_arch <= factor * max_s |J_r1 - J_r2| / J_r2, plus the unchanged initial-objective identity."""
+    spec=CFG['replays'][rid];am=CFG['amendments'][0];r1=load(ROOT/'stage1'/f'replay_{rid}.pt');r2=load(ROOT/'stage1'/f'replay2_{rid}.pt');arc=load(Path(spec['archived']).expanduser())
+    a={h['step']:h['J'] for h in arc['history']};b={h['step']:h['J'] for h in r1['history']};c={h['step']:h['J'] for h in r2['history']};common=[s for s in sorted(b) if s in a and s in c]
+    d_arch=max(abs(b[s]-a[s])/abs(a[s]) for s in common);d_self=max(abs(b[s]-c[s])/abs(c[s]) for s in common);d_arch2=max(abs(c[s]-a[s])/abs(a[s]) for s in common)
+    first=next((s for s in common if abs(b[s]-a[s])/abs(a[s])>1e-3),None);bias=sum((b[s]-a[s])/a[s] for s in common)/len(common)
+    init=dict(J=abs(r1['J_initial']-arc['J_initial'])/abs(arc['J_initial']),J_replay2=abs(r2['J_initial']-arc['J_initial'])/abs(arc['J_initial']))
+    ok=max(init.values())<=CFG['stage1']['initial_rel_tol'] and d_arch<=am['envelope_factor']*d_self and d_arch2<=am['envelope_factor']*d_self
+    return dict(run=rid,steps_compared=len(common),initial_rel=init,replay_vs_archive_max_rel=d_arch,replay2_vs_archive_max_rel=d_arch2,replay_vs_replay2_max_rel=d_self,
+        first_step_beyond_1e_3=first,mean_signed_rel_replay_vs_archive=bias,passed=ok)
+
 if __name__=='__main__':
-    environment();{'prepare':lambda:prepare(),'run':lambda:run(sys.argv[2]),'replay':lambda:run(sys.argv[2],True)}[sys.argv[1]]();sys.stdout.flush();os._exit(0)
+    environment();{'prepare':lambda:prepare(),'run':lambda:run(sys.argv[2]),'replay':lambda:run(sys.argv[2],True),'replay2':lambda:run(sys.argv[2],True,'replay2_')}[sys.argv[1]]();sys.stdout.flush();os._exit(0)

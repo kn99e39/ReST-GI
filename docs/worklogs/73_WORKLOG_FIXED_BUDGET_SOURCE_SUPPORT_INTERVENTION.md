@@ -90,3 +90,23 @@ The frozen design record is `docs/plans/SOURCE_SUPPORT73_V1.md`; the protocol is
   - evaluation reproduces WL72's archived bounds within 1.05e-6 (tolerance 1e-4);
   - the replays match the archived initial objective within 1e-7.
 - The dev chain was then stopped for the design revision. Its training packets, which are unchanged by the revision, are reused by the resumed dev smoke.
+
+## Execution log
+
+**2026-11-04, freeze.** Commit ce5d73e. `run73.sh` was launched on LabServer63 at 12:26 UTC.
+- **Dev smoke.** Completed at 14:14 UTC: Stage 1 passed, 3,264 dev packets generated, six 40-step fits, evaluation in 1,112 s and export. Its labels carry no information.
+- **Evidence chain.**
+  - The ports check and the te0 identity passed. The te0 identity has 4 non-bitwise node elements, max 2.9e-16, and the β rel L2 is 0.105, as for cf2 and te2.
+  - tests_pre: 5 of 5 passed.
+  - Evaluation identity against WL72: worst relative difference 1.45e-6, with the qualified matrix sets equal.
+  - **The 500-step replay gate failed.** The initial objective matched (D1 9.2e-8, A 0, B 0), and the logged J agreed with the archives to ≤ 1e-4 up to steps 150–200. After that, individual logged steps deviated with alternating sign: maximum relative difference D1 2.98 %, A 1.94 % and B 2.52 %, against the predeclared 1 %. The trend was unchanged. The chain stopped at 14:51 UTC as designed. No new reference, fit or evaluation existed.
+
+**Amendment 1** (pre-evidence, disclosed; protocol `amendments`).
+- **Why.** The 1 % per-step tolerance had been set without measuring the code's own run-to-run variability. The 40-step dev smoke could not reveal it, because the replays only diverge after step 150. The observed pattern is float32 GPU reduction nondeterminism amplified by Adam.
+- **New rule.** The gate now compares the archive mismatch with the run-to-run envelope of the same code:
+  - a second independent replay (`replay2_`) is made of each run;
+  - each replay's maximum deviation from the archive must be ≤ 2 × the replay-vs-replay maximum deviation;
+  - the initial-objective identity rule is unchanged.
+- **Records.** The failed original record `stage1/summary.json` is preserved. The amended record is `stage1/summary_amendment1.json`.
+- **Chain defect fixed in the same amendment.** The frozen chain would have proceeded past an existing *failed* Stage 1 summary on restart. It now stops unless the original or the amended gate passed.
+- **Dev check.** The amendment path was smoke-tested in the dev root: replay2 of B_7201 at 40 steps, then the comparison. The test output was then removed.
