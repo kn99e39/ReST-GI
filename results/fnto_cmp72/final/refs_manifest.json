@@ -1,0 +1,29 @@
+{
+  "walker": {
+    "walker": "WL57 fast walker (unchanged)",
+    "module": "/home/nd/rest_cmp72/repo/experiments/fnto_rule57/r57_fastwalk.py",
+    "module_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478"
+  },
+  "AST_equivalence": {
+    "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+    "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+    "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+    "strip_added_assignment_restores_original_AST": true,
+    "added_assignments": 1,
+    "added_RNG_calls": 0
+  },
+  "protocol_sha256": "78d801ae94a0dd481f24ceec5eb7b55991e94d69ec33f9540728a06d37fa1056",
+  "torch": "2.3.1+cu121",
+  "scripts": {
+    "test72.py": "cc258c4fef6678652216c61123c2832afd16971cd444253051a1bf7fcce461e3",
+    "sym72.py": "c10b791f8a3c79519daeb50cc94c22acd6fb858a7bac918eb5126b1008d3313a",
+    "probes72.py": "a859032bf200d9aca90104e3f6bfd0f10ef7e979eb43603887029edd24be76ac",
+    "common72.py": "065661b552746c3d8c90c048ac378ad083205970370db195c5fca99a538dc87a",
+    "fit72.py": "51ab14e25d328984b7025ac42c807dad07c6384ffc955744f38862d4eec06d35",
+    "rsk72.py": "6ad78f618d58fe008eb5dd1ad49bbe7012a0bed07178564d731e92c3c85f19ff",
+    "ports72.py": "fe0cd304c324c59997e41f84e698b360677e33f9d7fed9b44b5f910cd1a86296",
+    "chain72.py": "1b8e13bbc9c5c189fea38d957e54aa3cf65b74262084200f43c8d8fc26933c16",
+    "export72.py": "2e842b3e90f865be3295b5129f3f8e6339fd95a11536b46402a089c9240eb4d8",
+    "eval72.py": "60d928706085ffbdfeaa544ada5c11ab2510a74b9924e197f102cda852c1cfab"
+  }
+}

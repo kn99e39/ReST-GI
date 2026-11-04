@@ -1,0 +1,83 @@
+{
+ "pt0v_+0.0050_+0.0050": {
+  "pose": [
+   0.00575,
+   0.0225,
+   0.005,
+   0.005
+  ],
+  "sha256": "22555d2fc0a72ac6f272afc32268fff533277b6d6d74156e10527eb7be4760dd",
+  "meta": {
+   "signature": "fdc1c5d3203e1cd41337057750739d8b5e04d91497d9cc8ca4b49557a83e29fc",
+   "P": 3840,
+   "preprocess_seconds": 0.6173883071169257,
+   "ballistic": {
+    "seconds": 0.32956430222839117,
+    "q": 256,
+    "seed": 57501,
+    "rays": 15728640,
+    "ray_chunk": 2000000,
+    "miss": 1,
+    "wrong": 0,
+    "nnz": 3956944,
+    "bytes": 79384640,
+    "semantics": "zero-collision first exit, geometry+material only"
+   },
+   "total_seconds": 1.7506166584789753
+  }
+ },
+ "pt0v_-0.0050_+0.0050": {
+  "pose": [
+   0.00575,
+   0.0225,
+   -0.005,
+   0.005
+  ],
+  "sha256": "bb4a9334829abfb15ee5b00c81f3e8287d2bc7c83e255567b3aa854b51fc303f",
+  "meta": {
+   "signature": "93e30baf41ebd495ab7a5397bac1c9e40080c939489d7cfb2b798b9680babe44",
+   "P": 3840,
+   "preprocess_seconds": 0.27868984919041395,
+   "ballistic": {
+    "seconds": 0.0916637722402811,
+    "q": 256,
+    "seed": 57501,
+    "rays": 15728640,
+    "ray_chunk": 2000000,
+    "miss": 1,
+    "wrong": 0,
+    "nnz": 3957101,
+    "bytes": 79387780,
+    "semantics": "zero-collision first exit, geometry+material only"
+   },
+   "total_seconds": 0.3796604722738266
+  }
+ },
+ "pt0v_-0.0050_-0.0050": {
+  "pose": [
+   0.00575,
+   0.0225,
+   -0.005,
+   -0.005
+  ],
+  "sha256": "2d0683cbe2f74f4333a4799db81fefe40fa5271aa6b063e1819bc09e2b2c03cb",
+  "meta": {
+   "signature": "c9011826ead12e830fe7a62fa3db193650dd175cad3c1fa1569597064bdd2c16",
+   "P": 3840,
+   "preprocess_seconds": 0.34862056840211153,
+   "ballistic": {
+    "seconds": 0.09051199350506067,
+    "q": 256,
+    "seed": 57501,
+    "rays": 15728640,
+    "ray_chunk": 2000000,
+    "miss": 1,
+    "wrong": 0,
+    "nnz": 3956789,
+    "bytes": 79381540,
+    "semantics": "zero-collision first exit, geometry+material only"
+   },
+   "total_seconds": 0.44911197014153004
+  }
+ }
+}
