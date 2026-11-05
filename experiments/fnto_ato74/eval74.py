@@ -28,7 +28,7 @@ E73.candidate=candidate
 
 def oracle(bid,G,P,refs,keys):
     """Labelled oracle with a frozen basis: T fitted on replica 0, scored on replicas 1-3 (as ato74.stage2)."""
-    b=load(ROOT/'bases'/f'{bid}.pt');A,O=(x.detach().double().cuda() for x in AT.AO(b['in_logits'],b['out_logits']));M=A.shape[0];bm=FM.bin_map('cuda')
+    b=load(ROOT/'bases'/f'{bid}.pt');A,O=(x.detach().cuda() for x in AT.AO(b['in_logits'].double(),b['out_logits'].double()));M=A.shape[0];bm=FM.bin_map('cuda')
     iters=CFG['oracle']['stage2_iters'] if 'R74_DEV_ITERS' not in os.environ else int(os.environ['R74_DEV_ITERS']);hs={};subs={}
     for k in keys:
         g,s=k;r=refs[k];tg=AT.target(r.S[[0]].double().cuda(),(1-G[g]['beta'][[P[s]]]).double(),G[g]['parent'],bm)

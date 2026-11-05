@@ -75,9 +75,9 @@ def basis(arm,restart):
     if out.exists():raise FileExistsError('immutable')
     R,ti,ai,lr,pol=OC['rounds'],OC['t_iters'],OC['ao_steps'],OC['ao_lr'],OC['polish_iters']
     if 'R74_DEV_ITERS' in os.environ:assert dev();R,ti,ai,pol=2,int(os.environ['R74_DEV_ITERS']),int(os.environ['R74_DEV_ITERS']),int(os.environ['R74_DEV_ITERS'])
-    gs,ports,slots,tg=training(RG);a,o=init_logits(arm,restart);M=a.shape[0]
-    a=a.cuda().requires_grad_(arm!='G0');o=o.cuda().requires_grad_(arm!='G0')
-    T={g:torch.full((16,gs[g]['P'],M,3),.5/gs[g]['P'],device='cuda') for g in tg};hist=[];t0=time.perf_counter();torch.cuda.reset_peak_memory_stats()
+    gs,ports,slots,tg=training(RG,torch.float64);a,o=init_logits(arm,restart);M=a.shape[0]   # amendment 1: float64 (float32 FISTA backtracking hangs at the noise floor)
+    a=a.double().cuda().requires_grad_(arm!='G0');o=o.double().cuda().requires_grad_(arm!='G0')
+    T={g:torch.full((16,gs[g]['P'],M,3),.5/gs[g]['P'],device='cuda',dtype=torch.float64) for g in tg};hist=[];t0=time.perf_counter();torch.cuda.reset_peak_memory_stats()
     def J(T_):
         A,O=AO(a,o);return sum(objective_m(T_[g],A,O,tg[g]) for g in tg)/len(tg)
     if arm!='G0':
@@ -88,12 +88,12 @@ def basis(arm,restart):
             for _ in range(ai):opt.zero_grad(set_to_none=True);L=J(T);L.backward();opt.step()
             with torch.no_grad():hist.append(dict(round=rnd,J=float(J(T)),seconds=time.perf_counter()-t0))
             print('ROUND',bid,rnd,hist[-1]['J'],flush=True)
-    A,O=(x.detach() for x in AO(a,o))
+    A,O=(x.detach() for x in AO(a,o));pol=pol+(R*ti if arm=='G0' else 0)   # amendment 1: G0 gets the same total T iterations as G1/G2
     for g in tg:T[g],_=fista_T(tg[g],A,O,T[g],pol)
     with torch.no_grad():Jf=float(J(T))
     conv=None
-    if arm=='G0':   # optimisation adequacy of the convex T problem: continue to 3x the polish budget
-        T2={g:fista_T(tg[g],A,O,T[g],2*pol)[0] for g in tg}
+    if arm=='G0':   # optimisation adequacy of the convex T problem: the same budget again from the solution
+        T2={g:fista_T(tg[g],A,O,T[g],pol)[0] for g in tg}
         with torch.no_grad():J3=float(J(T2))
         conv=dict(J_polish=Jf,J_3x=J3,rel_change=(Jf-J3)/Jf)
     save_new(out,dict(arm=arm,restart=restart,rank=M,in_logits=a.detach().cpu(),out_logits=o.detach().cpu(),T={g:v.cpu() for g,v in T.items()},ports=ports,slots=slots,
@@ -123,9 +123,9 @@ def stage1():
     G=E73.geoms(RG);P=E73.slot_ports();R,_=E73.load_refs(G,P);GR=E73.groups();res={}
     keys={g:[(g,s) for s in [s for s,_ in __import__('fit73').populations()['S16R']]] for g in ('rest','pt0')}
     for bid in basis_ids():
-        b=load(ROOT/'bases'/f'{bid}.pt');A,O=(x.cuda() for x in AO(b['in_logits'],b['out_logits']));hs={}
+        b=load(ROOT/'bases'/f'{bid}.pt');A,O=(x.float().cuda() for x in AO(b['in_logits'].double(),b['out_logits'].double()));hs={}
         for g in ('rest','pt0'):
-            for i,k in enumerate(keys[g]):hs[k]=predict_m(b['T'][g][i:i+1].cuda(),(1-G[g]['beta'][[P[k[1]]]]).float(),A,O,'native')[0]
+            for i,k in enumerate(keys[g]):hs[k]=predict_m(b['T'][g][i:i+1].float().cuda(),(1-G[g]['beta'][[P[k[1]]]]).float(),A,O,'native')[0]
         kk=keys['rest']+keys['pt0'];cg,per=score(E,R,kk,hs)
         res[bid]=dict(J_final=b['J_final'],per_matrix=per,groups={gn:pooled(E,R,cg,GR[gn]) for gn in ('TRAIN_NEW_rest','TRAIN_NEW_pt0','TRAIN_KEEP_rest','TRAIN_KEEP_pt0')},
             passivity=passivity(b,G),seconds=b['seconds'],convergence_G0=b['convergence_G0'],parameters=b['parameters'])
@@ -148,7 +148,7 @@ def stage2(bid):
     import eval73 as E73,eval68 as E
     G=E73.geoms(RG);P=E73.slot_ports();GR=E73.groups();bm=FM.bin_map('cuda')
     keys=sorted({k for gn in CFG['stage2']['groups'] for k in GR[gn]})
-    b=load(ROOT/'bases'/f'{bid}.pt');A,O=(x.detach().double().cuda() for x in AO(b['in_logits'],b['out_logits']));M=A.shape[0]
+    b=load(ROOT/'bases'/f'{bid}.pt');A,O=(x.detach().cuda() for x in AO(b['in_logits'].double(),b['out_logits'].double()));M=A.shape[0]
     iters=OC['stage2_iters'] if 'R74_DEV_ITERS' not in os.environ else int(os.environ['R74_DEV_ITERS'])
     if 'R74_DEV_ITERS' in os.environ:assert dev()
     hs={};subs={};conv={};t0=time.perf_counter()

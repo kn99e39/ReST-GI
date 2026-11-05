@@ -52,8 +52,8 @@
     "t_iters": 30,
     "ao_steps": 30,
     "ao_lr": 0.01,
-    "polish_iters": 1000,
-    "stage2_iters": 1500,
+    "polish_iters": 3000,
+    "stage2_iters": 3000,
     "chunk": 8,
     "stage2": "each frozen basis (all restarts) on the WL73 confirmation sources (development evidence): per-source T fitted on replica 0 (float64 FISTA from 0.5/P, stage2_iters, then the same budget again from the solution as a convergence check), scored on replicas 1-3 (eval72 oracle split)",
     "note": "oracle values are achieved optimisation results, not certified global lower bounds; per-source T is source-specific latent data, never a transferable rule"
@@ -312,5 +312,15 @@
       "114": 2468,
       "115": 2033
     }
-  }
+  },
+  "amendments": [
+    {
+      "id": 1,
+      "date": "2026-11-05",
+      "stage": "evidence Stage 1, while the first two bases (G0_r0, G1_r0) were in their T polish; no basis, score or other WL74 evidence had been written",
+      "observed": "both processes stayed in the final 1,000-step FISTA polish for > 55 min at 100 % GPU (the 30 G1 rounds took ~5 min); in float32 the FISTA backtracking condition (fn <= fy + <g,dx> + L|dx|^2/2 + 1e-14|fy|) cannot be met once the objective reaches its float32 / nondeterministic-reduction noise floor, so L doubles without bound and the step never terminates; the 5-iteration dev smoke never reached that floor",
+      "change": "every Stage 1 basis fit (G0, G1, G2: T, shared logits and objective) runs in float64, as Stage 2 already did; scoring casts the fitted operator to float32 as before; algorithm, budgets, restarts and every rule unchanged; budgets: a scratch float64 run of the G0 problem on the fitting data (R74_ROOT ~/rest_ato74_tmp, non-evidence: fitting-replica objective only, no held-out score) showed slow convex convergence (J 0.0495 after 200 polish steps, 0.0434 after 600: 12 %), so before any evidence polish_iters 1000 -> 3000, G0 receives the same total T iterations as G1/G2 (rounds x t_iters + polish = 3,900) with its convergence check the same budget again, and stage2_iters 1500 -> 3000 (check: the same again); rule D (convex change > 1 % when the budget is doubled) is unchanged",
+      "records": "the stopped attempt left no basis file; its logs are kept (logs/basis_G0_r0.log, basis_G1_r0.log, attempt 1)"
+    }
+  ]
 }

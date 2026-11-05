@@ -112,3 +112,21 @@ After the fixes the whole chain completed:
 - eval4 and export.
 
 Its labels carry no information, because it ran 2 rounds of 5 iterations.
+
+## Execution log
+
+**2026-11-05.** The design was frozen at aa80fac. `run74.sh` started on LabServer63 at 06:12 UTC. The dev smoke re-check passed. In the evidence chain, `ports4` (Stage 4 lists and the cf1 identity: node exact, β rel L2 0.105) and the tests passed.
+
+The first two bases (G0_r0, G1_r0) then stayed in their final T polish for more than 55 minutes at 100 % GPU. The 30 G1 rounds had taken about 5 minutes. No basis file had been written. The chain was stopped at 07:13 UTC.
+
+**Amendment 1** (pre-evidence, disclosed in protocol `amendments`).
+
+**Cause of the stall.** In float32, FISTA's backtracking condition cannot be met once the objective reaches its float32 / nondeterministic-reduction noise floor, so the step size never settles. The 5-iteration dev smoke never reached that floor.
+
+**Changes:**
+- All Stage 1 basis fits now run in float64, as Stage 2 already did.
+- A scratch float64 run of G0 on the fitting data showed slow convex convergence: J fell by 12 % between 200 and 600 polish steps. This is non-evidence: only the fitting-replica objective, no held-out score. The budgets were therefore raised:
+  - polish: 1,000 → 3,000;
+  - G0 receives the same total T iterations as G1/G2 (3,900), with a convergence check of the same budget again;
+  - Stage 2: 1,500 → 3,000 iterations, plus the same again as its check.
+- Rule D is unchanged.
