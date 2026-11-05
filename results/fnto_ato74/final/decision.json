@@ -1,0 +1,133 @@
+{
+  "per_basis": {
+    "G0_r0": {
+      "valid": true,
+      "train_gate": false,
+      "train_rel20": false,
+      "dev_beyond_uncertainty": false,
+      "interior_ok": {
+        "TRAIN_KEEP_rest": true,
+        "TRAIN_KEEP_pt0": true,
+        "INT_DED": true,
+        "REM_NEAR": true,
+        "FP_rest": true
+      },
+      "gate": false,
+      "meets_WL59_boundary": false,
+      "J_final": 0.04314128956267839
+    },
+    "G1_r0": {
+      "valid": true,
+      "train_gate": false,
+      "train_rel20": false,
+      "dev_beyond_uncertainty": false,
+      "interior_ok": {
+        "TRAIN_KEEP_rest": false,
+        "TRAIN_KEEP_pt0": false,
+        "INT_DED": false,
+        "REM_NEAR": true,
+        "FP_rest": true
+      },
+      "gate": false,
+      "meets_WL59_boundary": false,
+      "J_final": 0.03812231168048222
+    },
+    "G1_r1": {
+      "valid": true,
+      "train_gate": false,
+      "train_rel20": false,
+      "dev_beyond_uncertainty": false,
+      "interior_ok": {
+        "TRAIN_KEEP_rest": false,
+        "TRAIN_KEEP_pt0": false,
+        "INT_DED": false,
+        "REM_NEAR": false,
+        "FP_rest": false
+      },
+      "gate": false,
+      "meets_WL59_boundary": false,
+      "J_final": 0.07256491550734155
+    },
+    "G1_r2": {
+      "valid": true,
+      "train_gate": false,
+      "train_rel20": false,
+      "dev_beyond_uncertainty": false,
+      "interior_ok": {
+        "TRAIN_KEEP_rest": false,
+        "TRAIN_KEEP_pt0": false,
+        "INT_DED": false,
+        "REM_NEAR": false,
+        "FP_rest": false
+      },
+      "gate": false,
+      "meets_WL59_boundary": false,
+      "J_final": 0.08376063292213712
+    },
+    "G2_r0": {
+      "valid": true,
+      "train_gate": true,
+      "train_rel20": true,
+      "dev_beyond_uncertainty": true,
+      "interior_ok": {
+        "TRAIN_KEEP_rest": true,
+        "TRAIN_KEEP_pt0": true,
+        "INT_DED": true,
+        "REM_NEAR": true,
+        "FP_rest": true
+      },
+      "gate": true,
+      "meets_WL59_boundary": true,
+      "J_final": 0.014598879249373208
+    },
+    "G2_r1": {
+      "valid": true,
+      "train_gate": true,
+      "train_rel20": false,
+      "dev_beyond_uncertainty": true,
+      "interior_ok": {
+        "TRAIN_KEEP_rest": true,
+        "TRAIN_KEEP_pt0": true,
+        "INT_DED": true,
+        "REM_NEAR": true,
+        "FP_rest": true
+      },
+      "gate": true,
+      "meets_WL59_boundary": true,
+      "J_final": 0.020302252266471935
+    },
+    "G2_r2": {
+      "valid": true,
+      "train_gate": true,
+      "train_rel20": false,
+      "dev_beyond_uncertainty": true,
+      "interior_ok": {
+        "TRAIN_KEEP_rest": true,
+        "TRAIN_KEEP_pt0": true,
+        "INT_DED": true,
+        "REM_NEAR": false,
+        "FP_rest": true
+      },
+      "gate": false,
+      "meets_WL59_boundary": true,
+      "J_final": 0.02115590899863826
+    }
+  },
+  "G1_restarts_passing": [],
+  "stage3_gate": false,
+  "chosen_basis": null,
+  "G1_better_than_G0": false,
+  "G2_better_than_G0": false,
+  "G2_better_than_G1": false,
+  "restart_spread": {
+    "G1": 1.1971551364504665,
+    "G2": 0.44914610479750167
+  },
+  "G0_convex_change": 1.6084113326807177e-16,
+  "stage2_convex_change_max": 1.0916613268086079e-05,
+  "optimisation_uncertain": true,
+  "classes": [
+    "C: neither improves sufficiently",
+    "D: optimisation uncertainty"
+  ]
+}

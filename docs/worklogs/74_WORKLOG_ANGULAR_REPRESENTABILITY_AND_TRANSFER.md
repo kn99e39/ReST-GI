@@ -130,3 +130,188 @@ The first two bases (G0_r0, G1_r0) then stayed in their final T polish for more 
   - G0 receives the same total T iterations as G1/G2 (3,900), with a convergence check of the same budget again;
   - Stage 2: 1,500 → 3,000 iterations, plus the same again as its check.
 - Rule D is unchanged.
+
+**2026-11-05, OOM restart (execution only).** In the first float64 attempt, G1_r0 ran out of GPU memory (CUDA OOM). With two lanes, float64 training targets for both geometries exceed 12 GB. G0_r0 continued alone and finished at 07:58 UTC.
+
+A detached relauncher (`relaunch_lanes1.sh`) then reran the wrapper with `R74_LANES=1`:
+- Completed outputs were skipped.
+- No rule, budget or result changed.
+- GPU utilisation was 99–100 % with one lane, so a second lane would not have added throughput.
+
+**Chain timing** (07:58–15:58 UTC, one lane):
+
+| Stage | Duration |
+|---|---|
+| Bases | G0 2,424 s; G1 2,541–2,551 s; G2 2,178–2,179 s |
+| Stage 2 | 1,784–2,224 s per basis |
+
+FP64 throughput on the RTX 3080 Ti is about 1/64 of FP32. The float64 choice of amendment 1 therefore made every T solve slow, although GPU utilisation read 99 %.
+
+A float32 solver with a float32-aware backtracking tolerance would have been faster, but it would have been a change to the reused family68 solver. This trade-off is recorded as a lesson, not as a change.
+
+## Final report (2026-11-06)
+
+The evaluation follows the frozen protocol (aa80fac) plus amendment 1, which changed the precision and the budgets before any evidence. Nothing was rerun or reselected.
+
+All values are worst-channel upper 95 % bounds (eval68 pooled).
+- **Stage 1:** S16-R training sources. T is fitted on fitting replicas 0–3 and scored on held-out replicas 4–7.
+- **Stage 2:** WL73 confirmation sources (development). T is fitted on replica 0 and scored on replicas 1–3.
+
+Every number is a LABELLED ORACLE: per-source T is latent fitted data, not a learned rule.
+
+### Implementation Fact
+
+- **Operator.** All three arms use the same operator, objective, constraints, references and estimators:
+  - G0: the fixed WL68 rank-8 A/O.
+  - G1: a refit shared rank-8 A/O.
+  - G2: a refit shared rank-16 A/O.
+- **Validity.** All 7 bases pass the structural checks: A columns and O rows sum to 1, all values are nonnegative, and T ≥ 0 with column sums ≤ 1, so Σ_{j,o} K ≤ d.
+- **Parameters.**
+  - Shared logits: 1,920 at rank 8, 3,840 at rank 16.
+  - Per-source latent T: 2.95M floats at rank 8, 5.90M at rank 16, for the 32 training matrices.
+- **Convex adequacy.** G0's T problem changed by 1.6e-16 when its budget was doubled. Stage 2 T problems changed by ≤ 1.1e-5. The per-source convex parts are converged.
+- **Restarts.** G1 and G2 each had 3 restarts: restart 0 from the WL68 bases (for G2, duplicated WL68 plus noise), restarts 1 and 2 from random logits.
+- **Stages 3 and 4 did not run,** because the gate failed.
+
+### Measurement
+
+**1. Fitting objective J** (fitting replicas, both geometries):
+
+| Basis | J |
+|---|---|
+| G0 | 0.0431 |
+| G1_r0 / r1 / r2 | 0.0381 / 0.0726 / 0.0838 |
+| G2_r0 / r1 / r2 | 0.0146 / 0.0203 / 0.0212 |
+
+Restart spread: G1 120 %, G2 45 %.
+
+**2. Stage 1, training sources** (held-out replicas 4–7; abs_coarse / abs_fine16 / con_coarse). pt0 equals rest to 3 decimals for every basis on the boundary sources, which lie far from the dent.
+
+| Basis | TRAIN_NEW (4 boundary sources) | TRAIN_KEEP_rest (12 interior) |
+|---|---|---|
+| G0 | 0.111 / 0.117 / 0.270 | 0.064 / 0.088 / 0.188 |
+| G1_r0 | 0.113 / 0.127 / 0.222 | 0.084 / 0.103 / 0.166 |
+| G1_r1 | 0.136 / 0.181 / 0.243 | 0.122 / 0.176 / 0.265 |
+| G1_r2 | 0.148 / 0.191 / 0.245 | 0.125 / 0.190 / 0.282 |
+| G2_r0 | 0.084 / 0.096 / 0.129 | 0.044 / 0.069 / 0.088 |
+| G2_r1 | 0.098 / 0.108 / 0.137 | 0.059 / 0.086 / 0.101 |
+| G2_r2 | 0.093 / 0.119 / 0.137 | 0.069 / 0.101 / 0.108 |
+| WL59 gate | 0.10 / 0.15 / 0.25 | |
+
+**3. Stage 2, WL73 confirmation sources (development).** BND_DEV = BND_NEAR + BND_FAR + UNS, 15 matrices.
+
+| Basis | BND_DEV | BND_FAR | INT_DED | REM_NEAR | FP_te0 |
+|---|---|---|---|---|---|
+| G0 | 0.093 / 0.110 / 0.258 | 0.104 / 0.114 / 0.267 | 0.072 / 0.088 / 0.178 | 0.062 / 0.086 / 0.121 | 0.083 / 0.089 / 0.192 |
+| G1_r0 | 0.103 / 0.120 / 0.231 | 0.119 / 0.123 / 0.228 | 0.097 / 0.104 / 0.156 | 0.076 / 0.100 / 0.103 | 0.101 / 0.103 / 0.160 |
+| G1_r1 | 0.106 / 0.179 / 0.233 | 0.113 / 0.178 / 0.246 | 0.144 / 0.177 / 0.279 | 0.125 / 0.173 / 0.239 | 0.138 / 0.171 / 0.280 |
+| G1_r2 | 0.113 / 0.192 / 0.236 | 0.122 / 0.192 / 0.247 | 0.156 / 0.190 / 0.288 | 0.148 / 0.190 / 0.258 | 0.149 / 0.184 / 0.293 |
+| G2_r0 | 0.076 / 0.092 / 0.157 | 0.087 / 0.093 / 0.167 | 0.053 / 0.069 / 0.086 | 0.045 / 0.068 / 0.068 | 0.058 / 0.069 / 0.092 |
+| G2_r1 | 0.079 / 0.104 / 0.154 | 0.086 / 0.103 / 0.158 | 0.074 / 0.086 / 0.096 | 0.070 / 0.086 / 0.080 | 0.078 / 0.086 / 0.104 |
+| G2_r2 | 0.083 / 0.116 / 0.154 | 0.088 / 0.116 / 0.153 | 0.082 / 0.102 / 0.109 | 0.080 / 0.104 / 0.082 | 0.082 / 0.100 / 0.102 |
+
+**4. Per context** (median per-port ratio to G0, all Stage 1 + 2 matrices; con_coarse / abs_coarse):
+
+| Context | G1_r0 | G2 (three restarts) |
+|---|---|---|
+| TBE | ×0.86 / ×0.90 | ×0.56–0.58 / ×0.73–0.74 |
+| TBC | ×0.88 / ×1.14 | ×0.51–0.56 / ×0.85–0.94 |
+| SM | ×0.76 / ×1.02 | ×0.47–0.52 / ×0.74–0.94 |
+| SR | ×0.82 / ×1.11 | ×0.50–0.56 / ×0.81–0.96 |
+| SV | ×0.94 / ×1.06 | ×0.63–0.66 / ×0.73–0.95 |
+| interior confirmation | ×0.86 / ×1.21 | ×0.52–0.63 / ×0.69–1.21 |
+| interior training | ×0.95 / ×1.16 | ×0.61–0.75 / ×0.86–1.01 |
+
+**5. Per-port structure at G0.** Interior rest confirmation ports fall into a few classes with identical oracle errors (to 3 decimals) in every basis:
+- **Contrast about 0.237**, abs about 0.101: ports 80, 83, 84 and 62. Their sub-cell index within the 1 cm coarse cell is a corner, (3,3), (0,3) or (3,0).
+- **Contrast about 0.13**, abs about 0.065: ports 76, 79, 81 and 82. These sit in edge sub-cells, (3,2) or (2,3).
+- **Contrast about 0.113:** ports 77 and 78, sub-cell (1,3).
+
+Interior ports in corner sub-cells therefore have G0 contrast errors as large as the boundary ports (0.26–0.32). G2 reduces every class to about 0.07–0.12.
+
+**6. Decision (predeclared).**
+- The Stage 3 gate is NOT passed. 0/3 G1 restarts pass:
+  - G1_r0 improves contrast 18 % on TRAIN_NEW but not abs_coarse (0.113 vs 0.111);
+  - its BND_DEV upper bounds are not below G0's lower bounds in abs_coarse;
+  - it regresses on interior TRAIN_KEEP and INT_DED;
+  - r1 and r2 regress everywhere.
+- Formal rows:
+
+  | Rule | Result |
+  |---|---|
+  | G1 better than G0 | NO |
+  | G2 better than G0 | NO: 20 % in both metrics is not met on abs_coarse for 2/3 restarts, nor on BND_DEV abs (0.076–0.083 vs 0.8 × 0.093 = 0.074) |
+  | G2 better than G1 | NO, for the same reason |
+  | Optimisation uncertainty | YES (G1 restart spread 120 %) |
+
+- Classes: **C (neither improves sufficiently by the predeclared rule) and D (optimisation uncertainty).**
+- Descriptively, every G2 restart meets all three WL59 gates on TRAIN_NEW and BND_DEV (G2_r0 and r1 also pass the full Stage 3 gate rules; r2 misses the REM_NEAR interior rule). It also lowers interior errors.
+
+### Observation
+
+1. **Refitting the shared rank-8 basis does not remove the boundary shortfall.**
+   - From the WL68 initialisation (G1_r0), the fitting objective drops 12 % and contrast improves 10–18 % on the boundary groups. Absolute and fine16 errors do not improve, and interior errors rise 15–35 %: a redistribution of fixed rank-8 capacity.
+   - From random initialisations, rank 8 converges to much worse bases (J +68 % to +94 % vs G0).
+2. **Rank 16 changes the attainable class qualitatively.**
+   - Every G2 restart, including both random ones, reaches a lower fitting objective (by 51–66 %) than the best rank-8 basis.
+   - Contrast falls by about half in every context: boundary, interior and the te0 footprint.
+   - Absolute errors fall 10–30 %, depending on the restart.
+   - All boundary groups then meet the WL59 gates as an oracle.
+3. **The G0 contrast error is not boundary-specific.** Interior ports at coarse-cell corner sub-positions show the same G0 contrast (0.237) as boundary ports. The per-port oracle error depends on the source's position relative to the 1 cm coarse grid.
+4. **The per-source convex problems are converged.** The uncertainty is confined to the shared-basis fit at rank 8 (restart spread 120 %). At rank 16 the spread is 45 %, and every restart lies far below every rank-8 restart.
+5. **Training-source and development-source oracle results agree in direction and size.** Stage 1 (held-out replicas of the fitting sources) and Stage 2 (other sources) show the same G0 / G1 / G2 ordering.
+
+### Interpretation
+
+**A. Does refitting a shared rank-8 A/O improve physical representability?**
+Not materially. The best rank-8 refit trades contrast for absolute and interior accuracy, and fails the predeclared gate. The rank-8 shared basis is also hard to optimise: the random restarts land far worse.
+
+**B. Does rank 16 add meaningful physical representability beyond rank 8?**
+Yes, descriptively, and robustly across restarts. Contrast roughly halves everywhere, and every boundary oracle group meets the WL59 gates. The predeclared 20 %-in-both-metrics rule is not met for the absolute metric on 2/3 restarts, so the formal class is not B. G2 is a diagnostic capacity bound with twice the latent T per source, not a deployable result.
+
+**C. Is the rank-8 ceiling reliable or optimisation-limited?**
+- The per-source convex parts are converged.
+- The rank-8 shared-basis fit is optimisation-sensitive (spread 120 %), so the true rank-8 optimum is not certified. G1_r0 is the best rank-8 point found.
+- Every rank-16 restart beats every rank-8 restart by a large margin, including random against WL68-initialised. A capacity limit at rank 8 is therefore the better-supported reading, but optimisation cannot be excluded as a contributor.
+
+**D. Does the improved basis benefit an actual learned K?**
+Not tested. The gate failed, so Stages 3 and 4 did not run.
+
+**E. What portion of the remaining failure is spatial mapping / generalisation?**
+- In WL73, the learned models' BND_FAR contrast was 0.87–1.30, against this batch's G0 oracle of 0.267 on the same sources: about 3.3–4.9×.
+- The angular interface therefore bounds the learned far-boundary contrast at about 0.27 (G0) or about 0.16 (G2). Most of the learned error, about 70–80 % of the contrast bound, lies above that bound and is spatial mapping / generalisation.
+- Near supervised sources (WL73 BND_NEAR, 0.42–0.51) the learned error is closer to the oracle, but still about 1.6–1.9× above it.
+
+**F. Retaining the global ATO factorisation.**
+- On this fixture, a single global angular basis shared by all sources can represent the tested first-exit responses at the WL59 quality level as an oracle, but only with more than 8 mixtures. At rank 8, the frozen WL68 basis is close to the best attainable compromise found.
+- The angular interface is a real secondary constraint, concentrated in directional contrast and not specific to boundaries. It does not explain the dominant learned-K failure, which is spatial transfer.
+
+### Unresolved Question
+
+- **Rank-8 optimum.** Whether a better rank-8 optimum exists, given the optimisation sensitivity.
+- **Minimal rank.** The minimal rank between 8 and 16 at which the WL59 gates are met (no sweep was authorised).
+- **Learned K at rank 16.** Whether a rank-16 learned K would transfer better or worse, since the spatial map would have to produce twice the mixtures.
+- **Coarse-grid dependence.** Why the oracle error depends on the source's sub-position within the 1 cm coarse cell. A plausible mechanism is that T has no incoming-bin index, so an incoming-direction-dependent lateral shift of the near-field exit footprint across coarse-cell boundaries can only be expressed through global mixtures. This is not tested.
+- **Beyond this fixture.** Glossy or heterogeneous media are untested.
+
+### Architecture Verdict
+
+**Per the predeclared mapping: ANGULAR CHANGE DOES NOT ADDRESS PRIMARY ERROR (class C) with INCONCLUSIVE elements (class D: rank-8 basis optimisation uncertainty).**
+
+Descriptively, and not as a formal verdict:
+- **FIXED BASIS LIMIT SUPPORTED** is not established: the rank-8 refit gives no robust gain.
+- **HIGHER ANGULAR CAPACITY INDICATED** holds for oracle representability. Rank 16 meets the WL59 gates on every boundary and development group in all three restarts and halves contrast everywhere, but misses the predeclared 20 % absolute-error margin on two restarts.
+- The dominant learned-K error remains spatial mapping (E).
+
+No architecture is adopted, and no successor is authorised.
+
+### Reproducibility
+
+- **Code:** `experiments/fnto_ato74/`, protocol `protocol/ato74_v1.json`. Frozen at aa80fac; amendment 1 at 1bce529 (float64, budgets). The execution-only relauncher (`relaunch_lanes1.sh`, `R74_LANES=1`) is on the server.
+- **Server:** LabServer63, root `~/rest_ato74` (code_commit.txt `1bce529`).
+- **Inputs:** the WL73 references and fit_targets73 (read-only), and the WL68 net_all_5902 logits. The Stage 4 lists and the cf1 geometry (sha256 `dcf780ae…`) are frozen but were not used.
+- **Restart seeds:** G1 7410–7412, G2 7420–7422.
+- **Outputs:**
+  - `results/fnto_ato74/`: `stage1/scores.json`, `stage2/*.json`, `decision.json`, `final/` (bases.csv, per_matrix.csv, ato74.png/pdf, summary, manifest);
+  - reviewer copies in `results/evaluation/74/`.
+- **Not exported:** the bases themselves (logits and latent T), which stay on the server at `~/rest_ato74/bases/` (7 files).
