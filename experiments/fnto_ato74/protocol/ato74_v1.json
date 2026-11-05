@@ -1,0 +1,316 @@
+{
+  "batch": "ato74_v1",
+  "worklog": "docs/worklogs/74_WORKLOG_ANGULAR_REPRESENTABILITY_AND_TRANSFER.md",
+  "branch": "Selective_Recompute",
+  "server": "LabServer63 (main); root ~/rest_ato74; ~/rest_repr68, ~/rest_cover71, ~/rest_cmp72, ~/rest_src73 read-only (WL73 references, fit targets, runs)",
+  "geometry_pt0": [
+    0.00575,
+    0.0225,
+    0.005,
+    -0.005
+  ],
+  "operator": "K_scatter[i,j,a,o,c] = d[i,a] sum_r A[r,a,c] T[i,j,r,c] O[r,o,c], d = 1 - beta (unchanged ballistic B), A = softmax(in_logits over r), O = softmax(out_logits over o), T >= 0 with sum_j T <= 1 per (source, r, c) (Euclidean projection onto the capped simplex, family68.project_capped). Then K >= 0, linear, zero input -> 0 and sum_{j,o} K <= d <= 1 for every rank M; 16 incoming / 64 outgoing bins unchanged",
+  "arms": {
+    "G0": {
+      "rank": 8,
+      "restarts": 1,
+      "seeds": [
+        0
+      ],
+      "basis": "fixed WL68 net_all_5902 in/out logits (the WL72/73 A/O)",
+      "T": "per source, FISTA"
+    },
+    "G1": {
+      "rank": 8,
+      "restarts": 3,
+      "seeds": [
+        7410,
+        7411,
+        7412
+      ],
+      "basis": "shared trainable logits fitted on the S16-R fitting population",
+      "init": "restart 0: WL68 logits; restarts 1, 2: N(0, 1) logits from the seeds"
+    },
+    "G2": {
+      "rank": 16,
+      "restarts": 3,
+      "seeds": [
+        7420,
+        7421,
+        7422
+      ],
+      "basis": "shared trainable logits (diagnostic capacity bound, not deployable)",
+      "init": "restart 0: each WL68 mixture duplicated + N(0, 0.01) (the G0 operator class up to the noise); restarts 1, 2: N(0, 1) logits"
+    }
+  },
+  "oracle": {
+    "objective": "WL68 objective J (family68.objective algebra, rank-generic copy ato74.objective_m): mean over (source, channel) of (native + fine16 + coarse)/3 + coarse contrast, relative per source",
+    "fitting_population": "S16-R (12 kept S16 + 4 WL73 boundary sources) at rest and pt0: means of fitting replicas 0-3 (WL73 fit_targets73.pt); never an evaluation replica or a confirmation label",
+    "stage1_scoring": "held-out replicas 4-7 of the same sources (eval73.load_refs), eval68 pooled (unbiased cross-replica, jackknife, upper 95 %)",
+    "algorithm": "G1/G2: block coordinate descent, rounds x [per-source T: t_iters FISTA steps (warm start) | shared logits: ao_steps Adam steps (lr ao_lr) with T fixed]; then polish_iters FISTA steps of T at the final basis; float32. G0: polish_iters FISTA steps of T, then 2x polish more as a convex convergence check",
+    "rounds": 30,
+    "t_iters": 30,
+    "ao_steps": 30,
+    "ao_lr": 0.01,
+    "polish_iters": 1000,
+    "stage2_iters": 1500,
+    "chunk": 8,
+    "stage2": "each frozen basis (all restarts) on the WL73 confirmation sources (development evidence): per-source T fitted on replica 0 (float64 FISTA from 0.5/P, stage2_iters, then the same budget again from the solution as a convergence check), scored on replicas 1-3 (eval72 oracle split)",
+    "note": "oracle values are achieved optimisation results, not certified global lower bounds; per-source T is source-specific latent data, never a transferable rule"
+  },
+  "stage2": {
+    "groups": [
+      "BND_NEAR",
+      "BND_FAR",
+      "UNS",
+      "INT_DED",
+      "REM_NEAR",
+      "FP_rest",
+      "FP_te0"
+    ],
+    "pooled_extra": "BND_DEV = BND_NEAR + BND_FAR + UNS (15 matrices)"
+  },
+  "decision": {
+    "metrics": "hi(G, m) = worst-channel upper 95 % bound, lo = worst-channel lower bound, m in {abs_coarse, con_coarse}",
+    "gate_abs_coarse": 0.1,
+    "gate_con_coarse": 0.25,
+    "improve_factor": 0.8,
+    "interior_factor": 1.25,
+    "min_restarts": 2,
+    "restart_spread_max": 0.1,
+    "convex_change_max": 0.01,
+    "stage3_gate": "per G1 restart: valid (structural positivity / normalisation / passivity) AND [TRAIN_NEW_rest and _pt0 both meet abs_coarse <= 0.10 and con_coarse <= 0.25, OR both metrics <= 0.8 x G0 on both] AND BND_DEV (Stage 2) hi(G1) < lo(G0) for both metrics (beyond the measured uncertainty) AND no interior regression: hi <= 1.25 x G0 for both metrics on TRAIN_KEEP_rest, TRAIN_KEEP_pt0, INT_DED, REM_NEAR, FP_rest. The gate passes iff >= 2 of 3 G1 restarts pass; the Stage 3 basis is the passing restart with the lowest final fitting objective J (fitting replicas only)",
+    "classes": "A: gate passes and >= 2 G1 restarts meet all three WL59 gates (abs_coarse, abs_fine16, con_coarse) on TRAIN_NEW_rest/pt0 and BND_DEV; B: >= 2 G2 restarts are each <= 0.8 x every G1 restart (both metrics) on TRAIN_NEW_rest/pt0 and BND_DEV; C: none of {gate, G1 better than G0 (>= 2 restarts <= 0.8 x G0 on the boundary groups), G2 better than G0, B}; D: optimisation uncertainty - G1 or G2 restart spread of the final fitting objective > 10 %, or a convex T problem still changes > 1 % when its budget is doubled",
+    "verdicts": "FIXED BASIS LIMIT SUPPORTED if G1 better than G0 or the gate passes; RANK-8 GLOBAL BASIS ADEQUATE IN TESTED SCOPE if A and not B; HIGHER ANGULAR CAPACITY INDICATED if B (or G2 better than G0 while G1 is not); ANGULAR CHANGE DOES NOT ADDRESS PRIMARY ERROR if C, or if Stage 4 ran and gives NO LEARNED-K BENEFIT; INCONCLUSIVE if D dominates or a primary group is unmeasured; several may hold",
+    "stage_flow": "if the gate fails: report the oracle study and stop (no Stage 3/4). If only G2 improves: report and stop"
+  },
+  "stage3": {
+    "rule": "only if the Stage 3 gate passes: WL72 Candidate A (W+UV + L_sym, lambda 1) on S16-R with the chosen G1 basis frozen, exactly the WL73 AR recipe",
+    "runs": {
+      "A74_5901": {
+        "init": "P_5901",
+        "lambda_sym": 1.0
+      },
+      "A74_5902": {
+        "init": "P_5902",
+        "lambda_sym": 1.0
+      }
+    },
+    "optimizer": {
+      "lr": 0.003,
+      "lr_min": 3e-05,
+      "steps": 20000,
+      "clip": 1.0,
+      "checkpoints": [
+        2000,
+        6000,
+        10000
+      ],
+      "final": "20,000-step iterate, no selection"
+    },
+    "controls": "frozen WL73 AR_5901 / AR_5902 (WL68 A/O); angular pretraining cost (G1 fit seconds) is reported with the spatial cost"
+  },
+  "stage4": {
+    "rule": "only if Stage 3 ran; geometry-only population frozen here before any evidence (ports74.py)",
+    "exclusions": "every previously scored source position and its exact images: WL66/68/71/72 referenced (slots 0-15, 20-27, 40-47), S16-R, all 29 WL73 confirmation ports",
+    "near_mm": 5.0,
+    "spacing_mm": 10.0,
+    "footprint_radius_fraction": 0.6,
+    "static": [
+      {
+        "slot": 100,
+        "context": "TBE",
+        "stratum": "near",
+        "e_mm": 1.25
+      },
+      {
+        "slot": 101,
+        "context": "TBE",
+        "stratum": "far",
+        "e_mm": 1.25
+      },
+      {
+        "slot": 102,
+        "context": "TBC",
+        "stratum": "near"
+      },
+      {
+        "slot": 103,
+        "context": "TBC",
+        "stratum": "far"
+      },
+      {
+        "slot": 104,
+        "context": "SM",
+        "stratum": "near"
+      },
+      {
+        "slot": 105,
+        "context": "SM",
+        "stratum": "far"
+      },
+      {
+        "slot": 106,
+        "context": "SR",
+        "stratum": "near"
+      },
+      {
+        "slot": 107,
+        "context": "SR",
+        "stratum": "far"
+      },
+      {
+        "slot": 108,
+        "context": "INT",
+        "stratum": "near",
+        "e_min_mm": 21.25
+      },
+      {
+        "slot": 109,
+        "context": "INT",
+        "stratum": "far",
+        "e_min_mm": 21.25
+      }
+    ],
+    "pose": {
+      "candidates": [
+        "te1",
+        "te3",
+        "va0",
+        "va1",
+        "cf0",
+        "cf1"
+      ],
+      "probed_dented_poses": [
+        "pt0",
+        "cf2",
+        "cf3",
+        "te2",
+        "te0"
+      ],
+      "rule": "WL73 pose rule with te0 added to the probed poses: farthest dent centre from every D4 image of the probed centres; ties larger radius, name",
+      "selected": "cf1",
+      "archived": "LabServer69:~/rest_wl57_recovery/data/geometry/cf1.pt sha256 dcf780ae8a1fb588459c4a6eb0dc6f559272031475b52efa6a07add4b57c444b -> ~/rest_ato74/inputs/geometry_cf1.pt; identity gate as WL73",
+      "confound": "cf1 (centre (4.5, -9.4) mm, R 24.5 mm, depth 5.0 mm) lies 4.4 mm from the pt0 training centre: DEF4 is a near-training-pose check"
+    },
+    "footprint": [
+      {
+        "slot": 110,
+        "face": 5,
+        "offset_mm": [
+          0,
+          0
+        ],
+        "z_mm": 5.0
+      },
+      {
+        "slot": 111,
+        "face": 4,
+        "offset_mm": [
+          0,
+          0
+        ],
+        "z_mm": -5.0
+      },
+      {
+        "slot": 112,
+        "face": 5,
+        "offset_mm": [
+          7.5,
+          0
+        ],
+        "z_mm": 5.0
+      },
+      {
+        "slot": 113,
+        "face": 4,
+        "offset_mm": [
+          -7.5,
+          0
+        ],
+        "z_mm": -5.0
+      },
+      {
+        "slot": 114,
+        "face": 5,
+        "offset_mm": [
+          0,
+          10
+        ],
+        "z_mm": 5.0
+      },
+      {
+        "slot": 115,
+        "face": 4,
+        "offset_mm": [
+          0,
+          -10
+        ],
+        "z_mm": -5.0
+      }
+    ],
+    "references": "rest: slots 100-115, cf1: slots 110-115; K = 4; 32M photons; unchanged WL57 walker and gates; seeds 743000000 + g*1e6 + slot*1e4 + bin*100 + rep (rest 0, cf1 1); 1,408 packets",
+    "wl73_groups": [
+      "TRAIN_NEW_rest",
+      "TRAIN_NEW_pt0",
+      "TRAIN_KEEP_rest",
+      "TRAIN_KEEP_pt0",
+      "BND_NEAR",
+      "BND_FAR",
+      "UNS",
+      "INT_ALL",
+      "REM_NEAR",
+      "FP_te0"
+    ],
+    "decision": "A74 (G1 basis) vs AR (WL68 basis), two seeds each, three-valued (WL73 rule): far = better(BND4_FAR, 0.8); near = better(BND4_NEAR, 0.8); regression = worse(INT4, 1.25) or worse(TRAIN_KEEP_rest, 1.25). far OVERLAP -> INCONCLUSIVE; far YES -> LEARNED-K BENEFIT (TRADE-OFF if regression); far NO and near YES -> LOCAL BENEFIT ONLY; else NO LEARNED-K BENEFIT. DEF4 (cf1 - rest) reported separately (>= 4 qualified or UNMEASURED); spatial gap = learned error vs the same-basis oracle on BND4/INT4"
+  },
+  "criteria": {
+    "quality": {
+      "abs_coarse_hi": 0.1,
+      "abs_fine16_hi": 0.15,
+      "con_coarse_hi": 0.25
+    },
+    "deformation": {
+      "abs_coarse_hi": 0.35,
+      "corr_min": 0.9
+    }
+  },
+  "prohibited": [
+    "K/C ownership change",
+    "new spatial representation",
+    "geometry-conditioned A/O",
+    "joint angular-spatial network",
+    "angular resolution change",
+    "threshold tuning",
+    "confirmation labels in angular or spatial fitting",
+    "held-out checkpoint selection",
+    "unrestricted rank sweep (only ranks 8 and 16)",
+    "production change",
+    "automatic adoption or successor"
+  ],
+  "execution": {
+    "wrapper": "run74.sh: dev smoke (root ~/rest_ato74_dev: 2 rounds / 5 iterations, 40-step fits, 0.5M-photon packets, Stage 3/4 forced in dev only to exercise the path) then the evidence chain; one detached process; Monitor armed",
+    "lanes": 2
+  },
+  "frozen": {
+    "note": "Stage 4 lists from ports74.py propose on the archived rest/cf1 geometries (LabServer63, 2026-11-05), frozen before any WL74 evidence",
+    "stage4_ports": {
+      "100": 3485,
+      "101": 224,
+      "102": 3814,
+      "103": 43,
+      "104": 410,
+      "105": 260,
+      "106": 871,
+      "107": 1568,
+      "108": 1716,
+      "109": 976,
+      "110": 2059,
+      "111": 2070,
+      "112": 2403,
+      "113": 1690,
+      "114": 2468,
+      "115": 2033
+    }
+  }
+}
