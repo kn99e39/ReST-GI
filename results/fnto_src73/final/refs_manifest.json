@@ -1,0 +1,48 @@
+{
+  "walker": {
+    "walker": "WL57 fast walker (unchanged)",
+    "module": "/home/nd/rest_src73/repo/experiments/fnto_rule57/r57_fastwalk.py",
+    "module_sha256": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478"
+  },
+  "AST_equivalence": {
+    "original_source_sha256": "117131a81266a9a691133313d609fc3b0b336895b8a06e9b8e78c0ee271639dd",
+    "original_AST_sha256": "0fbe866537b46e2b65101b6207b9f911824e852699cec4e8fd8faab705635513",
+    "tagged_AST_sha256": "6dbf72c5edca1f46993abf26f6d4d5fcac723bffb299e61d903b83c2bcd2218e",
+    "strip_added_assignment_restores_original_AST": true,
+    "added_assignments": 1,
+    "added_RNG_calls": 0
+  },
+  "verified_sources": {
+    "experiments/fnto_rule57/r57_geometry.py": "6f5ee9611217eeef61d51d3f6108c34b51c4bd63efa74505ce09a172a95fb9f9",
+    "experiments/fnto_rule57/r57_action_oracle.py": "2b1b86fa36376f953e3d4a9ef653daff9250f3b6ea242c55adb70c723d94bf1d",
+    "experiments/fnto_rule57/r57_fastwalk.py": "0f3eb31fd00ee37d3d099b6ad2c8b3f5a5b2b6bbc7717c393673af57d4c58478",
+    "experiments/fnto_rule57/r57_model.py": "d861614b4b88ea3e0c39e119d5cfcb6f4117f6a9b00be7d4fe982bb4be3d63cf",
+    "experiments/fnto_rule57/r57_data.py": "f99de4884e3b28fd3b49dad01b63bd125cdda224085ca51f4ff85d16313e3c2c",
+    "experiments/phys_ref53/p53_geom.py": "224f919742273a2e93aa41561e4fb16cee733746b32b204956204d6049597e93",
+    "experiments/phys_ref53/p53_fixtures.py": "cdccc551fbd48c518214696d854713ebde3abc8e673485ef5c5f5956ef204500",
+    "experiments/phys_ref53/p53_tracer.py": "0a5b82dd227cc7becf03b8fefaecbcf5cb9d0bf4a43889906a236cd5e65b926a",
+    "experiments/phys_ref53/p53_mi.py": "349a437a3c035fb479a3c8bac81f9e6a8c6eb83c2317c110c1fa4adafbeed969",
+    "experiments/fnto_k55/k55_ops.py": "ef357a8b1ff67f1ea4f869efad7dc39ad302eb6795d914309f8b36fe3acfc3e6",
+    "experiments/fnto_c54/c54_casp.py": "06d813dc3e62fe52cb57b4d5bfeb62c94fe7b47cdff76dcffc3067f9fd5d70c0",
+    "experiments/fnto_persist59/protocol/persist_v1.json": "1e84a085c0a1916ecefe1a2607d1df30fa22fd2fbe38a2bf02a3bd0b4cc0134b",
+    "experiments/fnto_persist59/runtime.py": "0783a3d26fb64708b4f7bc07ce342604405a7c55d80247ee09b7cb9fb8e444ab",
+    "experiments/fnto_persist59/common.py": "40784c38c434329b9a151faaec416b84ad4c6bc22ec53f2568d9cb3dbc46ff21",
+    "tag_reference.py": "98dedccb5138e686776da3b4ae235e5566e62b315d0b24d93526dfb1bc2ecc64"
+  },
+  "protocol_sha256": "dad981f975f557e766b6196e2642b7ec5ec8b186367903eeba6ad4b25666e3e5",
+  "torch": "2.3.1+cu121",
+  "cuda": "12.1",
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "host": "63",
+  "photons": 32000000,
+  "scripts": {
+    "eval73.py": "3a09986e1f36aea0b9fc28045c7423041888f0285d935371a2fe08ee4600cdb6",
+    "probes73.py": "a6a0e8b3657937155c9f09e4e82848797f5317922ed3c240f9bf74a467b8d9a2",
+    "fit73.py": "733236184e597c8587a36969ba867d03dc96d01d5f7cdf2a06034e2c283fb30e",
+    "export73.py": "752ea412002527d36226c72a9d00eab60abf762312c8aa4d39907d97a55455f5",
+    "ports73.py": "3c16a17857020531f609826a05f16d116bfc2358804feee91c50bc3b76a3cb35",
+    "common73.py": "5685d03adf491e6e21de2d0c8e99a5416911ee855003869d74b67dc7a906f469",
+    "chain73.py": "7015561e08439ca9792b85ff61ed1c83916d53bf32e45b85dd07724a28084aa5",
+    "test73.py": "dc6ad73720275fa268f2eaa3c52ab017f4cdde43d9a265c4573fdbba6c1d6d84"
+  }
+}

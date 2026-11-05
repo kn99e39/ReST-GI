@@ -1,0 +1,23 @@
+{
+  "max_rel_diff": {
+    "D1_5901": 4.5283670757127067e-07,
+    "D1_5902": 6.793444949121296e-07,
+    "A_5901": 1.0370003156939982e-06,
+    "A_5902": 1.4461838660025391e-06,
+    "B_7201": 1.1608243294724852e-06,
+    "B_7202": 1.1782301075772663e-06
+  },
+  "worst": 1.4461838660025391e-06,
+  "tolerance": 0.0001,
+  "passed": true,
+  "groups": [
+    "S16_rest",
+    "S16_pt0",
+    "FIN71_rest",
+    "FIN71_cf2",
+    "H3_cf3",
+    "CONF72_rest",
+    "CONF72_te2"
+  ],
+  "note": "same qualification rule as WL72 (abs signal/SE >= 10, deformation >= 3); qualified matrix lists asserted equal to WL72 per group and for DEF71 (WL72 needed >= 1 there, WL73 >= 4; WL72 had 4/8); CONFDEF72 UNMEASURED in both"
+}
