@@ -150,3 +150,5 @@ The local tests now pass 7/7.
 - **Watchdog.** `~/rest_fia76/watchdog76.sh` (execution only) relaunches `run76.sh` after a CUDA out-of-memory failure, such as another project taking the GPU. It waits for a free GPU first, makes at most 3 attempts, and leaves any other failure alone.
 
 **2026-11-07, amendment 3 (before any candidate evidence; execution only).** The dev-smoke Stage 3 ran out of memory again, this time because the physics rebuild-identity check held two full runtimes at once. The check now keeps one runtime resident at a time, and its tolerance is the relative 1e-6 of test76 rather than exact equality, since GPU index_add order is not bitwise reproducible. The watchdog was stopped during the fix.
+
+**2026-11-07, amendment 4 (before any candidate evidence; execution only).** The dev-smoke Stage 3 ran out of memory a third time, in `eval76.score`, because every prediction (47 MB each, about 100 of them) stayed on the GPU. Predictions are now kept on the CPU.

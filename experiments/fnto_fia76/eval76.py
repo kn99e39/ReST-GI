@@ -50,9 +50,10 @@ def score(hfun,G,P,R,D,qual,dq,GR,defmap,subs=None):
     row=dict(groups={},per_matrix={},per_matrix_r123={},deformation={});hs={};cg={}
     with torch.no_grad():
         for (g,s),r in R.items():
-            h=hfun(g,P[s]);hs[(g,s)]=h;Sg,Bg=r.gpu();cg[(g,s)]=E.cross(r,Sg,Bg,h);del Sg,Bg
+            h=hfun(g,P[s]);hs[(g,s)]=h.cpu();Sg,Bg=r.gpu();cg[(g,s)]=E.cross(r,Sg,Bg,h);del Sg,Bg   # amendment 4: predictions kept on the CPU
             row['per_matrix'][f'{g}_s{s}']=E.pooled([r],[cg[(g,s)]],E.STD)
             if subs is not None:sb=subs[(g,s)];Sg,Bg=sb.gpu();row['per_matrix_r123'][f'{g}_s{s}']=E.pooled([sb],[E.cross(sb,Sg,Bg,h)],E.STD);del Sg,Bg
+            del h;torch.cuda.empty_cache()
         for gn,keys in GR.items():
             keys=[k for k in keys if k in R and qual[k]]
             if len(keys)<4:row['groups'][gn]=dict(unmeasured=True,matrices=len(keys));continue
@@ -62,7 +63,7 @@ def score(hfun,G,P,R,D,qual,dq,GR,defmap,subs=None):
             keys=[k for k in D if k[0]==dn and dq[k] and (pose,k[1]) in hs and ('rest',k[1]) in hs]
             if len(keys)<4:row['deformation'][dn]=dict(unmeasured=True,matrices=len(keys));continue
             dcg=[]
-            for k in keys:x=D[k];Sg,Bg=x.gpu();dcg.append(E.cross(x,Sg,Bg,hs[(pose,k[1])]-hs[('rest',k[1])]));del Sg,Bg
+            for k in keys:x=D[k];Sg,Bg=x.gpu();dcg.append(E.cross(x,Sg,Bg,(hs[(pose,k[1])]-hs[('rest',k[1])]).cuda()));del Sg,Bg
             p=E.pooled([D[k] for k in keys],dcg,E.STD[:3]+E.STD[6:]);cs=E.corr_slope([D[k] for k in keys],dcg)
             row['deformation'][dn]=dict(pooled=p,corr_slope=cs,Q=E73.Qdef(p,cs),matrices=[f's{k[1]}' for k in keys])
     return row,hs
@@ -204,7 +205,7 @@ def stage4():
         if '@' not in n:
             res[n]['physics']=fia_physics(n,G,RG,lights,(POSE,))
             for k,r in R.items():   # mechanism: exact single-scatter share of the reference and the error of the learned multiple-scatter part
-                ss=pr.ss(k[0],P[k[1]]);ref=r.S.double().mean(0).cuda();h=hs[k].double()
+                ss=pr.ss(k[0],P[k[1]]);ref=r.S.double().mean(0).cuda();h=hs[k].double().cuda()
                 cs=lambda y:FM.aggregate(y,'coarse',r.parent,bm)
                 mech.setdefault(n,{})[f'{k[0]}_s{k[1]}']=dict(ss_share=float(ss.sum()/ref.sum()),err_coarse_rel=float((cs(h)-cs(ref)).norm()/cs(ref).norm()),
                     err_rel_to_ms=float((cs(h)-cs(ref)).norm()/cs(ref-ss.double()).norm()),ss_coarse_rel_err_vs_ms_ref=float((cs(h-ss.double())-cs(ref-ss.double())).norm()/cs(ref-ss.double()).norm()))

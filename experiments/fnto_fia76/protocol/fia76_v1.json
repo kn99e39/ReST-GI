@@ -146,6 +146,14 @@
    "before_any_candidate_evidence": true,
    "reason": "dev smoke Stage 3 out of GPU memory: the physics rebuild-identity check held two full FIA runtimes at once",
    "change": "eval76.fia_physics keeps one runtime resident at a time (outputs kept, runtime freed before the rebuild); the rebuild identity uses the relative 1e-6 tolerance of test76 (GPU index_add order is not bitwise) instead of exact equality"
+  },
+  {
+   "id": 4,
+   "date": "2026-11-07",
+   "post_hoc": false,
+   "before_any_candidate_evidence": true,
+   "reason": "dev smoke Stage 3 out of GPU memory in eval76.score: every native prediction (16 x P x 64 x 3) was kept on the GPU",
+   "change": "eval76.score keeps predictions on the CPU and moves only the deformation difference / mechanism inputs to the GPU; same estimators and values"
   }
  ],
  "part_B": "frozen after Stage 1 completed and amendment 1, before any candidate fit, Stage 3 evaluation or Stage 4 reference. Pre-freeze (non-evidence, local) code fixes found by test76: per-cell rescaling of W + SS to 1 - beta_B (budget consistency with the ballistic B), neighbour ties included in N(k), receiver face id replaced by |n_z| (symmetry invariance)",
