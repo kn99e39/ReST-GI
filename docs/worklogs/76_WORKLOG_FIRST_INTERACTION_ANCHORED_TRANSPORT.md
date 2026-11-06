@@ -158,3 +158,7 @@ The local tests now pass 7/7.
 - **Change.** The runtime now pre-assembles CSR operators and applies sparse products. The result is identical to the old path (rel 5.7e-7; test76 asserts this against the kept reference implementation). On the 5080 the apply drops from 2.90 s to 0.25 s, against 0.063 s for the rank-16 baseline.
 - **Unchanged.** The gate threshold.
 - **Disclosure.** The decision followed the dev measurement and is labelled as such.
+
+**2026-11-07, dev smoke complete and evidence start.**
+- **Dev smoke.** After amendments 2-5 and an export path fix (dev only: the export read the dev root's missing Stage 1 record), the dev smoke ran every stage on LabServer63: tests 7/7, probe, 30-step fits, Stage 3, 640 dev packets, Stage 4 (INCONCLUSIVE on the dev subset, as expected), export. No metric was used.
+- **Evidence chain.** Started at 17:40 UTC, code commit at HEAD on the server (`code_commit.txt`): Stage 4 population frozen, tests 7/7, two-lane probe 0.99 s/step and 4.75 GB reserved per run (fits about 5.5 h). The two fits started at 17:43 UTC.
