@@ -14,9 +14,16 @@ def stage(name,args,done=None,env=None):
     status(f'running {name}');log=open(ROOT/'logs'/f'{name}.log','a')
     r=subprocess.run([PY,*args],cwd=HERE,env=dict(os.environ,**RUNENV,**(env or {})),stdout=log,stderr=subprocess.STDOUT)
     if r.returncode:status(f'FAILED {name} rc={r.returncode}');raise SystemExit(1)
+SAMPLER=r'''import subprocess,time,sys
+q=lambda a:subprocess.run(['nvidia-smi',a,'--format=csv,noheader'+(',nounits' if 'gpu=' in a else '')],capture_output=True,text=True).stdout.strip().replace('\n',';')
+while True:
+    open(sys.argv[1],'a').write(f"{int(time.time())} {q('--query-gpu=utilization.gpu,memory.used')} | {q('--query-compute-apps=pid,used_memory')}\n");time.sleep(15)'''
 def sampler():
-    cmd=f'while true; do echo "$(date +%s) $(nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader,nounits) | $(nvidia-smi --query-compute-apps=pid,used_memory --format=csv,noheader | tr "\\n" ";")" >> {ROOT}/logs/gpu_sampler.log; sleep 15; done'
-    return subprocess.Popen(['bash','-c',cmd],start_new_session=True)
+    """GPU sampler (amendment 1: a Python loop instead of bash, so it also runs on Windows; same fields and period)."""
+    return subprocess.Popen([PY,'-c',SAMPLER,str(ROOT/'logs/gpu_sampler.log')],**({} if os.name=='nt' else dict(start_new_session=True)))
+def stop(p):
+    if os.name=='nt':p.terminate()
+    else:os.killpg(p.pid,signal.SIGTERM)
 def spawn(name,args,env):
     return subprocess.Popen([PY,*args],cwd=HERE,env=dict(os.environ,**RUNENV,**env),stdout=open(ROOT/'logs'/f'{name}.log','a'),stderr=subprocess.STDOUT)
 def lanes(jobs,n):
@@ -67,4 +74,4 @@ if __name__=='__main__':
     try:main()
     except SystemExit:raise
     except Exception as e:status(f'FAILED chain {e!r}');raise
-    finally:os.killpg(s.pid,signal.SIGTERM)
+    finally:stop(s)

@@ -1,8 +1,10 @@
 """WL75 shared paths. Reuses the WL68/71/72/73/74 modules unchanged; their server roots are read-only inputs:
 ~/rest_repr68, ~/rest_cover71, ~/rest_cmp72, ~/rest_src73 (S16-R targets, WL73 references, AR controls), ~/rest_ato74 (G0/G2 bases,
 Stage 4 population ports4.json, cf1 geometry). Evidence root: ~/rest_rank75 (R75_ROOT)."""
-import os,sys,json
+import os,sys,json,types
 from pathlib import Path
+if os.name=='nt':   # amendment 1 (local Windows run): Unix-only imports of the r57 modules, unused on these paths (as WL72A / T* smoke)
+    for _m in ('resource','fcntl'):sys.modules.setdefault(_m,types.ModuleType(_m))
 HOME=Path.home();HERE=Path(__file__).resolve().parent
 ROOT=Path(os.environ.get('R75_ROOT',HOME/'rest_rank75'))
 os.environ['R74_ROOT']=str(HOME/'rest_ato74')     # WL74 root (read-only): bases, ports4.json, inputs/geometry_cf1.pt

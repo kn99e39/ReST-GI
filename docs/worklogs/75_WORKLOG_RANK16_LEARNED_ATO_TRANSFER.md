@@ -83,3 +83,20 @@ A dev-smoke chain was then started on the working tree, before the freeze, to ex
 - **Cause.** Three TransGI training jobs (another project; `diag_bal_*`, 30k iterations, about 8.3 GB of 12 GB) had started on LabServer63 a minute before the attempt. The same test had passed when run alone.
 - **Decision.** The user was asked and chose 「63 비면 자동 시작」: other projects' jobs are not touched. `run75.sh` now waits until GPU used memory is below 1 GB on two checks 60 s apart, both before the dev smoke and before the evidence chain.
 - **Freeze.** Because of the wait, the code and protocol are committed now, before the dev smoke, as in WL74. A dev-smoke failure will be handled by a labelled pre-evidence amendment.
+
+**2026-11-06, amendment 1: local placement (before any evidence).**
+- **Status before the change.** The 63 wrapper was still waiting for a free GPU when the user asked whether the batch could run locally.
+- **Decision.** User: 「기본 머신은 63번이되, 내 별도 요청이 있을 땐 예외 처리가 가능하다고 했잖아. 이번 75번 Batch에 한해서 로컬에서 진행시키도록 해」. The 63 wrapper was stopped while it was still waiting; nothing had run on 63 beyond the failed dev-smoke test stage.
+- **Inputs.** About 41 GB of read-only inputs are copied from LabServer63 into the same directory names under the local home:
+  - the WL68 inputs and held-out bundles;
+  - the WL71/72/73 reference bundles;
+  - S16-R fit targets, the AR runs and the WL73 analysis;
+  - the WL74 bases, ports4 and cf1.
+- **Execution-only code changes:**
+  - Windows stubs for `resource`/`fcntl`;
+  - a Python GPU sampler;
+  - `run75_local.sh`, a Git Bash wrapper with no GPU wait.
+- **Consequences** (protocol `amendments[0]`):
+  - The Stage 3 references come from the local machine. The training/development references and the AR controls come from 63, so the reference set spans two machines; this is labelled.
+  - The AR controls and the oracles must reproduce the archived 63 values within 1e-3.
+  - Stage 5 costs are measured on the RTX 5080 for both ranks.

@@ -2,18 +2,25 @@
  "batch": "Rank-16 Learned ATO Transfer Falsification",
  "worklog": 75,
  "branch": "Selective_Recompute (no new branch or worktree)",
- "server": "LabServer63 (main server; RTX 3080 Ti 12 GB)",
+ "server": "LabServer63 originally (main); amendment 1: local PC RTX 5080 16 GB (user decision, this batch only)",
  "date": "2026-11-06",
  "question": "Does increasing the global ATO mixture rank from 8 to 16 (frozen WL74 G2 basis) make the learned W+UV intrinsic K more accurate at independent source positions, and does that justify the added model and runtime cost?",
  "scope": "bounded falsification of one complete design change (rank 8 -> 16 incl. the rank-dependent spatial output channels); not a rank-expansion adoption; it does not separate angular-basis quality from rank-dependent spatial capacity",
  "operator": "K_scatter[i,j,a,o,c] = d[i,a] sum_{r<M} A[r,a,c] T[i,j,r,c] O[r,o,c]; T = (W_e + sum_k U[j,k] V[i,k]) * mass / (sum W + sum V); A = softmax(in_logits, r), O = softmax(out_logits, o); M = 16; node rank TR = 16, 16 incoming / 64 outgoing bins, ballistic B, d = 1 - beta, first-exit semantics, passivity normalisation, geometry features and W+UV architecture unchanged",
  "basis": {
-  "candidates": ["G2_r0", "G2_r1", "G2_r2"],
+  "candidates": [
+   "G2_r0",
+   "G2_r1",
+   "G2_r2"
+  ],
   "rule": "the G2 restart with the lowest final FITTING objective J_final (WL74 Stage 1 basis fit on S16-R fitting replicas 0-3) read from the basis files; WL74 Stage 1 held-out scores and Stage 2 development confirmation are not used",
   "selected": "G2_r0",
   "sha256": "000fc7aaa6c55f55db32074b6436dd52cc733befad963e61c63bd9844d8853fc",
   "J_final": 0.014598879249373208,
-  "J_final_others": {"G2_r1": 0.020302252266471935, "G2_r2": 0.02115590899863826},
+  "J_final_others": {
+   "G2_r1": 0.020302252266471935,
+   "G2_r2": 0.02115590899863826
+  },
   "file": "LabServer63:~/rest_ato74/bases/G2_r0.pt (WL74 commit 1bce529)",
   "precision": "stored float64 logits rounded once to float32 model parameters; frozen (requires_grad False) during spatial fitting",
   "provenance_note": "G2_r0 was initialised from the WL68 net_all_5902 basis with every mixture duplicated + N(0, 0.01) (WL74 init rule) and refitted"
@@ -25,19 +32,58 @@
   "rank16_embedding_test": "mixture r <- rank-8 mixture r mod 8, logits repeated (softmax halves each copy): apply / predict rel <= 1e-5, column sums rel <= 1e-6 vs the rank-8 operator (correctness test only, not the initialisation)",
   "initialisation": "trunk (encoder, messages, src/dst/pair layers, edge and node_head hidden layers) = P_590x bitwise (the WL73 AR initialisation); rank-dependent final layers = P_590x rows of mixture r mod 8 (the duplication that defines G2_r0's restart-0 start); in/out logits = G2_r0; no new random channel. Chosen from the basis construction before any candidate metric.",
   "parameter_counts": {
-   "rank8": {"learned_parameters_excl_fixed_AO": 155104, "fixed_AO_logits": 1920, "rank_dependent_final_layers": 117936, "total": 157024},
-   "rank16": {"learned_parameters_excl_fixed_AO": 273040, "fixed_AO_logits": 3840, "rank_dependent_final_layers": 235872, "total": 276880}
+   "rank8": {
+    "learned_parameters_excl_fixed_AO": 155104,
+    "fixed_AO_logits": 1920,
+    "rank_dependent_final_layers": 117936,
+    "total": 157024
+   },
+   "rank16": {
+    "learned_parameters_excl_fixed_AO": 273040,
+    "fixed_AO_logits": 3840,
+    "rank_dependent_final_layers": 235872,
+    "total": 276880
+   }
   },
   "physics_tests": "zero input, positivity, linearity, column sums <= 1 + 1e-6, cache identity (r57_eval.physics) at rank 16 for the embedded, initial and perturbed networks on rest and pt0"
  },
  "runs": {
-  "A75_5901": {"init": "P_5901", "rank": 16, "lambda_sym": 1.0},
-  "A75_5902": {"init": "P_5902", "rank": 16, "lambda_sym": 1.0}
+  "A75_5901": {
+   "init": "P_5901",
+   "rank": 16,
+   "lambda_sym": 1.0
+  },
+  "A75_5902": {
+   "init": "P_5902",
+   "rank": 16,
+   "lambda_sym": 1.0
+  }
  },
- "optimizer": {"lr": 0.003, "lr_min": 3e-05, "steps": 20000, "clip": 1.0, "group": "net (A/O frozen)", "objective": "J (WL68 objective, rank-generic ato74.objective_m) + 1.0 * L_sym (WL72 exact-symmetry consistency)", "schedule": "cosine", "checkpoints": [2000, 6000, 10000], "final": "20,000-step iterate, no selection", "training_data": "S16-R fit_targets73.pt (fitting replicas 0-3), rest and pt0; WL72 pt0 symmetry-image geometries"},
+ "optimizer": {
+  "lr": 0.003,
+  "lr_min": 3e-05,
+  "steps": 20000,
+  "clip": 1.0,
+  "group": "net (A/O frozen)",
+  "objective": "J (WL68 objective, rank-generic ato74.objective_m) + 1.0 * L_sym (WL72 exact-symmetry consistency)",
+  "schedule": "cosine",
+  "checkpoints": [
+   2000,
+   6000,
+   10000
+  ],
+  "final": "20,000-step iterate, no selection",
+  "training_data": "S16-R fit_targets73.pt (fitting replicas 0-3), rest and pt0; WL72 pt0 symmetry-image geometries"
+ },
  "controls": {
-  "AR_5901": {"file": "LabServer63:~/rest_src73/runs/AR_5901.pt", "sha256": "aefabe33d01ead953da898446539978cb9a2dfb380fc8eb9860f3f0a13adeb41"},
-  "AR_5902": {"file": "LabServer63:~/rest_src73/runs/AR_5902.pt", "sha256": "a5dee94350f4002ac58c7fc34fc5a65b8cb370e4363190cba968b08d6092e4ce"},
+  "AR_5901": {
+   "file": "LabServer63:~/rest_src73/runs/AR_5901.pt",
+   "sha256": "aefabe33d01ead953da898446539978cb9a2dfb380fc8eb9860f3f0a13adeb41"
+  },
+  "AR_5902": {
+   "file": "LabServer63:~/rest_src73/runs/AR_5902.pt",
+   "sha256": "a5dee94350f4002ac58c7fc34fc5a65b8cb370e4363190cba968b08d6092e4ce"
+  },
   "oracles": "labelled source-specific oracles G0_r0 (fixed WL68 rank 8) and G2_r0 (rank 16): per-source T, never a transferable rule"
  },
  "stage2": {
@@ -46,15 +92,36 @@
   "provenance": "recomputed AR_5901/5902 group bounds vs ~/rest_src73/eval/analysis.json and recomputed G0_r0/G2_r0 training scores vs ~/rest_ato74/stage1/scores.json (max relative difference of hi) <= tolerance, else STOP",
   "gate": {
    "metric": "worst-channel jackknife upper 95 % bound (hi) of the pooled group error, eval68 estimators",
-   "capacity_groups": ["TRAIN_NEW_rest", "TRAIN_NEW_pt0"],
+   "capacity_groups": [
+    "TRAIN_NEW_rest",
+    "TRAIN_NEW_pt0"
+   ],
    "capacity_factor": 0.8,
    "capacity_rule": "each A75 seed: con_coarse hi <= 0.8 x min over AR seeds on both TRAIN_NEW groups (the WL73 boundary training sources where rank-8 learned K sits at the fixed-basis oracle floor; meeting it requires going below the G0 floor)",
    "regression_factor": 1.25,
    "regression": {
-    "TRAIN_NEW_rest": ["abs_coarse", "abs_fine16", "abs_native"],
-    "TRAIN_NEW_pt0": ["abs_coarse", "abs_fine16", "abs_native"],
-    "TRAIN_KEEP_rest": ["abs_coarse", "abs_fine16", "abs_native", "con_coarse"],
-    "TRAIN_KEEP_pt0": ["abs_coarse", "abs_fine16", "abs_native", "con_coarse"]
+    "TRAIN_NEW_rest": [
+     "abs_coarse",
+     "abs_fine16",
+     "abs_native"
+    ],
+    "TRAIN_NEW_pt0": [
+     "abs_coarse",
+     "abs_fine16",
+     "abs_native"
+    ],
+    "TRAIN_KEEP_rest": [
+     "abs_coarse",
+     "abs_fine16",
+     "abs_native",
+     "con_coarse"
+    ],
+    "TRAIN_KEEP_pt0": [
+     "abs_coarse",
+     "abs_fine16",
+     "abs_native",
+     "con_coarse"
+    ]
    },
    "regression_rule": "each A75 seed: hi <= 1.25 x max over AR seeds for every listed group/metric",
    "validity": "each A75 seed: every passivity check passed and A/O bitwise equal to the frozen G2 basis",
@@ -65,35 +132,179 @@
  },
  "stage3": {
   "population": "WL74 Stage 4 (frozen geometry-only in ato74_v1 / ports74.py before any WL74 evidence; references never generated by WL74)",
-  "inputs": {"ports4.json": "94dc04791582910520a29ccf2587acae05e95e6c1b6623264463902c6bc1dd2d", "inputs/geometry_cf1.pt": "dcf780ae8a1fb588459c4a6eb0dc6f559272031475b52efa6a07add4b57c444b"},
-  "ports": {"100": 3485, "101": 224, "102": 3814, "103": 43, "104": 410, "105": 260, "106": 871, "107": 1568, "108": 1716, "109": 976, "110": 2059, "111": 2070, "112": 2403, "113": 1690, "114": 2468, "115": 2033},
+  "inputs": {
+   "ports4.json": "94dc04791582910520a29ccf2587acae05e95e6c1b6623264463902c6bc1dd2d",
+   "inputs/geometry_cf1.pt": "dcf780ae8a1fb588459c4a6eb0dc6f559272031475b52efa6a07add4b57c444b"
+  },
+  "ports": {
+   "100": 3485,
+   "101": 224,
+   "102": 3814,
+   "103": 43,
+   "104": 410,
+   "105": 260,
+   "106": 871,
+   "107": 1568,
+   "108": 1716,
+   "109": 976,
+   "110": 2059,
+   "111": 2070,
+   "112": 2403,
+   "113": 1690,
+   "114": 2468,
+   "115": 2033
+  },
   "slots": {
-   "100": {"context": "TBE", "stratum": "near"}, "101": {"context": "TBE", "stratum": "far"},
-   "102": {"context": "TBC", "stratum": "near"}, "103": {"context": "TBC", "stratum": "far"},
-   "104": {"context": "SM", "stratum": "near"}, "105": {"context": "SM", "stratum": "far"},
-   "106": {"context": "SR", "stratum": "near"}, "107": {"context": "SR", "stratum": "far"},
-   "108": {"context": "INT", "stratum": "near"}, "109": {"context": "INT", "stratum": "far"},
-   "110": {"context": "FP", "stratum": "footprint"}, "111": {"context": "FP", "stratum": "footprint"}, "112": {"context": "FP", "stratum": "footprint"},
-   "113": {"context": "FP", "stratum": "footprint"}, "114": {"context": "FP", "stratum": "footprint"}, "115": {"context": "FP", "stratum": "footprint"}
+   "100": {
+    "context": "TBE",
+    "stratum": "near"
+   },
+   "101": {
+    "context": "TBE",
+    "stratum": "far"
+   },
+   "102": {
+    "context": "TBC",
+    "stratum": "near"
+   },
+   "103": {
+    "context": "TBC",
+    "stratum": "far"
+   },
+   "104": {
+    "context": "SM",
+    "stratum": "near"
+   },
+   "105": {
+    "context": "SM",
+    "stratum": "far"
+   },
+   "106": {
+    "context": "SR",
+    "stratum": "near"
+   },
+   "107": {
+    "context": "SR",
+    "stratum": "far"
+   },
+   "108": {
+    "context": "INT",
+    "stratum": "near"
+   },
+   "109": {
+    "context": "INT",
+    "stratum": "far"
+   },
+   "110": {
+    "context": "FP",
+    "stratum": "footprint"
+   },
+   "111": {
+    "context": "FP",
+    "stratum": "footprint"
+   },
+   "112": {
+    "context": "FP",
+    "stratum": "footprint"
+   },
+   "113": {
+    "context": "FP",
+    "stratum": "footprint"
+   },
+   "114": {
+    "context": "FP",
+    "stratum": "footprint"
+   },
+   "115": {
+    "context": "FP",
+    "stratum": "footprint"
+   }
   },
   "pose": "cf1",
   "pose_note": "cf1 dent centre lies 4.4 mm from the pt0 training centre: DEF4 is a near-training-pose check, not broad unseen-geometry transfer",
   "references": "probes74.generate / bundle unchanged (WL57 fast walker, gates, 32M photons with 16M OOM fallback, K = 4, seeds 743000000 + g*1e6 + slot*1e4 + bin*100 + rep, rest 0 / cf1 1), 1,408 packets, written to ~/rest_rank75/refs; any failed packet gate stops",
   "qualification": "eval73 rule unchanged: abs signal/SE >= 10 per matrix, deformation >= 3; a group needs >= 4 qualified matrices, otherwise UNMEASURED",
-  "groups": {"BND4_NEAR": [100, 102, 104, 106], "BND4_FAR": [101, 103, 105, 107], "INT4": [108, 109, 110, 111, 112, 113, 114, 115], "FP4_cf1": "110-115 at cf1", "DEF4": "cf1 - rest, 110-115", "ALL4_rest": "100-115", "BND4": "100-107", "TOPBOT4": [100, 101, 102, 103], "SIDE4": [104, 105, 106, 107]},
+  "groups": {
+   "BND4_NEAR": [
+    100,
+    102,
+    104,
+    106
+   ],
+   "BND4_FAR": [
+    101,
+    103,
+    105,
+    107
+   ],
+   "INT4": [
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115
+   ],
+   "FP4_cf1": "110-115 at cf1",
+   "DEF4": "cf1 - rest, 110-115",
+   "ALL4_rest": "100-115",
+   "BND4": "100-107",
+   "TOPBOT4": [
+    100,
+    101,
+    102,
+    103
+   ],
+   "SIDE4": [
+    104,
+    105,
+    106,
+    107
+   ]
+  },
   "strata_note": "the frozen population has no previously unrepresented (SV) source; that stratum is reported only from the WL73 development group UNS (Stage 2, already used in WL73/74 analysis)",
   "evaluated": "AR_5901, AR_5902, A75_5901, A75_5902 (finals) and every checkpoint @2000/6000/10000 of both (descriptive drift); learned scored on replicas 0-3 and, for the oracle comparison, 1-3",
   "oracle_iters": 3000,
   "oracle_chunk": 8,
   "oracle": "G0_r0 and G2_r0: per-source T fitted on replica 0 (float64 FISTA from 0.5/P, then the same budget again as a convergence check), scored on replicas 1-3 (WL74 Stage 2 arithmetic)",
   "decision": {
-   "primary_groups": ["BND4_FAR", "BND4_NEAR", "INT4"],
+   "primary_groups": [
+    "BND4_FAR",
+    "BND4_NEAR",
+    "INT4"
+   ],
    "improve_factor": 0.8,
    "regression_factor": 1.25,
    "far_rule": "far = YES iff max over A75 seeds of con_coarse hi on BND4_FAR <= 0.8 x min over AR seeds AND < min over AR seeds of the lower 95 % bound (beyond statistical and seed uncertainty); NO iff min over A75 seeds > 0.8 x max over AR seeds; otherwise OVERLAP. near = the same on BND4_NEAR",
-   "regression": {"BND4_FAR": ["abs_coarse", "abs_fine16"], "BND4_NEAR": ["abs_coarse", "abs_fine16"], "INT4": ["abs_coarse", "abs_fine16", "con_coarse"], "FP4_cf1": ["abs_coarse", "abs_fine16"]},
+   "regression": {
+    "BND4_FAR": [
+     "abs_coarse",
+     "abs_fine16"
+    ],
+    "BND4_NEAR": [
+     "abs_coarse",
+     "abs_fine16"
+    ],
+    "INT4": [
+     "abs_coarse",
+     "abs_fine16",
+     "con_coarse"
+    ],
+    "FP4_cf1": [
+     "abs_coarse",
+     "abs_fine16"
+    ]
+   },
    "regression_rule": "per group/metric: YES iff min over A75 seeds >= 1.25 x max over AR seeds; NO iff max over A75 < 1.25 x min over AR; otherwise OVERLAP",
-   "secondary_metrics": ["con_native", "con_fine16", "abs_coarse", "abs_fine16", "abs_native"],
+   "secondary_metrics": [
+    "con_native",
+    "con_fine16",
+    "abs_coarse",
+    "abs_fine16",
+    "abs_native"
+   ],
    "classes": "PHYSICAL VALIDITY FAILURE if any passivity check fails; INCONCLUSIVE if a primary group is unmeasured or far = OVERLAP; far = YES: TRANSFERABLE RANK-16 BENEFIT (far boundary) if no regression = YES (qualifier 'possible regression (overlap)' if any OVERLAP), else TRADE-OFF; far = NO: NO INDEPENDENT GENERALIZATION BENEFIT (training-only benefit), with LOCAL BENEFIT (BND4_NEAR contrast) if near = YES and 'with regression' if any regression = YES",
    "absolute_gates": "WL59 gates reported separately per group and model: abs_coarse <= 0.10, abs_fine16 <= 0.15, con_coarse <= 0.25 (upper 95 %, every channel); DEF4 relative <= 0.35 and corr >= 0.90 (eval73 Qdef)"
   }
@@ -109,7 +320,11 @@
  "stage5": {
   "measured": "parameters, angular parameters, W/U/V state floats, full coefficient rebuild from geometry, apply latency (64 lights / 1 light), peak GPU memory (same GPU, run alone at the end of the chain, median of repeats after warm-up); rank-independent geometry preparation (cf1 with ballistic B, once); training time / peak (run records, concurrency labelled); Stage 3 reference cost; G2 angular pretraining time",
   "dominates_ratio": 2.0,
-  "dominates_keys": ["rebuild_seconds", "apply64_seconds", "peak_GPU"],
+  "dominates_keys": [
+   "rebuild_seconds",
+   "apply64_seconds",
+   "peak_GPU"
+  ],
   "rule": "the measured rank-16 / rank-8 ratios are reported; 'COMPUTATIONAL COST DOMINATES' is attached only when Stage 3 gives a transferable benefit and any listed ratio exceeds 2.0 (more than proportional to the rank doubling)"
  },
  "execution": {
@@ -117,7 +332,22 @@
   "probe_steps": 60,
   "lanes_rule": "probe both runs concurrently with the real configuration; two lanes iff both complete and the sum of peak reserved memory <= 0.85 x GPU memory, else one lane (re-probed alone); a failed single-lane probe stops",
   "dev_smoke": "~/rest_rank75_dev: 40-step fits, 5 FISTA oracle iterations, 0.5M-photon packets on dev_slots only, Stage 3 forced; no metric used",
-  "dev_slots": {"rest": [100, 101, 110, 111, 112, 113], "cf1": [110, 111, 112, 113]},
+  "dev_slots": {
+   "rest": [
+    100,
+    101,
+    110,
+    111,
+    112,
+    113
+   ],
+   "cf1": [
+    110,
+    111,
+    112,
+    113
+   ]
+  },
   "evidence_root": "~/rest_rank75"
  },
  "independence": {
@@ -125,6 +355,27 @@
   "selection": "basis by the fitting objective only; initialisation by construction; final iterates only; thresholds and decisions frozen in this file before any WL75 candidate metric or Stage 3 reference exists",
   "exclusions": "Stage 4 ports exclude every previously scored source (WL66-72, S16-R, 29 WL73 confirmation ports) and all their exact images (ports74.py, re-asserted in test75)"
  },
- "prohibited": ["rank > 16 or a rank sweep", "source coverage change", "loss / schedule / weight tuning", "geometry-conditioned A/O", "angular canonicalisation", "new spatial kernel", "per-port or grid corrections", "K/C or production runtime change", "held-out labels for model or checkpoint selection", "coupled GI", "automatic adoption or successor"],
- "amendments": []
+ "prohibited": [
+  "rank > 16 or a rank sweep",
+  "source coverage change",
+  "loss / schedule / weight tuning",
+  "geometry-conditioned A/O",
+  "angular canonicalisation",
+  "new spatial kernel",
+  "per-port or grid corrections",
+  "K/C or production runtime change",
+  "held-out labels for model or checkpoint selection",
+  "coupled GI",
+  "automatic adoption or successor"
+ ],
+ "amendments": [
+  {
+   "id": 1,
+   "date": "2026-11-06",
+   "before_evidence": true,
+   "reason": "LabServer63 was occupied by another project's jobs (TransGI, ~8 GB of 12 GB) and the first dev smoke failed its objective-identity test with a CUDA OOM; the user decided: 'this WL75 batch only runs locally' (default machine stays LabServer63).",
+   "change": "Placement: the local PC (RTX 5080 16 GB, Windows-native torch 2.8 cu128 venv external/8dna26/.venv-cu128) instead of LabServer63 for every stage: tests, fits, Stage 2, Stage 3 references, Stage 3 evaluation, analysis and cost. Read-only inputs copied byte-for-byte from LabServer63 into the same directory names under the local home (~/rest_repr68, rest_cover71, rest_cmp72, rest_src73, rest_ato74; hashes of the protocol-listed files re-asserted by the tests and the inputs stage). Execution-only code changes: Unix-only 'resource'/'fcntl' stubs on Windows (common75, as WL72A and the T* smoke), a Python GPU sampler instead of bash, a Git Bash wrapper run75_local.sh without the GPU wait. No training, evaluation, threshold or decision rule changes.",
+   "consequences": "Stage 3 references are generated on the local machine with the unchanged WL57 walker (the training/development references and the AR controls were produced on LabServer63): a cross-machine reference set, labelled; the walker ran locally in WL72A validation with passing physical gates. AR controls and oracles are re-evaluated locally and must reproduce the archived LabServer63 values within the 1e-3 provenance tolerance. Stage 5 costs are measured on the RTX 5080 for both ranks (comparable within this batch, not with LabServer63 timings). Fit seconds of the WL73 AR controls (LabServer63, 2 lanes) are not comparable with the local A75 fit seconds."
+  }
+ ]
 }
