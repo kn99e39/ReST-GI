@@ -113,5 +113,361 @@
   "reference_photons": 32000000,
   "pre_freeze_note": "local reduced-photon smoke (non-evidence, 200k photons) showed the coarse z^2 statistic inflated by 0-hit cells (self-comparison of two seeds of the same estimator gives z^2 1.0 / 0.95) and a 0 replica SE when no ballistic exit occurs; both fixed before freezing; selecting cells by the tested estimator's own hit counts inflated z^2 (~2) and was replaced by selection on the independent estimate; 2M-photon smoke after the fix: total vs reference z^2 0.92-1.15, single quadrature vs MC 0.58-1.52 (one 1.52 at ~10 expected events per cell), forward control rejected 4/4 (z^2 2,600-9,100); min expected events raised to 30 before freezing"
  },
- "amendments": []
+ "amendments": [
+  {
+   "id": 1,
+   "date": "2026-11-07",
+   "post_hoc": true,
+   "user_decision": "\u300c\uc0ac\ud6c4 amendment\ub85c \uc9c4\ud589\u300d (answer to the Stage 1 FAIL question)",
+   "evidence_seen": "Stage 1 results (stage1/physics.json sha256 e74fc360...): gate FAIL with one failure - rest_s70_a0 single-scatter quadrature vs MC single tally, coarse mean z^2 1.703 > 1.5 (energy z 0.09); every other check passed: decomposed vs reference 36/36 (z^2 0.90-1.13), first-collision probability 36/36, forward control rejected 4/4; the single-quadrature statistic over 36 packets ranged 0.60-1.70",
+   "diagnostic": "NON-EVIDENCE re-test of the failing packet with three fresh seed pairs (diag/diag_s70.py, LabServer63, N 32M each, seeds 769000011-13 / 769100011-13): z^2 0.936 / 1.106 / 0.762, cells 126, energy |z| <= 1.11 (diag/diag_s70_nonevidence.json sha256 5e11ab0f...)",
+   "change": "Stage 1 is treated as passed for the purpose of proceeding: the single failing self-consistency check is replaced by the fresh-seed re-test (all three within the original 0.5-1.5 band). The original Stage 1 verdict (FAIL by the frozen rule) is preserved and reported; this is a post hoc decision taken after seeing Stage 1 evidence, labelled as such.",
+   "accepted_failures": [
+    [
+     "rest_s70_a0",
+     "single quadrature"
+    ]
+   ],
+   "diagnostic_sha256": "5e11ab0fec4856523c98c5b8580de8a3b34135c72a27ac85cbd7aa6e6aaf3325",
+   "stage1_sha256": "e74fc360111ccbd9901053b984322572079a0bfc6d3dd7858482c4996cfd67df"
+  }
+ ],
+ "part_B": "frozen after Stage 1 completed and amendment 1, before any candidate fit, Stage 3 evaluation or Stage 4 reference. Pre-freeze (non-evidence, local) code fixes found by test76: per-cell rescaling of W + SS to 1 - beta_B (budget consistency with the ballistic B), neighbour ties included in N(k), receiver face id replaced by |n_z| (symmetry invariance)",
+ "geometry_index": {
+  "rest": 0,
+  "pt0": 1,
+  "te0": 2,
+  "cf1": 3,
+  "cf2": 4,
+  "cf3": 5,
+  "te2": 6,
+  "te1": 7
+ },
+ "candidate": {
+  "name": "FIA (first-interaction anchored)",
+  "quadrature_q": 1024,
+  "hidden": 64,
+  "anchor_depths_mm": [
+   0.25,
+   0.75,
+   1.5,
+   3.0
+  ],
+  "neighbours": 512,
+  "tail": "240 coarse cells, area-distributed",
+  "lobes": 3,
+  "learned": "R_theta only: rho (escape mass), tau (tail share), local / tail spatial softmax with the analytic exp(-r/L_c)/(r^2+1mm^2) prior (L_c learned, init 18.1/5.8/1.8 mm) plus MLP corrections, ring-lobe mixture weights; 6 MLPs (2 hidden layers of 64, SiLU, zero-initialised outputs), 42,565 parameters",
+  "features": "anchor: free paths to the boundary along -n, +n and 8 lateral directions (sorted), exp(-d/1mm), depth; receiver: the same from the port (0.25 mm inside) + area ratio, thickness, normal spread, |n_z|; pair: distance/1cm, receiver-normal cosine, normal product, exp(-r/2mm); all invariant to the slab symmetries",
+  "geometry_only_operators": "W (cells -> anchors) and SS (cells -> exit port/bin) by fixed-seed quadrature of the current geometry and sigma_t only (per-port seeds 762000000 + 1e7 x geometry index + 16 x port), like the ballistic B; deployable, no reference, no privileged label",
+  "privileged_supervision": "none: the candidate trains only on the S16-R collided first-exit targets of the preserved baselines; Stage 1 estimators are validation-only",
+  "material_difference": "no learned map from source-port features to spatial transport (W+UV) and no source-receiver relational kernel with a shared incident A (RSK): the incident dependence is entirely geometric (W, SS); the learned part is one source-independent response of an interior isotropic emitter with invariant features and ring lobes; equivariant by construction (no L_sym)",
+  "expected_cost": "state: W about P*16*60 nnz, SS up to P*16*1024 nnz before coalescing, local R 4P*512*9 floats (about 280 MB), tail 4P*240*9; apply = 3 sparse products + one scatter over 4P*512 slots"
+ },
+ "runs": {
+  "F76_7601": {
+   "seed": 7601
+  },
+  "F76_7602": {
+   "seed": 7602
+  }
+ },
+ "optimizer": {
+  "objective": "WL68 objective J (family68 definition) on the dense prediction, mean over geometries (rest, pt0) of the mean over (source, channel)",
+  "lr": 0.003,
+  "lr_min": 3e-05,
+  "steps": 20000,
+  "clip": 1.0,
+  "checkpoints": [
+   2000,
+   6000,
+   10000
+  ],
+  "chunk": 4,
+  "final": "20,000-step iterate, no selection",
+  "precision": "float32, TF32 off",
+  "full_batch": "all 16 S16-R sources x 16 bins per step (gradient accumulated over 4-source chunks)"
+ },
+ "stage3": {
+  "data": "S16-R held-out replicas 4-7 (eval73.load_refs) + WL73 development groups (descriptive); baselines AR_5901/5902 (~/rest_src73/runs) and A75_5901/5902 (~/rest_rank75/runs, copied byte-for-byte from the local WL75 root); labelled G0_r0 / G2_r0 training oracles (WL74 Stage 1 arithmetic)",
+  "gate": {
+   "groups": [
+    "TRAIN_NEW_rest",
+    "TRAIN_NEW_pt0",
+    "TRAIN_KEEP_rest",
+    "TRAIN_KEEP_pt0"
+   ],
+   "metrics": [
+    "con_coarse",
+    "abs_coarse",
+    "abs_fine16"
+   ],
+   "factor": 1.25,
+   "state_bytes_max": 4294967296,
+   "apply64_ratio_max": 10.0,
+   "rule": "fit: each FIA seed, every listed group and metric: hi <= 1.25 x max over the AR (rank-8) seeds; validity: runtime physics (zero, positivity, linearity, column sums <= 1, rebuild identity) on rest and pt0; computational: full runtime state <= 4 GiB and 64-light apply <= 10 x the rank-16 baseline in the same process. PHYSICAL VALIDITY FAILURE / INSUFFICIENT FIT / COMPUTATIONAL INFEASIBILITY stop before any Stage 4 reference; GATES PASSED -> Stage 4"
+  }
+ },
+ "stage4": {
+  "population": "ports76.py (geometry only), proposed on the archived rest geometry and RG.geometry(te1) before any WL76 candidate evidence; excludes 81 previously scored ports and all exact images",
+  "pose": "te1",
+  "pose_scores": {
+   "te1": 3.1068,
+   "te3": 0.0,
+   "va0": 3.1068,
+   "va1": 0.0,
+   "cf0": 2.4392
+  },
+  "ports": {
+   "0": 387,
+   "1": 553,
+   "2": 236,
+   "3": 246,
+   "4": 3811,
+   "5": 3834,
+   "6": 39,
+   "7": 58,
+   "8": 3442,
+   "9": 874,
+   "10": 167,
+   "11": 1573,
+   "12": 3395,
+   "13": 401,
+   "14": 1875,
+   "15": 305,
+   "16": 463,
+   "17": 3354,
+   "18": null,
+   "19": null,
+   "20": 655,
+   "21": 2150,
+   "22": 607,
+   "23": 565,
+   "24": 2437,
+   "25": 2067,
+   "26": 2444,
+   "27": 2388
+  },
+  "slots": {
+   "0": {
+    "context": "TBE",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "1": {
+    "context": "TBE",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "2": {
+    "context": "TBE",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "3": {
+    "context": "TBE",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "4": {
+    "context": "TBC",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "5": {
+    "context": "TBC",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "6": {
+    "context": "TBC",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "7": {
+    "context": "TBC",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "8": {
+    "context": "SM",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "9": {
+    "context": "SM",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "10": {
+    "context": "SM",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "11": {
+    "context": "SM",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "12": {
+    "context": "SR",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "13": {
+    "context": "SR",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "14": {
+    "context": "SR",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "15": {
+    "context": "SR",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "16": {
+    "context": "SV",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "17": {
+    "context": "SV",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "18": {
+    "context": "SV",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "19": {
+    "context": "SV",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "20": {
+    "context": "INT",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "21": {
+    "context": "INT",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "22": {
+    "context": "INT",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "23": {
+    "context": "INT",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "24": {
+    "context": "FP",
+    "stratum": "footprint",
+    "subcell": "center"
+   },
+   "25": {
+    "context": "FP",
+    "stratum": "footprint",
+    "subcell": "corner"
+   },
+   "26": {
+    "context": "FP",
+    "stratum": "footprint",
+    "subcell": "corner"
+   },
+   "27": {
+    "context": "FP",
+    "stratum": "footprint",
+    "subcell": "edge"
+   }
+  },
+  "references": "probes74 code unchanged (WL57 fast walker, gates, 32M, K = 4); seeds 766000000 + g*1e6 + slot*1e4 + bin*100 + rep (rest 0, te1 1); rest: all non-empty slots, te1: footprint 24-27",
+  "groups": {
+   "BND_FAR": "TBE/TBC/SM/SR far (8)",
+   "BND_NEAR": "TBE/TBC/SM/SR near (8)",
+   "INT": "INT near/far (4)",
+   "FP_rest": "24-27",
+   "FP_te1": "24-27 at te1",
+   "DEF": "te1 - rest (24-27)",
+   "UNS": "SV near (2, per matrix only)",
+   "BND_HI": "hi sub-cell boundary",
+   "BND_LO": "lo sub-cell boundary"
+  },
+  "decision": {
+   "primary_groups": [
+    "BND_FAR",
+    "BND_NEAR",
+    "INT"
+   ],
+   "improve_factor": 0.8,
+   "regression_factor": 1.25,
+   "stronger": "per group, the preserved baseline (AR or A75) with the lower mean over its two seeds of con_coarse hi",
+   "far_rule": "far = YES iff max over FIA seeds of BND_FAR con_coarse hi <= 0.8 x min over the stronger baseline seeds AND < min of their lower 95 % bounds; NO iff min FIA > 0.8 x max stronger; else OVERLAP; near likewise on BND_NEAR",
+   "regression": {
+    "BND_FAR": [
+     "abs_coarse",
+     "abs_fine16"
+    ],
+    "BND_NEAR": [
+     "abs_coarse",
+     "abs_fine16"
+    ],
+    "INT": [
+     "abs_coarse",
+     "abs_fine16",
+     "con_coarse"
+    ],
+    "FP_rest": [
+     "abs_coarse",
+     "abs_fine16"
+    ],
+    "FP_te1": [
+     "abs_coarse",
+     "abs_fine16"
+    ]
+   },
+   "regression_rule": "per group/metric vs the better baseline (lower seed mean): YES iff min FIA >= 1.25 x max baseline; NO iff max FIA < 1.25 x min baseline; else OVERLAP",
+   "secondary_metrics": [
+    "con_native",
+    "con_fine16",
+    "abs_coarse",
+    "abs_fine16",
+    "abs_native"
+   ],
+   "classes": "PHYSICAL VALIDITY FAILURE; INCONCLUSIVE (primary unmeasured or far OVERLAP); far YES: TRANSFERABLE BENEFIT (independent far boundary), or TRADE-OFF if a regression is YES; far NO: NO INDEPENDENT BOUNDARY-TRANSFER BENEFIT (+ LOCAL BENEFIT if near YES, + with regression)",
+   "absolute_gates": "WL59: abs_coarse <= 0.10, abs_fine16 <= 0.15, con_coarse <= 0.25 per group; DEF relative <= 0.35 and corr >= 0.90 (eval73 Qdef); reported separately"
+  },
+  "analysis": "mechanism: exact single-scatter share of each reference and the error of the learned multiple-scatter part; hi/lo sub-cell pairs; per-source error vs distance; checkpoints; labelled G0/G2 oracles (replica 0 fit, 1-3 score)"
+ },
+ "execution": {
+  "chain": "Stage 1 (Part A) -> inputs -> tests -> probe -> 2 fits -> Stage 3 + gates -> [references -> bundle -> Stage 4] -> export; one detached setsid chain; any failure stops",
+  "probe_steps": 30,
+  "lanes_rule": "probe both runs concurrently; two lanes iff both complete and the sum of peak reserved memory <= 0.85 x GPU memory, else one lane",
+  "dev_smoke": "~/rest_fia76_dev: 30-step fits, 5 oracle iterations, 0.5M photons on dev_slots, Stage 4 forced, no metric used",
+  "dev_slots": {
+   "rest": [
+    2,
+    3,
+    24,
+    25,
+    26,
+    27
+   ],
+   "te1": [
+    24,
+    25,
+    26,
+    27
+   ]
+  },
+  "baselines_copy": "A75_5901/5902 (+ checkpoints) copied from C:/Users/dna10/rest_rank75/runs to LabServer63:~/rest_rank75/runs with sha256 recorded"
+ }
 }

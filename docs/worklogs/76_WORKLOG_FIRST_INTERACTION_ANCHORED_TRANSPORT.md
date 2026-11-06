@@ -75,3 +75,69 @@ A self-comparison of two seeds of the same estimator gave z² = 1.0, which confi
 - forward control: rejected 4/4 (z² 2,600–9,100).
 
 The evidence run uses 32M photons per packet.
+
+## Stage 1 result (LabServer63, commit 680d4df, 32M photons per packet, 2026-11-06/07)
+
+**Gate (frozen rule): FAIL**, because of one failure out of 108 checks plus 4 controls.
+- **Decomposed estimator vs archived references: 36/36 pass.** Energy |z| ≤ 1.16, coarse z² 0.90–1.13, coarse relative L1 0.13–0.23 %.
+  - rest: INT s60, TBE s64, TBC s66 (corner), SM s68, SR s70, SV s72.
+  - te0 INT s80; pt0 TBE s50 and INT s0.
+  - Bins 5 / 0 / 10 / 15.
+- **First-collision probability E[c] vs 1 − β (reference B16): 36/36 pass** (|z| ≤ 3.3).
+- **Forward negative control: rejected 4/4** (z² 17,800–75,400), so the test has power.
+- **Single-scatter quadrature vs the MC single tally:** 35/36 pass. The failure is **rest_s70 (SR) bin 0, z² 1.703** (> 1.5; energy z 0.09). Across all 36 packets this statistic ranged 0.60–1.70.
+
+**Diagnostic (non-evidence).** The failing packet was re-run with three fresh seed pairs (`diag/diag_s70.py`) and gave z² 0.936 / 1.106 / 0.762 over 126 cells. The 1.70 looks like a statistical tail of a statistic with about 126 cells, but that is a post hoc reading.
+
+**User decision.** The user answered the stop question with 「사후 amendment로 진행」.
+
+**Amendment 1 (post hoc, labelled; protocol `amendments[0]`).** The single failing self-consistency check is replaced by the fresh-seed re-test. The original Stage 1 FAIL verdict is preserved and will be reported.
+
+## Part B frozen (after Stage 1 and amendment 1, before any candidate evidence)
+
+**Candidate FIA** (`fia76.py`):
+
+K_scat = albedo · SS + albedo² · Σ_k W(i,a→k) · R_θ(k→j,o)
+
+- SS and W are fixed-seed quadratures of geometry and σ_t only (deployable, like B). They are rescaled per cell so that ΣW + ΣSS = 1 − β_B.
+  - W is anchored at the **second** collision point.
+  - Anchors sit at 4 depths below every port.
+- **R_θ** is the response of an isotropic interior emitter, and it is source-independent. It has:
+  - escape mass ρ;
+  - tail share τ;
+  - a softmax over the ports within the 512-th-neighbour distance (ties included), plus a coarse 240-cell tail, with an analytic exp(−r/L)/(r² + 1 mm²) prior and MLP corrections;
+  - 3 ring lobes.
+- **Features** are invariant under the slab symmetries: free paths, distances, cosines, |n_z|. The model is therefore equivariant by construction, so there is no L_sym.
+- **Size:** 42,565 parameters.
+
+**Material difference from the baselines.**
+- There is no learned source-port → T map (W+UV) and no shared incident A (RSK).
+- Incident dependence is entirely geometric.
+
+**Training.**
+- Data: S16-R fit targets, rest and pt0.
+- Objective: WL68 objective J, computed directly on dense predictions.
+- Optimiser: Adam, cosine 3e-3 → 3e-5, clip 1.0.
+- Budget: 20,000 full-batch steps in 4-source chunks.
+- Two seeds (7601 / 7602); final iterate used.
+
+**Stage 3 gates.**
+- Fit: every TRAIN_NEW / TRAIN_KEEP group × {con_coarse, abs_coarse, abs_fine16} ≤ 1.25 × the worse AR seed.
+- Runtime physics: rest and pt0.
+- Computation: state ≤ 4 GiB, and 64-light apply ≤ 10 × A75.
+
+**Stage 4 population** (`ports76.py`, geometry only, 26 slots + te1 footprint).
+- Exclusions: 81 previously scored ports and all their exact images.
+- Strata: TBE / TBC / SM / SR / SV / INT × near / far × a hi / lo coarse-cell sub-position pair.
+- SV far has no admissible port.
+
+**Primary decision.** BND_FAR con_coarse against the stronger preserved baseline, three-valued (0.8 and beyond the lower 95 % bound).
+
+**Pre-freeze fixes found by the local tests** (non-evidence):
+- Budget rescaling: independent quadrature noise of β and E[c] could break passivity after training.
+- Neighbour ties included.
+- Receiver face id replaced by |n_z|. The face id broke r90 equivariance: I1 was 0.029 against a 0.005 noise level.
+
+The local tests now pass 7/7.
+
+**Baselines.** A75_5901/5902 and their checkpoints were copied to `LabServer63:~/rest_rank75/runs` with matching sha256.
