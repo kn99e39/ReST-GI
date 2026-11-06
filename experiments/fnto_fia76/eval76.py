@@ -93,8 +93,9 @@ def fia_physics(name,G,RG,lights,geoms):
     with torch.no_grad():
         for g in geoms:
             Gg=FI.Geo(G[g],P68.domain(RG,g));rt=FI.Runtime(mdl,Gg,CFG['geometry_index'][g],CFG['candidate']['quadrature_q']);out[g]=FI.physics(rt,G[g],lights[:2].cuda(),Gg.dom.albedo)
-            rt2=FI.Runtime(mdl,Gg,CFG['geometry_index'][g],CFG['candidate']['quadrature_q']);y1=rt.apply(G[g],lights[:2].cuda(),Gg.dom.albedo);y2=rt2.apply(G[g],lights[:2].cuda(),Gg.dom.albedo)
-            out[g]['rebuild_identity']=float((y1-y2).abs().max());out[g]['passed']=out[g]['passed'] and out[g]['rebuild_identity']==0.;del rt,rt2;torch.cuda.empty_cache()
+            y1=rt.apply(G[g],lights[:2].cuda(),Gg.dom.albedo);out[g]['build_seconds']=rt.seconds;out[g]['state_bytes']=sum(rt.bytes.values());del rt;torch.cuda.empty_cache()   # amendment 3: one runtime resident at a time
+            rt2=FI.Runtime(mdl,Gg,CFG['geometry_index'][g],CFG['candidate']['quadrature_q']);y2=rt2.apply(G[g],lights[:2].cuda(),Gg.dom.albedo);del rt2;torch.cuda.empty_cache()
+            out[g]['rebuild_identity']=float((y1-y2).abs().max()/y1.abs().max().clamp(min=1e-30));out[g]['passed']=out[g]['passed'] and out[g]['rebuild_identity']<=1e-6   # GPU index_add order: relative 1e-6 (test76)
     return out
 
 # ------------------------------------------------------------------ Stage 3

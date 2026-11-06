@@ -138,6 +138,14 @@
    "before_any_candidate_evidence": true,
    "reason": "dev smoke (non-evidence) Stage 3 ran out of GPU memory (12 GB) while building the full-geometry FIA runtime at q = 1024: every per-port quadrature row was kept uncoalesced and concatenated",
    "change": "fia76.quadrature sums duplicate (cell, anchor) and (cell, exit port/bin) entries immediately (float64 sums); the operator is identical. Local check: full rest build peak 3.36 GB, state 1.3 GB (W 59 MB, SS 710 MB, local R 413 MB, tail 127 MB), 49 s; physics passed; tests 7/7"
+  },
+  {
+   "id": 3,
+   "date": "2026-11-07",
+   "post_hoc": false,
+   "before_any_candidate_evidence": true,
+   "reason": "dev smoke Stage 3 out of GPU memory: the physics rebuild-identity check held two full FIA runtimes at once",
+   "change": "eval76.fia_physics keeps one runtime resident at a time (outputs kept, runtime freed before the rebuild); the rebuild identity uses the relative 1e-6 tolerance of test76 (GPU index_add order is not bitwise) instead of exact equality"
   }
  ],
  "part_B": "frozen after Stage 1 completed and amendment 1, before any candidate fit, Stage 3 evaluation or Stage 4 reference. Pre-freeze (non-evidence, local) code fixes found by test76: per-cell rescaling of W + SS to 1 - beta_B (budget consistency with the ballistic B), neighbour ties included in N(k), receiver face id replaced by |n_z| (symmetry invariance)",
