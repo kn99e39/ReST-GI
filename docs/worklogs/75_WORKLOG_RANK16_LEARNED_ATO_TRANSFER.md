@@ -100,3 +100,20 @@ A dev-smoke chain was then started on the working tree, before the freeze, to ex
   - The Stage 3 references come from the local machine. The training/development references and the AR controls come from 63, so the reference set spans two machines; this is labelled.
   - The AR controls and the oracles must reproduce the archived 63 values within 1e-3.
   - Stage 5 costs are measured on the RTX 5080 for both ranks.
+
+**2026-11-06, local dev smoke and evidence start.**
+- **Copy check.** The inputs (185 files, about 41 GB) match the LabServer63 listing in path and size. The protocol-listed hashes match (G2_r0, ports4, cf1, AR_5901/5902).
+- **Launch.** The wrapper started at 10:50 KST (detached Start-Process) with commit c96349a.
+- **Dev smoke** (local root `~/rest_rank75_dev`, 40-step fits, 0.5M photons on the dev slots, Stage 3 forced; no metric used). It completed every stage:
+  - tests 8/8 on torch 2.8 / RTX 5080;
+  - probe;
+  - fits;
+  - Stage 2: provenance reproduced the 63 archive within ≤ 2.3e-6 (AR_5901/5902, G0_r0, G2_r0). The gate said INSUFFICIENT FIT, as expected for 40 steps;
+  - generate and bundle;
+  - Stage 3: INCONCLUSIVE, because the subset leaves the primary groups unmeasured;
+  - analysis, cost and export.
+- **Observation from the dev path (descriptive analysis only).** The orientation analysis's bin-permutation check passes for only part of the source/operation pairs. The check compares sorted β rows with tolerance 1e-6. Pairs passing: 73/240 at the Stage 4 sources, 150/240 at the training sources. The per-pair differences are stored, and the cause will be examined in the final report.
+- **Evidence chain** (root `~/rest_rank75`):
+  - tests 8/8;
+  - probe at two lanes: 0.20 s/step, peak 4.3 GB reserved per run, extrapolated 1.1 h per fit;
+  - fits started at 11:07 KST.
