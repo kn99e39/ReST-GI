@@ -1,0 +1,117 @@
+{
+ "batch": "First-Interaction Anchored Spatial Transport Feasibility and Transfer",
+ "worklog": 76,
+ "branch": "Selective_Recompute (no new branch or worktree)",
+ "server": "LabServer63 (main; user 2026-11-06)",
+ "date": "2026-11-06",
+ "part_A_note": "Part A (Stage 0 contract + Stage 1 physical gate) is frozen and run before the Stage 2 candidate is designed; Part B (candidate, training, gates, confirmation) is appended and frozen before any candidate fitting or Stage 4 reference.",
+ "stage0": {
+  "medium": "p53_fixtures: sigma_t 1000 /m (mfp 1 mm), albedo (0.999, 0.99, 0.9), isotropic phase g = 0, index-matched boundary, 2.5 mm ports, 16 incoming / 64 outgoing equal-projected-solid-angle bins (concentric mapping), unit-flux cell sources (uniform on the port, cosine-weighted in the bin)",
+  "contract": "K(i,a->j,o) = B + K_scat; K_scat = (1 - beta(i,a)) E_{x ~ p1(.|i,a)} Q(x -> j,o); p1: entry point uniform on port i, direction cosine-weighted in bin a, chord t, first-collision probability c = 1 - exp(-sigma t), collision distance truncated exponential on [0,t) (so 1 - beta(i,a) = E[c] exactly, the zero-collision complement of the existing ballistic B); Q(x) = albedo [E1(x) + M(x)], E1 = isotropic emission at x escaping without further collision (exact, geometry-only), M = orders >= 2",
+  "independence": "Q depends on x and the current geometry only: the walk is Markov and the phase function is isotropic, so the post-collision direction is independent of the incident direction; holds for this medium only",
+  "non_generalising": [
+   "anisotropic phase (g != 0): Q depends on the incident direction at x",
+   "surface / BSDF scattering: the first interaction is on the boundary with a frame- and direction-dependent redirection",
+   "index-mismatched boundaries (Fresnel / internal reflection): exits are not unconditional",
+   "heterogeneous media: p1 is no longer a single exponential and Q is not translation-structured"
+  ],
+  "energy": "sum_{j,o} E1 <= 1, sum Q <= albedo, sum K_scat <= 1 - beta: passive for any learned M with sum_{j,o} M(x) <= 1 - sum E1(x)"
+ },
+ "stage1": {
+  "purpose": "verify the first-interaction decomposition against the established first-exit references (validation estimators only; never inference)",
+  "estimators": "phys76.decomposed (forced first collision, isotropic restart, exact next segment, then the UNCHANGED p53_tracer.walk); phys76.single_quadrature (expected-value E1 composition); forward negative control (restart along the incident direction)",
+  "references": "archived WL73 / WL71 first-exit bundles on LabServer63 (unchanged WL57 walker, independent seeds): K replicas of collided S and zero-collision B16",
+  "packets": [
+   {
+    "geometry": "rest",
+    "slot": 60,
+    "port": 995,
+    "context": "INT",
+    "bundle": "~/rest_src73/refs/bundles/rest_s60.pt"
+   },
+   {
+    "geometry": "rest",
+    "slot": 64,
+    "port": 3437,
+    "context": "TBE",
+    "bundle": "~/rest_src73/refs/bundles/rest_s64.pt"
+   },
+   {
+    "geometry": "rest",
+    "slot": 66,
+    "port": 3815,
+    "context": "TBC",
+    "bundle": "~/rest_src73/refs/bundles/rest_s66.pt"
+   },
+   {
+    "geometry": "rest",
+    "slot": 68,
+    "port": 362,
+    "context": "SM",
+    "bundle": "~/rest_src73/refs/bundles/rest_s68.pt"
+   },
+   {
+    "geometry": "rest",
+    "slot": 70,
+    "port": 519,
+    "context": "SR",
+    "bundle": "~/rest_src73/refs/bundles/rest_s70.pt"
+   },
+   {
+    "geometry": "rest",
+    "slot": 72,
+    "port": 3801,
+    "context": "SV",
+    "bundle": "~/rest_src73/refs/bundles/rest_s72.pt"
+   },
+   {
+    "geometry": "te0",
+    "slot": 80,
+    "port": 1743,
+    "context": "INT",
+    "bundle": "~/rest_src73/refs/bundles/te0_s80.pt"
+   },
+   {
+    "geometry": "pt0",
+    "slot": 50,
+    "port": 3439,
+    "context": "TBE",
+    "bundle": "~/rest_src73/refs/bundles/pt0_s50.pt"
+   },
+   {
+    "geometry": "pt0",
+    "slot": 0,
+    "port": 2085,
+    "context": "INT",
+    "bundle": "~/rest_repr68/inputs/fit/pt0_s0.pt"
+   }
+  ],
+  "bins": [
+   5,
+   0,
+   10,
+   15
+  ],
+  "photons": 32000000,
+  "control_bins": [
+   5
+  ],
+  "control_contexts": [
+   "INT",
+   "TBC"
+  ],
+  "seeds": "761000000 + g*1e6 + slot*1e4 + bin*100 + rep (g: rest 0, pt0 1, te0 2; rep 0 main, 1 control); single quadrature 762...",
+  "rules": {
+   "energy_z_max": 4.0,
+   "z2_lo": 0.5,
+   "z2_hi": 1.5,
+   "min_cells": 30,
+   "max_leaks": 320,
+   "text": "every packet: |energy z| <= 4 per channel and 0.5 <= coarse-cell mean z^2 <= 1.5 (over coarse cells whose expected event count N x mean >= 30, the mean taken from the INDEPENDENT estimator - the reference, or the quadrature for the single-scatter test - never from the tested estimator; at least 30 such cells) for decomposed total vs reference and for the single-scatter quadrature vs the MC single tally; first-collision probability E[c] vs 1 - beta from the reference B16 within |z| <= 4 (reference SE = max(replica SE, binomial sqrt(beta (1-beta) / (K x 32M)))); leaks + wrong-side <= 320 (1e-5 N), no truncation; the forward control must be REJECTED in every control packet (test power). Any failure: STOP and report.",
+   "min_hits": 30
+  },
+  "reference_photons": 32000000,
+  "pre_freeze_note": "local reduced-photon smoke (non-evidence, 200k photons) showed the coarse z^2 statistic inflated by 0-hit cells (self-comparison of two seeds of the same estimator gives z^2 1.0 / 0.95) and a 0 replica SE when no ballistic exit occurs; both fixed before freezing; selecting cells by the tested estimator's own hit counts inflated z^2 (~2) and was replaced by selection on the independent estimate; 2M-photon smoke after the fix: total vs reference z^2 0.92-1.15, single quadrature vs MC 0.58-1.52 (one 1.52 at ~10 expected events per cell), forward control rejected 4/4 (z^2 2,600-9,100); min expected events raised to 30 before freezing"
+ },
+ "amendments": []
+}
