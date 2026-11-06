@@ -1,0 +1,593 @@
+{
+  "ports": {
+    "0": {
+      "port": 387,
+      "spec": {
+        "slot": 0,
+        "context": "TBE",
+        "stratum": "near",
+        "subcell": "hi"
+      },
+      "face": 5,
+      "context": "TBE",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        -48.75,
+        28.75,
+        5.0
+      ],
+      "edge_mm": 1.25,
+      "d_to_S16R_actual_mm": 4.6771,
+      "d_to_S16R_images_mm": 2.5,
+      "d_to_previous_scored_mm": 4.6771
+    },
+    "1": {
+      "port": 553,
+      "spec": {
+        "slot": 1,
+        "context": "TBE",
+        "stratum": "near",
+        "subcell": "lo"
+      },
+      "face": 5,
+      "context": "TBE",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        -33.75,
+        -46.25,
+        5.0
+      ],
+      "edge_mm": 3.75,
+      "d_to_S16R_actual_mm": 4.6771,
+      "d_to_S16R_images_mm": 3.5355,
+      "d_to_previous_scored_mm": 4.6771
+    },
+    "2": {
+      "port": 236,
+      "spec": {
+        "slot": 2,
+        "context": "TBE",
+        "stratum": "far",
+        "subcell": "hi"
+      },
+      "face": 4,
+      "context": "TBE",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        -48.75,
+        -1.25,
+        -5.0
+      ],
+      "edge_mm": 1.25,
+      "d_to_S16R_actual_mm": 22.9129,
+      "d_to_S16R_images_mm": 20.0,
+      "d_to_previous_scored_mm": 2.5
+    },
+    "3": {
+      "port": 246,
+      "spec": {
+        "slot": 3,
+        "context": "TBE",
+        "stratum": "far",
+        "subcell": "lo"
+      },
+      "face": 5,
+      "context": "TBE",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        -46.25,
+        -3.75,
+        5.0
+      ],
+      "edge_mm": 3.75,
+      "d_to_S16R_actual_mm": 17.6777,
+      "d_to_S16R_images_mm": 17.6777,
+      "d_to_previous_scored_mm": 7.9057
+    },
+    "4": {
+      "port": 3811,
+      "spec": {
+        "slot": 4,
+        "context": "TBC",
+        "stratum": "near",
+        "subcell": "hi"
+      },
+      "face": 4,
+      "context": "TBC",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        48.75,
+        41.25,
+        -5.0
+      ],
+      "edge_mm": 1.25,
+      "d_to_S16R_actual_mm": 7.5,
+      "d_to_S16R_images_mm": 7.5,
+      "d_to_previous_scored_mm": 2.5
+    },
+    "5": {
+      "port": 3834,
+      "spec": {
+        "slot": 5,
+        "context": "TBC",
+        "stratum": "near",
+        "subcell": "lo"
+      },
+      "face": 5,
+      "context": "TBC",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        46.25,
+        46.25,
+        5.0
+      ],
+      "edge_mm": 3.75,
+      "d_to_S16R_actual_mm": 10.6066,
+      "d_to_S16R_images_mm": 3.5355,
+      "d_to_previous_scored_mm": 5.863
+    },
+    "6": {
+      "port": 39,
+      "spec": {
+        "slot": 6,
+        "context": "TBC",
+        "stratum": "far",
+        "subcell": "hi"
+      },
+      "face": 4,
+      "context": "TBC",
+      "subcell": "edge",
+      "rest_xyz_mm": [
+        -41.25,
+        -46.25,
+        -5.0
+      ],
+      "edge_mm": 3.75,
+      "d_to_S16R_actual_mm": 13.8067,
+      "d_to_S16R_images_mm": 7.9057,
+      "d_to_previous_scored_mm": 2.5
+    },
+    "7": {
+      "port": 58,
+      "spec": {
+        "slot": 7,
+        "context": "TBC",
+        "stratum": "far",
+        "subcell": "lo"
+      },
+      "face": 5,
+      "context": "TBC",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        -43.75,
+        -43.75,
+        5.0
+      ],
+      "edge_mm": 6.25,
+      "d_to_S16R_actual_mm": 14.0312,
+      "d_to_S16R_images_mm": 7.0711,
+      "d_to_previous_scored_mm": 7.0711
+    },
+    "8": {
+      "port": 3442,
+      "spec": {
+        "slot": 8,
+        "context": "SM",
+        "stratum": "near",
+        "subcell": "hi"
+      },
+      "face": 1,
+      "context": "SM",
+      "subcell": "edge",
+      "rest_xyz_mm": [
+        50.0,
+        -28.75,
+        1.25
+      ],
+      "edge_mm": 21.25,
+      "d_to_S16R_actual_mm": 4.6771,
+      "d_to_S16R_images_mm": 2.5,
+      "d_to_previous_scored_mm": 4.6771
+    },
+    "9": {
+      "port": 874,
+      "spec": {
+        "slot": 9,
+        "context": "SM",
+        "stratum": "near",
+        "subcell": "lo"
+      },
+      "face": 2,
+      "context": "SM",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        -23.75,
+        -50.0,
+        1.25
+      ],
+      "edge_mm": 26.25,
+      "d_to_S16R_actual_mm": 7.9057,
+      "d_to_S16R_images_mm": 7.5,
+      "d_to_previous_scored_mm": 3.5355
+    },
+    "10": {
+      "port": 167,
+      "spec": {
+        "slot": 10,
+        "context": "SM",
+        "stratum": "far",
+        "subcell": "hi"
+      },
+      "face": 0,
+      "context": "SM",
+      "subcell": "edge",
+      "rest_xyz_mm": [
+        -50.0,
+        -11.25,
+        -1.25
+      ],
+      "edge_mm": 38.75,
+      "d_to_S16R_actual_mm": 22.7074,
+      "d_to_S16R_images_mm": 20.0,
+      "d_to_previous_scored_mm": 4.6771
+    },
+    "11": {
+      "port": 1573,
+      "spec": {
+        "slot": 11,
+        "context": "SM",
+        "stratum": "far",
+        "subcell": "lo"
+      },
+      "face": 2,
+      "context": "SM",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        -6.25,
+        -50.0,
+        -1.25
+      ],
+      "edge_mm": 43.75,
+      "d_to_S16R_actual_mm": 25.4951,
+      "d_to_S16R_images_mm": 21.5783,
+      "d_to_previous_scored_mm": 2.5
+    },
+    "12": {
+      "port": 3395,
+      "spec": {
+        "slot": 12,
+        "context": "SR",
+        "stratum": "near",
+        "subcell": "hi"
+      },
+      "face": 1,
+      "context": "SR",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        50.0,
+        -38.75,
+        3.75
+      ],
+      "edge_mm": 11.25,
+      "d_to_S16R_actual_mm": 7.7055,
+      "d_to_S16R_images_mm": 7.5,
+      "d_to_previous_scored_mm": 3.0619
+    },
+    "13": {
+      "port": 401,
+      "spec": {
+        "slot": 13,
+        "context": "SR",
+        "stratum": "near",
+        "subcell": "lo"
+      },
+      "face": 0,
+      "context": "SR",
+      "subcell": "edge",
+      "rest_xyz_mm": [
+        -50.0,
+        33.75,
+        -3.75
+      ],
+      "edge_mm": 16.25,
+      "d_to_S16R_actual_mm": 5.5902,
+      "d_to_S16R_images_mm": 2.5,
+      "d_to_previous_scored_mm": 5.5902
+    },
+    "14": {
+      "port": 1875,
+      "spec": {
+        "slot": 14,
+        "context": "SR",
+        "stratum": "far",
+        "subcell": "hi"
+      },
+      "face": 3,
+      "context": "SR",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        -1.25,
+        50.0,
+        -3.75
+      ],
+      "edge_mm": 48.75,
+      "d_to_S16R_actual_mm": 21.2867,
+      "d_to_S16R_images_mm": 21.2867,
+      "d_to_previous_scored_mm": 7.9057
+    },
+    "15": {
+      "port": 305,
+      "spec": {
+        "slot": 15,
+        "context": "SR",
+        "stratum": "far",
+        "subcell": "lo"
+      },
+      "face": 0,
+      "context": "SR",
+      "subcell": "edge",
+      "rest_xyz_mm": [
+        -50.0,
+        13.75,
+        -3.75
+      ],
+      "edge_mm": 36.25,
+      "d_to_S16R_actual_mm": 18.2003,
+      "d_to_S16R_images_mm": 17.5,
+      "d_to_previous_scored_mm": 12.5
+    },
+    "16": {
+      "port": 463,
+      "spec": {
+        "slot": 16,
+        "context": "SV",
+        "stratum": "near",
+        "subcell": "hi"
+      },
+      "face": 0,
+      "context": "SV",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        -50.0,
+        48.75,
+        3.75
+      ],
+      "edge_mm": 1.25,
+      "d_to_S16R_actual_mm": 17.6777,
+      "d_to_S16R_images_mm": 1.7678,
+      "d_to_previous_scored_mm": 7.5
+    },
+    "17": {
+      "port": 3354,
+      "spec": {
+        "slot": 17,
+        "context": "SV",
+        "stratum": "near",
+        "subcell": "lo"
+      },
+      "face": 2,
+      "context": "SV",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        46.25,
+        -50.0,
+        1.25
+      ],
+      "edge_mm": 3.75,
+      "d_to_S16R_actual_mm": 19.2841,
+      "d_to_S16R_images_mm": 4.6771,
+      "d_to_previous_scored_mm": 14.4698
+    },
+    "18": {
+      "port": null,
+      "spec": {
+        "slot": 18,
+        "context": "SV",
+        "stratum": "far",
+        "subcell": "hi"
+      }
+    },
+    "19": {
+      "port": null,
+      "spec": {
+        "slot": 19,
+        "context": "SV",
+        "stratum": "far",
+        "subcell": "lo"
+      }
+    },
+    "20": {
+      "port": 655,
+      "spec": {
+        "slot": 20,
+        "context": "INT",
+        "stratum": "near",
+        "subcell": "hi"
+      },
+      "face": 5,
+      "context": "INT",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        -31.25,
+        -11.25,
+        5.0
+      ],
+      "edge_mm": 18.75,
+      "d_to_S16R_actual_mm": 5.5902,
+      "d_to_S16R_images_mm": 3.5355,
+      "d_to_previous_scored_mm": 2.5
+    },
+    "21": {
+      "port": 2150,
+      "spec": {
+        "slot": 21,
+        "context": "INT",
+        "stratum": "near",
+        "subcell": "lo"
+      },
+      "face": 5,
+      "context": "INT",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        3.75,
+        16.25,
+        5.0
+      ],
+      "edge_mm": 33.75,
+      "d_to_S16R_actual_mm": 5.0,
+      "d_to_S16R_images_mm": 2.5,
+      "d_to_previous_scored_mm": 5.0
+    },
+    "22": {
+      "port": 607,
+      "spec": {
+        "slot": 22,
+        "context": "INT",
+        "stratum": "far",
+        "subcell": "hi"
+      },
+      "face": 4,
+      "context": "INT",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        -31.25,
+        -21.25,
+        -5.0
+      ],
+      "edge_mm": 18.75,
+      "d_to_S16R_actual_mm": 18.2003,
+      "d_to_S16R_images_mm": 7.9057,
+      "d_to_previous_scored_mm": 3.5355
+    },
+    "23": {
+      "port": 565,
+      "spec": {
+        "slot": 23,
+        "context": "INT",
+        "stratum": "far",
+        "subcell": "lo"
+      },
+      "face": 4,
+      "context": "INT",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        -36.25,
+        -36.25,
+        -5.0
+      ],
+      "edge_mm": 13.75,
+      "d_to_S16R_actual_mm": 17.0477,
+      "d_to_S16R_images_mm": 10.6066,
+      "d_to_previous_scored_mm": 5.5902
+    },
+    "24": {
+      "port": 2437,
+      "spec": {
+        "slot": 24,
+        "face": 5,
+        "offset_mm": [
+          0,
+          0
+        ],
+        "z_mm": 5.0
+      },
+      "face": 5,
+      "context": "INT",
+      "subcell": "center",
+      "rest_xyz_mm": [
+        13.75,
+        -6.25,
+        5.0
+      ],
+      "edge_mm": 36.25,
+      "d_to_S16R_actual_mm": 2.5,
+      "d_to_S16R_images_mm": 2.5,
+      "d_to_previous_scored_mm": 2.5
+    },
+    "25": {
+      "port": 2067,
+      "spec": {
+        "slot": 25,
+        "face": 4,
+        "offset_mm": [
+          0,
+          0
+        ],
+        "z_mm": -5.0
+      },
+      "face": 4,
+      "context": "INT",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        8.75,
+        -8.75,
+        -5.0
+      ],
+      "edge_mm": 41.25,
+      "d_to_S16R_actual_mm": 5.5902,
+      "d_to_S16R_images_mm": 2.5,
+      "d_to_previous_scored_mm": 3.5355
+    },
+    "26": {
+      "port": 2444,
+      "spec": {
+        "slot": 26,
+        "face": 5,
+        "offset_mm": [
+          7.5,
+          0
+        ],
+        "z_mm": 5.0
+      },
+      "face": 5,
+      "context": "INT",
+      "subcell": "corner",
+      "rest_xyz_mm": [
+        18.75,
+        -8.75,
+        5.0
+      ],
+      "edge_mm": 31.25,
+      "d_to_S16R_actual_mm": 3.5355,
+      "d_to_S16R_images_mm": 2.5,
+      "d_to_previous_scored_mm": 3.5355
+    },
+    "27": {
+      "port": 2388,
+      "spec": {
+        "slot": 27,
+        "face": 4,
+        "offset_mm": [
+          -7.5,
+          0
+        ],
+        "z_mm": -5.0
+      },
+      "face": 4,
+      "context": "INT",
+      "subcell": "edge",
+      "rest_xyz_mm": [
+        11.25,
+        -16.25,
+        -5.0
+      ],
+      "edge_mm": 33.75,
+      "d_to_S16R_actual_mm": 10.3078,
+      "d_to_S16R_images_mm": 2.5,
+      "d_to_previous_scored_mm": 2.5
+    }
+  },
+  "pose": {
+    "selected": "te1",
+    "scores": {
+      "te1": 3.1068,
+      "te3": 0.0,
+      "va0": 3.1068,
+      "va1": 0.0,
+      "cf0": 2.4392
+    }
+  },
+  "geometry_sha256": "a2fbcc06ad88376eaa03caf67c26bfd970806a7c1618602080367fb6a4d40c91",
+  "excluded_previous": 81,
+  "information_used": "geometry only"
+}

@@ -162,3 +162,177 @@ The local tests now pass 7/7.
 **2026-11-07, dev smoke complete and evidence start.**
 - **Dev smoke.** After amendments 2-5 and an export path fix (dev only: the export read the dev root's missing Stage 1 record), the dev smoke ran every stage on LabServer63: tests 7/7, probe, 30-step fits, Stage 3, 640 dev packets, Stage 4 (INCONCLUSIVE on the dev subset, as expected), export. No metric was used.
 - **Evidence chain.** Started at 17:40 UTC, code commit at HEAD on the server (`code_commit.txt`): Stage 4 population frozen, tests 7/7, two-lane probe 0.99 s/step and 4.75 GB reserved per run (fits about 5.5 h). The two fits started at 17:43 UTC.
+
+**2026-11-07, evidence chain complete.**
+- Fits: 2 × 20,000 steps on two lanes, 19,834 s each, both converged by the WL68 rule. J went 0.993 → 0.670 / 0.659.
+- Stage 3 took 1,936 s and gave **INSUFFICIENT FIT**. By protocol, no Stage 4 reference was generated.
+- Export completed. The OOM watchdog was never triggered during the evidence chain.
+
+## Final report (2026-11-07)
+
+**Protocol.** `fia76_v1` Part A (680d4df) and Part B (edc7ab4), plus five amendments:
+- **Amendment 1** is post hoc and was a user decision.
+- **Amendment 5** was made before any evidence, but only after a dev cost measurement had been seen.
+- **Amendments 2–4** are pre-evidence execution fixes. Each was found by the dev smoke.
+
+**Server code commit:** 7c6950d.
+
+**What did not happen:**
+- No candidate evidence was rerun, reselected or tuned.
+- No checkpoint was selected.
+- No loss or schedule change was made after evidence.
+
+**Values** below are worst-channel jackknife upper 95 % bounds of pooled errors (eval68 estimators) unless stated otherwise.
+
+### Implementation Fact
+
+**First-interaction factorization** (Stage 0, isotropic homogeneous medium):
+
+K_scat(i,a→j,o) = (1 − β(i,a)) · E_{x∼p1}[Q(x→j,o)],  with  Q = albedo · (E1 + M)
+
+- p1 is the first-collision distribution.
+- E1 is the exact single-scatter escape.
+- Q is source-independent. This follows from the Markov property of the walk and the isotropic phase function (g = 0).
+- The factorization does **not** carry over to anisotropic phase functions, surface/BSDF scattering, Fresnel boundaries or heterogeneous media.
+
+**Candidate FIA** (`fia76.py`):
+
+K_scat = albedo · SS + albedo² · Σ_k W(i,a→k) · R_θ(k→j,o)
+
+- **SS** is the exact single-scatter quadrature.
+- **W** is the second-collision mass on anchors placed at 4 depths below every port.
+- **SS and W** are fixed-seed geometry-only quadratures with q = 1024. They are rescaled per cell to 1 − β_B, so they are deployable in the same way as B.
+- **R_θ** is the learned, source-independent response of an isotropic emitter at the anchor. It has:
+  - escape mass and tail share;
+  - a local softmax over the 512-nearest-distance neighbourhood plus a coarse tail, each with an analytic falloff prior;
+  - **3 ring lobes**, i.e. azimuthally uniform outgoing distributions.
+- **Features** are invariant under the slab symmetries, so the model is equivariant by construction.
+- **Size:** 42,565 parameters (AR 157,024; A75 276,880).
+- **Physics:** passive, positive, linear, with rebuild identity within 2e-7 relative, on rest and pt0.
+
+### Measurement
+
+**Stage 1 (physical gate; 36 packets, 32M photons each).**
+- Decomposition vs the archived first-exit references: 36/36 pass (coarse z² 0.90–1.13, relative L1 ≤ 0.23 %).
+- First-collision probability: 36/36 pass.
+- Forward negative control: rejected 4/4.
+- Single-scatter quadrature vs MC: 35/36 pass. The failure is rest SR s70 bin 0 at z² 1.70.
+- **Verdict by the frozen rule: FAIL.** Amendment 1 (post hoc, user decision) replaced the failed check with a fresh-seed re-test, which gave 0.94 / 1.11 / 0.76.
+
+**Stage 3 (S16-R held-out replicas 4–7).** Pairs are written as two seeds.
+
+| Group / metric | AR (rank 8) | A75 (rank 16) | FIA F76_7601 / 7602 | G0 oracle | G2 oracle |
+|---|---|---|---|---|---|
+| TRAIN_NEW_rest con_coarse | 0.270 | 0.131 | 0.688 / 0.687 | 0.270 | 0.129 |
+| TRAIN_NEW_rest abs_coarse | 0.110 | 0.083 | 0.142 / 0.140 | 0.111 | 0.084 |
+| TRAIN_NEW_rest abs_native | 0.132 | 0.117 | 0.332 / 0.333 | 0.130 | 0.115 |
+| TRAIN_KEEP_rest con_coarse | 0.19 | 0.093 | 0.745 / 0.746 | 0.188 | 0.088 |
+| TRAIN_KEEP_rest abs_coarse | 0.061 | 0.044 | 0.131 / 0.128 | 0.064 | 0.044 |
+| TRAIN_KEEP_rest abs_native | 0.095 | 0.087 | 0.325 / 0.324 | 0.093 | 0.084 |
+
+**WL73 development groups** (FIA vs the AR / A75 range):
+
+| Group | FIA con_coarse | FIA abs_coarse | Baseline con_coarse (AR / A75) |
+|---|---|---|---|
+| BND_FAR | 0.96–0.99 | 0.39–0.42 | 0.87–0.95 |
+| BND_NEAR | 1.00–1.06 | — | 0.40–0.43 |
+| INT_ALL | 0.68 | — | 0.15–0.37 |
+
+DEF71 and DEF73 fail (abs_coarse ≥ 1.3).
+
+**Gate classification: INSUFFICIENT FIT.**
+- Every listed group, metric and seed exceeds 1.25 × AR.
+- Validity passes.
+- The computational sub-gate passes: state 1.47 GB, apply at 4.0 × A75.
+
+**Cost** (LabServer63 RTX 3080 Ti, same process):
+
+| Quantity | AR | A75 | FIA |
+|---|---|---|---|
+| Full geometry rebuild | 0.014 s | 0.015 s | 75.0 s (quadrature 74.3 s, response and assembly 0.7 s) |
+| State | — | 29.5 M floats | 1.47 GB (W 37 MB, SS 448 MB, local R 855 MB, tail 133 MB) |
+| 64-light apply | 0.054 s | 0.086 s | 0.349 s |
+| 1-light apply | — | — | 0.0039 s |
+| Training | 4,156 s / run | — | 19,834 s / run (both two lanes) |
+
+Stage 1 references cost 1,153 s in total. No Stage 4 references were generated.
+
+### Observation
+
+- **Plateau.** Training J plateaued by step 2,000. The 2k / 6k / 10k / final checkpoints give TRAIN_NEW contrast 0.691 / 0.690 / 0.689 / 0.688.
+- **Development drift.** BND_FAR contrast still drifts up during training, 0.76 → 0.96, as in WL71A / WL75.
+- **Uniform error.** Errors are nearly uniform across every training, development, interior and boundary source: contrast 0.69–0.75, native about 0.32. This is not the source-position-dependent failure of W+UV / RSK.
+- **Post hoc diagnostic** (labelled, non-verdict; `diag/posthoc76.py` on F76_7601, 16 S16-R rest sources, archived replica means):
+  - The total collided energy is right: ratio 1.002.
+  - The per-incoming-bin energy profile is right (relative L2 0.023), so the geometric first-collision budget works.
+  - The exact single scatter carries 25–36 % of the reference collided energy.
+  - The error of the learned multiple-scatter part is native 0.47, fine16 0.31, coarse 0.19.
+  - Projecting the reference multiple-scatter part onto ring-uniform outgoing distributions per receiver leaves a residual of **0.45** of its native norm. The replica-noise floor of the same statistic is 0.002.
+  - So **almost all of the native error (0.47) is the ring-lobe restriction**: multiply scattered light leaves each receiver with strong azimuthal structure, and the predeclared ring lobes, chosen for exact equivariance, cannot represent it.
+- **Contrast attribution not isolated.** The contrast error (coarse incoming-angle dependence, 0.7) was not separated by this diagnostic. Candidate contributors:
+  - lateral snapping of the second collision to port-column anchors (2.5 mm), which drops the incidence-azimuth shift;
+  - the same angular restriction.
+
+### Interpretation
+
+1. **Is first-interaction factorization physically and numerically valid?**
+   - The decomposition reproduces the established first-exit references in all 36 packets, over interior, edge, corner, side, vertical-edge, rest, pt0 and te0 sources, and the forward control shows the test has power.
+   - The single frozen-rule failure was a single-scatter self-consistency statistic. Fresh seeds put it inside the band, but proceeding past it was a post hoc decision.
+   - Numerically, the deployable SS / W quadratures conserve the β budget exactly and are equivariant up to quadrature noise.
+2. **Can the source-independent response fit the training data?** No. With 42.6k parameters, ring lobes and port-column anchors it does not even reach the rank-8 learned baseline on supervised sources. Training contrast is about 2.5–4 × AR; native error is about 3.5 × AR.
+3. **Does it generalize to independent boundary sources?** Not measured. The fit gate stopped the batch before Stage 4. Development groups are worse than both baselines.
+4. **Does it outperform the preserved rank-8 / rank-16 learned K?** No, on every training and development group measured.
+5. **Are there improvements in native / fine16 space?** No improvement in any space. Native is the worst (about 0.32), which matches the ring-lobe floor.
+6. **What are the actual compute and supervision costs?**
+   - No privileged labels were used.
+   - The cost is dominated by the geometry rebuild: 75 s against 0.015 s for W+UV, because every geometry change needs a full SS / W quadrature.
+   - Apply is 4 × A75 and state is about 1.5 GB. Training is 4.8 × slower.
+   - Stage 1 validation references cost 19 min.
+8. **What remains unresolved?**
+   - Whether a first-interaction factorization with an azimuth-resolving outgoing model and sub-port anchors would fit and transfer. That would be a different representation, not tested here.
+   - Whether the exact-incidence mechanism (correct here: incident profile error 0.023) helps transfer once the post-collision response is expressive enough.
+   - The cost of the per-geometry quadrature.
+
+Question 7 is answered separately because it is the mechanism question.
+
+7. **Is the failure mechanism fundamentally changed compared with W+UV and RSK?** Yes.
+   - **W+UV / RSK** fit supervised sources well but fail to transfer. Their error depends on source context.
+   - **FIA** gets incidence-dependent energy right everywhere, but its learned post-collision response is too restricted in outgoing angle. Its error is uniform and representational, and its native error is set by the ring-lobe floor.
+   - **Where the bottleneck sits.** The factorization moves the bottleneck from source transfer to post-collision angular expressivity. That expressivity was limited by my design choice (ring lobes for exact equivariance), not by the physics.
+
+### Unresolved Question
+
+- **Design confound.** The candidate bundled several choices into one predeclared design: ring lobes, 4-depth port-column anchors, q = 1024, and 42.6k parameters. The batch cannot say which besides the ring-lobe floor limits the fit, and contrast was not attributed. Per the brief, no second representation or repair was attempted.
+- **Stage 1 rests on a post hoc decision.** The physical-gate pass depends on amendment 1, which was decided after seeing Stage 1.
+
+### Architecture Verdict
+
+**INSUFFICIENT FIT** at the predeclared Stage 3 gate.
+- **What holds.** The first-interaction factorization is physically valid for this isotropic homogeneous medium (Stage 1, with the post hoc amendment noted). The deployable geometric first-collision terms conserve the incident budget exactly.
+- **What fails.** The tested learned source-independent emitter response cannot fit the supervised physical responses. Its dominant native limit is the azimuthally uniform outgoing representation (residual floor 0.45 vs noise 0.002).
+- **What remains unmeasured.** Independent boundary transfer, by protocol.
+- **Status.** Not adopted, and no successor started. The preserved WL73 / WL75 baselines and all earlier evidence are unchanged. The living documents are not changed because there is no architecture or contract decision.
+
+### Reproducibility
+
+- **Code:** `experiments/fnto_fia76/`.
+  - Part A at 680d4df; Part B at edc7ab4.
+  - Amendments 2–5: 812a9b5, 67c8d21, dffe449, 74805d8.
+  - Server code 7c6950d.
+- **Protocol:** `protocol/fia76_v1.json` (Parts A and B, amendments 1–5).
+- **Evidence root:** `LabServer63:~/rest_fia76`.
+  - Stage 1: `stage1/physics.json` (sha256 e74fc360…).
+  - Diagnostics: `diag_s70_nonevidence.json` (5e11ab0f…) and `diag_posthoc76.json`.
+  - Also: `ports76.json`, `runs/`, `stage3/`, `probe/`, `logs/` (including the GPU sampler and `watchdog76.log`).
+- **Dev root:** `~/rest_fia76_dev` (no metric used).
+- **Repository copies:** `results/fnto_fia76/` (final/, Stage 1 / Stage 3 analyses, diagnostics, ports) and `results/evaluation/76/` (figure + manifest).
+- **Baselines:**
+  - AR_5901 / 5902 in `~/rest_src73/runs` (sha256 aefabe33… / a5dee943…).
+  - A75_5901 / 5902 copied to `~/rest_rank75/runs` (c0022742… / 358c3881…).
+  - G0_r0 / G2_r0 in `~/rest_ato74/bases`.
+- **Environment:** LabServer63, RTX 3080 Ti 12 GB, torch 2.3.1, float32 with TF32 off; oracle FISTA in float64.
+- **Seeds:**
+  - Fits: 7601 / 7602.
+  - Stage 1: 761 / 762xxxxxx.
+  - Quadrature: 762000000 + 1e7 × geometry index + 16 × port.
+  - Stage 4 (unused): 766 / 767xxxxxx.
