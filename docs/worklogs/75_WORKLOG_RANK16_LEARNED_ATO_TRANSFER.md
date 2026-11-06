@@ -117,3 +117,34 @@ A dev-smoke chain was then started on the working tree, before the freeze, to ex
   - tests 8/8;
   - probe at two lanes: 0.20 s/step, peak 4.3 GB reserved per run, extrapolated 1.1 h per fit;
   - fits started at 11:07 KST.
+
+**2026-11-06, fits and Stage 2 (evidence, local RTX 5080).**
+
+**Fits.** Both fits converged by the WL68 rule. Each took 4,084 s on two lanes; at step 12,000 the training objective J was about 0.0158.
+
+**Provenance.** The local re-evaluation reproduces the LabServer63 archive within ≤ 3.0e-6 (AR_5901/5902, G0_r0, G2_r0; tolerance 1e-3).
+
+**Stage 2 gate: FIT GATE PASSED for both seeds.**
+- **Capacity.** TRAIN_NEW con_coarse fell from 0.270 (AR, equal to the G0 oracle floor 0.2696) to 0.131 for both seeds and both geometries. That is about 99 % of the AR → G2-oracle gap (G2 0.129).
+- **No regression.** The worst candidate/control ratio over the regression list is 0.92 (TRAIN_KEEP_pt0 abs_native), so every regression bound improves rather than worsens.
+- **Validity.** Passivity holds on rest/pt0/cf3/cf2/te2/te0, and A/O are identical to G2.
+
+**Gap closed on the other training groups (descriptive).**
+- TRAIN_KEEP con_coarse moved from 0.19 to 0.093 (G2 0.088). abs_coarse reached the G2 oracle level. abs_fine16 closed about 0.8–0.9 of its gap and abs_native about 0.7.
+
+**WL73 development groups (descriptive; these sources were already used in WL73/74 and are not independent).** Values are worst-channel hi for AR_5901 / AR_5902 → A75_5901 / A75_5902.
+
+| Group | Metric | AR_5901 / AR_5902 | A75_5901 / A75_5902 |
+|---|---|---|---|
+| BND_FAR | con_coarse | 0.873 / 0.936 | 0.939 / 0.947 |
+| BND_FAR | abs_coarse | 0.166 / 0.211 | 0.172 / 0.171 |
+| BND_NEAR | con_coarse | 0.415 / 0.431 | 0.396 / 0.396 |
+| BND_NEAR | abs_coarse | 0.109 / 0.111 | 0.086 / 0.082 |
+| UNS | con_coarse | 1.05 / 1.02 | 1.01 / 1.17 |
+| INT_ALL | con_coarse | 0.268 / 0.373 | 0.151 / 0.170 |
+| FP_rest | con_coarse | 0.239 / 0.238 | 0.135 / 0.135 |
+| REM_NEAR | con_coarse | 0.491 / 0.546 | 0.316 / 0.500 |
+
+DEF71 and DEF73 fail for both ranks.
+
+**Next.** The chain continued to the Stage 3 references (1,408 packets) as the protocol requires. The Stage 3 decision is unaffected by the development values above.
