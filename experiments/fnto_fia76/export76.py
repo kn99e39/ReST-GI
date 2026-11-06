@@ -3,7 +3,7 @@ import sys,os,json,csv,shutil,hashlib
 from common76 import CFG,ROOT,write_new
 
 def main():
-    F=ROOT/'final';F.mkdir(exist_ok=True);s1=json.loads(__import__('pathlib').Path(os.environ.get('R76_STAGE1',str(ROOT/'stage1/physics.json'))).read_text())   # dev smoke reads the evidence Stage 1 record;s3=json.loads((ROOT/'stage3/analysis.json').read_text())
+    F=ROOT/'final';F.mkdir(exist_ok=True);s1=json.loads(__import__('pathlib').Path(os.environ.get('R76_STAGE1',str(ROOT/'stage1/physics.json'))).read_text());s3=json.loads((ROOT/'stage3/analysis.json').read_text())   # s1: the dev smoke reads the evidence Stage 1 record (R76_STAGE1)
     p4=ROOT/'stage4/analysis.json';s4=json.loads(p4.read_text()) if p4.exists() else None;rows=[];pm=[]
     for st,data in (('stage3',s3),('stage4',s4)):
         if not data:continue
