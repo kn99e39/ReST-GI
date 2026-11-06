@@ -141,3 +141,5 @@ K_scat = albedo · SS + albedo² · Σ_k W(i,a→k) · R_θ(k→j,o)
 The local tests now pass 7/7.
 
 **Baselines.** A75_5901/5902 and their checkpoints were copied to `LabServer63:~/rest_rank75/runs` with matching sha256.
+
+**2026-11-07, amendment 2 (before any candidate evidence; execution only).** The dev smoke on LabServer63 ran out of memory in Stage 3 while building the full-geometry FIA runtime at q = 1024, because the per-port quadrature rows were kept uncoalesced. The fix coalesces each quadrature immediately; the operator is identical. A local full rest build now peaks at 3.36 GB with a 1.3 GB state and takes 49 s, and the tests pass 7/7. The dev probe on 63 measured about 1.0 s per step on two lanes, which puts the 20k-step fits at roughly 5.7 h.

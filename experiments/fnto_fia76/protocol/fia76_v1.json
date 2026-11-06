@@ -130,6 +130,14 @@
    ],
    "diagnostic_sha256": "5e11ab0fec4856523c98c5b8580de8a3b34135c72a27ac85cbd7aa6e6aaf3325",
    "stage1_sha256": "e74fc360111ccbd9901053b984322572079a0bfc6d3dd7858482c4996cfd67df"
+  },
+  {
+   "id": 2,
+   "date": "2026-11-07",
+   "post_hoc": false,
+   "before_any_candidate_evidence": true,
+   "reason": "dev smoke (non-evidence) Stage 3 ran out of GPU memory (12 GB) while building the full-geometry FIA runtime at q = 1024: every per-port quadrature row was kept uncoalesced and concatenated",
+   "change": "fia76.quadrature sums duplicate (cell, anchor) and (cell, exit port/bin) entries immediately (float64 sums); the operator is identical. Local check: full rest build peak 3.36 GB, state 1.3 GB (W 59 MB, SS 710 MB, local R 413 MB, tail 127 MB), 49 s; physics passed; tests 7/7"
   }
  ],
  "part_B": "frozen after Stage 1 completed and amendment 1, before any candidate fit, Stage 3 evaluation or Stage 4 reference. Pre-freeze (non-evidence, local) code fixes found by test76: per-cell rescaling of W + SS to 1 - beta_B (budget consistency with the ballistic B), neighbour ties included in N(k), receiver face id replaced by |n_z| (symmetry invariance)",

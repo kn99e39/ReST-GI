@@ -82,7 +82,11 @@ def quadrature(G,cells,q,sd,chunk=2_000_000):
         ex=f.clone();ex[f]=(w1[f]*dom.n[tri[f]]).sum(1)>0;j=ex.nonzero().squeeze(1);tj=tri[j]
         ob=GG.local_to_bin(GG.to_local(w1[j],dom.n[tj],dom.t[tj],dom.b[tj]),8);Sr.append(cl[j]);Sc.append(dom.tri_port[tj]*64+ob);Sv.append(ws[j].double())
     cat=lambda L:torch.cat(L) if L else torch.empty(0,device='cuda')
-    return dict(W=(cat(Wr),cat(Wc),cat(Wv)),SS=(cat(Sr),cat(Sc),cat(Sv)),q=q,seed=sd)
+    def coalesce(r,c,v,ncol):   # amendment 2: sum duplicate (cell, column) entries immediately (same operator, float64 sums; bounds memory)
+        if not len(r):return r,c,v
+        key=r.long()*ncol+c.long();u,inv=torch.unique(key,return_inverse=True)
+        return u//ncol,u%ncol,torch.zeros(len(u),device=v.device,dtype=torch.float64).index_add_(0,inv,v)
+    return dict(W=coalesce(cat(Wr),cat(Wc),cat(Wv),4*G.P),SS=coalesce(cat(Sr),cat(Sc),cat(Sv),G.P*64),q=q,seed=sd)
 
 # ------------------------------------------------------------------ learned response R_theta
 def mlp(i,h,o):
