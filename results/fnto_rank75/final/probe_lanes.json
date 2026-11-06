@@ -1,0 +1,38 @@
+{
+ "lanes": 2,
+ "two_lane": {
+  "A75_5901": {
+   "run": "A75_5901",
+   "steps": 60,
+   "seconds_per_step_median": 0.1989661999978125,
+   "extrapolated_20k_hours": 1.105367777765625,
+   "peak_GPU_allocated": 4503675392,
+   "peak_GPU_reserved": 4592762880,
+   "J_initial": 2.4460902214050293,
+   "L_sym_initial": 0.014533535577356815,
+   "loss_initial": 2.4606237411499023,
+   "concurrent": "2 lanes",
+   "note": "non-evidence full-scale probe"
+  },
+  "A75_5902": {
+   "run": "A75_5902",
+   "steps": 60,
+   "seconds_per_step_median": 0.2005762999979197,
+   "extrapolated_20k_hours": 1.1143127777662205,
+   "peak_GPU_allocated": 4503675392,
+   "peak_GPU_reserved": 4592762880,
+   "J_initial": 1.5468178987503052,
+   "L_sym_initial": 0.021348504349589348,
+   "loss_initial": 1.5681663751602173,
+   "concurrent": "2 lanes",
+   "note": "non-evidence full-scale probe"
+  }
+ },
+ "return_codes": {
+  "A75_5901": 0,
+  "A75_5902": 0
+ },
+ "single_lane": null,
+ "gpu_memory_total": 17094934528,
+ "rule": "probe both runs concurrently with the real configuration; two lanes iff both complete and the sum of peak reserved memory <= 0.85 x GPU memory, else one lane (re-probed alone); a failed single-lane probe stops"
+}

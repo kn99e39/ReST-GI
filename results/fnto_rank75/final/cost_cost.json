@@ -1,0 +1,170 @@
+{
+  "models": {
+    "rank8_AR_5901_historical": {
+      "parameters": {
+        "learned_parameters_excl_fixed_AO": 155104,
+        "fixed_AO_logits": 1920,
+        "total": 157024
+      },
+      "state_floats": {
+        "W": 11796480,
+        "U": 1474560,
+        "V": 1474560,
+        "A": 384,
+        "O": 1536
+      },
+      "state_floats_WUV": 14745600,
+      "state_bytes_WUV": 58982400,
+      "rebuild_seconds": {
+        "median": 0.006993200004217215,
+        "min": 0.006944600005226675,
+        "max": 0.007129899997380562,
+        "n": 10
+      },
+      "apply64_seconds": {
+        "median": 0.03398569999990286,
+        "min": 0.033970100004808046,
+        "max": 0.03406099999847356,
+        "n": 5
+      },
+      "apply1_seconds": {
+        "median": 0.0010852999985218048,
+        "min": 0.0010660000043571927,
+        "max": 0.0011869999943883158,
+        "n": 10
+      },
+      "peak_GPU_above_geometry": 290463232
+    },
+    "rank8_AR_5901_generic": {
+      "parameters": {
+        "learned_parameters_excl_fixed_AO": 155104,
+        "fixed_AO_logits": 1920,
+        "rank_dependent_final_layers": 117936,
+        "total": 157024
+      },
+      "state_floats": {
+        "W": 11796480,
+        "U": 1474560,
+        "V": 1474560,
+        "A": 384,
+        "O": 1536
+      },
+      "state_floats_WUV": 14745600,
+      "state_bytes_WUV": 58982400,
+      "rebuild_seconds": {
+        "median": 0.007015400005911943,
+        "min": 0.006953199997951742,
+        "max": 0.007058099996356759,
+        "n": 10
+      },
+      "apply64_seconds": {
+        "median": 0.033987400005571544,
+        "min": 0.03388969999650726,
+        "max": 0.034156699999584816,
+        "n": 5
+      },
+      "apply1_seconds": {
+        "median": 0.0010729999994509853,
+        "min": 0.0010579000008874573,
+        "max": 0.0011368999985279515,
+        "n": 10
+      },
+      "peak_GPU_above_geometry": 290463232
+    },
+    "rank16_A75_5901": {
+      "parameters": {
+        "learned_parameters_excl_fixed_AO": 273040,
+        "fixed_AO_logits": 3840,
+        "rank_dependent_final_layers": 235872,
+        "total": 276880
+      },
+      "state_floats": {
+        "W": 23592960,
+        "U": 2949120,
+        "V": 2949120,
+        "A": 768,
+        "O": 3072
+      },
+      "state_floats_WUV": 29491200,
+      "state_bytes_WUV": 117964800,
+      "rebuild_seconds": {
+        "median": 0.008156700001563877,
+        "min": 0.008092100004432723,
+        "max": 0.008217200003855396,
+        "n": 10
+      },
+      "apply64_seconds": {
+        "median": 0.06301619999430841,
+        "min": 0.062914299996919,
+        "max": 0.06373850000090897,
+        "n": 5
+      },
+      "apply1_seconds": {
+        "median": 0.0013748999990639277,
+        "min": 0.0013612999973702244,
+        "max": 0.0014490000030491501,
+        "n": 10
+      },
+      "peak_GPU_above_geometry": 449478656
+    }
+  },
+  "ratio_rank16_over_rank8": {
+    "rebuild_seconds": 1.1626849494954172,
+    "apply64_seconds": 1.854104755997169,
+    "apply1_seconds": 1.2813606707990806,
+    "state_floats": 2.0,
+    "learned_parameters": 1.760367237466474,
+    "angular_parameters": 2.0,
+    "peak_GPU": 1.54745457077335
+  },
+  "cost_dominates_rule": {
+    "measured": "parameters, angular parameters, W/U/V state floats, full coefficient rebuild from geometry, apply latency (64 lights / 1 light), peak GPU memory (same GPU, run alone at the end of the chain, median of repeats after warm-up); rank-independent geometry preparation (cf1 with ballistic B, once); training time / peak (run records, concurrency labelled); Stage 3 reference cost; G2 angular pretraining time",
+    "dominates_ratio": 2.0,
+    "dominates_keys": [
+      "rebuild_seconds",
+      "apply64_seconds",
+      "peak_GPU"
+    ],
+    "rule": "the measured rank-16 / rank-8 ratios are reported; 'COMPUTATIONAL COST DOMINATES' is attached only when Stage 3 gives a transferable benefit and any listed ratio exceeds 2.0 (more than proportional to the rank doubling)"
+  },
+  "cost_ratio_exceeds": false,
+  "geometry_preparation_seconds_rank_independent": 0.6545463000002201,
+  "training": {
+    "A75_5901": {
+      "seconds": 4083.9425181000042,
+      "peak_GPU_allocated": 4503675392,
+      "concurrent": "2 lanes",
+      "trainable": 273040
+    },
+    "A75_5902": {
+      "seconds": 4084.022494500001,
+      "peak_GPU_allocated": 4503675392,
+      "concurrent": "2 lanes",
+      "trainable": 273040
+    },
+    "AR_5901": {
+      "seconds": 4155.627904860303,
+      "peak_GPU_allocated": 3817658880,
+      "concurrent": "2 lanes",
+      "trainable": 155104
+    },
+    "AR_5902": {
+      "seconds": 4155.622123930603,
+      "peak_GPU_allocated": 3817658880,
+      "concurrent": "2 lanes",
+      "trainable": 155104
+    }
+  },
+  "references": {
+    "stage3_packets": 1408,
+    "stage3_seconds_sum": 2989.4178500998896
+  },
+  "angular_pretraining": {
+    "basis": "G2_r0",
+    "seconds": 2177.865951180458,
+    "note": "WL74 G2 fit (shared logits + per-source T, float64); rank-8 G0 basis needs none"
+  },
+  "gpu": "NVIDIA GeForce RTX 5080",
+  "other_gpu_processes_at_start": "2548, [N/A]\n14684, [N/A]\n15008, [N/A]\n14520, [N/A]\n16612, [N/A]\n16584, [N/A]\n19860, [N/A]\n21012, [N/A]\n21248, [N/A]\n21692, [N/A]\n22028, [N/A]\n13636, [N/A]\n6128, [N/A]\n23132, [N/A]\n13964, [N/A]\n24108, [N/A]\n9840, [N/A]\n7252, [N/A]\n12640, [N/A]\n24372, [N/A]\n6972, [N/A]\n18172, [N/A]\n4, [N/A]\n34788, [N/A]",
+  "timing_repeats": 10
+}
