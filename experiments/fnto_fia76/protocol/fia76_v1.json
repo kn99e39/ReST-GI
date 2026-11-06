@@ -154,6 +154,14 @@
    "before_any_candidate_evidence": true,
    "reason": "dev smoke Stage 3 out of GPU memory in eval76.score: every native prediction (16 x P x 64 x 3) was kept on the GPU",
    "change": "eval76.score keeps predictions on the CPU and moves only the deformation difference / mechanism inputs to the GPU; same estimators and values"
+  },
+  {
+   "id": 5,
+   "date": "2026-11-07",
+   "post_hoc": false,
+   "before_any_candidate_evidence": true,
+   "reason": "the dev smoke (non-evidence, 30-step dev model) measured the FIA 64-light apply at 3.07 s vs the rank-16 baseline 0.086 s on LabServer63 (35.7x; Stage 3 computational gate 10x). apply time depends on the implementation, not on trained weights; the cause was a per-apply dense anchor x neighbour x lobe scatter and per-call sparse transposes. This change was made after seeing that dev measurement, and is labelled accordingly; the gate threshold is unchanged",
+   "change": "Runtime pre-assembles CSR operators (SS^T, W^T, per-channel local response R^T over (port, lobe), dense tail) once per geometry; apply = CSR products. Identical operator: local check rel 5.7e-7 vs the original scatter (kept as apply_reference, test76 asserts <= 1e-5); 64-light apply 2.90 s -> 0.25 s on the RTX 5080 (rank-16 baseline 0.063 s there). Build temporaries are freed after assembly."
   }
  ],
  "part_B": "frozen after Stage 1 completed and amendment 1, before any candidate fit, Stage 3 evaluation or Stage 4 reference. Pre-freeze (non-evidence, local) code fixes found by test76: per-cell rescaling of W + SS to 1 - beta_B (budget consistency with the ballistic B), neighbour ties included in N(k), receiver face id replaced by |n_z| (symmetry invariance)",

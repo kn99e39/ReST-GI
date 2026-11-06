@@ -154,7 +154,7 @@ def quad_ports(G,ports,gi,q):
 class Runtime:
     """Full deployable operator for one geometry: K x = B x + albedo SS x + albedo^2 R^T (W^T x). State: sparse W (cells x anchors),
     sparse SS (cells x P*64), learned R on every anchor (local NN neighbours + coarse tail), ring lobes. Built once per geometry."""
-    def __init__(self,model,G,gi,q,chunk=1024):
+    def __init__(self,model,G,gi,q,chunk=1024,keep_reference=False):
         torch.cuda.synchronize();t0=time.perf_counter();P=G.P;self.G=G;dev='cuda'
         Q=quad_ports(G,range(P),gi,q);torch.cuda.synchronize();t1=time.perf_counter()
         r,k,v=Q['W'];self.W=torch.sparse_coo_tensor(torch.stack([r,k]),v.float(),(P*16,4*P)).coalesce()
@@ -164,22 +164,44 @@ class Runtime:
             for a0 in range(0,4*P,chunk):
                 ka=torch.arange(a0,min(a0+chunk,4*P),device=dev);lo,ta=model.response(G,ka);locs.append(lo);tails.append(ta)
             self.loc=torch.cat(locs);self.tail=torch.cat(tails);self.L=model.lobes();self.rho=torch.sigmoid(model.rho(G.afeat))
+        # amendment 5 (execution only, same operator): pre-assembled CSR operators instead of per-apply dense scatters / per-call transposes
+        A=4*P;NNp=G.nbr.shape[1];kk=torch.arange(A,device=dev)[:,None,None].expand(A,NNp,LOBES);mm=torch.arange(LOBES,device=dev)[None,None].expand(A,NNp,LOBES)
+        rows=(G.nbr[:,:,None]*LOBES+mm);keep=G.nmask[:,:,None].expand(A,NNp,LOBES);ri=rows[keep];ki=kk[keep];self.Rt=[];self.Tt=[]
+        for c in range(C):
+            self.Rt.append(torch.sparse_coo_tensor(torch.stack([ri,ki]),self.loc[...,c][keep],(P*LOBES,A)).coalesce().to_sparse_csr())
+            self.Tt.append(self.tail[...,c].reshape(A,240*LOBES).T.contiguous())
+        del ri,ki,rows,keep,kk,mm
+        self.SSt=self.SS.t().coalesce().to_sparse_csr();self.Wt=self.W.t().coalesce().to_sparse_csr()
+        self.ss_rowsum=torch.zeros(P*16,device=dev).index_add_(0,self.SS.indices()[0],self.SS.values())   # per input cell: sum of SS (column_sums)
+        if not keep_reference:del self.loc,self.tail,self.SS;torch.cuda.empty_cache()   # only the reference apply (tests) needs them; column_sums uses W and SSt
         torch.cuda.synchronize();t2=time.perf_counter()
-        self.seconds=dict(quadrature=t1-t0,response=t2-t1,total=t2-t0)
-        self.bytes=dict(W=self.W._nnz()*20,SS=self.SS._nnz()*20,local=self.loc.numel()*4+G.nbr.numel()*8,tail=self.tail.numel()*4,anchors=G.afeat.numel()*4+G.anchor.numel()*4)
+        self.seconds=dict(quadrature=t1-t0,response_and_assembly=t2-t1,total=t2-t0)
+        nb=lambda t:t.values().numel()*4+t.col_indices().numel()*8+t.crow_indices().numel()*8
+        self.bytes=dict(W=nb(self.Wt),SS=nb(self.SSt),local=sum(nb(t) for t in self.Rt),tail=sum(t.numel()*4 for t in self.Tt),anchors=G.afeat.numel()*4+G.anchor.numel()*4)
     def apply(self,g,x,albedo):
-        """x (b, P, 16, C) incident flux -> (b, P, 64, C) outgoing flux (ballistic B + scattered)."""
+        """x (b, P, 16, C) incident flux -> (b, P, 64, C) outgoing flux (ballistic B + scattered); CSR products per channel."""
+        b=x.shape[0];P=self.G.P;xc=x.reshape(b,P*16,C);sc=[];acc=[]
+        ball=torch.stack([torch.sparse.mm(g['B'],x[:,:,:,c].reshape(b,-1).T).T.reshape(b,P,64) for c in range(C)],-1)
+        for c in range(C):
+            X=xc[:,:,c].T.contiguous();sc.append(self.SSt@X);e=self.Wt@X                                    # (P*64, b), (A, b)
+            loc=(self.Rt[c]@e).view(P,LOBES,b);tl=(self.Tt[c]@e).view(240,LOBES,b)[self.G.parent]*self.G.afrac[:,None,None]
+            acc.append(loc+tl)
+        ss=torch.stack(sc,-1).view(P,64,b,C).permute(2,0,1,3)*albedo
+        ms=torch.einsum('pmbc,moc->bpoc',torch.stack(acc,-1),self.L)*(albedo**2)
+        return ball+ss+ms
+    def apply_reference(self,g,x,albedo):
+        """The original (pre-amendment-5) scatter implementation, kept for the equivalence test."""
         b=x.shape[0];P=self.G.P;xc=x.reshape(b,P*16,C)
         ball=torch.stack([torch.sparse.mm(g['B'],x[:,:,:,c].reshape(b,-1).T).T.reshape(b,P,64) for c in range(C)],-1)
         ss=torch.stack([torch.sparse.mm(self.SS.t(),xc[:,:,c].T).T for c in range(C)],-1).view(b,P,64,C)*albedo
-        e=torch.stack([torch.sparse.mm(self.W.t(),xc[:,:,c].T).T for c in range(C)],-1)            # (b, anchors, C)
+        e=torch.stack([torch.sparse.mm(self.W.t(),xc[:,:,c].T).T for c in range(C)],-1)
         acc=torch.zeros(b,P,LOBES,C,device=x.device)
         for a0 in range(0,e.shape[1],2048):
             sl=slice(a0,a0+2048);acc=acc.index_add(1,self.G.nbr[sl].reshape(-1),(e[:,sl,None,None,:]*self.loc[sl][None]).reshape(b,-1,LOBES,C))
         acc=acc+torch.einsum('bac,aJmc->bJmc',e,self.tail)[:,self.G.parent]*self.G.afrac[None,:,None,None]
         return ball+ss+torch.einsum('bjmc,moc->bjoc',acc,self.L)*(albedo**2)
     def column_sums(self,g,albedo):
-        ones=torch.ones(self.G.P*64,1,device='cuda');s1=torch.sparse.mm(self.SS,ones)[:,0];wr=torch.sparse.mm(self.W,self.rho)   # (cells,), (cells, C)
+        s1=self.ss_rowsum;wr=torch.sparse.mm(self.W,self.rho)   # (cells,), (cells, C)
         return g['beta'].reshape(-1)[:,None]+albedo[None]*s1[:,None]+albedo[None]**2*wr
 
 def physics(rt,g,x,albedo):

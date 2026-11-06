@@ -33,7 +33,8 @@ def test_operator_contract():
     """Runtime physics for the initial and a perturbed model on rest: zero, positivity, linearity <= 1e-5, column sums <= 1, rebuild identity."""
     g,G=geo();L=load(INP68/'wl59/lights.pt')['test'][:2].cuda()
     for m in (FI.FIA(CFG['candidate']['hidden']).cuda(),perturbed()):
-        rt=FI.Runtime(m,G,0,256);r=FI.physics(rt,g,L,G.dom.albedo);assert r['passed'],r
+        rt=FI.Runtime(m,G,0,256,keep_reference=True);r=FI.physics(rt,g,L,G.dom.albedo);assert r['passed'],r
+        assert rel(rt.apply(g,L,G.dom.albedo),rt.apply_reference(g,L,G.dom.albedo))<=1e-5,'CSR apply == reference scatter apply (amendment 5)'
         rt2=FI.Runtime(m,G,0,256);y1=rt.apply(g,L,G.dom.albedo);assert rel(rt2.apply(g,L,G.dom.albedo),y1)<=1e-6   # GPU index_add order: not bitwise
 
 def test_source_independence():

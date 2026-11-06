@@ -152,3 +152,9 @@ The local tests now pass 7/7.
 **2026-11-07, amendment 3 (before any candidate evidence; execution only).** The dev-smoke Stage 3 ran out of memory again, this time because the physics rebuild-identity check held two full runtimes at once. The check now keeps one runtime resident at a time, and its tolerance is the relative 1e-6 of test76 rather than exact equality, since GPU index_add order is not bitwise reproducible. The watchdog was stopped during the fix.
 
 **2026-11-07, amendment 4 (before any candidate evidence; execution only).** The dev-smoke Stage 3 ran out of memory a third time, in `eval76.score`, because every prediction (47 MB each, about 100 of them) stayed on the GPU. Predictions are now kept on the CPU.
+
+**2026-11-07, amendment 5 (before any candidate evidence; execution only; made after seeing a dev cost measurement).**
+- **Trigger.** The dev smoke measured the FIA 64-light apply at 3.07 s against 0.086 s for A75, which is 35.7x and over the 10x computational gate. That figure reflects the implementation, not the representation: the code built a dense anchor x neighbour x lobe scatter on every apply and transposed the sparse matrices on every call.
+- **Change.** The runtime now pre-assembles CSR operators and applies sparse products. The result is identical to the old path (rel 5.7e-7; test76 asserts this against the kept reference implementation). On the 5080 the apply drops from 2.90 s to 0.25 s, against 0.063 s for the rank-16 baseline.
+- **Unchanged.** The gate threshold.
+- **Disclosure.** The decision followed the dev measurement and is labelled as such.
