@@ -145,3 +145,10 @@ These are factual open questions for the user's decision (`coordinator_decision.
   - Data: the archived training bundles (`~/rest_repr68`, `~/rest_cover71`, `~/rest_src73`, local copies) and the local WL75 `rest_s101` bundle.
   - SS: the WL76 quadrature code, with fixed seed arguments per check.
 - **Part 0 references:** `LabServer63:~/rest_arch77a/refs`, unscored.
+
+## Part 0 references: completed (2026-11-07 05:44)
+
+- **Generation:** all 1,920 packets on LabServer63 passed their gates. Counts: 6.144e10 photons, 6,814 s of summed packet time.
+- **Walker:** the WL57 fast walker, unchanged.
+- **Bundles:** built. Their hashes are in `refs/complete.json`, which is copied to `results/fnto_arch77a/refs/complete.json`.
+- **Status:** these references have not been read or scored. Because no candidate was selected, they are an unused confirmation set for the WL76 population.
