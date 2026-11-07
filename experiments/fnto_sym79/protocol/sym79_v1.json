@@ -1,36 +1,278 @@
 {
-  "batch": "sym79_v1",
-  "worklog": "docs/worklogs/79_WORKLOG_ANGULAR_FRAME_EQUIVARIANCE.md",
-  "branch": "Selective_Recompute",
-  "server": "LabServer63 (main); evidence root ~/rest_sym79; read-only inputs ~/rest_repr68, ~/rest_cover71, ~/rest_cmp72, ~/rest_src73, ~/rest_ato74, ~/rest_rank75, ~/rest_rank75L, ~/rest_srcid78, ~/rest_arch77a (WL77A Part 0: scored in WL78, development data only here)",
-  "question": "Is insufficient angular-frame equivariance a material cause of the remaining Q78 boundary-transfer failure, and can symmetry-consistent supervision address it within the existing rank-16 ATO / W+UV-Q representation?",
-  "controls": {
-    "primary": {"Q78_5901": {"path": "~/rest_srcid78/runs/Q78_5901.pt", "sha256": "3bdff7e905af24c658d8901eb1cdbd242747f56c68959b45263f49e934ac5a10"},
-                "Q78_5902": {"path": "~/rest_srcid78/runs/Q78_5902.pt", "sha256": "f40b0d1fb521f9cc1071b593b76636d2b39e751d08acf3b796029d7c628315ab"}},
-    "secondary": {"A75_5901": {"path": "~/rest_rank75/runs/A75_5901.pt", "sha256": "c002274278f7017d973327f80fb42f75bc5358582782e86552291b7dcc990a58"},
-                  "A75_5902": {"path": "~/rest_rank75/runs/A75_5902.pt", "sha256": "358c388133d2739f5dd85b3f632f5bd8076dfef11907f131e7905abdbf5a4e8a"},
-                  "AR_5901": {"path": "~/rest_src73/runs/AR_5901.pt"}, "AR_5902": {"path": "~/rest_src73/runs/AR_5902.pt"}},
-    "note": "historical final checkpoints, unchanged; never retrained"
+ "batch": "sym79_v1",
+ "worklog": "docs/worklogs/79_WORKLOG_ANGULAR_FRAME_EQUIVARIANCE.md",
+ "branch": "Selective_Recompute",
+ "server": "LabServer63 (main); evidence root ~/rest_sym79; read-only inputs ~/rest_repr68, ~/rest_cover71, ~/rest_cmp72, ~/rest_src73, ~/rest_ato74, ~/rest_rank75, ~/rest_rank75L, ~/rest_srcid78, ~/rest_arch77a (WL77A Part 0: scored in WL78, development data only here)",
+ "question": "Is insufficient angular-frame equivariance a material cause of the remaining Q78 boundary-transfer failure, and can symmetry-consistent supervision address it within the existing rank-16 ATO / W+UV-Q representation?",
+ "controls": {
+  "primary": {
+   "Q78_5901": {
+    "path": "~/rest_srcid78/runs/Q78_5901.pt",
+    "sha256": "3bdff7e905af24c658d8901eb1cdbd242747f56c68959b45263f49e934ac5a10"
+   },
+   "Q78_5902": {
+    "path": "~/rest_srcid78/runs/Q78_5902.pt",
+    "sha256": "f40b0d1fb521f9cc1071b593b76636d2b39e751d08acf3b796029d7c628315ab"
+   }
   },
-  "stage0": {
-    "group": "rest slab: D4h = D4 x {id, z-flip} (sym72.ops(True), 16 operations); dented pose with centre c: D4 maps it to the pose with centre op(c) (z-flip excluded); self-symmetries: op(c) = c",
-    "convention": "sym79 module docstring: perm[p] = port at op(x0_p); Q[p] = F_dst[perm p] M F_src[p]^T; pin / pout = bin maps of the bin-centre directions (N = 4 / 8); S'[pin[p,a], perm[j], pout[j,o], c] = S[a, j, o, c], i.e. K(gG) = P_out(g) K(G) P_in(g)^-1; d'[pin[p,a]] = d[a]",
-    "exactness": "a map is exact when every mapped bin centre coincides with a bin centre (residual <= 1e-9) and every per-port map is a bijection; exact labels are built only from exact maps",
-    "geometry_checks": "port bijection; frame map structure (normal preserved, tangent block a D4 element); bin-map residual / bijectivity; fine16 and coarse-cell commutation; refined-mesh identity of op(G) and the image geometry; beta equivariance (quadrature noise); W+UV-Q input equivariance (probe-tie ports counted)",
-    "reference_controls": "stage0_79.py refs docstring (positive: exact pairs, first 2 per operation, and self-fixed sources; negative: identity bin maps, t<->b swapped bin maps, class-2 translation pairs with different boundary context; reading rules predeclared there)",
-    "pre_freeze_development_run": "the geometry check and a partial reference run (the first 8 positive pairs: differences 0.95-1.03 x replica noise; every negative control detected) were run on the dev root before this freeze; the dented-pose maps were found NOT exact there (first-triangle frames of a non-D4-symmetric refined triangulation: normal tilt up to 0.08, bin residual 0.06-0.16, some outgoing maps not bijective). Consequence frozen here: exact transformed labels exist for the rest geometry only."
+  "secondary": {
+   "A75_5901": {
+    "path": "~/rest_rank75/runs/A75_5901.pt",
+    "sha256": "c002274278f7017d973327f80fb42f75bc5358582782e86552291b7dcc990a58"
+   },
+   "A75_5902": {
+    "path": "~/rest_rank75/runs/A75_5902.pt",
+    "sha256": "358c388133d2739f5dd85b3f632f5bd8076dfef11907f131e7905abdbf5a4e8a"
+   },
+   "AR_5901": {
+    "path": "~/rest_src73/runs/AR_5901.pt"
+   },
+   "AR_5902": {
+    "path": "~/rest_src73/runs/AR_5902.pt"
+   }
   },
-  "stage1": {
-    "sources": "S16-R rest training sources (16; fit73.populations S16R), fit targets = means of fitting replicas 0-3 (fit_targets73.pt sha256 20f631ed...), scoring = held-out replicas 4-7 of the same bundles",
-    "ops": ["r90", "r180", "mx", "sw", "id+z", "r90+z"],
-    "ops_rationale": "chosen from the Stage 0 frame-map table before any oracle outcome: in-plane 90 and 180 degree rotations, an axis reflection and a diagonal reflection (top/bottom tangent maps R90 / R180 / reflections), the top <-> bottom exchange (id+z) and a top <-> bottom exchange combined with a rotation (r90+z); every side face is mapped to another side face or to itself with a non-identity tangent map by at least one of them",
-    "oracle": {"iters": 3000, "chunk": 8, "dtype": "float64", "init": "0.5 / P", "convergence_check": "the same budget again from the solution (relative J change reported)", "basis": "frozen G2 (rank75_v1.json basis: selected restart, sha256 asserted), A = softmax over r, O = softmax over o", "budget": "d' = transformed 1 - beta of the original source (exact isolation of the angular permutation)"},
-    "groups": {"bnd_mm": 10, "rule": "BND = sources whose nearest port with a perpendicular normal is within 10 mm (geometry only); INT = the rest; ALL = 16"},
-    "gate": {"factor": 1.25, "groups": ["ALL", "BND", "INT"], "metrics": ["abs_native", "abs_fine16", "abs_coarse", "con_fine16", "con_coarse"],
-             "rule": "for every predeclared operation and group: transformed pooled worst-channel upper-95 % bound (eval68 hi) <= 1.25 x the original oracle's, for every metric; and no WL59 gate (wl59) passed by the original oracle is failed by the transformed oracle",
-             "wl59": {"abs_coarse": 0.10, "abs_fine16": 0.15, "con_coarse": 0.25},
-             "requires": "Stage 0 contract VALID (geometry: all rest maps exact and commuting; references: stage0 refs summary.valid)",
-             "fail": "ANGULAR BASIS LIMIT: stop; no A/O change, no rank change; the required architectural change is reported as an unresolved human decision"},
-    "closure": "descriptive algebraic analysis of A, O and the joint rank-1 patterns under the 8 D4 tangent maps (rank assignment, relative Frobenius error)"
+  "note": "historical final checkpoints, unchanged; never retrained"
+ },
+ "stage0": {
+  "group": "rest slab: D4h = D4 x {id, z-flip} (sym72.ops(True), 16 operations); dented pose with centre c: D4 maps it to the pose with centre op(c) (z-flip excluded); self-symmetries: op(c) = c",
+  "convention": "sym79 module docstring: perm[p] = port at op(x0_p); Q[p] = F_dst[perm p] M F_src[p]^T; pin / pout = bin maps of the bin-centre directions (N = 4 / 8); S'[pin[p,a], perm[j], pout[j,o], c] = S[a, j, o, c], i.e. K(gG) = P_out(g) K(G) P_in(g)^-1; d'[pin[p,a]] = d[a]",
+  "exactness": "a map is exact when every mapped bin centre coincides with a bin centre (residual <= 1e-9) and every per-port map is a bijection; exact labels are built only from exact maps",
+  "geometry_checks": "port bijection; frame map structure (normal preserved, tangent block a D4 element); bin-map residual / bijectivity; fine16 and coarse-cell commutation; refined-mesh identity of op(G) and the image geometry; beta equivariance (quadrature noise); W+UV-Q input equivariance (probe-tie ports counted)",
+  "reference_controls": "stage0_79.py refs docstring (positive: exact pairs, first 2 per operation, and self-fixed sources; negative: identity bin maps, t<->b swapped bin maps, class-2 translation pairs with different boundary context; reading rules predeclared there)",
+  "pre_freeze_development_run": "the geometry check and a partial reference run (the first 8 positive pairs: differences 0.95-1.03 x replica noise; every negative control detected) were run on the dev root before this freeze; the dented-pose maps were found NOT exact there (first-triangle frames of a non-D4-symmetric refined triangulation: normal tilt up to 0.08, bin residual 0.06-0.16, some outgoing maps not bijective). Consequence frozen here: exact transformed labels exist for the rest geometry only."
+ },
+ "stage1": {
+  "sources": "S16-R rest training sources (16; fit73.populations S16R), fit targets = means of fitting replicas 0-3 (fit_targets73.pt sha256 20f631ed...), scoring = held-out replicas 4-7 of the same bundles",
+  "ops": [
+   "r90",
+   "r180",
+   "mx",
+   "sw",
+   "id+z",
+   "r90+z"
+  ],
+  "ops_rationale": "chosen from the Stage 0 frame-map table before any oracle outcome: in-plane 90 and 180 degree rotations, an axis reflection and a diagonal reflection (top/bottom tangent maps R90 / R180 / reflections), the top <-> bottom exchange (id+z) and a top <-> bottom exchange combined with a rotation (r90+z); every side face is mapped to another side face or to itself with a non-identity tangent map by at least one of them",
+  "oracle": {
+   "iters": 3000,
+   "chunk": 8,
+   "dtype": "float64",
+   "init": "0.5 / P",
+   "convergence_check": "the same budget again from the solution (relative J change reported)",
+   "basis": "frozen G2 (rank75_v1.json basis: selected restart, sha256 asserted), A = softmax over r, O = softmax over o",
+   "budget": "d' = transformed 1 - beta of the original source (exact isolation of the angular permutation)"
+  },
+  "groups": {
+   "bnd_mm": 10,
+   "rule": "BND = sources whose nearest port with a perpendicular normal is within 10 mm (geometry only); INT = the rest; ALL = 16"
+  },
+  "gate": {
+   "factor": 1.25,
+   "groups": [
+    "ALL",
+    "BND",
+    "INT"
+   ],
+   "metrics": [
+    "abs_native",
+    "abs_fine16",
+    "abs_coarse",
+    "con_fine16",
+    "con_coarse"
+   ],
+   "rule": "for every predeclared operation and group: transformed pooled worst-channel upper-95 % bound (eval68 hi) <= 1.25 x the original oracle's, for every metric; and no WL59 gate (wl59) passed by the original oracle is failed by the transformed oracle",
+   "wl59": {
+    "abs_coarse": 0.1,
+    "abs_fine16": 0.15,
+    "con_coarse": 0.25
+   },
+   "requires": "Stage 0 contract VALID (geometry: all rest maps exact and commuting; references: stage0 refs summary.valid)",
+   "fail": "ANGULAR BASIS LIMIT: stop; no A/O change, no rank change; the required architectural change is reported as an unresolved human decision"
+  },
+  "closure": "descriptive algebraic analysis of A, O and the joint rank-1 patterns under the 8 D4 tangent maps (rank assignment, relative Frobenius error)"
+ },
+ "stage2": {
+  "frozen_before": "any candidate fit and any Stage 1 oracle outcome (committed together with Stages 3-6 while the Stage 1 oracle runs; the chain trains only if the Stage 1 gate passes)",
+  "intervention": "symmetry-consistent presentation (fit79.SymRest): at optimizer step t, rest S16-R source k is presented under the exact rest operation OPS[(k + t) mod 16] (OPS = sym72.ops(True), identity first): image port perm[p_k] in the rest geometry, label = exact image of its fitting-replica-0-3 mean (receiver ports, incoming and outgoing bins; sym79), model budget = 1 - beta of the rest geometry at the image port; deterministic Latin schedule: every step contains all 16 operations once, every source sees each operation once per 16 steps",
+  "pt0": "identity presentation only: dented-pose maps are not exact (Stage 0), so no exact transformed angular label exists",
+  "unchanged": "operator q78.TransportQ (rank 16, frozen G2 A/O, WL78 inputs, layers, capacity); objective J = mean(rest term, pt0 term) of ato74.objective_m + 1.0 L_sym (WL72 term, identical labels and code); 16 rest + 16 pt0 physical samples per update; optimizer, schedule, steps, clip, checkpoints, final iterate; no new label, loss term, hyperparameter or MC supervision",
+  "confound": "the effective training distribution changes: the 16 rest sources are presented at the 192 ports of their exact orbit (16 operations), each orientation 1/16 of the time (the original orientation 1/16 instead of always); this is exact physical information obtained without new MC labels, not a new physical source-reference budget; S16-R already contained orbit-related pairs (e.g. 944 <-> 2707 under r90)",
+  "records": "initial / final J use the identity presentation (the Q78-comparable objective); the per-step history J is the presented (transformed) objective",
+  "initialisation": "the Q78 rule (q78.init_model: P_590x trunk, rank rows r mod 8, frozen G2 A/O, encoder / pair_layer re-initialised with seed 7801 / 7802): the S79 initial state equals the Q78 initial state bitwise (test T4)"
+ },
+ "runs": {
+  "S79_5901": {
+   "init": "P_5901",
+   "reinit_seed": 7801,
+   "rank": 16,
+   "lambda_sym": 1.0
+  },
+  "S79_5902": {
+   "init": "P_5902",
+   "reinit_seed": 7802,
+   "rank": 16,
+   "lambda_sym": 1.0
   }
+ },
+ "controls_init": {
+  "S79_5901": {
+   "control": "Q78_5901",
+   "init": "P_5901",
+   "reinit_seed": 7801
+  },
+  "S79_5902": {
+   "control": "Q78_5902",
+   "init": "P_5902",
+   "reinit_seed": 7802
+  }
+ },
+ "optimizer": {
+  "lr": 0.003,
+  "lr_min": 3e-05,
+  "steps": 20000,
+  "clip": 1.0,
+  "group": "net (A/O frozen)",
+  "objective": "J (ato74.objective_m; rest term under the symmetry presentation) + 1.0 * L_sym (WL72)",
+  "schedule": "cosine",
+  "checkpoints": [
+   2000,
+   6000,
+   10000
+  ],
+  "final": "20,000-step iterate, no selection",
+  "optimizer": "Adam (fit75.run, unchanged)",
+  "training_data": "S16-R fit_targets73.pt (fitting replicas 0-3), rest and pt0; WL72 pt0 symmetry-image geometries (L_sym only)"
+ },
+ "execution": {
+  "chain": "chain79.py after runA: [Stage 1 gate passed] tests -> full-scale probe (non-evidence; lanes) -> two fits -> Stage 3 + fit gate -> [passed] Stage 4 mechanism -> [improved] Stage 5 population freeze check + references + Stage 5 -> Stage 6 deformation (descriptive when an earlier gate stopped) + cost -> export; one detached setsid process; any failure stops; dev smoke first (40-step fits, 2-slot references, forced gates, no metric used)",
+  "probe_steps": 60,
+  "lanes_rule": "probe both runs concurrently with the real configuration; two lanes iff both complete and the sum of peak reserved memory <= 0.85 x GPU memory, else one lane",
+  "dev_ref_slots": [
+   2,
+   10
+  ],
+  "precision": "float32 model and training (TF32 off), float64 oracle / estimators",
+  "hardware": "LabServer63 RTX 3080 Ti 12 GB (Q78 trained there too, 2 lanes)"
+ },
+ "stage3": {
+  "data": "S16-R held-out replicas 4-7 (eval73.load_refs / evaluate)",
+  "gate": {
+   "factor": 1.25,
+   "groups": [
+    "TRAIN_NEW_rest",
+    "TRAIN_NEW_pt0",
+    "TRAIN_KEEP_rest",
+    "TRAIN_KEEP_pt0"
+   ],
+   "metrics": [
+    "abs_native",
+    "abs_fine16",
+    "abs_coarse",
+    "con_fine16",
+    "con_coarse"
+   ],
+   "rule": "each S79 seed: hi <= 1.25 x max over the Q78 seeds for every group / metric; validity: every passivity check passed and A/O bitwise the frozen basis; both seeds must pass",
+   "outcomes": "FIT GATE PASSED -> Stage 4; INSUFFICIENT FIT -> stop (diagnose; no tuning); PHYSICAL VALIDITY FAILURE -> stop"
+  },
+  "q78_reproduction": "Q78 group values recomputed here vs the recorded WL78 Stage 3 (same code / data / checkpoints): reported",
+  "transformed_training": "exact images (Stage 1 operations) of the S16-R held-out replicas 4-7: Q78 / A75 / S79 pooled per operation (descriptive; held-out replicas, never used for selection)",
+  "descriptive": "checkpoints 2k / 6k / 10k (late-training drift), run records"
+ },
+ "stage4": {
+  "gate": {
+   "factor": 0.5,
+   "rule": "M1: for each S79 seed vs the same-seed Q78: mean over the three historical pairs (101<-50, 105<-52, 107<-53; exact op + in-face translation, exact port / bin maps; WL78 mech78 definition) of the worst-channel near-field (0-5 mm) relative difference between the far-source prediction and the mapped training-source prediction <= 0.5 x the Q78 value, native AND fine16 contrast, both seeds",
+   "fail": "stop before Stage 5 (no independent references are generated): the symmetry discrepancy is not reduced"
+  },
+  "descriptive": "M2 learned equivariance (prediction at the image port vs exact image of the prediction; 15 operations; training and out-of-orbit development sources; native / fine16 contrast; near field and total), M3 WL77A Part 0 groups and DEF (development; scored in WL78), strata 5-10 / 10-20 / > 20 mm, error of far and mapped sources, physical difference",
+  "orbit_check": "the far ports of the historical pairs (224, 260, 1568) and the WL74 S4 / WL77A Part 0 ports are not in the S16-R orbit (geometry check before the freeze)"
+ },
+ "stage5": {
+  "population": "ports79.py (geometry only; ports76 rules; excludes 107 earlier referenced / scored ports and all their images, and the 192-port training orbit); proposed before any candidate exists",
+  "ports": {
+   "0": 95,
+   "1": 101,
+   "2": 179,
+   "3": 198,
+   "4": 33,
+   "5": null,
+   "6": null,
+   "7": null,
+   "8": 407,
+   "9": 521,
+   "10": 356,
+   "11": 1225,
+   "12": 1168,
+   "13": 114,
+   "14": 304,
+   "15": 1521,
+   "16": 459,
+   "17": 3332,
+   "18": null,
+   "19": null,
+   "20": 1372,
+   "21": 662,
+   "22": 979,
+   "23": 645
+  },
+  "empty_slots": "TBC 5-7 and SV far 18-19: no admissible port under the exclusion / spacing rules (recorded, not replaced)",
+  "references": "probes79.py: probes74 code unchanged (WL57 fast walker, gates, 32M / 16M, K = 4), rest geometry, seeds 79000000 + slot*1e4 + bin*100 + rep; generated only after the Stage 3 and Stage 4 gates pass; qualification by eval73 precision rules",
+  "groups": {
+   "BND_FAR": "TBE / SM / SR far (6)",
+   "BND_NEAR": "TBE / TBC / SM / SR near (7)",
+   "INT": "INT near / far (4)",
+   "UNS": "SV near (2; per matrix only)",
+   "BND_HI": "hi sub-cell",
+   "BND_LO": "lo sub-cell",
+   "TOPBOT": "TBE / TBC",
+   "SIDE": "SM / SR"
+  },
+  "decision": {
+   "primary_groups": [
+    "BND_FAR",
+    "BND_NEAR",
+    "INT"
+   ],
+   "improve_factor": 0.8,
+   "regression_factor": 1.25,
+   "stronger": "per group, the control pair (Q78 or A75) with the lower mean over its two seeds of con_coarse hi (AR reported)",
+   "far_rule": "far = YES iff max over S79 seeds of BND_FAR con_coarse hi <= 0.8 x min over the stronger control seeds AND < min of their lower 95 % bounds; NO iff min S79 > 0.8 x max stronger; else OVERLAP; near likewise",
+   "regression": {
+    "BND_FAR": [
+     "abs_native",
+     "abs_fine16",
+     "abs_coarse"
+    ],
+    "BND_NEAR": [
+     "abs_native",
+     "abs_fine16",
+     "abs_coarse"
+    ],
+    "INT": [
+     "abs_native",
+     "abs_fine16",
+     "abs_coarse",
+     "con_coarse"
+    ]
+   },
+   "regression_rule": "YES iff min S79 >= 1.25 x max of the better control (Q78 or A75 by mean) for that group / metric; NO iff max S79 < 1.25 x min; else OVERLAP",
+   "secondary_metrics": [
+    "con_native",
+    "con_fine16",
+    "abs_coarse",
+    "abs_fine16",
+    "abs_native"
+   ],
+   "verdict": "far YES and no regression YES -> SYMMETRY TRAINING BENEFIT; far YES with a regression YES -> INCONCLUSIVE (benefit with material regression); far NO -> EQUIVARIANCE IMPROVED, TRANSFER UNCHANGED (the mechanism gate passed to reach Stage 5); far OVERLAP -> INCONCLUSIVE; validity failure -> PHYSICAL VALIDITY FAILURE. Stage 1 fail -> ANGULAR BASIS LIMIT; fit gate fail -> INSUFFICIENT FIT; mechanism gate fail -> no transfer claim (Stage 5 not run; symmetry discrepancy not reduced: negative answer to the completion question for this intervention). WL59 gates reported separately; per-matrix and per-channel values reported"
+  }
+ },
+ "stage6": {
+  "deformation": "existing qualified deformation references (development, already scored): DEF71 (cf2 - rest), CONFDEF72 (te2 - rest), DEF73 (te0 - rest) from Stage 3 and WL77A Part 0 DEF (te1 - rest) from Stage 4 M3; S79 vs Q78 vs A75: worst-channel relative error (abs_coarse hi), correlation, slope; WL59 deformation gate (error <= 0.35, corr >= 0.90)",
+  "primary": "DEF_part0_te1",
+  "error_factor": 1.25,
+  "corr_drop": 0.03,
+  "flag_rule": "per group: WORSE iff every S79 seed has worst-channel error >= 1.25 x max Q78 or min-channel corr <= min Q78 - 0.03; RECOVERED iff every S79 seed has error <= max Q78 / 1.25 and corr >= max Q78; else MAINTAINED/OVERLAP. DEFORMATION REGRESSION iff the primary group (the WL78 regression population) is WORSE",
+  "runs_even_if_stopped": "Stage 6 deformation and cost are always measured (descriptive when an earlier gate stopped; never change an earlier verdict)",
+  "cost_deviation": 0.25,
+  "cost": "cost79.py: Q78_5901 vs S79_5901 (A75 reference): parameters, state, rebuild, coefficients, 1 / 64-light apply, peak GPU, training time, augmentation cost; significant deviation iff any runtime ratio deviates from 1 by more than 25 %"
+ }
 }
