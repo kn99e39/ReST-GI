@@ -1,0 +1,411 @@
+{
+ "batch": "Source-Identity Leakage and Geometry-Relative Transfer Falsification",
+ "worklog": 78,
+ "branch": "Selective_Recompute (isolated paths experiments/fnto_srcid78, results/fnto_srcid78; no worktree)",
+ "server": "LabServer63 (main)",
+ "date": "2026-11-07",
+ "question": "Is source-identifying spatial conditioning a material cause of the rank-16 learned-K boundary-transfer failure, and can removing that dependence improve independent source generalization without losing physical fidelity or computational feasibility?",
+ "stage0": {
+  "evidence": "archived, already-scored development data only (S16-R training bundles; the WL75 Stage 3 population mirrored to ~/rest_rank75L, hash-identical to the local WL75 originals); the WL77A Part 0 references were not opened",
+  "files": {
+   "results/fnto_srcid78/stage0/stage0.json": "2db994cac26f360359a36233f4c7127787190708281e074f9548459874cf1c99",
+   "results/fnto_srcid78/stage0/frames.json": "0101b6cc27934522ad38fa7e89cbde7df38c2fabe1a79250dc1b7ea4067d6a14",
+   "results/fnto_srcid78/stage0/featcheck.json": "3bb0995322458516e7ce4369709f5ec37f7069ddd64a0758fcbadc20dab96456"
+  },
+  "findings": [
+   "A75 reads node[:, :16] only: absolute rest and current position (6), material-axis normal (3), ordinal face id (1) + local deformation / area / thickness / normal spread; pair inputs: material-axis offsets, |dr|, distance, n.n; the global dent grid is not read (WL77A listed it: corrected)",
+   "UV path: source-independent global receiver distributions U (softmax over all ports) addressed by a source loading V(z_i): an absolute-position-keyed lookup channel; no source-indexed parameter table exists",
+   "class 1 (whole-geometry rigid motion) is an exact invariance of A75 by construction (material-frame features); absolute-position conditioning can only matter for class 2 (translation within the finite slab) and class 3 (slab symmetries)",
+   "the three historical boundary-far pairs 101<-50 (mx + z-flip, +22.5 mm), 105<-52 (z-flip, -30 mm), 107<-53 (z-flip, +22.5 mm) are full-response physical equivalences within reference noise at every distance stratum (0-5 mm: 99-99.9 % of the native signal, difference 0.002 = noise; fine16 contrast 0.005 = noise); the second-boundary distance change (18.75 -> 41-49 mm) is not measurable",
+   "A75 predictions for these equivalent contexts differ in the near field by 0.12-0.33 (native) and 0.42-1.41 (fine16 contrast), with far-source errors 1.3-2.8x the supervised analogues; the difference is in the W path (UV share ~0 within 10 mm)",
+   "outside the 128-NN W support: 5.5 / 3.2 / 0.1 % of collided energy (R/G/B) for interior sources, 1-2 % for boundary sources; native and contrast L2 signal outside ~0",
+   "a constant origin offset of the absolute-coordinate inputs alone (physically identical) changes A75 predictions for boundary training source s50 by 9-23 % (error 0.12 -> 0.15-0.26); interior s0 1-2 %"
+  ]
+ },
+ "hypothesis": "A75 encodes the source position through absolute-coordinate and material-axis-orientation inputs; for boundary sources these keys select a supervised-source-specific near-field response, so physically equivalent unsupervised contexts receive a different response. Replacing those inputs by geometry-relative boundary context expressed in each port bin frame (W+UV-Q) maps physically equivalent contexts to identical or frame-rotated inputs; with the same operator, capacity and training, supervised fidelity is kept and independent boundary-far contrast error falls.",
+ "why_not_information_loss": "the removed inputs carry no physics beyond the boundary context that the new inputs encode within 20 mm (Stage 0: no measurable response change from boundaries >= 18.75 mm; no measurable signal beyond the W support in L2); the removed far-field localisation of U carries 1-5.5 % of collided energy and ~0 of the scored L2 signal; the bin frame orientation that A75 read implicitly from the material-axis normal / face id is supplied explicitly by frame-expressed vectors, which is the representation consistent with the frame-defined A/O bins",
+ "unchanged": "K/C ownership, first-exit semantics, ballistic B and beta, homogeneous material, 16 incoming / 64 outgoing bins, rank 16, frozen G2 A/O (rank75.basis), W+UV algebra and passivity normalisation (rank75.TransportM), node graph (16-NN) and edges (128-NN) and the distance prior, layer shapes and parameter count, S16-R training population (rest, pt0) and fitting replicas 0-3, objective J + 1.0 L_sym, Adam, cosine 3e-3 -> 3e-5, 20,000 steps, clip 1.0, checkpoints 2k/6k/10k, final iterate, eval68 estimators and eval73 groups / qualification",
+ "candidate": {
+  "name": "W+UV-Q (W+UV with geometry-relative, source-identity-free conditioning)",
+  "code": "experiments/fnto_srcid78/q78.py",
+  "node_features": [
+   "0-2 rest->current displacement in the port bin frame / 6 mm",
+   "3-5 area ratio, thickness / 1 cm, normal spread (A75 columns 12-14 bitwise)",
+   "6-9 boundary probe 1: unit offset in the port frame x w1, w1 = max(0, 1 - r1/20 mm)^2",
+   "10-13 boundary probe 2 likewise",
+   "14-15 max(0, 1 - r/5 mm)^2 for probes 1, 2"
+  ],
+  "probes": "probe 1 = nearest port (current positions) with |n_j . n_i| < 0.5 (area-averaged normals); probe 2 = nearest such port also with |n_j . n_probe1| < 0.5; the cut-offs 20 mm / 5 mm are fixed (20 mm >= the W support radius 13.5-17 mm and the red diffusion length 18 mm; 5 mm = the near field)",
+  "pair_features": "rest offset x0_j - x0_i in the source port bin frame / 1 cm + A75 pair columns 3-5 bitwise",
+  "removed": "absolute rest / current position (6), material-axis normal (3), ordinal face id (1), material-axis pair offsets (3 -> frame-expressed)",
+  "frame": "the bin frame of a port = the (t, b, n) frame of its first triangle (the frame in which its 16 incoming / 64 outgoing bins are defined); at rest it is constant per face",
+  "transformation_law": "class 1: inputs invariant (material frame); class 2: identical inputs wherever the boundary context within 20 mm (and the local deformation) is equal; class 3: inputs of the image port = per-port frame map applied to the vector blocks, scalars equal (except predeclared probe-1 tie ports: equal distance to two perpendicular boundaries, 176 at rest)",
+  "limitations": [
+   "probe-1 ties (176 ports at rest) break exact quotient consistency there",
+   "frame-rotated equivalent contexts (e.g. 101 <- 50, a 90-degree frame map) are different inputs; transfer between them is a learned generalisation, not an identity",
+   "U loses absolute receiver localisation: far-field (beyond W support) transport becomes context-only (1-5.5 % of collided energy)",
+   "A/O are global in port frames; exact angular equivariance under frame-rotating operations is not attainable without changing A/O (unchanged by contract)"
+  ],
+  "parameter_counts": {
+   "learned_parameters_excl_fixed_AO": 273040,
+   "fixed_AO_logits": 3840,
+   "rank_dependent_final_layers": 235872,
+   "total": 276880
+  },
+  "initialization": "rank75.init_model (P_590x trunk bitwise, rank-dependent rows r mod 8, frozen G2 A/O) for every tensor except encoder.weight, encoder.bias, pair_layer.weight, which read the replaced inputs and are re-initialised with the PyTorch default Linear initialisation under torch.manual_seed(reinit_seed); recorded as a confound",
+  "expected_cost": "parameters and runtime state identical to A75; geometry rebuild adds the input construction (frames + O(P^2) boundary-probe distances on the GPU); apply identical"
+ },
+ "runs": {
+  "Q78_5901": {
+   "init": "P_5901",
+   "reinit_seed": 7801,
+   "rank": 16,
+   "lambda_sym": 1.0
+  },
+  "Q78_5902": {
+   "init": "P_5902",
+   "reinit_seed": 7802,
+   "rank": 16,
+   "lambda_sym": 1.0
+  }
+ },
+ "optimizer": {
+  "lr": 0.003,
+  "lr_min": 3e-05,
+  "steps": 20000,
+  "clip": 1.0,
+  "group": "net (A/O frozen)",
+  "objective": "J (WL68 objective, rank-generic ato74.objective_m) + 1.0 * L_sym (WL72 exact-symmetry consistency)",
+  "schedule": "cosine",
+  "checkpoints": [
+   2000,
+   6000,
+   10000
+  ],
+  "final": "20,000-step iterate, no selection",
+  "training_data": "S16-R fit_targets73.pt (fitting replicas 0-3), rest and pt0; WL72 pt0 symmetry-image geometries"
+ },
+ "predictions": [
+  "P1 supervised fidelity within 1.25x of A75 on S16-R held-out replicas",
+  "P2 the near-field difference between equivalent-context predictions (Stage 0 pairs) falls to <= 0.5x A75 (mechanism criterion)",
+  "P3 independent BND_FAR coarse contrast improves by >= 20 % over the stronger learned control in both seeds",
+  "P4 no material BND_NEAR / INT / footprint regression",
+  "P5 cost within 2x A75"
+ ],
+ "stage2": {
+  "tests": "test78.py T1-T11 (capacity / no source table, initialisation, wrapper and source/receiver/angular correspondence, physics at rest/pt0/te1 incl. a perturbed model, rebuild consistency, whole-geometry rigid motion, all 15 slab operations (frame-map law), negative control on six boundary contexts, origin independence, decision logic, Stage 4 isolation); any failure stops"
+ },
+ "stage3": {
+  "data": "S16-R held-out replicas 4-7 (eval73.load_refs / evaluate, the WL75 Stage 2 path)",
+  "gate": {
+   "factor": 1.25,
+   "groups": [
+    "TRAIN_NEW_rest",
+    "TRAIN_NEW_pt0",
+    "TRAIN_KEEP_rest",
+    "TRAIN_KEEP_pt0"
+   ],
+   "metrics": [
+    "abs_coarse",
+    "abs_fine16",
+    "abs_native",
+    "con_coarse"
+   ],
+   "rule": "each Q78 seed: hi (worst-channel jackknife upper 95 %) <= 1.25 x max over the A75 seeds for every group/metric; validity: every passivity check (rest, pt0, cf3, cf2, te2, te0) passed and A/O bitwise the frozen basis; both seeds must pass",
+   "outcomes": "FIT GATE PASSED -> Stage 4; INSUFFICIENT FIT -> stop (mechanism diagnostics on development data, cost, export); PHYSICAL VALIDITY FAILURE -> stop"
+  },
+  "descriptive": "checkpoints, con_native / con_fine16, per-matrix values, run records"
+ },
+ "mechanism": {
+  "code": "mech78.py (archived development data only)",
+  "criterion": "mean over the pairs 101<-50, 105<-52, 107<-53 of the worst-channel near-field (0-5 mm) relative difference between the far-source prediction and the mapped training-source prediction; improved iff Q78/A75 <= 0.5 for native and for fine16 contrast in both seeds (5901 vs 5901, 5902 vs 5902)",
+  "descriptive": "per-stratum errors, origin-offset sensitivity, WL75 Stage 3 population per-source errors (development, already scored in WL75)"
+ },
+ "stage4": {
+  "population": "WL77A Part 0 = the WL76 Stage 4 population (fnto_fia76/ports76.py, geometry only), never scored; references generated by WL77A before any WL78 candidate existed and never opened before this protocol was committed",
+  "inputs": {
+   "ports76.json": "0819fa61a37b16d7d6227fa86a6f8938499ec44dd5b404a73942bf5b7912d6cc",
+   "inputs/geometry_te1.pt": "a2fbcc06ad88376eaa03caf67c26bfd970806a7c1618602080367fb6a4d40c91"
+  },
+  "references_complete_sha256": "e754dcda4a0513335ae1ca142177454668ec45922a99a87682364febadb9698d",
+  "pose": "te1",
+  "ports": {
+   "0": 387,
+   "1": 553,
+   "2": 236,
+   "3": 246,
+   "4": 3811,
+   "5": 3834,
+   "6": 39,
+   "7": 58,
+   "8": 3442,
+   "9": 874,
+   "10": 167,
+   "11": 1573,
+   "12": 3395,
+   "13": 401,
+   "14": 1875,
+   "15": 305,
+   "16": 463,
+   "17": 3354,
+   "18": null,
+   "19": null,
+   "20": 655,
+   "21": 2150,
+   "22": 607,
+   "23": 565,
+   "24": 2437,
+   "25": 2067,
+   "26": 2444,
+   "27": 2388
+  },
+  "slots": {
+   "0": {
+    "context": "TBE",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "1": {
+    "context": "TBE",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "2": {
+    "context": "TBE",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "3": {
+    "context": "TBE",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "4": {
+    "context": "TBC",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "5": {
+    "context": "TBC",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "6": {
+    "context": "TBC",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "7": {
+    "context": "TBC",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "8": {
+    "context": "SM",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "9": {
+    "context": "SM",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "10": {
+    "context": "SM",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "11": {
+    "context": "SM",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "12": {
+    "context": "SR",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "13": {
+    "context": "SR",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "14": {
+    "context": "SR",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "15": {
+    "context": "SR",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "16": {
+    "context": "SV",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "17": {
+    "context": "SV",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "18": {
+    "context": "SV",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "19": {
+    "context": "SV",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "20": {
+    "context": "INT",
+    "stratum": "near",
+    "subcell": "hi"
+   },
+   "21": {
+    "context": "INT",
+    "stratum": "near",
+    "subcell": "lo"
+   },
+   "22": {
+    "context": "INT",
+    "stratum": "far",
+    "subcell": "hi"
+   },
+   "23": {
+    "context": "INT",
+    "stratum": "far",
+    "subcell": "lo"
+   },
+   "24": {
+    "context": "FP",
+    "stratum": "footprint",
+    "subcell": "center"
+   },
+   "25": {
+    "context": "FP",
+    "stratum": "footprint",
+    "subcell": "corner"
+   },
+   "26": {
+    "context": "FP",
+    "stratum": "footprint",
+    "subcell": "corner"
+   },
+   "27": {
+    "context": "FP",
+    "stratum": "footprint",
+    "subcell": "edge"
+   }
+  },
+  "groups": {
+   "BND_FAR": "TBE/TBC/SM/SR far (8)",
+   "BND_NEAR": "TBE/TBC/SM/SR near (8)",
+   "INT": "INT near/far (4)",
+   "FP_rest": "24-27",
+   "FP_te1": "24-27 at te1",
+   "DEF": "te1 - rest (24-27)",
+   "UNS": "SV near (2, per matrix only)",
+   "BND_HI": "hi sub-cell boundary",
+   "BND_LO": "lo sub-cell boundary"
+  },
+  "qualification": "eval73 rule unchanged: abs signal/SE >= 10 per matrix, deformation >= 3; a group needs >= 4 qualified matrices, otherwise UNMEASURED",
+  "evaluated": "AR_5901/5902 (WL73), A75_5901/5902 (WL75), Q78_5901/5902 finals on replicas 0-3 (and 1-3 per matrix); checkpoints of A75 and Q78 descriptive only (no selection)",
+  "decision": {
+   "primary_groups": [
+    "BND_FAR",
+    "BND_NEAR",
+    "INT"
+   ],
+   "improve_factor": 0.8,
+   "regression_factor": 1.25,
+   "stronger": "per group, the preserved learned control (AR or A75) with the lower mean over its two seeds of con_coarse hi",
+   "far_rule": "far = YES iff max over Q78 seeds of BND_FAR con_coarse hi <= 0.8 x min over the stronger control seeds AND < min of their lower 95 % bounds; NO iff min Q78 > 0.8 x max stronger; else OVERLAP; near likewise on BND_NEAR",
+   "regression": {
+    "BND_FAR": [
+     "abs_coarse",
+     "abs_fine16"
+    ],
+    "BND_NEAR": [
+     "abs_coarse",
+     "abs_fine16"
+    ],
+    "INT": [
+     "abs_coarse",
+     "abs_fine16",
+     "con_coarse"
+    ],
+    "FP_rest": [
+     "abs_coarse",
+     "abs_fine16"
+    ],
+    "FP_te1": [
+     "abs_coarse",
+     "abs_fine16"
+    ]
+   },
+   "regression_rule": "per group/metric vs the better control (lower seed mean): YES iff min Q78 >= 1.25 x max control; NO iff max Q78 < 1.25 x min control; else OVERLAP",
+   "secondary_metrics": [
+    "con_native",
+    "con_fine16",
+    "abs_coarse",
+    "abs_fine16",
+    "abs_native"
+   ],
+   "verdicts": "physics failure -> PHYSICAL VALIDITY FAILURE; far OVERLAP or primary unmeasured -> INCONCLUSIVE; far YES and mechanism improved -> SOURCE-IDENTITY LEAKAGE SUPPORTED; far YES, mechanism not improved -> CONDITIONING-ONLY TRANSFER BENEFIT; far NO and mechanism improved -> INVARIANCE IMPROVED, TRANSFER UNCHANGED; far NO otherwise -> NO TRANSFER BENEFIT; qualifiers: TRADE-OFF (regression YES with far YES), with regression, possible regression (overlap), LOCAL BENEFIT (BND_NEAR)",
+   "absolute_gates": "WL59: abs_coarse <= 0.10, abs_fine16 <= 0.15, con_coarse <= 0.25 per group; DEF relative <= 0.35 and corr >= 0.90 (eval73 Qdef); reported separately"
+  },
+  "analysis": "per stratum: BND near/far, INT, SV (UNS), TOPBOT / SIDE, hi / lo coarse-cell sub-position, footprint and DEF; distance to S16-R from ports76.json; checkpoints (late-training specialisation)"
+ },
+ "stage5": {
+  "cost_limit": 2.0,
+  "gated": [
+   "apply64",
+   "apply1",
+   "rebuild_incl_features",
+   "geometry_state_bytes"
+  ],
+  "rule": "cost gate before training (initial W+UV-Q vs A75_5901, same GPU, same process): every gated ratio <= 2, else COST INFEASIBLE and stop; final cost measured again on the trained Q78_5901 (reported; limits unchanged)"
+ },
+ "execution": {
+  "chain": "tests -> cost gate -> full-scale probe -> two fits -> Stage 3 + fit gate -> mechanism diagnostics -> [pass: Stage 4] -> final cost -> export; one detached setsid process; any failure stops; dev smoke first (40-step fits, Stage 4 forced on dev slots, no metric used)",
+  "probe_steps": 60,
+  "lanes_rule": "probe both runs concurrently with the real configuration; two lanes iff both complete and the sum of peak reserved memory <= 0.85 x GPU memory, else one lane (re-probed alone); a failed single-lane probe stops",
+  "dev_slots": {
+   "rest": [
+    2,
+    3,
+    24,
+    25,
+    26,
+    27
+   ],
+   "te1": [
+    24,
+    25,
+    26,
+    27
+   ]
+  },
+  "precision": "float32 model and training (TF32 off), float64 estimators (eval68)",
+  "hardware": "LabServer63 RTX 3080 Ti 12 GB; WL75 A75 was trained on a local RTX 5080 (training time not comparable; operator costs re-measured on the same GPU)"
+ },
+ "prohibited": [
+  "FIA / SS / W quadrature changes",
+  "angular rank or basis changes",
+  "training-source coverage changes",
+  "loss / threshold tuning",
+  "per-source correction tables",
+  "feature or capacity sweeps",
+  "checkpoint selection on confirmation data",
+  "production K/C changes",
+  "coupled GI",
+  "novelty claims",
+  "automatic adoption",
+  "a successor batch"
+ ],
+ "amendments": []
+}
