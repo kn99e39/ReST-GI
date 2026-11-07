@@ -1,0 +1,133 @@
+{
+  "models": {
+    "A75_5901": {
+      "parameters": {
+        "learned_parameters_excl_fixed_AO": 273040,
+        "fixed_AO_logits": 3840,
+        "rank_dependent_final_layers": 235872,
+        "total": 276880
+      },
+      "feature_build_seconds": {
+        "median": 0.0,
+        "min": 0.0,
+        "max": 0.0,
+        "n": 0
+      },
+      "state_floats": {
+        "W": 23592960,
+        "U": 2949120,
+        "V": 2949120,
+        "A": 768,
+        "O": 3072
+      },
+      "state_bytes_WUV": 117964800,
+      "geometry_input_bytes": 12042240,
+      "rebuild_seconds": {
+        "median": 0.016005009412765503,
+        "min": 0.015231482684612274,
+        "max": 0.016807105392217636,
+        "n": 10
+      },
+      "apply64_seconds": {
+        "median": 0.08639471791684628,
+        "min": 0.08609850332140923,
+        "max": 0.08642424084246159,
+        "n": 5
+      },
+      "apply1_seconds": {
+        "median": 0.0021363310515880585,
+        "min": 0.0021229516714811325,
+        "max": 0.002152102068066597,
+        "n": 10
+      },
+      "peak_GPU_above_geometry": 448823296
+    },
+    "Q78_5901": {
+      "parameters": {
+        "learned_parameters_excl_fixed_AO": 273040,
+        "fixed_AO_logits": 3840,
+        "rank_dependent_final_layers": 235872,
+        "total": 276880
+      },
+      "feature_build_seconds": {
+        "median": 0.0851547122001648,
+        "min": 0.08381496369838715,
+        "max": 0.1834761630743742,
+        "n": 10
+      },
+      "state_floats": {
+        "W": 23592960,
+        "U": 2949120,
+        "V": 2949120,
+        "A": 768,
+        "O": 3072
+      },
+      "state_bytes_WUV": 117964800,
+      "geometry_input_bytes": 12042240,
+      "rebuild_seconds": {
+        "median": 0.10159892588853836,
+        "min": 0.10033222287893295,
+        "max": 0.10959330759942532,
+        "n": 10
+      },
+      "apply64_seconds": {
+        "median": 0.08597879111766815,
+        "min": 0.08597157150506973,
+        "max": 0.0860665924847126,
+        "n": 5
+      },
+      "apply1_seconds": {
+        "median": 0.002151116728782654,
+        "min": 0.002139303833246231,
+        "max": 0.00215940922498703,
+        "n": 10
+      },
+      "peak_GPU_above_geometry": 645765632
+    }
+  },
+  "ratio": {
+    "apply64": 0.9951857380959511,
+    "apply1": 1.0069210608456982,
+    "rebuild_incl_features": 1.2617800478642895,
+    "rebuild_model_specific_only": 6.347945400613363,
+    "rebuild_incl_ballistic": 1.0611228683261067,
+    "geometry_state_bytes": 1.0,
+    "peak_GPU": 1.4387970449733518
+  },
+  "shared_geometry_preparation": {
+    "median": 0.3109638225287199,
+    "min": 0.3090164978057146,
+    "max": 0.32127615436911583,
+    "n": 5
+  },
+  "geometry_with_ballistic_seconds": 1.3843532986938953,
+  "limit": 2.0,
+  "gated": [
+    "apply64",
+    "apply1",
+    "rebuild_incl_features",
+    "geometry_state_bytes"
+  ],
+  "passed": true,
+  "training": {
+    "Q78_5901": {
+      "seconds": 6269.718353031203,
+      "peak_GPU_allocated": 4556047872,
+      "concurrent": "2 lanes",
+      "trainable": 273040
+    },
+    "Q78_5902": {
+      "seconds": 6269.618574101478,
+      "peak_GPU_allocated": 4556047872,
+      "concurrent": "2 lanes",
+      "trainable": 273040
+    }
+  },
+  "A75_training": {
+    "seconds": 4084,
+    "note": "WL75 local RTX 5080, 2 lanes (run records); not the same GPU"
+  },
+  "gpu": "NVIDIA GeForce RTX 3080 Ti",
+  "other_gpu_processes_at_start": "",
+  "timing_repeats": 10
+}

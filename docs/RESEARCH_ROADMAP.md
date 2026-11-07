@@ -1,6 +1,6 @@
 # Research Roadmap — Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-11-02. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
+**Current as of:** 2026-11-07. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
 
 ## Current frontier
 
@@ -11,6 +11,16 @@ The latest completed controlled intervention is [WL64](worklogs/64_WORKLOG_DIREC
 [WL69](worklogs/69_WORKLOG_COMMON_WORKLOAD_EXTERNAL_BASELINE.md) established one common workload with an external neural baseline: the WL55 floor medium fixture under a rigid edit, with released 8DNA. ReST-GI CAK meets the 3 % contract on both states; 8DNA does not (3–7/12, static blue bias). Quality-matched Cycles **path-traced re-rendering** was faster than ReST-GI (16 spp in 2.4 s vs a 24 s update). The frozen WL69 protocol calls this outcome B, but its 8DNA arm reused the T0-trained slab asset without T1 retraining: **Neural Full Recompute was not measured**. RNA, Neural Radiosity and TransGI could not run this workload.
 
 [WL70](worklogs/70_WORKLOG_SUN_STATE_REUSE_C1.md) tested validity-aware reuse of the first-order direct-sun state on that C1 edit. The cached T0 state passed an explicit dependency contract: rest mesh, medium, rigid pose, material-frame sun and cameras, estimator, and a bit-identical replay of source visibility. It was physically identical to the retraced T1 state, and four invalidation controls were rejected. The CAK update fell from 24.6 s to 2.09 s with unchanged quality, narrowly beating quality-matched Cycles **re-rendering** (16 spp, 2.40 s under WL69 timing; equal under Blender's internal render time). This is an **11.8x intra-ReST-GI sun-reuse acceleration**, not a measured advantage over 8DNA T1 neural retraining. Cycles still meets the bare contract at 1 spp in 1.2 s. The diagnostic cache is not adopted.
+
+### Learned intrinsic-K source transfer (WL71–WL78, as of 2026-11-07)
+
+Learned rank-16 W+UV reaches the fixed-basis oracle on its supervised sources (WL75), but does not transfer to independent boundary sources.
+
+- **WL78** removed the operator's absolute-position and orientation inputs, giving the geometry-relative W+UV-Q. Supervised fidelity was preserved and interior and near-boundary transfer improved descriptively (interior independent sources now meet the WL59 gate). The frozen boundary-far endpoint stays **INCONCLUSIVE**: one of two seeds improved. The deformation response also degraded.
+- **Remaining boundary failure:** physically equivalent boundary contexts related by a bin-frame rotation or reflection are still not mapped to equivalent responses. This attribution is unmeasured.
+- **WL77A** selected no architecture candidate. It also found that the WL76/WL77 angular-failure attributions are confounded by q = 1024 single-scatter quadrature noise. That correction is an **unresolved attribution question**; the recorded WL76/WL77 verdicts are unchanged.
+
+See [WL78](worklogs/78_WORKLOG_SOURCE_IDENTITY_LEAKAGE.md) and [WL77A](worklogs/77A_WORKLOG_MULTI_AGENT_ARCHITECTURE_DISCOVERY.md).
 
 No learned corrective recipe or successor architecture is adopted. Work on `Selective_Recompute` only; no branch/worktree change without user consent.
 

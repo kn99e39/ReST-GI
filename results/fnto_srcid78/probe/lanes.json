@@ -1,0 +1,38 @@
+{
+ "lanes": 2,
+ "two_lane": {
+  "Q78_5901": {
+   "run": "Q78_5901",
+   "steps": 60,
+   "seconds_per_step_median": 0.3128527123481035,
+   "extrapolated_20k_hours": 1.7380706241561308,
+   "peak_GPU_allocated": 4556047872,
+   "peak_GPU_reserved": 4961861632,
+   "J_initial": 1.5939559936523438,
+   "L_sym_initial": 0.23739230632781982,
+   "loss_initial": 1.8313482999801636,
+   "concurrent": "2 lanes",
+   "note": "non-evidence full-scale probe"
+  },
+  "Q78_5902": {
+   "run": "Q78_5902",
+   "steps": 60,
+   "seconds_per_step_median": 0.31243516504764557,
+   "extrapolated_20k_hours": 1.7357509169313643,
+   "peak_GPU_allocated": 4556047872,
+   "peak_GPU_reserved": 4961861632,
+   "J_initial": 1.2406036853790283,
+   "L_sym_initial": 0.25259336829185486,
+   "loss_initial": 1.4931970834732056,
+   "concurrent": "2 lanes",
+   "note": "non-evidence full-scale probe"
+  }
+ },
+ "return_codes": {
+  "Q78_5901": 0,
+  "Q78_5902": 0
+ },
+ "single_lane": null,
+ "gpu_memory_total": 12884901888,
+ "rule": "probe both runs concurrently with the real configuration; two lanes iff both complete and the sum of peak reserved memory <= 0.85 x GPU memory, else one lane (re-probed alone); a failed single-lane probe stops"
+}
