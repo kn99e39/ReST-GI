@@ -1,0 +1,36 @@
+{
+  "batch": "sym79_v1",
+  "worklog": "docs/worklogs/79_WORKLOG_ANGULAR_FRAME_EQUIVARIANCE.md",
+  "branch": "Selective_Recompute",
+  "server": "LabServer63 (main); evidence root ~/rest_sym79; read-only inputs ~/rest_repr68, ~/rest_cover71, ~/rest_cmp72, ~/rest_src73, ~/rest_ato74, ~/rest_rank75, ~/rest_rank75L, ~/rest_srcid78, ~/rest_arch77a (WL77A Part 0: scored in WL78, development data only here)",
+  "question": "Is insufficient angular-frame equivariance a material cause of the remaining Q78 boundary-transfer failure, and can symmetry-consistent supervision address it within the existing rank-16 ATO / W+UV-Q representation?",
+  "controls": {
+    "primary": {"Q78_5901": {"path": "~/rest_srcid78/runs/Q78_5901.pt", "sha256": "3bdff7e905af24c658d8901eb1cdbd242747f56c68959b45263f49e934ac5a10"},
+                "Q78_5902": {"path": "~/rest_srcid78/runs/Q78_5902.pt", "sha256": "f40b0d1fb521f9cc1071b593b76636d2b39e751d08acf3b796029d7c628315ab"}},
+    "secondary": {"A75_5901": {"path": "~/rest_rank75/runs/A75_5901.pt", "sha256": "c002274278f7017d973327f80fb42f75bc5358582782e86552291b7dcc990a58"},
+                  "A75_5902": {"path": "~/rest_rank75/runs/A75_5902.pt", "sha256": "358c388133d2739f5dd85b3f632f5bd8076dfef11907f131e7905abdbf5a4e8a"},
+                  "AR_5901": {"path": "~/rest_src73/runs/AR_5901.pt"}, "AR_5902": {"path": "~/rest_src73/runs/AR_5902.pt"}},
+    "note": "historical final checkpoints, unchanged; never retrained"
+  },
+  "stage0": {
+    "group": "rest slab: D4h = D4 x {id, z-flip} (sym72.ops(True), 16 operations); dented pose with centre c: D4 maps it to the pose with centre op(c) (z-flip excluded); self-symmetries: op(c) = c",
+    "convention": "sym79 module docstring: perm[p] = port at op(x0_p); Q[p] = F_dst[perm p] M F_src[p]^T; pin / pout = bin maps of the bin-centre directions (N = 4 / 8); S'[pin[p,a], perm[j], pout[j,o], c] = S[a, j, o, c], i.e. K(gG) = P_out(g) K(G) P_in(g)^-1; d'[pin[p,a]] = d[a]",
+    "exactness": "a map is exact when every mapped bin centre coincides with a bin centre (residual <= 1e-9) and every per-port map is a bijection; exact labels are built only from exact maps",
+    "geometry_checks": "port bijection; frame map structure (normal preserved, tangent block a D4 element); bin-map residual / bijectivity; fine16 and coarse-cell commutation; refined-mesh identity of op(G) and the image geometry; beta equivariance (quadrature noise); W+UV-Q input equivariance (probe-tie ports counted)",
+    "reference_controls": "stage0_79.py refs docstring (positive: exact pairs, first 2 per operation, and self-fixed sources; negative: identity bin maps, t<->b swapped bin maps, class-2 translation pairs with different boundary context; reading rules predeclared there)",
+    "pre_freeze_development_run": "the geometry check and a partial reference run (the first 8 positive pairs: differences 0.95-1.03 x replica noise; every negative control detected) were run on the dev root before this freeze; the dented-pose maps were found NOT exact there (first-triangle frames of a non-D4-symmetric refined triangulation: normal tilt up to 0.08, bin residual 0.06-0.16, some outgoing maps not bijective). Consequence frozen here: exact transformed labels exist for the rest geometry only."
+  },
+  "stage1": {
+    "sources": "S16-R rest training sources (16; fit73.populations S16R), fit targets = means of fitting replicas 0-3 (fit_targets73.pt sha256 20f631ed...), scoring = held-out replicas 4-7 of the same bundles",
+    "ops": ["r90", "r180", "mx", "sw", "id+z", "r90+z"],
+    "ops_rationale": "chosen from the Stage 0 frame-map table before any oracle outcome: in-plane 90 and 180 degree rotations, an axis reflection and a diagonal reflection (top/bottom tangent maps R90 / R180 / reflections), the top <-> bottom exchange (id+z) and a top <-> bottom exchange combined with a rotation (r90+z); every side face is mapped to another side face or to itself with a non-identity tangent map by at least one of them",
+    "oracle": {"iters": 3000, "chunk": 8, "dtype": "float64", "init": "0.5 / P", "convergence_check": "the same budget again from the solution (relative J change reported)", "basis": "frozen G2 (rank75_v1.json basis: selected restart, sha256 asserted), A = softmax over r, O = softmax over o", "budget": "d' = transformed 1 - beta of the original source (exact isolation of the angular permutation)"},
+    "groups": {"bnd_mm": 10, "rule": "BND = sources whose nearest port with a perpendicular normal is within 10 mm (geometry only); INT = the rest; ALL = 16"},
+    "gate": {"factor": 1.25, "groups": ["ALL", "BND", "INT"], "metrics": ["abs_native", "abs_fine16", "abs_coarse", "con_fine16", "con_coarse"],
+             "rule": "for every predeclared operation and group: transformed pooled worst-channel upper-95 % bound (eval68 hi) <= 1.25 x the original oracle's, for every metric; and no WL59 gate (wl59) passed by the original oracle is failed by the transformed oracle",
+             "wl59": {"abs_coarse": 0.10, "abs_fine16": 0.15, "con_coarse": 0.25},
+             "requires": "Stage 0 contract VALID (geometry: all rest maps exact and commuting; references: stage0 refs summary.valid)",
+             "fail": "ANGULAR BASIS LIMIT: stop; no A/O change, no rank change; the required architectural change is reported as an unresolved human decision"},
+    "closure": "descriptive algebraic analysis of A, O and the joint rank-1 patterns under the 8 D4 tangent maps (rank assignment, relative Frobenius error)"
+  }
+}
