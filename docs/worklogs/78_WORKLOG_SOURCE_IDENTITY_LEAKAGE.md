@@ -180,3 +180,22 @@ The native and fine16-contrast L2 signal outside the support is about 0.
   - a qualifier string match.
 - **Training probe.** A 12-step full-scale probe ran at 0.149 s/step with a 4.6 GB peak.
 - **Not read.** No Part 0 response value was read. T11 reads only `complete.json` and the hashes.
+
+### Amendment 1 (2026-11-07; after the dev smoke, before the evidence chain)
+
+**What the dev smoke found.** It ran with the initial model on the dev root, so it is not evidence. It stopped at the frozen cost gate:
+
+| Ratio | Value |
+|---|---|
+| `rebuild_incl_features` | 5.78 |
+| apply64 | 1.00 |
+| apply1 | 1.01 |
+| Geometry-state bytes | 1.00 |
+
+**Defect.** The rebuild ratio was asymmetric:
+- W+UV-Q side: input construction (0.088 s; frames + probes) + coefficients.
+- A75 side: coefficients only (0.017 s). It left out A75's own input construction, the r57 geometry preprocessing, which both models need anyway.
+
+**Change.** Both sides now include the shared geometry preparation (without ballistic B) plus their model-specific rebuild. The original ratio is still reported, ungated, as `rebuild_model_specific_only`. A variant that includes the shared ballistic B is reported too. The limit (2.0) and the gated list are unchanged.
+
+**Confirmations.** No candidate metric and no Part 0 response had been produced.

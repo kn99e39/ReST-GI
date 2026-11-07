@@ -43,14 +43,20 @@ def main(kind):
     else:m=Q.load_run(RG,ROOT/'runs/Q78_5901.pt');tag='Q78_5901'
     res[tag]=measure(m,g,lights,n,True);del m;torch.cuda.empty_cache()
     a,b=res['A75_5901'],res[tag]
+    # amendment 1: shared geometry preparation (r57_geometry.geometry without the ballistic B: mesh, cells, A75's node / pair inputs, graph,
+    # edges, prior) is part of both rebuilds; the ballistic B (identical for both) is reported separately
+    prep=med(lambda:RG.geometry('rest',ballistic=False),max(3,n//2),warm=1);t=time.perf_counter();_=RG.geometry('rest',ballistic=True);ball=time.perf_counter()-t
+    pm=prep['median']
     ratio=dict(apply64=b['apply64_seconds']['median']/a['apply64_seconds']['median'],apply1=b['apply1_seconds']['median']/a['apply1_seconds']['median'],
-               rebuild_incl_features=(b['rebuild_seconds']['median'])/a['rebuild_seconds']['median'],
+               rebuild_incl_features=(pm+b['rebuild_seconds']['median'])/(pm+a['rebuild_seconds']['median']),
+               rebuild_model_specific_only=b['rebuild_seconds']['median']/a['rebuild_seconds']['median'],
+               rebuild_incl_ballistic=(ball+b['rebuild_seconds']['median'])/(ball+a['rebuild_seconds']['median']),
                geometry_state_bytes=(b['state_bytes_WUV']+b['geometry_input_bytes'])/(a['state_bytes_WUV']+int(g['node'][:,:16].numel()*4+g['pair'].numel()*4)),
                peak_GPU=b['peak_GPU_above_geometry']/max(a['peak_GPU_above_geometry'],1))
     lim=CFG['stage5']['cost_limit'];passed=all(ratio[k]<=lim for k in CFG['stage5']['gated'])
     tr=None
     if kind=='final':tr={n_:{k:load(ROOT/'runs'/f'{n_}.pt').get(k) for k in ('seconds','peak_GPU_allocated','concurrent','trainable')} for n_ in CFG['runs']}
-    write_new(out,json.loads(json.dumps(dict(models=res,ratio=ratio,limit=lim,gated=CFG['stage5']['gated'],passed=passed,training=tr,
+    write_new(out,json.loads(json.dumps(dict(models=res,ratio=ratio,shared_geometry_preparation=prep,geometry_with_ballistic_seconds=ball,limit=lim,gated=CFG['stage5']['gated'],passed=passed,training=tr,
         A75_training=dict(seconds=4084,note='WL75 local RTX 5080, 2 lanes (run records); not the same GPU'),gpu=torch.cuda.get_device_name(0),other_gpu_processes_at_start=apps,timing_repeats=n),default=float)))
     print('COST_DONE',kind,'passed' if passed else 'EXCEEDED',json.dumps(ratio),flush=True)
 
