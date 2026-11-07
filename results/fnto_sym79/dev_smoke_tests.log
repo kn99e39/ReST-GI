@@ -1,0 +1,10 @@
+PASS test_group_structure
+PASS test_symrest_labels
+PASS test_schedule
+PASS test_init_capacity
+PASS test_physics
+PASS test_geometry_cache
+PASS test_no_leakage
+PASS test_transformed_vs_physics
+FAIL test_decision_logic AssertionError({'BND_FAR': 'A75', 'BND_NEAR': 'Q78', 'INT': 'Q78'})
+TESTS 8 passed 1 failed

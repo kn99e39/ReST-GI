@@ -1,6 +1,6 @@
 # Research Roadmap — Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-11-07. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
+**Current as of:** 2026-11-08. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
 
 ## Current frontier
 
@@ -18,9 +18,15 @@ Learned rank-16 W+UV reaches the fixed-basis oracle on its supervised sources (W
 
 - **WL78** removed the operator's absolute-position and orientation inputs, giving the geometry-relative W+UV-Q. Supervised fidelity was preserved and interior and near-boundary transfer improved descriptively (interior independent sources now meet the WL59 gate). The frozen boundary-far endpoint stays **INCONCLUSIVE**: one of two seeds improved. The deformation response also degraded.
 - **Remaining boundary failure:** physically equivalent boundary contexts related by a bin-frame rotation or reflection are still not mapped to equivalent responses. This attribution is unmeasured.
+- **WL79** (2026-11-08) stopped at its pre-training representability gate with **ANGULAR BASIS LIMIT**.
+  - The rest-slab D4h symmetry contract is exact and was verified against references. Dented-pose bin maps are not exact under the first-triangle bin frames.
+  - Under the frozen rank-16 G2 A/O, labelled oracles fit the exact symmetry images of the boundary training responses up to 1.26–1.41× worse than the originals (coarse absolute and contrast). Interior sources are unaffected.
+  - The basis is not closed under the bin permutations.
+  - Caveat: the basis was fitted on the original orientations.
+  - No symmetry-trained candidate exists. Whether to change A/O or the operator class is an open user decision.
 - **WL77A** selected no architecture candidate. It also found that the WL76/WL77 angular-failure attributions are confounded by q = 1024 single-scatter quadrature noise. That correction is an **unresolved attribution question**; the recorded WL76/WL77 verdicts are unchanged.
 
-See [WL78](worklogs/78_WORKLOG_SOURCE_IDENTITY_LEAKAGE.md) and [WL77A](worklogs/77A_WORKLOG_MULTI_AGENT_ARCHITECTURE_DISCOVERY.md).
+See [WL79](worklogs/79_WORKLOG_ANGULAR_FRAME_EQUIVARIANCE.md), [WL78](worklogs/78_WORKLOG_SOURCE_IDENTITY_LEAKAGE.md) and [WL77A](worklogs/77A_WORKLOG_MULTI_AGENT_ARCHITECTURE_DISCOVERY.md).
 
 No learned corrective recipe or successor architecture is adopted. Work on `Selective_Recompute` only; no branch/worktree change without user consent.
 

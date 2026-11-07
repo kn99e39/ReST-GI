@@ -1,0 +1,2805 @@
+{
+ "maps": {
+  "rest:id": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 0.0,
+    "8": 0.0
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "4": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "5": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 0.0,
+    "triangle_match_fraction": 1.0
+   },
+   "beta": {
+    "max_abs_diff_d": 0.0,
+    "rel_norm": 0.0,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.0,
+    "node_ports_exact_1e5": 3840,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 0,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 1.0,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:r90": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 3.775166431889533e-16,
+    "8": 4.744904746134193e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "4": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08486282825469971,
+    "rel_norm": 0.005877595388340582,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9902750651041666,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:r180": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 4.308824046522781e-16,
+    "8": 4.744904746134193e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "5": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.962615573354719e-17,
+    "triangle_match_fraction": 0.8333333333333334
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08117653429508209,
+    "rel_norm": 0.005903510340945298,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.18723708391189575,
+    "node_ports_exact_1e5": 3808,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 32,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9881266276041667,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:r270": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 3.775166431889533e-16,
+    "8": 4.744904746134193e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08486282825469971,
+    "rel_norm": 0.0058775953883405995,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9902750651041666,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:mx": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 5.661048867003676e-16,
+    "8": 4.611102534756203e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "4": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "5": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.0805220901966095,
+    "rel_norm": 0.005953794991187146,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.18723708391189575,
+    "node_ports_exact_1e5": 3808,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 32,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9903767903645834,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:my": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 5.661048867003676e-16,
+    "8": 4.611102534756203e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "1": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "5": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08256411552429199,
+    "rel_norm": 0.005806523940303959,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.0,
+    "node_ports_exact_1e5": 3840,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 0,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.99041748046875,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:sw": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 5.661048867003676e-16,
+    "8": 4.577566798522237e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 0.0,
+    "triangle_match_fraction": 1.0
+   },
+   "beta": {
+    "max_abs_diff_d": 0.07205277681350708,
+    "rel_norm": 0.005905089771823915,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9977335611979167,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:asw": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 5.117875266520903e-16,
+    "8": 4.611102534756203e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "1": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "4": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.962615573354719e-17,
+    "triangle_match_fraction": 0.8333333333333334
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08691971004009247,
+    "rel_norm": 0.005878334016813648,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9881022135416667,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:id+z": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 5.661048867003676e-16,
+    "8": 4.611102534756203e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "2": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "3": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "4": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 4.336808689942018e-19,
+    "triangle_match_fraction": 0.8333333333333334
+   },
+   "beta": {
+    "max_abs_diff_d": 0.07551273703575134,
+    "rel_norm": 0.0058098202568288996,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.0,
+    "node_ports_exact_1e5": 3840,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 0,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9974202473958333,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:r90+z": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 5.117875266520903e-16,
+    "8": 4.611102534756203e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "3": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "4": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "5": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3884562417838567e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.07967902719974518,
+    "rel_norm": 0.005938336649930114,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9903910319010417,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:r180+z": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 3.510833468576701e-16,
+    "8": 4.041272810440265e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.962615573354719e-17,
+    "triangle_match_fraction": 1.0
+   },
+   "beta": {
+    "max_abs_diff_d": 0.0818883627653122,
+    "rel_norm": 0.005885709737800324,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.18723708391189575,
+    "node_ports_exact_1e5": 3808,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 32,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9880940755208333,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:r270+z": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 5.117875266520903e-16,
+    "8": 4.611102534756203e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "2": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "5": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3884562417838567e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.07967902719974518,
+    "rel_norm": 0.00593833664993012,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9903910319010417,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:mx+z": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 4.308824046522781e-16,
+    "8": 4.744904746134193e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "3": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "4": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3884562417838567e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08117994666099548,
+    "rel_norm": 0.005897531346319597,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.18723708391189575,
+    "node_ports_exact_1e5": 3808,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 32,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9902384440104167,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:my+z": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 4.308824046522781e-16,
+    "8": 4.744904746134193e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "1": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "2": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3884562417838567e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.09424182772636414,
+    "rel_norm": 0.0057840268001356525,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.0,
+    "node_ports_exact_1e5": 3840,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 0,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9902872721354167,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:sw+z": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 3.775166431889533e-16,
+    "8": 4.744904746134193e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "5": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 4.336808689942018e-19,
+    "triangle_match_fraction": 0.8333333333333334
+   },
+   "beta": {
+    "max_abs_diff_d": 0.0726073831319809,
+    "rel_norm": 0.005909239619961569,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9986735026041667,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "rest:asw+z": {
+   "dst": "rest",
+   "exact": true,
+   "residual": {
+    "4": 4.308824046522781e-16,
+    "8": 3.510833468576701e-16
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0,
+   "tangent_err": 0.0,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "1": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "2": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "3": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "4": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "5": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.962615573354719e-17,
+    "triangle_match_fraction": 1.0
+   },
+   "beta": {
+    "max_abs_diff_d": 0.07537797093391418,
+    "rel_norm": 0.005815578688679189,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9881062825520833,
+    "pair_max_diff_mapped": 0.0
+   }
+  },
+  "pt0:id": {
+   "dst": "pt0",
+   "exact": false,
+   "residual": {
+    "4": 7.009737992609684e-08,
+    "8": 7.101592160555936e-08
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 6.09955539410123e-08,
+   "tangent_err": 6.010675024370471e-08,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "4": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "5": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 0.0,
+    "triangle_match_fraction": 1.0
+   },
+   "beta": {
+    "max_abs_diff_d": 0.0,
+    "rel_norm": 0.0,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 4.758274152472097e-08,
+    "node_ports_exact_1e5": 3840,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 0,
+    "probe1_tie_ports_src": 164,
+    "edges_mapped_fraction": 1.0,
+    "pair_max_diff_mapped": 7.840497850963857e-08
+   }
+  },
+  "pt0:r90": {
+   "dst": "pt0v_+0.0050_+0.0050",
+   "exact": false,
+   "residual": {
+    "4": 0.0928296519857601,
+    "8": 0.11013704236024446
+   },
+   "bijective": {
+    "4": true,
+    "8": false
+   },
+   "normal_err": 0.07268095423120854,
+   "tangent_err": 0.08402136522109858,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "4": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.0766034871339798,
+    "rel_norm": 0.0059152971923990385,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3232,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 396,
+    "probe1_tie_ports_src": 164,
+    "edges_mapped_fraction": 0.9902750651041666,
+    "pair_max_diff_mapped": 0.0030019283294677734
+   }
+  },
+  "pt0:r180": {
+   "dst": "pt0v_-0.0050_+0.0050",
+   "exact": false,
+   "residual": {
+    "4": 0.10332088201825886,
+    "8": 0.10338559608397555
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0735470583290635,
+   "tangent_err": 0.01646398153911921,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "5": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.962615573354719e-17,
+    "triangle_match_fraction": 0.8333333333333334
+   },
+   "beta": {
+    "max_abs_diff_d": 0.09414471685886383,
+    "rel_norm": 0.005940364501336339,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.18723708391189575,
+    "node_ports_exact_1e5": 3808,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 32,
+    "probe1_tie_ports_src": 164,
+    "edges_mapped_fraction": 0.9881266276041667,
+    "pair_max_diff_mapped": 2.808422185918147e-07
+   }
+  },
+  "pt0:r270": {
+   "dst": "pt0v_-0.0050_-0.0050",
+   "exact": false,
+   "residual": {
+    "4": 0.09282965832930373,
+    "8": 0.12211138693782089
+   },
+   "bijective": {
+    "4": true,
+    "8": false
+   },
+   "normal_err": 0.07267953763674972,
+   "tangent_err": 0.08402136522109861,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": false,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08239546418190002,
+    "rel_norm": 0.005867503219979588,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3232,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 396,
+    "probe1_tie_ports_src": 164,
+    "edges_mapped_fraction": 0.9902750651041666,
+    "pair_max_diff_mapped": 0.0030019283294677734
+   }
+  },
+  "pt0:mx": {
+   "dst": "pt0v_-0.0050_-0.0050",
+   "exact": false,
+   "residual": {
+    "4": 0.07158365207848065,
+    "8": 0.07244440519034868
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.07268095423120854,
+   "tangent_err": 0.0026447707116761254,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "4": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "5": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.07585881650447845,
+    "rel_norm": 0.005831357245825549,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.18723708391189575,
+    "node_ports_exact_1e5": 3248,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 380,
+    "probe1_tie_ports_src": 164,
+    "edges_mapped_fraction": 0.9903767903645834,
+    "pair_max_diff_mapped": 0.0030019283294677734
+   }
+  },
+  "pt0:my": {
+   "dst": "pt0v_+0.0050_+0.0050",
+   "exact": false,
+   "residual": {
+    "4": 0.07293669648490247,
+    "8": 0.07295859053446536
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.07267953763674972,
+   "tangent_err": 0.016463981539119224,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "1": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "5": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.07960672676563263,
+    "rel_norm": 0.005930094881753278,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.005063260622660902,
+    "node_ports_exact_1e5": 3280,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 348,
+    "probe1_tie_ports_src": 164,
+    "edges_mapped_fraction": 0.99041748046875,
+    "pair_max_diff_mapped": 0.0030019283294677734
+   }
+  },
+  "pt0:sw": {
+   "dst": "pt0v_-0.0050_+0.0050",
+   "exact": false,
+   "residual": {
+    "4": 0.10837478798469459,
+    "8": 0.10852490647038221
+   },
+   "bijective": {
+    "4": true,
+    "8": false
+   },
+   "normal_err": 0.0735470583290635,
+   "tangent_err": 0.08402136522109861,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": false,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 0.0,
+    "triangle_match_fraction": 1.0
+   },
+   "beta": {
+    "max_abs_diff_d": 0.07435208559036255,
+    "rel_norm": 0.005863577753147281,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 164,
+    "edges_mapped_fraction": 0.9977335611979167,
+    "pair_max_diff_mapped": 2.8431012233376407e-07
+   }
+  },
+  "pt0:asw": {
+   "dst": "pt0",
+   "exact": false,
+   "residual": {
+    "4": 0.06307181330753604,
+    "8": 0.07358377810587596
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 6.09955539410123e-08,
+   "tangent_err": 0.0840213652210986,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "1": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "4": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.962615573354719e-17,
+    "triangle_match_fraction": 0.8333333333333334
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08691971004009247,
+    "rel_norm": 0.005886750974204616,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 164,
+    "edges_mapped_fraction": 0.9881022135416667,
+    "pair_max_diff_mapped": 2.4643402118940116e-07
+   }
+  },
+  "te0:id": {
+   "dst": "te0",
+   "exact": false,
+   "residual": {
+    "4": 7.854676840998929e-08,
+    "8": 8.082566597654278e-08
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 6.566492238846422e-08,
+   "tangent_err": 6.03910643715011e-08,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "4": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "5": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 0.0,
+    "triangle_match_fraction": 1.0
+   },
+   "beta": {
+    "max_abs_diff_d": 0.0,
+    "rel_norm": 0.0,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 4.4851136915546874e-08,
+    "node_ports_exact_1e5": 3840,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 0,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 1.0,
+    "pair_max_diff_mapped": 8.847177013215912e-08
+   }
+  },
+  "te0:r90": {
+   "dst": "te0",
+   "exact": false,
+   "residual": {
+    "4": 0.09588512599449273,
+    "8": 0.13168839159891413
+   },
+   "bijective": {
+    "4": true,
+    "8": false
+   },
+   "normal_err": 0.0787879858030018,
+   "tangent_err": 0.07762085977692658,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "4": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": false,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08486282825469971,
+    "rel_norm": 0.005886569478873475,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3344,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 332,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9902750651041666,
+    "pair_max_diff_mapped": 0.003260374069213867
+   }
+  },
+  "te0:r180": {
+   "dst": "te0",
+   "exact": false,
+   "residual": {
+    "4": 0.11162005109295006,
+    "8": 0.11167728585937484
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.07928308873551501,
+   "tangent_err": 0.018271107342846545,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "5": [
+     [
+      -1,
+      0,
+      0,
+      -1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.962615573354719e-17,
+    "triangle_match_fraction": 0.8333333333333334
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08117653429508209,
+    "rel_norm": 0.0059120158783852435,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.18723708391189575,
+    "node_ports_exact_1e5": 3808,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 32,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9881266276041667,
+    "pair_max_diff_mapped": 3.34830585480006e-07
+   }
+  },
+  "te0:r270": {
+   "dst": "te0",
+   "exact": false,
+   "residual": {
+    "4": 0.09588511537374918,
+    "8": 0.12953983595035945
+   },
+   "bijective": {
+    "4": true,
+    "8": false
+   },
+   "normal_err": 0.078787669830376,
+   "tangent_err": 0.07762085977692658,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      0,
+      -1,
+      1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      1,
+      -1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": false,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08486282825469971,
+    "rel_norm": 0.005886569478873492,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3344,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 332,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9902750651041666,
+    "pair_max_diff_mapped": 0.003260374069213867
+   }
+  },
+  "te0:mx": {
+   "dst": "te0",
+   "exact": false,
+   "residual": {
+    "4": 0.07760749314224794,
+    "8": 0.07854068102575439
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.0787879858030018,
+   "tangent_err": 0.0031085995464298355,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "4": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "5": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.0805220901966095,
+    "rel_norm": 0.005962083135439264,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.18723708391189575,
+    "node_ports_exact_1e5": 3360,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 316,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9903767903645834,
+    "pair_max_diff_mapped": 0.003260374069213867
+   }
+  },
+  "te0:my": {
+   "dst": "te0",
+   "exact": false,
+   "residual": {
+    "4": 0.07895531084721094,
+    "8": 0.07900746366793138
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 0.078787669830376,
+   "tangent_err": 0.01827110734284653,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "1": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "5": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.3877787807814457e-17,
+    "triangle_match_fraction": 0.08333333333333333
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08256411552429199,
+    "rel_norm": 0.005815169417955195,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.0054731237049074205,
+    "node_ports_exact_1e5": 3392,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 284,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.99041748046875,
+    "pair_max_diff_mapped": 0.003260374069213867
+   }
+  },
+  "te0:sw": {
+   "dst": "te0",
+   "exact": false,
+   "residual": {
+    "4": 0.11523869122230522,
+    "8": 0.1624931206617995
+   },
+   "bijective": {
+    "4": true,
+    "8": false
+   },
+   "normal_err": 0.07928308873551501,
+   "tangent_err": 0.07762085977692657,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "1": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "2": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "3": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "4": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      1,
+      1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": false,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 0.0,
+    "triangle_match_fraction": 1.0
+   },
+   "beta": {
+    "max_abs_diff_d": 0.07205277681350708,
+    "rel_norm": 0.005913180363356678,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9977335611979167,
+    "pair_max_diff_mapped": 3.47886121909724e-07
+   }
+  },
+  "te0:asw": {
+   "dst": "te0",
+   "exact": false,
+   "residual": {
+    "4": 0.05825962799260744,
+    "8": 0.0679695614610567
+   },
+   "bijective": {
+    "4": true,
+    "8": true
+   },
+   "normal_err": 6.566492238846422e-08,
+   "tangent_err": 0.07762086247314581,
+   "tangent_type_by_face": {
+    "0": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "1": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "2": [
+     [
+      -1,
+      0,
+      0,
+      1
+     ]
+    ],
+    "3": [
+     [
+      1,
+      0,
+      0,
+      -1
+     ]
+    ],
+    "4": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ],
+    "5": [
+     [
+      0,
+      -1,
+      -1,
+      0
+     ]
+    ]
+   },
+   "commutation": {
+    "fine16_commutes": true,
+    "coarse_cells_permute": true
+   },
+   "mesh": {
+    "vertex_max_dist_m": 1.962615573354719e-17,
+    "triangle_match_fraction": 0.8333333333333334
+   },
+   "beta": {
+    "max_abs_diff_d": 0.08691971004009247,
+    "rel_norm": 0.005886360165150892,
+    "identity_op_diff": null
+   },
+   "q78_inputs": {
+    "node_max_diff": 0.610741138458252,
+    "node_ports_exact_1e5": 3792,
+    "node_ports": 3840,
+    "node_ports_over_1e3": 48,
+    "probe1_tie_ports_src": 176,
+    "edges_mapped_fraction": 0.9881022135416667,
+    "pair_max_diff_mapped": 2.571300217191208e-07
+   }
+  }
+ },
+ "summary": {
+  "all_exact": false,
+  "all_commute": false,
+  "mesh_identical": false,
+  "non_exact": [
+   "pt0:id",
+   "pt0:r90",
+   "pt0:r180",
+   "pt0:r270",
+   "pt0:mx",
+   "pt0:my",
+   "pt0:sw",
+   "pt0:asw",
+   "te0:id",
+   "te0:r90",
+   "te0:r180",
+   "te0:r270",
+   "te0:mx",
+   "te0:my",
+   "te0:sw",
+   "te0:asw"
+  ],
+  "non_identical_mesh": [
+   "rest:r90",
+   "rest:r180",
+   "rest:r270",
+   "rest:mx",
+   "rest:my",
+   "rest:asw",
+   "rest:id+z",
+   "rest:r90+z",
+   "rest:r270+z",
+   "rest:mx+z",
+   "rest:my+z",
+   "rest:sw+z",
+   "pt0:r90",
+   "pt0:r180",
+   "pt0:r270",
+   "pt0:mx",
+   "pt0:my",
+   "pt0:asw",
+   "te0:r90",
+   "te0:r180",
+   "te0:r270",
+   "te0:mx",
+   "te0:my",
+   "te0:asw"
+  ]
+ }
+}
