@@ -181,3 +181,17 @@ Each S79 seed must satisfy ≤ 1.25 × max(Q78 seeds):
 3. Evidence chain.
 
 Any failure stops.
+
+### Amendment 1 (2026-11-08; before any Stage 0 / Stage 1 decision)
+
+**What happened.** Chain A stopped in the Stage 0 reference controls, at the first class-2 translation control, with "bins do not permute". The Stage 1 oracle had completed. Its output was not read, and no gate had been evaluated.
+
+**Defect.** `sym79.Map` assessed bin exactness over every port. For a partial translation map, the unmapped receivers carried a placeholder frame, so the assertion failed even though every mapped port permutes exactly.
+
+**Change.**
+- Exactness is assessed over the mapped ports only. Exact symmetry maps are total, so they are unaffected.
+- The reference controls resume. The rows already written by the identical positive / negative code are kept; only the remaining rows are computed.
+
+**Unchanged.** Every rule, threshold and population, and the oracle output.
+
+**State before the stop (log).** Every positive pair and self-fixed source was within 0.97–1.04 × replica noise, and every ruled negative control was detected.

@@ -64,10 +64,11 @@ class Map:
         Fs=frames(RG,src);Fd=frames(RG,self.dst);self.Q=Fd[pc]@self.M@Fs.transpose(1,2)
         if post is not None:self.Q=torch.as_tensor(post,dtype=torch.float64)@self.Q
         self.maps={};self.residual={};self.bijective={}
+        mk=self.perm>=0      # partial (diagnostic) maps: exactness is assessed on the mapped ports only
         for N in (NIN,NOUT):
             L=centres(RG.G,N);w=torch.einsum('pij,kj->pki',self.Q,L);b=RG.G.local_to_bin(w,N).long()
-            self.maps[N]=b;self.residual[N]=float((w-L[b]).norm(dim=-1).max())
-            self.bijective[N]=bool((torch.sort(b,1).values==torch.arange(N*N)[None]).all())
+            self.maps[N]=b;self.residual[N]=float((w-L[b]).norm(dim=-1)[mk].max())
+            self.bijective[N]=bool((torch.sort(b,1).values==torch.arange(N*N)[None]).all(1)[mk].all())
         self.pin=self.maps[NIN];self.pout=self.maps[NOUT];self.p16=self.maps[NIN]
         # frame-map structure: normal preserved, tangent block a signed permutation (a D4 element of the bin square)
         self.normal_err=float((self.Q[:,2]-torch.tensor([0,0,1.],dtype=torch.float64)).abs().max().item())

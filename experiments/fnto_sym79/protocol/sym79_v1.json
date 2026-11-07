@@ -274,5 +274,14 @@
   "runs_even_if_stopped": "Stage 6 deformation and cost are always measured (descriptive when an earlier gate stopped; never change an earlier verdict)",
   "cost_deviation": 0.25,
   "cost": "cost79.py: Q78_5901 vs S79_5901 (A75 reference): parameters, state, rebuild, coefficients, 1 / 64-light apply, peak GPU, training time, augmentation cost; significant deviation iff any runtime ratio deviates from 1 by more than 25 %"
- }
+ },
+ "amendments": [
+  {
+   "id": 1,
+   "when": "2026-11-08, after chain A stopped in the Stage 0 reference controls, before any Stage 0 / Stage 1 decision (stage1/oracle.json exists, unread; no gate evaluated)",
+   "defect": "sym79.Map assessed bin-map exactness over all ports; for the class-2 translation (partial) maps the unmapped receivers carried a placeholder frame, so the exactness assertion failed although every mapped port permutes exactly",
+   "change": "exactness / bijectivity assessed over the mapped ports only (exact symmetry maps are total, so they are unaffected); stage0 refs resumes: the positive / negative rows already written by the identical code are kept and only the remaining rows (translation controls) are computed",
+   "unchanged": "every rule, threshold, population and the Stage 1 oracle output"
+  }
+ ]
 }

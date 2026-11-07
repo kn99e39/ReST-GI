@@ -17,7 +17,7 @@
   tangent map is the identity. The contract is VALID when every positive control passes and every ruled negative control detects; otherwise
   Stage 0 reports the failure (brief stop condition).
     python stage0_79.py geometry <out.json> | refs <out.json>"""
-import sys,json,math,time
+import sys,os,json,math,time
 import numpy as np
 import torch
 from common79 import ROOT,R72,R73,INP68,environment,load,bundles
@@ -96,7 +96,10 @@ def ratio(st,k):
 def refs(out):
     B=bundles();ref={}
     for b in B:ref.setdefault((b['geom'],b['port']),b)          # first bundle per (geometry, port)
-    res=dict(bundles=len(B),positive=[],negative=[],translation=[]);t0=time.perf_counter()
+    res=dict(bundles=len(B),positive=[],negative=[],translation=[]);t0=time.perf_counter();done=set()
+    if os.path.exists(out):   # resume (amendment 1): rows already computed by the identical positive / negative code are kept
+        old=json.load(open(out))
+        if 'summary' not in old:res['positive']=old['positive'];res['negative']=old['negative'];res['resumed_rows']=len(old['positive']);done={(r['op'],r['p'],r['q']) for r in old['positive']}
     x=REST['xyz'].double();nn=torch.nn.functional.normalize(REST['node'][:,9:12].double(),dim=1)
     D=torch.cdist(x,x);perp=(nn@nn.T).abs()<.5;r1=(torch.where(perp,D,torch.full_like(D,float('inf'))).min(1).values*1e3).cpu().numpy();del D
     def S_of(b):return load(b['path'])['S'].double()
@@ -113,6 +116,9 @@ def refs(out):
                 q=int(mp.perm[p])
                 if q not in ports:continue
                 if q<p and int(mp.perm[q])==p and q!=p:continue     # unordered pair seen once (involutions)
+                if (opname(op),p,q) in done:
+                    if q!=p:npair+=1
+                    continue
                 if q!=p:
                     npair+=1
                     if npair>CAP:continue                            # bounded: the first CAP pairs per operation (sorted by port)
