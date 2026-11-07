@@ -1,0 +1,65 @@
+{
+  "geometries": {
+    "rest": {
+      "build": {
+        "quadrature": 70.4566311724484,
+        "response_and_assembly": 0.876300411298871,
+        "total": 71.33293158374727
+      },
+      "bytes": {
+        "W": 36948080,
+        "SS": 448424984,
+        "local": 1012665348,
+        "tail": 132710400,
+        "anchors": 1474560
+      },
+      "state_bytes": 1632223372,
+      "apply64_s": 0.4954502768814564,
+      "apply1_s": 0.004641350358724594,
+      "peak_GPU": 7394022400,
+      "physics": {
+        "zero": 0.0,
+        "minimum": 1.6803720709185404e-29,
+        "linearity": 7.243828292757826e-08,
+        "max_colsum": 0.8274842500686646,
+        "passed": true
+      }
+    },
+    "pt0": {
+      "build": {
+        "quadrature": 71.67026384547353,
+        "response_and_assembly": 0.8289453648030758,
+        "total": 72.4992092102766
+      },
+      "bytes": {
+        "W": 37263488,
+        "SS": 446155052,
+        "local": 1010796548,
+        "tail": 132710400,
+        "anchors": 1474560
+      },
+      "state_bytes": 1628400048,
+      "apply64_s": 0.49315388686954975,
+      "apply1_s": 0.0046351999044418335,
+      "peak_GPU": 7378930688,
+      "physics": {
+        "zero": 0.0,
+        "minimum": 1.6284750297647651e-29,
+        "linearity": 7.425683179462794e-08,
+        "max_colsum": 0.8221229910850525,
+        "passed": true
+      }
+    }
+  },
+  "gate": {
+    "state_bytes": 1632223372,
+    "state_max": 4294967296,
+    "apply64_s": 0.4954502768814564,
+    "A75_apply64_s": 0.08616020902991295,
+    "ratio": 5.750337452285507,
+    "ratio_max": 10.0,
+    "physics": true,
+    "passed": true
+  },
+  "note": "initial parameters; cost depends on structure, not weights; the WL76 quadrature (q 1024) is unchanged"
+}
