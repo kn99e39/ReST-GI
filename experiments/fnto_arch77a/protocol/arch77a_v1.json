@@ -1,0 +1,34 @@
+{
+ "batch": "Multi-Agent Architecture Discovery for Source-Transferable Intrinsic Light Transport",
+ "worklog": "77A",
+ "branch": "Selective_Recompute (isolated paths experiments/fnto_arch77a, docs/plans/wl77a; WL77 untouched)",
+ "server": "LabServer63 (main)",
+ "date": "2026-11-07",
+ "part0": {
+  "frozen": "before any candidate hypothesis exists (candidate-independent): the Gate 4 confirmation population and its reference-generation contract",
+  "population": "the WL76 Stage 4 population: ports76.json (26 static slots: TBE/TBC/SM/SR/SV/INT x near/far x hi/lo coarse-cell sub-position pairs, SV far empty; 4 footprint slots 24-27) + the te1 deformation pose; selected geometry-only by fnto_fia76/ports76.py, excluding 81 previously scored ports and all exact images. Never scored: WL76 stopped at its fit gate, WL77 stopped at its Stage 1 gate; neither generated references. The WL76 dev smoke generated 0.5M-photon dev packets for slots 2, 3, 24-27 (~/rest_fia76_dev), used only by a forced dev path; WL77A does not read them.",
+  "inputs": {
+   "ports76.json": "0819fa61a37b16d7d6227fa86a6f8938499ec44dd5b404a73942bf5b7912d6cc",
+   "inputs/geometry_te1.pt": "a2fbcc06ad88376eaa03caf67c26bfd970806a7c1618602080367fb6a4d40c91"
+  },
+  "pose": "te1",
+  "references": "probes74.generate / bundle unchanged (WL57 fast walker, gates, 32M photons, 16M OOM fallback, K = 4), seeds 766000000 + g*1e6 + slot*1e4 + bin*100 + rep (rest 0, te1 1) as WL76 predeclared; rest: all non-empty slots, te1: footprint 24-27; ~1,920 packets; generated now on an idle GPU while the CPU research workflow runs; nobody reads or scores them before the candidate protocol is frozen",
+  "dev_slots": {
+   "rest": [
+    2,
+    3,
+    24,
+    25,
+    26,
+    27
+   ],
+   "te1": [
+    24,
+    25,
+    26,
+    27
+   ]
+  }
+ },
+ "amendments": []
+}
