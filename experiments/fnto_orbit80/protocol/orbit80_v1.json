@@ -84,5 +84,198 @@
    "fail": "stop before learned training; attribution reported (restart spread / convergence = optimisation; residual gap with converged restarts = capacity or global factorisation, as far as evidence supports)"
   },
   "closure": "descriptive: algebraic closure of G1 (oracle79.closure)"
- }
+ },
+ "arms": [
+  "A0B1",
+  "A1B0",
+  "A1B1"
+ ],
+ "stage3": {
+  "frozen_before": "any Stage 1 basis result and any candidate metric (committed while the Stage 1 restarts run)",
+  "design": "2 x 2: A0 = historical G2 / A1 = selected orbit-balanced G1 (G2-aligned); B0 = historical presentation / B1 = exact rest-symmetry presentation (fit79.SymRest, the WL79 Latin schedule; pt0 identity). A0B0 = the frozen Q78 control (never retrained). Three new arms x two matched spatial seeds",
+  "initialisation": "q78.init_model (P_590x trunk, rank rows r mod 8, encoder / pair_layer reinit seeds 7801 / 7802), then in/out logits := the arm basis (float64 stored, float32 at load). Trunk bitwise the Q78 initial trunk (test T2). G1 latent identity fixed by the Stage 1 assignment onto G2",
+  "unchanged": "q78.TransportQ (rank 16, WL78 inputs, capacity), J (mean rest / pt0 ato74.objective_m) + 1.0 L_sym (WL72), S16-R fitting replicas 0-3, Adam, cosine 3e-3 -> 3e-5, 20,000 steps, clip 1.0, checkpoints 2k / 6k / 10k, final iterate primary (no selection)",
+  "confounds": "B1 changes the effective training distribution (192-port orbit, each orientation 1/16; WL79 stage2.confound). A1 changes the frozen angular basis values only (same rank, softmax normalisation, constraints)",
+  "comparison": "arms are controls within one hypothesis; no arm is selected on confirmation data; every arm is reported"
+ },
+ "runs": {
+  "A0B1_5901": {
+   "arm": "A0B1",
+   "init": "P_5901",
+   "reinit_seed": 7801,
+   "rank": 16,
+   "lambda_sym": 1.0
+  },
+  "A0B1_5902": {
+   "arm": "A0B1",
+   "init": "P_5902",
+   "reinit_seed": 7802,
+   "rank": 16,
+   "lambda_sym": 1.0
+  },
+  "A1B0_5901": {
+   "arm": "A1B0",
+   "init": "P_5901",
+   "reinit_seed": 7801,
+   "rank": 16,
+   "lambda_sym": 1.0
+  },
+  "A1B0_5902": {
+   "arm": "A1B0",
+   "init": "P_5902",
+   "reinit_seed": 7802,
+   "rank": 16,
+   "lambda_sym": 1.0
+  },
+  "A1B1_5901": {
+   "arm": "A1B1",
+   "init": "P_5901",
+   "reinit_seed": 7801,
+   "rank": 16,
+   "lambda_sym": 1.0
+  },
+  "A1B1_5902": {
+   "arm": "A1B1",
+   "init": "P_5902",
+   "reinit_seed": 7802,
+   "rank": 16,
+   "lambda_sym": 1.0
+  }
+ },
+ "optimizer": {
+  "lr": 0.003,
+  "lr_min": 3e-05,
+  "steps": 20000,
+  "clip": 1.0,
+  "group": "net (A/O frozen)",
+  "schedule": "cosine",
+  "checkpoints": [
+   2000,
+   6000,
+   10000
+  ],
+  "final": "20,000-step iterate, no selection",
+  "optimizer": "Adam (fit75.run, unchanged)"
+ },
+ "execution": {
+  "chain": "run80.sh: wait for chain A; [Stage 2 passed] dev smoke on ~/rest_orbit80_dev (40-step fits, 10-step probe, 2 reference slots at 1M photons, forced gates; no metric used); evidence chain80.py: [Stage 2 gate] tests -> probe -> six fits -> supervised eval + fit gate -> mechanism -> [>= 1 arm passes both] Stage 5 -> Stage 6 -> cost -> export",
+  "probe_steps": 60,
+  "probe_runs": [
+   "A1B1_5901",
+   "A1B1_5902"
+  ],
+  "lanes_rule": "probe the two heaviest runs concurrently with the real configuration; two lanes iff both complete and the sum of peak reserved memory <= 0.85 x GPU memory, else one lane",
+  "dev_ref_slots": [
+   2,
+   10
+  ],
+  "precision": "float32 model and training (TF32 off), float64 basis fits / oracles / estimators",
+  "hardware": "LabServer63 RTX 3080 Ti 12 GB"
+ },
+ "stage4": {
+  "fit_gate": {
+   "factor": 1.25,
+   "groups": [
+    "TRAIN_NEW_rest",
+    "TRAIN_NEW_pt0",
+    "TRAIN_KEEP_rest",
+    "TRAIN_KEEP_pt0"
+   ],
+   "metrics": [
+    "abs_native",
+    "abs_fine16",
+    "abs_coarse",
+    "con_fine16",
+    "con_coarse"
+   ],
+   "rule": "per run: hi <= 1.25 x max over the Q78 seeds for every group / metric; validity: every passivity check passed and A/O bitwise the arm basis; an arm passes iff both seeds pass"
+  },
+  "mechanism": {
+   "factor": 0.5,
+   "primary": "exact-symmetry response consistency on out-of-orbit development sources (WL74 Stage 4 rest ports + WL77A Part 0 rest non-footprint ports; scored earlier): for every non-identity rest operation g, near-field (0-5 mm around the image) relative discrepancy between the prediction at g(p) and the exact image (sym79) of the prediction at p, worst channel; mean over (source, operation); native AND fine16 contrast",
+   "rule": "an arm passes iff each seed has native and contrast discrepancy <= 0.5 x the same-seed Q78 value",
+   "descriptive": "the same on the 16 training sources (in-orbit), coarse-contrast consistency (total), orientation-specific physical error on the exact images of held-out training replicas (WL79 operations), class-B historical pairs (approximate; never a gate), WL77A Part 0 groups and DEF (development)"
+  },
+  "stop": "if no arm passes both the fit gate and the mechanism gate: stop before Stage 5 (no references generated); Stage 6 descriptive"
+ },
+ "stage5": {
+  "population": "the WL79 frozen, never-referenced population (sym79_v1 stage5; 19 rest ports); re-derived and checked by ports80.py (identical list, no WL79 references / ports file / Stage 5 output, disjoint from the training orbit and earlier scored ports + images, one port per orbit)",
+  "ports": {
+   "0": 95,
+   "1": 101,
+   "2": 179,
+   "3": 198,
+   "4": 33,
+   "5": null,
+   "6": null,
+   "7": null,
+   "8": 407,
+   "9": 521,
+   "10": 356,
+   "11": 1225,
+   "12": 1168,
+   "13": 114,
+   "14": 304,
+   "15": 1521,
+   "16": 459,
+   "17": 3332,
+   "18": null,
+   "19": null,
+   "20": 1372,
+   "21": 662,
+   "22": 979,
+   "23": 645
+  },
+  "references": "probes80.py: probes74 code unchanged, rest, K = 4, the WL79 predeclared seeds 79000000 + slot*1e4 + bin*100 + rep; eval73 precision qualification",
+  "scored": "every arm that passed the fit gate, provided >= 1 arm passed both gates; controls Q78, A75, AR",
+  "groups": "BND_FAR (TBE / SM / SR far, 6), BND_NEAR (7), INT (4), UNS (SV near, 2; per matrix), BND_HI / BND_LO, TOPBOT, SIDE; per-source distance to the training orbit",
+  "decision": {
+   "primary_groups": [
+    "BND_FAR",
+    "BND_NEAR",
+    "INT"
+   ],
+   "improve_factor": 0.8,
+   "regression_factor": 1.25,
+   "stronger": "per group, Q78 or A75 by the lower two-seed mean of con_coarse hi",
+   "per_arm": "far YES iff max over the arm seeds of BND_FAR con_coarse hi <= 0.8 x min over the stronger control seeds AND < min of their lower 95 % bounds; NO iff min > 0.8 x max; else OVERLAP; regression YES iff min arm >= 1.25 x max of the better control (BND_FAR / BND_NEAR: abs_native, abs_fine16, abs_coarse; INT: + con_coarse); benefit = valid and far YES and no regression YES",
+   "regression": {
+    "BND_FAR": [
+     "abs_native",
+     "abs_fine16",
+     "abs_coarse"
+    ],
+    "BND_NEAR": [
+     "abs_native",
+     "abs_fine16",
+     "abs_coarse"
+    ],
+    "INT": [
+     "abs_native",
+     "abs_fine16",
+     "abs_coarse",
+     "con_coarse"
+    ]
+   },
+   "secondary_metrics": [
+    "con_native",
+    "con_fine16",
+    "abs_coarse",
+    "abs_fine16",
+    "abs_native"
+   ],
+   "factorial": "BASIS CHANGE BENEFIT iff benefit(A1B0); SYMMETRY PRESENTATION BENEFIT iff benefit(A0B1); INTERACTION BENEFIT iff benefit(A1B1) and (no single-factor arm has a benefit, or max A1B1 BND_FAR con_coarse <= 0.8 x min of each scored single-factor arm); INDEPENDENT SOURCE TRANSFER SUPPORTED iff any arm has a benefit; otherwise ORBIT-ONLY TRANSFER iff every scored arm is far NO (the scored arms passed the symmetry mechanism), NO TRANSFER BENEFIT iff every arm far NO without a mechanism pass, else INCONCLUSIVE. Main effects (mean over seeds, A0B0 = Q78) are descriptive. Stage 2 fail -> RANK-16 orbit representability not supported (stop); fit gate fail for every arm -> INSUFFICIENT FIT"
+  }
+ },
+ "stage6": {
+  "deformation": "DEF71 (cf2), CONFDEF72 (te2), DEF73 (te0) from the supervised evaluation and WL77A Part 0 DEF (te1) from the mechanism stage; no rest-only label is applied to deformed geometries",
+  "primary": "DEF_part0_te1",
+  "error_factor": 1.25,
+  "corr_drop": 0.03,
+  "flag_rule": "per arm and group: WORSE iff every arm seed has worst-channel error >= 1.25 x max Q78 or min-channel corr <= min Q78 - 0.03; RECOVERED iff every seed has error <= max Q78 / 1.25 and corr >= max Q78; else MAINTAINED/OVERLAP; DEFORMATION REGRESSION iff the primary group is WORSE",
+  "cost": "cost80.py: Q78_5901 vs each arm's 5901 run (A75 reference) on the same GPU; angular pretraining and symmetry presentation costs",
+  "cost_deviation": 0.25,
+  "always": "Stage 6 runs even when an earlier gate stops (descriptive; never changes an earlier verdict)"
+ },
+ "tests": "test80.py T1-T7 (basis provenance / alignment symmetry, initialisation, physics, symmetry presentation, Stage 5 provenance, decision logic, no leakage)"
 }

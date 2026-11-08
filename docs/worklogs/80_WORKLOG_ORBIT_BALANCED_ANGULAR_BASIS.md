@@ -115,3 +115,82 @@ J = 0.5 × rest + 0.5 × pt0.
 
 - **Pass.** RANK-16 ORBIT REPRESENTABILITY SUPPORTED. Since G0 failed the same rule, this also gives ORIENTATION-BIASED BASIS SUPPORTED. Then Stage 3.
 - **Fail.** Stop before learned training. The cause is attributed as far as the evidence allows.
+
+**Execution of chain A.** Started on LabServer63 from commit 468c960 (`~/rest_orbit80/code_commit_A.txt`). Sequence: Stage 0 → population → restarts r0 ∥ r1 → r2 → selection → Stage 2 oracle → gate.
+
+## Stages 3–6 — Learned 2 × 2 and downstream rules (frozen in the next commit, while the Stage 1 restarts run; no basis or candidate result exists)
+
+### Stage 3 (`fit80.py`)
+
+**Design.** Unchanged W+UV-Q (`q78.TransportQ`); two factors:
+
+| Factor | Level 0 | Level 1 |
+|---|---|---|
+| A: frozen basis | G2 | G1 (G2-aligned) |
+| B: training presentation | Historical | Exact rest-symmetry: `fit79.SymRest`, the WL79 Latin schedule; pt0 identity |
+
+- **A0B0** is the frozen Q78 control and is never retrained.
+- **New arms.** A0B1, A1B0 and A1B1 × seeds 5901 / 5902: six fits.
+
+**Initialisation.** The Q78 rule (the trunk is bitwise Q78's initial trunk), then the arm's frozen logits.
+
+**Unchanged.** Objective, optimizer, schedule (20,000 steps), final iterate, and the supervision budget.
+
+**Disclosed confounds.**
+- B1 changes the effective training distribution.
+- A1 changes only the basis values.
+
+### Stage 4: supervised fit gate (per arm; both seeds)
+
+≤ 1.25 × max(Q78 seeds):
+- groups: TRAIN_NEW / KEEP × rest / pt0;
+- metrics: abs_native, abs_fine16, abs_coarse, con_fine16, con_coarse;
+- plus validity.
+
+### Stage 4: mechanism gate (per arm; both seeds)
+
+**Primary endpoint.** Exact-symmetry response consistency on out-of-orbit development sources (the WL74 S4 rest ports and the WL77A Part 0 rest ports):
+- for each of the 15 operations, the near-field (0–5 mm) relative discrepancy between the prediction at g(p) and the exact image of the prediction at p;
+- native and fine16 contrast, worst channel, mean over (source, operation).
+
+**Threshold.** ≤ 0.5 × same-seed Q78.
+
+**Descriptive.**
+- The same quantity on the training sources (in-orbit), and coarse contrast.
+- Orientation-specific error on the exact images of held-out training replicas.
+- Class-B historical pairs, kept separate from the exact orbits.
+- Part 0 groups / DEF.
+
+**If no arm passes both gates.** Stop.
+
+### Stage 5: independent source transfer
+
+**Population.** The WL79 frozen population, re-derived and checked by `ports80.py`:
+- identical list;
+- never referenced;
+- outside the training orbit and outside earlier scored ports and their images.
+
+**References.** Generated only if at least one arm passes both gates. WL79 predeclared seeds; K = 4.
+
+**Who is scored.** Every arm that passed the fit gate, against Q78, A75 and AR.
+
+**Per-arm far rule.** ≤ 0.8 × both seeds of the stronger control and below its lower 95 % bounds, with no regression YES.
+
+**Factorial classification (predeclared, no winner selection).**
+
+| Label | Condition |
+|---|---|
+| BASIS CHANGE | A1B0 benefits |
+| SYMMETRY PRESENTATION | A0B1 benefits |
+| INTERACTION | A1B1 benefits and (no single-factor arm benefits, or A1B1 is ≥ 20 % better than each) |
+| INDEPENDENT SOURCE TRANSFER SUPPORTED | Any arm benefits |
+| ORBIT-ONLY TRANSFER | Every scored arm is far NO after passing the mechanism gate |
+| INCONCLUSIVE | Otherwise |
+
+### Stage 6: deformation and cost
+
+- **Deformation.** DEF71, CONFDEF72, DEF73 and Part 0 DEF te1 (primary).
+  - WORSE: error ≥ 1.25 × max Q78, or correlation ≤ min Q78 − 0.03.
+  - RECOVERED: the symmetric criterion.
+- **Cost.** Q78 vs each arm on the same GPU, including angular pretraining and the symmetry presentation.
+- **When.** Always run. Descriptive after a stop.
