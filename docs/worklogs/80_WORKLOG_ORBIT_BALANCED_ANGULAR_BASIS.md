@@ -213,3 +213,15 @@ J = 0.5 × rest + 0.5 × pt0.
 - r0 is rerun from its initial state, alongside r1. The fit is deterministic: initialisation from G2, FISTA with no randomness, Adam with no randomness.
 - `resumeA.sh` reruns r0, waits for r1, then reruns `runA80.sh`, which skips the completed steps.
 - `resumeB.sh` relaunches chain B.
+
+### Execution deviation 2 (2026-11-08 ~09:30 UTC; execution only, no rule changed)
+
+**What happened.** The original r1 also failed with CUDA OOM, in round 4.
+
+**Reading.** r0 and r1 running concurrently (11.8 / 12.3 GB) do not fit on the 12 GB GPU, with or without the foreign allocation of deviation 1.
+
+**Change.** The predeclared "r0 ∥ r1" lane arrangement is replaced by serial execution: r0 (rerun, running alone at about 87 s per round), then r1 (rerun), then r2 (`resumeA2.sh`, then `runA80.sh`).
+
+**Why results are unaffected.** Each restart is a deterministic computation from its predeclared initialisation. Only the wall-clock changes, to about 2.6 h per restart.
+
+**Preserved.** The failed r1 log, as `logs/basis_r1_failed_oom.log`.
