@@ -194,3 +194,22 @@ J = 0.5 × rest + 0.5 × pt0.
   - RECOVERED: the symmetric criterion.
 - **Cost.** Q78 vs each arm on the same GPU, including angular pretraining and the symmetry presentation.
 - **When.** Always run. Descriptive after a stop.
+
+**Chain B.** Launched from commit 189038e. It waits for chain A.
+
+### Execution deviation 1 (2026-11-08 08:52 UTC; no rule changed)
+
+**What happened.** Restart r0 failed with CUDA OOM in round 1.
+
+**Cause.**
+- r0 and r1 ran concurrently and together occupied 11.8 / 12.3 GB.
+- I started a CPU-intended pre-check of the decision-logic tests on the dev root. It loaded a geometry onto the GPU. Its own allocation failed, but it took the last headroom.
+- This was my error. No GPU work is started while the fits run.
+
+**Effect on r1.** None; it continued unaffected.
+
+**Recovery.**
+- The failed r0 log is preserved as `logs/basis_r0_failed_oom.log`.
+- r0 is rerun from its initial state, alongside r1. The fit is deterministic: initialisation from G2, FISTA with no randomness, Adam with no randomness.
+- `resumeA.sh` reruns r0, waits for r1, then reruns `runA80.sh`, which skips the completed steps.
+- `resumeB.sh` relaunches chain B.
