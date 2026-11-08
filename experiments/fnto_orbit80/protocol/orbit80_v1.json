@@ -1,0 +1,88 @@
+{
+ "batch": "orbit80_v1",
+ "worklog": "docs/worklogs/80_WORKLOG_ORBIT_BALANCED_ANGULAR_BASIS.md",
+ "branch": "Selective_Recompute",
+ "server": "LabServer63 (main); evidence root ~/rest_orbit80; read-only: earlier roots incl. ~/rest_sym79",
+ "basis": {
+  "rank": 16,
+  "seeds": [
+   null,
+   8001,
+   8002
+  ],
+  "restarts": "r0 = the frozen G2 basis (WL75 selection, stored float64); r1, r2 = N(0, 1) logits from seeds 8001 / 8002 (the WL74 restart pattern)",
+  "rounds": 30,
+  "t_iters": 30,
+  "ao_steps": 30,
+  "ao_lr": 0.01,
+  "polish_iters": 3000,
+  "chunk": 16,
+  "dtype": "float64",
+  "population": "basis80.prepare: S16-R fitting-replica-0-3 means; rest: every exact D4h image (sym79 maps), deduplicated per source by image port; pt0: originals only",
+  "weighting": "J = 0.5 rest + 0.5 pt0; rest = mean over 16 sources of the mean over each source's distinct images; pt0 = mean over 16 sources",
+  "selection": "lowest final fitting J (fitting replicas only); mixtures re-indexed onto G2 by the optimal joint-pattern assignment (exact operator symmetry)",
+  "pre_freeze_development": "dev root: targets prepared (256 = 240 rest images + 16 pt0; 48 image ports shared by the orbit-related S16-R pairs (0,3), (1,7), (10,13), kept per source); sufficient-statistics identity 3.3e-16; FISTA 8.9 ms per target-iteration (float64, chunk 16, 4.66 GB); estimate 2.5 h per restart. No fit was run.",
+  "lanes": "r0 and r1 concurrently, then r2 (one GPU)"
+ },
+ "question": "Is the WL79 failure primarily a consequence of orientation-biased fitting of the frozen G2 angular basis, and can correcting that bias improve genuine source transfer within the existing rank-16 W+UV-Q architecture?",
+ "controls": {
+  "primary": {
+   "Q78_5901": "3bdff7e905af24c658d8901eb1cdbd242747f56c68959b45263f49e934ac5a10",
+   "Q78_5902": "f40b0d1fb521f9cc1071b593b76636d2b39e751d08acf3b796029d7c628315ab"
+  },
+  "secondary": {
+   "A75_5901": "c002274278f7017d973327f80fb42f75bc5358582782e86552291b7dcc990a58",
+   "A75_5902": "358c388133d2739f5dd85b3f632f5bd8076dfef11907f131e7905abdbf5a4e8a",
+   "AR_5901": "~/rest_src73/runs/AR_5901.pt",
+   "AR_5902": "~/rest_src73/runs/AR_5902.pt"
+  }
+ },
+ "stage0": {
+  "script": "stage0_80.py",
+  "checks": "C1 WL79 records (sha256, contract VALID, Stage 1 ANGULAR BASIS LIMIT, no WL79 Stage 5 references / frozen ports file); C2 group composition 16 x 16 (ports, incoming, outgoing bins); C3 feature-construction non-equivariance of W+UV-Q inputs classified TIE / OTHER (probe ties, 128-NN ties) - documentation only; C4 symmetry classes A / B / C (only A authorises label permutation; dented poses identity only)",
+  "valid": "C1 contract VALID and C2 without failure; the bin-frame convention is not modified"
+ },
+ "stage2": {
+  "script": "oracle80.py",
+  "ops": [
+   "r90",
+   "r180",
+   "mx",
+   "sw",
+   "id+z",
+   "r90+z"
+  ],
+  "descriptive_ops": [
+   "r90",
+   "r180"
+  ],
+  "G0_record_sha256": "873649c6adaa92bbbc71c12a851f243afb74aa03defbded3a5fbb95fd0614f9d",
+  "G0": "the WL79 Stage 1 oracle record of the frozen G2 basis (reused; same code, data and basis)",
+  "G1": "the selected orbit-balanced basis, full WL79 oracle (7 variants x 16 sources, 3,000 + 3,000 iterations); non-selected restarts: id, r90, r180 (descriptive)",
+  "gate": {
+   "factor": 1.25,
+   "groups": [
+    "ALL",
+    "BND",
+    "INT"
+   ],
+   "metrics": [
+    "abs_native",
+    "abs_fine16",
+    "abs_coarse",
+    "con_fine16",
+    "con_coarse"
+   ],
+   "wl59": {
+    "abs_coarse": 0.1,
+    "abs_fine16": 0.15,
+    "con_coarse": 0.25
+   },
+   "convex_change_max": 0.001,
+   "rule": "(a) WL79 rule on G1: transformed / G1 original <= 1.25 and no WL59 gate passed by the G1 original failed by a transformed oracle; (b) original-orientation preservation: G1 original <= 1.25 x G0 original, and no WL59 gate passed by the G0 original failed by the G1 original; (c) orbit level: G1 transformed <= 1.25 x G0 original; every operation, group and metric; G1 oracle convergence change <= 1e-3; Stage 0 valid",
+   "pass": "RANK-16 ORBIT REPRESENTABILITY SUPPORTED (and ORIENTATION-BIASED BASIS SUPPORTED, since G0 failed the same WL79 rule) -> Stage 3",
+   "fail": "stop before learned training; attribution reported (restart spread / convergence = optimisation; residual gap with converged restarts = capacity or global factorisation, as far as evidence supports)"
+  },
+  "closure": "descriptive: algebraic closure of G1 (oracle79.closure)"
+ }
+}
