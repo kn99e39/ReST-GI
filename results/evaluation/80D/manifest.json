@@ -1,0 +1,37 @@
+{
+ "worklog": "docs/worklogs/80D_WORKLOG_COMPILED_CLOSURE_CORRECTNESS_AND_ENERGY.md",
+ "nature": "post hoc reviewer visual export after the frozen WL80D evaluation; no new metric or verdict",
+ "code_commit": "44753f9",
+ "inputs": [
+  "results/fnto_compiled80c/smoke (d219cf9)",
+  "results/fnto_closure80d (c3577be)"
+ ],
+ "provenance": {
+  "highlight_grid_material*.png / highlight_grids.npz": "experiments/fnto_closure80d/viz/viz80d_grids.py @44753f9 on LabServer63 (cuda_ad_rgb). Same slope-grid definition as the R3 metric (eval80c.highlight_eval): 8 WL80C materials x theta 20/50/70/80, reference principled vs control (WL80C oracle-P, results/fnto_compiled80c/smoke/fit.npz) vs candidate (WL80D, results/fnto_closure80d/candidate.npz). Rows: log10 eval, |arm-ref| with ONE shared sqrt scale over all materials/angles/arms (max 25.7), log2(arm/ref) fixed +-2.",
+  "albedo_vs_theta.png / albedo_grazing_zoom.png / albedo_vs_theta.npz": "viz80d_grids.py: directional albedo to theta 89.999 deg; reference = defensive-mixture MC (8192 samples), closures = exact-integrand VNDF (32768 stratified). Shows the grazing-limit supremum missed by the compile grid (ends at 89.9 deg, orange line).",
+  "sampler_fix_histograms.png": "viz80d_grids.py: one mixture closure (0.5 Lambert + 0.5 GGX alpha 0.15), wi 45 deg, 2^21 samples: WL80C defective sampler vs WL80D corrected sampler vs pdf()-integrated expectation.",
+  "render_*.png / renders.npz / render_meta.json": "experiments/fnto_closure80d/viz/render80d.py @44753f9, Mitsuba 3.5.1 llvm_ad_rgb on LabServer63 (cuda film known wrong there), path depth 6, 256 spp, 192x192, same seed per image; reference principled vs control vs candidate as a Python BSDF over closure80d_dr; white-furnace check first (Lambert closure, constant env 1: mean 0.99999). Error maps: one shared sqrt scale over all renders (max 0.80); relL1 includes the MC noise of both images (same spp, same seed).",
+  "viz_meta.json": "scales and angles used by the grid figures"
+ },
+ "files": {
+  "albedo_grazing_zoom.png": "d33fd071854d2a817b7ad6910430b0c71ee0802cd5733825c3583f3e8b6648e7",
+  "albedo_vs_theta.npz": "48de1e5da4bb0a6579377bf531ed4510329929a5f802a88678b4641cbd47fd6f",
+  "albedo_vs_theta.png": "3d8193dce45fa46641b51ae85451e574ebc369690300b45bd1d6752f9ba25461",
+  "highlight_grid_material0.png": "37b1261e002d1574b73b628c3ab214b9c80b8faa2a1c9f6c2f23383a8975a30d",
+  "highlight_grid_material1.png": "2a18789ca0c999b16dd610460c3303f172fda400c63b4c4f74d30ac0c3decb76",
+  "highlight_grid_material2.png": "45c57293e980732301dfbc97031e7a462363ced280c92c409946dbb50fb70a47",
+  "highlight_grid_material3.png": "af7d7dadb074c5b534bdaa98dc55e7e441bd1ac6fb30356f8f2dc6b65ae21c90",
+  "highlight_grid_material4.png": "5e80ae24f5a1ad442975c06538f3e215ec939d47e33ce78143f65ee951982e08",
+  "highlight_grid_material5.png": "dedcf2ce0e71b517bd44d9c623f8786e01d112f632d665d1d675f258e83672df",
+  "highlight_grid_material6.png": "edf36a154571a0d94168599d7fb84d5668b098a5d7c73863f0cc6609697b4113",
+  "highlight_grid_material7.png": "05b147f7cdb7f5b259e135580927c61a6db7f06529f743eb49a00fbebdcf5e47",
+  "highlight_grids.npz": "9a95059a3c111be5f29742cf6eaa0e31f6b66c226aa07823be1b85aab17b65a6",
+  "render_highlight_rot0.png": "c33b7c5d65961fb8180d3a75cd2e301a8b6b843fb00b551ec6a5ca968bdf9c9b",
+  "render_highlight_rot40.png": "6df19a25684cb640274755c76651644f7d47c4f29a58699b9ed86e96007ec6d7",
+  "render_indirect_rot0.png": "2f2fbdd6a9e842f0c8d6583001aec5ed6416cacee6ca5ab5dde41d58cab245cb",
+  "render_meta.json": "73f1d05a96c9ee8c46beecfb43f9e0f6329d3b821c433901aa7a69cf1983ceaa",
+  "renders.npz": "f3bdf4c665da22e45264bb0b4bb0fb79d2bc7c3f5abc8427b8aa4a4111625955",
+  "sampler_fix_histograms.png": "4137ad0df1f10603dbfe71b8bb557aa86a1778b320ccf307302959f363719c58",
+  "viz_meta.json": "867ae94b9aa7c8f7f6a34476b691546903d4ae0a142bed67b48793a30e688f84"
+ }
+}

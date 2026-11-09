@@ -95,3 +95,12 @@ Decision rule (`justifies_learned_rule_training` = sampler AND candidate represe
 ## 8. Reproducibility
 
 Code / protocol `679657b` (`experiments/fnto_closure80d/`, uses `experiments/fnto_compiled80c/` from the same commit); post hoc diagnostic script `experiments/fnto_closure80d/diag80d_posthoc.py`; WL80C inputs `results/fnto_compiled80c/smoke/` (`d219cf9`); seeds as in the protocol (sets 80900, fit-M 80410, compile-M 80420, adversarial 80430, tests 80440, passivity 80450, bench 80370, contract 80350; post hoc 80460); LabServer63 RTX 3080 Ti, Mitsuba 3.5.1 cuda_ad_rgb, Dr.Jit 0.4.6, torch 2.3.1+cu121, `LD_LIBRARY_PATH=$HOME/nvlibs/optix595`. No images produced, so no evaluation folder.
+
+## 9. Visual export (post hoc, user request 2026-11-09; no new metric or verdict)
+
+The user asked for quick renders or the images behind the metrics. Scripts `experiments/fnto_closure80d/viz/` (`44753f9`), run on LabServer63 07:23–07:25 UTC; files, hashes and provenance in `results/evaluation/80D/manifest.json`.
+
+- `highlight_grid_material{0..7}.png`: the slope grids used by R3 (reference / control / candidate; |error| on one shared sqrt scale, max 25.7; log2 ratio fixed ±2). Observation: the candidate (and faintly the control) contains a thin ridge along slope x = 0, i.e. a lobe with very small alpha_u; it is visible as a streak across the sphere in the material-2 render and is a plausible contributor to the candidate's larger half-maximum width error (not tested).
+- `albedo_vs_theta.png`, `albedo_grazing_zoom.png`: closure albedo keeps rising beyond the compile grid end (89.9°); the candidate overshoots the reference at grazing for every shown material (consistent with its worse 86° E_L1) and reaches > 1 for material 5 at this azimuth.
+- `sampler_fix_histograms.png`: WL80C sampler mass 0.585 with a featureless distribution vs corrected sampler 0.987 matching the pdf() expectation.
+- `render_highlight_rot0.png`, `render_highlight_rot40.png` (rigid 40° rotation of the sphere), `render_indirect_rot0.png`: Mitsuba llvm path tracer, 256 spp, identical scene / seed per arm, white-furnace check mean 0.99999. Relative L1 vs the same-spp reference (includes both images' MC noise): control 0.014–0.133 (material 2 worst), candidate 0.011–0.032. These are quick visual checks, not a rendering-utility evaluation.
