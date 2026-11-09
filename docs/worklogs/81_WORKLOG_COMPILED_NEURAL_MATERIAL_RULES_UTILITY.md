@@ -50,4 +50,17 @@
 
 ## Freeze
 
-(to be filled with the commit hashes of protocol v1 and amendment 1)
+- **`e4b471e` — protocol v1 and all WL81 code.**
+  - Pre-freeze changes prompted by the dev smoke (none of them followed any candidate result):
+    - `highlight_grid` walks 256 → 1024;
+    - C5b supplement on fixed synthetic closures, because the WL80C C5b eligibility set was empty in dev, so the test could not be evaluated;
+    - G81 sampling moved to GPU PCG32 / `block_sum`;
+    - kernel-history flag enabled in bench / render;
+    - Stage C → D rule: train both arms when one qualifies; only a qualified arm can be primary;
+    - Stage E precondition;
+    - compile-latency repetitions for 1024 materials.
+- **`2ac5aed` — amendment 1 (energy candidate `C81_limit_complete_sup`).** Committed before any candidate evaluation on WL81 data. Provenance: post-WL80D hypothesis revision.
+- **Server.** `~/rest_compiled81/code` = `git -c core.autocrlf=false archive` of `2ac5aed`.
+- **Chain.** One detached chain, `run81.sh`, started 2026-11-09 09:16 UTC; status in `~/rest_compiled81/chain.status`.
+  - Order: A0 audits → B regression → A1 populations and targets → C energy A/B → D learned compiler → E GPU → compression → F rendering.
+  - Every gate stops downstream stages by the frozen rules.
