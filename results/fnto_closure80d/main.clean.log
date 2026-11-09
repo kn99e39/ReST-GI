@@ -1,0 +1,51 @@
+[0m{"step": 0, "loss_median": 0.08327361941337585, "M_fit_max": 0.644109845161438}
+{"step": 500, "loss_median": 0.00022509678092319518, "M_fit_max": 4.23923397064209}
+{"step": 1000, "loss_median": 0.0001638478133827448, "M_fit_max": 4.942089080810547}
+{"step": 1500, "loss_median": 0.0001507687265984714, "M_fit_max": 5.209589958190918}
+{"step": 2000, "loss_median": 0.00014415697660297155, "M_fit_max": 5.318038463592529}
+{"step": 2500, "loss_median": 0.00014150026254355907, "M_fit_max": 5.358187675476074}
+{"step": 2999, "loss_median": 0.0001408958196407184, "M_fit_max": 5.366840362548828}
+control {"median": 0.05277444646700094, "p90": 0.17349071947394934, "p99": 0.20272357728081922, "max": 0.20478874371433162} {"median": 0.024890867515573657, "p95": 0.16882009329390063, "max": 0.19955423826634594}
+candidate {"median": 0.04448381082637354, "p90": 0.08907413712908695, "p99": 0.15079933439269072, "max": 0.15802244216486752} {"median": 0.021862720006719464, "p95": 0.06865730990814352, "max": 0.10177329902826737}
+[0mREPR {"control": {"R1": true, "R2": false, "R3": true, "PASS": false}, "candidate": {"R1": true, "R2": true, "R3": false, "PASS": false}, "materially_addresses": true}
+PASSIVITY {"candidate": {"cases": 8192, "violations": 0, "max_albedo_estimate": 0.9966291137832286, "samples_per_case": 65536}, "adversarial_candidate": {"cases": 51200, "violations": 1, "max_albedo_estimate": 1.0896144497511766, "samples_per_case": 65536}, "control": {"cases": 8192, "violations": 0, "max_albedo_estimate": 0.934559905487049, "samples_per_case": 65536}}
+control {"n_closures": 8, "max_sum_lambda": 0.9983839988708496, "C1": true, "C5a": true, "C2": true, "C7": true, "C3": true, "C4": true, "C6": true}
+adversarial_control {"n_closures": 50, "max_sum_lambda": 0.9999932050704956, "C1": true, "C5a": true, "C2": true, "C7": true, "C3": true, "C4": true, "C6": true}
+candidate {"n_closures": 8, "max_sum_lambda": 1.6544427871704102, "C1": true, "C5a": true, "C2": true, "C7": true, "C3": false, "C4": true, "C6": true}
+adversarial_candidate {"n_closures": 50, "max_sum_lambda": 4.513378143310547, "C1": true, "C5a": true, "C2": true, "C7": true, "C3": false, "C4": true, "C6": true}
+[0m{
+ "checks": {
+  "C1": true,
+  "C2": true,
+  "C3": false,
+  "C4": true,
+  "C5a": true,
+  "C6": true,
+  "C7": true,
+  "C5b": true
+ },
+ "PHYSICAL_CONTRACT_PASS": false,
+ "SAMPLING_UTILITY_PASS": true
+}
+CONTRACT {"control": {"C1": true, "C2": true, "C3": true, "C4": true, "C5a": true, "C6": true, "C7": true}, "adversarial_control": {"C1": true, "C2": true, "C3": true, "C4": true, "C5a": true, "C6": true, "C7": true}, "candidate": {"C1": true, "C2": true, "C3": false, "C4": true, "C5a": true, "C6": true, "C7": true}, "adversarial_candidate": {"C1": true, "C2": true, "C3": false, "C4": true, "C5a": true, "C6": true, "C7": true}} {"cases": 48, "frac_p_lt_1e-3": 0.0, "min_p": 0.027359212178848392, "PASS": true}
+bench 0 io 65536
+bench 0 io 4194304
+bench 0 io 16777216
+bench 0 fused16 1048576
+bench 0 fused16 4194304
+bench 1 io 65536
+bench 1 io 4194304
+bench 1 io 16777216
+bench 1 fused16 1048576
+bench 1 fused16 4194304
+bench 2 io 65536
+bench 2 io 4194304
+bench 2 io 16777216
+bench 2 fused16 1048576
+bench 2 fused16 4194304
+bench 3 io 65536
+bench 3 io 4194304
+bench 3 io 16777216
+bench 3 fused16 1048576
+bench 3 fused16 4194304
+DECISION {"SAMPLER_CORRECTNESS": true, "REPRESENTATION_FEASIBILITY_candidate": false, "REPRESENTATION_control": false, "materially_addresses": true, "PHYSICAL_CONTRACT_candidate_empirical": false, "GPU_advantage": false, "GPU_parity_feasibility": true, "expensive_reference": "UNRESOLVED (no readily available reference)", "LEARNED_RULE": "UNTESTED", "justifies_learned_rule_training": false}
