@@ -23,7 +23,7 @@ DEV = '--dev' in sys.argv
 SIZES = {'train': 3000, 'val': 200, 'gate': 300, 'test_iid': 300, 'test_block': 300, 'train_eval': 300}
 if DEV:
     SIZES = {'train': 64, 'val': 16, 'gate': 16, 'test_iid': 16, 'test_block': 16, 'train_eval': 16}
-LANES = 1 << 23
+LANES = 1 << 24
 
 _mi = None
 
@@ -195,9 +195,10 @@ def ref_eval(desc, mid, wi, wo, nwalk, seed, round_=0, max_depth=1024):
         rng = mi.PCG32(size=Lw, initstate=seed + 7919 * round_, initseq=dr.arange(mi.UInt64, Lw) + off)
         off += Lw
         ev = L.layered_eval(mat, V(wi), V(wo), rng, max_depth)
-        x = np.stack([np.asarray(ev[k]) for k in range(3)], 1).astype(np.float64).reshape(npair, nwalk, 3)
         h = nwalk // 2
-        fA[s:e] = x[:, :h].mean(1); fB[s:e] = x[:, h:].mean(1)
+        # amendment 2: half-means reduced on the GPU in float64 (lane = pair * nwalk + walk; block j = (pair, half))
+        x = np.stack([np.asarray(dr.block_sum(mi.Float64(ev[k]), h), np.float64) for k in range(3)], 1).reshape(npair, 2, 3) / h
+        fA[s:e] = x[:, 0]; fB[s:e] = x[:, 1]
     return fA, fB
 
 

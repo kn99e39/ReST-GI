@@ -190,17 +190,18 @@ if __name__ == '__main__':
     mats = np.load(os.path.join(data, 'materials.npz'))
     res = {}
     t0 = time.time()
+    arms_arg = [a for a in sys.argv[5:] if not a.startswith('--')]
     if stage == 'stageC':
-        for arm in ['control', 'candidate']:
+        for arm in (arms_arg or ['control', 'candidate']):
             tabs = {'gate_direct': np.load(os.path.join(src, f'states_{arm}_gate.npy')), 'adversarial': adversarial(arm)}
             res[arm] = run_arm(arm, tabs, tabs['gate_direct'], mats['gate'], data, os.path.join(out, arm))
     else:
         seeds = P['fitting']['compiler']['seeds']
-        for arm in [a for a in sys.argv[5:] if not a.startswith('--')]:
+        for arm in arms_arg:
             tabs = {f's{s}_{n}': np.load(os.path.join(src, f'states_{arm}_s{s}_{n}.npy')) for s in seeds for n in ['test_iid', 'test_block']}
             tabs['adversarial'] = adversarial(arm)
             res[arm] = run_arm(arm, tabs, tabs[f's{seeds[0]}_test_iid'], mats['test_iid'], data, os.path.join(out, arm))
     res['seconds'] = time.time() - t0
-    json.dump(res, open(os.path.join(out, f'{stage}_contract.json'), 'w'), indent=1)
+    json.dump(res, open(os.path.join(out, f'{stage}_contract_{"_".join(a for a in res if a != "seconds")}.json'), 'w'), indent=1)
     print(json.dumps(res, indent=1))
     os._exit(0)

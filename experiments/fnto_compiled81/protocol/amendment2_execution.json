@@ -1,0 +1,13 @@
+{
+ "amendment": 2,
+ "protocol": "compiled81_v1",
+ "date": "2026-11-09",
+ "timing": "PRE-EVIDENCE for every candidate / control result (no fit, contract, training, benchmark or render had run). Stage A0 and Stage B had completed under 2ac5aed and are reused unchanged (their code is unchanged by this amendment). Stage A1 was in progress (pairs and the gate eval set done, nothing evaluated against any closure) and is regenerated from scratch; the partial run-1 data are kept in results/data_run1_aborted, unused.",
+ "reason": "Execution efficiency only, user instruction 2026-11-09 ('제발 병렬로 좀 돌려줘'): the run-1 reference generation was CPU-bound in one process (host transfer and numpy reduction of every walk; GPU utilisation ~5 %).",
+ "changes": {
+  "walk_reduction": "data81.ref_eval: the two half-means per pair are reduced on the GPU with dr.block_sum in float64 (was: host transfer of every walk and numpy float64 means); launch size 2^24 lanes (was 2^23). Same estimator, seeds and stream construction (stream offsets change with the launch size, so individual walks differ from run 1).",
+  "parallel_scheduling": "run81.sh runs independent jobs of a stage as parallel processes: A1 (pairs | gate eval+highlight | test_iid eval+highlight | test_block eval | train_eval eval), C fits (3 arms), C contracts (per arm), D training (at most one candidate job at a time, ~5 GB each), D oracles (4), D contracts (per arm) together with the compression comparator. Timing stages E (bench) and F (render) still run alone.",
+  "contract_outputs": "contract81 accepts an arm list for Stage C as well; gate81 reads the per-arm contract.json verdicts."
+ },
+ "unchanged": "reference definition, populations, seeds, walk counts, noise-floor rule, all quality / physical / utility criteria, candidate (amendment 1), model and training configuration"
+}

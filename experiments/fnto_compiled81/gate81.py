@@ -37,14 +37,13 @@ def b(d):
 
 def c(ev, ct):
     e = load(ev, 'stageC_eval.json')['representation_gate']
-    k = load(ct, 'stageC_contract.json')
-    q = [a for a in ['candidate', 'control'] if e[a]['PASS'] and k[a]['PHYSICAL_CONTRACT_PASS']]
+    q = [a for a in ['candidate', 'control'] if e[a]['PASS'] and load(ct, a, 'contract.json')['verdict_wl81']['PHYSICAL_CONTRACT_PASS']]
     return ' '.join(q) if q else 'NONE'
 
 
 def dd(ev, ct, primary):
     lr = load(ev, 'stageD_eval.json')['learned_rule_gate'][primary]['PASS']
-    ph = load(ct, 'stageD_contract.json')[primary]['PHYSICAL_CONTRACT_PASS']
+    ph = load(ct, primary, 'contract.json')['verdict_wl81']['PHYSICAL_CONTRACT_PASS']
     return 'LEARNED_PHYSICAL_PASS' if (lr and ph) else ('PHYSICAL_ONLY' if ph else 'FAIL')
 
 
