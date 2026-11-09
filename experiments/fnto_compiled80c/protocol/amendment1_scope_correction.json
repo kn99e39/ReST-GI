@@ -1,0 +1,17 @@
+{
+ "amendment": 1,
+ "date": "2026-11-09",
+ "type": "user scope correction, BEFORE any candidate result (no candidate code had run; only the Stage-0a reference survey existed)",
+ "source": "user DIRECTION 'WL80C - IMMEDIATE SCOPE CORRECTION' (supersedes the original scope where they conflict)",
+ "budget": {"additional_wall_clock_min": 30, "additional_active_gpu_min": 10, "rule": "whichever first ends the experimental work; INCONCLUSIVE if essential evidence is missing"},
+ "cancelled_not_started": ["full material splits and dataset generation (3800 materials)", "compiler training (both seeds)", "full Stage-2 evaluation", "full-population contract runs", "8-material full benchmark", "Stage 5 renderer integration"],
+ "smoke": {
+   "script": "experiments/fnto_compiled80c/smoke80c.py",
+   "materials": "first 8 reference-passive materials (point-estimate albedo <= 1 on the 24-wi grid) of the existing Stage-0a survey (seed 80300, results stage0/survey_albedo.npz), in stored order; no selection by error",
+   "gate_A": "direct per-material fit of the frozen R=8 closure (oracle-P, generic init, 3000 steps, frozen loss / lr) on 64 wi x 16 wo training-style pairs; evaluated on fresh eval_style directions (8 theta incl. 60 (band), 80, 86 (grazing) x 2 phi x 1024 wo) and the frozen highlight geometry; frozen representation thresholds R1-R3 applied to this reduced 8-material population (diagnostic, not the original test_iid population). oracle-U reported as diagnostic only. This is a representational upper bound, NOT a learned rule.",
+   "contract": "existing contract80c checks C1-C7, C5b and the sampling-utility comparison on the 8 fitted closures + 50 adversarial random closures",
+   "gate_B": "REF Mitsuba principled vs CMP compiled closure (fitted states), first 4 materials, io sizes 65536 / 4194304 / 16777216, fused16 sizes 1048576 / 4194304, ops eval_pdf / eval / pdf / sample, 10 reps after 2 warmups, Dr.Jit kernel-history GPU time; SIMPLE roughconductor on material 0. Reported as measured speedups; no compile-cost / break-even (no compiler).",
+   "gate_C": "NOT RUN (requires dataset generation and training)"
+ },
+ "unchanged": ["R = 8 basis and constraints", "reference definition", "loss", "thresholds"]
+}
