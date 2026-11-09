@@ -171,7 +171,7 @@ def mixture(desc_lane, wi, rng):
 
 
 # ---------------------------------------------------------------- reference walks
-def ref_eval(desc, mid, wi, wo, nwalk, seed, round_=0, max_depth=1024):
+def ref_eval(desc, mid, wi, wo, nwalk, seed, round_=0, max_depth=1024, pair0=0):
     """Per pair: mean eval over nwalk walks, returned as two halves (fA, fB) [n, 3] float64.
     desc [nm, 10] material table; mid [n] material index per pair."""
     mi = mi_init()
@@ -181,7 +181,7 @@ def ref_eval(desc, mid, wi, wo, nwalk, seed, round_=0, max_depth=1024):
     fA = np.empty((n, 3)); fB = np.empty((n, 3))
     tab = [mi.Float(np.ascontiguousarray(desc[:, j], np.float32)) for j in range(10)]
     per = max(1, LANES // nwalk)
-    off = 0
+    off = pair0 * nwalk          # amendment 3: global pair index -> sharded runs reproduce the unsharded streams
     for s in range(0, n, per):
         e = min(n, s + per)
         npair = e - s
@@ -192,7 +192,7 @@ def ref_eval(desc, mid, wi, wo, nwalk, seed, round_=0, max_depth=1024):
         g = lambda j: dr.gather(mi.Float, tab[j], m_l)
         mat = L.Mat(g(0), g(1), g(2), mi.Color3f(g(3), g(4), g(5)), mi.Color3f(g(6), g(7), g(8)), g(9))
         V = lambda a: mi.Vector3f(*[dr.gather(mi.Float, mi.Float(np.ascontiguousarray(a[s:e, k], np.float32)), pidx) for k in range(3)])
-        rng = mi.PCG32(size=Lw, initstate=seed + 7919 * round_, initseq=dr.arange(mi.UInt64, Lw) + off)
+        rng = mi.PCG32(size=Lw, initstate=seed + 7919 * round_, initseq=mi.UInt64(off))   # Dr.Jit PCG32 adds arange(size) itself -> global sequence off + lane
         off += Lw
         ev = L.layered_eval(mat, V(wi), V(wo), rng, max_depth)
         h = nwalk // 2
@@ -284,7 +284,19 @@ def eval_set(out, name):
     nw = WALK['eval_initial']
     seed = SD['walks'] + 1000 * (['gate', 'test_iid', 'test_block', 'train_eval'].index(name) + 1)
     t0 = time.time()
-    fA, fB = ref_eval(d, mm, wi, wo, nw, seed, 0)
+    if SHARD is not None:                       # amendment 3: one shard of the initial-round pairs (contiguous range)
+        i, K = SHARD
+        b0, b1 = len(wi) * i // K, len(wi) * (i + 1) // K
+        gA, gB = ref_eval(d, mm[b0:b1], wi[b0:b1], wo[b0:b1], nw, seed, 0, pair0=b0)
+        np.savez(os.path.join(out, f'shard_{name}_{i}of{K}.npz'), fA=gA, fB=gB, b0=b0, b1=b1, seconds=time.time() - t0)
+        return
+    if MERGE is not None:
+        fA = np.empty((len(wi), 3)); fB = np.empty((len(wi), 3))
+        for i in range(MERGE):
+            z = np.load(os.path.join(out, f'shard_{name}_{i}of{MERGE}.npz'))
+            fA[int(z['b0']):int(z['b1'])] = z['fA']; fB[int(z['b0']):int(z['b1'])] = z['fB']
+    else:
+        fA, fB = ref_eval(d, mm, wi, wo, nw, seed, 0)
     hist = []
     rnd = 0
     while True:
@@ -310,7 +322,7 @@ def highlight_set(out, name):
     import eval80c as EV  # grid_dirs / highlight_stats (WL80C, pure numpy)
     hl = A['highlight']
     n = hl['grid']
-    rng = np.random.default_rng(SD['directions'] + 991 * (['gate', 'test_iid'].index(name) + 1))
+    hseed = SD['directions'] + 991 * (['gate', 'test_iid'].index(name) + 1)
     d = mats_of(out, name)
     ev = np.load(os.path.join(out, f'eval_{name}.npz'))
     phis = ev['phis'][:, 0].astype(np.float64)
@@ -326,8 +338,15 @@ def highlight_set(out, name):
     seed = SD['walks'] + 50000 + 1000 * (['gate', 'test_iid'].index(name) + 1)
     chunk = max(1, (1 << 21) // (n * n))
     t0 = time.time()
-    for c0 in range(0, G, chunk):
+    lo, hi = 0, G
+    if SHARD is not None:
+        i, K = SHARD
+        nch = (G + chunk - 1) // chunk
+        lo, hi = chunk * (nch * i // K), min(G, chunk * (nch * (i + 1) // K))
+    if MERGE is None:
+      for c0 in range(lo, hi, chunk):
         cs = np.arange(c0, min(G, c0 + chunk))
+        rng = np.random.default_rng([hseed, c0])          # amendment 3: per-chunk stream (shard-independent)
         wo, sx, sy = EV.grid_dirs(wi[cs], smax[cs], n)
         ok = wo[..., 2] > 1e-4
         wo_c = wo.copy(); wo_c[..., 2] = np.maximum(wo_c[..., 2], 1e-4)
@@ -344,8 +363,22 @@ def highlight_set(out, name):
         woA, qA, useA = mixture(d[mA], wiA, rng)
         gA, gB = ref_eval(d, mA, wiA, woA, WALK['highlight_albedo'], seed + 500, c0)
         aref[cs] = (np.where(useA, 0.5 * (gA + gB).mean(1) / qA, 0).reshape(len(cs), nsa)).mean(1)
-        if c0 == 0:
+        if c0 == lo:
             print(name, 'highlight chunk s', time.time() - t0, flush=True)
+    if SHARD is not None:
+        sv = {'lo': lo, 'hi': hi, 'aref': aref[lo:hi]}
+        for v in st:
+            for k in keys:
+                sv[f'{v}_{k}'] = np.concatenate(st[v][k]) if st[v][k] else np.zeros(0)
+        np.savez(os.path.join(out, f'hlshard_{name}_{SHARD[0]}of{SHARD[1]}.npz'), **sv)
+        return
+    if MERGE is not None:
+        for i in range(MERGE):
+            z = np.load(os.path.join(out, f'hlshard_{name}_{i}of{MERGE}.npz'))
+            aref[int(z['lo']):int(z['hi'])] = z['aref']
+            for v in st:
+                for k in keys:
+                    st[v][k].append(z[f'{v}_{k}'])
     outd = {'mat': mk, 'theta': tk, 'wi': wi, 'smax': smax, 'aref': aref}
     for v in st:
         for k in keys:
@@ -367,6 +400,13 @@ def highlight_set(out, name):
     json.dump(s, open(os.path.join(out, f'hl_noise_{name}.json'), 'w'), indent=1)
     print(name, json.dumps(s), flush=True)
 
+
+SHARD, MERGE = None, None
+for _a in sys.argv:
+    if _a.startswith('--shard='):
+        _i, _k = _a.split('=')[1].split('/'); SHARD = (int(_i), int(_k))
+    if _a.startswith('--merge='):
+        MERGE = int(_a.split('=')[1])
 
 if __name__ == '__main__':
     out, what = sys.argv[1], sys.argv[2]

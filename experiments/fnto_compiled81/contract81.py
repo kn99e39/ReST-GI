@@ -124,7 +124,7 @@ def utility_factory(tab, desc):
             Ic = (np3(w).mean(1) * CO.lighting(kind, np3(wo), dvec)).reshape(Gn, ns)
             tabd = [mi.Float(np.ascontiguousarray(desc[idx, j], np.float32)) for j in range(10)]
             mat = L.Mat(tabd[0], tabd[1], tabd[2], mi.Color3f(tabd[3], tabd[4], tabd[5]), mi.Color3f(tabd[6], tabd[7], tabd[8]), tabd[9])
-            rg = mi.PCG32(size=len(idx), initstate=SD['contract'] + 5, initseq=dr.arange(mi.UInt64, len(idx)))
+            rg = mi.PCG32(size=len(idx), initstate=SD['contract'] + 5 + 1000 * CO.CT['lightings'].index(kind), initseq=dr.arange(mi.UInt64, len(idx)))
             wo_r, w_r, ok = L.layered_sample(mat, V3(wi), rg)
             Ir = (np3(w_r).mean(1) * CO.lighting(kind, np3(wo_r), dvec)).reshape(Gn, ns)
             rv_c = Ic.var(1) / np.maximum(Ic.mean(1) ** 2, 1e-30)

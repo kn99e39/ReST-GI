@@ -53,11 +53,18 @@ g=$($PY gate81.py b "$R/B"); log "GATE B $g"
 # ---- Stage A1: populations and reference targets (4 parallel lanes)
 D="$R/data"
 run A1_materials "$PY data81.py $D materials $DEV"
-par A1_pairs "$PY data81.py $D pairs $DEV" \
-    A1_gate "$PY data81.py $D eval gate $DEV && $PY data81.py $D highlight gate $DEV" \
-    A1_test_iid "$PY data81.py $D eval test_iid $DEV && $PY data81.py $D highlight test_iid $DEV" \
-    A1_test_block "$PY data81.py $D eval test_block $DEV" \
-    A1_train_eval "$PY data81.py $D eval train_eval $DEV"
+# amendment 3: eval sets in KE shards, highlight sets in KH shards (bit-identical streams to unsharded eval; per-chunk highlight streams)
+KE=3; KH=6
+jobs=(A1_pairs "$PY data81.py $D pairs $DEV")
+for s in gate test_iid test_block train_eval; do for i in $(seq 0 $((KE-1))); do
+  jobs+=(A1_eval_${s}_$i "$PY data81.py $D eval $s --shard=$i/$KE $DEV"); done; done
+par "${jobs[@]}"
+par A1_merge_gate "$PY data81.py $D eval gate --merge=$KE $DEV" A1_merge_test_iid "$PY data81.py $D eval test_iid --merge=$KE $DEV"     A1_merge_test_block "$PY data81.py $D eval test_block --merge=$KE $DEV" A1_merge_train_eval "$PY data81.py $D eval train_eval --merge=$KE $DEV"
+jobs=()
+for s in gate test_iid; do for i in $(seq 0 $((KH-1))); do
+  jobs+=(A1_hl_${s}_$i "$PY data81.py $D highlight $s --shard=$i/$KH $DEV"); done; done
+par "${jobs[@]}"
+par A1_hlmerge_gate "$PY data81.py $D highlight gate --merge=$KH $DEV" A1_hlmerge_test_iid "$PY data81.py $D highlight test_iid --merge=$KH $DEV"
 g=$($PY gate81.py data "$D"); log "GATE DATA $g"
 [ "$g" = QUALIFIED ] || { log "STOP REFERENCE_NOT_QUALIFIED (noise floor)"; log CHAIN_DONE; exit 0; }
 

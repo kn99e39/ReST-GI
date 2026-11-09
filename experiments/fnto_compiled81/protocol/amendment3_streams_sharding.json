@@ -1,0 +1,12 @@
+{
+ "amendment": 3,
+ "protocol": "compiled81_v1",
+ "date": "2026-11-09",
+ "timing": "PRE-EVIDENCE for every candidate / control result. Stage A1 of the amendment-2 run was in progress and is regenerated (partial data archived unused); A0 and B are reused unchanged.",
+ "defect_found": "Dr.Jit 0.4.6 PCG32(size, initstate, initseq) adds arange(size) to initseq internally. data81.ref_eval passed initseq = arange(size) + offset, i.e. sequence 2 j + offset, so launch chunks of one call overlapped (chunk k lane j and chunk k-1 lane j + size/2 drew identical random streams): different (pair, walk) lanes in different chunks were perfectly correlated. Means stay unbiased; errors of different pairs were correlated. Affected only the aborted A1 data of runs 1 and 2 (never used). Single-call uses elsewhere (refaudit, contract G81 with per-call initstate, bench, render validation) have unique sequences 2 j and are unaffected; contract81's report-only sampling utility reused one initstate for its three lightings and now offsets it per lighting.",
+ "changes": {
+  "streams": "data81.ref_eval: initseq = scalar global offset (pair0 x nwalk + chunk offset) -> sequence = global lane index, unique across chunks, calls of one purpose and shards",
+  "sharding": "user instruction 2026-11-09 (run more processes in parallel): eval sets are generated in 3 shards per set (contiguous pair ranges; identical streams to an unsharded run, verified in dev) and merged (noise-floor rule and any top-up in the merge step); highlight sets in 6 shards (chunk-aligned case ranges, mixture RNG per chunk = default_rng([seed, chunk start])) and merged. run81.sh runs pairs + 12 eval shards concurrently, then merges, then 12 highlight shards, then merges."
+ },
+ "unchanged": "everything else in protocol v1 + amendments 1-2"
+}
