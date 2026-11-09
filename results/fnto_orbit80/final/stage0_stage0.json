@@ -1,0 +1,240 @@
+{
+ "C1": {
+  "sha256": {
+   "stage0/geometry.json": "723705c2a666455e37ebcd89d82c08f29d9bfffa123e69403686ae967353d321",
+   "stage0/refs.json": "7484d173684ecae3c0c5b8680b37328aec64d059c9e0d3a3a54bd8b88af7c1f2",
+   "stage1/oracle.json": "873649c6adaa92bbbc71c12a851f243afb74aa03defbded3a5fbb95fd0614f9d",
+   "stage1/gate.json": "4bfd5e68ad63858461f32165a7cc1f46ad2a034a476c19f2318baab02bb9a419",
+   "stage1/closure.json": "b2084e2b9de719567b1f25f9a03b3a9a5e0f757b2f530c1617f2951279b94419"
+  },
+  "stage1": "ANGULAR BASIS LIMIT (stop: brief Stage 1)",
+  "stage0_contract": {
+   "rest_maps": 16,
+   "rest_all_exact": true,
+   "rest_all_commute": true,
+   "references_valid": true,
+   "valid": true
+  },
+  "references": {
+   "positive_n": 50,
+   "positive_passed": 50,
+   "negative_n": 103,
+   "negative_detected": 101,
+   "negative_ruled": 11,
+   "negative_ruled_detected": 11,
+   "valid": true,
+   "seconds": 34.314033599570394
+  },
+  "no_wl79_stage5_references": true,
+  "no_wl79_ports_frozen": true
+ },
+ "C2": {
+  "pairs": 256,
+  "failures": 0,
+  "all_exact": true
+ },
+ "C3": {
+  "r90": {
+   "node_non_equivariant_ports": 48,
+   "node_classes": {
+    "TIE": 48,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.610741138458252,
+   "unmapped_edges": 4780,
+   "edge_classes": {
+    "TIE": 4780,
+    "OTHER": 0
+   }
+  },
+  "r180": {
+   "node_non_equivariant_ports": 32,
+   "node_classes": {
+    "TIE": 32,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.18723708391189575,
+   "unmapped_edges": 5836,
+   "edge_classes": {
+    "TIE": 5836,
+    "OTHER": 0
+   }
+  },
+  "r270": {
+   "node_non_equivariant_ports": 48,
+   "node_classes": {
+    "TIE": 48,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.610741138458252,
+   "unmapped_edges": 4780,
+   "edge_classes": {
+    "TIE": 4780,
+    "OTHER": 0
+   }
+  },
+  "mx": {
+   "node_non_equivariant_ports": 32,
+   "node_classes": {
+    "TIE": 32,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.18723708391189575,
+   "unmapped_edges": 4730,
+   "edge_classes": {
+    "TIE": 4730,
+    "OTHER": 0
+   }
+  },
+  "my": {
+   "node_non_equivariant_ports": 0,
+   "node_classes": {
+    "TIE": 0,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.0,
+   "unmapped_edges": 4710,
+   "edge_classes": {
+    "TIE": 4710,
+    "OTHER": 0
+   }
+  },
+  "sw": {
+   "node_non_equivariant_ports": 48,
+   "node_classes": {
+    "TIE": 48,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.610741138458252,
+   "unmapped_edges": 1114,
+   "edge_classes": {
+    "TIE": 1114,
+    "OTHER": 0
+   }
+  },
+  "asw": {
+   "node_non_equivariant_ports": 48,
+   "node_classes": {
+    "TIE": 48,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.610741138458252,
+   "unmapped_edges": 5848,
+   "edge_classes": {
+    "TIE": 5848,
+    "OTHER": 0
+   }
+  },
+  "id+z": {
+   "node_non_equivariant_ports": 0,
+   "node_classes": {
+    "TIE": 0,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.0,
+   "unmapped_edges": 1268,
+   "edge_classes": {
+    "TIE": 1268,
+    "OTHER": 0
+   }
+  },
+  "r90+z": {
+   "node_non_equivariant_ports": 48,
+   "node_classes": {
+    "TIE": 48,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.610741138458252,
+   "unmapped_edges": 4723,
+   "edge_classes": {
+    "TIE": 4723,
+    "OTHER": 0
+   }
+  },
+  "r180+z": {
+   "node_non_equivariant_ports": 32,
+   "node_classes": {
+    "TIE": 32,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.18723708391189575,
+   "unmapped_edges": 5852,
+   "edge_classes": {
+    "TIE": 5852,
+    "OTHER": 0
+   }
+  },
+  "r270+z": {
+   "node_non_equivariant_ports": 48,
+   "node_classes": {
+    "TIE": 48,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.610741138458252,
+   "unmapped_edges": 4723,
+   "edge_classes": {
+    "TIE": 4723,
+    "OTHER": 0
+   }
+  },
+  "mx+z": {
+   "node_non_equivariant_ports": 32,
+   "node_classes": {
+    "TIE": 32,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.18723708391189575,
+   "unmapped_edges": 4798,
+   "edge_classes": {
+    "TIE": 4798,
+    "OTHER": 0
+   }
+  },
+  "my+z": {
+   "node_non_equivariant_ports": 0,
+   "node_classes": {
+    "TIE": 0,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.0,
+   "unmapped_edges": 4774,
+   "edge_classes": {
+    "TIE": 4774,
+    "OTHER": 0
+   }
+  },
+  "sw+z": {
+   "node_non_equivariant_ports": 48,
+   "node_classes": {
+    "TIE": 48,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.610741138458252,
+   "unmapped_edges": 652,
+   "edge_classes": {
+    "TIE": 652,
+    "OTHER": 0
+   }
+  },
+  "asw+z": {
+   "node_non_equivariant_ports": 48,
+   "node_classes": {
+    "TIE": 48,
+    "OTHER": 0
+   },
+   "max_node_diff": 0.610741138458252,
+   "unmapped_edges": 5846,
+   "edge_classes": {
+    "TIE": 5846,
+    "OTHER": 0
+   }
+  }
+ },
+ "C4": {
+  "A": "exact whole-domain D4h (16 rest operations): label permutation authorised (sym79 maps)",
+  "B": "approximate local-context equivalence (op + in-face translation; e.g. 101<-50): diagnostic comparison only, never a label",
+  "C": "translation of a source inside the finite slab: not a symmetry",
+  "dented": "pt0 / pt0v / te0 maps are not exact (WL79 Stage 0): identity presentation only"
+ },
+ "valid": true
+}

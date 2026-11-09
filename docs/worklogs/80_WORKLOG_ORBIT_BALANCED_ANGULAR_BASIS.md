@@ -225,3 +225,185 @@ J = 0.5 × rest + 0.5 × pt0.
 **Why results are unaffected.** Each restart is a deterministic computation from its predeclared initialisation. Only the wall-clock changes, to about 2.6 h per restart.
 
 **Preserved.** The failed r1 log, as `logs/basis_r1_failed_oom.log`.
+
+## Execution (2026-11-08 UTC, LabServer63, RTX 3080 Ti 12 GB, torch 2.3.1)
+
+**Chain A.** Ran from commit 468c960, with the two execution deviations above. Steps:
+
+| Step | Result |
+|---|---|
+| Stage 0 | VALID |
+| Population | 256 targets |
+| Restarts (serial) | r0 8,322 s, r1 8,118 s, r2 8,166 s |
+| Selection | r0 |
+| Stage 2 oracle | G1 11,400 s; r1 / r2 descriptive 5,185 / 5,188 s (concurrent with G1) |
+| Gate | **ORBIT-BALANCED BASIS INADEQUATE** at 18:54 UTC |
+
+**Chain B** (commit 189038e). It read the Stage 2 gate, did not train, and exported `final/` at 18:55 UTC.
+
+**Not executed.** By the gate, Stages 3–6 did not run: no learned arm, no mechanism evaluation, no Stage 5 references, no deformation or cost measurement. The WL79/80 population (19 ports) **remains unreferenced and unscored**.
+
+## Final report
+
+### Implementation Fact
+
+**Implemented and run.**
+- `stage0_80.py`: contract reconciliation.
+- `basis80.py`: the orbit-balanced global rank-16 basis.
+  - Population: 240 exact rest D4h images of the 16 S16-R fitting means, plus 16 pt0 originals.
+  - Weighting: per source.
+  - Fit: the WL74 block-coordinate schedule. The A/O step uses exact sufficient statistics (identity 3.3e-16). Float64.
+  - Restarts: G2 initialisation / seed 8001 / seed 8002.
+  - Selection: by fitting J, then aligned to G2.
+- `oracle80.py`: the unchanged WL79 oracle with the basis swapped, plus the predeclared gate.
+
+**Written, tested where possible, never run for evidence.** The learned 2 × 2 (`fit80.py`), `eval80.py`, `ports80.py`, `probes80.py`, `cost80.py`.
+
+**Unchanged.** Q78 / A75 / AR, the G2 basis, every WL79 record, production FNTO, and the bin-frame convention.
+
+### Measurement
+
+**Stage 0 — VALID.**
+- WL79 records are unchanged and its population is unreferenced.
+- Group composition: 256 / 256 pairs exact.
+- Every non-equivariant W+UV-Q input is an index-ordered tie:
+  - probe ties: 0–48 ports per operation;
+  - 128-NN boundary ties: 1,114–5,852 edges per operation;
+  - nothing in class OTHER.
+
+**Stage 1 — basis restarts.**
+
+| Restart | Final J (orbit population) | rest / pt0 |
+|---|---|---|
+| r0 (from G2) | **0.01683** | 0.01728 / 0.01637 |
+| r1 (seed 8001) | 0.02011 | 0.02021 / 0.02002 |
+| r2 (seed 8002) | 0.02187 | 0.02196 / 0.02179 |
+
+- **Restart spread:** 0.30. The random restarts converge to clearly worse solutions.
+- **Selected basis:** G1 = r0.
+  - A and O normalised to 4e-16; min A / O 5e-7 / 2e-7 (positive).
+  - Change vs G2: A 0.36, O 0.22 (relative).
+  - Algebraic closure still absent: A 0.60, O 0.55, joint median 0.56 / max 0.67 (G2: 0.52 / 0.46 / 0.53 / 0.62).
+
+**Stage 2 — oracle (G1 vs the WL79 G0 record).** The convergence change was 1.5e-4.
+
+*Orientation gap of G1 itself.* Transformed / own original is **≤ 1.15** for every operation, group and metric:
+- BND con_coarse 1.11–1.15 (G0: 1.05–1.41);
+- BND abs_coarse 1.01–1.14 (G0: 1.05–1.27);
+- INT 0.98–1.01.
+
+*Original-orientation accuracy (G1 vs G0).* Lower, but within the 1.25 rule:
+
+| Group | Range |
+|---|---|
+| ALL | 1.06–1.15 |
+| BND | 1.02–1.10 |
+| INT | 1.03–1.18 |
+
+The worst case is INT abs_coarse, 0.044 → 0.052.
+
+*Transformed level vs the G0 original:* 1.08–1.27.
+
+| Quantity | G0 transformed (WL79) | G1 transformed |
+|---|---|---|
+| BND con_coarse (G0 original 0.129) | 0.136–0.183 | 0.147–0.164 |
+| BND abs_coarse (G0 original 0.084) | 0.089–0.107 | 0.091–0.103 |
+
+*Gate failures (5).*
+
+| Failure | Values |
+|---|---|
+| (c) BND con_coarse, r90 | 0.163 / 0.129 = 1.258 × G0 original (rule 1.25) |
+| (c) BND con_coarse, r90+z | 0.164 / 0.129 = 1.266 × |
+| (a) WL59 BND abs_coarse, r90 / r180 / id+z | transformed 0.101 / 0.103 / 0.103 > 0.10, while the G1 original (0.090) passes |
+
+Every other check passed:
+- original-orientation preservation (b), including the WL59 gates;
+- the own-orientation ratio (a);
+- INT, ALL, sw and mx.
+
+**Classification: ORBIT-BALANCED BASIS INADEQUATE** (stop before learned training).
+
+*Non-selected restarts (descriptive; identity / r90 / r180).*
+
+| Restart | BND con_coarse | ALL abs_coarse |
+|---|---|---|
+| r1 | 0.150 / 0.154 / 0.158 | 0.071–0.072 |
+| r2 | 0.147 / 0.158 / 0.161 | 0.082–0.092 |
+
+Both have small orientation gaps but worse absolute levels than G1.
+
+### Observation
+
+- **The gap shrank but did not close.** Orbit-balanced fitting cut the orientation gap of the rank-16 basis by more than half: the worst own-orientation ratio fell from 1.41 to 1.15. The original orientations got slightly worse at the same time (2–18 %, largest for interior coarse metrics).
+- **Where it falls short.** Boundary rotations (r90, r90+z) and the WL59 coarse-absolute gate (r90, r180, id+z). The margins are small: 1.258–1.266 vs 1.25, and 0.101–0.103 vs 0.10.
+- **Better G1 restarts were not found.** The two random restarts converged to bases with lower orientation gaps but worse absolute accuracy (J 0.020 / 0.022 vs 0.017).
+
+### Interpretation (inference, labelled)
+
+1. **Part of WL79's failure was orientation-biased fitting.** Fitting the same rank-16 family on the exact orbit halves the measured gap, so part of the WL79 failure came from fitting G2 on the original orientations only. The bias is not the whole story: with balanced fitting, the global rank-16 basis spreads its fixed capacity over 15× more angular patterns. Original-orientation accuracy then drops, and the boundary-rotation images still sit just outside the rule.
+2. **No single global basis passed.** Among the three restarts, none represented the orbit at the G0-original level without regression. This is consistent with a trade-off inside the global rank-16 factorisation (capacity / global sharing) rather than a pure optimisation failure:
+   - the fit converged (oracle 1.5e-4);
+   - restarts from random starts were worse, not better.
+   Because the problem is nonconvex and only three restarts were run, an optimisation contribution cannot be excluded.
+3. **The margins are thin.** The failures are marginal. The batch's conclusion is negative under the frozen rule, not by a wide margin.
+4. **What is not tested.** No learned model was trained, so nothing is known about whether a better-balanced basis would change learned transfer. The brief also notes that the oracle gap is much smaller than Q78's learned boundary error, so even a passing basis would not by itself have shown better transfer.
+
+### Unresolved Question
+
+1. Is the residual (boundary-rotation coarse contrast; coarse-absolute at about 0.10) a capacity limit of global rank 16, a consequence of sharing one basis across all orientations, or an optimisation effect? More restarts or other balance weights would partly separate these. Not authorised here.
+2. Would an explicitly equivariant angular factorisation (a basis that transforms with the bin frame) avoid the trade-off? That is a new operator class and a user decision.
+3. The learned 2 × 2 questions (basis effect, presentation effect, interaction, independent transfer, deformation, cost) remain unmeasured.
+4. Dented-pose angular symmetry labels are still unavailable under the current bin convention.
+
+### Architecture Verdict
+
+**ORBIT-BALANCED BASIS INADEQUATE.** Stage 2 stop, under the predeclared rule.
+
+- **Evidence that orientation bias contributed:** the orientation gap fell from 1.41 to 1.15. By the predeclared mapping, "ORIENTATION-BIASED BASIS SUPPORTED" required the gate to pass, so it is not claimed as a verdict. The halving is reported as a measurement.
+- **RANK-16 ORBIT REPRESENTABILITY: NOT SUPPORTED** at the frozen thresholds; the failures are marginal.
+- **Not measured** (by protocol): basis-change benefit, presentation benefit, interaction, transfer, deformation, cost.
+- **Adoption.** Nothing is adopted. No successor batch is started. WL79 and earlier verdicts are unchanged.
+
+### Answers to the brief
+
+1. **Does orientation-balanced rank-16 fitting remove WL79's transformed-oracle gap?** It reduces it from at most 1.41 to at most 1.15 (own-orientation ratio). It does not remove it: BND con_coarse under r90 / r90+z is 1.26–1.27 × the G0 original level, and BND abs_coarse is 0.101–0.103 > 0.10 under r90 / r180 / id+z.
+2. **Does it preserve original-orientation fidelity?** Within the 1.25 rule and all WL59 gates, yes. But there is a measured regression of 2–18 %; the worst case is INT abs_coarse, 1.18 ×.
+3. **Is global rank 16 empirically sufficient for the tested orbit?** Not at the predeclared thresholds (5 marginal failures, all boundary). Interior and the diagonal reflection are adequate.
+4. **Does changing A/O improve learned transport, independent of symmetry exposure?** Not measured (no training, by protocol).
+5. **Does symmetry exposure add benefit?** Not measured.
+6. **Are the benefits confined to the training orbit?** Not measured.
+7. **Does independent boundary-far source generalisation improve?** Not measured. The population remains unscored.
+8. **Does deformation fidelity regress or recover?** Not measured.
+9. **Is the benefit worth the optimisation and runtime cost?**
+   - Measured cost: angular pretraining about 2.3 h per restart (float64, 256 targets, about 6.8 h for three); Stage 2 oracle 3.2 h for G1.
+   - The runtime is unchanged by construction (same operator). No benefit was established to weigh against it.
+10. **Global ATO or an explicitly equivariant angular factorisation?** Global rank-16 ATO reduces but does not remove the orientation gap without regression. The evidence is consistent with a trade-off from sharing one global basis across orientations. Whether to consider an equivariant angular factorisation is an open user decision; the evidence does not decide it, and the failures are marginal.
+
+### Reproducibility
+
+**Commits.**
+
+| Commit | Content |
+|---|---|
+| 468c960 | Stages 0–2 freeze |
+| 189038e | Stages 3–6 freeze |
+| 27faf01, 0f10a4b | Execution deviations |
+
+The deployed commits are in `results/fnto_orbit80/code_commit_*.txt`.
+
+**Inputs.**
+
+| Input | Identity |
+|---|---|
+| G2 basis | `G2_r0`, sha256 000fc7aa… |
+| WL79 G0 oracle record | sha256 873649c6… |
+| `fit_targets73.pt` | sha256 20f631ed… |
+
+**G1 provenance.** sha256 and logit hashes in `basis/select.json`, with the per-restart histories.
+
+**Environment.** Float64 for the basis fit and oracle; eval68 estimators. LabServer63, RTX 3080 Ti 12 GB, torch 2.3.1+cu121.
+
+**Outputs.**
+- `results/fnto_orbit80/final/` (manifest), including the Stage 0 record, basis selection, the G1 oracle and closure, the descriptive restart oracles, the gate and the summary.
+- Server root `~/rest_orbit80`. The failed OOM logs are preserved.
