@@ -1,0 +1,8 @@
+lamb+ggx1 p=.5/.5 sampler 0.5381 quad 0.9234 intpdf 0.9569 1-fail 0.5855
+ggx2(.05)+ggx5(.3) sampler 0.4939 quad 0.9222 intpdf 0.9562 1-fail 0.5853
+ggx3 only sampler 0.8456 quad 0.8453 intpdf 0.9122 1-fail 0.9126
+ggx7 only sampler 0.8457 quad 0.8449 intpdf 0.912 1-fail 0.9125
+ggx7 weight, uniform probs sampler 0.4093 quad 0.8457 intpdf 0.9235 1-fail 0.5853
+sel [0, 0, 0, 0, 1, 1, 1, 1] au [1.0]
+valid [True, True, True, True, True, True, True, True]
+pdf [0.05917743220925331, 0.05917743220925331, 0.05917743220925331, 0.05917743220925331, 0.05917743220925331, 0.05917743220925331, 0.05917743220925331, 0.05917743220925331]

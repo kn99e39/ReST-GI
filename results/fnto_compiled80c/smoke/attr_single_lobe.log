@@ -1,0 +1,10 @@
+au=0.3 av=0.3 th=10: albedo sampler=0.8758 quad=0.8753 | int pdf=0.9166 1-fail=0.9170 | hist maxrel=0.015
+au=0.3 av=0.3 th=45: albedo sampler=0.8455 quad=0.8456 | int pdf=0.9126 1-fail=0.9124 | hist maxrel=0.015
+au=0.3 av=0.3 th=75: albedo sampler=0.8238 quad=0.8235 | int pdf=0.9278 1-fail=0.9280 | hist maxrel=0.017
+au=0.3 av=0.1 th=10: albedo sampler=0.9288 quad=0.9282 | int pdf=0.9521 1-fail=0.9528 | hist maxrel=0.020
+au=0.3 av=0.1 th=45: albedo sampler=0.9055 quad=0.9041 | int pdf=0.9459 1-fail=0.9475 | hist maxrel=0.015
+au=0.3 av=0.1 th=75: albedo sampler=0.8576 quad=0.8569 | int pdf=0.9436 1-fail=0.9439 | hist maxrel=0.031
+au=0.05 av=0.05 th=10: albedo sampler=0.9972 quad=1.0012 | int pdf=1.0014 1-fail=0.9975 | hist maxrel=0.070
+au=0.05 av=0.05 th=45: albedo sampler=0.9956 quad=0.9966 | int pdf=0.9977 1-fail=0.9967 | hist maxrel=0.043
+au=0.05 av=0.05 th=75: albedo sampler=0.9760 quad=0.9762 | int pdf=0.9904 1-fail=0.9901 | hist maxrel=0.030
+lambert albedo sampler 1.0
