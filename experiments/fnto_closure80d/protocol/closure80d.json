@@ -1,0 +1,49 @@
+{
+ "protocol": "closure80d_v1",
+ "batch": "WL80D - Compiled closure correctness and energy parameterisation feasibility",
+ "date": "2026-11-09",
+ "status_rule": "Frozen and committed before any WL80D evaluation (sampler regression, candidate fit, contract or benchmark). Amendments labelled and dated, stating whether they precede or follow evidence.",
+ "baseline": {"wl80c_code": "9f5b388", "wl80c_results": "d219cf9 results/fnto_compiled80c/smoke (materials.npz, fit.npz = WL80C oracle-P control parameters, smoke.json)",
+              "wl80c_protocol": "experiments/fnto_compiled80c/protocol/compiled80c.json (+ amendment 1); its thresholds are reused unchanged"},
+ "machine": {"host": "LabServer63", "gpu": "RTX 3080 Ti 12 GB", "env": "~/NeuralShaderDemo/external/8dna26/.venv (Mitsuba 3.5.1 cuda_ad_rgb, Dr.Jit 0.4.6, torch 2.3.1+cu121); LD_LIBRARY_PATH=$HOME/nvlibs/optix595; PYTHONUNBUFFERED=1",
+             "rule": "No hard timeout; one server-side chain covering all stages; a session monitor only observes."},
+ "part_A_sampler": {
+   "defect": "WL80C closure80c_dr.py used `sel == k` on Dr.Jit 0.4.6 arrays; in this Dr.Jit version array `==` is a horizontal reduction returning a Python bool, so every lobe-parameter / direction selection mask was False (alpha fell back to 1.0, Lambert lanes got the GGX direction). Affected: DrClosure._select_lobe, sample, alt_sample. Not affected: eval / pdf / eval_pdf / lobe_vndf_fail_and_norm.",
+   "correction": "experiments/fnto_closure80d/closure80d_dr.py = byte copy of closure80c_dr.py with dr.eq(sel, k) in the three places (diff recorded in the worklog). WL80C files are not modified.",
+   "regression_tests": {
+     "T1_lane_selection": "per-lane and uniform closures: Dr.Jit selected lobe index, alpha_u, alpha_v equal a numpy inverse-CDF reference (exact index match; alpha rel <= 1e-6) on 2^20 lanes from 64 random closures",
+     "T2_eval_pdf_consistency": "Dr.Jit eval vs torch eval_closure and Dr.Jit pdf vs a numpy float64 implementation on 2^20 random upper-hemisphere pairs from 64 random + 8 WL80C closures: median rel <= 1e-6 and p99.9 rel <= 1e-3 (values above 1e-6 x lane max)",
+     "T3_sampler_vs_quadrature": "fixed closures (Lambert; single GGX alpha 0.3 / (0.3, 0.1) / 0.05; Lambert+GGX 0.5/0.5; GGX(0.05)+GGX(0.3); uniform probabilities with one weighted lobe), theta 10/45/75: sampler albedo vs uniform-hemisphere quadrature (2^22) within 4 se + 2e-3; valid fraction vs integral of pdf within 4 se + 2e-3",
+     "T4_wl80c_compatibility": "the WL80C fit / evaluation direction sets are regenerated with the WL80C code and seed (80900) for the WL80C materials; evaluating the stored WL80C control parameters must reproduce WL80C smoke.json oracleP E_L1 / E_alb median, p90/p95 and max within rel 1e-5",
+     "rule": "the chain stops if T1-T4 do not all pass"},
+   "contract_rerun": "WL80C contract80c checks C1-C7, C5b and sampling utility, with WL80C thresholds, on (a) WL80C control closures (unchanged parameters) and the 50 WL80C adversarial closures, using the corrected sampler"
+ },
+ "part_B_energy": {
+   "control": "WL80C oracle-P closures (sum_r lambda_rc <= 1 via 9-slot softmax), parameters reused from WL80C fit.npz (fitted under the WL80C oracle protocol)",
+   "candidate": "same basis / rank / raw layout; lambda = softplus (>= 0, no sum bound); f_c = g_c / max(1, M_c), M_c = sup over wi of int g_c cos dwo",
+   "candidate_fit": "matched to the WL80C oracle protocol: same materials, same regenerated fit set (64 wi x 16 wo per material), loss mean (log1p eval_cl - log1p eval_ref)^2, Adam 3000 steps, lr 0.03 -> 3e-4 cosine, 50 warmup, generic init (WL80C init bias; lambda raw = log(expm1(1/9)) so the initial weights equal the control's 1/9). During fitting M is a differentiable estimate: max over a 12 theta {0,20,40,55,65,72,78,82,85,87,88.5,89.5} x 4 phi {0,30,60,90} grid of the linear mixture albedo, per-lobe albedo by VNDF with 16 x 32 stratified common random numbers (seed 80410).",
+   "compile": "once per material after fitting: per-lobe albedo on a 64 theta (33 uniform in [0,80] + 31 uniform in [80.5, 89.9]) x 16 phi (uniform [0,90]) grid with 128 x 256 stratified VNDF samples (seed 80420); M_c = max over the grid of (mixture albedo + 3 standard errors); lambda' = lambda / max(1, M_c). The runtime closure is the WL80C closure with lambda' (state size unchanged).",
+   "passivity_label": "EMPIRICALLY passive (finite wi grid + MC standard error), not a continuum certificate",
+   "independent_passivity_check": "corrected Dr.Jit sampler albedo at 1024 random wi per material (cos theta uniform in [cos 89.95 deg, 1], phi uniform) x 65536 samples; violation if a - 1 > max(4 se, 1e-3); plus WL80C contract C3; also run for 50 adversarial candidate closures (random raw z, seed 80430, sigma 3, a quarter with saturated alpha / F0) compiled the same way",
+   "evaluation": "WL80C evaluation set (regenerated, T4-verified), WL80C metrics (E_L1, E_alb, theta strata, highlight geometry) and WL80C representation thresholds R1-R3 for both arms; WL80C oracle-U values quoted as the unconstrained reference",
+   "materially_addresses_rule": "the candidate materially addresses the WL80C limitation iff it passes R2 (E_alb median <= 0.03 and p95 <= 0.10) AND its E_L1 median <= the control's; otherwise the stop condition 'does not materially address' applies (results still reported)"
+ },
+ "part_C_gpu": {
+   "arms": "REF Mitsuba principled (C++), CTRL and CAND compiled closures with the corrected sampler, SIMPLE roughconductor (sanity); same Dr.Jit CUDA tracing path, kernel-history GPU time",
+   "workload": "first 4 WL80C materials; io 65536 / 4194304 / 16777216; fused16 1048576 / 4194304; ops eval_pdf, eval, pdf, sample; 10 reps after 2 warmups; foreign-process check before/after",
+   "costs": "compiled-state bytes; candidate compile (M_c) time single material and 8 materials; compiler MLP forward (WL80C architecture, untrained weights - cost only) single and 1024; runtime closure binding",
+   "rules": {"advantage": "REF/CMP GPU-time speedup >= 1.10 (median over materials) for eval_pdf and sample at the largest io and fused16 sizes (WL80C rule)",
+             "parity_feasibility": "CMP/REF GPU-time ratio <= 1.25 (median) for eval_pdf and sample at the largest fused16 size"},
+   "expensive_reference": "None readily available: Mitsuba `measured` plugin exists but no RGL / MERL data files are present on LabServer63; no download or new data generation. Utility against expensive material responses is reported UNRESOLVED."
+ },
+ "decision": {
+   "SAMPLER_CORRECTNESS": "PASS iff T1-T4 pass and C1-C7 + C5b pass for the control and adversarial closures with the corrected sampler",
+   "REPRESENTATION_FEASIBILITY": "candidate R1-R3 (WL80C thresholds) on the 8 WL80C materials; reported with control side by side",
+   "PHYSICAL_CONTRACT": "candidate (and candidate adversarial) C1-C7 + C5b pass and the independent passivity check has zero violations; label empirical",
+   "GPU_UTILITY": "advantage and parity rules vs the cheap analytic comparator; expensive-reference utility UNRESOLVED",
+   "LEARNED_RULE_UNTESTED": "always (no compiler training)",
+   "justifies_learned_rule_training": "YES iff SAMPLER_CORRECTNESS, candidate REPRESENTATION (R1-R3), candidate PHYSICAL_CONTRACT and GPU parity_feasibility all PASS; otherwise NO, with the split reported. A YES is a feasibility statement on 8 materials of one family, not evidence of learned-rule generalisation."
+ },
+ "seeds": {"wl80c_sets": 80900, "fit_M_u": 80410, "compile_M_u": 80420, "adversarial_candidate": 80430, "tests": 80440, "passivity_check": 80450, "bench": 80370, "contract": 80350},
+ "not_authorised": ["rank / basis / network / population / threshold changes", "compiler training", "renderer integration", "new datasets or material sweeps", "neural residuals", "production FNTO / C1 changes", "automatic successor"]
+}
