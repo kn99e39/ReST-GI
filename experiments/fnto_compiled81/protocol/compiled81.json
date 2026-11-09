@@ -1,0 +1,157 @@
+{
+ "protocol": "compiled81_v1",
+ "batch": "WL81 - Compiled Neural Material Rules: Learned Representation and Rendering Utility Validation",
+ "date": "2026-11-09",
+ "status_rule": "Frozen and committed together with the WL81 code before any primary evidence (reference data generation, Stage B regression on frozen parameters, any candidate / control fit, training, benchmark or render). The Stage A reference audits listed under reference.qualification_pre_freeze were run in the dev root before the freeze to select and debug the reference; they are rerun inside the frozen chain (stage A0). Amendments are labelled, dated and state whether they precede or follow evidence.",
+ "inputs": {
+  "wl80c_code": "9f5b388 (experiments/fnto_compiled80c/, unchanged; imported, not copied)",
+  "wl80c_results": "d219cf9 results/fnto_compiled80c/smoke (materials.npz, fit.npz = WL80C oracle-P frozen parameters, smoke.json)",
+  "wl80d_code": "679657b experiments/fnto_closure80d/closure80d_dr.py (corrected sampler; imported, not copied)",
+  "wl80d_result": "c3577be (WL80D complete; its energy candidate g/max(1,M) is NOT adopted: grazing-limit passivity violation, user decision 2026-11-09)"
+ },
+ "machine": {"host": "LabServer63", "gpu": "RTX 3080 Ti 12 GB", "driver": "595 (OptiX via ~/nvlibs/optix595)",
+             "python_env": "~/NeuralShaderDemo/external/8dna26/.venv (Mitsuba 3.5.1, Dr.Jit 0.4.6, torch 2.3.1+cu121, scipy)",
+             "env": {"LD_LIBRARY_PATH": "$HOME/nvlibs/optix595", "DRJIT_LIBLLVM_PATH": "/usr/lib/x86_64-linux-gnu/libLLVM-17.so", "C80_MI_VARIANT": "cuda_ad_rgb", "PYTHONUNBUFFERED": "1"},
+             "known_defect": "LabServer63 Mitsuba cuda_ad_rgb film / sensor accumulation is wrong (WL53); intersection is correct. WL81 never uses the cuda film: operator-level code works on arrays; Stage F accumulates integrator.sample() output itself and must first pass the renderer validation (stage_F.validation).",
+             "rule": "No hard time / memory budget (user, 2026-11-09). One detached server chain covers every stage end to end; a session Monitor only observes. GPU contention is recorded for every timed stage."},
+
+ "reference": {
+  "name": "coated_conductor_layered_v1 (experiments/fnto_compiled81/layered81.py)",
+  "physics": "rough dielectric coating (GGX alpha_i, IOR eta, air above) over a homogeneous isotropic-scattering slab (sigma_t = 1, optical thickness tau, single-scattering albedo a_rgb, isotropic phase) over a rough conductor (GGX alpha_b; pbrt-v4 CoatedConductor reflectance parameterisation eta_c = 1, k_c = 2 sqrt(r)/sqrt(1-r), both divided by the coating IOR). Refraction, Fresnel, total internal reflection and multiple scattering are real; isotropic, reciprocal and passive by physics.",
+  "interfaces": "per-lane ports of Mitsuba 3.5.1 roughdielectric / roughconductor (GGX, visible-normal sampling, separable Smith G, exact dielectric / conductor Fresnel, radiance-mode 1/eta^2 transmission scaling)",
+  "estimator": "port of pbrt-v4 LayeredBxDF::f / Sample_f (Guo, Hasan & Zhao 2018 position-free random walk, NEE + power-heuristic MIS, Russian roulette after depth 3 when max beta < 0.25), max_depth 1024, ONE correction: the MIS partner density of the two exit strategies (phase / conductor-sampled direction leaving through the coating) is the density with which the NEE strategy generates that inside direction, diel_pdf(wi_light, -w, transmission) - pbrt-v4 uses exitInterface.PDF(-w, wi), the density of the reverse query, so the two weights do not sum to one (pre-freeze audit: eval-integrated vs sampled albedo z up to 19, reciprocity z up to 79, ~5 % bias; after the correction all |z| <= 2.6).",
+  "conventions": "local frame z = normal; eval(wi_cam, wo_light) = f cos(theta_light) (Mitsuba BSDF::eval semantics, WL80C closure semantics); one walk is an unbiased estimate; targets average N independent walks (PCG32, one stream per lane)",
+  "not_a_trivial_basis_match": "the response is a coat GGX lobe with exact dielectric Fresnel plus multiply scattered, refracted and attenuated internal transport through a slab over a GGX conductor (coloured, angle-dependent absorption, TIR-trapped energy); the candidate basis (Lambert + Schlick-Fresnel GGX lobes with wi-independent weights) cannot represent it exactly",
+  "qualification_pre_freeze": {
+   "dev_root": "LabServer63 ~/rest_compiled81_dev (iface/, walk/ = before MIS correction, walk_b/, slab/)",
+   "A1_interfaces": "per-lane ports vs Mitsuba plugins on 65,536 random full-sphere pairs, 3 IOR/alpha settings x {radiance, importance} x {both, R only, T only} + 3 conductor settings: eval / sample bit-identical, pdf max rel 8.1e-5 (float32), no validity mismatches",
+   "A2_walk_consistency": "4 audit materials (corners of the box): sampled albedo (pbrt Sample_f, 2^20 walks) vs uniform-hemisphere integral of eval (2^18) at theta 0/30/60/80/89, reciprocity f(a,b) vs f(b,a) on 5 pairs (2^20 walks), max_depth 64 vs 1024: after the MIS correction max |z| 1.98 / 2.53 (albedo / reciprocity); truncation at 64 up to 1.2 % (near-white thick slab) -> max_depth 1024 frozen",
+   "A3_independent_slab": "Mitsuba 3.5.1 volpath (llvm) on a geometric slab (rough dielectric top with interior homogeneous isotropic medium, roughconductor floor, unit-irradiance directional light, radiance meter, 8 x 2^18 spp) vs the layered estimator (2^21 walks), 6 configurations x 3 channels: max |z| 2.15, max |rel| 1.0 %",
+   "A4_cost": "layered_eval on 2^22 lanes (mixed directions, mid material): 0.22 s -> 1.9e7 walks/s on the RTX 3080 Ti; per-walk relative standard deviation 0.1 - 15 (configuration dependent, highest for thin clear coats at oblique pairs)"
+  },
+  "stage_A0_rerun_in_chain": "refaudit81.py iface / walk / slab rerun with the frozen code; plus truncation audit max_depth 1024 vs 4096 on the near-white thick audit material (|rel| <= 1e-3 or |z| <= 3 required). REFERENCE_NOT_QUALIFIED (stop) iff A1 shows any eval / sample mismatch beyond rel 1e-4, A2 or A3 max |z| > 4, or the truncation audit fails."
+ },
+
+ "materials": {
+  "descriptor": ["alpha_i", "eta", "tau", "a_r", "a_g", "a_b", "r_r", "r_g", "r_b", "alpha_b"],
+  "box": {"alpha_i": [0.05, 0.5, "log"], "eta": [1.3, 1.8, "lin"], "tau": [0.02, 2.0, "log"], "a": [0.0, 0.99, "lin"], "r": [0.05, 0.98, "lin"], "alpha_b": [0.05, 0.6, "log"]},
+  "normalisation": "each dimension mapped to [-1, 1] over the box (log scale for alpha_i, tau, alpha_b)",
+  "heldout_block": {"alpha_i": [0.05, 0.1], "tau": [0.5, 2.0], "alpha_b": [0.3, 0.6]},
+  "heldout_block_rule": "train / val / gate / test_iid materials are drawn from the box EXCLUDING the joint block (sharp clear coat over an optically thick slab over a rough conductor, ~2.5 % of the box); every marginal range stays covered. test_block is drawn inside the block.",
+  "passivity": "physically passive reference; no material filter (no material is removed after any candidate result)",
+  "splits": "independent uniform draws (seed materials 81010): train 3000, val 200, gate 300, test_iid 300 (all non-block), test_block 300 (block); train_eval = the first 300 train materials with fresh directions",
+  "gate_set_role": "Stage C (direct-fit energy A/B, representation and physical-contract gates) uses ONLY the gate set; test_iid / test_block are not read before Stage D and are never used for arm selection"
+ },
+
+ "angular": {
+  "train_wi": 64, "train_wo": 16, "val_wi": 32, "val_wo": 16,
+  "train_wi_distribution": "cos theta_i uniform in [cos 88deg, 1], phi uniform, excluding theta_i in the held-out incident band",
+  "wo_mixture": "defensive analytic mixture with exact density q(wo): 0.3 cosine + 0.2 uniform hemisphere + 0.3 GGX visible-normal reflection lobe alpha_i + 0.2 GGX visible-normal reflection lobe min(1, eta alpha_b); samples below the horizon are failures (use = 0, kept with zero weight in estimators; training / fit sets replace them by a uniform-hemisphere draw and recompute nothing else)",
+  "heldout_incident_band_deg": [55.0, 65.0],
+  "eval_theta_deg": [5, 20, 35, 50, 60, 70, 80, 86], "eval_n_phi": 2, "eval_wo": 1024,
+  "grazing_min_deg": 80, "band_neighbour_theta_deg": [50, 70],
+  "highlight": {"theta_deg": [20, 50, 70, 80], "grid": 201, "extent_alpha_mult": 4.0, "extent_min": 0.12, "extent_max": 1.5,
+                "albedo_samples": 1024, "pronounced_factor": 3.0,
+                "definition": "WL80C definition (eval80c.grid_dirs / highlight_stats) with the extent from the coat roughness: smax = clip(4 alpha_i, 0.12, 1.5); value = channel-mean eval; peak error = angle between reference and closure peak wo; width = 0.5 log(area ratio) of the half-maximum regions when neither touches the grid boundary; pronounced iff reference peak >= 3 a_ref(wi) cos(theta_peak) / pi"},
+  "eval_rule": "every evaluation direction is a fresh draw; theta 60 lies in the held-out band; theta >= 80 is the grazing stratum"
+ },
+
+ "reference_targets": {
+  "walks": {"train": 1024, "val": 1024, "fit": 1024, "eval_initial": 4096, "highlight_grid": 1024, "highlight_albedo": 256},
+  "split_half": "eval sets store f (all walks) and the two independent halves fA, fB; highlight grids store halves too",
+  "noise_floor_rule": "Reference-noise contribution of a metric = metric(fA vs fB) / 2 (two independent half-N estimates differ by 2x the full-N noise in standard deviation). Required for every eval set before any candidate evaluation: noise E_L1 median <= 0.025 and p90 <= 0.0625; noise E_alb median <= 0.0075 and p95 <= 0.025 (each <= 1/4 of the corresponding quality threshold). If a set fails, its walks are doubled (top-up with fresh streams; halves kept balanced) and the rule re-checked, up to 65,536 walks; failing at the cap -> REFERENCE_NOT_QUALIFIED for that set (stop). Highlight grids: the reference peak / width determined from fA vs fB are reported (peak error and |log width| medians) as the highlight noise floor; required <= 1/4 of R3 (0.25 deg, log(1.15)/4).",
+  "compute_path": "Dr.Jit cuda_ad_rgb kernels (layered81.layered_eval) on LabServer63; float64 accumulation of walk means on the host"
+ },
+
+ "closure": {
+  "basis": "WL80C closure unchanged: R = 8 (lobe 0 Lambert; lobes 1..7 anisotropic GGX alpha_u, alpha_v in [0.004, 1], frame-aligned, Schlick F0 in [0, 1], height-correlated Smith G2); raw layout 48 (closure80c.decode); compiled state 53 floats (lam 24, au 7, av 7, f0 7, sampling probs 8)",
+  "software_fix_1_sampler": "WL80D corrected Dr.Jit sampler (closure80d_dr.DrClosure: dr.eq in lobe / direction selection); imported unchanged",
+  "software_fix_2_horizon_numerics": "Found in the WL81 pre-freeze passivity audit: the WL80C / WL80D runtimes clamp cos^2 theta at 1e-7 inside the Smith Lambda but divide by the unclamped cos theta_i, so for theta_i > 89.982 deg (mu < 3.16e-4) a single GGX lobe of weight 1 reaches directional albedo 3.15 (mu 1e-4), 31.4 (1e-5), 315 (1e-6) [torch closure80c.eval_closure, alpha 0.05 and 0.3, F0 1, 2^22 uniform samples]; the mathematical passivity argument holds, the implementation violates it in that band for every arm. Correction (identical for every arm, no change of the basis function): the algebraically equal closed forms eval_r = F D cos_o / (2 (cos_o sqrt(cos_i^2 + t_i) + cos_i sqrt(cos_o^2 + t_o))), t = alpha_u^2 w_x^2 + alpha_v^2 w_y^2, and VNDF pdf_r = D / (2 (cos_i + sqrt(cos_i^2 + t_i))), which have no clamp, are symmetric and finite at the grazing limit. Implemented once in torch (closure81.py) and once in Dr.Jit (closure81_dr.DrClosure81, a subclass of the WL80D class overriding only eval_pdf and the per-lobe normalisation helper). Validity cutoffs (cos > 1e-7) unchanged.",
+  "runtime_rule": "WL81 evaluates, fits, trains, tests and benchmarks every arm with the corrected numerics; the unpatched WL80C / WL80D numerics are used only in Stage B (to isolate the sampler correction on the frozen WL80C parameters) and in the horizon-defect demonstration."
+ },
+
+ "energy_arms": {
+  "control": {"name": "WL80C_sum_bound", "definition": "lambda_.c = softmax over 9 slots (8 lobes + absorption) per channel -> lambda >= 0, sum_r lambda_rc <= 1; passive by construction since every lobe albedo <= 1 (certificate valid for the corrected numerics)"},
+  "candidate": {"name": "C81_limit_complete_sup", "status": "NOT YET SPECIFIED IN v1: fixed by protocol amendment 1 before its first evaluation (user instruction 2026-11-09)"},
+  "matching": "control and candidate share basis, rank, raw layout, decode of alpha / F0, data, loss, optimiser, steps and initialisation of every non-weight parameter; only the energy parameterisation of lambda differs"
+ },
+
+ "stage_B": {
+  "purpose": "focused regression isolating the WL80D sampler correction on the frozen WL80C parameters (WL80C materials / principled reference / fit.npz), with the WL80D code exactly as committed",
+  "tests": {
+   "B1_lane_selection": "WL80D T1 (selected lobe index and lane parameters equal a numpy inverse-CDF reference on 2^20 lanes from 64 random + uniform closures; exact)",
+   "B2_eval_pdf_consistency": "WL80D T2 (Dr.Jit eval vs torch, pdf vs numpy float64; median rel <= 1e-6, p99.9 <= 1e-3)",
+   "B3_sampler_vs_quadrature": "WL80D T3 (sampler albedo and valid fraction vs uniform-hemisphere quadrature on the 7 fixed closures x theta 10/45/75; 4 se + 2e-3)",
+   "B4_frozen_parameter_compatibility": "WL80D T4 (WL80C control metrics reproduced from fit.npz within rel 1e-5)",
+   "B5_contract_on_frozen_parameters": "WL80C contract C1, C2, C3, C5a, C6, C7 on the WL80C oracle-P closures with the WL80D sampler (sample / pdf agreement, pdf integration, MC vs independent sampler, reciprocity, passivity at the WL80C angles)",
+   "B6_horizon_numerics": "software fix 2: (a) corrected vs original eval and pdf on 2^20 random pairs with cos_i, cos_o >= 0.02 (rel <= 1e-5); (b) single GGX lobe (weight 1, F0 1, alpha 0.004 / 0.05 / 0.3 / 1, isotropic and 4:1 anisotropic) directional albedo at mu in {1e-1 .. 1e-7}: original (expected to exceed 1 for mu < 3e-4) vs corrected (must be <= 1 + 4 se); (c) the corrected Dr.Jit runtime equals the corrected torch eval (median rel <= 1e-6, p99.9 <= 1e-3) and its sampler passes B3 again"
+  },
+  "rule": "SAMPLER_CORRECTNESS PASS iff B1-B5 pass; the chain stops before Stage C if B1-B5 or B6 fail (B6 failing blocks every passivity claim)"
+ },
+
+ "fitting": {
+  "direct_fit": "per material, free raw closure parameters, loss mean (log1p eval_cl - log1p eval_ref)^2 over the material's fit set (64 wi x 16 wo, fresh training-style directions), Adam 3000 steps, lr 0.03 -> 3e-4 cosine, 50 warmup (WL80C oracle protocol)",
+  "stage_C_inits": "generic init only (closure80c.init_bias; candidate lambda raw = log(expm1(1/9)) so both arms start at lambda = 1/9)",
+  "stage_D_oracle": "oracle-P per arm on test_iid / test_block: best of two inits (generic; compiler seed-8101 output of the same arm) by final fit loss (WL80C definition); oracle-U diagnostic (lambda = softplus, no energy bound, init from the control oracle) separates the energy constraint from basis capacity",
+  "compiler": {"input": 10, "width": 128, "depth": 3, "activation": "SiLU", "output": 48, "head_init": "weights x 0.1, bias = closure80c.init_bias (candidate arm: lambda logits = log(expm1(1/9)))",
+               "steps": 20000, "batch_materials": 256, "pairs_per_material": 256, "lr": 0.002, "lr_end": 2e-05, "warmup": 500, "grad_clip": 1.0,
+               "loss": "mean over lanes and channels of (log1p eval_closure - log1p eval_ref)^2", "checkpoint": "final step only; validation loss logged, never used for selection",
+               "seeds": [8101, 8102],
+               "material_count_scaling": "primary arm, seed 8101 only, trained additionally on the first 750 and 1500 training materials (same steps); test_iid E_L1 reported vs material count (descriptive, no gate)"}
+ },
+
+ "metrics": {
+  "E_L1": "per (material, wi): sum_samples use * sum_c |eval_cl - eval_ref| / q  /  sum_samples use * sum_c eval_ref / q (WL80C)",
+  "E_alb": "per (material, wi): sum_c |a_cl,c - a_ref,c| / sum_c a_ref,c, a = int f cos dwo from the same samples (WL80C)",
+  "aggregation": "median / p90 / p95 / max over (material, wi) groups; theta strata; grazing (>= 80 deg), held-out band (60) vs neighbours (50 / 70); descriptor-tercile medians of per-material mean E_L1; worst-10 materials",
+  "family_strata": "coat roughness terciles, optical-thickness terciles (thin coat vs thick slab), mean albedo terciles"
+ },
+
+ "gates": {
+  "justification": "WL81 does not transplant WL80C thresholds by default; it adopts the same numbers after checking their meaning for the coated-conductor family: (i) E_L1 and E_alb are relative, energy-weighted and scale-free, so they do not depend on the absolute reflectance range of the family (coated conductors span albedo ~0.05 - 0.95 here); (ii) a 3 % median / 10 % p95 hemispherical-reflectance error is about the precision of measured-BRDF albedo and below a typical just-noticeable reflectance difference, and a 10 % median energy-weighted lobe error leaves highlight shape and colour distinguishable only side by side; (iii) the family has a sharp coat lobe whose exact-Fresnel peak is the dominant visual feature, so the highlight criterion R3 / L5 (1 deg peak, 15 % width for direct fits; 1.5 deg / 25 % for the learned rule) is the family-specific quality requirement; (iv) every threshold is at least 4x the reference noise floor measured on the same set (reference_targets.noise_floor_rule). Rendering utility is judged in image space (stage_F).",
+  "representation": {"set": "gate (Stage C direct fits), per arm", "E_L1_median": 0.10, "E_L1_p90": 0.25, "E_alb_median": 0.03, "E_alb_p95": 0.10,
+                     "peak_err_deg_median": 1.0, "width_ratio_max": 1.15, "clear_fail_E_L1_median": 0.20, "clear_fail_E_alb_median": 0.06,
+                     "rule": "PASS iff R1 (E_L1 median and p90) and R2 (E_alb median and p95) and R3 (pronounced highlights: median peak error and median |log width ratio|)"},
+  "physical_contract": {"rule": "PASS iff C1-C7 and C5b (WL80C definitions and thresholds, run with the corrected runtime) and G81 pass on every closure set of the arm: Stage C = gate-set direct fits + 50 adversarial closures (raw z ~ N(0, 3^2), a quarter with saturated alpha / F0; the candidate's adversarial closures compiled by its own rule); Stage D = learned closures (both seeds x test_iid / test_block) + the same adversarial closures",
+                        "C5b_supplement": "pre-freeze (dev smoke showed an empty WL80C C5b eligibility set, i.e. the chi-square test was not evaluable, which is not a physics result): if fewer than 20 eligible (closure, theta) cases exist for an arm, C5b is additionally run with the same runtime on 6 fixed synthetic closures whose sampled lobes all have alpha >= 0.05 (contract81.fixed_states); C5b passes iff that supplement passes and any evaluable real cases pass",
+                        "C3_arm_rule": "control: sampler albedo test AND max sum lambda <= 1 + 1e-6 (its certificate); candidate: sampler albedo test (the sum bound is not its construction) - the candidate's passivity label is EMPIRICAL unless amendment 1 provides a certificate",
+                        "G81_grazing_limit": "for every closure: (a) own-sampler albedo (16,384 samples) at theta in {89.9, 89.99, 89.999, 89.9999} and mu = 2e-7, 4 azimuths each; (b) 1024 random wi per closure with mu = cos theta drawn half log-uniform in [2e-7, 1e-2] and half uniform in [0, 1], phi uniform, 65,536 samples each (independent seeds); violation iff a - 1 > max(4 se, 1e-3); PASS iff zero violations"},
+  "stage_C_decision": "An arm is QUALIFIED iff its physical contract and representation gate both PASS on the gate set. If at least one arm is qualified, Stage D trains BOTH arms (2 seeds each; the brief requires the original energy-parameterisation control in Stage D), but only a qualified arm can be PRIMARY: the candidate if qualified, else the control; a non-qualified arm is a comparator only and cannot produce a positive verdict. If no arm is qualified the batch stops before Stage D (LEARNED_RULE_GENERALIZATION NOT TESTED, later stages NOT REACHED); the report states whether the failure concerns energy parameterisation (control vs candidate vs oracle-U), basis capacity (oracle-U), optimisation (fit-loss gap between inits) or reference quality (noise floor).",
+  "learned_rule": {"iid_E_L1_median": 0.15, "iid_vs_oracle_ratio": 1.5, "iid_vs_oracle_abs": 0.03, "block_E_L1_median": 0.20, "block_E_L1_p90": 0.40, "gen_gap_ratio": 1.25,
+                   "iid_E_alb_median": 0.05, "block_E_alb_median": 0.08, "peak_err_deg_median": 1.5, "width_ratio_max": 1.25, "band_vs_neighbour_ratio": 1.25, "grazing_vs_all_ratio": 2.0,
+                   "rule": "per seed of an arm: L1 test_iid median E_L1 <= 0.15 and <= max(1.5 x oracle-P, oracle-P + 0.03) of that arm; L2 test_block median <= 0.20 and p90 <= 0.40; L3 test_iid median <= 1.25 x train_eval median; L4 E_alb medians test_iid <= 0.05, test_block <= 0.08; L5 pronounced highlights (test_iid) median peak error <= 1.5 deg and median |log width ratio| <= log 1.25; L6 held-out band median <= 1.25 x band-neighbour median and grazing median <= 2 x overall median. Arm PASS iff all for BOTH seeds; LEARNED_RULE_GENERALIZATION is decided on the primary arm, and requires its PHYSICAL_VALIDITY (Stage D contract) PASS."}
+ },
+
+ "stage_E_gpu": {
+  "arms": "REF_1 = layered reference, 1 walk per query (unbiased stochastic eval / sample, the pbrt nSamples = 1 runtime path); REF_Neq = layered reference with N_eq walks per eval query (matched quality, below), timed as N_eq x the REF_1 GPU time per query at the largest io / fused size (throughput regime; linearity reported from the 2^20 -> 2^24 io scaling); CTL = control compiled closure; CAN = candidate compiled closure (each only if trained); PRIN = Mitsuba principled plugin (simple-material sanity comparator; the WL80C / WL80D negative cost finding stays reported)",
+  "precondition": "runs iff the primary arm passed PHYSICAL_VALIDITY in Stage D (valid sampling); its speed results count towards GPU_RUNTIME_UTILITY only if LEARNED_RULE_GENERALIZATION also passed",
+  "pdf_note": "the layered reference has no closed-form pdf (pbrt's LayeredBxDF::PDF is itself a stochastic approximation); REF pdf / eval_pdf are reported as not available, and sample is compared on its unbiased weight",
+  "ops": ["eval", "pdf", "eval_pdf", "sample"], "sizes_io": [1024, 16384, 262144, 1048576, 4194304, 16777216], "sizes_fused": [1024, 16384, 262144, 1048576, 4194304], "fused_queries": 16,
+  "materials": "first 8 test_iid materials; closures compiled by the seed-8101 compiler of each arm", "reps": 10, "warmup": 2,
+  "timing": "WL80C bench80c machinery (Dr.Jit kernel-history GPU time; io = memory-bound inputs resident in GPU memory, fused16 = compute-bound in-kernel query generation); foreign GPU processes recorded before / after (invalid if present); peak memory via dr / torch counters; compile latency (compiler forward + decode + energy compilation + state transfer + runtime binding) for 1 material (median of 50 after 10 warm-ups) and 1024 materials (median of 3 after 1 warm-up); state bytes; amortised cost per query = (compile + n_q x t_query) / n_q for n_q in {1, 1e3, 1e6, 1e9}",
+  "matched_quality": "N_eq(material) = ceil((nu_1 / e_cl)^2): nu_1 = reference single-walk E_L1 noise = sqrt(N_eval) x that material's median split-half noise E_L1 (test_iid), e_cl = that material's median learned E_L1 (primary arm, seed 8101); clipped to [1, 65536]",
+  "rule": "GPU_RUNTIME_UTILITY PASS iff, at the largest io and fused sizes, the primary-arm closure (i) eval_pdf GPU time <= REF_Neq eval time / 1.10 and (ii) sample GPU time <= REF_1 sample time / 1.10, each for >= 6 of 8 materials (median ratio reported), AND the primary arm passed LEARNED_RULE_GENERALIZATION and PHYSICAL_VALIDITY. A speedup on an arm that fails quality is reported but is not a PASS."
+ },
+
+ "compression": {
+  "comparator": "isotropic tabulation of the reference: f on a uniform grid (theta_i, theta_o in [0, 90 deg], phi_d in [0, 180 deg]) at 8^3, 16^3, 32^3 nodes x 3 channels (node values from 4096 walks), trilinear interpolation, eval = f cos_o; E_L1 on the test_iid evaluation set",
+  "rule": "COMPRESSION_UTILITY PASS iff the primary arm passed LEARNED_RULE_GENERALIZATION and its compiled state (53 floats, 212 bytes) is >= 10x smaller than the smallest tested table whose test_iid median E_L1 <= the learned closure's (if no tested table reaches it, the 32^3 table is the comparator and the ratio is reported as a lower bound). Compiler parameters (~38k floats) are reported separately and amortised over the material count. Descriptive: the 10-float descriptor plus the stochastic program is the source representation; its cost is evaluation time (Stage E), not storage."
+ },
+
+ "stage_F": {
+  "precondition": "LEARNED_RULE_GENERALIZATION and PHYSICAL_VALIDITY PASS for the primary arm; otherwise NOT REACHED",
+  "renderer": "Mitsuba 3.5.1 'path' integrator (existing rendering path, max_depth 4, rr_depth 64), cuda_ad_rgb; materials registered as Python BSDF plugins: REF = layered reference (eval = 1 walk, sample = Sample_f weight, pdf reported as 1 for valid samples) and CMP = compiled closure (DrClosure81). Only delta (point) lights and Lambert / closure surfaces, no emitter is hit by BSDF sampling, so MIS never uses the reference's missing pdf and every estimator is unbiased; identical scene, integrator, seeds and spp for every arm.",
+  "validation": "before any material image: (a) analytic Lambert plane under a point light (exact radiance per pixel, 64 spp, |mean rel err| <= 1e-3 over the plane, no pixel bias beyond 4 se); (b) one-bounce consistency: a closure-material plane rendered through the path integrator vs direct operator-level evaluation (eval x light) at 16 pixels (rel <= 1e-4). Accumulation: own float64 accumulation of integrator.sample() over passes (no cuda film). Failure -> RENDERING_UTILITY UNVERIFIED (stop).",
+  "scene": "a sphere and a rotated cube (Mitsuba built-in shapes) with the test material, on a white Lambert floor (0.8) in front of a white Lambert back wall (limited indirect: floor / wall bounce onto the object and object onto floor); pinhole camera 256 x 256",
+  "conditions": "lights L1 (point, upper left) and L2 (point, low right, grazing on the object); poses P0 and P1 (object group rotated 30 deg about the vertical axis and translated 0.1; compiled state reused unchanged)",
+  "materials": "the first 3 test_iid materials (predeclared, no selection)",
+  "spp": {"test": 64, "reference_hq": 4096, "rule": "REF_HQ = reference BSDF at 4096 spp as two independent 2048-spp halves (uncertainty = half-difference); arms at 64 spp; time-matched reference spp = floor(64 x t_CMP / t_REF) (>= 1) rendered separately"},
+  "metrics": "object-mask relative L1 vs REF_HQ (mean |I - I_HQ| / mean I_HQ), highlight ROI (REF_HQ luminance >= 3 x object median), grazing ROI (|n . v| <= 0.25), per-pixel variance at equal spp (8 independent 64-spp passes), GPU time per spp, material evaluation time share, peak memory",
+  "rule": "RENDERING_UTILITY PASS iff for every image (3 materials x 2 lights x 2 poses): closure 64-spp error <= time-matched reference error, and closure highlight-ROI relative L1 <= 0.10; reference uncertainty (half-difference) must be <= 1/4 of the closure error or the image is reported as reference-limited (not counted as a pass)."
+ },
+
+ "verdict_table": ["SAMPLER_CORRECTNESS", "REPRESENTATION_CAPACITY", "LEARNED_RULE_GENERALIZATION", "PHYSICAL_VALIDITY", "COMPRESSION_UTILITY", "GPU_RUNTIME_UTILITY", "RENDERING_UTILITY", "FNTO_COMPONENT_VIABILITY"],
+ "fnto_component_viability": "SUPPORTED only if every other entry PASSes; NOT SUPPORTED if PHYSICAL_VALIDITY, REPRESENTATION_CAPACITY or LEARNED_RULE_GENERALIZATION fail or a measured utility fails; INCONCLUSIVE for mixed results the frozen rules cannot classify (e.g. seeds disagree) or reference-limited evidence. Scope: one material family, local reflection only.",
+ "seeds": {"materials": 81010, "directions": 81020, "walks": 81030, "stage_B": 81040, "contract": 81050, "adversarial": 81060, "grazing": 81070, "compile_M": 81080, "fit_M": 81090, "bench": 81100, "render": 81110, "tables": 81120, "compiler": [8101, 8102], "oracle": 81130},
+ "not_authorised": ["rank / basis / loss / threshold / population changes after any candidate result", "neural residual or correction networks", "relaxing physical constraints", "material filtering after candidate results", "test-set-based arm selection", "production FNTO / C1 / historical code or evidence changes", "nonlocal K, dynamic GI, successor batches"]
+}
