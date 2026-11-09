@@ -1,0 +1,26 @@
+unbounded P1_long {"median": 0.17306946449733235, "p90": 0.38137725900359454, "p99": 0.705389772653231, "max": 1.2322181403855281} {"median": 0.07977395040385868, "p95": 0.32085086060078494, "max": 0.9975013493930069}
+unbounded P1_reinit_long {"median": 0.17353675143335923, "p90": 0.3818266010522677, "p99": 0.7097795954043032, "max": 1.2305643844030898} {"median": 0.07949963529534096, "p95": 0.3175344684945529, "max": 0.999441654493612}
+unbounded P2_metric {"median": 0.1288244576630821, "p90": 0.24929375240504606, "p99": 0.448662024261361, "max": 0.7280781521297441} {"median": 0.07201376819547589, "p95": 0.20935248856608485, "max": 0.5232086815734238}
+{
+ "unbounded_P1_long": {
+  "R1": false,
+  "R2": false,
+  "R3": true,
+  "clear_fail": true,
+  "PASS": false
+ },
+ "unbounded_P1_reinit_long": {
+  "R1": false,
+  "R2": false,
+  "R3": true,
+  "clear_fail": true,
+  "PASS": false
+ },
+ "unbounded_P2_metric": {
+  "R1": false,
+  "R2": false,
+  "R3": true,
+  "clear_fail": true,
+  "PASS": false
+ }
+}

@@ -12,6 +12,21 @@ The latest completed controlled intervention is [WL64](worklogs/64_WORKLOG_DIREC
 
 [WL70](worklogs/70_WORKLOG_SUN_STATE_REUSE_C1.md) tested validity-aware reuse of the first-order direct-sun state on that C1 edit. The cached T0 state passed an explicit dependency contract: rest mesh, medium, rigid pose, material-frame sun and cameras, estimator, and a bit-identical replay of source visibility. It was physically identical to the retraced T1 state, and four invalidation controls were rejected. The CAK update fell from 24.6 s to 2.09 s with unchanged quality, narrowly beating quality-matched Cycles **re-rendering** (16 spp, 2.40 s under WL69 timing; equal under Blender's internal render time). This is an **11.8x intra-ReST-GI sun-reuse acceleration**, not a measured advantage over 8DNA T1 neural retraining. Cycles still meets the bare contract at 1 spp in 1.2 s. The diagnostic cache is not adopted.
 
+### Compiled neural material rules (WL80C–WL81, as of 2026-11-09)
+
+[WL81](worklogs/81_WORKLOG_COMPILED_NEURAL_MATERIAL_RULES_UTILITY.md) stopped at its Stage C gate. **REPRESENTATION_CAPACITY failed (clear fail)** for every energy arm, so the learned compiler was **not trained** (LEARNED_RULE_GENERALIZATION NOT TESTED; GPU, compression and rendering utility NOT REACHED). FNTO_COMPONENT_VIABILITY: NOT SUPPORTED, with one-family scope.
+- **Setup.** The reference is a qualified expensive family: a layered coated conductor (random walk; independent volpath check |z| ≤ 2.15). The fixed R = 8 compiled closure was fitted directly per material.
+- **Result.** E_L1 median 0.18–0.21 and E_alb median 0.08–0.11, against 0.10 and 0.03.
+  - The energy parameterisation is not the binding factor: the post-WL80D candidate equals the unbounded diagnostic.
+  - A post hoc metric-matched objective still leaves 0.129 / 0.065–0.072.
+  - Errors concentrate where the reference albedo falls with incidence (thin slabs over sharp, reflective conductors).
+- **Physical validity (corrected closure).** Physically valid; passivity is certified for the control and empirical for the candidate.
+- **Also found and fixed.**
+  - The WL80C/80D runtime is non-passive above 89.98° because of a cos² clamp.
+  - A Dr.Jit PCG32 seeding pitfall.
+
+No adoption; no successor. Whether this architecture line continues is a user decision.
+
 ### Learned intrinsic-K source transfer (WL71–WL78, as of 2026-11-07)
 
 Learned rank-16 W+UV reaches the fixed-basis oracle on its supervised sources (WL75), but does not transfer to independent boundary sources.

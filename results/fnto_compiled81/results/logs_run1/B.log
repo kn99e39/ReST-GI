@@ -1,0 +1,40 @@
+[31m2026-11-09 09:17:16 WARN  wrk6  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:16 WARN  wrk3  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:16 WARN  wrk0  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:16 WARN  wrk1  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:16 WARN  wrk5  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:16 WARN  wrk2  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:16 WARN  wrk4  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m{"T1": true, "T2": true, "T3": true, "T4": true} {"perlane_index_mismatch": 0, "perlane_alpha_mismatch": 0, "uniform_index_mismatch": 0, "uniform_alpha_mismatch": 0, "lanes": 1048576, "selected_lobe_histogram": [170269, 121776, 98834, 146707, 142656, 102335, 118607, 147392], "PASS": true} {"eval_median_rel": 1.0484536566708492e-07, "eval_p999_rel": 1.1424056418182754e-06, "eval_max_rel": 2.441960450619032e-06, "pdf_median_rel": 8.937888842827652e-08, "pdf_p999_rel": 8.390567093462908e-06, "pdf_max_rel": 198.1345842711637, "PASS": true} 3.86100165086606e-14
+s8001_test_iid {"n_closures": 8, "max_sum_lambda": 0.9983839988708496, "C1": true, "C5a": true, "C2": true, "C7": true, "C3": true, "C4": true, "C6": true}
+adversarial {"n_closures": 50, "max_sum_lambda": 0.9999932050704956, "C1": true, "C5a": true, "C2": true, "C7": true, "C3": true, "C4": true, "C6": true}
+[31m2026-11-09 09:17:32 WARN  wrk2  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:32 WARN  wrk3  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:32 WARN  wrk10 [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:32 WARN  wrk8  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:32 WARN  wrk9  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:32 WARN  wrk11 [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:32 WARN  wrk7  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m{
+ "checks": {
+  "C1": true,
+  "C2": true,
+  "C3": true,
+  "C4": true,
+  "C5a": true,
+  "C6": true,
+  "C7": true,
+  "C5b": true
+ },
+ "PHYSICAL_CONTRACT_PASS": true,
+ "SAMPLING_UTILITY_PASS": true
+}
+[31m2026-11-09 09:17:52 WARN  main  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:52 WARN  wrk12 [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:52 WARN  wrk1  [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:52 WARN  wrk16 [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:52 WARN  wrk13 [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:52 WARN  wrk15 [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m[31m2026-11-09 09:17:52 WARN  wrk14 [BitmapTexture] Image must be at least 2x2 pixels in size, up-sampling..
+[0m{"T1": true, "T2": true, "T3": true, "T4": true} {"perlane_index_mismatch": 0, "perlane_alpha_mismatch": 0, "uniform_index_mismatch": 0, "uniform_alpha_mismatch": 0, "lanes": 1048576, "selected_lobe_histogram": [170269, 121776, 98834, 146707, 142656, 102335, 118607, 147392], "PASS": true} {"eval_median_rel": 1.0426727916047616e-07, "eval_p999_rel": 1.1433356833714592e-06, "eval_max_rel": 2.61484907418e-06, "pdf_median_rel": 8.905154743039104e-08, "pdf_p999_rel": 7.088671713839277e-06, "pdf_max_rel": 0.00012881959155148186, "PASS": true} 1.2432945607100768e-06
+{"SAMPLER_CORRECTNESS": "PASS", "HORIZON_FIX": "PASS", "continue": true}
