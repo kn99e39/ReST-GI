@@ -1,0 +1,612 @@
+{
+ "protocol": "compiled82_v1",
+ "batch": "WL82 - Incident-dependent Energy vs. Refraction-conditioned Angular Representation",
+ "date": "2026-11-10",
+ "status_rule": "Frozen and committed together with the WL82 code before any candidate (E / Einc / ER) evaluation and before any WL82 fit or evaluation on any set. The dev smoke (--dev: 16 gate materials, reduced samples) runs before the freeze to check execution, memory and timing only; its quality numbers are not interpreted and not reported as evidence. Amendments are labelled, dated and state whether they precede or follow evidence.",
+ "question": "Does correcting incident-dependent energy explain WL81's representation failure, or is a refraction-aware angular mechanism required to represent the tested layered responses?",
+ "hypotheses": {
+  "H1": "Incident-dependent energy modulation is sufficient to recover the target fidelity.",
+  "H2": "After energy is corrected, the existing angular basis remains insufficient; a refraction-aware angular mechanism is necessary for the tested cases."
+ },
+ "inputs": {
+  "wl81_code": "54695d6 (experiments/fnto_compiled81/, unchanged; imported, not copied: closure81 horizon-safe runtime, data81 reference walks / directional sets, eval81 highlight / strata / representation gate, energy81 WL81 candidate compile for the historical fits)",
+  "wl81_reference": "coated_conductor_layered_v1 (layered81.py), qualified in WL81 Stage A0; reproduction is re-checked here (stage R)",
+  "wl81_data": "LabServer63 ~/rest_compiled81/results/data (sha256 list results/fnto_compiled81/results/data_sha256.txt): materials.npz, eval_gate / eval_test_iid / eval_test_block.npz (8 theta x 2 phi x 1024 wo, 4096 walks, halves), hl_gate / hl_test_iid.npz (highlight grids, 1024 walks)",
+  "wl81_fits": "~/rest_compiled81/results/C/fit/direct_{control,candidate,unbounded}_gate.npz (WL81 frozen Stage C direct fits; Stage A item A)",
+  "holdout_status": "Verified 2026-11-10 before this protocol: test_iid / test_block (and train / val / train_eval) were generated in WL81 Stage A1 and read only by the reference pipeline (highlight phis, shard merge, noise floor) and by the sha256 listing (atime 10:43 UTC = data_sha256.txt); no candidate, control, fit or visual ever read them (chain.status: Stage D not reached; post hoc diagnostic and visuals used the gate set only). They are the independent evaluation sets of WL82. The gate set is development data (inspected in WL81)."
+ },
+ "machine": {
+  "host": "LabServer63 (main server)",
+  "gpu": "RTX 3080 Ti 12 GB",
+  "env": "~/rest_compiled81/env.sh (OptiX 595 workaround, Mitsuba 3.5.1 cuda_ad_rgb, Dr.Jit 0.4.6, torch 2.3.1+cu121)",
+  "root": "~/rest_compiled82 (dev: ~/rest_compiled82_dev)",
+  "rule": "One detached chain (run82.sh) covers every stage end to end; independent jobs inside a stage run as parallel processes; the session only observes."
+ },
+ "invariants": [
+  "WL81 reference definition, material population and split identities",
+  "WL81 evaluation metrics (E_L1, E_alb, highlight) and thresholds as a historical comparison point",
+  "WL81 corrected horizon-safe runtime (closure81) for every lobe",
+  "R = 8 lobes (Lambert + 7 anisotropic GGX) for every arm; no rank increase",
+  "no learned compiler, no FNTO / production change, no renderer integration"
+ ],
+ "closures": {
+  "module": "closure82.py",
+  "raw_layout": "64 floats: [0:48] WL81 R = 8 raw parameters; [48:63] attenuation knots s_c(mu_j) (sigmoid, [0, 1]), c = RGB, mu_j = cos(theta) knots [0, 0.15, 0.4, 0.7, 1.0], piecewise linear in mu; [63] eta_e = 1 + 1.5 sigmoid(z) in [1, 2.5]",
+  "lobe_groups": "fixed by index for every arm: INNER = Lambert lobe 0 + GGX lobes 4..7; OUTER = GGX lobes 1..3",
+  "C0": "WL81 corrected closure: f = lam_0 / pi + sum_r lam_r g_r(wi, wo) (g_r = horizon-safe anisotropic GGX, Schlick F). 48 parameters / material; runtime state 53 floats.",
+  "E": "energy modulation only: f = sum_OUTER lam_r g_r(wi, wo) + s(mu_i) s(mu_o) [lam_0 / pi + sum_INNER lam_r g_r(wi, wo)]. Symmetric separable attenuation of the inner group; lobe shapes unchanged. 63 parameters (48 + 15 knots); runtime state 68 floats. Can represent a directional albedo that falls with incidence (s decreasing towards grazing) while outer (coat-like) Schlick lobes keep their grazing increase.",
+  "Einc": "DIAGNOSTIC ONLY (not reciprocal, not a physically valid BSDF): f = s(mu_i) [C0 closure]: a parameterised, incident-only energy scale of the whole closure (the deployable analogue of the oracle; it changes no normalised angular shape). 63 parameters.",
+  "ER": "E + refraction-conditioned angular response of the inner GGX lobes: f = sum_OUTER lam_r g_r(wi, wo) + s(mu_i) s(mu_o) [lam_0 / pi + eta_e^-2 sum_INNER lam_r g_r(t(wi), t(wo))], t(w) = (w_x / eta_e, w_y / eta_e, sqrt(1 - (1 - w_z^2) / eta_e^2)) (direction refracted into the coat, upper-hemisphere convention). The inner lobes are evaluated at the refracted directions with the radiance / solid-angle Jacobian eta^-2 (cos_o dw_o = eta^2 cos_o' dw_o'), which moves, widens and stretches the observed base lobe with incidence and confines its outgoing support to the refraction cone (total internal reflection). One extra parameter (64); runtime state 69 floats. ER with eta_e = 1 is exactly E (nested).",
+  "H2_specificity": "ER differs from E only by the deterministic refraction remap (one scalar per material); its energy-modulation mechanism (knots, groups, energy mode) is identical. No generic capacity (no extra lobes, no network). ER and E are not exactly capacity-matched (64 vs 63 parameters, about 1.6x the per-evaluation cost of E for the inner lobes); reported, not hidden.",
+  "energy_modes": {
+   "cert": "WL80C softmax over 9 slots per channel (sum_r lam_rc <= 1)",
+   "unb": "softplus weights without a bound (DIAGNOSTIC: separates the energy constraint from capacity; physical validity not claimed)"
+  },
+  "physical_argument": {
+   "non_negativity": "every factor is >= 0 (lam >= 0, s in [0, 1], GGX lobe >= 0)",
+   "reciprocity": "EXACT by construction for C0 / E / ER: every lobe value g_r is symmetric in (wi, wo) (D(h), Schlick F(wi.h) = F(wo.h), height-correlated G2), the attenuation enters as s(mu_i) s(mu_o), and the refraction remap is applied to both directions with a constant Jacobian. Einc is NOT reciprocal (diagnostic).",
+   "passivity_certificate": "cert mode, C0 / E / ER: each component's directional albedo is <= 1 for every wi: Lambert 1; outer GGX <= 1 (F <= 1, G2 <= G1, horizon-safe closed form); inner GGX in E <= s(mu_i) A_r(wi) <= 1; inner refracted GGX in ER = s(mu_i) int_{refraction cone} s(mu_o) g_r(t(wi), w') cos' dw' <= A_r(t(wi)) <= 1 (solid-angle identity). Hence a_c(wi) <= sum_r lam_rc <= 1 (softmax). A sufficient condition (mathematical), checked numerically by T3 / T4; numerical sampling is NOT the certificate.",
+   "grazing": "no clamp: horizon-safe closed forms (WL81) for every lobe; refracted inner directions satisfy cos theta' >= sqrt(1 - 1 / eta_e^2) > 0 for eta_e > 1 (and equal the outside direction for eta_e = 1); s is finite at mu = 0; validity cut cos > 1e-7 unchanged.",
+   "sampling": "lobe selection with the WL80C wi-independent probabilities; Lambert cosine sampling; GGX visible-normal sampling; refracted inner lobes: sample in the coat (VNDF at t(wi)), reflect, exit through the inverse refraction (TIR samples invalid), pdf = pdf_inside * cos_o / (eta^2 cos_o'). Mixture pdf = sum_r p_r pdf_r. Tested by T5 / T6; no runtime claim is made from sampling in this batch."
+  }
+ },
+ "arms": {
+  "fit_arms": [
+   [
+    "C0",
+    "cert",
+    "metric"
+   ],
+   [
+    "C0",
+    "unb",
+    "metric"
+   ],
+   [
+    "E",
+    "cert",
+    "metric"
+   ],
+   [
+    "E",
+    "unb",
+    "metric"
+   ],
+   [
+    "Einc",
+    "unb",
+    "metric"
+   ],
+   [
+    "ER",
+    "cert",
+    "metric"
+   ],
+   [
+    "ER",
+    "unb",
+    "metric"
+   ],
+   [
+    "C0",
+    "unb",
+    "shape"
+   ],
+   [
+    "E",
+    "unb",
+    "shape"
+   ],
+   [
+    "ER",
+    "unb",
+    "shape"
+   ]
+  ],
+  "roles": {
+   "C0_cert_metric": "C0 control (WL81 control energy, WL82 fitting protocol)",
+   "C0_unb_metric": "C1 unbounded R = 8 diagnostic",
+   "C0_cert_metric+oracle": "D1 oracle albedo correction of C0 (diagnostic; reference albedo at evaluation time)",
+   "C0_unb_shape": "D2 shape-focused R = 8 direct fit (normalised angular shape only); +oracle = Stage A item D",
+   "E_cert_metric": "Arm E (physically admissible energy modulation)",
+   "E_unb_metric": "Arm E without the energy bound (diagnostic: constraint confound)",
+   "Einc_unb_metric": "incident-only energy scale (diagnostic, non-reciprocal)",
+   "ER_cert_metric": "Arm ER (physically admissible energy + refraction-aware angular)",
+   "ER_unb_metric": "Arm ER without the energy bound (diagnostic)",
+   "E_unb_shape, ER_unb_shape": "shape-focused fits of E / ER (diagnostic: angular capacity of each family independent of its energy fit)",
+   "W81_control / W81_candidate / W81_unbounded": "Stage A item A: the WL81 frozen Stage C direct fits (log1p objective) on the gate set; +oracle = item B"
+  },
+  "matching": "identical fit data, objective per role, optimiser, steps, initialisation of every shared parameter (generic WL80C init_bias; unb: lambda = 1/9 per slot; knots s = 0.953; eta_e = 1.5) and evaluation for every arm"
+ },
+ "arms_contract": [
+  "C0_cert_metric",
+  "E_cert_metric",
+  "ER_cert_metric",
+  "C0_unb_metric",
+  "E_unb_metric",
+  "ER_unb_metric",
+  "Einc_unb_metric"
+ ],
+ "data": {
+  "fit_sets": "fit82_<set>.npz for gate / test_iid / test_block / real: per material 64 wi (WL81 training-style: cos theta uniform in [cos 88 deg, 1], phi uniform, theta in the held-out band 55-65 deg excluded) x 64 wo (WL81 defensive wo mixture with exact density q) x 1024 walks (halves stored). New WL82 fit data (deviation from WL81, which fitted 64 wi x 16 wo): per-direction albedo and normalised shape need many wo per wi. Independent of every evaluation set (fresh seeds).",
+  "evaluation_sets": "WL81 eval_<set>.npz (unchanged, 4096 walks, qualified noise floors) for gate / test_iid / test_block; eval82_real.npz for the real set (same layout; WL81 adaptive noise-floor rule); highlight grids WL81 hl_gate / hl_test_iid and hl82_real (none exists for test_block: R3 not evaluable there, reported as such)",
+  "independent_albedo_sets": "alb82_<set>.npz: at every evaluation incident direction (material, theta, phi) 4096 fresh wo from the WL81 mixture x 256 fresh walks; A_ref^ind and its standard error; the closures' A_cl^ind is computed on the same independent samples. 4 shards per set (shard-dependent sample streams, fixed K).",
+  "dev": "--dev uses the first 16 materials of each WL81 set (gate only for fits), reduced albedo samples (512); dev outputs are never evidence"
+ },
+ "fitset": {
+  "n_wi": 64,
+  "n_wo": 64,
+  "walks": 1024
+ },
+ "albset": {
+  "n_samples": 4096,
+  "walks": 256,
+  "shards": 4
+ },
+ "fitting": {
+  "objectives": {
+   "metric": "per (material, wi) group g of the fit set (w = use / q, a_c = sum_k w f_c): sum_k w |f_cl - f_ref|_1 / sum_c a_ref,c + sum_c |a_cl,c - a_ref,c| / sum_c a_ref,c (energy-weighted relative L1 + directional-albedo error, equal weights, aligned with E_L1 / E_alb); per-material mean over groups; summed over materials. Chosen before any WL82 result, from the WL81 post hoc finding that the frozen log1p objective limited the fits; differs from the WL81 post hoc P2 objective by being per incident direction (P2 aggregated the albedo term over all wi of a material).",
+   "shape": "per group: sum_c a_ref,c TV_c / sum_c a_ref,c with TV_c = sum_k w |f_cl,c / a_cl,c - f_ref,c / a_ref,c| (normalised angular distribution only; the energy of each incident direction is free)"
+  },
+  "optimiser": {
+   "name": "Adam",
+   "lr": 0.03,
+   "lr_end": 0.0003,
+   "warmup": 50,
+   "schedule": "cosine (train80c.lr_at)",
+   "note": "WL81 direct-fit optimiser"
+  },
+  "steps_primary": 12000,
+  "steps_convergence": 6000,
+  "steps_escalated": 24000,
+  "reinit_sigma": 0.5,
+  "runs": "gate (development): every fit arm at 12000 (primary) and 6000 steps from the generic init and at 12000 steps from a perturbed init (generic + 0.5 N(0, 1), seed reinit); holdouts and the real set: every fit arm at the primary step count (escalated where the convergence rule requires).",
+  "convergence_diagnostic": "predeclared on the gate set: for each fit arm, Delta = |median(12000) - median(6000)| of its own objective metric on the gate EVALUATION set (E_L1 for metric arms, E_shape for shape arms). Converged iff Delta <= 0.005. A non-converged arm is fitted at 24000 steps on the gate set and on every holdout / real set, and its 24000-step fits are its primary fits (one escalation, no further change); the label OPTIMISATION_LIMITED is attached if Delta(24000 vs 12000) > 0.005 too. The perturbed-init spread is reported (not a rule)."
+ },
+ "evaluation": {
+  "metrics": "E_L1, E_alb (WL81 / WL80C definitions), E_shape (energy-weighted total variation of the per-incidence normalised outgoing-flux distribution, in [0, 2]; a closure channel with zero albedo contributes TV 1 and is counted), oracle-corrected E_L1 / E_alb (independent albedo ratio), highlight peak / width (WL81), grazing (theta >= 80) and per-theta medians, family strata (WL81 terciles) for E_L1 / E_shape / E_alb, the failure cluster (lowest tercile tau AND lowest tercile alpha_b AND highest tercile mean conductor reflectance, per set), parameter count and runtime state, torch evaluation throughput (descriptive)",
+  "identity": "E_L1 of the same-sample oracle equals E_shape exactly and its E_alb is 0 (algebraic identity; checked on every arm, max deviation reported)",
+  "named_gate_materials": [
+   139,
+   222,
+   227,
+   169,
+   190
+  ],
+  "wl81_thresholds": {
+   "E_L1_median": 0.1,
+   "E_L1_p90": 0.25,
+   "E_alb_median": 0.03,
+   "E_alb_p95": 0.1,
+   "peak_err_deg_median": 1.0,
+   "width_ratio_max": 1.15,
+   "note": "historical WL81 engineering gates (eval81.representation_gate), unchanged, used as the comparison point"
+  },
+  "noise_rule": "E_shape reference-noise median (half-vs-half / 2) must be <= 0.025 (1/4 of the E_L1 median threshold) on every evaluated set, otherwise REFERENCE_LIMITED for that set"
+ },
+ "decision": {
+  "primary_set": "test_iid (untouched holdout); test_block reported as a region check (R1 / R2 only; no highlight set); gate = development",
+  "GATE": "WL81 representation gate on test_iid: R1 (E_L1 median <= 0.10 and p90 <= 0.25) and R2 (E_alb median <= 0.03 and p95 <= 0.10) and R3 (pronounced highlights: median peak error <= 1 deg and median |log width ratio| <= log 1.15)",
+  "ORACLE_R1": "R1 holds on test_iid for the oracle-corrected E_L1 of C0_cert_metric OR of C0_unb_shape (energy-corrected R = 8 reaches the E_L1 target; E_alb of the oracle is noise by construction)",
+  "validity": "INVALID / UNRESOLVED (outcome E) if any of: reference reproduction not bit-identical (stage R); focused tests fail (T0, T5, T6, T8, T9, T10); a cert arm's physical contract fails (T1-T4) for C0_cert / E_cert / ER_cert; E_shape reference-noise rule fails on test_iid; non-finite fits",
+  "outcomes": [
+   "E: any validity condition fails",
+   "A: GATE(E_cert_metric) -> H1 supported in the tested scope (refraction-aware extension not demonstrated necessary); qualifiers reported: ORACLE_R1, energy share",
+   "C: not A and ORACLE_R1 -> oracle energy correction would suffice but physically admissible energy modulation does not reach the target; H2 not inferred (also when ER passes)",
+   "B: not A, not ORACLE_R1, GATE(ER_cert_metric), median E_L1(ER_cert) <= 0.75 x median E_L1(E_cert) and median E_shape(ER_cert) <= 0.75 x median E_shape(E_cert) -> H2 supported in the tested scope",
+   "D: otherwise -> both candidate arms fail despite valid execution; remaining failure and its attribution reported (energy vs angular from E_alb / E_shape of every arm; constraint confound from the unb arms; optimisation from the convergence rule)"
+  ],
+  "energy_share": "(E_L1(C0_cert) - E_L1_oracle(C0_cert)) / (E_L1(C0_cert) - E_L1 noise), medians on test_iid (descriptive)",
+  "report_entries": [
+   "Implementation Readiness (tests + reference reproduction)",
+   "Reference Validity (reproduction, noise floors incl. E_shape, independent albedo precision)",
+   "Optimisation Sufficiency (convergence rule, perturbed-init spread)",
+   "Energy Representation (E_alb of every arm; E vs Einc vs oracle; constraint confound cert vs unb)",
+   "Angular Representation (E_shape of every arm incl. shape-focused fits; ER vs E vs C0)",
+   "Physical Validity (cert arms: certificate + T1-T4; unb / Einc: report only)",
+   "Runtime Feasibility (torch evaluation throughput per arm; descriptive only, no GPU runtime utility claim)"
+  ],
+  "not_inferred": "a failed direct fit is not a capacity proof; an improved metric is not a validated production architecture; a passing synthetic contract is not material representation; the oracle is never physical evidence"
+ },
+ "real_materials": {
+  "purpose": "compact real-material evaluation: named finishes with physically plausible coated-conductor parameters (conductor F0 from published sRGB metal reflectance values; coat IOR / roughness / slab thickness of typical lacquers). Not measured BRDFs. Predeclared before any WL82 result; evaluated with every fit arm exactly as the other sets (fit set, evaluation set, highlight grids) plus sphere shading images.",
+  "list": [
+   {
+    "name": "gold_clearcoat_polished",
+    "descriptor": [
+     0.05,
+     1.5,
+     0.02,
+     0.95,
+     0.95,
+     0.95,
+     0.98,
+     0.766,
+     0.336,
+     0.05
+    ]
+   },
+   {
+    "name": "copper_clearcoat_brushed",
+    "descriptor": [
+     0.08,
+     1.5,
+     0.05,
+     0.95,
+     0.95,
+     0.95,
+     0.955,
+     0.638,
+     0.538,
+     0.3
+    ]
+   },
+   {
+    "name": "chrome_thin_varnish",
+    "descriptor": [
+     0.1,
+     1.55,
+     0.03,
+     0.9,
+     0.9,
+     0.9,
+     0.55,
+     0.556,
+     0.554,
+     0.05
+    ]
+   },
+   {
+    "name": "aluminium_blue_carpaint",
+    "descriptor": [
+     0.05,
+     1.5,
+     0.8,
+     0.2,
+     0.4,
+     0.9,
+     0.913,
+     0.922,
+     0.924,
+     0.35
+    ]
+   },
+   {
+    "name": "silver_candy_red",
+    "descriptor": [
+     0.06,
+     1.5,
+     1.5,
+     0.95,
+     0.15,
+     0.1,
+     0.972,
+     0.96,
+     0.915,
+     0.1
+    ]
+   },
+   {
+    "name": "brass_satin_lacquer",
+    "descriptor": [
+     0.3,
+     1.6,
+     0.1,
+     0.9,
+     0.9,
+     0.9,
+     0.91,
+     0.778,
+     0.423,
+     0.15
+    ]
+   },
+   {
+    "name": "silver_milky_coat",
+    "descriptor": [
+     0.15,
+     1.45,
+     1.0,
+     0.9,
+     0.9,
+     0.9,
+     0.972,
+     0.96,
+     0.915,
+     0.2
+    ]
+   },
+   {
+    "name": "iron_rough_oxide_coat",
+    "descriptor": [
+     0.4,
+     1.7,
+     0.3,
+     0.6,
+     0.5,
+     0.4,
+     0.562,
+     0.565,
+     0.578,
+     0.5
+    ]
+   }
+  ],
+  "sphere": {
+   "res": 128,
+   "lights": [
+    [
+     -0.4,
+     0.5,
+     0.77
+    ],
+    [
+     0.92,
+     0.05,
+     0.25
+    ]
+   ],
+   "walks": 4096,
+   "definition": "orthographic view along +z of a unit sphere, one directional light per image; pixel value = eval(view, light) in the local frame (tangent = normalize(n_z, 0, -n_x)); direct lighting at the surface only, no GI, no renderer"
+  }
+ },
+ "visuals": {
+  "selection_rule": "predeclared, by the C0_cert_metric control ranking (never by a candidate): gate = materials 139 (WL81 worst), 222 (WL81 sharp_base), and the best / median / worst of C0_cert_metric per-material mean E_L1; test_iid = best / median / worst of C0_cert_metric and the failure-cluster member with the largest C0 error; real = all 8",
+  "figures": [
+   "in-plane eval slices (theta_i 20 / 60 / 80) reference vs C0 / E / ER (cert, metric) and the shape-focused R = 8 fit",
+   "normalised outgoing-flux slices p(wo | wi) = f cos / A for the same",
+   "directional albedo vs theta_i (0 - 89 deg)",
+   "highlight grids at theta_i 50 deg and absolute error maps (sqrt scale; one error scale shared by every highlight error map of the batch)",
+   "per-material E_L1 / E_shape distributions per arm (test_iid)",
+   "real-material sphere images and absolute error maps (one shared error scale)",
+   "decomposition bars: E_L1 / E_shape / E_alb medians per arm, base and oracle"
+  ],
+  "out": "results/evaluation/82/ with manifest (sha256, source arrays)"
+ },
+ "tests": {
+  "nesting_rel": 1e-09,
+  "sampler_theta_deg": [
+   10,
+   45,
+   75,
+   89
+  ],
+  "sampler_samples": 262144,
+  "quad_points": 262144,
+  "abs_slack": 0.002,
+  "z_max": 5.0,
+  "chi2_theta_deg": [
+   10,
+   45,
+   75
+  ],
+  "chi2_bins": [
+   16,
+   32
+  ],
+  "chi2_samples": 262144,
+  "chi2_quad": 16777216,
+  "chi2_min_p": 0.0001,
+  "jacobian_alpha": [
+   0.1,
+   0.3,
+   0.6
+  ],
+  "jacobian_eta": [
+   1.3,
+   1.8
+  ],
+  "jacobian_theta_deg": [
+   0,
+   30,
+   60,
+   85
+  ],
+  "jacobian_samples": 4194304,
+  "synthetic": [
+   [
+    {
+     "0": 0.3,
+     "2": 0.3,
+     "5": 0.4
+    },
+    {
+     "2": [
+      0.2,
+      0.2
+     ],
+     "5": [
+      0.15,
+      0.3
+     ]
+    },
+    [
+     0.2,
+     0.5,
+     0.8,
+     0.9,
+     1.0
+    ],
+    1.5
+   ],
+   [
+    {
+     "1": 0.5,
+     "6": 0.5
+    },
+    {
+     "1": [
+      0.1,
+      0.1
+     ],
+     "6": [
+      0.3,
+      0.3
+     ]
+    },
+    [
+     0.0,
+     0.3,
+     0.7,
+     1.0,
+     1.0
+    ],
+    1.8
+   ],
+   [
+    {
+     "4": 1.0
+    },
+    {
+     "4": [
+      0.4,
+      0.1
+     ]
+    },
+    [
+     0.5,
+     0.5,
+     0.5,
+     0.5,
+     0.5
+    ],
+    1.3
+   ],
+   [
+    {
+     "0": 0.5,
+     "7": 0.5
+    },
+    {
+     "7": [
+      0.6,
+      0.6
+     ]
+    },
+    [
+     1.0,
+     1.0,
+     1.0,
+     1.0,
+     1.0
+    ],
+    1.0
+   ],
+   [
+    {
+     "3": 0.3,
+     "4": 0.3,
+     "5": 0.4
+    },
+    {
+     "3": [
+      0.25,
+      0.25
+     ],
+     "4": [
+      0.12,
+      0.12
+     ],
+     "5": [
+      0.5,
+      0.2
+     ]
+    },
+    [
+     0.1,
+     0.4,
+     0.6,
+     0.8,
+     0.9
+    ],
+    2.2
+   ],
+   [
+    {
+     "0": 0.2,
+     "1": 0.2,
+     "5": 0.3,
+     "7": 0.3
+    },
+    {
+     "1": [
+      0.3,
+      0.3
+     ],
+     "5": [
+      0.1,
+      0.1
+     ],
+     "7": [
+      1.0,
+      1.0
+     ]
+    },
+    [
+     0.3,
+     0.6,
+     0.9,
+     1.0,
+     1.0
+    ],
+    1.6
+   ]
+  ],
+  "list": "T0 nesting (C0 == closure81; E(s = 1) == C0; Einc(s = 1) == C0; ER(eta = 1) == E, rel <= 1e-9 in float64); T5 sampler / pdf (sampler valid fraction == pdf integral, sampler albedo == quadrature albedo, z <= 5 beyond 2e-3 slack, on 6 synthetic + 32 random closures (sampled lobes alpha >= 0.1) x 4 incidences, every arm; chi-square on the synthetic closures, min p >= 1e-4 over 72 tests (multiplicity)); T6 refracted-lobe solid-angle identity (outside quadrature == inside-cone VNDF integral, z <= 5); T8 fixed-seed fit reproducibility (bit-identical); T9 split separation (no shared material rows among train / val / gate / test_iid / test_block / real; no WL82 seed equal to a WL81 seed); T10 oracle identity (synthetic, incl. a zero-albedo channel). Reference agreement = stage R (bit-identical reproduction of WL81 eval_gate / fit_gate prefixes)."
+ },
+ "contract": {
+  "pairs": 1048576,
+  "recip_floor": 1e-06,
+  "recip_max_rel": 1e-09,
+  "audit_mu": [
+   1.0,
+   0.5,
+   0.1,
+   0.01,
+   0.001,
+   0.0001,
+   1e-05,
+   2e-07
+  ],
+  "audit_random_wi": 16,
+  "audit_samples": 65536,
+  "audit_samples_unb": 16384,
+  "rule": "cert arms: PHYSICAL_CONTRACT_PASS iff T1 reciprocity (max rel <= 1e-9, float64), T2 non-negative and finite incl. mu in {0, 1e-12, 2e-7, 1e-4}, T3 certificate conditions (sum lam <= 1 + 1e-6, s in [0, 1], eta_e >= 1) and T4 zero own-sampler albedo violations (a - 1 > max(4 se, 1e-3)) on the primary fits of every set + 50 adversarial closures; unb / Einc arms: the same measurements, report only"
+ },
+ "seeds": {
+  "fit": 82010,
+  "fit_walks": 82020,
+  "alb": 82030,
+  "alb_walks": 82040,
+  "real_dirs": 82050,
+  "real_walks": 82060,
+  "fit_init": 82070,
+  "reinit": 82080,
+  "tests": 82090,
+  "contract": 82100,
+  "adversarial": 82110,
+  "viz": 82120
+ },
+ "not_authorised": [
+  "rank increase",
+  "generic MLP / neural correction",
+  "basis or threshold changes after results",
+  "loss weight / optimiser changes after results",
+  "test-set-based selection or tuning",
+  "learned compiler training",
+  "FNTO K/C or production changes",
+  "renderer integration",
+  "successor batches"
+ ],
+ "execution": {
+  "concurrency": "fit pools run MAXJ = 2 concurrent processes (full-scale probe: one 300-material fit saturates the RTX 3080 Ti, ER 58-63 ms / step, C0 26-32 ms / step, peak 1.6 GB; 4 concurrent processes gave no throughput gain); data shards up to 13 concurrent",
+  "eager_torch": "torch.compile was probed and rejected before the freeze: 2.2-2.5x faster, but its forward deviated from eager by ~3 % on the s(mu) arms (E / Einc / ER; C0 2.7e-7) and compiled reruns were not bit-identical (T8). All fits are eager.",
+  "expected_wall_clock": "about 6.5-7 h end to end (gate 30 fits, holdouts 20, real 10, evaluations, contract, visuals)"
+ },
+ "pre_freeze_corrections": [
+  "T10 test: E_alb = 0 of the same-sample oracle holds only where every closure channel has albedo > 0; the synthetic zero-channel group is excluded from that check (test bug).",
+  "T5 test: random closures restricted to sampled-lobe alpha >= 0.1 (uniform-quadrature standard errors are unreliable for near-delta lobes: dev C0 z 3.6 vs Einc z 12 with identical sampler code); chi-square threshold 1e-4 for 72 tests (multiplicity).",
+  "closure82.vndf_pdf_wo: removed the float32 wi.h > 0 test (mathematically always true for reflection; at near-mirror grazing pairs float32 cancellation made it fail and zeroed the pdf where eval is non-zero -> own-sampler weights up to 3e9 in the dev audit). Validity now equals eval's (cos_i, cos_o > 1e-7, |wi + wo| > 1e-6), as in the WL81 Dr.Jit runtime. Dev audit max albedo of the cert arms afterwards 1.004 (0 violations).",
+  "numpy bool JSON serialisation in the test harness."
+ ]
+}
