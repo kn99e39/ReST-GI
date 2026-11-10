@@ -195,6 +195,8 @@ def run(data, w81, fitdir, w82fit, out, dev):
         for a in arms:
             REG[f'{a}_{tag}'] = st[(tag, a)]
         for light in [1, 2]:
+            if PART and (2 * mi_ + light - 1) % PART[1] != PART[0]:
+                continue                                   # amendment 2: image-parallel rendering (one image list slice per process)
             key = f'{tag}_L{light}'
             seed = SEED + 101 * mi_ + 7 * light
             sref = mi.load_dict(R81.scene_dict({'type': 'lay81', 'key': f'lay_{tag}'}, light, 0))
@@ -231,13 +233,34 @@ def run(data, w81, fitdir, w82fit, out, dev):
     res = {'rows': rows, 'arms': arms, 'spp_test': spp_t, 'spp_hq': spp_hq,
            'RENDER_rule_per_arm': {a: bool(all(r[a]['pass'] for r in rows)) for a in arms},
            'pass_count_per_arm': {a: int(sum(r[a]['pass'] for r in rows)) for a in arms}, 'images': len(rows)}
-    json.dump(res, open(os.path.join(out, 'render83.json'), 'w'), indent=1, default=str)
+    fn = f'render83_part{PART[0]}of{PART[1]}.json' if PART else 'render83.json'
+    json.dump(res, open(os.path.join(out, fn), 'w'), indent=1, default=str)
     print(json.dumps(res['RENDER_rule_per_arm']))
+
+
+def merge(out, K):
+    parts = [json.load(open(os.path.join(out, f'render83_part{i}of{K}.json'))) for i in range(K)]
+    rows = sorted([r for p in parts for r in p['rows']], key=lambda r: (r['material'], r['light']))
+    arms = parts[0]['arms']
+    res = {'rows': rows, 'arms': arms, 'spp_test': parts[0]['spp_test'], 'spp_hq': parts[0]['spp_hq'],
+           'RENDER_rule_per_arm': {a: bool(all(r[a]['pass'] for r in rows)) for a in arms},
+           'pass_count_per_arm': {a: int(sum(r[a]['pass'] for r in rows)) for a in arms}, 'images': len(rows),
+           'concurrency': f'amendment 2: {K} concurrent render processes (image slices); kernel GPU times may include overlap with the other processes'}
+    json.dump(res, open(os.path.join(out, 'render83.json'), 'w'), indent=1, default=str)
+    print(json.dumps(res['RENDER_rule_per_arm']), len(rows))
+
+
+PART = None
+for _a in sys.argv:
+    if _a.startswith('--part='):
+        _i, _k = _a.split('=')[1].split('/'); PART = (int(_i), int(_k))
 
 
 if __name__ == '__main__':
     if sys.argv[1] == 'validate':
         validate(sys.argv[2])
+    elif sys.argv[1] == 'merge':
+        merge(sys.argv[2], int(sys.argv[3]))
     else:
         run(sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5], sys.argv[6], '--dev' in sys.argv)
     os._exit(0)

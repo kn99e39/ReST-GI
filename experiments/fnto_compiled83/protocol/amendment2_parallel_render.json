@@ -1,0 +1,9 @@
+{
+ "amendment": 2,
+ "date": "2026-11-10",
+ "approved_by": "user (\"\uc5ec\ub7ec \ud504\ub85c\uc138\uc2a4 \ubcd1\ub82c\ub85c \ub744\uc6b0\ub294\uac74 \uc548\ub3fc? \ub0b4\uac00 \uc2b9\uc778\ud588\ub2e4 \uce58\uace0.\")",
+ "timing": "during run 2, while the uncontended bench was running; before any render image of the main run",
+ "change": "execution only: the chain after the bench is finished by run83b.sh, which waits for the bench process (kept alone: GPU economics evidence) and then renders the 10 images in 5 concurrent processes (render83.py --part=i/5, image slices), merges them (render83.py merge) and runs visuals and verdict exactly as run83.sh would.",
+ "consequence": "render kernel GPU times (time-matched reference spp, reported rendering cost) are measured with 5 concurrent processes and may include overlap; the GPU economics verdict comes from the uncontended bench. Images, seeds and metrics are unchanged.",
+ "unchanged": "every model, seed, metric, rule and threshold"
+}
