@@ -1,0 +1,57 @@
+{
+ "reproduced": true,
+ "contention": false,
+ "ER_L_per_image": {
+  "test83_iid_1_L2": "PASS",
+  "test83_iid_0_L2": "PASS",
+  "test83_hard_1_L1": "PASS"
+ },
+ "E_L_per_image": {
+  "test83_iid_1_L2": "PASS",
+  "test83_iid_0_L2": "PASS",
+  "test83_hard_1_L1": "FAIL"
+ },
+ "economics": {
+  "test83_iid_1_L2": {
+   "gpu_ms_per64_REF": 14.693856152705848,
+   "gpu_ms_per64_ER_L": 10.140608307905495,
+   "gpu_ratio_REF_over_ER": 1.4490113123934287,
+   "wall_s_per64_REF": 0.48368112184107304,
+   "wall_s_per64_ER_L": 0.47874503396451473,
+   "ER_L_err_at_64": 0.09916430089536692,
+   "REF_gpu_ms_to_reach_it": 61.8733250843898,
+   "how": "interpolated",
+   "time_to_quality_ratio_gpu": 6.280525468778089,
+   "i_per_spp": true,
+   "ii_time_to_quality": true
+  },
+  "test83_iid_0_L2": {
+   "gpu_ms_per64_REF": 15.261024374514818,
+   "gpu_ms_per64_ER_L": 9.940384049899876,
+   "gpu_ratio_REF_over_ER": 1.535255006034554,
+   "wall_s_per64_REF": 0.8939894884824753,
+   "wall_s_per64_ER_L": 0.8925158567726612,
+   "ER_L_err_at_64": 0.08919548578121735,
+   "REF_gpu_ms_to_reach_it": 27.84155896360293,
+   "how": "interpolated",
+   "time_to_quality_ratio_gpu": 2.843417304022017,
+   "i_per_spp": true,
+   "ii_time_to_quality": true
+  },
+  "test83_hard_1_L1": {
+   "gpu_ms_per64_REF": 16.377248105593026,
+   "gpu_ms_per64_ER_L": 10.06185619905591,
+   "gpu_ratio_REF_over_ER": 1.6276567446004326,
+   "wall_s_per64_REF": 1.3031657580286264,
+   "wall_s_per64_ER_L": 1.2938343416899443,
+   "ER_L_err_at_64": 0.08634515427960394,
+   "REF_gpu_ms_to_reach_it": 29.086841710837863,
+   "how": "interpolated",
+   "time_to_quality_ratio_gpu": 2.8837226797302433,
+   "i_per_spp": true,
+   "ii_time_to_quality": true
+  }
+ },
+ "ECONOMICS_FAVOURABLE": true,
+ "OUTCOME": "A"
+}

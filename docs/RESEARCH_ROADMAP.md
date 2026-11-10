@@ -12,7 +12,23 @@ The latest completed controlled intervention is [WL64](worklogs/64_WORKLOG_DIREC
 
 [WL70](worklogs/70_WORKLOG_SUN_STATE_REUSE_C1.md) tested validity-aware reuse of the first-order direct-sun state on that C1 edit. The cached T0 state passed an explicit dependency contract: rest mesh, medium, rigid pose, material-frame sun and cameras, estimator, and a bit-identical replay of source visibility. It was physically identical to the retraced T1 state, and four invalidation controls were rejected. The CAK update fell from 24.6 s to 2.09 s with unchanged quality, narrowly beating quality-matched Cycles **re-rendering** (16 spp, 2.40 s under WL69 timing; equal under Blender's internal render time). This is an **11.8x intra-ReST-GI sun-reuse acceleration**, not a measured advantage over 8DNA T1 neural retraining. Cycles still meets the bare contract at 1 spp in 1.2 s. The diagnostic cache is not adopted.
 
-### Compiled neural material rules (WL80C–WL83, as of 2026-11-10)
+### Compiled neural material rules (WL80C–WL84, as of 2026-11-10)
+
+[WL84](worklogs/84_WORKLOG_RENDERING_QUALIFICATION_UTILITY_CLOSURE.md) re-qualified WL83's rendering evidence for the unchanged learned closures. **Outcome A (run 2).** WL83's OUTCOME D stays the historical verdict.
+- **Reference.** An independent 65536-spp layered reference (16× WL83) cuts the uncertainty to 0.004–0.007.
+- **Learned ER passes the WL81 Stage F rule** on the former failing image test83_iid_1_L2 and on both controls.
+  - On the target image the margin is small: highlight error 0.093 vs the 0.10 threshold, stable over 8 seeds (sd 0.001).
+  - WL83's failure was a reference-qualification artefact.
+- **Learned E's hard-material highlight failure is genuine** (0.136, 0 / 8 replicates pass).
+- **Economics, uncontended:**
+  - GPU time per spp is 1.45–1.63× lower than the layered reference;
+  - reaching the 64-spp quality level takes 2.8–6.3× less GPU time;
+  - the advantage is limited by a bias floor of about 0.035–0.04 (the reference wins beyond about 1024 spp);
+  - there is no wall-clock advantage in this Python-traced Mitsuba harness (tracing is 85–95 % of wall).
+- **Failed attempt.** Run 1 was invalid: a GPU accumulation defect summed every sample twice. It was caught by its 2× anomaly and fixed by amendment 1.
+- **Scope.** 3 images, one family, static. FNTO integration not tested; nothing adopted.
+
+**Earlier (WL83):**
 
 [WL83](worklogs/83_WORKLOG_LEARNED_COMPILER_RUNTIME_UTILITY.md) tested learned compilation, the GPU runtime and rendering of the WL82 E / ER closures. **Outcome D by the frozen mapping: learning succeeds, but the rendering rule fails.**
 - **Learned compiler: PASS** for E and ER on a new independent population (both seeds). It is a response-trained MLP, 150k parameters; every output is physically valid by construction.

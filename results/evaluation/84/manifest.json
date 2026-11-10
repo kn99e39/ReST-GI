@@ -1,0 +1,31 @@
+{
+ "worklog": "docs/worklogs/84_WORKLOG_RENDERING_QUALIFICATION_UTILITY_CLOSURE.md",
+ "commits": {
+  "freeze": "30a2e58",
+  "amendment1_run2": "10d1f92"
+ },
+ "images": [
+  "test83_iid_1_L2",
+  "test83_iid_0_L2",
+  "test83_hard_1_L1"
+ ],
+ "error_scale": "sqrt mean_c |diff|, one shared scale (max 6.24)",
+ "note": "run 1 (30a2e58) was invalid (render_g 2x accumulation defect) and is not shown; candidates are the stored WL83 64-spp renders; REF84 = new independent 65536-spp layered reference",
+ "files": [
+  {
+   "file": "references_and_candidates.png",
+   "sha256": "e97ad17a3c56b6fad87dc66a510be4828a9528d1efa4f96d6e2285df70210ad4",
+   "source": "LabServer63 ~/rest_compiled84/results/viz (viz84.py, run 2, commit 10d1f92)"
+  },
+  {
+   "file": "replicate_highlight_error.png",
+   "sha256": "89f8dc7effcf658f034e10fcb2fc6388fe76880884dedbd5735e8e6a19c9d44c",
+   "source": "LabServer63 ~/rest_compiled84/results/viz (viz84.py, run 2, commit 10d1f92)"
+  },
+  {
+   "file": "time_to_quality.png",
+   "sha256": "3c1d36fd1f3bc9bd9e37a3358f2a9b05768a0d453368ec3c8c1b23dcd839d44d",
+   "source": "LabServer63 ~/rest_compiled84/results/viz (viz84.py, run 2, commit 10d1f92)"
+  }
+ ]
+}
