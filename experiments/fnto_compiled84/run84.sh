@@ -14,6 +14,9 @@ log "CHAIN_START commit=$(cat $ROOT/code/COMMIT)"
 step A_audit $PY render84.py audit $R/audit
 g=$($PY gate84.py audit $R); log "GATE A $g"
 [ "$g" = REPRODUCED ] || { log "STOP WL83_STATE_NOT_REPRODUCED"; log CHAIN_DONE; exit 0; }
+step A2_validate_g $PY render84.py validate_g $R/audit
+g=$($PY -c "import json;print('PASS' if json.load(open('$R/audit/validate_g.json'))['PASS'] else 'FAIL')"); log "GATE A2 $g"
+[ "$g" = PASS ] || { log "STOP GPU_PIPELINE_NOT_VALIDATED"; log CHAIN_DONE; exit 0; }
 for im in test83_iid_1_L2 test83_iid_0_L2 test83_hard_1_L1; do step B_ref_$im $PY render84.py refgen $im $R/ref; done
 for im in test83_iid_1_L2 test83_iid_0_L2 test83_hard_1_L1; do step C_rep_$im $PY render84.py replicates $im $R/replicates; done
 step D_econ $PY render84.py econ $R/econ

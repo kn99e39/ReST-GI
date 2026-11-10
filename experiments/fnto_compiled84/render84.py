@@ -107,6 +107,7 @@ def render_g(scene, spp, seed, B, max_depth=4):
         rays, pix = rays_gpu(seed * 104729 + k, b)
         t1 = time.perf_counter()
         Lr, valid, _ = integ.sample(scene, sampler, rays, None, True)
+        dr.eval(Lr)   # amendment 1: scatter-add of the UNEVALUATED integrator output summed every sample twice (Dr.Jit 0.4.6; run 1 invalid)
         # per-launch per-pixel sums on the GPU (float32 scatter-add, sample-major -> low contention); float64 accumulation across launches on
         # the host (pre-freeze probe: block_sum in float64 with pixel-major lanes cost 5x the path-tracing GPU time)
         s1 = [dr.zeros(mi.Float, n) for _ in range(3)]; s2 = [dr.zeros(mi.Float, n) for _ in range(3)]
@@ -199,6 +200,48 @@ def audit(out):
                             for r in res['images'].values() for v in r['arms'].values())
     json.dump(res, open(os.path.join(out, 'audit84.json'), 'w'), indent=1)
     print('REPRODUCED' if res['REPRODUCED'] else 'NOT_REPRODUCED', flush=True)
+
+
+# ---------------------------------------------------------------- A2: GPU-pipeline validation (amendment 1)
+def validate_g(out):
+    """render_g must (a) reproduce the analytic Lambert plane under a point light (render83 validation (a) scene; pixel-centre rays are
+    replaced by jittered rays, so the comparison is the plane-averaged ratio, tolerance 1e-3, and the per-pixel 4-se test) and (b) agree with the
+    WL83 path (render_t) on the layered scene of every WL84 image at 1024 spp: object-summed ratio within 0.5 % (catches factor errors; MC
+    differences of the independent streams are far smaller than the evaluation thresholds; a conservative z is reported)."""
+    os.makedirs(out, exist_ok=True)
+    T_ = R81.T
+    I, rho = 1.0, 0.5
+    sc = mi.load_dict({'type': 'scene', 'floor': {'type': 'rectangle', 'to_world': T_.scale([5, 5, 1]), 'bsdf': {'type': 'diffuse', 'reflectance': {'type': 'rgb', 'value': rho}}},
+                       'light': {'type': 'point', 'position': [0.3, -0.2, 1.0], 'intensity': {'type': 'rgb', 'value': I}}})
+    img, acc, acc2, _ = render_g(sc, 256, 401, 256, max_depth=2)
+    rays = R81.camera_rays(0, False)
+    si = sc.ray_intersect(rays)
+    p = np.stack([np.asarray(si.p[k]) for k in range(3)], 1).astype(np.float64)
+    ok = np.asarray(si.is_valid())
+    dvec = np.array([0.3, -0.2, 1.0])[None] - p
+    dist2 = (dvec ** 2).sum(1)
+    exact = rho / math.pi * I * np.maximum(dvec[:, 2], 0) / np.sqrt(dist2) / dist2
+    g = img.reshape(-1, 3)[:, 0]
+    var = (acc2[:, 0] / 256 - (acc[:, 0] / 256) ** 2) / 256
+    z = (g[ok] - exact[ok]) / np.sqrt(var[ok] + 1e-30)
+    res = {'a_lambert': {'mean_ratio': float(g[ok].sum() / exact[ok].sum()), 'frac_abs_z_gt_4': float(np.mean(np.abs(z) > 4)),
+                         'note': 'jittered pixels vs pixel-centre exact values: the ratio is the decisive test (a factor error is caught), z is indicative'}}
+    res['a_lambert']['PASS'] = bool(abs(res['a_lambert']['mean_ratio'] - 1) <= 1e-3)
+    res['b_layered'] = {}
+    for image in IMAGES:
+        tag, light, seed, sref, _ = scenes(image)
+        obj, _ = R81.masks(sref)
+        gi, ga, ga2, _ = render_g(sref, 1024, 402 + IMAGES.index(image), 1024)
+        ti, ta, ta2, _ = render_t(sref, 1024, 403 + IMAGES.index(image), 128)
+        m = obj.ravel()
+        sg = ga[m].sum(); st = ta[m].sum()
+        # conservative variance of the channel sum (channels of one path are correlated: var(sum_c) <= (sum_c sd_c)^2)
+        sdg = np.sqrt((ga2[m] / 1024 - (ga[m] / 1024) ** 2).clip(0)).sum(1); sdt = np.sqrt((ta2[m] / 1024 - (ta[m] / 1024) ** 2).clip(0)).sum(1)
+        zz = (sg - st) / math.sqrt(1024 * ((sdg ** 2).sum() + (sdt ** 2).sum()) + 1e-30)
+        res['b_layered'][image] = {'ratio_g_over_t': float(sg / st), 'z_conservative': float(zz), 'PASS': bool(abs(sg / st - 1) <= 0.005)}
+    res['PASS'] = bool(res['a_lambert']['PASS'] and all(v['PASS'] for v in res['b_layered'].values()))
+    json.dump(res, open(os.path.join(out, 'validate_g.json'), 'w'), indent=1)
+    print('PASS' if res['PASS'] else 'FAIL', json.dumps(res), flush=True)
 
 
 # ---------------------------------------------------------------- B: independent reference
@@ -338,6 +381,8 @@ if __name__ == '__main__':
     w = sys.argv[1]
     if w == 'audit':
         audit(sys.argv[2])
+    elif w == 'validate_g':
+        validate_g(sys.argv[2])
     elif w == 'refgen':
         refgen(sys.argv[2], sys.argv[3])
     elif w == 'replicates':

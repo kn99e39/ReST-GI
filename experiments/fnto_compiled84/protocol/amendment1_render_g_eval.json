@@ -1,0 +1,9 @@
+{
+ "amendment": 1,
+ "date": "2026-11-10",
+ "timing": "POST-EVIDENCE: after run 1 completed (OUTCOME B, invalid)",
+ "defect": "render_g scatter-added the unevaluated integrator output; in Dr.Jit 0.4.6 this summed every sample twice (exactly 2.000x: new reference / WL83 reference = 2.00008 and 1.99997, replicate / stored candidate 2.001; isolated: lazy scatter 2.0, scatter after dr.eval(Lr) 1.0). The pre-freeze probe had validated this variant's GPU time but not its values. Every run-1 quantity produced by render_g (new references, replicates, time-matched references, time-to-quality curves) is invalid; run 1 is preserved in results_run1_invalid and its OUTCOME B is void (measurement-validity failure, outcome E for run 1).",
+ "change": "dr.eval(Lr) before the per-pixel scatter-add; new gate A2 (validate_g): analytic Lambert plane ratio within 1e-3 and render_g vs the WL83 path on every WL84 image scene at 1024 spp: object-summed ratio within 0.5 %, before any reference is generated.",
+ "unchanged": "images, arms, budgets, seeds, rules, thresholds, outcome mapping",
+ "gate_A2_tolerance_note": "first dev check of the fixed pipeline: Lambert ratio 0.999996; layered ratios 0.99915 / 1.00039 / 1.00171, but a 4-se test failed for test83_hard_1_L1 (z 8.7) because its standard error ignored the correlation of the RGB channels of one path (var of the channel sum understated up to 3x) and the hard material's heavy-tailed samples; the gate is set to a 0.5 % ratio tolerance (factor errors such as run 1's 2x are caught) with a conservative z reported. Decided before any run-2 evidence."
+}

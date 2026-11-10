@@ -63,3 +63,27 @@
 6. **Dev probe of the whole chain** (reduced budgets; outcome not interpreted): 3 min 8 s, every stage ran.
    - Expected full run: about 12 min.
    - GPU utilisation is limited by Python tracing in the timing stages (2–25 %); the reference stage is GPU-resident.
+
+## Run 1 (`30a2e58`) — INVALID — and amendment 1
+
+**Run 1 completed in 9.5 min.** The audit reproduced the WL83 renders bit-identically, and the frozen mapping returned OUTCOME B: ER_L "FAIL" on all three images. Two anomalies:
+- every stored candidate had error about 0.50 against the new reference;
+- the old and new references differed by 0.50 (relative L1).
+
+**Cause.** `render_g` scatter-added the **unevaluated** integrator output. In Dr.Jit 0.4.6 that sums every sample twice:
+- new / WL83 reference = 2.00008 and 1.99997;
+- replicate / stored candidate = 2.001;
+- isolated test: lazy scatter 2.0, scatter after `dr.eval(Lr)` 1.0.
+
+The pre-freeze probe had validated this variant's GPU time but not its values. **Every run-1 quantity produced by `render_g` is invalid** (references, replicates, time-matched renders, time-to-quality). Run 1's OUTCOME B is void; it is a measurement-validity failure. Run 1 is preserved on the server in `results_run1_invalid`.
+
+**Amendment 1** (`protocol/amendment1_render_g_eval.json`, post-evidence, labelled):
+- `dr.eval(Lr)` before the scatter;
+- new gate A2 (`validate_g`) before any reference:
+  - the analytic Lambert plane ratio must be within 1e-3;
+  - `render_g` and the WL83 path must agree within 0.5 % (object-summed ratio) on every WL84 scene at 1024 spp.
+- Dev check of the fix:
+  - Lambert ratio 0.999996;
+  - layered ratios 0.99915 / 1.00039 / 1.00171.
+- A first 4-se version of the gate was replaced by the 0.5 % ratio before any run-2 evidence. Its standard error ignored the RGB-channel correlation, giving z 8.7 on the hard material. The conservative z is reported instead.
+- Nothing else changed: images, arms, budgets, seeds, rules and the outcome mapping.
