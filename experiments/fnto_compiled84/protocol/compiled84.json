@@ -1,0 +1,102 @@
+{
+ "protocol": "compiled84_v1",
+ "batch": "WL84 - Learned Material Rules: Rendering Qualification and End-to-End Utility Closure",
+ "date": "2026-11-10",
+ "status_rule": "Frozen and committed before any new reference measurement, replicate, timing or evaluation of the evidence run. Full-scale probes (launch size, memory, GPU utilisation, wall time) run before the freeze and are recorded; their image values are not interpreted.",
+ "question": "Does the unchanged learned ER closure satisfy the original rendering-quality requirements against an independently qualified reference, and does it retain a worthwhile local-rendering cost advantage?",
+ "inputs": {
+  "wl83": "40657a5 (results), code 9e273ca / a11e452 / a883aef: render83 (scene, render_b, cmp83 plugin), render81 (lay81 reference plugin, masks, rel_l1), closure83_dr; WL83 learned states fit_<set>_L_<arm>_s8301.npz and DF fits on LabServer63 ~/rest_compiled83/results (read only); WL83 OUTCOME D is immutable"
+ },
+ "images": [
+  "test83_iid_1_L2",
+  "test83_iid_0_L2",
+  "test83_hard_1_L1"
+ ],
+ "image_roles": {
+  "test83_iid_1_L2": "the sole WL83 ER_L failure (reference-limited: unc 0.0265 > 0.25 x err 0.1019)",
+  "test83_iid_0_L2": "predeclared passing control (same grazing light, iid material)",
+  "test83_hard_1_L1": "control: ER_L passed, E_L genuine highlight failure (negative baseline, not repaired)"
+ },
+ "arms": "all WL83 render arms unchanged (C0_DF, E_DF, ER_DF, E_L, ER_L; WL83 compiler seed 8301 learned states); primary = ER_L",
+ "launch_spp": 128,
+ "reference": {
+  "definition": "unchanged layered reference plugin (lay81), scene, camera, light, integrator (path, max depth 4), resolution 256 x 256",
+  "budget": "fixed (no adaptive stopping): two independent halves of 32768 spp each (65536 spp total, 16x WL83), each half rendered in chunks_per_half with distinct seeds",
+  "chunks_per_half": [
+   8192,
+   8192,
+   16384
+  ],
+  "seed_base": 410000,
+  "independence": "seeds 410000-480000: disjoint from every WL83 render seed (83110 + offsets <= 383,600) and below 2^32 / 7919 (Mitsuba sampler.seed is uint32; render seeds are multiplied by 7919); halves A / B and every chunk use distinct seeds",
+  "uncertainty": "WL81 Stage F estimator, unchanged: 0.5 x object relative L1 between the two halves",
+  "staging_report": "the cumulative per-chunk half images (8192 / 16384 / 32768 spp per half) are stored and the uncertainty at each level is reported (descriptive; the verdict uses the full budget)",
+  "launch_spp": 2048
+ },
+ "evaluation": {
+  "rule": "WL81 Stage F, unchanged: per arm and image PASS iff object relative L1 (64-spp candidate vs reference) <= time-matched layered-reference error, highlight-ROI relative L1 <= 0.10 (ROI = reference luminance >= 3 x object median), and reference uncertainty <= 1/4 of the candidate error (else reference-limited)",
+  "candidate": "the stored WL83 64-spp candidate renders (provenance: bit-identical reproduction in stage A required)",
+  "time_matched": "time-matched reference spp = floor(64 x GPU time of the arm / GPU time of the layered reference) per 64 spp, both from the UNCONTENDED stage D medians; the time-matched reference is rendered with a new seed (time_matched_seed) and compared with the WL84 reference",
+  "per_image_verdict": "PASS / FAIL / INDETERMINATE (reference-limited) for every arm; primary ER_L",
+  "reported": "image-wide and highlight errors vs the new and the old (WL83) reference; old-vs-new reference difference; highlight-mask agreement (new vs old reference); candidate MC variability from replicates"
+ },
+ "time_matched_seed": 450000,
+ "replicates": {
+  "arms": [
+   "ER_L",
+   "E_L"
+  ],
+  "n": 8,
+  "seed_base": 460000,
+  "note": "independent 64-spp renders of the unchanged candidates (same scene, camera, light, integrator); report the distribution of image and highlight error and the fraction meeting the highlight threshold; descriptive, the verdict uses the stored WL83 candidate render"
+ },
+ "economics": {
+  "arms": [
+   "ER_L",
+   "E_L",
+   "C0_DF"
+  ],
+  "reps": 5,
+  "seed_base": 470000,
+  "per_64spp": "uncontended (no other process on the GPU; recorded before / after): ray generation, trace (integrator.sample Python call), GPU execution (dr.eval wall), kernel-history GPU time, readback / accumulation, wall; first call (kernel compile) reported separately; closure binding (state -> Dr.Jit runtime) time",
+  "ladder_ref": [
+   64,
+   256,
+   1024,
+   4096
+  ],
+  "ladder_closure": [
+   16,
+   64,
+   256,
+   1024
+  ],
+  "time_to_quality": "image error vs the WL84 reference as a function of GPU time and of wall time; t_REF(e) by log-log interpolation of the reference ladder; ratio t_REF(e_ER@64) / t_ER(64)",
+  "rule": "ECONOMICS_FAVOURABLE iff for every image: (i) uncontended GPU time per 64 spp of ER_L <= layered reference / 1.10 and (ii) the layered reference needs >= 1.10x the GPU time of ER_L@64 spp to reach ER_L@64's image error (time-to-quality); wall-clock results reported separately (Python tracing limit stated)"
+ },
+ "outcomes": [
+  "E: stage A reproduction fails, reference halves inconsistent (reported), or GPU contention during stage D",
+  "C: ER_L INDETERMINATE (reference-limited) on test83_iid_1_L2 at the full budget",
+  "B: reference qualifies and ER_L FAILs on any of the three images",
+  "D: ER_L PASSes on all three images and ECONOMICS_FAVOURABLE is false",
+  "A: ER_L PASSes on all three images and ECONOMICS_FAVOURABLE"
+ ],
+ "paths": {
+  "ref_dir": "/home/nd/rest_compiled84/results/ref"
+ },
+ "not_authorised": [
+  "retraining / fine-tuning",
+  "closure, compiler, representation, threshold, scene, camera, light or image-selection changes",
+  "renderer replacement",
+  "FNTO K/C",
+  "successor batches"
+ ],
+ "pipelines": {
+  "reproduction": "render_t = the WL83 render_b path (numpy camera rays, host accumulation), used only for the bit-identical reproduction of the stored WL83 renders (stage A) and as a timing comparison",
+  "new_renders": "render_g: GPU ray generation (Dr.Jit PCG32, same camera and uniform per-sample pixel jitter, pixel-major lanes) and GPU per-pixel accumulation (float32 scatter-add per launch, sample-major lanes; float64 across launches); identical sampler, integrator, scene and BSDF plugins. Introduced because the full-scale probe showed the WL83 path spent ~63 % of wall time generating rays in numpy and ~15 % in host readback at 3-4 % GPU utilisation; it changes only the random stream of new renders (all new renders use new seeds anyway)."
+ },
+ "probe": {
+  "note": "pre-freeze full-scale probe (layered reference, 2048 spp, test83_iid_1_L2, WL83 pipeline): B 128 / 512 / 1024: wall 33.9 / 28.6 / 31.9 s, of which numpy rays 21.7 / 21.4 / 25.6 s, trace 6.4 / 1.6 / 0.8 s, readback 5.2 s, GPU 0.39 s; GPU utilisation 3-4 %; peak memory 1.1 / 3.0 / 6.9 GB",
+  "gpu_pipeline": "render_g, layered reference, 4096 spp: per-pixel float64 block_sum with pixel-major lanes cost 3.9 s GPU (5x); float32 scatter-add with sample-major lanes 0.81 s GPU (= path tracing alone 0.75 s; WL83 pipeline 0.19 ms / spp); wall 7.2 s vs WL83 pipeline ~65 s for 4096 spp; equal statistics (mean ratio 0.99983, equal distance to the WL83 reference at 1024 spp); B = 2048 uses ~6 GB"
+ }
+}
