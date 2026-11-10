@@ -42,7 +42,8 @@ log "CHAIN_START dev=$DEV commit=$(cat $ROOT/code/COMMIT 2>/dev/null)"
 DFS=12000; [ -n "$DEV" ] && DFS=300 && export W83_DF_STEPS=300
 STEPS_JSON='{"C0_cert_metric":12000,"C0_unb_metric":12000,"E_cert_metric":12000,"E_unb_metric":12000,"Einc_unb_metric":12000,"ER_cert_metric":12000,"ER_unb_metric":12000}'
 
-# ---- Stage A (part 1): reference reproduction, WL82 focused tests and contract on the stored WL82 fits, new population
+# ---- Stage A (part 1): reference reproduction, WL82 focused tests and contract on the stored WL82 fits, new population (reused when a previous run of the same frozen data / Stage A code completed it: amendment 1)
+if [ -f "$R/stageA83.json" ] && [ -f "$D/hl83_test83_hard.npz" ] && grep -q '"QUALIFIED": true' "$R/stageA83.json"; then log "REUSED A + data"; else
 pool 3 A_repro "$PY $C82/data82.py $R/A/repro $W81 repro $DEV" \
        A_tests82 "$PY $C82/contract82.py tests $W82D $W81 $R/A/tests82 $DEV" \
        D_materials "$PY data83.py $D $W81 materials $DEV"
@@ -71,6 +72,7 @@ run A_eval_wl82 "W83_UNPATCHED=1 $PY eval83.py $D $W81 $FD $W82F wl82_test_iid $
 g=$($PY gate83.py stageA "$R"); log "GATE A $g"
 [ "$g" = QUALIFIED ] || { log "STOP STAGE_A_NOT_QUALIFIED"; log CHAIN_DONE; exit 0; }
 
+fi
 # ---- runtime correctness (pre-evidence) and renderer validation
 run T_runtime "$PY tests83.py runtime $R/runtime $DEV"
 g=$($PY -c "import json;print('PASS' if json.load(open('$R/runtime/runtime_tests.json'))['PASS'] else 'FAIL')"); log "GATE RUNTIME $g"

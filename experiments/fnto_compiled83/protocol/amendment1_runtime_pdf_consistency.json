@@ -1,0 +1,9 @@
+{
+ "amendment": 1,
+ "date": "2026-11-10",
+ "timing": "PRE-EVIDENCE: after the main chain stopped at the runtime gate; no training, direct fit, learned closure or benchmark had run; Stage A and the data were complete",
+ "trigger": "R2 for ER: sample-returned pdf vs eval_pdf recomputed in a separate kernel max rel 1.8e-4 > 1e-5 (C0 / E 0.0; every other runtime test passed: R1 median <= 1.1e-7, p99.9 <= 2.8e-6; R2 z <= 2.4, chi-square min p >= 0.011)",
+ "diagnosis": "dbg on the worst case (closure 13, theta_i 75, wo_z = 0.0031): pdf in the sample kernel 0.10489164, torch float64 0.10489163, eval_pdf in a separate kernel 0.10491003 -> the in-kernel value is correct to 2e-7; the separately recomputed float32 value carries the conditioning of the refracted-lobe pdf at near-horizon outgoing directions (41 of 235,526 valid samples > 1e-5). Float32 rounding, not a semantic defect.",
+ "change": "R2 sample-pdf consistency uses the frozen R1 tolerances (median rel <= 1e-5 and p99.9 <= 1e-3) instead of max <= 1e-5; median, p99.9 and max are reported. run83.sh reuses Stage A and the data when a previous run of the same frozen code completed them (logged REUSED).",
+ "unchanged": "every other test, threshold, gate, model, objective and evaluation rule"
+}

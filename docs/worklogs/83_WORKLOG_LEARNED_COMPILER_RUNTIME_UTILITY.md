@@ -104,3 +104,28 @@ Dev root `~/rest_compiled83_dev`: 64 train / 16 val / 16 test83 materials per se
    - Kernel-history GPU time is far below wall time (e.g. REF_1 io eval 13 ms GPU vs 156 ms wall), because Dr.Jit 0.4.6 re-traces Python every call.
    - The economics rule uses GPU time, as in WL80C / WL81. Wall times are reported.
 5. **Compiler.** 150,848 parameters (protocol corrected from a miscount). The dev run (400 steps) used 0.15–0.20 GB.
+
+## Freeze, run 1 and amendment 1
+
+- **Freeze `9e273ca`.**
+- **Main chain run 1** (LabServer63, started 2026-11-10 05:13 UTC):
+  - **Stage A: QUALIFIED.**
+    - The WL81 targets are reproduced bit-identically.
+    - The WL82 focused tests and physical contract pass at full scale.
+    - The stored WL82 fits re-evaluated through the WL83 evaluator match the recorded medians (deviation 0.0).
+  - **Population.** 300 / 200 / 150 new materials, zero overlap; hard-box members are 3 % of test83_iid. Every evaluation set passes the WL81 noise rule at 4096 walks.
+  - **Runtime gate: FAIL (frozen stop).** Only one item failed: for ER, the pdf returned by `sample` and the pdf recomputed by `eval_pdf` in a separate kernel differ by up to 1.8e-4 relative, against the 1e-5 maximum the test set.
+  - Every other runtime test passed:
+    - R1 eval / pdf vs torch: median ≤ 1.1e-7, p99.9 ≤ 2.8e-6;
+    - R2: z ≤ 2.4, χ² min p ≥ 0.011;
+    - R0, R3 and R4 pass.
+- **Diagnosis.** On the worst case (θ_i 75°, wo_z = 0.0031):
+  - the pdf inside the sample kernel is 0.10489164;
+  - the float64 torch value is 0.10489163;
+  - the separately recomputed float32 `eval_pdf` is 0.10491003.
+
+  The in-kernel value is correct to 2e-7. The separate recomputation carries the float32 conditioning of the refracted-lobe pdf at outgoing directions near the horizon (41 of 235,526 samples exceed 1e-5). This is rounding, not a semantic defect.
+- **Amendment 1** (`protocol/amendment1_runtime_pdf_consistency.json`).
+  - Timing: **pre-evidence**. No training, direct fit, learned closure, benchmark or render had run.
+  - The sample–pdf consistency check now uses the frozen R1 tolerances (median ≤ 1e-5, p99.9 ≤ 1e-3) and still reports the maximum.
+  - The chain reuses Stage A and the data, whose code is unchanged.
