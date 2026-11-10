@@ -1,12 +1,14 @@
 # Research Topic — Physically Valid Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-10-30. **Role:** research problem, objective, scope and scientific decision frontier. [Document ownership](README.md) defines the other sources of authority.
+**Current as of:** 2026-11-10. **Role:** research problem, objective, scope and scientific decision frontier. [Document ownership](README.md) defines the other sources of authority.
 
 ## Research problem and motivation
 
 A learned GI model fitted to one geometry can retain stale interreflection, indirect occlusion, glossy response and multi-bounce transport after an edit. Supplying current local surface inputs does not necessarily repair those dependencies. Stationary receivers can change even when their geometry does not: geometry-dirty and transport-dirty sets are different.
 
 **Scientific objective (ADOPTED):** maintain physically credible, high-quality learned GI after geometry edits by reusing transport that remains valid and updating invalid transport at favorable quality-matched end-to-end cost. Compression of an intrinsic operator is a means to this objective.
+
+**Intended contribution, not yet a demonstrated claim:** a **jointly viable** mechanism for (1) **complex transport fidelity** — sharp glossy/specular and multi-bounce interreflection, nonlocal/volumetric effects as subsequent coverage; (2) **dynamic edit response** — correct radiance changes, including stationary receivers and edit-affected visibility/transport dependencies; and (3) **economics** — quality-matched edit-to-valid-GI and sustained execution costs that justify reuse over applicable alternatives. A fast BSDF surrogate, K/C partition, cache, or selective update alone cannot substitute for evidence that the three properties work **together**. The concrete global representation and update mechanism remain open.
 
 **Central hypothesis (INCONCLUSIVE; not adopted as a working model):** a source-independent reusable intrinsic transport rule can be separated from geometry-dependent within-domain state, and selective state reconstruction can improve lifecycle cost without losing physical or directional fidelity. This additional separation must earn its benefit beyond exact optical-domain selective recomputation; physical K/C ownership alone does not establish it.
 
@@ -24,11 +26,14 @@ The physical and representation requirements are owned by [Architecture](Archite
 
 ## Current milestone and decision frontier
 
+**Current direction (human decision, 2026-11-10):** WL82–84's **learned ER local material closure** becomes the **primary development baseline for local scattering**, not the final method and not a validated nonlocal transport operator. Its learned response, local physical contracts and limited GPU rendering economics are qualified for the tested coated-conductor family. Global interreflection fidelity, geometry-edit adaptation and complete dynamic economics with this component remain untested. The next research milestone is **GM1 — dynamic glossy/specular interreflection under rigid edits**, with frozen ER, independent physical/ER-full-path-traced references, held-out T0/T1 response and full update-cost accounting. GM2–GM4 extend complex transport breadth, deformation/contact validity and system-level economics; their details and decision gates are owned by the [roadmap](RESEARCH_ROADMAP.md#global-development-milestones--approved-direction-not-approved-implementation-batches). These are milestones, **not automatically authorised implementation batches**.
+
+**Earlier learned nonlocal-K/state evidence (historical, distinct from ER):**
 Exact domain-selective oracle recomputation can reproduce full recomputation on the tested edit, but complete physical GI quality remains unsupported. The fixed direct and Rule–State learned recipes are not eligible for integration; the abstract rule/state hypothesis remains INCONCLUSIVE. These are distinct conclusions, preserved in the [selective-oracle evidence](worklogs/56_WORKLOG_EXACT_SELECTIVE_K_RECOMPUTE.md) and [completed learned-candidate evidence](worklogs/57_WORKLOG_LEARNED_INTRINSIC_K_RULE_STATE.md).
 
 The [intrinsic-state reuse v1 candidate](plans/INTRINSIC_STATE_REUSE_V1.md) stopped at its sharp-GGX angular gate before F/S implementation; that scoped negative remains in [WL58](worklogs/58_WORKLOG_PERSISTENT_INTRINSIC_STATE_REUSE.md). A separate [persistent intrinsic F/S candidate](plans/PERSISTENT_INTRINSIC_FS_V1.md) subsequently executed Full Rebuild and Selective Update on homogeneous-volume local edits. Computational F/S equivalence and limited raw update savings are supported for this fixed recipe, but both policies fail required directional/deformation fidelity; a quality-matched coupled-GI benefit and general rule/state viability remain unestablished. [WL59](worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md) owns the full evidence and the [roadmap](RESEARCH_ROADMAP.md) owns the next decision.
 
-Recent evidence further narrows this frontier: [WL63](worklogs/63_WORKLOG_PHYSICAL_BALLISTIC_SCATTERED_ATTRIBUTION.md) identifies the learned collided response as the dominant error component for qualified Pair7; [WL64](worklogs/64_WORKLOG_DIRECTIONAL_CONTRAST_SUPERVISION.md) finds a controlled fixed contrast-loss intervention worsens original and independent held-out directional fidelity. Neither supplies an accepted correction, coupled-GI quality or external-baseline advantage.
+In that earlier research line, [WL63](worklogs/63_WORKLOG_PHYSICAL_BALLISTIC_SCATTERED_ATTRIBUTION.md) identifies the learned collided response as the dominant error component for qualified Pair7; [WL64](worklogs/64_WORKLOG_DIRECTIONAL_CONTRAST_SUPERVISION.md) finds a controlled fixed contrast-loss intervention worsens original and independent held-out directional fidelity. Neither supplies an accepted correction, coupled-GI quality or external-baseline advantage.
 
 Broader open questions are whether a sufficiently accurate learned K can be composed stably, whether validity certificates permit useful selective work after non-rigid edits, and whether benefits survive global deformation and contact changes. None has a general affirmative answer.
 
