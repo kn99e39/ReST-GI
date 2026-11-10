@@ -1,0 +1,237 @@
+{
+ "C0_cert_metric": {
+  "closures": {
+   "gate": 300,
+   "test_iid": 300,
+   "test_block": 300,
+   "real": 8,
+   "adversarial": 50
+  },
+  "T1_reciprocity": {
+   "max_rel": 5.921268335461208e-14,
+   "PASS": true
+  },
+  "T2_nonneg_finite": {
+   "min_eval": 0.0,
+   "all_finite": true,
+   "max_eval_grazing_wi": 636.2389329630462,
+   "max_f_grazing_wo": 798.5892750672126,
+   "PASS": true
+  },
+  "T3_certificate": {
+   "max_sum_lambda": 0.9999999403953552,
+   "PASS": true
+  },
+  "T4_albedo_audit": {
+   "rows": 45984,
+   "samples": 65536,
+   "violations": 0,
+   "max_albedo": 1.004129220492814,
+   "frac_closures_max_albedo_gt_1": 0.003131524194031954,
+   "albedo_at_mu_2e-7_max": 1.0026181296904042,
+   "PASS": true
+  },
+  "PHYSICAL_CONTRACT_PASS": true,
+  "report_only_reason": null
+ },
+ "E_cert_metric": {
+  "closures": {
+   "gate": 300,
+   "test_iid": 300,
+   "test_block": 300,
+   "real": 8,
+   "adversarial": 50
+  },
+  "T1_reciprocity": {
+   "max_rel": 6.822996194134117e-14,
+   "PASS": true
+  },
+  "T2_nonneg_finite": {
+   "min_eval": 0.0,
+   "all_finite": true,
+   "max_eval_grazing_wi": 2075.934475458738,
+   "max_f_grazing_wo": 139.38247059628586,
+   "PASS": true
+  },
+  "T3_certificate": {
+   "max_sum_lambda": 0.9999999403953552,
+   "s_min": 3.826609827228822e-05,
+   "s_max": 0.9999986886978149,
+   "PASS": true
+  },
+  "T4_albedo_audit": {
+   "rows": 45984,
+   "samples": 65536,
+   "violations": 0,
+   "max_albedo": 0.9772032451638211,
+   "frac_closures_max_albedo_gt_1": 0.0,
+   "albedo_at_mu_2e-7_max": 0.9772032451638211,
+   "PASS": true
+  },
+  "PHYSICAL_CONTRACT_PASS": true,
+  "report_only_reason": null
+ },
+ "ER_cert_metric": {
+  "closures": {
+   "gate": 300,
+   "test_iid": 300,
+   "test_block": 300,
+   "real": 8,
+   "adversarial": 50
+  },
+  "T1_reciprocity": {
+   "max_rel": 1.0342467182682987e-13,
+   "PASS": true
+  },
+  "T2_nonneg_finite": {
+   "min_eval": 0.0,
+   "all_finite": true,
+   "max_eval_grazing_wi": 696.6978943092759,
+   "max_f_grazing_wo": 72.7621081951722,
+   "PASS": true
+  },
+  "T3_certificate": {
+   "max_sum_lambda": 0.9999999403953552,
+   "s_min": 2.1327879949240014e-05,
+   "s_max": 0.9999990463256836,
+   "eta_min": 1.0000038146972656,
+   "eta_max": 2.499776601791382,
+   "PASS": true
+  },
+  "T4_albedo_audit": {
+   "rows": 45984,
+   "samples": 65536,
+   "violations": 0,
+   "max_albedo": 0.9719590216957386,
+   "frac_closures_max_albedo_gt_1": 0.0,
+   "albedo_at_mu_2e-7_max": 0.9686969345272374,
+   "PASS": true
+  },
+  "PHYSICAL_CONTRACT_PASS": true,
+  "report_only_reason": null
+ },
+ "C0_unb_metric": {
+  "closures": {
+   "gate": 300,
+   "test_iid": 300,
+   "test_block": 300,
+   "real": 8,
+   "adversarial": 50
+  },
+  "T1_reciprocity": {
+   "max_rel": 3.7584681246509073e-14,
+   "PASS": true
+  },
+  "T2_nonneg_finite": {
+   "min_eval": 0.0,
+   "all_finite": true,
+   "max_eval_grazing_wi": 2045.2306166430787,
+   "max_f_grazing_wo": 218.3302629903692,
+   "PASS": true
+  },
+  "T4_albedo_audit": {
+   "rows": 45984,
+   "samples": 16384,
+   "violations": 2424,
+   "max_albedo": 22.821602328622248,
+   "frac_closures_max_albedo_gt_1": 0.05323591083288193,
+   "albedo_at_mu_2e-7_max": 22.821602328622248,
+   "PASS": null
+  },
+  "PHYSICAL_CONTRACT_PASS": null,
+  "report_only_reason": "unbounded / non-reciprocal diagnostic arm: physical validity is not claimed"
+ },
+ "E_unb_metric": {
+  "closures": {
+   "gate": 300,
+   "test_iid": 300,
+   "test_block": 300,
+   "real": 8,
+   "adversarial": 50
+  },
+  "T1_reciprocity": {
+   "max_rel": 4.464954367093608e-14,
+   "PASS": true
+  },
+  "T2_nonneg_finite": {
+   "min_eval": 0.0,
+   "all_finite": true,
+   "max_eval_grazing_wi": 1581.3705968857207,
+   "max_f_grazing_wo": 456.87388920981454,
+   "PASS": true
+  },
+  "T4_albedo_audit": {
+   "rows": 45984,
+   "samples": 16384,
+   "violations": 2388,
+   "max_albedo": 20.16258769875276,
+   "frac_closures_max_albedo_gt_1": 0.052192069590091705,
+   "albedo_at_mu_2e-7_max": 20.16258769875276,
+   "PASS": null
+  },
+  "PHYSICAL_CONTRACT_PASS": null,
+  "report_only_reason": "unbounded / non-reciprocal diagnostic arm: physical validity is not claimed"
+ },
+ "ER_unb_metric": {
+  "closures": {
+   "gate": 300,
+   "test_iid": 300,
+   "test_block": 300,
+   "real": 8,
+   "adversarial": 50
+  },
+  "T1_reciprocity": {
+   "max_rel": 6.598100668157474e-14,
+   "PASS": true
+  },
+  "T2_nonneg_finite": {
+   "min_eval": 0.0,
+   "all_finite": true,
+   "max_eval_grazing_wi": 1212.6673779326504,
+   "max_f_grazing_wo": 1086.7055467131775,
+   "PASS": true
+  },
+  "T4_albedo_audit": {
+   "rows": 45984,
+   "samples": 16384,
+   "violations": 2339,
+   "max_albedo": 13.884028563441007,
+   "frac_closures_max_albedo_gt_1": 0.052192069590091705,
+   "albedo_at_mu_2e-7_max": 12.16595556439006,
+   "PASS": null
+  },
+  "PHYSICAL_CONTRACT_PASS": null,
+  "report_only_reason": "unbounded / non-reciprocal diagnostic arm: physical validity is not claimed"
+ },
+ "Einc_unb_metric": {
+  "closures": {
+   "gate": 300,
+   "test_iid": 300,
+   "test_block": 300,
+   "real": 8,
+   "adversarial": 50
+  },
+  "T1_reciprocity": {
+   "max_rel": 0.9998692124567374,
+   "PASS": null
+  },
+  "T2_nonneg_finite": {
+   "min_eval": 0.0,
+   "all_finite": true,
+   "max_eval_grazing_wi": 1134.4489866383456,
+   "max_f_grazing_wo": 881.2260758880398,
+   "PASS": true
+  },
+  "T4_albedo_audit": {
+   "rows": 45984,
+   "samples": 16384,
+   "violations": 2304,
+   "max_albedo": 22.220873765225406,
+   "frac_closures_max_albedo_gt_1": 0.052192069590091705,
+   "albedo_at_mu_2e-7_max": 20.57913102209568,
+   "PASS": null
+  },
+  "PHYSICAL_CONTRACT_PASS": null,
+  "report_only_reason": "unbounded / non-reciprocal diagnostic arm: physical validity is not claimed"
+ }
+}

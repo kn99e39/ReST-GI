@@ -1,0 +1,70 @@
+{
+ "worklog": "docs/worklogs/83_WORKLOG_LEARNED_COMPILER_RUNTIME_UTILITY.md",
+ "commits": {
+  "freeze": "9e273ca",
+  "amendment1": "a11e452",
+  "amendment2": "a883aef"
+ },
+ "materials": {
+  "test83_iid:best": {
+   "set": "test83_iid",
+   "index": 9
+  },
+  "test83_iid:median": {
+   "set": "test83_iid",
+   "index": 185
+  },
+  "test83_iid:worst": {
+   "set": "test83_iid",
+   "index": 146
+  },
+  "test83_hard:median": {
+   "set": "test83_hard",
+   "index": 126
+  },
+  "test83_hard:worst": {
+   "set": "test83_hard",
+   "index": 54
+  }
+ },
+ "selection_rule": "learned E seed-8301 ranking on test83_iid (best / median / worst) and test83_hard (median / worst); never by ER",
+ "render_error_scale": "sqrt mean_c |closure - REF_HQ|, one shared scale (max 6.26) over every render error map",
+ "render_note": "Mitsuba path integrator, max depth 4, point light, 64 spp per closure; REF_HQ = layered reference 4096 spp; the finish gold_clearcoat_polished is a parameterised material, not a measured BRDF",
+ "files": [
+  {
+   "file": "albedo_vs_theta.png",
+   "sha256": "85089964ae639d640d1105489a531bb04a08f3b39e17249ab272d0cf4c1fa8cd",
+   "source": "LabServer63 ~/rest_compiled83/results/viz (viz83.py)"
+  },
+  {
+   "file": "gpu_time.png",
+   "sha256": "02c4cb78097ab26f7c253980b89f93d0c9d51d842715b77825859bb9e01a0d31",
+   "source": "LabServer63 ~/rest_compiled83/results/viz (viz83.py)"
+  },
+  {
+   "file": "inplane_shape.png",
+   "sha256": "51bffffb48074720670eb6fb0854335f71727c1a4707a6318fa3955d397c0f1b",
+   "source": "LabServer63 ~/rest_compiled83/results/viz (viz83.py)"
+  },
+  {
+   "file": "renders_1.png",
+   "sha256": "8c2491f9a6924461fc28c8f76d2c0bcdf3f02717535a532aaef5dae4c56df5a1",
+   "source": "LabServer63 ~/rest_compiled83/results/viz (viz83.py)"
+  },
+  {
+   "file": "renders_2.png",
+   "sha256": "42c8fb61e0cbf9617e0ab08a5528786aab2c3686204ed42341c2264fc57c8a78",
+   "source": "LabServer63 ~/rest_compiled83/results/viz (viz83.py)"
+  },
+  {
+   "file": "training_curves.png",
+   "sha256": "d706d9bfe57bb7b2c8699d7a86f9ca2e99b0ff61d6728d82877b64ebce1095be",
+   "source": "LabServer63 ~/rest_compiled83/results/viz (viz83.py)"
+  },
+  {
+   "file": "transfer_scatter.png",
+   "sha256": "06b286f0c38014ed491e12e3896d6a0ea1130a8afdaf0c9261e1def2b9898c03",
+   "source": "LabServer63 ~/rest_compiled83/results/viz (viz83.py)"
+  }
+ ]
+}

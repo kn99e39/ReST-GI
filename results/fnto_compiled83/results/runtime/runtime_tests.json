@@ -1,0 +1,77 @@
+{
+ "R0_R1_R3_R4": {
+  "C0": {
+   "eval_rel_median": 7.912179867268634e-08,
+   "eval_rel_p999": 8.17208487024071e-07,
+   "pdf_rel_median": 8.98337159950914e-08,
+   "pdf_rel_p999": 7.908947062834837e-07,
+   "R1_PASS": true,
+   "R0_binding_identical": true,
+   "R3_recip_max_rel": 3.883864889649865e-05,
+   "R3_PASS": true,
+   "R4_finite_nonneg": true
+  },
+  "E": {
+   "eval_rel_median": 1.0620704223850227e-07,
+   "eval_rel_p999": 8.713019115092966e-07,
+   "pdf_rel_median": 9.449236598540065e-08,
+   "pdf_rel_p999": 7.998972931988554e-07,
+   "R1_PASS": true,
+   "R0_binding_identical": true,
+   "R3_recip_max_rel": 6.68818844291844e-05,
+   "R3_PASS": true,
+   "R4_finite_nonneg": true
+  },
+  "ER": {
+   "eval_rel_median": 9.720789283374203e-08,
+   "eval_rel_p999": 2.808025752806881e-06,
+   "pdf_rel_median": 8.708487727564265e-08,
+   "pdf_rel_p999": 2.3273584985416182e-06,
+   "R1_PASS": true,
+   "R0_binding_identical": true,
+   "R3_recip_max_rel": 3.8483074189487545e-05,
+   "R3_PASS": true,
+   "R4_finite_nonneg": true
+  }
+ },
+ "R2_sampler": {
+  "C0": {
+   "cases": 88,
+   "max_z_albedo": 2.3478128535658858,
+   "max_z_valid_fraction": 2.6093083105493773,
+   "sample_pdf_consistency_median_rel": 0.0,
+   "sample_pdf_consistency_p999_rel": 0.0,
+   "sample_pdf_consistency_max_rel": 0.0,
+   "sample_pdf_samples": 22007468,
+   "chi2_min_p": 0.01145660053496298,
+   "chi2_cases": 18,
+   "PASS": true
+  },
+  "E": {
+   "cases": 88,
+   "max_z_albedo": 2.3592041316951775,
+   "max_z_valid_fraction": 2.4495821662758273,
+   "sample_pdf_consistency_median_rel": 0.0,
+   "sample_pdf_consistency_p999_rel": 0.0,
+   "sample_pdf_consistency_max_rel": 0.0,
+   "sample_pdf_samples": 22235875,
+   "chi2_min_p": 0.05188888939170475,
+   "chi2_cases": 18,
+   "PASS": true
+  },
+  "ER": {
+   "cases": 88,
+   "max_z_albedo": 1.8737764160970423,
+   "max_z_valid_fraction": 1.7889888983165128,
+   "sample_pdf_consistency_median_rel": 0.0,
+   "sample_pdf_consistency_p999_rel": 8.991228229094921e-08,
+   "sample_pdf_consistency_max_rel": 0.00017937513757557876,
+   "sample_pdf_samples": 16911936,
+   "chi2_min_p": 0.015035034546738057,
+   "chi2_cases": 18,
+   "PASS": true
+  }
+ },
+ "PASS": true,
+ "seconds": 183.08852624893188
+}

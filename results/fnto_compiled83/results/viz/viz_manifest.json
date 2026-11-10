@@ -1,0 +1,38 @@
+{
+ "files": [
+  "/home/nd/rest_compiled83/results/viz/transfer_scatter.png",
+  "/home/nd/rest_compiled83/results/viz/training_curves.png",
+  "/home/nd/rest_compiled83/results/viz/albedo_vs_theta.png",
+  "/home/nd/rest_compiled83/results/viz/inplane_shape.png",
+  "/home/nd/rest_compiled83/results/viz/renders_1.png",
+  "/home/nd/rest_compiled83/results/viz/renders_2.png",
+  "/home/nd/rest_compiled83/results/viz/gpu_time.png"
+ ],
+ "selection_rule": [
+  "Selection (predeclared, by the learned E seed-8301 ranking on test83_iid, never by ER): best / median / worst test83_iid, median / worst",
+  "test83_hard. Error maps: absolute, sqrt scale, one shared scale per output kind (render error maps)."
+ ],
+ "materials": {
+  "test83_iid:best": {
+   "set": "test83_iid",
+   "index": 9
+  },
+  "test83_iid:median": {
+   "set": "test83_iid",
+   "index": 185
+  },
+  "test83_iid:worst": {
+   "set": "test83_iid",
+   "index": 146
+  },
+  "test83_hard:median": {
+   "set": "test83_hard",
+   "index": 126
+  },
+  "test83_hard:worst": {
+   "set": "test83_hard",
+   "index": 54
+  }
+ },
+ "render_err_max": 6.259521007537842
+}

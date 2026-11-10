@@ -12,7 +12,24 @@ The latest completed controlled intervention is [WL64](worklogs/64_WORKLOG_DIREC
 
 [WL70](worklogs/70_WORKLOG_SUN_STATE_REUSE_C1.md) tested validity-aware reuse of the first-order direct-sun state on that C1 edit. The cached T0 state passed an explicit dependency contract: rest mesh, medium, rigid pose, material-frame sun and cameras, estimator, and a bit-identical replay of source visibility. It was physically identical to the retraced T1 state, and four invalidation controls were rejected. The CAK update fell from 24.6 s to 2.09 s with unchanged quality, narrowly beating quality-matched Cycles **re-rendering** (16 spp, 2.40 s under WL69 timing; equal under Blender's internal render time). This is an **11.8x intra-ReST-GI sun-reuse acceleration**, not a measured advantage over 8DNA T1 neural retraining. Cycles still meets the bare contract at 1 spp in 1.2 s. The diagnostic cache is not adopted.
 
-### Compiled neural material rules (WL80C–WL82, as of 2026-11-10)
+### Compiled neural material rules (WL80C–WL83, as of 2026-11-10)
+
+[WL83](worklogs/83_WORKLOG_LEARNED_COMPILER_RUNTIME_UTILITY.md) tested learned compilation, the GPU runtime and rendering of the WL82 E / ER closures. **Outcome D by the frozen mapping: learning succeeds, but the rendering rule fails.**
+- **Learned compiler: PASS** for E and ER on a new independent population (both seeds). It is a response-trained MLP, 150k parameters; every output is physically valid by construction.
+  - test83_iid E_L1: E learned 0.073 vs direct fit 0.072; ER learned 0.057 vs 0.053.
+  - Transfer error ≈ 0.025–0.03; small generalisation gap; the held-out block region stays within its thresholds.
+- **Hard thin / sharp / high-reflectance region:** ER learned 0.10 vs E 0.19.
+- **Physical validity and Dr.Jit runtime correctness: PASS.** A float32 refraction defect at η → 1 was fixed.
+- **GPU economics, operator level: PASS** for every arm, orders of magnitude over the matched-quality layered reference.
+  - ER costs about the same as E when memory-bound and 1.6× E when compute-bound.
+  - Inside a path tracer the BSDF saving is only 1.6–1.9× per spp.
+- **Rendering: FAIL** under the frozen all-images rule.
+  - ER_L 9 / 10; its single failure is reference-limited.
+  - E_L 8 / 10; one genuine hard-material highlight failure.
+  - Every closure beat its time-matched reference on every image.
+- **Not tested:** FNTO K/C integration and dynamic GI. Nothing is adopted. Whether to keep the line, and E vs ER, are user decisions.
+
+**Earlier (WL82):**
 
 [WL82](worklogs/82_WORKLOG_INCIDENT_ENERGY_VS_REFRACTION_ANGULAR.md) attributed WL81's representation failure. **Outcome A by the frozen mapping: incident-dependent energy modulation is sufficient for the WL81 representation target in the tested scope.** Scope: one coated-conductor family, direct per-material fits, untouched test_iid. A refraction-aware extension is not demonstrated to be necessary for that target.
 
