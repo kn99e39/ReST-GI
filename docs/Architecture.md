@@ -1,6 +1,6 @@
 # Architecture — FNTO Dynamic Transport Reuse
 
-**Current as of:** 2026-10-30. **Role:** current physical/representation contracts, candidate status and unresolved design decisions. See [document ownership](README.md).
+**Current as of:** 2026-11-10. **Role:** current physical/representation contracts, candidate status and unresolved design decisions. See [document ownership](README.md).
 
 ## 1. Objective and design boundary
 
@@ -8,7 +8,7 @@ Maintain physically credible global illumination after geometry edits by preserv
 
 FNTO separates **intrinsic optical-domain transport K** from **editable free-space coupling C**. This document owns the current central contracts. [FNTO v0.1](FNTO_ARCHITECTURE_CONTRACT_V0_1.md) is the unchanged **historical design contract dated 2026-10-23**; its original “not implemented” status is a statement at that date, not today’s implementation status. Experimental candidates do not become accepted architecture merely by being implemented.
 
-**Current status:** FNTO K/C ownership remains the selected physical decomposition; no tested learned recipe has established the complete dynamic quality/cost objective. [WL59](worklogs/59_WORKLOG_PERSISTENT_INTRINSIC_FS.md) supports a tested dependency-correct F/S state-reuse mechanism with small raw savings, but both learned policies fail required directional/deformation fidelity. General Rule–State viability and a quality-matched coupled-GI advantage remain INCONCLUSIVE; no learned representation is adopted. The [roadmap](RESEARCH_ROADMAP.md) owns bounded execution scope.
+**Current status and human development decision (2026-11-10):** The **WL84 learned ER compiled closure is selected as the primary local-scattering development baseline**, with learned E retained as a cheaper comparison control. This is a **component-level starting point, not adoption as final FNTO K, global transport architecture, or production integration**. WL82–84 support physically constrained local material response, learned descriptor generalisation and limited rendering/GPU economics only within a coated-conductor family. Global directional interreflection, coupling/edit response and quality-matched dynamic GI economics with ER remain untested. FNTO's physical K/C ownership contract is retained; the representation and update mechanism beyond ER are open. Earlier WL59 F/S state reuse and WL41–80 negative results remain historical evidence for their own mechanisms, **not measured failures of ER**. The [roadmap](RESEARCH_ROADMAP.md#global-development-milestones--approved-direction-not-approved-implementation-batches) defines the milestone dependencies and GM1 as the next approved research direction, not an automatically authorised implementation batch.
 
 ## 2. Physical transport ownership
 
@@ -34,6 +34,12 @@ b_a = K_a(G_intrinsic, material)[i_a]
 Boundary fields retain material-coordinate position, incoming/outgoing direction and physical flux/radiance normalization. Source and receiver mappings conserve area-weighted flux and respect current normal/tangent frames. Near-contact spatial information must survive both sides of the K/C interface.
 
 At fixed geometry/state, K is linear, nonnegative and passive. Scattered and unscattered (ballistic) contributions are distinct path families. Camera readout accounts for both without adding the ballistic contribution twice. Repeated composition must remain stable under admissible incident fields. These are requirements, not a claim that the existing learned kernels satisfy them. Evidence for the directional, near-contact and readout requirements: [directional interface](worklogs/46_WORKLOG_FNTO_DIRECTIONAL_INTERFACE.md), [angular information limit](worklogs/47_WORKLOG_MINIMAL_DIRECTIONAL_NONLOCAL_SMOKE.md), [spatial interface and ballistic readout](worklogs/55_WORKLOG_SPATIAL_INTRINSIC_K_INTERFACE.md).
+
+### Current local-scattering foundation (development only)
+
+The frozen **learned ER** rule maps material descriptors to a compact reciprocal/passive local scattering closure with `eval`, `sample` and `pdf`. Its material-frame behavior is the local input/output interaction **inside** an optical domain's response; it is **not** a spatially nonlocal operator, precomputed global interreflection field, or a replacement for the boundary-field interface. Apply it consistently to direct and coupled incident directions. Preserve the WL83 corrected numerical runtime and the WL84 checkpoint/scene provenance; compare with the historical C0 and learned E controls where appropriate.
+
+For the next GM1 study, distinguish (a) the original layered-material physical path-tracing reference, (b) **frozen ER with full path tracing** as the local-approximation ceiling, and (c) the proposed global mechanism using the same frozen ER. A T0/T1 signed-change or quality improvement is not attributable to a new global mechanism without that distinction. Future modifications to ER require a new, separately justified hypothesis, not silent tuning inside a global-transport batch.
 
 ## 4. Parameter, state and radiance ownership
 
@@ -75,6 +81,7 @@ These are current dispositions with brief rationale, not a new adjudication. Wor
 
 | Direction or candidate | Current disposition and rationale | Evidence / design |
 |---|---|---|
+| **Learned ER local material closure (WL82–84)** | **PRIMARY LOCAL DEVELOPMENT BASELINE** by 2026-11-10 human decision. Component-level learned, passive, reciprocal local scattering qualified on one coated-conductor family; not adopted as global K, final method or production feature. Learned E retained as local economy control. | [representation](worklogs/82_WORKLOG_INCIDENT_ENERGY_VS_REFRACTION_ANGULAR.md), [compiler/runtime](worklogs/83_WORKLOG_LEARNED_COMPILER_RUNTIME_UTILITY.md), [rendering qualification](worklogs/84_WORKLOG_RENDERING_QUALIFICATION_UTILITY_CLOSURE.md) |
 | Complete-unit Surface-Owned reconstruction | Separate reconstruction baseline; conditional physical-edit evidence on limited coverage, not general dynamic validity | [physical edit](worklogs/37_WORKLOG_ORACLE_SELECTIVE_RECONSTRUCTION_DIFFUSE_LEGO.md), [replication](worklogs/38_WORKLOG_B4_SEED_REPLICATE_SELECTIVE_VS_FULL.md) |
 | Intra-model feature masking | Rejected as the main ownership route for the tested jointly owned model; not a test of complete-unit ownership | [negative control](worklogs/30_WORKLOG_ORACLE_SELECTIVE_REFIT_FEASIBILITY_8DNA_TEASET.md) |
 | SPT-1 | NOT SUPPORTED; free-space-only low-bandwidth state lacks required internal transport. No SPT-1-plus-SSS patch is adopted | [evaluation](worklogs/39_WORKLOG_SPATIAL_PERSPECTIVE_TRANSPORT_FACTORIZATION_SPT1.md) |
@@ -94,6 +101,9 @@ These are current dispositions with brief rationale, not a new adjudication. Wor
 A free-space radiosity solver, SH2-only Lambertian model, scene-baked monolithic radiance MLP or SPT-1 repair is not an interchangeable implementation of this contract. A genuine contract conflict must be reported before changing scope.
 
 ## 9. Unresolved design decisions
+
+- **GM1 — dynamic directional interreflection:** Which global spatial/angular transport representation and edit-update mechanism can preserve sharp glossy/specular and multi-bounce response under a rigid edit using frozen ER, with qualified T0/T1 response and measured end-to-end economics? One mechanism must be explicitly chosen before its experiment; none is selected by this baseline decision.
+- **Component-to-global boundary:** ER's pointwise local response is qualified only for the tested material family. Nonlocal intrinsic transport, mixed materials, first-exit/boundary-port fields and composed multi-bounce error remain unvalidated with ER; do not silently infer them from WL84.
 
 - **INCONCLUSIVE — learned K adequacy:** which spatial/angular representation and supervision can meet physical, directional and deformation fidelity while remaining passive under composed incidence? Passing algebraic constraints alone does not answer this.
 - **INCONCLUSIVE — physically qualified persistent within-K reuse:** WL59 establishes F/S computational equivalence and small raw update savings on tested homogeneous-medium edits, while both policies fail complete fidelity and common geometry/ballistic/normalization work dominates. Whether a physically accurate K can support meaningful quality-matched complete-GI savings remains open; WL58's separate sharp-GGX limitation still applies to its own candidate.
