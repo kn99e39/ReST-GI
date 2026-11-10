@@ -1,0 +1,225 @@
+{
+ "protocol": "compiled83_v1",
+ "batch": "WL83 - Compiled Neural Material Rules: Learned Compiler and Runtime Utility Validation",
+ "date": "2026-11-10",
+ "status_rule": "Frozen and committed together with the WL83 code before primary training, before any direct fit or learned closure is evaluated on the new population, and before any benchmark or render. The dev smoke (--dev: small populations, short runs) checks execution, memory and timing only; its quality numbers are not interpreted. Amendments are labelled, dated and state whether they precede or follow evidence.",
+ "question": "Can the physically valid E / ER representations be learned from material descriptors and executed as reusable GPU closures with a worthwhile fidelity-performance trade-off?",
+ "inputs": {
+  "wl82": "705db09 (protocol + code) / 9500593 (results): closure82 (C0 / E / ER, cert energy mode), fit82 (direct-fit optimiser and metric objective), eval82 (metrics); stored WL82 direct fits ~/rest_compiled82/results/fit (test_iid, real) and data ~/rest_compiled82/results/data",
+  "wl81": "54695d6: layered81 reference, data81 walks / directional sets, eval81 highlight / gates, render81 renderer path, bench81 / bench80c timing machinery; WL81 data ~/rest_compiled81/results/data (sha256 list in results/fnto_compiled81/results/data_sha256.txt)",
+  "roles": "C0 historical control; E primary candidate; ER challenger (all cert energy mode). Unbounded / incident-only variants are not used."
+ },
+ "machine": {
+  "host": "LabServer63 (main server)",
+  "gpu": "RTX 3080 Ti 12 GB",
+  "env": "~/rest_compiled81/env.sh (OptiX 595 workaround, Mitsuba 3.5.1 cuda_ad_rgb, Dr.Jit 0.4.6, torch 2.3.1+cu121)",
+  "root": "~/rest_compiled83 (dev ~/rest_compiled83_dev)",
+  "rule": "one detached chain (run83.sh); timing stages (bench, render) run alone; no foreign GPU process during timing (recorded)"
+ },
+ "invariants": [
+  "closure82 equations, parameter counts and the cert energy mode (certificate by construction) for every arm",
+  "WL81 / WL82 reference definition and metrics",
+  "WL81 representation thresholds (comparative targets)",
+  "no basis / R / attenuation / refraction change",
+  "no FNTO / production change"
+ ],
+ "population": {
+  "train83": "WL81 train materials (3000; never fitted, trained on or evaluated by any WL81 / WL82 candidate)",
+  "val83": "WL81 val materials (200; checkpoint selection only)",
+  "train_eval": "first 300 WL81 train materials on the WL81 eval_train_eval directions (fresh directions; training-set result)",
+  "test83_iid": 300,
+  "test83_block": 200,
+  "test83_hard": 150,
+  "generation": "new draws (seed materials 83010) from the WL81 box: test83_iid outside the WL81 held-out block, test83_block inside it (out of the compiler's training distribution); test83_hard from the box with tau and alpha_b redrawn log-uniformly in hard_box and accepted iff mean conductor reflectance >= r_mean_min (rejection; not in the block)",
+  "hard_box": {
+   "tau": [
+    0.02,
+    0.0928
+   ],
+   "alpha_b": [
+    0.05,
+    0.1145
+   ],
+   "r_mean_min": 0.582,
+   "definition": "lowest box tercile of tau and of alpha_b (log scale) and the upper tercile of the mean of three U[0.05, 0.98] reflectances (normal approximation): the WL81 / WL82 thin / sharp / high-reflectance failure region, inside the training distribution but sparse"
+  },
+  "previously_inspected": "WL82 test_iid (wl82_test_iid) and the 8 parameterised finishes (real83) are evaluated for comparison only; they select nothing",
+  "independence_check": "no descriptor row shared between test83_* and WL81 train / val / gate / test_iid / test_block or the WL82 finishes, none within test83_*; no WL83 seed equal to a WL81 / WL82 seed (tests83 independence)"
+ },
+ "fitset": {
+  "n_wi": 64,
+  "n_wo": 64,
+  "walks": 1024,
+  "use": "training (train83, 10 shards), validation (val83) and direct fits (test83_*): WL82 fit-set design (training-style wi without the 55-65 deg band, WL81 defensive wo mixture)"
+ },
+ "evaluation_sets": "eval83_<set>.npz (WL81 layout: 8 theta x 2 phi x 1024 wo, 4096 walks, WL81 noise rule with top-ups) for test83_iid / test83_block / test83_hard / val83; WL81 highlight grids (hl83) for test83_iid and test83_hard",
+ "direct_fits": "per material, arms C0 / E / ER cert, WL82 metric objective and optimiser, 12000 steps from the generic init (fit82.py unchanged) on test83_iid / test83_block / test83_hard; the stored WL82 fits for wl82_test_iid and real83",
+ "compiler": {
+  "architecture": "MLP 10 -> 256 -> 256 -> 256 -> 64, SiLU; input = WL81 descriptor normalisation (data81.normalise); output = closure82 raw layout decoded with closure82.decode(arm, 'cert') (softmax weights, sigmoid knots, eta_e in [1, 2.5]) -> every output satisfies the passivity certificate and exact reciprocity by construction",
+  "width": 256,
+  "depth": 3,
+  "head_weight_scale": 0.1,
+  "head_bias": "closure82.init_raw(arm, 'cert') (identical generic initial closure as the direct fits)",
+  "identifiability_choice": "the compiler learns the scattering RESPONSE: its loss is the WL82 per-incidence metric objective of the decoded closure against the layered reference; it never regresses onto direct-fit parameters (non-unique lobe permutations, eta_e not identified in WL82)",
+  "objective": "mean over sampled (material, incidence) groups of [sum_k w |f_cl - f_ref|_1 / sum_c a_ref,c + sum_c |a_cl,c - a_ref,c| / sum_c a_ref,c] (w = use / q, 64 wo per group)",
+  "batch_materials": 128,
+  "groups_per_material": 16,
+  "steps": 40000,
+  "lr": 0.001,
+  "lr_end": 1e-05,
+  "warmup": 1000,
+  "schedule": "cosine (train80c.lr_at)",
+  "optimiser": "Adam",
+  "grad_clip": 1.0,
+  "val_every": 2000,
+  "checkpoint_selection": "lowest mean validation objective over val83 (all 64 groups of every val material), evaluated every 2000 steps; the final checkpoint is also stored (report only)",
+  "seeds": [
+   8301,
+   8302
+  ],
+  "arms": [
+   "C0",
+   "E",
+   "ER"
+  ],
+  "treatment": "identical architecture, data, objective, optimiser and budget for C0 / E / ER; they differ only in the decoded closure (48 / 63 / 64 used outputs; 150,848 compiler parameters each, the unused raw outputs of C0 included)"
+ },
+ "gates": {
+  "representation": {
+   "E_L1_median": 0.1,
+   "E_L1_p90": 0.25,
+   "E_alb_median": 0.03,
+   "E_alb_p95": 0.1,
+   "peak_err_deg_median": 1.0,
+   "width_ratio_max": 1.15,
+   "note": "WL81 representation thresholds (eval81.representation_gate); comparative targets"
+  },
+  "learned_rule": {
+   "vs_df_ratio": 1.5,
+   "vs_df_abs": 0.03,
+   "gen_gap_ratio": 1.25,
+   "block_E_L1_median": 0.2,
+   "block_E_L1_p90": 0.4,
+   "block_E_alb_median": 0.08,
+   "grazing_vs_all_ratio": 2.0,
+   "band_vs_neighbour_ratio": 1.25,
+   "rule": "LEARNED_PASS(arm) iff for BOTH seeds: L1 the WL81 representation gate (R1-R3) on test83_iid for the learned closures; L2 transfer: median E_L1(L) <= max(1.5 x median E_L1(DF), median E_L1(DF) + 0.03) on test83_iid; L3 generalisation gap: test83_iid median <= 1.25 x train_eval median; L4 test83_block (out of training distribution): E_L1 median <= 0.20, p90 <= 0.40, E_alb median <= 0.08; L5 grazing median <= 2 x overall median and held-out band (60 deg) median <= 1.25 x band-neighbour median (WL81 L-rule constants). test83_hard, val83, wl82_test_iid and real83 are reported, not gated."
+  },
+  "economics": {
+   "rule": "GPU_ECONOMICS(arm) iff, at the largest io and fused16 sizes, the learned closure's eval_pdf is >= 1.10x faster than REF_Neq (N_eq x REF_1 eval, N_eq matched to that material's learned E_L1) and its sample >= 1.10x faster than REF_1 sample, each for >= 6 of 8 materials, with no foreign GPU process (WL81 Stage E rule); E vs ER vs C0 cost ratios reported"
+  },
+  "rendering": {
+   "rule": "RENDER(arm) iff every image (5 materials x 2 lights) passes: learned 64-spp object relative L1 vs REF_HQ <= time-matched layered-reference error, highlight-ROI relative L1 <= 0.10, and REF_HQ half-difference uncertainty <= 1/4 of the closure error (else the image is reference-limited and does not pass) (WL81 Stage F rule)"
+  },
+  "er_worth": {
+   "hard_ratio": 0.75,
+   "cost_ratio_max": 1.5,
+   "rule": "ER's extra cost is justified iff its learned test83_hard median E_L1 (mean of the two seeds) <= 0.75 x E's, and its eval_pdf GPU time (io, largest size, median over materials of ER / E) <= 1.5 x E's"
+  },
+  "outcome": [
+   "E: Stage A not qualified, runtime tests / Dr.Jit passivity audit / renderer validation failed, or contamination found (also: neither E_DF nor ER_DF passes the WL81 gate on test83_iid -> representation not reproduced on the new population)",
+   "B: ER passes LEARNED, ECONOMICS and RENDER and (ER worth holds or E does not pass all three)",
+   "A: otherwise E passes LEARNED, ECONOMICS and RENDER",
+   "C: neither E nor ER passes LEARNED (direct fits strong, learned generalisation inadequate)",
+   "D: otherwise (learning passes for at least one arm, but its economics or rendering fail)"
+  ]
+ },
+ "runtime_tests": {
+  "rel_median": 1e-05,
+  "rel_p999": 0.001,
+  "recip_max_rel": 0.0001,
+  "sampler_theta_deg": [
+   10,
+   45,
+   75,
+   89
+  ],
+  "sampler_samples": 262144,
+  "abs_slack": 0.002,
+  "z_max": 5.0,
+  "chi2_bins": [
+   16,
+   32
+  ],
+  "chi2_theta_deg": [
+   10,
+   45,
+   75
+  ],
+  "chi2_samples": 262144,
+  "chi2_quad": 16777216,
+  "chi2_min_p": 0.0001,
+  "list": "R0 binding, R1 Dr.Jit vs torch eval / pdf, R2 sampler (pdf consistency, valid fraction, albedo, chi-square), R3 reciprocity, R4 finiteness at grazing (pre-evidence, random / synthetic closures); R5 Dr.Jit own-sampler passivity audit on every DF / learned closure + 50 adversarial per arm (after training)"
+ },
+ "stage_A": "reference reproduction (data82 repro: WL81 targets bit-identical); WL82 focused tests T0-T10 and physical contract re-run on the stored WL82 fits; stored WL82 test_iid direct fits re-evaluated by eval83 == WL82 recorded medians (abs <= 1e-9); population independence. Any failure -> stop (outcome E).",
+ "bench": {
+  "n_materials": 8,
+  "ops": [
+   "eval",
+   "pdf",
+   "eval_pdf",
+   "sample"
+  ],
+  "sizes_io": [
+   1048576,
+   4194304,
+   16777216
+  ],
+  "sizes_fused": [
+   1048576,
+   4194304
+  ],
+  "reps": 10,
+  "warmup": 2,
+  "speedup_min_materials": 6,
+  "table_mode": "io, 1024-material compiled-state table, random material index per lane (state-gather bandwidth), C0 / E / ER",
+  "latency": "compiler forward + decode + state + runtime binding for 1 and 1024 materials"
+ },
+ "render": {
+  "arms": [
+   "C0_DF",
+   "E_DF",
+   "ER_DF",
+   "E_L",
+   "ER_L"
+  ],
+  "spp_test": 64,
+  "spp_hq": 4096,
+  "variance_passes": 8,
+  "hl_err_max": 0.1,
+  "materials": "test83_iid #0, #1; test83_hard #0, #1; WL82 parameterised finish gold_clearcoat_polished (not a measured BRDF)",
+  "lights": "render81 light 1 (key) and light 2 (grazing)",
+  "scene": "render81 scene (sphere + rotated cube on a white floor before a white wall), pose 0, 256 x 256, path max_depth 4 (limited indirect)",
+  "spp_per_launch": 128,
+  "launch_note": "128 samples per pixel are traced per launch (render83.render_b; the WL81 per-spp loop was CPU-bound at ~0 % GPU in the dev smoke); per-pixel variance is computed from the per-sample second moments"
+ },
+ "visuals": "results/evaluation/83/: transfer scatter (DF vs learned per material), training curves, albedo vs theta and normalised in-plane slices (selection by the learned E seed-8301 ranking: test83_iid best / median / worst, test83_hard median / worst), renders with error maps on one shared scale, GPU time bars",
+ "seeds": {
+  "materials": 83010,
+  "fit_dirs": 83020,
+  "fit_walks": 83030,
+  "eval_dirs": 83040,
+  "eval_walks": 83050,
+  "hl_walks": 83060,
+  "runtime_tests": 83070,
+  "audit": 83080,
+  "adversarial": 83090,
+  "bench": 83100,
+  "render": 83110,
+  "viz": 83120,
+  "compiler": [
+   8301,
+   8302
+  ]
+ },
+ "not_authorised": [
+  "new representation / basis / R / attenuation or refraction structure",
+  "hyperparameter sweeps",
+  "post hoc loss tuning",
+  "threshold or physical-criteria changes",
+  "training on evaluation materials",
+  "empirical passivity as a certificate",
+  "FNTO K/C or production changes",
+  "successor batches"
+ ]
+}
