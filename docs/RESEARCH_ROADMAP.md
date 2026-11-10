@@ -12,7 +12,27 @@ The latest completed controlled intervention is [WL64](worklogs/64_WORKLOG_DIREC
 
 [WL70](worklogs/70_WORKLOG_SUN_STATE_REUSE_C1.md) tested validity-aware reuse of the first-order direct-sun state on that C1 edit. The cached T0 state passed an explicit dependency contract: rest mesh, medium, rigid pose, material-frame sun and cameras, estimator, and a bit-identical replay of source visibility. It was physically identical to the retraced T1 state, and four invalidation controls were rejected. The CAK update fell from 24.6 s to 2.09 s with unchanged quality, narrowly beating quality-matched Cycles **re-rendering** (16 spp, 2.40 s under WL69 timing; equal under Blender's internal render time). This is an **11.8x intra-ReST-GI sun-reuse acceleration**, not a measured advantage over 8DNA T1 neural retraining. Cycles still meets the bare contract at 1 spp in 1.2 s. The diagnostic cache is not adopted.
 
-### Compiled neural material rules (WL80C–WL81, as of 2026-11-09)
+### Compiled neural material rules (WL80C–WL82, as of 2026-11-10)
+
+[WL82](worklogs/82_WORKLOG_INCIDENT_ENERGY_VS_REFRACTION_ANGULAR.md) attributed WL81's representation failure. **Outcome A by the frozen mapping: incident-dependent energy modulation is sufficient for the WL81 representation target in the tested scope.** Scope: one coated-conductor family, direct per-material fits, untouched test_iid. A refraction-aware extension is not demonstrated to be necessary for that target.
+
+- **Result on test_iid (E_L1 / E_alb medians, WL81 gate).**
+  - Physically admissible energy arm E (symmetric s(μ_i)s(μ_o) attenuation, softmax certificate): 0.073 / 0.007, passes R1–R3.
+  - C0, the WL81 basis under the same new fitting protocol: 0.120 / 0.037, fails.
+  - ER (E + coat-refracted inner lobes): 0.052 / 0.006, passes.
+  - test_block and 8 real-material finishes agree.
+- **Qualifiers.**
+  - Most of the WL81 → WL82 gap of C0 itself (0.18 → 0.12) comes from the per-incidence metric objective and the 64 × 64 fit data, not from a mechanism.
+  - Rescaling the energy of the C0 fit afterwards (oracle) recovers only 13 %. Refitting with the energy free per incidence (non-reciprocal Einc, or a shape-only R8 fit plus the oracle) reaches 0.084.
+  - In the predeclared failure cluster (thin slab, sharp and high-reflectance base; n = 10, not gated), the R8 angular ceiling stays at E_shape 0.18:
+    - E's outgoing attenuation lowers it to 0.084;
+    - ER's refraction to 0.069 (shape-focused fits);
+    - under the certificate, E 0.18 vs ER 0.11.
+  - ER's fitted η_e does not track the true coat IOR; it is a useful shape parameter, not an identified refraction.
+  - The softmax certificate costs E 0.073 vs 0.043 unbounded. The unbounded fits are empirically passive, so the cost comes from the sufficient condition, not from physics.
+- **Not tested.** No learned compiler, no GPU / rendering utility. Nothing is adopted into canonical FNTO; no successor is authorised.
+
+**Earlier (WL81, 2026-11-09):**
 
 [WL81](worklogs/81_WORKLOG_COMPILED_NEURAL_MATERIAL_RULES_UTILITY.md) stopped at its Stage C gate. **REPRESENTATION_CAPACITY failed (clear fail)** for every energy arm, so the learned compiler was **not trained** (LEARNED_RULE_GENERALIZATION NOT TESTED; GPU, compression and rendering utility NOT REACHED). FNTO_COMPONENT_VIABILITY: NOT SUPPORTED, with one-family scope.
 - **Setup.** The reference is a qualified expensive family: a layered coated conductor (random walk; independent volpath check |z| ≤ 2.15). The fixed R = 8 compiled closure was fitted directly per material.

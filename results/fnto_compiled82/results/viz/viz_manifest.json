@@ -1,0 +1,173 @@
+{
+ "selection_rule": "predeclared, by the C0_cert_metric control ranking (never by a candidate): gate = materials 139 (WL81 worst), 222 (WL81 sharp_base), and the best / median / worst of C0_cert_metric per-material mean E_L1; test_iid = best / median / worst of C0_cert_metric and the failure-cluster member with the largest C0 error; real = all 8",
+ "files": [
+  "/home/nd/rest_compiled82/results/viz/gate_inplane_eval.png",
+  "/home/nd/rest_compiled82/results/viz/gate_inplane_shape.png",
+  "/home/nd/rest_compiled82/results/viz/gate_albedo_vs_theta.png",
+  "/home/nd/rest_compiled82/results/viz/gate_highlight_grids.png",
+  "/home/nd/rest_compiled82/results/viz/test_iid_inplane_eval.png",
+  "/home/nd/rest_compiled82/results/viz/test_iid_inplane_shape.png",
+  "/home/nd/rest_compiled82/results/viz/test_iid_albedo_vs_theta.png",
+  "/home/nd/rest_compiled82/results/viz/test_iid_highlight_grids.png",
+  "/home/nd/rest_compiled82/results/viz/real_inplane_eval.png",
+  "/home/nd/rest_compiled82/results/viz/real_inplane_shape.png",
+  "/home/nd/rest_compiled82/results/viz/real_albedo_vs_theta.png",
+  "/home/nd/rest_compiled82/results/viz/real_highlight_grids.png",
+  "/home/nd/rest_compiled82/results/viz/test_iid_distributions.png",
+  "/home/nd/rest_compiled82/results/viz/decomposition_bars.png",
+  "/home/nd/rest_compiled82/results/viz/real_spheres_light1.png",
+  "/home/nd/rest_compiled82/results/viz/real_spheres_light2.png"
+ ],
+ "materials": {
+  "gate": {
+   "wl81_worst_139": {
+    "index": 139,
+    "descriptor": [
+     0.25362745201998943,
+     1.3292513564710293,
+     0.021908972653144315,
+     0.7208913738709989,
+     0.7626781609331191,
+     0.8322096487271161,
+     0.6727471431543385,
+     0.9693137503037587,
+     0.43048852589852415,
+     0.05855125534866836
+    ],
+    "C0_E_L1_mean": 0.3944098949432373
+   },
+   "wl81_sharp_base_222": {
+    "index": 222,
+    "descriptor": [
+     0.13079366226610759,
+     1.7958564166500202,
+     0.021792833027934107,
+     0.042155432353653655,
+     0.34460114337940545,
+     0.25573071982267837,
+     0.19068438446166702,
+     0.9512706974274187,
+     0.8637322134485246,
+     0.050943332116625176
+    ],
+    "C0_E_L1_mean": 0.2589671015739441
+   },
+   "best_C0": {
+    "index": 20,
+    "descriptor": [
+     0.2161436247535037,
+     1.309215610471392,
+     1.7073995149306356,
+     0.5943563022003698,
+     0.2973664730679539,
+     0.5498852845005823,
+     0.27969643560228785,
+     0.7204642260326642,
+     0.6346366353411567,
+     0.14399268047361063
+    ],
+    "C0_E_L1_mean": 0.033623434603214264
+   },
+   "median_C0": {
+    "index": 195,
+    "descriptor": [
+     0.14426024524122072,
+     1.5217842064673577,
+     0.4697986911381867,
+     0.23832689097515525,
+     0.016432813626041525,
+     0.22448026315553057,
+     0.9084796283504297,
+     0.3573346824487511,
+     0.522213680741131,
+     0.3244449408097034
+    ],
+    "C0_E_L1_mean": 0.1333712339401245
+   },
+   "worst_C0": {
+    "index": 202,
+    "descriptor": [
+     0.42718469660664743,
+     1.4264786102579792,
+     0.060145500260789686,
+     0.4345780523909415,
+     0.07636176540373728,
+     0.8236074260666811,
+     0.8253625596113708,
+     0.6462585857054188,
+     0.7976988430249162,
+     0.07491668574413396
+    ],
+    "C0_E_L1_mean": 0.3988036811351776
+   }
+  },
+  "test_iid": {
+   "best_C0": {
+    "index": 283,
+    "descriptor": [
+     0.19742082013434806,
+     1.4401612490955673,
+     0.9872057274846257,
+     0.7685176845372952,
+     0.3358962060895158,
+     0.14013485854985575,
+     0.3919875549875689,
+     0.3169901698290445,
+     0.25471573553957627,
+     0.14458435352175078
+    ],
+    "C0_E_L1_mean": 0.03548455238342285
+   },
+   "median_C0": {
+    "index": 178,
+    "descriptor": [
+     0.24091391323192515,
+     1.3892264166483965,
+     0.2877248378233002,
+     0.0672075760442977,
+     0.3454099576013349,
+     0.4059992987718806,
+     0.3281622216790904,
+     0.28437847174983455,
+     0.14100494609677494,
+     0.1022107140011219
+    ],
+    "C0_E_L1_mean": 0.12979379296302795
+   },
+   "worst_C0": {
+    "index": 138,
+    "descriptor": [
+     0.2727473840300288,
+     1.3500227443537514,
+     0.04362332090674804,
+     0.5238157308225986,
+     0.03402384796979313,
+     0.17195295929203971,
+     0.48617137992411436,
+     0.5923293212105061,
+     0.9516325212237223,
+     0.05416032690928547
+    ],
+    "C0_E_L1_mean": 0.4468028247356415
+   },
+   "cluster_worst_C0": {
+    "index": 138,
+    "descriptor": [
+     0.2727473840300288,
+     1.3500227443537514,
+     0.04362332090674804,
+     0.5238157308225986,
+     0.03402384796979313,
+     0.17195295929203971,
+     0.48617137992411436,
+     0.5923293212105061,
+     0.9516325212237223,
+     0.05416032690928547
+    ],
+    "C0_E_L1_mean": 0.4468028247356415
+   }
+  }
+ },
+ "highlight_err_max_observed": 11.635577724368583,
+ "sphere_err_max": 1.8662095069885254
+}

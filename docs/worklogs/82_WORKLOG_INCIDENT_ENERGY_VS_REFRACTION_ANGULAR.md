@@ -106,3 +106,221 @@ Dev root `~/rest_compiled82_dev`: 16 materials per WL81 set, 8 real materials, 2
 - One fit saturates the GPU: ER 58–63 ms/step, C0 26–32 ms/step, peak 1.6 GB. Four concurrent processes bring no throughput gain, so the chain uses MAXJ = 2.
 - `torch.compile` was probed and **rejected**. It is 2.2–2.5× faster, but its forward deviates from eager by about 3 % on the s(μ) arms, and compiled reruns are not bit-identical. All fits are eager.
 - Expected main-run wall clock: about 6.5–7 h.
+
+## Freeze and run
+
+- **Freeze.** Commit `705db09`: protocol v1 and all WL82 code. Deployed with `git -c core.autocrlf=false archive` to `~/rest_compiled82/code`.
+- **Chain.** One detached chain, `run82.sh`, on LabServer63 (main server, idle), started 2026-11-09 15:54 UTC and finished 2026-11-10 00:17 UTC (about 8.4 h).
+
+| Stage | UTC | Result |
+|---|---|---|
+| R reference reproduction | 15:54 | REPRODUCED: WL81 `eval_gate` / `fit_gate` prefixes bit-identical |
+| D data | 15:54–15:56 | fit sets 4 × (64 wi × 64 wo × 1024 walks); real evaluation set passes the WL81 noise rule at 4096 walks; independent albedo sets: relative SE of A_ref 0.32–0.36 % (median) |
+| T focused tests | 15:56–15:57 | PASS: T0 nesting ≤ 4.9e-12, T5 sampler / pdf max z 3.2 and χ² min p 0.014, T6 Jacobian max z 0.34, T8 bit-identical, T9 no overlaps / seed clashes, T10 identity |
+| FG gate fits (30) + EG | 15:57–20:15 | |
+| CONV | 20:15 | every arm converged (largest Δ 0.0039, E_cert); no escalation; perturbed-init spread ≤ 0.0019 |
+| FH holdout and real fits (30) + EH | 20:15–00:10 | |
+| K physical contract | 00:10–00:15 | cert arms PASS |
+| V visuals, X verdict | 00:15–00:17 | **OUTCOME A** |
+
+**Post-chain additions** (do not change any verdict):
+- `bench82_posthoc.py` runs the evaluation-throughput measurement that the protocol declares in `evaluation.metrics` but the frozen chain code omitted.
+- The independent review checks below.
+
+## Final report
+
+### Implementation Fact
+
+- **Arms.** All keep the WL81 corrected R = 8 lobes.
+  - **C0** (48 parameters / 53 state floats).
+  - **E**: inner-group (Lambert + GGX 4–7) symmetric attenuation s(μ_i)s(μ_o); s is piecewise linear on 5 μ knots per channel (63 / 68).
+  - **Einc**: incident-only s(μ_i) on the whole closure; non-reciprocal diagnostic (63 / 68).
+  - **ER**: E plus the inner GGX lobes evaluated at coat-refracted directions with the η⁻² solid-angle Jacobian and one fitted η_e ∈ [1, 2.5] (64 / 69).
+  - **Energy modes:** cert (softmax Σλ ≤ 1, a mathematical sufficient condition for passivity, with the solid-angle identity for refracted lobes) and unb (softplus, diagnostic).
+- **Fits.** Per-material direct fits on new fit sets of 64 wi × 64 wo.
+  - Objectives: metric (per-incidence relative L1 + albedo error) or shape (per-incidence normalised TV).
+  - WL81 Adam schedule, 12000 steps.
+  - Gate set additionally: 6000-step and perturbed-init runs.
+- **Evaluation.** WL81 evaluation sets and WL81 metrics (E_L1, E_alb, highlight) and thresholds, plus:
+  - E_shape;
+  - an oracle albedo correction from independent albedo samples;
+  - the algebraic identity check;
+  - strata, the failure cluster and named materials;
+  - 8 real-material finishes with sphere images.
+- **Not done.**
+  - No learned compiler; no Dr.Jit runtime for E / ER; no GPU runtime, compression or rendering utility.
+  - No FNTO or production change.
+  - WL80C / WL80D / WL81 code and evidence are unchanged.
+
+### Measurement
+
+**Reference validity.**
+- WL81 targets reproduced bit-identically. The WL81 Stage C numbers are reproduced through the WL82 evaluator: control 0.21273, candidate and unbounded 0.18248, peak errors identical.
+- E_shape noise medians are 0.007 (gate / test_iid), 0.004 (test_block) and 0.011 (real). Every value is ≤ 1/4 of the threshold.
+- Oracle identity (same-sample oracle E_L1 vs E_shape): max deviation ≤ 4.4e-16 for every arm and set. No zero-albedo channels occurred.
+
+**Optimisation.**
+- 12000 vs 6000 steps: |Δ median| ≤ 0.0039 for every arm, so every arm counts as converged.
+- Perturbed-init spread ≤ 0.0019.
+
+**test_iid (primary, untouched holdout), primary fits.**
+
+| Arm | E_L1 median / p90 / max | E_alb median / p95 | E_shape median / p90 | Oracle E_L1 median | Grazing E_L1 | Peak ° / \|log w\| | WL81 gate |
+|---|---|---|---|---|---|---|---|
+| C0_cert (control) | 0.120 / 0.261 / 0.76 | 0.037 / 0.152 | 0.105 / 0.236 | 0.105 | 0.189 | 0.74 / 0.090 | FAIL (R1, R2) |
+| C0_unb | 0.119 / 0.260 / 0.76 | 0.037 / 0.154 | 0.105 / 0.236 | 0.104 | 0.190 | 0.77 / 0.090 | FAIL |
+| **E_cert** | **0.073 / 0.173 / 0.39** | **0.007 / 0.035** | 0.072 / 0.174 | 0.072 | 0.109 | 0.57 / 0.055 | **PASS** |
+| E_unb | 0.043 / 0.099 / 0.27 | 0.004 / 0.022 | 0.043 / 0.099 | 0.043 | 0.048 | 0.51 / 0.031 | PASS |
+| Einc_unb (diagnostic) | 0.084 / 0.166 / 0.40 | 0.006 / 0.025 | 0.084 / 0.166 | 0.084 | 0.090 | 0.61 / 0.049 | PASS |
+| **ER_cert** | **0.052 / 0.113 / 0.32** | **0.006 / 0.029** | 0.052 / 0.111 | 0.052 | 0.083 | 0.54 / 0.044 | **PASS** |
+| ER_unb | 0.038 / 0.073 / 0.17 | 0.005 / 0.022 | 0.037 / 0.073 | 0.037 | 0.050 | 0.57 / 0.022 | PASS |
+| C0_unb_shape (D2) | (energy free) | — | 0.083 / 0.165 | 0.084 / 0.165 | — | 0.65 / 0.053 | oracle PASS |
+| E_unb_shape | (energy free) | — | 0.040 / 0.090 | 0.041 | — | 0.57 / 0.027 | oracle PASS |
+| ER_unb_shape | (energy free) | — | 0.032 / 0.068 | 0.032 | — | 0.63 / 0.021 | oracle PASS |
+
+**Gate set (development; WL81-inspected), Stage A items.**
+- A: WL81 frozen fits, control / candidate E_L1 0.213 / 0.182.
+- B: A + oracle, 0.193 / 0.168.
+- C0 metric refit 0.119, + oracle 0.106.
+- C: shape-focused R8, E_shape 0.084.
+- D: C + oracle, E_L1 0.084.
+- E_cert 0.073, Einc 0.085, ER_cert 0.055. The gate numbers agree with test_iid to within 0.003.
+
+**test_block** (region check, R1 / R2 only; no highlight set):
+
+| Arm | E_L1 median | E_alb median | R1 / R2 |
+|---|---|---|---|
+| C0_cert | 0.082 | 0.039 | R1 pass, R2 fail |
+| E_cert | 0.059 | 0.014 | both pass |
+| ER_cert | 0.053 | 0.016 | both pass |
+
+**Real materials** (8 finishes, full WL81 gate):
+
+| Arm | E_L1 median / p90 | E_alb median | Gate |
+|---|---|---|---|
+| C0_cert | 0.147 / 0.297 | 0.030 | FAIL |
+| E_cert | 0.093 / 0.227 | 0.012 | PASS (\|log w\| 0.113 against 0.14) |
+| ER_cert | 0.067 / 0.152 | 0.008 | PASS |
+
+Per-material mean E_L1, C0 → E → ER:
+
+| Finish | C0 | E | ER |
+|---|---|---|---|
+| polished clear-coated gold | 0.265 | 0.236 | 0.140 |
+| thin-varnish chrome | 0.214 | 0.158 | 0.089 |
+| satin brass | 0.183 | 0.115 | 0.074 |
+| copper | 0.201 | 0.139 | 0.138 |
+| milky silver | 0.107 | 0.041 | 0.041 |
+
+**Failure cluster** (predeclared: lowest-tercile τ, lowest-tercile α_b, highest-tercile reflectance; test_iid n = 10, gate n = 12; not gated). Medians of per-material mean E_L1 on test_iid:
+
+| Arm | E_L1 | E_shape | E_alb |
+|---|---|---|---|
+| C0_cert | 0.255 | 0.231 | 0.089 |
+| Einc | 0.180 | 0.181 | — |
+| R8 shape-focused (energy free) | — | 0.181 | — |
+| E_cert | 0.184 | 0.185 | 0.017 |
+| E_unb | 0.094 | — | — |
+| E shape-focused | — | 0.084 | — |
+| ER_cert | 0.109 | 0.108 | 0.009 |
+| ER_unb | 0.067 | — | — |
+| ER shape-focused | — | 0.069 | — |
+
+**Named gate materials** (mean E_L1 / E_shape):
+
+| Material | C0 | Einc | E_cert | ER_cert | R8 shape fit (E_shape) | ER shape fit (E_shape) |
+|---|---|---|---|---|---|---|
+| #139 | 0.394 / 0.357 | 0.272 | 0.286 | 0.151 | 0.268 | 0.103 |
+| #222 | 0.259 | 0.185 | 0.193 | 0.121 | 0.184 | 0.071 |
+
+**Physical contract** (fitted closures of every set + 50 adversarial per arm; 958 closures, 45,984 audit rows).
+- **Cert arms C0 / E / ER: PASS.**
+  - Reciprocity max rel ≤ 1.0e-13.
+  - Non-negative and finite, including μ = 0 and 1e-12.
+  - Σλ ≤ 1, s ∈ [2e-5, 1], η_e ∈ [1, 2.5].
+  - Own-sampler audit: 0 violations; max albedo 1.004 (C0, within se), 0.977 (E), 0.972 (ER).
+- **Unbounded arms** (report only):
+  - violations only in about 5.2 % of closures, i.e. the 50 adversarial closures (plus one fitted C0_unb closure);
+  - fitted E_unb / ER_unb closures had max albedo ≤ 1 at every audited direction.
+- **Einc** is non-reciprocal, as designed (max rel 1.0).
+
+**Fitted mechanism parameters.**
+- E's s profile (median over materials, μ = 0 / .15 / .4 / .7 / 1): 0.57 / 0.74 / 0.90 / 0.95 / 0.99 on test_iid, i.e. falling towards grazing.
+- ER's η_e does not track the true coat IOR:
+  - correlation −0.20 to +0.14 across arms and sets;
+  - median |η_e − η| 0.35–0.67;
+  - 10th / 90th percentiles at the range limits 1.0 / 2.5 on gate and test_iid;
+  - η_e ≈ 1 (that is, E) on test_block.
+
+**Cost.**
+- Evaluation throughput (post-chain, torch eager, 2^22 lanes, relative to C0 at 4.7 ns/eval): Einc 1.12×, E 1.63×, ER 1.72×.
+- Fit step at 300 materials: C0 26–32 ms, ER 58–63 ms.
+- Runtime state: 53 / 68 / 69 floats (C0 / E / ER).
+
+### Observation
+
+1. **The WL81 representation failure is removed by incident-dependent energy modulation at the population level.**
+   - The physically admissible E passes every WL81 representation criterion on the untouched test_iid, on test_block (R1 / R2) and on the real set.
+   - The WL82 C0 control under the same protocol fails R1 and R2.
+2. **Part of WL81's failure was the fitting protocol, not the basis.**
+   - The same C0 basis drops from 0.18 (WL81 log1p objective, 64 × 16 data) to 0.12 under the per-incidence metric objective and 64 × 64 data. That is still a fail, with E_alb 0.037.
+3. **Rescaling energy after the fact is not enough; refitting with free energy is.**
+   - The oracle applied to the C0 fit lowers E_L1 only 0.120 → 0.105 (energy share 13 %), because the C0 fit already compromised its shape to match energy with incidence-independent weights.
+   - When energy is free during fitting, R8 reaches 0.084: the non-reciprocal Einc and the shape-focused R8 fit plus the oracle give the same number. That passes R1.
+   - The reciprocal E reaches 0.073, i.e. better than pure energy (its outgoing attenuation also reshapes the distribution: E_shape 0.072 < 0.084).
+4. **Refraction adds further accuracy everywhere and matters most in the failure cases, but it is not needed for the population target.**
+   - ER_cert vs E_cert: 0.052 vs 0.073 overall; 0.109 vs 0.184 in the failure cluster; 0.151 vs 0.286 on #139.
+   - The shape-focused angular ceiling falls from R8 0.083 to E 0.040 to ER 0.032 overall, and from 0.181 to 0.084 to 0.069 in the cluster.
+5. **The certificate is conservative for E / ER.**
+   - The unbounded E / ER fits are clearly better (0.043 / 0.038) and were empirically passive at every audited direction.
+   - So the cert gap is the price of the Σλ ≤ 1 sufficient condition. Consistent with the design-time expectation: a coat lobe rising to Fresnel 1 at grazing and a base attenuated by transmission sum to ≤ 1 physically but need Σλ > 1.
+6. **Visuals.**
+   - C0's directional albedo is flat with θ_i where the reference falls (#139, #202). E and ER follow the reference.
+   - C0 fits contain a spurious narrow mirror spike (normalised slices). The ER slices follow the reference tails most closely.
+
+### Interpretation (inference)
+
+**H1 is supported in the tested scope.** WL81's failure was mainly that an R = 8 closure with incidence-independent weights cannot express a directional albedo that falls with incidence; a compact, reciprocal, certified incident-dependent attenuation suffices for the WL81 representation target.
+
+**H2 (necessity) is not supported for that target.** But the refraction-aware angular mechanism is not empty:
+- in the predeclared thin-slab / sharp / high-reflectance cluster, the R8 angular basis has an E_shape ceiling of about 0.18 even with perfect energy;
+- the outgoing attenuation of E halves it;
+- refraction lowers it further.
+
+The fitted η_e does not identify the physical coat index. ER's gain should be read as a useful refraction-shaped angular degree of freedom, not as evidence that the representation learned the coat's refraction.
+
+### Unresolved Question
+
+- **Cluster-level adequacy.** Failure-cluster medians stay above 0.10 for E_cert (0.18) and ER_cert (0.11). Whether a cluster-level criterion would require ER, or something beyond it, was not predeclared and is not decided here.
+- **η_e identifiability.** Fitted values hit the range limits. Whether a descriptor-tied η, or a wider range, would change ER is untested.
+- **Certificate tightness.** A passivity certificate that allows the coat-Fresnel / base-transmission complementarity (Σλ > 1 with a proof) was not attempted.
+- **Learned compiler generalisation** of E / ER, sampling efficiency with the new mechanisms, Dr.Jit runtime, GPU / rendering utility: all untested.
+- **Generality** beyond this coated-conductor family.
+
+### Architecture Verdict
+
+| Entry | Verdict | Evidence / scope |
+|---|---|---|
+| Implementation Readiness | READY | T0–T10 pass; reproduction bit-identical |
+| Reference Validity | QUALIFIED | bit-identical WL81 targets; E_shape noise ≤ 0.011; A_ref^ind SE 0.33 % |
+| Optimisation Sufficiency | SUFFICIENT | Δ ≤ 0.0039, reinit ≤ 0.0019; no escalation |
+| Energy Representation | SUPPORTED (E_cert passes R2: E_alb 0.007 / 0.035) | the certificate costs fidelity (cert 0.073 vs unb 0.043) |
+| Angular Representation | R8 sufficient for the population target once energy is free (0.084); insufficient in the failure cluster (0.18) | ER is the best tested angular family (0.032 / 0.069 shape ceiling); η_e not physically identified |
+| Physical Validity | PASS for C0 / E / ER cert (certificate + T1–T4) | unb / Einc report only |
+| Runtime Feasibility | measured descriptively only (eval 1.63× / 1.72× C0) | no runtime-utility claim |
+
+**Completion answer.**
+- Correcting incident-dependent energy explains WL81's representation failure at the level of the WL81 target. **Outcome A.**
+- A refraction-aware angular mechanism is not required to reach that target. In the thin-slab, sharp, high-reflectance cases it is the mechanism that further reduces the remaining angular error.
+- A failed direct fit is not a capacity proof, and an improved metric is not a validated production architecture.
+- Nothing is adopted into canonical FNTO; no successor is authorised.
+
+### Reproducibility
+
+- **Commits:** protocol + code `705db09`; post-chain throughput script and this report in the closing commit.
+- **Server:** `~/rest_compiled82` (`code/COMMIT`, `chain.status`, `results/`).
+- **Local copy:** `results/fnto_compiled82/results/`: JSONs, lane npz, fitted parameters, logs, contract, tests, `verdict82.json`, `bench82_posthoc.json`.
+- **WL81 inputs:** sha256 in `results/fnto_compiled81/results/data_sha256.txt`.
+- **Seeds:** protocol `seeds` (82010–82120); throughput 82200.
+- **Environment:** Mitsuba 3.5.1 `cuda_ad_rgb`, Dr.Jit 0.4.6, torch 2.3.1+cu121 (eager), RTX 3080 Ti, LabServer63.
+- **Visuals:** `results/evaluation/82/` (manifest with sha256 and scales). Every figure is computed from the fitted parameters and the reference walks of the evaluated sets; materials are selected by the C0 control ranking.

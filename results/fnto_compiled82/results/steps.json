@@ -1,0 +1,95 @@
+{
+ "rule": "predeclared on the gate set: for each fit arm, Delta = |median(12000) - median(6000)| of its own objective metric on the gate EVALUATION set (E_L1 for metric arms, E_shape for shape arms). Converged iff Delta <= 0.005. A non-converged arm is fitted at 24000 steps on the gate set and on every holdout / real set, and its 24000-step fits are its primary fits (one escalation, no further change); the label OPTIMISATION_LIMITED is attached if Delta(24000 vs 12000) > 0.005 too. The perturbed-init spread is reported (not a rule).",
+ "arms": {
+  "C0_cert_metric": {
+   "median_12000": 0.11913225824692052,
+   "median_6000": 0.11964547277124526,
+   "delta": 0.0005132145243247482,
+   "median_reinit_12000": 0.1191499495234789,
+   "reinit_spread": 1.7691276558387536e-05,
+   "converged": true,
+   "steps": 12000
+  },
+  "C0_unb_metric": {
+   "median_12000": 0.11886401600719008,
+   "median_6000": 0.11962400434390091,
+   "delta": 0.000759988336710829,
+   "median_reinit_12000": 0.11895184894750317,
+   "reinit_spread": 8.78329403130873e-05,
+   "converged": true,
+   "steps": 12000
+  },
+  "E_cert_metric": {
+   "median_12000": 0.07301881033860647,
+   "median_6000": 0.07688582997070115,
+   "delta": 0.0038670196320946815,
+   "median_reinit_12000": 0.07108771458011015,
+   "reinit_spread": 0.001931095758496315,
+   "converged": true,
+   "steps": 12000
+  },
+  "E_unb_metric": {
+   "median_12000": 0.04402458539137972,
+   "median_6000": 0.0477655237875201,
+   "delta": 0.0037409383961403836,
+   "median_reinit_12000": 0.044007421379282874,
+   "reinit_spread": 1.7164012096844428e-05,
+   "converged": true,
+   "steps": 12000
+  },
+  "Einc_unb_metric": {
+   "median_12000": 0.08469961200450987,
+   "median_6000": 0.08553285726662596,
+   "delta": 0.0008332452621160891,
+   "median_reinit_12000": 0.08473075916491579,
+   "reinit_spread": 3.1147160405919916e-05,
+   "converged": true,
+   "steps": 12000
+  },
+  "ER_cert_metric": {
+   "median_12000": 0.054574280672665565,
+   "median_6000": 0.05634429448214036,
+   "delta": 0.0017700138094747936,
+   "median_reinit_12000": 0.05469628145292979,
+   "reinit_spread": 0.00012200078026422534,
+   "converged": true,
+   "steps": 12000
+  },
+  "ER_unb_metric": {
+   "median_12000": 0.036637691285691124,
+   "median_6000": 0.038861911266619795,
+   "delta": 0.002224219980928671,
+   "median_reinit_12000": 0.03717576671156287,
+   "reinit_spread": 0.0005380754258717466,
+   "converged": true,
+   "steps": 12000
+  },
+  "C0_unb_shape": {
+   "median_12000": 0.08397306944222005,
+   "median_6000": 0.08432527916365633,
+   "delta": 0.00035220972143627793,
+   "median_reinit_12000": 0.08401694703747115,
+   "reinit_spread": 4.3877595251096135e-05,
+   "converged": true,
+   "steps": 12000
+  },
+  "E_unb_shape": {
+   "median_12000": 0.041945138175851215,
+   "median_6000": 0.0431174702765572,
+   "delta": 0.0011723321007059834,
+   "median_reinit_12000": 0.041937358922128194,
+   "reinit_spread": 7.779253723021184e-06,
+   "converged": true,
+   "steps": 12000
+  },
+  "ER_unb_shape": {
+   "median_12000": 0.030958973138977684,
+   "median_6000": 0.03232404342253982,
+   "delta": 0.001365070283562135,
+   "median_reinit_12000": 0.03106434176550024,
+   "reinit_spread": 0.0001053686265225541,
+   "converged": true,
+   "steps": 12000
+  }
+ }
+}

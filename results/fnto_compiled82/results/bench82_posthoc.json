@@ -1,0 +1,33 @@
+{
+ "lanes": 4194304,
+ "note": "torch eager, float32, eval only (no sampling); descriptive, not a runtime-utility claim",
+ "C0_cert_metric": {
+  "median_s": 0.019623279571533203,
+  "ns_per_eval": 4.6785544327576645,
+  "state_floats": 53,
+  "params": 48,
+  "ratio_vs_C0": 1.0
+ },
+ "E_cert_metric": {
+  "median_s": 0.032016873359680176,
+  "ns_per_eval": 7.633417453689617,
+  "state_floats": 68,
+  "params": 63,
+  "ratio_vs_C0": 1.6315760697883508
+ },
+ "Einc_unb_metric": {
+  "median_s": 0.02200794219970703,
+  "ns_per_eval": 5.247102308203466,
+  "state_floats": 68,
+  "params": 63,
+  "ratio_vs_C0": 1.1215221247539668
+ },
+ "ER_cert_metric": {
+  "median_s": 0.033799052238464355,
+  "ns_per_eval": 8.058322009674157,
+  "state_floats": 69,
+  "params": 64,
+  "ratio_vs_C0": 1.7223956941170753
+ },
+ "gpu_procs_before": "1731520, 3360 MiB\n"
+}

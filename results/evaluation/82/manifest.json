@@ -1,0 +1,244 @@
+{
+ "worklog": "docs/worklogs/82_WORKLOG_INCIDENT_ENERGY_VS_REFRACTION_ANGULAR.md",
+ "commit": "705db09",
+ "arms_shown": "reference (layered81 random walks), C0_cert_metric (control), E_cert_metric, ER_cert_metric, C0_unb_shape (R8 shape-focused fit; its energy is free per incidence by construction)",
+ "selection_rule": "predeclared, by the C0_cert_metric control ranking (never by a candidate): gate = materials 139 (WL81 worst), 222 (WL81 sharp_base), and the best / median / worst of C0_cert_metric per-material mean E_L1; test_iid = best / median / worst of C0_cert_metric and the failure-cluster member with the largest C0 error; real = all 8",
+ "materials": {
+  "gate": {
+   "wl81_worst_139": {
+    "index": 139,
+    "descriptor": [
+     0.25362745201998943,
+     1.3292513564710293,
+     0.021908972653144315,
+     0.7208913738709989,
+     0.7626781609331191,
+     0.8322096487271161,
+     0.6727471431543385,
+     0.9693137503037587,
+     0.43048852589852415,
+     0.05855125534866836
+    ],
+    "C0_E_L1_mean": 0.3944098949432373
+   },
+   "wl81_sharp_base_222": {
+    "index": 222,
+    "descriptor": [
+     0.13079366226610759,
+     1.7958564166500202,
+     0.021792833027934107,
+     0.042155432353653655,
+     0.34460114337940545,
+     0.25573071982267837,
+     0.19068438446166702,
+     0.9512706974274187,
+     0.8637322134485246,
+     0.050943332116625176
+    ],
+    "C0_E_L1_mean": 0.2589671015739441
+   },
+   "best_C0": {
+    "index": 20,
+    "descriptor": [
+     0.2161436247535037,
+     1.309215610471392,
+     1.7073995149306356,
+     0.5943563022003698,
+     0.2973664730679539,
+     0.5498852845005823,
+     0.27969643560228785,
+     0.7204642260326642,
+     0.6346366353411567,
+     0.14399268047361063
+    ],
+    "C0_E_L1_mean": 0.033623434603214264
+   },
+   "median_C0": {
+    "index": 195,
+    "descriptor": [
+     0.14426024524122072,
+     1.5217842064673577,
+     0.4697986911381867,
+     0.23832689097515525,
+     0.016432813626041525,
+     0.22448026315553057,
+     0.9084796283504297,
+     0.3573346824487511,
+     0.522213680741131,
+     0.3244449408097034
+    ],
+    "C0_E_L1_mean": 0.1333712339401245
+   },
+   "worst_C0": {
+    "index": 202,
+    "descriptor": [
+     0.42718469660664743,
+     1.4264786102579792,
+     0.060145500260789686,
+     0.4345780523909415,
+     0.07636176540373728,
+     0.8236074260666811,
+     0.8253625596113708,
+     0.6462585857054188,
+     0.7976988430249162,
+     0.07491668574413396
+    ],
+    "C0_E_L1_mean": 0.3988036811351776
+   }
+  },
+  "test_iid": {
+   "best_C0": {
+    "index": 283,
+    "descriptor": [
+     0.19742082013434806,
+     1.4401612490955673,
+     0.9872057274846257,
+     0.7685176845372952,
+     0.3358962060895158,
+     0.14013485854985575,
+     0.3919875549875689,
+     0.3169901698290445,
+     0.25471573553957627,
+     0.14458435352175078
+    ],
+    "C0_E_L1_mean": 0.03548455238342285
+   },
+   "median_C0": {
+    "index": 178,
+    "descriptor": [
+     0.24091391323192515,
+     1.3892264166483965,
+     0.2877248378233002,
+     0.0672075760442977,
+     0.3454099576013349,
+     0.4059992987718806,
+     0.3281622216790904,
+     0.28437847174983455,
+     0.14100494609677494,
+     0.1022107140011219
+    ],
+    "C0_E_L1_mean": 0.12979379296302795
+   },
+   "worst_C0": {
+    "index": 138,
+    "descriptor": [
+     0.2727473840300288,
+     1.3500227443537514,
+     0.04362332090674804,
+     0.5238157308225986,
+     0.03402384796979313,
+     0.17195295929203971,
+     0.48617137992411436,
+     0.5923293212105061,
+     0.9516325212237223,
+     0.05416032690928547
+    ],
+    "C0_E_L1_mean": 0.4468028247356415
+   },
+   "cluster_worst_C0": {
+    "index": 138,
+    "descriptor": [
+     0.2727473840300288,
+     1.3500227443537514,
+     0.04362332090674804,
+     0.5238157308225986,
+     0.03402384796979313,
+     0.17195295929203971,
+     0.48617137992411436,
+     0.5923293212105061,
+     0.9516325212237223,
+     0.05416032690928547
+    ],
+    "C0_E_L1_mean": 0.4468028247356415
+   }
+  }
+ },
+ "scales": {
+  "highlight_error_maps": "sqrt |closure - reference|, one batch-wide scale (max 11.64 over all shown highlight cases)",
+  "sphere_error_maps": "sqrt mean_c |closure - reference|, one shared scale (max 1.866)",
+  "sphere_images": "tone map x/(1+x), gamma 2.2; direct lighting at the surface, no GI"
+ },
+ "source_arrays": "results/fnto_compiled82/results/eval/lanes82_<set>.npz (per-group metrics), fit/*.npz (fitted parameters)",
+ "files": [
+  {
+   "file": "decomposition_bars.png",
+   "sha256": "b77ce29395ef26e1f9a71d14a7ebc6092ec04246f3e471a9bbd6454026a1bdff",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/decomposition_bars.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "gate_albedo_vs_theta.png",
+   "sha256": "8f55fc7a4a1ef0cedc03fbf20cdc0da6460a9a8638c567d142886d7a5f174c0d",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/gate_albedo_vs_theta.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "gate_highlight_grids.png",
+   "sha256": "8890f0ee324ee7aaab7052d4c97fbbd14ab3aa9675711ba0e182309db4c19339",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/gate_highlight_grids.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "gate_inplane_eval.png",
+   "sha256": "b3bff991068fef2f0b0e893f76ad90d2e2f3628f9e21444ba785de2ec6901e15",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/gate_inplane_eval.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "gate_inplane_shape.png",
+   "sha256": "a03e724163b68f925fd912c2be71de872d32cb05d923c34ce1c3779ff08766d2",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/gate_inplane_shape.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "real_albedo_vs_theta.png",
+   "sha256": "decd27788b35930afed03e1b26ca687a839c3b052818913c4c8d7de6bd43b629",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/real_albedo_vs_theta.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "real_highlight_grids.png",
+   "sha256": "422143906c2473d4078ff0d7c0ba61e9e084d20062d204a4f78a7cc184df842c",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/real_highlight_grids.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "real_inplane_eval.png",
+   "sha256": "f7aeb8324ea3298b2815c47e7f6ad1ab90d298238ecb9a61193046573ce0ed01",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/real_inplane_eval.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "real_inplane_shape.png",
+   "sha256": "f8558a2a5346e402f6023806300277d956670fbd66f55021c6e7c197e6e5d776",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/real_inplane_shape.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "real_spheres_light1.png",
+   "sha256": "10ae83bc7608cf9d918ffa56c1144b727692f08ec945b88bbe2e354d12353a91",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/real_spheres_light1.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "real_spheres_light2.png",
+   "sha256": "b021f2e0917d3ed21834f92066bb4d9ae3a76b9132681db4d1670b80eb6e6d51",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/real_spheres_light2.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "test_iid_albedo_vs_theta.png",
+   "sha256": "71e3e9320e7f3be32c1dd87f62b8cf1aef6fd68f6aed1ca646b1536e6a16ca3b",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/test_iid_albedo_vs_theta.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "test_iid_distributions.png",
+   "sha256": "8e4548947292fa716caa64a5d89ff46bf39123b47c219010f92dd62f2e2ffcdd",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/test_iid_distributions.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "test_iid_highlight_grids.png",
+   "sha256": "4ff45238c87189f27fcdd2fb1642cad5683affef6e3e91250bb5b7f0189ccfa1",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/test_iid_highlight_grids.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "test_iid_inplane_eval.png",
+   "sha256": "7d00b1081b40ec78a424bc389dc820f06f97383f4cadf788ef0a52ab98dd0f8b",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/test_iid_inplane_eval.png (viz82.py, chain 705db09)"
+  },
+  {
+   "file": "test_iid_inplane_shape.png",
+   "sha256": "883901a0f5a314a275762387745899548a6300d2be287bbd28d7e3fc3fab6ac9",
+   "source": "LabServer63 ~/rest_compiled82/results/viz/test_iid_inplane_shape.png (viz82.py, chain 705db09)"
+  }
+ ]
+}
