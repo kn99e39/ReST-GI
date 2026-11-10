@@ -1,0 +1,106 @@
+{
+ "protocol": "char85_v1",
+ "batch": "WL85 - GM1 Mechanism-Neutral Transport Characterization",
+ "date": "2026-11-11",
+ "status_rule": "Frozen and committed before the evidence run. Pre-freeze work: full-scale probes of every stage (time, memory, GPU utilisation, value checks) and a low-sample look render used ONLY to confirm that the fixture geometry is in view; no path-class, signed-change or cost result is read before the freeze. Amendments are labelled, dated and state whether they precede or follow evidence. This batch selects, implements and adopts no global transport mechanism.",
+ "question": "What transport fidelity, angular support, edit-response coverage and measured cost constraints must a GM1 global mechanism satisfy on the qualified dynamic glossy-interreflection workload?",
+ "inputs": {
+  "er": "frozen learned ER closures of WL83 / WL84: raw compiler outputs ~/rest_compiled83/results/fit/fit_<set>_L_ER_s8301.npz (LabServer63), decoded by closure82.decode('ER', 'cert') with the closure83 refraction patch; runtime closure83_dr.DrClosure83 (unchanged, imported)",
+  "reference_material": "layered81 coated-conductor random walk (WL81 qualified reference), descriptors ~/rest_compiled83/results/data/materials83.npz",
+  "prior": "WL84A design review (docs/plans/gm1_architecture_review): assumptions to be tested are listed under synthesis.wl84a_assumptions"
+ },
+ "machine": {"host": "LabServer63 (main)", "gpu": "RTX 3080 Ti 12 GB", "env": "~/rest_compiled81/env.sh", "root": "~/rest_gm1char85 (dev ~/rest_gm1char85_dev)"},
+
+ "stage0_census": {
+  "populations": ["test83_iid", "test83_hard", "test83_block", "real83", "fixture"],
+  "incidence_deg": [0, 30, 45, 60, 80], "azimuth_deg": [0, 90], "samples": 16384,
+  "per_lobe": "each of the 8 lobes alone (weights of the other lobes set to 0; attenuation s and refraction unchanged): directional albedo a_r(wi) (channel mean) by the lobe's own sampler, and the solid angle of the superlevel set of its outgoing flux density that contains 50 % / 90 % of a_r: Omega_q = E_pdf[1(e >= t_q) / pdf]; r50 = sqrt(Omega_50 / pi) (rad). For a GGX reflection lobe at normal incidence r50 ~ 2 alpha; Lambert r50 = 0.77.",
+  "whole_closure": "the same for the full closure (Omega_50, Omega_90, r50), plus energy shares by lobe and by class",
+  "classes": {"S_sharp": "r50 < 0.15 rad", "M_moderate": "0.15 <= r50 < 0.45 rad", "B_broad": "r50 >= 0.45 rad",
+              "rule": "declared here, before any path-class result exists. The class of a (material, lobe) used by Stage 3 is taken from the geometric mean of r50 over the two azimuths at 45 deg incidence. Continuous r50 distributions are kept and reported; the three classes are a reporting aid only."},
+  "reported": "albedo-weighted distribution of r50 over lobes; class energy shares per incidence; Lambert-slot energy share; number of lobes carrying >= 1 % / >= 10 % of the closure albedo; fixture materials lobe by lobe"
+ },
+
+ "stage1_fixture": {
+  "rationale": "smallest scene that contains, with ER-family materials only on the glossy objects: (i) a sharp-to-broad interreflection light -> panel (sharp) -> floor (broad stationary receiver); (ii) a glossy-to-glossy interaction light -> panel -> sphere -> eye; (iii) a rigid occluder (baffle) that at T0 blocks the light -> panel beam and at T1 does not (newly ENABLED reflected family on the floor and sphere) while its direct shadow moves to another stationary region (newly BLOCKED direct family); (iv) multi-bounce transport between floor, sphere, panel and a diffuse back wall. Point light: every emitter connection is next-event estimation, so the layered reference needs no pdf.",
+  "units": "metres, z up",
+  "light": {"type": "point", "position": [1.5, -1.0, 2.5], "intensity": 30.0},
+  "camera": {"origin": [0.3, -4.6, 2.4], "target": [0.2, 0.2, 0.4], "fov_deg": 42.0, "res": 512},
+  "camera2": {"origin": [3.5, -3.0, 2.0], "target": [0.0, 0.3, 0.4], "fov_deg": 42.0},
+  "shapes": {
+   "floor": {"type": "rectangle", "center": [0, 0, 0], "half": [2.0, 2.0], "normal": "+z", "material": "B"},
+   "wall": {"type": "rectangle", "center": [0, 2.0, 1.25], "half": [2.0, 1.25], "normal": "-y", "material": "lambert", "albedo": 0.7},
+   "panel": {"type": "rectangle", "center": [-1.3, 0, 0.8], "half": [0.6, 0.6], "normal": "+x", "material": "S1"},
+   "sphere": {"type": "sphere", "center": [0.9, 0.3, 0.35], "radius": 0.35, "material": "S2"},
+   "baffle": {"type": "box", "center_T0": [0.1, -0.5, 1.65], "half": [0.35, 0.35, 0.35], "material": "lambert", "albedo": 0.5}
+  },
+  "edit": {"translation": [0.0, 1.0, 0.0], "configs": {"T0": "baffle at center_T0", "T1": "baffle translated", "NULL": "T0 scene built again, no displacement (dirty flags must be identically zero, totals equal within float rounding)", "RET": "T0 placement obtained by applying +translation then -translation (must equal T0 within float rounding)"}},
+  "materials": {"pool": "test83_iid and test83_hard learned ER closures with mean conductor reflectance >= 0.6 and slab absorption optical depth tau x (1 - mean albedo) <= 0.15 (so that reflections are observable; added before the freeze after the dev look render with dev-pool materials showed a nearly black coated panel); the rule uses descriptors only, never an error metric",
+                "S1": "argmin over the pool of max(alpha_i, alpha_b) (sharpest coat and base)",
+                "S2": "argmin of |ln(alpha_i / 0.12)| + |ln(alpha_b / 0.12)| (moderately glossy), excluding S1",
+                "B": "argmax of min(alpha_i, alpha_b) (broadest), excluding S1 and S2",
+                "lambert": "Lambert surfaces are represented in the ER runtime by a closure state with only the Lambert slot (weight = albedo, s = 1, eta = 1) and in the physical reference by an exact Lambert BSDF"}
+ },
+
+ "stage2_references": {
+  "integrator": "pt85.py: unidirectional path tracer in Dr.Jit on Mitsuba 3.5.1 ray intersection; at every surface vertex next-event estimation to the point light, then BSDF sampling; fixed maximum of 6 surface vertices (contributions with 1..6 scattering events), NO Russian roulette; identical in REF-ER, REF-P, every configuration and every timing run. The share of the 6th event is reported as the truncation indicator.",
+  "REF_ER": "frozen learned ER: DrClosure83 eval / sample (weights eval / pdf)",
+  "REF_P": "layered81.layered_eval / layered_sample (one walk per query, max_depth 1024) on the same descriptors; exact Lambert on Lambert surfaces",
+  "replicas": 8, "spp_per_replica": 8192, "launch_spp": 32,
+  "seeds": "replica r uses seed 85100 + r; T0, T1, NULL and RET use the SAME seeds (common random numbers); REF-P uses 85200 + r",
+  "validation": "V1 pt85 (ER, uninstrumented) vs Mitsuba's own path integrator with the WL83 cmp83 plugin (max_depth 7, no RR), region sums within 2 %; V2 instrumented totals: sum of classes == sum of depths == total within 1e-4 relative per region; V3 instrumented == uninstrumented (same seeds) within 1e-4; V4 NULL: dirty == 0 exactly and totals within 1e-4; V5 RET == T0 within 1e-4; V6 DrClosure83 eval / pdf on the fixture closures == torch closure82 (median rel <= 1e-5, p99.9 <= 1e-3); V7 replica spread: the standard error from 8 replicas agrees with the split-half estimate within a factor of 2",
+  "uncertainty": "per region: standard error over the 8 replicas; reference uncertainty of a relative-L1 comparison = 0.5 x relative L1 between the two 4-replica halves (WL81 Stage F estimator)",
+  "indeterminate_rule": "a comparison (ER vs P gap, signed change, share) is INDETERMINATE when the reference uncertainty exceeds 1/4 of the compared quantity, or |mean| / SE < 3"
+ },
+
+ "regions": {
+  "definition": "geometric only (pixel-centre primary hits and analytic segment tests against the two baffle placements); never from the measured images",
+  "stationary": "first hit on the same non-baffle shape in T0 and T1",
+  "enabled_reflection": "stationary floor pixels whose mirror path light -> panel -> pixel exists and whose light -> panel segment intersects the baffle at T0 but not at T1",
+  "reflection_static": "stationary floor pixels whose mirror path exists and is unobstructed by either placement",
+  "shadow_new": "stationary pixels whose segment to the light intersects the baffle at T1 only", "shadow_gone": "... at T0 only",
+  "sphere": "first hit on the sphere", "panel": "first hit on the panel", "wall": "first hit on the wall (stationary)",
+  "stationary_rest": "stationary minus the four change regions", "mover": "first hit on the baffle at T0 or T1 (includes disoccluded pixels)"
+ },
+ "workload_qualification": {
+  "rule": "evaluated on REF-P before Stage 3-5 conclusions; if any item fails the workload is reported UNSUITABLE and no architecture-relevant conclusion is drawn",
+  "Q1": "enabled_reflection: region-mean signed change (T1 - T0) / T0 >= +0.05 with |mean| / SE >= 5",
+  "Q2": "shadow_new: (T1 - T0) / T0 <= -0.05 with |mean| / SE >= 5",
+  "Q3": "multi-bounce: scattering events >= 3 carry >= 2 % of the T1 radiance over the stationary pixels (SNR >= 5), and events >= 2 carry >= 50 % of the signed change in enabled_reflection",
+  "Q4": "glossy-to-glossy: events >= 2 carry >= 5 % of the T1 radiance on the sphere",
+  "Q5": "reference uncertainty of REF-P over the stationary pixels <= 0.02"
+ },
+
+ "stage3_path_classes": {
+  "depth": "contribution by number of scattering events k = 1..6",
+  "class_matrix": "for k >= 2: receiver class a (lobe class of the scattering at the first, camera-visible vertex) x sender class b (lobe class of the scattering at the second vertex): contribution x phi1[a] x phi2[b], where phi[c] = (channel-mean eval of the lobes of class c) / (channel-mean eval of all lobes) at the actual pair of directions (exact deterministic split, not the sampled lobe index); k = 1: receiver class only. Lambert surfaces are class B.",
+  "dirty": "a contribution is DIRTY iff any of its segments (camera, bounce, shadow) intersects the baffle volume of EITHER configuration (boxes inflated by 1 mm; the identical test in T0 and T1) or one of its vertices lies on the baffle; CLEAN contributions are identical in T0 and T1 under common random numbers, so the signed change is (T1 dirty) - (T0 dirty) with no noise from clean paths. Reported: T1-dirty (created or changed) and T0-dirty (destroyed or changed) separately, their difference, per depth and per class cell; contributions with a vertex on the baffle separately.",
+  "absolute": "sum over pixels and class cells of |change| is reported beside the signed sums",
+  "work": "fraction of sampled paths with a dirty segment; fraction of traced segments (bounce + shadow) at or after the first dirty segment",
+  "caveats": "same seed is not path identity: only geometric dirty flags are used; class shares depend on the declared thresholds; rare path families below the sampling resolution are reported as UNOBSERVED / under-sampled, with the replica SE"
+ },
+
+ "stage4_economics": {
+  "run": "alone on the GPU (no other process; recorded before / after); uninstrumented REF-ER unless stated",
+  "ladder_spp": [1, 4, 16, 64, 256, 1024, 4096], "ladder_replicates": 4, "ladder_seed_base": 85500,
+  "quality": "relative L1 (channel mean) against the pooled 65536-spp REF-ER of the same configuration (T1), over the stationary pixels, over enabled_reflection, and over the whole frame",
+  "timing": "per render: Python tracing time, GPU execution wall, kernel-history GPU time, readback, total wall, launches; first call in a fresh process (cold: kernel compilation / cache load) vs later calls (warm); scene construction (acceleration structure) and the in-place edit update (parameter update of the baffle transform) timed separately; peak GPU memory of the process",
+  "scaling": {"res": [256, 512, 1024], "spp": 64},
+  "instrumentation_overhead": "instrumented vs uninstrumented REF-ER at 64 and 1024 spp",
+  "ref_p_cost": "REF-P at 64 and 1024 spp",
+  "views": "second camera (camera2) after the same edit, 64 and 1024 spp",
+  "repeated_edits": "4 further baffle positions (translation fractions 0.25, 0.5, 0.75, 1.25), each: update + 256 spp",
+  "mitsuba_path": "Mitsuba's megakernel path integrator with the cmp83 plugin at 64 and 1024 spp (context only)",
+  "budget": "reported as measurements only: cost C(q) of cold / warm REF-ER to reach quality q (interpolated on the ladder) for q in {g_stationary, g_stationary / 2, 0.05, 0.02, 0.01} where g = relative L1 of REF-ER vs REF-P. No reuse algorithm is implemented and no estimated algorithm cost is compared with these."
+ },
+
+ "synthesis": {
+  "labels": {
+   "edit_response_class": "over the stationary pixels, using the absolute change summed over class cells: BROAD-DOMINATED iff the cells with receiver and sender both B (plus k = 1 receiver B) hold >= 75 %; SHARP-INDISPENSABLE iff cells with at least one S interaction hold >= 25 %; otherwise MIXED. The same is reported for M and for the enabled_reflection region alone.",
+   "ref_er_adequacy": "per region where the comparison is not INDETERMINATE: gap g; signed-change slope of ER on P in [0.9, 1.1] and correlation >= 0.9 -> ADEQUATE for change tracking in that region, else LIMITED",
+   "headroom": "C(q) table, dirty-work fraction, per-frame vs per-edit costs; no viability claim for any mechanism"
+  },
+  "wl84a_assumptions": ["A1 every ER material has a meaningful Lambert / broad share", "A2 most specular energy of the family lies in lobes sharper than alpha* ~ 0.2-0.35 (r50 ~ 0.4-0.7)", "A3 the sharp-sender -> rough-receiver family is material for the edit response", "A4 dirtiness spreads to most receivers after one broad bounce (dense change support)", "A5 path-dirty fraction of a few to ~15 % for a small mover", "A6 cold REF-ER reaches the ER-gap-anchored quality in about a second or less at this scale", "A7 the caustic-type family is reference-limited at 65536 spp", "A8 Python tracing dominates wall time"]
+ },
+ "not_authorised": ["selecting, implementing or adopting a global transport mechanism", "DDT / LPTG / reservoir candidates", "changing ER, its compiler or closure parameters", "changing the fixture, materials or thresholds after results", "new branches or worktrees", "launching GM1"]
+}
