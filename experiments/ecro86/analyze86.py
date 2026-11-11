@@ -108,10 +108,9 @@ def qualify(root):
         out[e] = {'regions': R, 'qualification': q}
     tj = os.path.join(root, 'results', 'tests', 'tests86.json')
     out['tests_pass'] = bool(json.load(open(tj))['PASS']) if os.path.exists(tj) else False
-    ta = os.path.join(root, 'results', 'tests', 'tests86_amend1.json')          # amendment 1 (post hoc): V3 in-place clause re-evaluated
-    if os.path.exists(ta):
-        out['tests_pass_frozen'] = out['tests_pass']; out['amendment'] = 1
-        out['tests_pass'] = bool(json.load(open(ta))['PASS'])
+    t1 = os.path.join(root, 'results', 'tests', 'tests86_run1.json')            # amendment 1 (post hoc): tests86.json holds the amended V3, run 1 is kept
+    if os.path.exists(t1):
+        out['tests_pass_run1'] = bool(json.load(open(t1))['PASS']); out['amendment'] = 1
     out['ADMITTED'] = bool(ok_all and out['tests_pass'])
     json.dump(out, open(os.path.join(root, 'results', 'qualify.json'), 'w'), indent=1)
     print(json.dumps({e: {k: (v['PASS'] if isinstance(v, dict) else v) for k, v in out[e]['qualification'].items()} for e in ('E1', 'E2')}))

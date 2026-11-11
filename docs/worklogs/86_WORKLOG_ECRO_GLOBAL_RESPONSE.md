@@ -93,6 +93,13 @@
 
 ## Amendment 1 (post hoc, labelled; `experiments/ecro86/protocol/amendment1.json`)
 
-- **Change.** V3's in-place clause is evaluated as: vertices within 1e-6 m, frame-level relative difference ≤ 1e-5, relative L1 ≤ 1e-5, fraction of pixels differing by more than 2e-4 × mean ≤ 1e-3, identical state rays. The frozen tolerance was a per-pixel maximum written from a translation-only dev check; it cannot hold when float32 vertex rounding changes a single stochastic sample.
-- **Not changed.** Every research threshold, the scene, materials, masks, representation, training setting, and all other tests.
-- **Execution.** `RESUME=1 run86.sh` reuses the completed Stage 0 renders, re-evaluates the admission with the amended V3 and continues with Stages 1–4 as frozen.
+- **Change.** V3's in-place clause is evaluated as: frame relative L1 ≤ 1e-5, fraction of pixels differing by more than 1e-3 × mean ≤ 1e-4, box vertices within 1e-5 m, identical state rays. The null-edit and move-and-return clauses keep the per-pixel 2e-4 tolerance; the per-pixel maximum is still reported. The frozen tolerance was a per-pixel maximum written from a translation-only dev check; it cannot hold when float32 vertex rounding changes a single stochastic sample.
+- **Result with the amended clause** (`tests86.py --only=V3`, frozen seeds; run-1 results kept as `results/tests/tests86_run1.json`): E1 frame L1 2.0e-8, no outlier pixel; E2 frame L1 1.1e-7, outlier fraction 1.5e-5 (1 pixel), vertices 6e-8 m, state identical → V3 PASS, tests PASS.
+- **Not changed.** Every research threshold, the scene, materials, masks, references (the run-1 renders are reused), representation, training setting, and all other tests.
+- **Execution.** `RESUME=1 run86.sh` reuses the completed Stage 0 renders, re-evaluates the admission with the amended V3 and continues with Stages 1–4 as frozen. The run-1 record is preserved on the server as `chain_frozen_run1.status` and `results/qualify_frozen.json`.
+
+## Process note: two sessions on this batch
+
+- Two assistant sessions worked on this batch at the same time after the run-1 stop. Both diagnosed the same cause independently (one-ulp vertex difference; 2–3 of 65,536 pixels).
+- The other session committed `e914e3a` with a mix of both sessions' edits, including a second amendment mechanism (`amend1_86.py`, a different bound) and one early `RESUME` launch (02:16 UTC) that ran only that script and ended at the stale gate line. It produced no Stage 1–4 result and then stood down.
+- This session reconciled the repository to one amendment rule (the one in `amendment1.json`, above) in a follow-up commit: `amend1_86.py` is removed, `run86.sh` re-runs V3 through `tests86.py --only=V3`, and `analyze86.py` reads the merged `tests86.json`. `results/tests/tests86_amend1.json` on the server is the other mechanism's output and is not used.

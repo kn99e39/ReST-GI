@@ -44,7 +44,8 @@ else
   # amendment 1 (post hoc, labelled): Stage 0 renders are reused; the frozen STOP record stays in chain.status / qualify_frozen.json
   log "RESUME amendment=1 commit=$(cat $ROOT/code/COMMIT 2>/dev/null)"
   cp -n "$R/qualify.json" "$R/qualify_frozen.json"
-  run S0_amend1 "$PY amend1_86.py $ROOT"
+  rm -f "$R/logs/S0_amend1.rc" "$R/logs/S0_qualify.rc" "$R/logs/S9_viz.rc"        # these are recomputed on resume
+  run S0_amend1 "$PY tests86.py $ROOT --only=V3"
 fi
 run S0_qualify "$PY analyze86.py qualify $ROOT"
 g=$(last S0_qualify); log "GATE WORKLOAD $g"
