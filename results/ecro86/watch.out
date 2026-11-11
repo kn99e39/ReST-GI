@@ -1,0 +1,266 @@
+2026-11-11T02:23:51Z CHAIN_START dev= commit=7786d09 + amendment1 63972c8
+2026-11-11T02:23:51Z RESUME amendment=1 commit=7786d09 + amendment1 63972c8
+2026-11-11T02:23:51Z START S0_amend1
+2026-11-11T02:29:49Z END S0_amend1 rc=0
+2026-11-11T02:29:49Z START S0_qualify
+2026-11-11T02:29:59Z END S0_qualify rc=0
+2026-11-11T02:29:59Z GATE WORKLOAD ADMITTED
+2026-11-11T02:29:59Z START F_E1_T0
+2026-11-11T02:29:59Z START F_E1_T1
+2026-11-11T02:29:59Z START F_E2_T0
+2026-11-11T02:29:59Z START F_E2_T1
+2026-11-11T02:30:24Z END F_E1_T0 rc=0
+2026-11-11T02:30:24Z END F_E1_T1 rc=0
+2026-11-11T02:30:24Z END F_E2_T0 rc=0
+2026-11-11T02:30:24Z END F_E2_T1 rc=0
+2026-11-11T02:30:24Z START ORA_E1_T0_r0
+2026-11-11T02:30:24Z START ORA_E1_T1_r0
+2026-11-11T02:30:24Z START ORA_E2_T0_r0
+2026-11-11T02:30:24Z START ORA_E2_T1_r0
+2026-11-11T02:30:24Z START ORA_E1_T0_r1
+2026-11-11T02:30:24Z START ORA_E1_T1_r1
+2026-11-11T02:30:44Z START ORA_E2_T0_r1
+2026-11-11T02:30:44Z START ORA_E2_T1_r1
+2026-11-11T02:30:57Z END ORA_E1_T0_r0 rc=0
+2026-11-11T02:30:57Z END ORA_E1_T1_r0 rc=0
+2026-11-11T02:30:57Z END ORA_E2_T0_r0 rc=0
+2026-11-11T02:30:57Z END ORA_E2_T1_r0 rc=0
+2026-11-11T02:30:57Z END ORA_E1_T0_r1 rc=0
+2026-11-11T02:30:57Z END ORA_E1_T1_r1 rc=0
+2026-11-11T02:30:57Z END ORA_E2_T0_r1 rc=0
+2026-11-11T02:30:57Z END ORA_E2_T1_r1 rc=0
+2026-11-11T02:30:57Z START S1_stage1
+2026-11-11T02:31:03Z END S1_stage1 rc=0
+2026-11-11T02:31:03Z GATE STAGE1 PASS
+2026-11-11T02:31:03Z START GEN_train_0
+2026-11-11T02:31:03Z START GEN_train_1
+2026-11-11T02:31:03Z START GEN_train_2
+2026-11-11T02:31:03Z START GEN_train_3
+2026-11-11T02:31:03Z START GEN_train_4
+2026-11-11T02:31:03Z START GEN_train_5
+2026-11-11T02:31:03Z START GEN_train_6
+2026-11-11T02:31:03Z START GEN_train_7
+2026-11-11T02:41:44Z END GEN_train_0 rc=0
+2026-11-11T02:41:44Z END GEN_train_1 rc=0
+2026-11-11T02:41:44Z END GEN_train_2 rc=0
+2026-11-11T02:41:44Z END GEN_train_3 rc=0
+2026-11-11T02:41:44Z END GEN_train_4 rc=0
+2026-11-11T02:41:44Z END GEN_train_5 rc=0
+2026-11-11T02:41:44Z END GEN_train_6 rc=0
+2026-11-11T02:41:44Z END GEN_train_7 rc=0
+2026-11-11T02:41:44Z START GEN_val_0
+2026-11-11T02:41:44Z START GEN_trainhq_0
+2026-11-11T02:41:44Z START GEN_val_1
+2026-11-11T02:41:44Z START GEN_trainhq_1
+2026-11-11T02:41:44Z START GEN_val_2
+2026-11-11T02:41:44Z START GEN_trainhq_2
+2026-11-11T02:41:44Z START GEN_val_3
+2026-11-11T02:41:44Z START GEN_trainhq_3
+2026-11-11T02:46:10Z END GEN_val_0 rc=0
+2026-11-11T02:46:10Z END GEN_trainhq_0 rc=0
+2026-11-11T02:46:10Z END GEN_val_1 rc=0
+2026-11-11T02:46:10Z END GEN_trainhq_1 rc=0
+2026-11-11T02:46:10Z END GEN_val_2 rc=0
+2026-11-11T02:46:10Z END GEN_trainhq_2 rc=0
+2026-11-11T02:46:10Z END GEN_val_3 rc=0
+2026-11-11T02:46:10Z END GEN_trainhq_3 rc=0
+2026-11-11T02:46:10Z START TRAIN_s8601
+2026-11-11T02:46:10Z START TRAIN_s8602
+2026-11-11T03:07:53Z END TRAIN_s8601 rc=0
+2026-11-11T03:07:53Z END TRAIN_s8602 rc=0
+2026-11-11T03:07:53Z START CONTRACTS_s8601
+2026-11-11T03:07:54Z START CONTRACTS_s8602
+2026-11-11T03:08:13Z END CONTRACTS_s8601 rc=0
+2026-11-11T03:08:13Z END CONTRACTS_s8602 rc=0
+2026-11-11T03:08:13Z GATE CONTRACTS_s8601 PASS
+2026-11-11T03:08:13Z GATE CONTRACTS_s8602 PASS
+2026-11-11T03:08:13Z START EC_ecro_s8601_ecro_E1_T0_r0
+2026-11-11T03:08:13Z START EC_ecro_s8601_ecro_E1_T1_r0
+2026-11-11T03:08:13Z START EC_ecro_s8601_ecro_E2_T0_r0
+2026-11-11T03:08:13Z START EC_ecro_s8601_ecro_E2_T1_r0
+2026-11-11T03:08:13Z START EC_ecro_s8601_stale_E1_T1_r0
+2026-11-11T03:08:13Z START EC_ecro_s8601_nog_E1_T1_r0
+2026-11-11T03:08:33Z START EC_ecro_s8601_nos_E1_T1_r0
+2026-11-11T03:08:33Z START EC_ecro_s8601_stale_E2_T1_r0
+2026-11-11T03:08:33Z START EC_ecro_s8601_nog_E2_T1_r0
+2026-11-11T03:08:33Z START EC_ecro_s8601_nos_E2_T1_r0
+2026-11-11T03:08:33Z START EC_ecro_s8601_ecro_E1_T1_LMIX_r0
+2026-11-11T03:08:33Z START EC_ecro_s8601_ecro_E1_T1_LSPOT_r0
+2026-11-11T03:08:53Z START EC_ecro_s8601_ecro_E1_T0_r1
+2026-11-11T03:08:53Z START EC_ecro_s8601_ecro_E1_T1_r1
+2026-11-11T03:08:53Z START EC_ecro_s8601_ecro_E2_T0_r1
+2026-11-11T03:08:53Z START EC_ecro_s8601_ecro_E2_T1_r1
+2026-11-11T03:08:53Z START EC_ecro_s8601_stale_E1_T1_r1
+2026-11-11T03:08:59Z START EC_ecro_s8601_nog_E1_T1_r1
+2026-11-11T03:09:13Z START EC_ecro_s8601_nos_E1_T1_r1
+2026-11-11T03:09:13Z START EC_ecro_s8601_stale_E2_T1_r1
+2026-11-11T03:09:13Z START EC_ecro_s8601_nog_E2_T1_r1
+2026-11-11T03:09:13Z START EC_ecro_s8601_nos_E2_T1_r1
+2026-11-11T03:09:13Z START EC_ecro_s8601_ecro_E1_T1_LMIX_r1
+2026-11-11T03:09:16Z START EC_ecro_s8601_ecro_E1_T1_LSPOT_r1
+2026-11-11T03:09:32Z START EC_ecro_s8602_ecro_E1_T0_r0
+2026-11-11T03:09:32Z START EC_ecro_s8602_ecro_E1_T1_r0
+2026-11-11T03:09:33Z START EC_ecro_s8602_ecro_E2_T0_r0
+2026-11-11T03:09:33Z START EC_ecro_s8602_ecro_E2_T1_r0
+2026-11-11T03:09:35Z START EC_ecro_s8602_stale_E1_T1_r0
+2026-11-11T03:09:38Z START EC_ecro_s8602_nog_E1_T1_r0
+2026-11-11T03:09:49Z START EC_ecro_s8602_nos_E1_T1_r0
+2026-11-11T03:09:49Z START EC_ecro_s8602_stale_E2_T1_r0
+2026-11-11T03:09:51Z START EC_ecro_s8602_nog_E2_T1_r0
+2026-11-11T03:09:51Z START EC_ecro_s8602_nos_E2_T1_r0
+2026-11-11T03:09:53Z START EC_ecro_s8602_ecro_E1_T1_LMIX_r0
+2026-11-11T03:09:55Z START EC_ecro_s8602_ecro_E1_T1_LSPOT_r0
+2026-11-11T03:10:06Z START EC_ecro_s8602_ecro_E1_T0_r1
+2026-11-11T03:10:07Z START EC_ecro_s8602_ecro_E1_T1_r1
+2026-11-11T03:10:08Z START EC_ecro_s8602_ecro_E2_T0_r1
+2026-11-11T03:10:09Z START EC_ecro_s8602_ecro_E2_T1_r1
+2026-11-11T03:10:13Z START EC_ecro_s8602_stale_E1_T1_r1
+2026-11-11T03:10:19Z START EC_ecro_s8602_nog_E1_T1_r1
+2026-11-11T03:10:24Z START EC_ecro_s8602_nos_E1_T1_r1
+2026-11-11T03:10:25Z START EC_ecro_s8602_stale_E2_T1_r1
+2026-11-11T03:10:26Z START EC_ecro_s8602_nog_E2_T1_r1
+2026-11-11T03:10:28Z START EC_ecro_s8602_nos_E2_T1_r1
+2026-11-11T03:10:30Z START EC_ecro_s8602_ecro_E1_T1_LMIX_r1
+2026-11-11T03:10:34Z START EC_ecro_s8602_ecro_E1_T1_LSPOT_r1
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E1_T0_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E1_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E2_T0_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E2_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_stale_E1_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_nog_E1_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_nos_E1_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_stale_E2_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_nog_E2_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_nos_E2_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E1_T1_LMIX_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E1_T1_LSPOT_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E1_T0_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E1_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E2_T0_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E2_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_stale_E1_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_nog_E1_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_nos_E1_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_stale_E2_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_nog_E2_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_nos_E2_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E1_T1_LMIX_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8601_ecro_E1_T1_LSPOT_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E1_T0_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E1_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E2_T0_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E2_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_stale_E1_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_nog_E1_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_nos_E1_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_stale_E2_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_nog_E2_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_nos_E2_T1_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E1_T1_LMIX_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E1_T1_LSPOT_r0 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E1_T0_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E1_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E2_T0_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E2_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_stale_E1_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_nog_E1_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_nos_E1_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_stale_E2_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_nog_E2_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_nos_E2_T1_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E1_T1_LMIX_r1 rc=0
+2026-11-11T03:10:51Z END EC_ecro_s8602_ecro_E1_T1_LSPOT_r1 rc=0
+2026-11-11T03:10:51Z START S3_final
+2026-11-11T03:11:11Z END S3_final rc=0
+2026-11-11T03:11:11Z GATE STAGE3 STOPPED_GENERALIZATION_NOT_SUPPORTED
+2026-11-11T03:11:11Z START S4_econ
+2026-11-11T03:16:09Z END S4_econ rc=0
+2026-11-11T03:16:09Z START S9_viz
+2026-11-11T03:16:35Z END S9_viz rc=0
+2026-11-11T03:16:35Z CHAIN_DONE
+S0_amend1                                   358 s  GPU mean   0.2 %  (175 samples)
+S0_qualify                                   10 s  GPU mean   0.8 %  (5 samples)
+F_E1_T0                                      25 s  GPU mean  33.3 %  (12 samples)
+F_E1_T1                                      25 s  GPU mean  33.3 %  (12 samples)
+F_E2_T0                                      25 s  GPU mean  33.3 %  (12 samples)
+F_E2_T1                                      25 s  GPU mean  33.3 %  (12 samples)
+ORA_E1_T0_r0                                 33 s  GPU mean  51.6 %  (17 samples)
+ORA_E1_T1_r0                                 33 s  GPU mean  51.6 %  (17 samples)
+ORA_E2_T0_r0                                 33 s  GPU mean  51.6 %  (17 samples)
+ORA_E2_T1_r0                                 33 s  GPU mean  51.6 %  (17 samples)
+ORA_E1_T0_r1                                 33 s  GPU mean  51.6 %  (17 samples)
+ORA_E1_T1_r1                                 33 s  GPU mean  51.6 %  (17 samples)
+ORA_E2_T0_r1                                 13 s  GPU mean  23.7 %  (7 samples)
+ORA_E2_T1_r1                                 13 s  GPU mean  23.7 %  (7 samples)
+S1_stage1                                     6 s  GPU mean   0.0 %  (3 samples)
+GEN_train_0                                 641 s  GPU mean  94.5 %  (313 samples)
+GEN_train_1                                 641 s  GPU mean  94.5 %  (313 samples)
+GEN_train_2                                 641 s  GPU mean  94.5 %  (313 samples)
+GEN_train_3                                 641 s  GPU mean  94.5 %  (313 samples)
+GEN_train_4                                 641 s  GPU mean  94.5 %  (313 samples)
+GEN_train_5                                 641 s  GPU mean  94.5 %  (313 samples)
+GEN_train_6                                 641 s  GPU mean  94.5 %  (313 samples)
+GEN_train_7                                 641 s  GPU mean  94.5 %  (313 samples)
+GEN_val_0                                   266 s  GPU mean  88.6 %  (130 samples)
+GEN_trainhq_0                               266 s  GPU mean  88.6 %  (130 samples)
+GEN_val_1                                   266 s  GPU mean  88.6 %  (130 samples)
+GEN_trainhq_1                               266 s  GPU mean  88.6 %  (130 samples)
+GEN_val_2                                   266 s  GPU mean  88.6 %  (130 samples)
+GEN_trainhq_2                               266 s  GPU mean  88.6 %  (130 samples)
+GEN_val_3                                   266 s  GPU mean  88.6 %  (130 samples)
+GEN_trainhq_3                               266 s  GPU mean  88.6 %  (130 samples)
+TRAIN_s8601                                1303 s  GPU mean  86.2 %  (634 samples)
+TRAIN_s8602                                1303 s  GPU mean  86.2 %  (634 samples)
+CONTRACTS_s8601                              20 s  GPU mean   7.8 %  (10 samples)
+CONTRACTS_s8602                              19 s  GPU mean   7.8 %  (10 samples)
+EC_ecro_s8601_ecro_E1_T0_r0                 158 s  GPU mean  79.1 %  (77 samples)
+EC_ecro_s8601_ecro_E1_T1_r0                 158 s  GPU mean  79.1 %  (77 samples)
+EC_ecro_s8601_ecro_E2_T0_r0                 158 s  GPU mean  79.1 %  (77 samples)
+EC_ecro_s8601_ecro_E2_T1_r0                 158 s  GPU mean  79.1 %  (77 samples)
+EC_ecro_s8601_stale_E1_T1_r0                158 s  GPU mean  79.1 %  (77 samples)
+EC_ecro_s8601_nog_E1_T1_r0                  158 s  GPU mean  79.1 %  (77 samples)
+EC_ecro_s8601_nos_E1_T1_r0                  138 s  GPU mean  80.3 %  (67 samples)
+EC_ecro_s8601_stale_E2_T1_r0                138 s  GPU mean  80.3 %  (67 samples)
+EC_ecro_s8601_nog_E2_T1_r0                  138 s  GPU mean  80.3 %  (67 samples)
+EC_ecro_s8601_nos_E2_T1_r0                  138 s  GPU mean  80.3 %  (67 samples)
+EC_ecro_s8601_ecro_E1_T1_LMIX_r0            138 s  GPU mean  80.3 %  (67 samples)
+EC_ecro_s8601_ecro_E1_T1_LSPOT_r0           138 s  GPU mean  80.3 %  (67 samples)
+EC_ecro_s8601_ecro_E1_T0_r1                 118 s  GPU mean  80.1 %  (58 samples)
+EC_ecro_s8601_ecro_E1_T1_r1                 118 s  GPU mean  80.1 %  (58 samples)
+EC_ecro_s8601_ecro_E2_T0_r1                 118 s  GPU mean  80.1 %  (58 samples)
+EC_ecro_s8601_ecro_E2_T1_r1                 118 s  GPU mean  80.1 %  (58 samples)
+EC_ecro_s8601_stale_E1_T1_r1                118 s  GPU mean  80.1 %  (58 samples)
+EC_ecro_s8601_nog_E1_T1_r1                  112 s  GPU mean  81.9 %  (55 samples)
+EC_ecro_s8601_nos_E1_T1_r1                   98 s  GPU mean  80.0 %  (48 samples)
+EC_ecro_s8601_stale_E2_T1_r1                 98 s  GPU mean  80.0 %  (48 samples)
+EC_ecro_s8601_nog_E2_T1_r1                   98 s  GPU mean  80.0 %  (48 samples)
+EC_ecro_s8601_nos_E2_T1_r1                   98 s  GPU mean  80.0 %  (48 samples)
+EC_ecro_s8601_ecro_E1_T1_LMIX_r1             98 s  GPU mean  80.0 %  (48 samples)
+EC_ecro_s8601_ecro_E1_T1_LSPOT_r1            95 s  GPU mean  81.3 %  (47 samples)
+EC_ecro_s8602_ecro_E1_T0_r0                  79 s  GPU mean  79.8 %  (39 samples)
+EC_ecro_s8602_ecro_E1_T1_r0                  79 s  GPU mean  79.8 %  (39 samples)
+EC_ecro_s8602_ecro_E2_T0_r0                  78 s  GPU mean  80.4 %  (38 samples)
+EC_ecro_s8602_ecro_E2_T1_r0                  78 s  GPU mean  80.4 %  (38 samples)
+EC_ecro_s8602_stale_E1_T1_r0                 76 s  GPU mean  81.4 %  (37 samples)
+EC_ecro_s8602_nog_E1_T1_r0                   73 s  GPU mean  82.5 %  (36 samples)
+EC_ecro_s8602_nos_E1_T1_r0                   62 s  GPU mean  79.2 %  (30 samples)
+EC_ecro_s8602_stale_E2_T1_r0                 62 s  GPU mean  79.2 %  (30 samples)
+EC_ecro_s8602_nog_E2_T1_r0                   60 s  GPU mean  80.0 %  (29 samples)
+EC_ecro_s8602_nos_E2_T1_r0                   60 s  GPU mean  80.0 %  (29 samples)
+EC_ecro_s8602_ecro_E1_T1_LMIX_r0             58 s  GPU mean  80.7 %  (28 samples)
+EC_ecro_s8602_ecro_E1_T1_LSPOT_r0            56 s  GPU mean  80.7 %  (28 samples)
+EC_ecro_s8602_ecro_E1_T0_r1                  45 s  GPU mean  78.5 %  (22 samples)
+EC_ecro_s8602_ecro_E1_T1_r1                  44 s  GPU mean  78.5 %  (22 samples)
+EC_ecro_s8602_ecro_E2_T0_r1                  43 s  GPU mean  77.8 %  (21 samples)
+EC_ecro_s8602_ecro_E2_T1_r1                  42 s  GPU mean  77.8 %  (21 samples)
+EC_ecro_s8602_stale_E1_T1_r1                 38 s  GPU mean  78.7 %  (19 samples)
+EC_ecro_s8602_nog_E1_T1_r1                   32 s  GPU mean  77.6 %  (16 samples)
+EC_ecro_s8602_nos_E1_T1_r1                   27 s  GPU mean  75.1 %  (13 samples)
+EC_ecro_s8602_stale_E2_T1_r1                 26 s  GPU mean  75.1 %  (13 samples)
+EC_ecro_s8602_nog_E2_T1_r1                   25 s  GPU mean  78.9 %  (12 samples)
+EC_ecro_s8602_nos_E2_T1_r1                   23 s  GPU mean  80.6 %  (11 samples)
+EC_ecro_s8602_ecro_E1_T1_LMIX_r1             21 s  GPU mean  81.7 %  (10 samples)
+EC_ecro_s8602_ecro_E1_T1_LSPOT_r1            17 s  GPU mean  79.9 %  (9 samples)
+S3_final                                     20 s  GPU mean   0.0 %  (10 samples)
+S4_econ                                     298 s  GPU mean  26.4 %  (146 samples)
+S9_viz                                       26 s  GPU mean   2.3 %  (13 samples)

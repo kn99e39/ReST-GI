@@ -1,0 +1,34 @@
+{
+ "zero_input_max_abs": 0.0,
+ "min_response": 2.1676220057997853e-05,
+ "determinism_max_abs_diff": 0.0,
+ "source_encoding_superposition_rel": 1.782400360639258e-08,
+ "superposition_rel": 1.873658845852333e-07,
+ "scaling_rel": 2.3041354779707035e-07,
+ "directional": {
+  "encoded_irradiance_ratio": 1.5487663745880127,
+  "truth_distance": 2.0198614597320557,
+  "model_distance": 4.945649147033691,
+  "matched_error": [
+   0.7772387266159058,
+   0.8729683756828308
+  ],
+  "swapped_error": [
+   0.9305532574653625,
+   1.4706045389175415
+  ]
+ },
+ "flux_ratio_model_over_oracle_rgb": [
+  0.979962494401302,
+  0.9893816973566322,
+  0.9844079276504069
+ ],
+ "field_rel_l1_E1_T1": 0.0899825245141983,
+ "selective_equals_full": true,
+ "selective_equals_fresh_scene": true,
+ "dirty_ray_fraction": 0.08694020669291339,
+ "move_and_return_state_identical": true,
+ "null_edit_dirty_rays": 0,
+ "selective_vs_full_response_max_abs": 0.0,
+ "PASS": true
+}

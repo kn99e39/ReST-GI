@@ -127,6 +127,11 @@ No learned corrective recipe or successor architecture is adopted. Work on `Sele
 
 **Next decision is GM1 design and its first bounded experiment.** The **direction** (rigid-edit dynamic glossy/specular interreflection with frozen ER as local baseline) is approved. Before execution, the human architecture decision must identify **one falsifiable global transport representation/update mechanism**, its spatial/angular interface and ownership, representative T0/T1 edits, independent references and prospective quality/cost gates. The Agent may determine its implementation details within those contracts; it must not invent and sequentially switch among architecture hypotheses after seeing results.
 
+**GM1 evidence record (measured; nothing adopted; decisions remain human).**
+
+- [WL85](worklogs/85_WORKLOG_GM1_MECHANISM_NEUTRAL_TRANSPORT_CHARACTERIZATION.md) (2026-11-11): mechanism-neutral characterisation on an open fixture. Its frozen workload qualification is UNSUITABLE by one clause, so its conclusions are formally INDETERMINATE.
+- [WL86](worklogs/86_WORKLOG_ECRO_GLOBAL_RESPONSE.md) (2026-11-11): ECRO v0, one explicit learned global mechanism (physical ≤ 2-event transport + a geometry-conditioned, source-independent linear operator that fills a patch × direction-bin table of ≥ 3-event radiance), on a qualified semi-enclosed room workload with a held-out edit. Representability SUPPORTED (oracle table at reference noise). The learned operator meets the stationary-pixel, broad-region, unseen-source and edit-response gates for both seeds but misses the region rule on the held-out edit's sharp / moderate receivers (E_H 0.063 / 0.072 against 0.06), so generalisation, physical fidelity and GM1 viability are **NOT SUPPORTED under the frozen gates**; economics is NOT TESTED (descriptively 3–6× edit-to-first-frame at 0.05 / 0.03 against frozen-ER path tracing). ECRO is not adopted and no successor is authorised.
+
 Do not treat historical WL41–80 failures as observed defects of the WL84 ER baseline. They are possible failure mechanisms and diagnostic controls. Do not convert the local ER success into a full-K, global-interreflection, dynamic-reuse or end-to-end superiority claim. GM2–GM4 are directional commitments, not automatically approved work.
 
 ## Longer-term decisions, without implementation permission

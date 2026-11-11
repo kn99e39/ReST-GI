@@ -103,3 +103,189 @@
 - Two assistant sessions worked on this batch at the same time after the run-1 stop. Both diagnosed the same cause independently (one-ulp vertex difference; 2–3 of 65,536 pixels).
 - The other session committed `e914e3a` with a mix of both sessions' edits, including a second amendment mechanism (`amend1_86.py`, a different bound) and one early `RESUME` launch (02:16 UTC) that ran only that script and ended at the stale gate line. It produced no Stage 1–4 result and then stood down.
 - This session reconciled the repository to one amendment rule (the one in `amendment1.json`, above) in a follow-up commit: `amend1_86.py` is removed, `run86.sh` re-runs V3 through `tests86.py --only=V3`, and `analyze86.py` reads the merged `tests86.json`. `results/tests/tests86_amend1.json` on the server is the other mechanism's output and is not used.
+
+## Evidence run (commit `7786d09` + amendment 1 `63972c8`; LabServer63; 2026-11-11 01:27–03:16 UTC)
+
+| Stage | Wall | Mean GPU | Outcome |
+|---|---|---|---|
+| Stage 0 references (run 1): 64 REF-ER / REF-P renders + 8 held-out-source renders, 8,192 spp, 6 concurrent; validation tests in the same pool | 45 min | 96–98 % | done; gate stopped on test V3 (see amendment 1) |
+| Resume: V3 re-run, qualification | 6 min | — | **ADMITTED** |
+| Stage 1: 4 oracle fields (4,096 spp), 8 oracle renders | 1 min | 33–52 % | **PASS** |
+| Response supervision: 1,024 training geometries × 4 lights (8 shards) | 10.7 min | 94.5 % | 2.6 GB |
+| Validation (64) + high-quality training subset (32), 1,024 spp | 4.4 min | 88.6 % | |
+| Training, two seeds concurrently, 24,000 steps | 21.7 min | 86.2 % | |
+| Operator contracts | 20 s | — | **PASS** (both seeds) |
+| Stage 3: 48 ECRO / STALE / ablation renders, 4,096 spp | 2.6 min | 79 % | **`STOPPED_GENERALIZATION_NOT_SUPPORTED`** (rule F2, one region class) |
+| Stage 4 economics (alone, no foreign GPU process) | 5 min | 26 % | measured; verdict gated |
+
+No rerun of any Stage 1–4 step was made. Nothing was tuned after results.
+
+## Final report
+
+### Implementation fact
+
+- **Operator contract as run.** b̂ = q + T q + T R_θ(G, z_ER)[e], D = 6. LOW is path-traced; the higher-order term is one table lookup at the second vertex. The table (1,270 patches × 64 outgoing bins × RGB) is the output of a non-negative linear operator applied to the direct-irradiance encoding (1,270 × 64 incident bins × RGB).
+- **Generator.** 735,664 parameters; inputs are patch tables, frozen ER states and 650,240 state rays. Factor tables 43 MB, state 17.6 MB, output table 1 MB, torch peak 210 MB.
+- **Data.** 1,024 training geometries × 4 point lights, path-traced field targets at 256 spp (target noise 0.10 relative L1 per lighting); validation 64 geometries and a 32-geometry training subset at 1,024 spp.
+- **Training.** 24,000 steps per seed (seeds 8601, 8602), 1,250 s each when run concurrently.
+- **Runtime after an edit.** In-place geometry update → selective state rays (8.7–10.2 % of rays dirty; identical to a full rebuild) → source encoding → generator + application → table transfer → LOW + lookup render. No reference, target, pose index or source identity is an input.
+- **Not built.** No second architecture, no residual correction, no capacity change, no ER change.
+
+### Measurements
+
+**Reference qualification (REF-P; fresh seeds; all criteria PASS for both edits).**
+
+| Criterion | E1 | E2 (held-out) |
+|---|---|---|
+| Q1 direct-visibility change in A (of T0) | 0.488 | 0.839 |
+| Q2 indirect change, unchanged direct visibility (floor) | 0.0149 (0.0011) | 0.0098 (0.0008) |
+| Q3 change in C; sharp / moderate share of it | 0.036; 0.69 | 0.214; 1.00 |
+| Q4 change in D; higher-order part of it (floor) | 0.0149; 0.50 (0.0010) | 0.0106; 0.49 (0.0009) |
+| Q5 class E change relative to D (control) | 0.40 | 0.35 |
+| Q6 ≥ 3-event share of stationary radiance | 0.238 | 0.229 |
+| Q7 reference uncertainty (P / ER) | 0.0031 / 0.0029 | 0.0023 / 0.0022 |
+| g = REF-ER vs REF-P gap, stationary pixels | 0.0087 | 0.0084 |
+
+- Validation V1–V8 pass (V3 under amendment 1). pt86 against Mitsuba's path integrator: ratios 0.997–1.006 at event depths 6, 2 and 1 and for the two-light and spot sources.
+- g by region at T1: A 0.018 / 0.008, C 0.013 / 0.059, D 0.008 / 0.005 (E1 / E2). The ER bias is largest on E2's panel / sphere receivers.
+
+**Higher-order signal and representation ceiling (Stage 1).** E_H = Σ|hl − h| / Σ tot; H share is the E_H of LOW alone.
+
+| Region (T1) | H share E1 / E2 | Oracle projection E_H E1 / E2 | Noise bound |
+|---|---|---|---|
+| stationary pixels | 0.237 / 0.228 | 0.0032 / 0.0025 | 0.0035 / 0.0027 |
+| A | 0.580 / 0.358 | 0.0075 / 0.0033 | 0.009 / 0.004 |
+| C | 0.396 / 0.709 | 0.0074 / 0.0137 | 0.007 / 0.013 |
+| D | 0.221 / 0.239 | 0.0028 / 0.0024 | 0.003 / 0.003 |
+| panel object | 0.847 / 0.668 | 0.0121 / 0.0115 | 0.013 / 0.011 |
+
+- The oracle table removes 98–99 % of LOW's error (capture 0.011–0.014) and is at the measurement noise.
+- Oracle change of the higher-order term: slope 0.94–1.00, correlation ≥ 0.98 in A, C, D of both edits; resolvable everywhere (I2).
+
+**Synthetic operator contracts (both seeds PASS).** Zero input 0; minimum response ≥ 0; deterministic; superposition and scaling exact to float32; selective state = full rebuild = fresh scene; move-and-return and null edit state identical; higher-order flux 0.98–1.00 of the path-traced field. Directional distinction passes its rule, but the response to the two narrow spots on the sharp panel is poor in absolute terms (matched field error 0.78–0.89; see Observation).
+
+**Field-level learning (relative L1 against 1,024-spp targets; target noise 0.048–0.054).**
+
+| Seed | Training subset | Validation | Debiased relative RMS (train / val) | Without global term | Without single flight |
+|---|---|---|---|---|---|
+| 8601 | 0.070 | 0.079 | 0.088 / 0.109 | 0.49 | 0.52 |
+| 8602 | 0.070 | 0.078 | 0.087 / 0.101 | 0.50 | 0.51 |
+
+**Learned operator, rendered (E_H at T1; seeds 8601 / 8602; thresholds 0.03 stationary, 0.06 regions).**
+
+| Region | E1 | E2 (held-out) | Oracle E1 / E2 |
+|---|---|---|---|
+| stationary pixels | 0.0056 / 0.0043 | 0.0048 / 0.0040 | 0.0032 / 0.0025 |
+| A | 0.0126 / 0.0113 | 0.0060 / 0.0069 | 0.0075 / 0.0033 |
+| **C** | 0.0132 / 0.0110 | **0.0717 / 0.0634** | 0.0074 / 0.0137 |
+| D | 0.0049 / 0.0036 | 0.0043 / 0.0034 | 0.0028 / 0.0024 |
+| panel object | 0.040 / 0.034 | 0.056 / 0.052 | 0.012 / 0.012 |
+| sphere object | 0.014 / 0.013 | 0.011 / 0.010 | 0.011 / 0.007 |
+
+- Capture on the stationary pixels: 0.018–0.024 (ECRO removes about 98 % of LOW's error). T0 values are the same within 0.001, except E2's C (0.060 / 0.059).
+- **Gate F2 fails for both seeds on one clause: E2, region C** (3,974 pixels, panel / sphere receivers whose mirror cone sees the change; H share 0.71). The learned term is 9–10 % low there (hl / h 0.90–0.91).
+
+**Change of the higher-order term (ECRO T1 − T0 against REF-ER; slope, correlation).**
+
+| Region | E1 (8601 / 8602) | E2 (8601 / 8602) | STALE, D |
+|---|---|---|---|
+| D (gate F3) | 0.95, 0.96 / 0.90, 0.96 | 0.80, 0.97 / 0.78, 0.96 | 0.62–0.65, 0.76–0.78 (E1); 0.46, 0.63–0.72 (E2) |
+| A | 0.92, 0.99 / 0.88, 0.99 | 0.91, 0.99 / 0.91, 0.98 | |
+| C (no gate) | 0.38, 0.52 / 0.36, 0.56 | 0.63, 0.98 / 0.47, 0.92 | |
+
+**Controls.**
+
+- STALE (T0 state, current source field): E_H 3.6–3.9× ECRO's in A on E1 and 2.6–3.6× on E2; on E1's panel 0.27–0.29 against 0.034–0.040 (7–8×). Elsewhere 1.0–1.6×. The update matters where direct visibility of the mover changes what the sharp panel reflects; in D most of the response is carried by the current source field.
+- Ablations at T1 (stationary pixels): without the global term E_H 0.11; without the single-flight term 0.12–0.13. Both learned terms are needed.
+
+**Held-out sources (E1 T1 geometry; stationary pixels; threshold 0.04).**
+
+| Source | H share | E_H (8601 / 8602) | hl / h | Panel object |
+|---|---|---|---|---|
+| LMIX (two coloured lights) | 0.265 | 0.0061 / 0.0051 | 0.98 / 0.985 | 0.017 / 0.016 |
+| LSPOT (hard cone, unseen class) | 0.303 | 0.026 / 0.035 | 1.07 / 1.11 | 0.056 / 0.118 |
+
+**Economics (measured, uncontended RTX 3080 Ti, 512², warm; model 8601).** By the protocol the verdict is NOT TESTED because Stage 3 did not pass; the costs are descriptive.
+
+| Quantity | Full path tracing (frozen ER) | ECRO |
+|---|---|---|
+| Kernel GPU time per spp | 1.80 ms | 0.33 ms |
+| Error at 64 / 1,024 / 4,096 spp, E1 stationary | 0.100 / 0.0257 / 0.0125 | 0.077 / 0.0209 / 0.0110 |
+| Per edit, wall (median) | 35 ms (geometry 31) | 76–78 ms: geometry 31, state 21 (full rebuild 26–28), source 5, operator 11, transfer 1.5 |
+| Per edit, GPU kernel | — | state 0.06 ms, source 0.02 ms (operator 11 ms wall, torch) |
+| Second view, 64 spp | 121–126 ms GPU | 22 ms GPU (state reused) |
+| Cold first frame in a fresh process | 21 s (kernel compilation) | 0.78 s + 0.4 s first operator call |
+
+Matched quality on the stationary pixels (E1 / E2):
+
+| Level | Path tracer spp | ECRO spp | Per-frame GPU advantage | Per-frame wall | Edit-to-first-frame wall | Region-matched |
+|---|---|---|---|---|---|---|
+| 0.10 | 64 / 32 | 37 / 19 | 9.3 / 9.3× | 4.5 / 4.2× | 2.1 / 1.8× | yes / yes |
+| 0.05 | 261 / 133 | 156 / 78 | 9.1 / 9.6× | 6.4 / 6.2× | 3.9 / 3.1× | yes / yes |
+| 0.03 | 745 / 384 | 464 / 228 | 8.8 / 9.4× | 7.0 / 7.2× | 5.6 / 4.8× | yes / yes |
+| g (0.0087 / 0.0084) | not reached at 4,096 spp (0.0125 / 0.0091) | not reached (0.0110 / 0.0084) | — | — | — | — |
+
+- ECRO's error in E2's C does not converge: 0.073 at 4,096 spp against 0.040 for the path tracer (a bias floor). At the three reached levels the path tracer's C error is still larger, so the region rule is met there; it would not be met beyond about 1,024 spp.
+- Selective update saves 5–7 ms over a full state rebuild (21 against 26–28 ms): the state is so small that the saving is immaterial.
+- Offline cost: supervision about 15 min and training about 22 min of one GPU (two seeds), once per scene family.
+
+### Observation
+
+1. **The patch × bin table is an adequate container.** Its oracle projection sits at the measurement noise on both edits, including sharp receivers.
+2. **The learned operator works on unseen poses and lights of the family for broad transport.** On the stationary pixels it leaves 0.4–0.6 % of total radiance as additional error, where LOW alone leaves 23 %. Validation and training-subset field errors differ by about 10 %.
+3. **Its failures are on sharp receivers and sharp-sender sources.**
+   - Panel receivers: E_H 0.034–0.056 against an oracle of 0.012. The camera reads the table through a near-mirror bounce, so table errors are not smoothed.
+   - E2's region C, which consists only of such receivers, misses the 0.06 rule (0.063 / 0.072), and the change of the higher-order term in C is tracked with slope 0.36–0.63.
+   - The narrow-spot contract sources on the panel give field errors of 0.8, and the hard-cone source is biased by 7–11 %.
+4. **Error maps** (`higher_order_E2.png`): the learned term's error concentrates on the panel, at box / floor contacts (also present in the oracle) and along wall–ceiling edges.
+5. **Most of the dynamic response rides on the physical parts.** The moving direct shadow and the enabled reflection are in LOW; the current source field carries most of the higher-order change in D even with a stale state.
+6. **Rendering is cheaper with the table.** LOW + lookup costs 5.5× less GPU time per sample than six-event path tracing in this room and has slightly lower error at equal samples.
+
+### Interpretation (inference)
+
+- **Assumptions that held on this workload:** a source-independent linear response can be generated from geometry and frozen ER states; it transfers to unseen rigid poses, sizes and point-light positions; a low-rank global term plus one visibility-carrying learned flight is enough for broad multi-bounce transport; current-geometry state is cheap to maintain.
+- **Assumptions weakened:**
+  - Directional fidelity where the receiver is sharp. The error there is the learned operator's (3–5× the oracle), not the representation's.
+  - Angular precision of the source encoding for sharp first scattering (narrow spots).
+  - Geometry-state necessity: the state update matters only locally (A, the panel); a selective update has no cost benefit at this scale.
+- **Where the benefit comes from.** Fidelity: physical LOW supplies 76 % of the radiance and the sharp edit response; the learned term supplies the remaining 23 % at about 2 % relative error on broad receivers. Cost: the saving is the path tracer's bounces 3–6, replaced by a lookup.
+- **Error attribution (brief items A–F):** A local ER error g = 0.008–0.009 (0.059 in E2's C); B representation 0.003; C learned operator 0.004–0.006 on stationary pixels and 0.03–0.07 on sharp receivers; D held-out increment about 10 % at field level, and the sharp-receiver error is larger on the held-out edit; E no instability (non-negative, non-iterated, flux 0.98–1.00); F per-edit overhead 40 ms wall above the path tracer's.
+
+### Unresolved questions
+
+- Whether the sharp-receiver error is a capacity, supervision-noise (targets at 256 spp) or training-budget limit is not isolated; no rescue was run.
+- One room family with fixed stationary geometry and three ER materials; material generalisation, other rooms, non-rigid edits, area lights and other resolutions are not tested. The trained operator is family-specific.
+- The quality level g was not reached by either method on the ladder (≥ 4,096 spp needed); the economic comparison there is unmeasured.
+- Cheaper physical comparators (lower-resolution or cached higher-order estimates, explicit patch-level transport with the same table) were not run; the comparison is against plain path tracing only.
+- Scaling of the state and of the generator with scene size is unmeasured (the single-flight term is O(patches × rays), the form-factor matrix O(patches²)).
+- E2's aggregate dev numbers were seen once before the freeze (disclosed above); E1 was a development configuration. A never-inspected third edit does not exist.
+
+### Architecture verdict (scope: one room family, rigid box edits, three frozen ER materials, point and cone sources, 512²)
+
+| Item | Verdict | Basis |
+|---|---|---|
+| REPRESENTABILITY | **SUPPORTED** | R1 on E1 and E2: oracle E_H 0.0025–0.0032 (stationary), ≤ 0.014 in A, C, D |
+| GENERALIZATION | **NOT SUPPORTED** (predeclared mapping) | G1, F1, F4 hold for both seeds; F2 fails for both on E2's region C (0.063 / 0.072 against 0.06). Chain status `STOPPED_GENERALIZATION_NOT_SUPPORTED`. The field-level evidence does not show memorisation; the failing class is sharp receivers |
+| PHYSICAL FIDELITY | **NOT SUPPORTED** as declared (F1 and F2 on both edits) | F1 passes everywhere (0.004–0.006); F2 passes on E1 and on E2's A and D; fails on E2's C. ER's own gap g is reported separately |
+| DYNAMIC EDIT RESPONSE | **CONDITIONALLY SUPPORTED** | F3 passes in D for both seeds and edits (slope 0.78–0.95); F5 shows the update matters (A, panel). The change in C is not tracked (slope 0.36–0.63; no gate) |
+| END-TO-END ECONOMICS | **NOT TESTED** (gated by Stage 3) | Descriptive: 9× per-frame GPU and 3–6× edit-to-first-frame wall at 0.05 / 0.03 with region-matched errors; g not reached; bias floor in E2's C |
+| GM1 ARCHITECTURE VIABILITY | **NOT SUPPORTED under the frozen gates** | Cause: learned-operator error on sharp / moderate receivers of the held-out edit. Not a representation failure and not an instability |
+
+ECRO v0 is not adopted. No successor or rescue was started. The decision about the frozen region rule, the sharp-receiver error and any further batch belongs to the human owner.
+
+### Living documents
+
+- `docs/Architecture.md` is not changed.
+- `docs/RESEARCH_ROADMAP.md` receives one dated evidence record under the current decision boundary (measured result, no adoption).
+
+### Reproducibility
+
+- **Commits.** Freeze `7786d09`; amendment 1 `e914e3a` + reconciliation `63972c8`; results and this report in the closing commit.
+- **Protocol.** `experiments/ecro86/protocol/ecro86.json`, `amendment1.json`.
+- **Checkpoints.** `results/ecro86/results/models/ecro_s8601.pt`, `ecro_s8602.pt`; ER states `experiments/ecro86/data/mats86.npz` (sha256 in `mats86.json`, bit-identical to the WL85 fixture).
+- **Seeds.** REF-ER 86100–86107, REF-P 86200–86207, held-out sources 86300–86303, oracle renders 86400–86401, fields 86450, ladders 86500+, ECRO renders 86600–86601; splits 86100 / 86200; state table 86001; training 8601, 8602.
+- **Environment.** RTX 3080 Ti 12 GB, driver 595.71.05, Mitsuba 3.5.1 `cuda_ad_rgb`, Dr.Jit 0.4.6, torch 2.3.1.
+- **Server.** `~/rest_ecro86` (renders, fields, data 2.6 GB, `chain.status`, `chain_frozen_run1.status`, GPU traces).
+- **Local copy.** `results/ecro86/results/` (`qualify.json`, `qualify_frozen.json`, `stage1.json`, `final.json`, `tests/`, `contracts/`, `econ/econ86.json`, `models/`, render metadata, logs).
+- **Visuals.** `results/evaluation/86/` (manifest with sha256): references and regions, signed change, higher-order term and its change for E1 and E2, unseen sources, error by region, training, economics.
+- **Invalid or amended runs.** Run 1 stopped at the workload gate on test V3 (amendment 1, above). One early resume by a parallel session produced no Stage 1–4 result.
