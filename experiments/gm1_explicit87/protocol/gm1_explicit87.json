@@ -1,0 +1,537 @@
+{
+ "protocol": "gm1_explicit87_v1",
+ "status": "FROZEN by the freeze commit recorded in docs/worklogs/87_WORKLOG_GM1_EXPLICIT_TRANSPORT_COMPARATOR.md (before any evidence run)",
+ "question": "At the same patch x bin representation, frozen ER scattering, geometry state and camera readout, does the learned global response operator (ECRO v0) provide a quality-matched advantage over explicitly computed physical transport, and what representation limits remain?",
+ "hypotheses": {
+  "H0_explicit_sufficiency": "an explicit transport operator on the same state reaches comparable fidelity at practical cost without learning",
+  "H1_learned_utility": "explicit transport can represent the response but costs enough that learned compression has measurable value",
+  "H2_representation_bottleneck": "the state / relations cannot carry the sharp transport even with physically correct coefficients",
+  "note": "not mutually exclusive across quality levels or transport families; conditional outcomes are reported as such"
+ },
+ "frozen_inputs": {
+  "wl86": "experiments/ecro86 (code imported unchanged), server ~/rest_ecro86 (references REF_ER / REF_P 8 x 8192 spp, oracle fields F_*, masks, checkpoints ecro_s8601.pt / ecro_s8602.pt, ECRO renders)",
+  "wl86a": "server ~/rest_ecro86a (importance arrays stageB/importance_*.npz, path-family split fields D_SPLIT_*)",
+  "er": "experiments/ecro86/data/mats86.npz (WL84 learned ER compiled states, bit-identical to WL85)",
+  "representation": "1,270 patches x 64 equal-solid-angle bins; deployed state: 512 rays per patch (8 per incident bin), offsets from default_rng(86001)"
+ },
+ "contract": {
+  "transport": "b = S_ER (e + C_G b); q = S_ER e; T_G = S_ER C_G; reference b_D = sum_{j=0}^{D-1} T^j q, D = 6",
+  "camera": "pt86: next-event contribution at the k-th camera vertex has k scattering events; LOW = e1 + e2 (k = 1, 2) path-traced; the table B read at the second vertex x2 as throughput(x1) B[patch(x2), bin(x2 -> x1)] supplies k = 3..6",
+  "table_target": "B[x2, w] = radiance leaving x2 towards x1 made of 2..5 scattering events = sum_{j=1}^{4} T^j q at x2; q (1 event) excluded (it is e2); events > 5 excluded",
+  "explicit": "B_exp = sum_{j=1}^{4} T_d^j q_d, L_1 = q_d (1 event), L_{k+1} = T_d L_k (k + 1 events), B_exp = L_2 + L_3 + L_4 + L_5"
+ },
+ "comparators": {
+  "ECRO": "frozen WL86 checkpoints ecro_s8601 / ecro_s8602 (no change); WL86 renders reused for E1 / E2 (common random numbers with EXP renders), new renders for E3",
+  "EXP": "primary learning-free comparator (C1 same-state receiver gather): deployed state rays (hit patch, outgoing bin at the hit); per-ray ER weights W_ray[m, r, bo] = fbar_m(w_r)[bo] cos(w_r) DOMEGA / kappa at each ray's exact local direction (Lambert exact rho / pi); q_d = patch x bin projection of the once-scattered radiance of the actual lights (P stratified points per patch, exact light direction, MIS-sampled outgoing-bin averages); four applications; read by the unchanged WL86 LOW + lookup estimator; curved sphere patches: W rows per sphere band (the 8 patches of a band are rotations about z) evaluated at each ray's origin point - local shading frame, local cosine (0 below the local horizon), outgoing directions above the local horizon - and normalised by the bin's mean valid solid angle, as the oracle field averages over valid directions; q of sphere patches normalised the same way",
+  "C2_BINQ": "EXP with each ray's weights replaced by the mean over the 8 rays of its incident bin (same quadrature samples): the response sees only the bin-mean incident radiance (scattering-quadrature / incident-direction information inside the bin)",
+  "C2_ENC": "EXP whose first table is computed from ECRO's own 16-point source encoding s: source-projection error at the first event; uses the dense flat patch-frame table (sphere receivers: patch-centre frame approximation, declared)",
+  "C2_RAYSEND": "EXP whose first gather reads the exact once-scattered radiance at each state ray's hit point: sender-projection error of the 1-event family (incl. light -> panel -> receiver)",
+  "C3": "sender-side deposition: per order R = 1,270 x 512 rays drawn from the sender table in proportion to emitted power (systematic resampling, point uniform on the patch, direction proportional to cos in the bin), traced in the current geometry, deposited at the receiver's dense incident cell; same output table and readout; a separate relation per order and source - NOT an identical-state comparison; receiver scattering from the dense flat patch-frame table (sphere receivers: patch-centre frame approximation, declared)",
+  "POOL": "convergence diagnostic only (not matched budget): T_d averaged over the 16 independent realizations (8,192 rays per patch)",
+  "TF": "physical table fill: pt86.Ctx.field at budgets of samples per (patch, bin) slot, current geometry and lights, independent seeds; full fill cost counted",
+  "PT": "frozen-ER camera path tracer, <= 6 events, NEE at every vertex, no Russian roulette (WL86 comparator, re-measured)",
+  "PT_RR": "PT with Russian roulette before tracing vertices >= 3: survival q = min(0.95, max_rgb throughput), throughput / q (same expected truncated path family)"
+ },
+ "explicit": {
+  "M_ray": 65536,
+  "seed_ray": 87001,
+  "M_dense": 16384,
+  "seed_dense": 87002,
+  "dense_cells": "8 x 8 strata per incident bin (4,096 cells, cell centres)",
+  "P": 16,
+  "Mq": 1024,
+  "seed_q": 87003,
+  "seed_c3": 87004,
+  "orders": 4,
+  "not_imposed": "no renormalisation, clamping or energy correction of any table"
+ },
+ "e3_order": [
+  "E3a",
+  "E3b",
+  "E3c"
+ ],
+ "e3_rule": {
+  "regions": [
+   "A",
+   "C",
+   "D",
+   "E"
+  ],
+  "min_pixels": 1000,
+  "also": "pt86 geometry admissibility (scene86.geom_ok for T0 and T1) and light_ok; the first admissible candidate in e3_order is E3; geometry / visibility only (masks86.compute), no radiance of any candidate before the choice is recorded"
+ },
+ "e3_candidates": {
+  "E3a": {
+   "T0": {
+    "A": {
+     "c": [
+      -0.4,
+      0.2,
+      0.4
+     ],
+     "h": [
+      0.25,
+      0.3,
+      0.35
+     ],
+     "yaw": 0.3
+    },
+    "B": {
+     "c": [
+      0.3,
+      1.45,
+      0.6
+     ],
+     "h": [
+      0.3,
+      0.25,
+      0.6
+     ],
+     "yaw": 0.2
+    }
+   },
+   "T1": {
+    "A": {
+     "c": [
+      0.5,
+      -0.9,
+      0.4
+     ],
+     "h": [
+      0.25,
+      0.3,
+      0.35
+     ],
+     "yaw": 1.0
+    },
+    "B": {
+     "c": [
+      0.3,
+      1.45,
+      0.6
+     ],
+     "h": [
+      0.3,
+      0.25,
+      0.6
+     ],
+     "yaw": 0.2
+    }
+   },
+   "moved": [
+    "A"
+   ],
+   "light": {
+    "pos": [
+     0.3,
+     1.2,
+     2.6
+    ],
+    "rgb": [
+     30.0,
+     30.0,
+     30.0
+    ]
+   }
+  },
+  "E3b": {
+   "T0": {
+    "A": {
+     "c": [
+      -0.8,
+      1.2,
+      1.3
+     ],
+     "h": [
+      0.3,
+      0.3,
+      0.3
+     ],
+     "yaw": 0.4
+    },
+    "B": {
+     "c": [
+      1.2,
+      -1.1,
+      0.45
+     ],
+     "h": [
+      0.25,
+      0.3,
+      0.45
+     ],
+     "yaw": 0.5
+    }
+   },
+   "T1": {
+    "A": {
+     "c": [
+      -0.3,
+      0.9,
+      1.0
+     ],
+     "h": [
+      0.3,
+      0.3,
+      0.3
+     ],
+     "yaw": 1.1
+    },
+    "B": {
+     "c": [
+      1.2,
+      -1.1,
+      0.45
+     ],
+     "h": [
+      0.25,
+      0.3,
+      0.45
+     ],
+     "yaw": 0.5
+    }
+   },
+   "moved": [
+    "A"
+   ],
+   "light": {
+    "pos": [
+     -0.2,
+     -0.6,
+     2.7
+    ],
+    "rgb": [
+     30.0,
+     30.0,
+     30.0
+    ]
+   }
+  },
+  "E3c": {
+   "T0": {
+    "A": {
+     "c": [
+      -0.2,
+      0.0,
+      1.6
+     ],
+     "h": [
+      0.35,
+      0.3,
+      0.3
+     ],
+     "yaw": 0.0
+    },
+    "B": {
+     "c": [
+      0.9,
+      -1.0,
+      0.5
+     ],
+     "h": [
+      0.3,
+      0.2,
+      0.5
+     ],
+     "yaw": 0.9
+    }
+   },
+   "T1": {
+    "A": {
+     "c": [
+      -0.85,
+      0.3,
+      1.2
+     ],
+     "h": [
+      0.35,
+      0.3,
+      0.3
+     ],
+     "yaw": 0.6
+    },
+    "B": {
+     "c": [
+      0.9,
+      -1.0,
+      0.5
+     ],
+     "h": [
+      0.3,
+      0.2,
+      0.5
+     ],
+     "yaw": 0.9
+    }
+   },
+   "moved": [
+    "A"
+   ],
+   "light": {
+    "pos": [
+     -0.5,
+     1.4,
+     2.2
+    ],
+    "rgb": [
+     30.0,
+     30.0,
+     30.0
+    ]
+   }
+  }
+ },
+ "e3_dev_candidate": {
+  "E3dev": {
+   "T0": {
+    "A": {
+     "c": [
+      -0.05,
+      -0.25,
+      1.75
+     ],
+     "h": [
+      0.35,
+      0.35,
+      0.35
+     ],
+     "yaw": 0.0
+    },
+    "B": {
+     "c": [
+      0.2,
+      1.45,
+      0.5
+     ],
+     "h": [
+      0.22,
+      0.22,
+      0.5
+     ],
+     "yaw": 0.349
+    }
+   },
+   "T1": {
+    "A": {
+     "c": [
+      -0.05,
+      0.85,
+      1.75
+     ],
+     "h": [
+      0.35,
+      0.35,
+      0.35
+     ],
+     "yaw": 0.0
+    },
+    "B": {
+     "c": [
+      0.2,
+      1.45,
+      0.5
+     ],
+     "h": [
+      0.22,
+      0.22,
+      0.5
+     ],
+     "yaw": 0.349
+    }
+   },
+   "moved": [
+    "A"
+   ],
+   "light": {
+    "pos": [
+     0.0,
+     -1.0,
+     2.4
+    ],
+    "rgb": [
+     30.0,
+     30.0,
+     30.0
+    ]
+   },
+   "note": "plumbing-only stand-in for the dev smoke of the chain (E1 geometry, another light), so that no radiance of an E3 candidate exists before the freeze"
+  }
+ },
+ "e3_references": {
+  "ER": {
+   "replicas": 8,
+   "spp": 8192,
+   "seed_base": 87100
+  },
+  "P": {
+   "replicas": 8,
+   "spp": 8192,
+   "seed_base": 87120
+  },
+  "oracle_field": {
+   "spp": 4096,
+   "seed": 87450
+  },
+  "oracle_render": {
+   "replicas": 2,
+   "seed_base": 86400,
+   "spp": 4096
+  },
+  "ecro_render": {
+   "replicas": 2,
+   "seed_base": 86600,
+   "spp": 4096,
+   "variants": [
+    "ecro",
+    "stale"
+   ]
+  },
+  "admission": "WL86 stage0 criteria Q1-Q4, Q6, Q7 (analyze86 qualify logic) on E3; a non-admitted E3 is reported and excluded from the fidelity verdicts (no stop)"
+ },
+ "renders": {
+  "spp": 4096,
+  "seeds": [
+   86600,
+   86601
+  ],
+  "note": "the WL86 ECRO render seeds: common random numbers, so EXP - ECRO differences come from the tables only; references (86100+ / 87100+) are independent"
+ },
+ "stage0": {
+  "gate": "every test in tests87.py marked gate must pass, else STOPPED_INVALID_COMPARISON",
+  "T_WL86": "E_H tables recomputed from the stored WL86 renders equal final.json / stage1.json (|diff| <= 1e-9)",
+  "T_READOUT": "re-render of ORA_E2_T1_r0 and EC_ecro_s8601_ecro_E2_T1_r0 with the frozen code: hl relative L1 vs stored <= 1e-4",
+  "T_SYM": "ER reciprocity f(a, b) = f(b, a): max relative difference <= 1e-3 over 2^18 random pairs, 3 ER materials",
+  "T_FBAR": "MIS outgoing-bin estimator vs an independent per-bin uniform estimator (2^14 samples per bin, two halves): relative L1 over bins (two independent halves of each estimator) <= 1 % + 4 x the combined split-half noise of both estimators, 8 directions x 3 materials",
+  "T_LAMB": "Lambert W rows: sum_r W[m, r, bo] = rho / pi sum_r cos_r DOMEGA / kappa (<= 1e-6 relative)",
+  "T_Q": "qtable without occlusion vs an independent numpy 64 x 64 grid irradiance of every Lambert patch (P = 256 points): max relative <= 1 %",
+  "T_IMPL": "torch XOp.apply vs a numpy loop over rays on 40 random patches (32 flat + 8 sphere) of a random table: max relative <= 1e-4",
+  "T_ZERO": "zero light -> q = 0 and B = 0; all rays missing -> L_2..L_5 = 0",
+  "T_LIN": "B(q1 + q2) = B(q1) + B(q2) and B(3 q) = 3 B(q) (<= 1e-5 relative)",
+  "T_NONNEG": "W >= 0, q >= 0, B >= 0",
+  "T_FURNACE": "unit sender table: Lambert receivers return rho / pi sum_r 1[hit] cos_r DOMEGA / kappa (<= 1e-5)",
+  "T_STATE": "null edit, move-and-return, selective update == full rebuild: identical state and bit-identical B_exp",
+  "T_REAL": "realization 86001 equals the deployed state offsets; a realization rebuilt twice gives W within 1e-5 relative (GPU float atomics: bit identity not expected)",
+  "T_RR": "PT_RR vs PT at 2,048 spp, E1 T1, independent seeds: frame mean ratio within 0.5 %, per-object means within 1.5 %",
+  "T_SEEDS": "all WL87 seeds are disjoint from the reference seeds",
+  "reported_not_gated": "T_ALB (ER directional albedo of the 512-ray quadrature vs ER-sampling albedo: discretisation, per material); T_ORDER_SUM (per-order truth sums to the WL86 oracle field within noise)",
+  "T_FRAMES": "curved-patch estimator with an identity frame equals fbar (relative L1 <= 1 % + 4 x combined split-half noise) and every sphere-band W row sums to a bin albedo <= 1.05"
+ },
+ "stage1": {
+  "measure": "E_H(X) = sum |hl_X - h_REF-ER| / sum tot_REF-ER (WL86); capture = E_H / H share; noise bound as analyze86.eh_table",
+  "thresholds_wl86": {
+   "EH_stationary_max": 0.03,
+   "capture_max": 0.25,
+   "EH_region_max": 0.06,
+   "dH_slope": [
+    0.75,
+    1.25
+   ],
+   "dH_corr_min": 0.8,
+   "EH_unseen_source_max": 0.04
+  },
+  "field_level": "relative L1 of each table vs the oracle field (mean of halves; WL86 F_* for E1 / E2, new for E3), flux ratio (area x cos x solid angle), by patch class; per order vs the per-order truth",
+  "family": "region-C reading of the light -> panel -> Lambert-receiver family (WL86A importance and D_SPLIT e2_p truth; E2 T1, E2 T0, E1 T1)",
+  "classification": {
+   "NUMERICALLY_INVALID": "any stage-0 implementation test fails, a table is non-finite / negative, or the explicit flux ratio vs the oracle field lies outside [0.8, 1.2] on any configuration",
+   "ACCURATE_UNDER_FROZEN_REPRESENTATION": "F1 (stationary E_H and capture, T0 and T1) and F2 (A, C, D at T1) pass on every admitted edit, F3 passes where resolvable, F4 passes",
+   "DISCRETISATION_LIMITED": "valid and failing; for every failing quantity the oracle table passes the same threshold AND the excess is visible as discretisation: a per-order field error > 2 x the truth noise in some order, or a C2 / C3 control moving the failing E_H by >= 20 %",
+   "INSUFFICIENTLY_RESOLVED": "valid; every failing F1 / F2 quantity exceeds its threshold by <= 1.5 x its noise bound; F3 and F4 do not fail",
+   "FAILING_UNLOCALISED": "valid and failing, but the localisation condition of DISCRETISATION_LIMITED does not hold"
+  }
+ },
+ "stage2": {
+  "deployed_seed": 86001,
+  "seeds": [
+   87201,
+   87202,
+   87203,
+   87204,
+   87205,
+   87206,
+   87207,
+   87208,
+   87209,
+   87210,
+   87211,
+   87212,
+   87213,
+   87214,
+   87215,
+   87216
+  ],
+  "rule": "same selection strategy as deployed: one draw of 512 offsets (default_rng(seed).random((4, 1, 512))) shared by all patches, 8 rays per incident bin, uniform within the bin; per-realization W_ray",
+  "ecro_models": [
+   "ecro_s8601"
+  ],
+  "metrics": "per realization and configuration: region-C / panel / D rendered E_H and signed error, T1 - T0 change (slope, corr) in C and D, important-panel hit counts, missed important relations, BIN / RAY family reading and patch-level relative RMS (WL86A amendment-2 definitions); mean, SD, 95 % t interval over the 16 realizations",
+  "important": "receiver patch: Lambert, reads >= 0.2 % of the region-C higher-order reading (importance); relation: receiver x panel patch carrying >= 5 % of that receiver's pooled RAY panel-family irradiance (pooled over the 16 realizations); missed: no ray of the realization joins the pair",
+  "classification": {
+   "A_SYSTEMATIC": "pooled-state signed error / realization-mean signed error >= 0.5 (same sign) and the realization-mean 95 % interval excludes 0 (region C, per edit and T0 / T1)",
+   "B_VARIANCE": "the realization SD of the region-C signed error >= the |realization mean| and the pooled-state signed error is <= 50 % of the realization-mean |signed error|",
+   "C_RECEIVER_SAMPLING": "rendered signed error of C3 <= 0.5 x that of the deployed-state EXP in the region of >= 2 of the 3 family cases (E2 T1 C, E2 T0 C, E1 T1 panel)",
+   "D_MIXTURE": "more than one of A, B, C holds, or none holds cleanly",
+   "note": "classification is per family case (E2 T1, E2 T0, E1 T1) and for region C of every admitted edit; no fundamental information limit is inferred from one realization"
+  },
+  "seed_note": "per-realization quadrature seeds: seed_ray + 1000 x realization index (deployed: seed_ray)"
+ },
+ "stage3": {
+  "alone": "run alone on the GPU; foreign processes recorded before and after",
+  "ladder_spp": [
+   4,
+   16,
+   64,
+   256,
+   1024,
+   4096,
+   16384
+  ],
+  "replicates": 3,
+  "seed_base": 87600,
+  "edits": [
+   "E1",
+   "E2",
+   "E3"
+  ],
+  "arms": [
+   "PT",
+   "PT_RR",
+   "ECRO_s8601",
+   "EXP",
+   "TF16",
+   "TF64",
+   "TF256",
+   "TF1024",
+   "TF4096",
+   "C3"
+  ],
+  "tf_budgets": [
+   16,
+   64,
+   256,
+   1024,
+   4096
+  ],
+  "tf_seed_base": 87700,
+  "quality": "relative L1 of the full image vs the pooled REF-ER image of T1 on the stationary pixels (WL86) and per region A, C, D; levels 0.10, 0.05, 0.03 and g (REF-ER vs REF-P gap of the edit, stationary) - g is evaluated only if the pooled reference noise (0.5 x split-half relative L1) is <= g / 2",
+  "matching": "log-log interpolation between bracketing ladder medians (econ86 rule); 'not reached' when the best ladder point is above the level; no extrapolation",
+  "region_rules": "(i) WL86: region-matched if the arm's interpolated A, C, D errors are <= 1.1 x the path tracer's at its matched spp; (ii) per-region time-to-quality: region-C and region-D error levels 0.10 / 0.05 / 0.03 reached or not",
+  "costs": "per edit (warm, median of 3 T0 <-> T1 cycles): geometry update; ECRO selective state + source + generator / application + transfer; EXP selective state + q + recurrence + transfer (material W tables are geometry-independent: built once, counted as initialisation); TF fill at its budget + transfer; C3 q + deposition; PT none. First-frame extra (acceleration structure). Kernel GPU time and wall. Source-only update (same geometry, new light): ECRO source + application (factors reused), EXP q + recurrence, TF fill, C3 q + deposition. Cold initialisation separately. Memory: persistent state / tables / factors / peak",
+  "amortisation": "frames (views) per edit V in {1, 4, 16}: cost(V) = fixed per-edit + V x per-frame at the matched spp (camera 1 frames); also reported for the second camera",
+  "verdict_per_arm_vs_PT": "SUPPORTED: edit-to-first-frame advantage >= 1.25 in wall and GPU at 0.05, 0.03 and g with rule (i) on every admitted edit; CONDITIONALLY: at 0.05 and 0.03 only, or resident per-frame only; NOT SUPPORTED otherwise; a level an arm cannot reach is reported as unreachable, never as a speedup",
+  "learned_vs_explicit": "ECRO vs EXP at matched quality: ratio of edit-to-first-frame wall and GPU time, per level, rule (i) applied to both",
+  "g_rule": "if g is not evaluable on an edit, SUPPORTED is unreachable and the label is capped at CONDITIONALLY",
+  "render_launch": "all table renders use launches of 32 spp, as ecro86.render_cfg, so that common random numbers are complete",
+  "interp_note": "if the first ladder point is already at or below a level, its region errors are used for the region rule"
+ },
+ "verdict_mapping": {
+  "EXPLICIT_OPERATOR_CORRECTNESS": "SUPPORTED if every stage-0 implementation gate passes and the explicit tables are finite, non-negative and within the flux bound; NOT SUPPORTED otherwise",
+  "FROZEN_STATE_ADEQUACY": "SUPPORTED if EXP is ACCURATE_UNDER_FROZEN_REPRESENTATION and >= 90 % of realizations keep F1 / F2 on every admitted edit; CONDITIONALLY if it fails only in region C / sharp receivers; NOT SUPPORTED if broad gates (F1, F2-D, F3) fail",
+  "SHARP_TRANSPORT_REPRESENTABILITY": "(through the state with physical coefficients) SUPPORTED if EXP region-C E_H <= 0.06 on every admitted edit for >= 90 % of realizations; NOT SUPPORTED if the deployed state, the realization mean and the pooled diagnostic all fail on an edit (systematic); INDETERMINATE if pass / fail varies across realizations (variance) or only the pooled diagnostic passes",
+  "BROAD_TRANSPORT_FIDELITY": "EXP F1, F2 in D and F3 in D: SUPPORTED if all pass on every admitted edit",
+  "LEARNED_OPERATOR_ADDITIONAL_UTILITY": "SUPPORTED if ECRO beats EXP in E_H (difference > the larger noise bound) in a region class without being worse elsewhere, or is >= 1.25 x cheaper in edit-to-first-frame or source-update cost at matched quality; NOT SUPPORTED if EXP is equal or better in every region class (within noise) and not >= 1.25 x more expensive; CONDITIONALLY otherwise (state the condition); region classes stationary, A, C, D, panel, sphere at T0 and T1 of every admitted edit; ECRO better / worse only if both seeds differ from EXP by more than the larger noise bound; cost: edit-to-first-frame (wall and GPU) at a level both reach, or table source-update cost",
+  "QUALITY_MATCHED_ECONOMICS": "stage3 per-arm verdicts and the learned-vs-explicit ratios",
+  "DYNAMIC_EDIT_VALIDITY": "EXP F3 (D) and the C-region change slope / correlation on every admitted edit",
+  "GM1_ARCHITECTURE_IMPLICATION": "conditional statement over H0 / H1 / H2 by quality level and region class; no successor selected"
+ },
+ "scope": "one room family, rigid box edits, three frozen ER materials, point / cone sources, 512^2, LabServer63 RTX 3080 Ti; E1 / E2 were inspected in WL86 / WL86A (paired historical diagnosis, not blind); E3 is the untouched condition"
+}
