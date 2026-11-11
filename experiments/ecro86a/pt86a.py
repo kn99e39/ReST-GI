@@ -70,8 +70,9 @@ class Src:
             self.tb = U(np.ascontiguousarray(idx.ravel())); self.te = PT.fl(val); self.tc = PT.fl(cum); self.tp = PT.fl(prob)
 
 
-def field_src(ctx, src, spp, seed, kmax=PT.D - 1, b=128):
-    """As pt86.Ctx.field, with the incident field of `src`. Returns [N, NB, 3]."""
+def field_src(ctx, src, spp, seed, kmax=PT.D - 1, b=128, split=False):
+    """As pt86.Ctx.field, with the incident field of `src`. Returns [N, NB, 3]; split=True returns a dict of four tables that sum to it:
+    e2_p / e2_o (exactly 2 scattering events, last sender on the panel / elsewhere) and e3_p / e3_o (3..kmax events)."""
     scene, mats = ctx.scene, ctx.mats
     ns = ctx.N * NB
     acc = None
@@ -95,6 +96,8 @@ def field_src(ctx, src, spp, seed, kmax=PT.D - 1, b=128):
         ray = mi.Ray3f(p + w * 2e-3, -w)
         thr = mi.Color3f(1.0)
         tot = mi.Color3f(0.0)
+        parts = [mi.Color3f(0.0) for _ in range(4)]
+        v2p = mi.Bool(False)
         okp = None
         for k in range(1, kmax + 1):
             si = scene.ray_intersect(ray, active)
@@ -169,6 +172,12 @@ def field_src(ctx, src, spp, seed, kmax=PT.D - 1, b=128):
                     f = cl.eval(wi, dr.select(use, wo_l, mi.Vector3f(0, 0, 1)), use)
                     c += dr.select(use, thr * f * float(bm['E']), 0.0)
                 tot += c
+                if split:
+                    if k == 2:
+                        v2p = dr.eq(mid, U(1))
+                    for q in range(4):
+                        sel = (v2p if q % 2 == 0 else ~v2p) if ((q < 2) == (k == 2)) else mi.Bool(False)
+                        parts[q] += dr.select(sel, c, 0.0)
             if k == kmax:
                 break
             u1 = rng.next_float32(); u2 = mi.Point2f(rng.next_float32(), rng.next_float32())
@@ -177,11 +186,17 @@ def field_src(ctx, src, spp, seed, kmax=PT.D - 1, b=128):
             active &= valid
             ray = si.spawn_ray(si.to_world(wo))
         out = {'f0': tot.x, 'f1': tot.y, 'f2': tot.z, 'cnt': dr.select(okp, F(1.0), F(0.0))}
+        if split:
+            for q, nm in enumerate(('e2_p', 'e2_o', 'e3_p', 'e3_o')):
+                out[f'{nm}0'] = parts[q].x; out[f'{nm}1'] = parts[q].y; out[f'{nm}2'] = parts[q].z
         a = ctx.accum(out, slot, ns)
         acc = a if acc is None else {k_: acc[k_] + v for k_, v in a.items()}
         done += bb; launch += 1
     cnt = acc['cnt'].reshape(ctx.N, NB)
     f = np.stack([acc[f'f{c}'] for c in range(3)], -1).reshape(ctx.N, NB, 3) / np.maximum(cnt, 1)[..., None]
+    if split:
+        return {nm: (np.stack([acc[f'{nm}{c}'] for c in range(3)], -1).reshape(ctx.N, NB, 3) / np.maximum(cnt, 1)[..., None]).astype(np.float32)
+                for nm in ('e2_p', 'e2_o', 'e3_p', 'e3_o')}
     return f.astype(np.float32)
 
 

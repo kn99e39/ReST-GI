@@ -1,0 +1,29 @@
+{
+ "amendment": 1,
+ "protocol": "ecro86a_v1",
+ "date": "2026-11-11",
+ "kind": "post hoc extension of Stage D, written after the Stage C evidence and before any of the measurements it defines",
+ "trigger": "The prospective hypothesis H_A is falsified for the failing cases: the encoding-equivalent incident field ENC_ALL explains -0.2 %, -2.6 % and -4.9 % of the learned signed error in the three primary cases (rule: >= 50 % for SUPPORTED, < 20 % in all for WEAKENED), and its rendered E_H in E2 T1 region C is 0.025 against 0.063 / 0.072 for the learned tables. By rule learned_mapping is SUPPORTED as the cause (inputs suffice). Stage D of the brief then requires separating coverage, optimisation, supervision and operator-family capacity; the frozen protocol has no measurement for that.",
+ "post_hoc_notes_on_v1": [
+  "validation rule: FAILED as written on E2 T1 region C (|TRUE - stored| 0.0079 against 4 x a single signed half-difference 0.0013). The noise proxy was one draw. The four independent half-fields (stored a, b; TRUE a, b) have a relative standard deviation of 1.3 % of the region-C reading; the TRUE - stored difference of the means is 0.9 sigma. Reported as a failed rule with an inadequate noise proxy.",
+  "counterexample rule: no pair qualifies as written (entry-wise relative L1 is at 1.8-2.1 x its noise because the response to one beam is spread over 81,280 table entries). With patch-level sums (post hoc) the azimuthal pair on the panel differs by 0.94 against noise 0.26, and region C would read 24 / 30 (halves) from beam a against 78 / 77 from beam b although their encodings are identical. Lambert wall patch: 0.075 against 0.053 (none). Reported as a post hoc statistic."
+ ],
+ "split": {"spp_per_half": 2048, "what": "path-traced truth of the three configurations split by event order at the table patch (exactly 2 events = one flight from a directly lit sender; >= 3 events) and by the last sender (panel / other)"},
+ "terms": "the frozen operator is the exact sum of its single learned flight and its global term; the single flight is further split by sender (state-ray hit on a panel patch). Compared with the matching parts of the truth through the Stage B importance weights.",
+ "indist": "patch-level level error (table summed over bins and RGB) of the frozen operators on broad patches, binned by the form factor of the patch to the panel front (from the state rays), on the high-quality training subset (geometries seen in training) and on validation (unseen); noise-debiased with the two target halves",
+ "fit": {
+  "geometry": "E2_T1 (diagnostic oracle; not a deployable candidate; the test light L2 is not in the fit)",
+  "light_seed": 86990, "fit_lights": 64, "fit_spp": 256, "heldout_lights": 8, "heldout_spp_per_half": 1024, "steps": 3000, "lr": 0.003,
+  "variants": {"PQ": "only the global encoder / decoder tables are free (c, a from the frozen generator)", "ALL": "all four factor tables are free"},
+  "init": "the factors of the frozen generator for this geometry",
+  "loss": "WL86 loss",
+  "note": "tests whether the WL86 operator family (same bins, R 16, rank 24, same state rays, same source encoding) can represent the response of this geometry across point lights"
+ },
+ "rules": {
+  "term_localisation": "the failure is attributed to the GLOBAL TERM if its error against the >= 3-event truth carries >= 2/3 of the learned signed error (mean of the two seeds) in >= 2 of the 3 primary cases; to the SINGLE FLIGHT if its error against the 2-event truth does; else MIXED",
+  "coverage_generalisation": "WEAKENED if the debiased patch-level error on seen training geometries is >= 2/3 of that on unseen validation geometries for the broad patches with panel form factor >= 0.03 (both seeds); SUPPORTED if < 1/3; else INDETERMINATE",
+  "operator_family_capacity": "SUFFICIENT if the free-factor fit reduces the signed error read by region C under the held-out test light L2 to <= 1/3 of that of the frozen operator (both seeds); INSUFFICIENT if it stays >= 2/3; else INDETERMINATE. Reported for PQ and ALL, with held-out-light / fit-light field error as the over-fitting check",
+  "supervision_noise": "reported: patch-level target noise of the affected patches against the size of the level error; an L2-type loss is unbiased under target noise, so noise is SUPPORTED as the controlling cause only if the level error is not larger than about twice the patch-level target noise at the training sample count"
+ },
+ "intervention_gate": "an intervention is admitted only if a bounded, admissible cause is SUPPORTED: supervision precision (noise controlling) or an implementation defect. If the supported cause is the operator family (capacity INSUFFICIENT) the correction needs another operator or rank -> not admissible -> STOP. If capacity is SUFFICIENT and coverage is WEAKENED, the cause is the learned mapping of the generator under the frozen training protocol; with supervision noise not shown to be controlling there is no bounded admissible correction (retraining longer or differently is not attributable) -> STOP at attribution."
+}
