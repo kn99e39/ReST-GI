@@ -1,0 +1,16 @@
+{
+ "amendment": 2,
+ "protocol": "ecro86a_v1",
+ "date": "2026-11-11",
+ "kind": "post hoc diagnostic, written after the amendment 1 evidence and before its own measurement",
+ "trigger": "Amendment 1 localises the failure in the single learned flight from panel senders: in E2 T1 region C the light -> panel -> patch family is 18.8 % of what the region reads, the frozen operators deliver 2.8 % / 3.6 % of their reading through it (signed error -0.116 / -0.110 of total radiance), and the global term adds +0.050 / +0.064. The free-factor fit on that geometry still leaves 49-68 % of the deficit (INDETERMINATE). Open question (brief C2): does the frozen geometry-state relation (512 stratified rays per patch, 8 per incident bin, hit patch + outgoing bin) lose the sharp-sender flight by sampling / quantisation, or is the relation adequate and its learned use insufficient?",
+ "qfield_spp_per_half": 256,
+ "measurement": "for Lambert receiver patches and panel senders, the irradiance of the 2-event family computed (BIN) through the deployed state rays from the path-traced once-scattered radiance of the panel averaged per (patch, outgoing bin), and (RAY) through the same rays from the exact radiance at each hit point; compared with the path-traced truth (SPLIT e2_p) by the importance-weighted reading of the region and at patch level (patches carrying > 0.2 % of the region importance)",
+ "rules": {
+  "ADEQUATE": "BIN and RAY both reproduce the truth's importance-weighted reading within 20 % and with patch-level relative RMS <= 0.3 in every primary case where the family carries > 2 % of the reading: the relation can carry the flight; the failure is its learned use",
+  "SAMPLING-LIMITED": "RAY (exact sender radiance, deployed rays) misses the reading by > 20 % or has patch-level relative RMS > 0.5 in every such case: the ray count of the state relation cannot carry a sharp sender lobe",
+  "BIN-LIMITED": "RAY is adequate and BIN is not: the 64 outgoing bins at the sender lose the lobe",
+  "MIXED": "otherwise"
+ },
+ "gate": "SAMPLING-LIMITED or BIN-LIMITED place the cause in the frozen state / angular budget (not admissible to change: state rays, bins); ADEQUATE leaves the learned mapping (generator / training) as the cause with no bounded admissible correction shown. In every case the batch stops at attribution."
+}
