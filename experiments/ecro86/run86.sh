@@ -13,6 +13,7 @@ pool() {
   local maxj=$1; shift; local names=()
   while [ $# -gt 0 ]; do
     local name=$1 cmd=$2; shift 2
+    if [ -n "${RESUME:-}" ] && [ "$(cat "$R/logs/$name.rc" 2>/dev/null)" = 0 ]; then names+=("$name"); continue; fi   # resume: completed job kept
     while [ "$(jobs -rp | wc -l)" -ge "$maxj" ]; do sleep 1; done
     log "START $name"
     ( bash -c "$cmd" > "$R/logs/$name.log" 2>&1; echo $? > "$R/logs/$name.rc" ) &
@@ -32,12 +33,19 @@ if [ -n "$DEV" ]; then SPP=128; NER=2; NP=2; NSRC=2; FSPP=128; ESPP=128; GTR=24;
 CFGS="E1_T0 E1_T1 E2_T0 E2_T1"
 SEEDS="8601 8602"
 # ---- Stage 0: geometric masks; validation tests and references (concurrent)
+if [ -z "${RESUME:-}" ]; then
 run S0_masks "$PY masks86.py $ROOT E1 && $PY masks86.py $ROOT E2 && $PY masks86.py $ROOT E1 --ls=LMIX && $PY masks86.py $ROOT E1 --ls=LSPOT"
 j=(S0_tests "$PY tests86.py $ROOT $DEV")
 for r in $(seq 0 $((NER-1))); do for c in $CFGS; do j+=(REF_ER_${c}_r$r "$PY pt86.py render $ROOT $c ER $((86100+r)) $SPP REF_ER_${c}_r$r"); done; done
 for r in $(seq 0 $((NP-1))); do for c in $CFGS; do j+=(REF_P_${c}_r$r "$PY pt86.py render $ROOT $c P $((86200+r)) $SPP REF_P_${c}_r$r"); done; done
 for r in $(seq 0 $((NSRC-1))); do for ls in LMIX LSPOT; do j+=(REF_ER_E1_T1_${ls}_r$r "$PY pt86.py render $ROOT E1_T1 ER $((86300+r)) $SPP REF_ER_E1_T1_${ls}_r$r --ls=$ls"); done; done
 pool $MAXJ "${j[@]}"
+else
+  # amendment 1 (post hoc, labelled): Stage 0 renders are reused; the frozen STOP record stays in chain.status / qualify_frozen.json
+  log "RESUME amendment=1 commit=$(cat $ROOT/code/COMMIT 2>/dev/null)"
+  cp -n "$R/qualify.json" "$R/qualify_frozen.json"
+  run S0_amend1 "$PY amend1_86.py $ROOT"
+fi
 run S0_qualify "$PY analyze86.py qualify $ROOT"
 g=$(last S0_qualify); log "GATE WORKLOAD $g"
 [ "$g" = ADMITTED ] || [ -n "$DEV" ] || { log "STOP $g"; run S9_viz "$PY viz86.py $ROOT"; log CHAIN_DONE; exit 0; }

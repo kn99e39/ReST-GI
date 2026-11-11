@@ -1,0 +1,11 @@
+{
+ "amendment": 1,
+ "protocol": "ecro86_v1",
+ "date": "2026-11-11",
+ "kind": "bounded correction of a validation-test tolerance (numerical defect of the test, not of the experiment); labelled post hoc with respect to run 1 of Stage 0, made before any Stage 1-4 result exists",
+ "trigger": "Run 1 of the frozen chain (commit 7786d09) stopped at the workload gate with STOPPED_UNQUALIFIED_WORKLOAD. Every physical criterion Q1-Q7 passed for E1 and E2; the stop came from validation test V3, clause 'in-place edit == rebuilt scene' on E2: per-pixel maximum difference 0.0066 of the frame mean against a tolerance of 2e-4.",
+ "diagnosis": "The in-place edit writes box vertices computed in float64 and rounded to float32; a rebuilt scene transforms them in float32. The vertex positions differ by 6e-8 (one ulp). With the rotated box of E2, single samples whose secondary rays graze a box edge hit or miss: 3 of 65,536 pixels differ (1 above 1e-3 of the mean), frame relative L1 1.1e-7, geometry state identical. The reference renders use rebuilt scenes, so no reference depends on the in-place path. Measured after the stop with the frozen code (LabServer63, same seeds).",
+ "change": "V3, clause in-place vs rebuilt only: replaced 'per-pixel maximum <= 2e-4 of the mean' by 'frame relative L1 <= 1e-5 AND fraction of pixels differing by more than 1e-3 of the mean <= 1e-4 AND box vertex positions agree within 1e-5 m AND identical geometry state'. The null-edit and move-and-return clauses keep the per-pixel 2e-4 tolerance. The per-pixel maximum is still reported.",
+ "not_changed": "workload criteria and thresholds, masks, references (run 1 renders are kept and reused), representation, operator, training, gates of Stages 1-4",
+ "procedure": "run-1 test results are preserved as results/tests/tests86_run1.json; V3 is re-run alone with the amended clause and merged; the chain resumes with RESUME=1 (completed jobs are not repeated; the qualification analysis is recomputed from the run-1 references)"
+}

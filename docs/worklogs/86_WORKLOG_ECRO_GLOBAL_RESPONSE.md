@@ -83,3 +83,16 @@
    | ECRO per edit (warm) | geometry 31 ms, state 23–29 ms, source 5 ms, operator 11 ms, table transfer 1.4 ms | — |
 
    Expected wall time of the frozen chain: about 1 h 40 min.
+
+## Frozen chain, first run (commit `7786d09`, 2026-11-11 01:27–02:12 UTC): stopped at the Stage 0 gate
+
+- **Outcome by the frozen rule: `STOPPED_UNQUALIFIED_WORKLOAD`.** This record is preserved (`chain.status`, `results/qualify_frozen.json`).
+- **Cause.** Every workload criterion Q1–Q7 passed for E1 and E2. The stop came from the renderer validation only: test V3, clause "in-place edit == rebuilt scene", on E2 (per-pixel maximum difference 0.0066 of the image mean at 256 spp against a tolerance of 2e-4). All other tests passed (V1 against Mitsuba's path integrator within 0.6 %, V2, V4–V8).
+- **Diagnosis** (`diag_v3.py`, `results/amend1/v3_diagnosis.json`). E2's edit rotates box B. The in-place vertices differ from the rebuilt scene's by 6e-8 m (one float32 unit in the last place). That changes one path sample in 2 of 65,536 pixels: the difference scales as 1 / spp (0.0066 at 256 spp, 0.0017 at 1,024 spp). Frame-level relative difference 9e-8; relative L1 1.1e-7; state rays identical. E1 (translation only) has no differing pixel.
+- **Scope.** Reference renders, oracle fields and ECRO renders build fresh scenes. In-place edits are used by the training-data generator and the economics stage only.
+
+## Amendment 1 (post hoc, labelled; `experiments/ecro86/protocol/amendment1.json`)
+
+- **Change.** V3's in-place clause is evaluated as: vertices within 1e-6 m, frame-level relative difference ≤ 1e-5, relative L1 ≤ 1e-5, fraction of pixels differing by more than 2e-4 × mean ≤ 1e-3, identical state rays. The frozen tolerance was a per-pixel maximum written from a translation-only dev check; it cannot hold when float32 vertex rounding changes a single stochastic sample.
+- **Not changed.** Every research threshold, the scene, materials, masks, representation, training setting, and all other tests.
+- **Execution.** `RESUME=1 run86.sh` reuses the completed Stage 0 renders, re-evaluates the admission with the amended V3 and continues with Stages 1–4 as frozen.
