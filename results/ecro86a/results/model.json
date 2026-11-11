@@ -1,0 +1,159 @@
+{
+ "estimator": {
+  "ecro_s8601:E2_T1": {
+   "encoding_rel_l1_16_vs_hq": 0.1274486929178238,
+   "table_rel_l1_16_vs_hq": 0.0013270849594846368
+  },
+  "ecro_s8601:E2_T0": {
+   "encoding_rel_l1_16_vs_hq": 0.1267165094614029,
+   "table_rel_l1_16_vs_hq": 0.0012017867993563414
+  },
+  "ecro_s8601:E1_T1": {
+   "encoding_rel_l1_16_vs_hq": 0.1577800065279007,
+   "table_rel_l1_16_vs_hq": 0.0020302506163716316
+  },
+  "ecro_s8602:E2_T1": {
+   "encoding_rel_l1_16_vs_hq": 0.1274486929178238,
+   "table_rel_l1_16_vs_hq": 0.0012042627204209566
+  },
+  "ecro_s8602:E2_T0": {
+   "encoding_rel_l1_16_vs_hq": 0.1267165094614029,
+   "table_rel_l1_16_vs_hq": 0.0011452484177425504
+  },
+  "ecro_s8602:E1_T1": {
+   "encoding_rel_l1_16_vs_hq": 0.1577800065279007,
+   "table_rel_l1_16_vs_hq": 0.0018414875958114862
+  }
+ },
+ "beams": {},
+ "field_by_class": {
+  "ecro_s8601:trainhq": {
+   "B_floor": {
+    "rel_l1": 0.08936143302172508,
+    "target_noise_rel_l1": 0.06496178893850346,
+    "rel_rms_debiased": 0.0869664021915293
+   },
+   "S1_panel": {
+    "rel_l1": 0.1972438083275232,
+    "target_noise_rel_l1": 0.04122651468678122,
+    "rel_rms_debiased": 0.2808588356563162
+   },
+   "S2_sphere": {
+    "rel_l1": 0.11671367779059642,
+    "target_noise_rel_l1": 0.05882584460485134,
+    "rel_rms_debiased": 0.13438517553179968
+   },
+   "lambert_walls": {
+    "rel_l1": 0.059815544795484815,
+    "target_noise_rel_l1": 0.045644325730536776,
+    "rel_rms_debiased": 0.05263575810335372
+   },
+   "lambert_boxA": {
+    "rel_l1": 0.06406983312272421,
+    "target_noise_rel_l1": 0.04163902513084637,
+    "rel_rms_debiased": 0.07223387558015942
+   },
+   "lambert_boxB": {
+    "rel_l1": 0.07639379028540574,
+    "target_noise_rel_l1": 0.04910742834047325,
+    "rel_rms_debiased": 0.07684210986159168
+   }
+  },
+  "ecro_s8601:val": {
+   "B_floor": {
+    "rel_l1": 0.09948191903518677,
+    "target_noise_rel_l1": 0.07210814906279499,
+    "rel_rms_debiased": 0.08528930594762694
+   },
+   "S1_panel": {
+    "rel_l1": 0.21338367475088696,
+    "target_noise_rel_l1": 0.047903639928764195,
+    "rel_rms_debiased": 0.30655331490840737
+   },
+   "S2_sphere": {
+    "rel_l1": 0.12078882620781321,
+    "target_noise_rel_l1": 0.06198988600429537,
+    "rel_rms_debiased": 0.145684217816457
+   },
+   "lambert_walls": {
+    "rel_l1": 0.06760076702583133,
+    "target_noise_rel_l1": 0.05119245905433641,
+    "rel_rms_debiased": 0.07067723460813136
+   },
+   "lambert_boxA": {
+    "rel_l1": 0.0810337273921047,
+    "target_noise_rel_l1": 0.05182135233340448,
+    "rel_rms_debiased": 0.14333122753341856
+   },
+   "lambert_boxB": {
+    "rel_l1": 0.09462845343805677,
+    "target_noise_rel_l1": 0.06122274755691596,
+    "rel_rms_debiased": 0.2054876048455057
+   }
+  },
+  "ecro_s8602:trainhq": {
+   "B_floor": {
+    "rel_l1": 0.08900840706280058,
+    "target_noise_rel_l1": 0.06496178893850346,
+    "rel_rms_debiased": 0.08285670505734356
+   },
+   "S1_panel": {
+    "rel_l1": 0.19905753864879694,
+    "target_noise_rel_l1": 0.04122651468678122,
+    "rel_rms_debiased": 0.28001557763001317
+   },
+   "S2_sphere": {
+    "rel_l1": 0.11775249298904175,
+    "target_noise_rel_l1": 0.05882584460485134,
+    "rel_rms_debiased": 0.13240015378594414
+   },
+   "lambert_walls": {
+    "rel_l1": 0.05930692982310472,
+    "target_noise_rel_l1": 0.045644325730536776,
+    "rel_rms_debiased": 0.0504729137346824
+   },
+   "lambert_boxA": {
+    "rel_l1": 0.06390155319221963,
+    "target_noise_rel_l1": 0.04163902513084637,
+    "rel_rms_debiased": 0.06925978039680099
+   },
+   "lambert_boxB": {
+    "rel_l1": 0.07226280202039853,
+    "target_noise_rel_l1": 0.04910742834047325,
+    "rel_rms_debiased": 0.0694344158677958
+   }
+  },
+  "ecro_s8602:val": {
+   "B_floor": {
+    "rel_l1": 0.09839842185967511,
+    "target_noise_rel_l1": 0.07210814906279499,
+    "rel_rms_debiased": 0.08680428780156679
+   },
+   "S1_panel": {
+    "rel_l1": 0.21561202868255747,
+    "target_noise_rel_l1": 0.047903639928764195,
+    "rel_rms_debiased": 0.305588870348734
+   },
+   "S2_sphere": {
+    "rel_l1": 0.12121807289476424,
+    "target_noise_rel_l1": 0.06198988600429537,
+    "rel_rms_debiased": 0.15246672477666928
+   },
+   "lambert_walls": {
+    "rel_l1": 0.06617282268827378,
+    "target_noise_rel_l1": 0.05119245905433641,
+    "rel_rms_debiased": 0.0625170484889508
+   },
+   "lambert_boxA": {
+    "rel_l1": 0.07895601834497565,
+    "target_noise_rel_l1": 0.05182135233340448,
+    "rel_rms_debiased": 0.10955508462271832
+   },
+   "lambert_boxB": {
+    "rel_l1": 0.09019167581023367,
+    "target_noise_rel_l1": 0.06122274755691596,
+    "rel_rms_debiased": 0.1679396069981725
+   }
+  }
+ }
+}

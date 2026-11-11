@@ -1,0 +1,78 @@
+{
+ "E2_T1:C": {
+  "truth_e2p_read_all_receivers": 0.18692966688646928,
+  "truth_e2p_read_lambert": 0.18107503403777137,
+  "truth_halves": [
+   0.180484476316506,
+   0.1816655917590367
+  ],
+  "BIN_read": 0.1524647474100141,
+  "RAY_read": 0.14411864921143322,
+  "panel_hit_rays_per_patch_mean": 7.827659574468085,
+  "BIN_patch_rel_rms": 0.3764901926990326,
+  "BIN_patch_corr": 0.8833205415501623,
+  "RAY_patch_rel_rms": 0.4960807721677992,
+  "RAY_patch_corr": 0.7768475738279385,
+  "truth_patch_noise_rel_rms": 0.025799714447161688,
+  "patches": 44,
+  "panel_hit_rays_important_patches": [
+   0,
+   13,
+   249
+  ],
+  "ecro_s8601_learned_single_panel_read": 0.024962095513877576,
+  "ecro_s8602_learned_single_panel_read": 0.03256398470576617
+ },
+ "E2_T0:C": {
+  "truth_e2p_read_all_receivers": 0.12555836040873491,
+  "truth_e2p_read_lambert": 0.1161030828791141,
+  "truth_halves": [
+   0.11558618021823684,
+   0.11661998553999138
+  ],
+  "BIN_read": 0.08594192551696157,
+  "RAY_read": 0.09298491273004347,
+  "panel_hit_rays_per_patch_mean": 6.340425531914893,
+  "BIN_patch_rel_rms": 0.46773821928367304,
+  "BIN_patch_corr": 0.7259908073279892,
+  "RAY_patch_rel_rms": 0.9256737890728365,
+  "RAY_patch_corr": 0.410670964357496,
+  "truth_patch_noise_rel_rms": 0.03811883924560867,
+  "patches": 56,
+  "panel_hit_rays_important_patches": [
+   0,
+   17,
+   83
+  ],
+  "ecro_s8601_learned_single_panel_read": 0.0015390268048252737,
+  "ecro_s8602_learned_single_panel_read": 0.0029034025970842924
+ },
+ "E1_T1:obj_panel": {
+  "truth_e2p_read_all_receivers": 0.01578640370750295,
+  "truth_e2p_read_lambert": 0.012764310740606225,
+  "truth_halves": [
+   0.0127349281666691,
+   0.012793693314543348
+  ],
+  "BIN_read": 0.012330638854712393,
+  "RAY_read": 0.013194081026575762,
+  "panel_hit_rays_per_patch_mean": 6.080851063829787,
+  "BIN_patch_rel_rms": 0.37365386373362725,
+  "BIN_patch_corr": 0.9507215582672479,
+  "RAY_patch_rel_rms": 0.3560505434494647,
+  "RAY_patch_corr": 0.9230725970598417,
+  "truth_patch_noise_rel_rms": 0.02804513345504409,
+  "patches": 58,
+  "panel_hit_rays_important_patches": [
+   4,
+   14,
+   46
+  ],
+  "ecro_s8601_learned_single_panel_read": 0.0076164740186891525,
+  "ecro_s8602_learned_single_panel_read": 0.003980163511701238
+ },
+ "classification": {
+  "cases_with_resolvable_family": 2,
+  "state_relation": "SAMPLING-LIMITED"
+ }
+}
