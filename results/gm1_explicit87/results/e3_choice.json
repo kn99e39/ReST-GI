@@ -1,0 +1,39 @@
+{
+ "chosen": "E3a",
+ "candidates": {
+  "E3a": {
+   "counts": {
+    "frame": 246280,
+    "stationary_all": 230272,
+    "A": 10006,
+    "Bset": 220266,
+    "C": 5693,
+    "D": 69410,
+    "E": 20379,
+    "B_other": 124784,
+    "mover": 16008,
+    "C_footprint": 5693,
+    "C_mirror": 0,
+    "obj_floor": 50015,
+    "obj_ceiling": 41821,
+    "obj_walls": 125174,
+    "obj_panel": 5479,
+    "obj_sphere": 3040,
+    "obj_boxes_static": 4743
+   },
+   "geometry_ok": true,
+   "admissible": true
+  }
+ },
+ "rule": {
+  "regions": [
+   "A",
+   "C",
+   "D",
+   "E"
+  ],
+  "min_pixels": 1000,
+  "also": "pt86 geometry admissibility (scene86.geom_ok for T0 and T1) and light_ok; the first admissible candidate in e3_order is E3; geometry / visibility only (masks86.compute), no radiance of any candidate before the choice is recorded"
+ },
+ "note": "geometry / visibility only; no radiance of any E3 candidate exists"
+}

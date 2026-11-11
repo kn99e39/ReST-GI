@@ -1,0 +1,30 @@
+{
+ "worklog": "docs/worklogs/87_WORKLOG_GM1_EXPLICIT_TRANSPORT_COMPARATOR.md",
+ "producer": "experiments/gm1_explicit87/viz87.py (frozen commit 60efecb), server ~/rest_gm187/results/viz",
+ "files": {
+  "economics_frontier.png": {
+   "sha256": "a10292932baebebb465ab435b69f1e4af80a5fb1dc370fafe77ead18776bc799",
+   "what": "error vs edit-to-first-frame wall time for every arm (stationary pixels and region C), E1 / E2 / E3 at T1"
+  },
+  "eh_by_region_T1.png": {
+   "sha256": "408f87269bf57070f1c434d91033448758f3b68459a4c077ad1e7029479c9149",
+   "what": "E_H by region class and arm at T1 with the WL86 thresholds"
+  },
+  "family_reading_realizations.png": {
+   "sha256": "e209a1f039c731a4daa603951a5255df8eb5ff732700a149cc60953f03f96813",
+   "what": "light -> panel -> Lambert family read through each realization (BIN sender table, RAY exact sender) / path-traced truth"
+  },
+  "higher_order_error_T1.png": {
+   "sha256": "82f7077a8e373347008327b05dc687a266721f248d098c12cbe8dc68eedf6f33",
+   "what": "signed higher-order error (hl - h_REF-ER) at T1 for E1 / E2 / E3: oracle table, ECRO s8601, EXP, C2-RAYSEND, C3; one shared absolute sqrt scale"
+  },
+  "orders_field_error.png": {
+   "sha256": "184da5894c62f02ab18b40ea7fb87b595248c0cf26854494cb35d4f7b1c6c84a",
+   "what": "per-order table error of EXP and C3 vs per-order path-traced truth (T1)"
+  },
+  "realizations_region_C.png": {
+   "sha256": "af588356bf4b4f86907899006e40be64f5b9fbacb436f64e7deccf1a751ac2d3",
+   "what": "region-C signed error over 16 independent state realizations (EXP and ECRO through each state), deployed state, pooled 8,192-ray diagnostic, C3"
+  }
+ }
+}

@@ -1,0 +1,19 @@
+T_WL86 {'max_abs_diff': 0.0, 'PASS': True}
+T_READOUT {'hl_rel_l1': {'ORA_E2_T1_r0': 4.171574319918005e-09, 'EC_ecro_s8601_ecro_E2_T1_r0': 4.27055963435567e-09}, 'PASS': True}
+T_SYM {'max_rel': {0: 1.1773436170659819e-05, 1: 1.0700743891014945e-05, 2: 1.1395534248555594e-05}, 'PASS': True}
+T_FRAMES {'rel_l1': 0.02623387584294681, 'noise': 0.030570118552352227, 'sphere_band_max_bin_albedo': [0.5017670962706454, 0.49759205605991336, 0.4915333360893755, 0.47666573116165517], 'PASS': True}
+T_FBAR True
+T_LAMB {'max_rel': {3: 4.440892098500626e-16, 4: 0.0, 5: 2.220446049250313e-16}, 'sum_cos_domega_over_pi': 0.9996232064440845, 'PASS': True}
+T_ALB {0: {'median_abs_rel': 0.009598709583323317, 'max_abs_rel': 0.04622581565741657, 'mean_albedo': 0.37261123772434324}, 1: {'median_abs_rel': 0.05318704977187522, 'max_abs_rel': 0.1806692853068752, 'mean_albedo': 0.6073600839995974}, 2: {'median_abs_rel': 0.019864766465181538, 'max_abs_rel': 0.09998837203548994, 'mean_albedo': 0.42839728972985436}}
+T_Q {'max_rel': 0.0019167180234458403, 'median_rel': 0.00011895418736657115, 'patches': 886, 'PASS': True}
+T_IMPL {'max_rel': 4.6404725494524204e-07, 'PASS': True}
+T_ZERO {'q_zero_light_max': 0.0, 'B_zero_light_max': 0.0, 'no_visibility_max': 0.0, 'PASS': True}
+T_LIN {'superposition_rel': 1.5122064464419644e-07, 'scaling_rel': 1.723185708815795e-07, 'PASS': True}
+T_NONNEG {'W_min': 0.0, 'q_min': 0.0, 'B_min': 0.0, 'PASS': True}
+T_FURNACE {'max_rel': 5.960464477539062e-07, 'PASS': True}
+T_STATE {'selective_equals_full_B': True, 'fresh_equals_selective_B': True, 'move_and_return_B': True, 'null_edit_dirty_rays': 0, 'PASS': True}
+T_REAL {'deployed_offsets_identical': True, 'W_rebuilt_max_rel_diff': 4.454297515939478e-07, 'PASS': True}
+T_RR {'frame_ratio_minus_1': 9.327221560462284e-05, 'object_ratio_minus_1': {'obj_floor': 0.00016356105404180532, 'obj_walls': 0.00018330370870911494, 'obj_panel': 7.232670430012966e-05, 'obj_sphere': 0.0002034338059169194, 'obj_ceiling': -1.4306760095728066e-05}, 'PASS': True}
+T_SEEDS {'overlap': [], 'PASS': True}
+T_ORDER_SUM {'flux_ratio_orders_over_oracle': [1.0006433618744994, 1.000683674703719, 1.000623362666603], 'rel_l1': 0.07753654707987727, 'order_flux_shares': [0.5272007462803727, 0.2658492226852536, 0.13616069504452358, 0.07078933598984996]}
+TESTS PASS
