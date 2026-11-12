@@ -1,10 +1,10 @@
 # Research Roadmap — Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-11-10. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
+**Current as of:** 2026-11-13. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
 
 ## Current frontier
 
-**Current direction (human decision, 2026-11-10):** The learned ER closure qualified through WL82–84 is the **primary development baseline for local material scattering**, not the selected final ReST-GI architecture. Its demonstrated scope is a coated-conductor family, learned descriptor-to-closure generalisation, local physical/runtime contracts and limited static rendering/economics. Dynamic interreflection, learned nonlocal intrinsic response and quality-matched end-to-end dynamic GI remain **UNTESTED with this baseline**. [Architecture](Architecture.md) owns the baseline contract; [WL84](worklogs/84_WORKLOG_RENDERING_QUALIFICATION_UTILITY_CLOSURE.md) owns the evidence. The immediate approved *research direction* is GM1; **no implementation batch or later milestone is automatically authorised**.
+**Retained local-scattering decision (human, 2026-11-10):** The learned ER closure qualified through WL82–84 is the **primary development baseline for local material scattering**, not the selected final ReST-GI architecture. Its demonstrated scope is a coated-conductor family, learned descriptor-to-closure generalisation, local physical/runtime contracts and limited static rendering/economics. Dynamic interreflection, learned nonlocal intrinsic response and quality-matched end-to-end dynamic GI remain **UNTESTED with this baseline**. [Architecture](Architecture.md) owns the baseline contract; [WL84](worklogs/84_WORKLOG_RENDERING_QUALIFICATION_UTILITY_CLOSURE.md) owns the evidence. The approved *research milestone* is GM1; **no implementation batch or later milestone is automatically authorised**.
 
 ### Global development milestones — approved direction, not approved implementation batches
 
@@ -125,7 +125,7 @@ No learned corrective recipe or successor architecture is adopted. Work on `Sele
 
 ## Current decision boundary
 
-**Next decision is GM1 design and its first bounded experiment.** The **direction** (rigid-edit dynamic glossy/specular interreflection with frozen ER as local baseline) is approved. Before execution, the human architecture decision must identify **one falsifiable global transport representation/update mechanism**, its spatial/angular interface and ownership, representative T0/T1 edits, independent references and prospective quality/cost gates. The Agent may determine its implementation details within those contracts; it must not invent and sequentially switch among architecture hypotheses after seeing results.
+**Current decision (human, 2026-11-13):** ECRO is reinstated as the **central learned-global-transport implementation base** for GM1, while WL84 learned ER remains the local-scattering baseline. The prior ECRO v0 WL86 verdict remains NOT SUPPORTED under its frozen sharp/held-out gates: this is a starting-point selection, not adoption or a successful rerun. Explicit EXP/C3UR and the WL87–WL90 sampling/projection diagnostics remain immutable null/comparator evidence, not a replacement for learned global transport. The next architecture decision must isolate **one falsifiable ECRO-lineage representation/training/ownership hypothesis** that addresses the measured learned-flight sharp deficit and compensation without sacrificing source-independent reuse, edited-geometry response or quality-matched economics. Fix the physical/angular interface, T0/T1 and held-out controls, independent references, matched explicit comparator and prospective gates before an authorised evidence run. Do not tune WL86 retrospectively, promote an explicit candidate as the project goal, or launch an automatic successor batch.
 
 **GM1 evidence record (measured; nothing adopted; decisions remain human).**
 
