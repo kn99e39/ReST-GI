@@ -1,0 +1,383 @@
+{
+ "protocol": "ecro_attr92 v1",
+ "status": "frozen before any evidence run (freeze commit recorded in the worklog); amendments only as labelled appended entries",
+ "question": "Does the existing ECRO operator family have the representational and informational capacity to reproduce sharp directional interreflection, and, if so, does physically identifiable supervision improve learned generalisation without changing the architecture?",
+ "primary_hypothesis": "ECRO's sharp-response failure is caused at least partly by non-identifiable learned component responsibilities, rather than solely by an insufficient global operator representation.",
+ "alternatives": {
+  "H_rep": "the fixed operator family lacks the sharp directional representation capacity",
+  "H_info": "the deployed state / angular interface loses essential transport information",
+  "H_learn": "the operator is capable and informed but the learning process does not recover the response",
+  "H_id": "the objective does not constrain the physical ownership of the additive components",
+  "H_interact": "several causes jointly"
+ },
+ "preserved": "WL84 ER; WL86 code, checkpoints ecro_s8601 / ecro_s8602, data, references, masks, thresholds and verdicts; WL86A, WL87-WL91 code and results (imported unchanged). ECRO architecture, ranks (R 16, global 24), 1270 patches x 64 bins, 512 state rays, 16-point source encoding are never changed in an in-family arm.",
+ "operator_as_recovered_from_code": {
+  "file": "experiments/ecro86/model86.py",
+  "form": "u = c.s ; Bq = a.u ; E1 = flight of Bq through the 512 state rays (cos dOmega / kappa) ; B = a.(c.E1) + a.(P.sum_j area_j Q_j.u_j)",
+  "local_matrix": "M_n = a_n c_n^T (per patch and colour, 64 incident bins -> 64 outgoing bins, non-negative rank <= 16) is used three times with tied factors: source -> once-scattered radiance Bq, first-flight irradiance E1 -> outgoing radiance of the single-flight term, and as encoder / decoder of the global term",
+  "physical_correspondence": {
+   "Bq": "L1 (once-scattered outgoing radiance, the table q)",
+   "single_flight_term": "exactly 2 scattering events (L2: light -> x -> y -> out), all senders",
+   "global_term": "3..5 scattering events (L3 + L4 + L5)",
+   "sum": "the WL86 target (2..5 events)"
+  },
+  "training_contract": "experiments/ecro86/train86.py: only the sum B is supervised (model86.loss_fn: squared error relative to the target's patch mean over bins + 5 % of the field mean); 24,000 steps, Adam, one geometry (4 lightings) per step; no component is supervised"
+ },
+ "conditions": {
+  "historical": [
+   "E2_T1",
+   "E2_T0",
+   "E1_T1"
+  ],
+  "note": "E1 and E2 were inspected in WL86 / WL86A / WL87; they serve reproduction and attribution only, never as an untouched test",
+  "sharp_reader_regions": [
+   "C",
+   "obj_panel"
+  ],
+  "control_regions": [
+   "D",
+   "stationary_all"
+  ],
+  "failing_cases": [
+   [
+    "E2_T1",
+    "C"
+   ],
+   [
+    "E2_T0",
+    "C"
+   ]
+  ]
+ },
+ "truth": {
+  "split": "pt86a.field_src(split=True) (WL86A tracer, unchanged): tables e2_p, e2_o (exactly 2 events, last sender on the panel / elsewhere) and e3_p, e3_o (3..5 events); L2 = e2_p + e2_o, L3+ = e3_p + e3_o; two independent halves",
+  "spp_per_half": 2048,
+  "seeds": [
+   92400,
+   92405
+  ],
+  "q_table": "quad87.qtable (WL87 parameters P 16, Mq 1024, seed 87003)",
+  "importance": "diag86a.importance (WL86A; 1,024 spp, seed 86600): W_R with sum_pixels hl = sum W_R . B; light-independent",
+  "references": "WL86 REF-ER renders and masks (~/rest_ecro86); renders of every table with the WL86 ECRO render seeds 86600 / 86601 at 4,096 spp (common random numbers with the WL86 ECRO renders)"
+ },
+ "local_operator": {
+  "M64": "quad87.Quad.enc_matrix(): bin-averaged frozen-ER response, incident bin -> outgoing bin, per ER material and colour (64 x 64; the encoding carries the cosine); Lambert: albedo / pi (rank 1)",
+  "eckart_young": "singular values of the flux matrix X per ER material and colour; relative Frobenius residual of the best rank-16 approximation (a lower bound, in this norm, for every rank-16 factorisation, non-negative or not)",
+  "nmf": {
+   "rank": 16,
+   "objective": "Frobenius norm of the flux matrix X (X ~ W H; c = W / z_bi, a = H^T / z_bo: non-negative rank-16 factors of M64)",
+   "algorithm": "multiplicative updates",
+   "iterations": 4000,
+   "restarts": 16,
+   "seed": 92100
+  },
+  "reported": [
+   "relative Frobenius residual (flux matrix)",
+   "relative L1 misplacement of flux",
+   "retention of the true peak (mirror) bin flux",
+   "mass ratio"
+  ],
+  "learned": "M_n = a_n c_n^T of the frozen generators on the E2_T1 geometry against M64 of the patch material, by material",
+  "flux_matrix": "X[bi, bo] = M64[bi, bo] z_bi z_bo (z = mean cosine of the bin's ring): incident-cosine-weighted irradiance in a bin -> outgoing flux in a bin; rows sum to the directional albedo, so all incident bins are commensurable. The plain Frobenius norm of M64 is dominated by the grazing ring (f ~ 1 / (4 cos cos)) and is reported but not used. Pre-freeze disclosure: this weighting was fixed after the dev run of the local-operator stage showed that dominance (candidate-independent ER physics)."
+ },
+ "ladder": {
+  "definition": "tables = (variant of the 2-event term) + (path-traced L3+); only the 2-event term changes, so the higher-order part carries no error",
+  "variants": {
+   "ORA2": "path-traced L2 (must equal the WL86 oracle table within noise)",
+   "RS": "exact once-scattered radiance read per deployed state ray (xport87.raysend_first), exact per-ray receiver response: the deployed rays without any bin projection (non-deployable for ECRO)",
+   "EXP": "exact 64-bin q table read through the deployed rays, exact per-ray receiver response (WL87 EXP first gather)",
+   "ENCQ": "q from the deployed 16-point encoding s through M64, read through the deployed rays, exact per-ray receiver response (WL87 ENC first gather)",
+   "ENCB": "the ECRO single-flight form with exact full-rank local matrices: c = identity, a = M64 (R = 64; non-deployable capacity control), evaluated by model86.ECRO.apply on the deployed state",
+   "R16": "the ECRO single-flight form with rank-16 non-negative factors of M64 (NMF), evaluated by model86.ECRO.apply on the deployed state: an in-family point with exclusive physical ownership",
+   "LRN": "the single-flight term of the frozen generators (s8601, s8602)"
+  },
+  "swaps": {
+   "S_plus_L3T": "learned single-flight term + path-traced L3+",
+   "L2T_plus_G": "path-traced L2 + learned global term",
+   "B": "the frozen operator's own table (reproduces WL86)"
+  },
+  "pooled": {
+   "realisations": 16,
+   "seeds": [
+    86001,
+    92201,
+    92202,
+    92203,
+    92204,
+    92205,
+    92206,
+    92207,
+    92208,
+    92209,
+    92210,
+    92211,
+    92212,
+    92213,
+    92214,
+    92215
+   ],
+   "variants": [
+    "EXP",
+    "ENCB",
+    "R16"
+   ],
+   "note": "non-deployable adequate-sampling control: mean of the 2-event term over 16 state realisations (8,192 rays per patch)"
+  },
+  "explicit_full": "X_EXP: xport87.recurrence on the deployed state (all orders explicit; must reproduce WL87 EXP)"
+ },
+ "fits": {
+  "role": "non-deployable fixed-geometry oracle fits of the unchanged operator family (all four factor tables free per geometry; ranks, bins, state rays and source encoding unchanged)",
+  "geometries": [
+   "E2_T1",
+   "E2_T0",
+   "E1_T1"
+  ],
+  "lights": {
+   "fit": 192,
+   "val": 32,
+   "seed": 92990,
+   "rule": "scene86.sample_light (training distribution, 0.3 m exclusion from every test light)",
+   "fit_spp": 256,
+   "val_spp_per_half": 512,
+   "seed_fit": 92500,
+   "seed_val": [
+    92700,
+    92800
+   ]
+  },
+  "objectives": {
+   "SUM": "the WL86 objective model86.loss_fn on the sum",
+   "OWN": "SUM + component ownership: the same normalised squared error (denominator of the total target) of the single-flight term against L2 and of the global term against L3+, weight 1 each"
+  },
+  "variants": [
+   "SUM-f8601",
+   "SUM-f8602",
+   "SUM-r1",
+   "SUM-r2",
+   "OWN-f8601",
+   "OWN-k16",
+   "OWN-r1"
+  ],
+  "inits": {
+   "f8601 / f8602": "factors of the frozen generator for the geometry",
+   "r1 / r2": "factors of an untrained generator (torch seeds 92001 / 92002; the WL86 initialisation)",
+   "k16": "c, a from the rank-16 NMF of M64 by patch material, P, Q from frozen s8601"
+  },
+  "optimiser": {
+   "name": "Adam on the softplus pre-activations",
+   "steps": 8000,
+   "batch_lights": 16,
+   "lr": 0.01,
+   "lr_final": 0.0003,
+   "schedule": "cosine",
+   "torch_seed": 0,
+   "batch_seed": 1
+  },
+  "convergence": "mean objective over the last 500 steps within 2 % of the preceding 500 steps; otherwise the fit is labelled UNCONVERGED and cannot support a negative representability statement",
+  "overfitting_control": "32 validation lights never used in a fit (two independent halves: noise-debiased errors); the workload light is excluded from the sampler by the 0.3 m margin",
+  "interpretation": {
+   "failure_to_fit": "fit-light error of a converged fit stays above the constructed in-family point",
+   "failure_to_generalise_over_sources": "validation-light error >= 1.5 x fit-light error (same target noise level is not available: reported with the debiased estimate)",
+   "failure_to_optimise": "a converged fit ends above the objective value of a constructed in-family point of the same family (R16 with the frozen global tables, or another fit): a better point exists and was not found"
+  }
+ },
+ "identifiability": {
+  "measure": "across the SUM fits (4 initialisations) and the frozen generators: share of the path-traced L2 carried by the single-flight term (field level and reader-weighted in C), share of the panel-sender family delivered, signed compensation of the global term; compared with the spread of the sum error and of the SUM objective",
+  "non_identifiable_if": "the SUM objective values of solutions with different allocations agree within 10 % while the delivered share of the panel-sender family differs by >= 2 x",
+  "objective_preference": "SUM objective value (validation lights) of the physically owned points (R16 construct, OWN fits) against the SUM fits and the frozen generators"
+ },
+ "gate": {
+  "level": "the frozen WL86 rule F2: E_H <= 0.06 in region C at 4,096 spp against REF-ER",
+  "G_id": "component targets valid: tests T_SPLIT_SUM, T_OWNERSHIP_CODE, T_FORM pass",
+  "G_info": "information sufficiency of the deployed interface: ENCB + L3+ meets the level in both failing cases (deployed state draw)",
+  "G_rep": "representability of the targeted mechanism inside the family with exclusive ownership: the better of R16 + L3+ and (single-flight term of the OWN-k16 fit) + L3+ meets the level in both failing cases (deployed state draw), from a converged fit",
+  "intervention_admitted_iff": "G_id and G_info and G_rep",
+  "otherwise": "the intervention path is stopped (STOP_INTERVENTION_<first failing gate>); stages S0-S5 are complete evidence; no training-only correction is attempted",
+  "no_rescue": "no rank, width, bin, ray-budget, loss-weight or threshold change after the gate is evaluated"
+ },
+ "intervention": {
+  "runs_only_if": "gate admitted",
+  "control": "the WL86 training contract: frozen checkpoints ecro_s8601 / ecro_s8602 (historical conditions) and a fresh rerun of the same contract with seeds 8601 / 8602 on the training set without the geometries within the WL86 exclusion margin of E4 (ctl)",
+  "intervention": "objective OWN with component targets f2 (regenerated with the WL86 generator seeds and sample count through pt86a.field_src; test T_F2_SUM requires the regenerated sum to equal the stored target) and f3 = f - f2; same architecture, parameter count, data, steps, optimiser, schedule, seeds (own)",
+  "confound_disclosed": "the OWN objective adds two loss terms; the gradient scale differs from SUM. No learning-rate or weight compensation is applied.",
+  "evaluation": "WL86 gates F1-F4 and the component attribution on E2 / E1 (historical, inspected), on E4 (new) and on the held-out sources; 2 seeds; renders 2 x 4,096 spp, seeds 86600 / 86601",
+  "effective_iff": "both own seeds meet F2 in C on E2_T1, E2_T0 and E4_T1 (if E4 is admitted), no F1 / F3 / F4 gate that the control passes is lost, and the delivered share of the panel-sender family is >= 2 x the control's in the failing cases",
+  "economics": "offline costs measured (target regeneration, training); the runtime path is the unchanged ECRO v0 path (WL86 economics apply unchanged); a quality-matched ladder is run only if the intervention is effective"
+ },
+ "e4": {
+  "candidates": "the WL87 protocol candidates E3b and E3c (defined 2026-11-11, never rendered: the WL87 rule stopped at E3a), in this order",
+  "order": [
+   "E3b",
+   "E3c"
+  ],
+  "rule": {
+   "regions": [
+    "A",
+    "C",
+    "D"
+   ],
+   "min_pixels": 1000,
+   "sharp_reader": "C_mirror >= 1000 pixels (panel / sphere receivers whose mirror cone sees the change)",
+   "also": "scene86.geom_ok and light_ok; geometry / visibility only (masks86.compute); no radiance before the choice is recorded"
+  },
+  "sources": {
+   "E3b": {
+    "LMIX4": [
+     {
+      "pos": [
+       1.1,
+       0.9,
+       2.4
+      ],
+      "rgb": [
+       30.0,
+       18.0,
+       9.0
+      ]
+     },
+     {
+      "pos": [
+       -1.2,
+       -1.0,
+       1.9
+      ],
+      "rgb": [
+       6.0,
+       15.0,
+       30.0
+      ]
+     }
+    ],
+    "LSPOT4": [
+     {
+      "pos": [
+       0.7,
+       -1.2,
+       2.6
+      ],
+      "rgb": [
+       60.0,
+       60.0,
+       60.0
+      ],
+      "aim": [
+       -1.5,
+       0.3,
+       1.0
+      ],
+      "cone_deg": 35.0
+     }
+    ]
+   },
+   "E3c": {
+    "LMIX4": [
+     {
+      "pos": [
+       1.2,
+       -0.9,
+       2.5
+      ],
+      "rgb": [
+       30.0,
+       18.0,
+       9.0
+      ]
+     },
+     {
+      "pos": [
+       -1.0,
+       -1.3,
+       1.8
+      ],
+      "rgb": [
+       6.0,
+       15.0,
+       30.0
+      ]
+     }
+    ],
+    "LSPOT4": [
+     {
+      "pos": [
+       0.8,
+       -1.1,
+       2.7
+      ],
+      "rgb": [
+       60.0,
+       60.0,
+       60.0
+      ],
+      "aim": [
+       -1.5,
+       0.3,
+       1.0
+      ],
+      "cone_deg": 35.0
+     }
+    ]
+   }
+  },
+  "references": {
+   "ER": {
+    "replicas": 8,
+    "spp": 8192,
+    "seed_base": 92610
+   },
+   "P": {
+    "replicas": 8,
+    "spp": 8192,
+    "seed_base": 92630
+   },
+   "sources": {
+    "replicas": 4,
+    "spp": 8192,
+    "seed_base": 92650
+   },
+   "oracle_field": {
+    "spp": 4096,
+    "seed": 92450
+   }
+  },
+  "admission": "WL86 stage-0 criteria Q1-Q4, Q6, Q7 (unchanged thresholds) on REF-P / REF-ER of E4; a non-admitted E4 is reported and no untouched held-out claim is made (stop rule)",
+  "training_exclusion": "training / validation geometries with a box centre within 0.15 m of the same box of E4 T0 or T1 (the WL86 rule) are listed from geometry only and removed from ctl and own training; the frozen checkpoints saw them (disclosed)"
+ },
+ "thresholds": {
+  "EH_stationary_max": 0.03,
+  "capture_max": 0.25,
+  "EH_region_max": 0.06,
+  "EH_oracle_region_max": 0.04,
+  "dH_slope": [
+   0.75,
+   1.25
+  ],
+  "dH_corr_min": 0.8,
+  "EH_unseen_source_max": 0.04,
+  "min_pixels": 1000,
+  "snr": 4.0,
+  "source": "WL86 protocol, unchanged"
+ },
+ "tests": {
+  "T_REPRO_TABLE": "frozen checkpoints -> tables on E2_T1 / E2_T0 / E1_T1 equal the tables stored with the WL86 renders (max |diff| <= 1e-4 x table max)",
+  "T_REPRO_EH": "E_H recomputed from the stored WL86 renders equals final.json (<= 1e-9); re-rendered M_B tables give region-C E_H within 0.002 of WL86",
+  "T_REPRO_EXP": "X_EXP region-C E_H on E2_T1 within 0.003 of WL87 (0.0491)",
+  "T_LINEAR": "zero source -> 0; superposition and scaling of the frozen, constructed and fitted factor sets (<= 1e-4 relative); outputs >= 0",
+  "T_SPLIT_SUM": "path-traced parts: e2 + e3 against the stored WL86 oracle field: total flux within 1 %, reader-weighted difference in C within 4 x the half-split noise",
+  "T_OWNERSHIP_CODE": "single-flight term + global term == B (<= 1e-5 relative) for every factor set; the split tracer assigns every contribution to exactly one of the four parts (code path; parts >= 0)",
+  "T_FORM": "ENCB by ECRO.apply against the explicit bin-quadrature form (xport87 XOp with Quad.binq_W on enc_q): relative L1 <= 0.05",
+  "T_STATE": "state rebuild deterministic; selective update == full rebuild on E2 T0 -> T1; null edit identical",
+  "T_DISJOINT": "fit / validation lights >= 0.3 m from every test light; E4 exclusion list recorded before any E4 radiance",
+  "T_F2_SUM": "(intervention only) regenerated f2 + f3 against the stored training target on 32 training files: total flux ratio within 1e-3 and relative L1 <= 1e-3 (same sample sequence), else STOP_CONTROL_NOT_REPRODUCIBLE",
+  "T_CTL": "(intervention only) rerun control validation relative L1 within 10 % of the frozen checkpoint's"
+ },
+ "verdict_mapping": {
+  "A_representation_capacity": "SUPPORTED if G_rep holds; NOT SUPPORTED if R16 + L3+ and the converged OWN-k16 fit both miss the level in a failing case while ENCB + L3+ meets it (capacity of the factor rank is the binding limit); INCONCLUSIVE if the fits are unconverged or G_info fails (capacity cannot be separated from the interface)",
+  "B_input_information": "SUPPORTED if G_info holds; NOT SUPPORTED if ENCB + L3+ misses the level in a failing case; the pooled and RS variants give the non-deployable upper bounds",
+  "C_learning_optimisation": "NOT SUPPORTED (learning deficient) if a constructed or OWN-fitted in-family point is better than the frozen generators' corresponding term by >= 1.25 x in the failing cases; fixed-geometry fits are reported separately from the generator",
+  "D_component_identifiability": "SUPPORTED (identifiable under OWN) if the component targets are valid and OWN fits recover the ownership; the SUM contract is classified NON-IDENTIFIABLE by the rule above",
+  "E_heldout_sharp_fidelity": "NOT TESTED unless the intervention runs; then by the intervention rule",
+  "F_economics": "runtime unchanged by construction; offline costs measured if the intervention runs; otherwise NOT TESTED",
+  "completion": "1 representation / interface insufficient (G_info or G_rep fails); 2 representation sufficient but learning deficient (gate admitted, intervention not effective, C NOT SUPPORTED); 3 identifiability intervention effective; 4 interacting causes (more than one of A, B, C, D carries a material share); 5 inconclusive"
+ },
+ "scope": "one room family (WL86), rigid box edits, three frozen ER materials, point / cone sources, 512^2, patch x 64-bin table. No new operator family, no capacity change, no explicit residual, no GM2. No architecture transition is authorised by this batch."
+}
