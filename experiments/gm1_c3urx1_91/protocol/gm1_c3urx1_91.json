@@ -1,0 +1,199 @@
+{
+ "protocol": "gm1_c3urx1_91 v1",
+ "status": "frozen before any evidence run (freeze commit recorded in the worklog); amendments only as labelled appended entries",
+ "question": "Does C3URX1 provide a source-independent, physically valid and economically useful first-gather transport mechanism under the qualified GM1 edit / source workload, and is the evidence sufficient to adopt it as the explicit development baseline?",
+ "primary_hypothesis": "The benefit of preserving the exact first-gather directional radiance survives held-out conditions and provides useful end-to-end economics.",
+ "candidate": "cand91.C3URX1: the WL89 C3UR relation (rel89.SendRelR, kappa_s 8, WL89 seeds) + the WL90 X1 first gather (exact once-scattered radiance per landed relation ray under the current lights), later orders by the unchanged C3UR table operator; no parameter added or tuned",
+ "preserved": "WL84 ER; WL86-WL90 code, protocols, results, verdicts (imported, never edited); WL89 workloads W1 = V3, W2 = X2, sources LMIX89 / LSPOT89, references, masks, oracle tables; WL86-WL89 thresholds F1-F4; comparators R0 (WL87 EXP), C3UR (WL89), R0X1 (WL90 diagnostic, deployed draw only), ORACLE table, frozen-ER path tracing. External learned baselines: UNMEASURED (no Neural Full Recompute claim).",
+ "prior_evidence_disclosed": "WL90 (inspected): C3URX1 vs C3UR on W1 T0 / T1 over the deployed draw and 16 realizations (R_mirror 0.024 vs 0.040 at T1), measured component costs. W1 is therefore a REPRODUCTION control here. Never computed before this freeze: C3URX1 on W2 (T0 / T1), under LMIX89 / LSPOT89, any pooled C3URX1, any quality ladder or end-to-end lifecycle of C3URX1.",
+ "conditions": {
+  "reproduction": [
+   "W1_T0",
+   "W1_T1"
+  ],
+  "heldout_edit": [
+   "W2_T0",
+   "W2_T1"
+  ],
+  "heldout_sources": [
+   [
+    "W1_T1",
+    "LMIX89"
+   ],
+   [
+    "W1_T1",
+    "LSPOT89"
+   ]
+  ]
+ },
+ "draws": "the WL89 deployed draw (86001) and realization seeds 89201-89216 with the WL89 quadrature / sender seeds, paired across arms",
+ "arms": {
+  "realizations": [
+   "R0",
+   "C3UR",
+   "C3URX1"
+  ],
+  "deployed_only": [
+   "R0X1"
+  ],
+  "pooled": [
+   "C3UR_POOL",
+   "C3URX1_POOL"
+  ],
+  "reference_tables": [
+   "ORACLE"
+  ]
+ },
+ "orders_truth": {
+  "existing": "W1_T0 / W1_T1 (WL89), W2_T1 (WL90)",
+  "new": {
+   "configs": [
+    [
+     "W1_T1",
+     "LMIX89"
+    ],
+    [
+     "W1_T1",
+     "LSPOT89"
+    ]
+   ],
+   "seed": 91460,
+   "spp": 2048
+  }
+ },
+ "renders": {
+  "spp": 4096,
+  "seeds": [
+   89600,
+   89601
+  ],
+  "note": "the WL89 / WL90 render seeds (common random numbers)"
+ },
+ "thresholds": {
+  "EH_stationary_max": 0.03,
+  "capture_max": 0.25,
+  "EH_region_max": 0.06,
+  "EH_unseen_source_max": 0.04,
+  "dH_slope": [
+   0.75,
+   1.25
+  ],
+  "dH_corr_min": 0.8,
+  "snr": 4.0,
+  "min_pixels": 1000
+ },
+ "tests": "tests91.py (any failure: STOPPED_INVALID_COMPARISON): T_WL90_MECHANISM (candidate = gap90 reference functions and the stored WL90 tables <= 1e-5; C3UR table = stored WL90 C3UR), T_ZERO_FINITE_NONNEG (zero light, no-visibility light), T_SOURCE_CURRENT (two lights = sum of single lights; A after B equals A; relation digest unchanged), T_RELATION_SOURCE_INDEPENDENT (no source argument in build / update), T_REPLAY, T_EDIT (null edit, selective = full incl. segments, probe buffer and table, move-and-return, stale-geometry guard raises), T_ORDER_FLUX (orders 2..5 flux within 3 % of the path-traced order fields)",
+ "fidelity_rules": {
+  "per_condition": "E_H / signed per region per draw against the WL89 REF-ER; gates F1 (stationary, capture), F2 (A, C_ss, R_mirror, D at T1; sharp regions gated only with >= min_pixels), F3 on the edits W1 and W2 (D, C_ss, R_mirror; resolvable only), F4 for the held-out sources (stationary <= 0.04); realization pass fraction; paired C3URX1 - C3UR differences with 95 % t intervals (16 draws)",
+  "advantage_survives": "per held-out condition (W2_T1, LMIX89, LSPOT89): the paired C3URX1 - C3UR E_H interval is below 0 in R_mirror (LSPOT89, whose R_mirror mask is < min_pixels: reported, and judged on the largest sharp region with >= min_pixels)",
+  "no_harm": "no region (stationary, A, C_ss, R_mirror, D) of any condition has a paired interval above 0, and C3URX1 passes every gate C3UR passes",
+  "decomposition": "per condition, R_mirror: sampling = deployed / realization mean - pooled; first-gather projection = C3UR_POOL - C3URX1_POOL; remaining = C3URX1_POOL - ORACLE"
+ },
+ "economics": {
+  "pipelines": "e2e91.py, run alone, every pipeline executed end to end with ONE synchronised timer per event (geometry update, relation maintenance, source projection or exact first-gather evaluation incl. its probe and shadow rays, transport orders, GPU / CPU transfers, table hand-over, rendering) plus component timers; process CPU time and Dr.Jit kernel time recorded; every pipeline warmed by two untimed events of each kind",
+  "kernel_compilation": "pre-freeze development finding: Dr.Jit emits allocation-history-dependent variants of the same program (identical operation count, different variable order; a new Lights object or a geometry update can produce a new variant), and every new OptiX variant is compiled once (about 21 s for the path-tracing kernel, about 1 s for the table-lookup kernel). Warm event walls, ladder render walls and scaling timings therefore EXCLUDE the compilation time measured in the Dr.Jit kernel history (backend_time of kernel-cache misses), identically for all arms; the raw wall, the compilation time and the number of events with a cache miss are recorded and reported. The executed amortisation sequence is reported raw and compilation-excluded. Cold lifecycles INCLUDE compilation. The exclusion removes a cost that falls mostly on path tracing (conservative for the candidate).",
+  "events": {
+   "n_edits": 6,
+   "n_sources": 16,
+   "frame_spp": 64,
+   "source_seed": 91720,
+   "amortisation_sequence": {
+    "sources": 4,
+    "views": 4
+   }
+  },
+  "cold": "one fresh process per arm (C3URX1, C3UR, R0, PT): scene build, material tables, relation build, probe buffer, first source evaluation, first transport, first 64-spp frame (compilation included)",
+  "ladders": {
+   "configs": [
+    [
+     "W1_T1",
+     null
+    ],
+    [
+     "W2_T1",
+     null
+    ],
+    [
+     "W1_T1",
+     "LMIX89"
+    ]
+   ],
+   "draws": [
+    86001,
+    89201,
+    89202
+   ],
+   "spp": [
+    4,
+    16,
+    64,
+    256,
+    1024,
+    4096
+   ],
+   "pt_extra_spp": [
+    16384
+   ],
+   "replicates": 2,
+   "seed_base": 91600
+  },
+  "tiers": {
+   "stationary_all": [
+    0.1,
+    0.05,
+    0.03
+   ],
+   "R_mirror": [
+    0.1,
+    0.06,
+    0.04
+   ],
+   "C_ss": [
+    0.1,
+    0.05
+   ]
+  },
+  "time_to_tier": "lifecycle fixed cost (geometry-edit path, or source-only path) measured end to end + render wall to the tier by log-log interpolation of the ladder; a tier above the arm's ladder floor is NOT REACHED (no extrapolation)",
+  "meaningful": 1.25,
+  "utility_rule": "(a) no slowdown: at no tier that both reach is C3URX1 slower than C3UR by > 1.25x (edit path and source path); (b) sharp gain: in >= 2 of the 3 ladder configurations and for >= 2 of the 3 draws each, C3URX1 reaches a sharp tier (R_mirror) that C3UR does not reach or is >= 1.25x faster at one; (c) vs path tracing: >= 1.25x at every tier C3URX1 reaches, in every ladder configuration (deployed draw). SUPPORTED: a, b, c. CONDITIONALLY SUPPORTED: a and c, with (b) in exactly one configuration or with fewer draws. NOT SUPPORTED otherwise. A single favourable tier crossing in one configuration is not a general speed-up.",
+  "lifecycle_rule": "per-edit and per-source end-to-end cost (64-spp frame included and excluded) of C3URX1 <= 1.25 x C3UR"
+ },
+ "scaling": {
+  "scale_factors": [
+   1.0,
+   1.5,
+   2.0
+  ],
+  "kappa_s": [
+   4,
+   8,
+   16
+  ],
+  "kappa_s_fidelity": [
+   4,
+   16
+  ],
+  "orders": [
+   2,
+   4,
+   8
+  ],
+  "source_counts": [
+   1,
+   4,
+   16
+  ],
+  "note": "bounded, fixed; every timed operation warmed (the WL89 scaling update defect is not repeated); cost only, except the two relation-size fidelity points on W1 T1 (single draw, descriptive, not used in any verdict); no asymptotic claim"
+ },
+ "verdict_mapping": {
+  "CANDIDATE_IMPLEMENTATION": "QUALIFIED iff tests91 passes",
+  "W1_REPRODUCTION": "REPRODUCED iff the paired C3URX1 - C3UR R_mirror interval is below 0 at W1 T1 and the candidate tables equal the stored WL90 tables",
+  "HELDOUT_MECHANISM_VALIDITY": "SUPPORTED iff no_harm holds, C3URX1 passes F1-F4 on every held-out condition with realization pass fraction >= 0.9, and advantage_survives in >= 2 of the 3 held-out conditions; CONDITIONALLY SUPPORTED iff no_harm and the gates hold and advantage_survives in exactly 1; NOT SUPPORTED otherwise (attribution: fidelity / source validity / sampling)",
+  "SOURCE_EDIT_VALIDITY": "SUPPORTED iff T_SOURCE_CURRENT, T_RELATION_SOURCE_INDEPENDENT, T_EDIT pass and the end-to-end run reports selective = full and a constant relation digest across sources",
+  "QUALITY_MATCHED_ECONOMIC_UTILITY": "economics.utility_rule",
+  "LIFECYCLE_COST": "economics.lifecycle_rule: SUPPORTED / NOT SUPPORTED",
+  "BASELINE_ADOPTION_EVIDENCE": "SUFFICIENT iff CANDIDATE_IMPLEMENTATION QUALIFIED, W1 REPRODUCED, HELDOUT_MECHANISM_VALIDITY SUPPORTED, SOURCE_EDIT_VALIDITY SUPPORTED, LIFECYCLE_COST SUPPORTED and QUALITY_MATCHED_ECONOMIC_UTILITY not NOT SUPPORTED; otherwise INSUFFICIENT with the failing items. Evidence statement only: adoption is the owner's decision.",
+  "FINAL_NOVELTY_EVIDENCE": "not evaluated by this batch: INSUFFICIENT by scope (no external learned baseline measured, one scene family, point / cone lights)"
+ },
+ "scope": "One room family; rigid edits of one S1 slab (W1 reproduction, W2 held-out); point lights and one cone light; frozen ER; 512^2; patch x 64-bin tables. No learning, no new representation, no area-light estimator, no GM2."
+}
