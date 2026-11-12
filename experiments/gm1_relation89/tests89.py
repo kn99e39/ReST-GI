@@ -108,8 +108,32 @@ def main():
     _, frac = R9.raysend_fixed(ctx, lt, r1, st)
     v = float((L2t - L2a).abs().max().item() / L2a.abs().max().item())
     T['T_RAYSEND_REPAIRED'] = {'table_mode_vs_apply_maxrel': v, 'area_exact_hit_fraction': frac, 'PASS': v <= 1e-5 and frac >= 0.99}
+    # POST-FREEZE AMENDMENT 1 (only if recorded in the protocol): R1 selective = full judged by the operational digest (audit89.op_digest:
+    # u state, segments, MIS factors, pair list, validity mask, valid samples' dbin / cell / w, all area segments; bitwise), plus null edit and
+    # move-and-return under the same predicate. Invalid samples' stored dbin / cell / w are excluded: they are never read by the transport
+    # (results/amend1/audit89.json). The WL88 T_EDIT (strict digest) result is still run and reported unchanged.
+    amend = any(a.get('id') == 1 for a in P89.get('amendments', []))
+    if amend:
+        import audit89 as AU
+        c0 = PT.Ctx(g0)
+        ra = RL.SAM(c0, quad, d16, RP['kappa_u'], RP['m'], RP['seed_area'], st=EC.build_state(c0))
+        d0 = AU.op_digest(ra)
+        ra.update(c0, ex['moved'])
+        null_ok = AU.op_digest(ra) == d0
+        c0.set_geom(g)
+        ra.update(c0, ex['moved'])
+        fb = RL.SAM(c0, quad, d16, RP['kappa_u'], RP['m'], RP['seed_area'])
+        sel_ok = AU.op_digest(ra) == AU.op_digest(fb) and all(AU.tensors_equal(AU.op_tensors(ra), AU.op_tensors(fb)).values())
+        strict_diff = int((ra.A['dbin'] != fb.A['dbin']).sum() + (ra.A['cell'] != fb.A['cell']).sum()) if np.array_equal(ra.pi, fb.pi) else None
+        c0.set_geom(g0)
+        ra.update(c0, ex['moved'])
+        mar_ok = AU.op_digest(ra) == d0
+        T['T_R1_EDIT_OPERATIONAL'] = {'null_edit_identical': null_ok, 'selective_equals_full': sel_ok, 'move_and_return_identical': mar_ok,
+                                      'strict_invalid_entries_differing': strict_diff, 'PASS': bool(null_ok and sel_ok and mar_ok)}
     gated = {k: v['PASS'] for k, v in T.items()}
-    T['ALL_PASS'] = bool(all(gated.values()) and t88['ALL_PASS'])
+    g88 = {k: v['PASS'] for k, v in t88.items() if isinstance(v, dict) and 'PASS' in v and not (amend and k == 'T_EDIT')}
+    T['tests88_gated_under_amendment'] = g88 if amend else None
+    T['ALL_PASS'] = bool(all(gated.values()) and (all(g88.values()) if amend else t88['ALL_PASS']))
     T['tests88_ALL_PASS'] = t88['ALL_PASS']
     R8.jd(T, os.path.join(R89, 'results', 'tests89.json'))
     print(json.dumps(gated), flush=True)

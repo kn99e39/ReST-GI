@@ -427,6 +427,20 @@ def verdict(R):
            os.path.join(R, 'results', 'final89.json'))
         print('VERDICT', json.dumps(V), flush=True)
         return
+    if not os.path.exists(os.path.join(R, 'results', 'stage1_89.json')) or not os.path.exists(os.path.join(R, 'results', 'stage3_89.json')):
+        # stopped after qualification (STOPPED_INVALID_COMPARISON): no candidate evaluation exists
+        t88 = jl(os.path.join(R, 'results', 'tests88.json')); t89 = jl(os.path.join(R, 'results', 'tests89.json'))
+        V = {'WORKLOAD_QUALIFICATION': 'SUPPORTED (' + jl(os.path.join(R, 'results', 'w_choice.json'))['chosen'] + ' admitted)',
+             'EXPERIMENTAL_VALIDITY': 'NOT SUPPORTED (STOPPED_INVALID_COMPARISON: ' + ', '.join(
+                 [f'tests88.{k}' for k, v in t88.items() if isinstance(v, dict) and v.get('PASS') is False] +
+                 [f'tests89.{k}' for k, v in t89.items() if isinstance(v, dict) and v.get('PASS') is False]) + ')'}
+        for k in ('C3UR_PHYSICAL_FIDELITY', 'C3UR_SAMPLING_RELATION_QUALITY', 'SOURCE_INDEPENDENT_REUSE', 'DYNAMIC_EDIT_VALIDITY',
+                  'RELATION_CONSTRUCTION_ECONOMICS', 'OPERATOR_APPLICATION_ECONOMICS', 'QUALITY_MATCHED_ADVANTAGE', 'SCALING', 'H0', 'H1', 'H2'):
+            V[k] = 'NOT TESTED (stopped)'
+        jd({'verdicts': V, 'qualification': {n: {k: v['PASS'] for k, v in a['qualification'].items()} for n, a in adm.items()}},
+           os.path.join(R, 'results', 'final89.json'))
+        print('VERDICT', json.dumps(V), flush=True)
+        return
     s1 = jl(os.path.join(R, 'results', 'stage1_89.json'))
     s2 = jl(os.path.join(R, 'results', 'stage2_89.json'))
     s3 = jl(os.path.join(R, 'results', 'stage3_89.json'))

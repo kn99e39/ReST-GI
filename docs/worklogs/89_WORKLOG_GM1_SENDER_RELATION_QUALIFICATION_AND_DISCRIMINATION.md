@@ -123,3 +123,90 @@ C3UR details:
 3. **Implementation optimisation of the C3UR update** (same operator; digests unchanged, selective = full re-verified). Ray records stay GPU-resident and the coefficients (landed rays, slots, weights) are computed in torch.
    - Warm C3UR update on Wk: 53 → 14 ms.
    - R0 state + coefficients: 28 ms. R1 update: 124 ms.
+
+## Evidence run, part 1 (freeze `7515a29`; LabServer63 `~/rest_rel89`; 2026-11-12 03:55–04:35 UTC)
+
+| Step | Outcome |
+|---|---|
+| Geometry screening | V3, V2, V1 admissible |
+| Qualification of V3 (16 renders, 8 × 8,192 spp per T, seeds 89140+) | **ADMITTED**, all of Q1–Q8 |
+| W1 = V3; evaluation references, oracle fields, order fields | complete: REF-ER W1 2 × 8, W2 2 × 8, held-out sources 2 × 4, REF-P 4; sha256 in `results/amend1/reference_manifest.json` |
+| tests | **GATE TESTS FAIL → `STOPPED_INVALID_COMPARISON`** (04:35:33) |
+| verdict in the stop branch | crashed (analysis bug: it expected stage-1 output) → `CHAIN_FAILED` |
+
+**V3 qualification values.**
+
+| Criterion | Value |
+|---|---|
+| Q1 A | 0.426 |
+| Q2 Bset | 0.0145 |
+| Q3 C_ss | 0.0234 (13,466 px; H2 share 1.08) |
+| Q4 R_mirror | 0.134 (3,244 px; G share 1.43) |
+| Q5 D | 0.0153, higher-order ratio 0.45, higher-order SNR 5.5 |
+| Q6 H share | 0.25 |
+| Q7 uncertainty | 0.0025 |
+| Q8 sharp reference noise | 0.0103 |
+
+- The family "shares" exceed 1 because the predeclared share is Σ|Δfamily| / Σ|Δh|, and family changes partly cancel inside h.
+- Candidates V2 and V1 were never rendered.
+
+**The single failing gate.** WL88's frozen `tests88.T_EDIT`, `selective_equals_full`, for R1 (SAM) on V3. Every other WL88 test passed, as did every WL89 test (C3UR and repaired RAYSEND).
+
+**No candidate-quality evidence existed or was inspected at the stop.** `results/tables` was empty; no relation table or candidate render had been computed. The original failure artifacts are preserved in `results/orig_stop/`: chain status, both test JSONs, the logs and the freeze commit.
+
+## Failure attribution and the human decision
+
+**First diagnosis (this session, before the human decision).**
+- Exactly 2 R1 area samples differ, in `dbin` only, and both are invalid.
+- I attributed this to undefined data in inactive lanes. **That attribution was wrong**; see below.
+- I asked for a decision, and the user approved option 2 conditionally (brief "Controlled Post-freeze Correctness Amendment and Conditional Evidence Chain Resumption"): amend only if code- and execution-level evidence proves a false positive from non-semantic invalid-lane data, otherwise stop.
+
+**Code-level audit.** These are the read paths of the area-sample arrays:
+
+| Read path | What it reads |
+|---|---|
+| `rel88.SAM._finish` (`rel88.py:301-310`) | builds every operator tensor (`a_recv`, `a_idx`, `a_w`, `a_cell`, groups) from **valid** samples only |
+| `SAM.update` | copies stored arrays by index without reading values; re-traces dirty samples |
+| `SAM.nbytes` | sizes only |
+| `SAM.digest` | **the only read of invalid entries** |
+| RAYSEND (`run88.raysend`, `rel89.raysend_fixed`) | masks by validity |
+| coverage (`run88` / `run89.real`) | masks by validity |
+| `run88.pair_energy` | a separate diagnostic trace; invalid entries are multiplied by an exact 0 |
+
+The u-ray part (state, MIS factors) does not read area samples at all.
+
+**Execution-level audit** (`audit89.py`; `results/amend1/audit89.json`; frozen evidence parameters).
+1. **The two entries.** Pairs (206 floor ← 1260 sphere) and (1053 box B ← 1268 sphere), sample 2.
+   - Both are invalid with weight 0 in the selective and the full relation; `cell` and segment are identical; only `dbin` differs (37 vs 51, 54 vs 53).
+   - Both are **traced** grazing rays (sender cosine 0.014 / 0.0007) that miss the sender patch.
+   - The stored `dbin` is the bin at the first surface hit **beyond the sample segment**:
+     - segment lengths 1.02 / 1.35 m (`segment_check.txt`);
+     - at T0 the first hit is the back wall (t 4.94 / 4.80 m);
+     - at T1 it is the moved slab (t 2.68 / 2.66 m).
+   - Validity ("first hit is the sender at y") depends only on geometry inside [x, y]: a flat sender plane is crossed once, at y, and a convex sphere is met only near y. So changes beyond y cannot change validity or contribution, and the segment-based dirty rule correctly did not flag these samples.
+2. **Operational state.** The operational digest, every operator tensor, the u state, all segments and the validity mask are bitwise equal between selective and full.
+3. **Transport outputs.** Deterministic CPU evaluation of the unchanged operator, selective vs full, for a random field, the W1 q and the 4-order recurrence: bitwise equal, finite, and self-repeat equal.
+   - The GPU recurrence differs by 1.6e-7 relative, within its own repeat floor of 3.2e-7: GPU `index_add_` is atomic.
+4. **Null edit and move-and-return.** Equal under both digests.
+5. **Invalid-lane perturbation** of all 157,538 invalid entries, three ways:
+   - `dbin` random;
+   - `dbin` 255 and `cell` int32 max;
+   - `w` NaN and `cell` random.
+
+   In all three, the operator tensors, the CPU outputs (finite) and a subsequent selective edit T1 → T0 are bitwise unchanged against an unperturbed twin.
+   - The first audit run had a test bug: it compared against a relation built on a different scene object, and a fresh `Ctx(T1)` differs from a `set_geom(T0 → T1)` scene in mesh-vertex bits. It is preserved as `audit89_run1_testbug.json`.
+
+Conclusion: the STOP was caused solely by a test that hashed non-semantic stored values of invalid samples. **AUDIT PASS.**
+
+## POST-FREEZE AMENDMENT 1 (protocol `amendments[0]`)
+
+| | Predicate |
+|---|---|
+| **Old** | `tests88.T_EDIT`: equality of `rel88.SAM.digest()`, a sha256 over the u state, MIS factors, pair list and the **full** arrays valid / dbin / cell / w of all area samples |
+| **New** | `tests89.T_R1_EDIT_OPERATIONAL`: equality of `audit89.op_digest`, a sha256 over the u state (hit, dbin, segments), MIS factors, pair list, validity mask, dbin / cell / w of **valid** samples and all area segments; plus bitwise equality of every operator tensor, and null edit / move-and-return under the same digest. Bitwise, no tolerance |
+
+- This changes the test implementation, not transport semantics. The excluded values are never read by the operator, and perturbing them changes nothing.
+- `tests88.T_EDIT` still runs and its FAIL is reported. Every other gate is unchanged.
+- Also committed: the stop-branch verdict crash fix (`analyze89.verdict`, analysis only).
+- Unchanged: candidates, sampling, MIS, material rule, workloads, qualification, references, seeds, thresholds and evaluation.
+- **Resume point.** The chain resumes with RESUME at the Stage 0 test gate. Qualification, references and truth fields are reused (sha256 manifest).
