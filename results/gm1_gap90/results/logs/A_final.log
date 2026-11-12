@@ -1,0 +1,13 @@
+VERDICT {"TESTS": "PASS", "COMMON_GAP_VERIFIED": "SUPPORTED", "INTERMEDIATE_PROJECTION_ISOLATED": "ISOLATED", "DOMINANT_FACTOR": "ANGULAR", "M_STAR": 1, "FIRST_ORDER_SHARE": 0.9568802071976499, "COMPOUNDING_SHARE_OF_GAP": 0.09240815188671524, "LADDER": {"angular_only": "a4sx", "spatial_only": "axs1", "joint": "a4s4"}, "PRIMARY_HYPOTHESIS": "SUPPORTED", "ISOLATION_ALL_CONFIGS_REGIONS": {"W1_T1": {"R_mirror": "ISOLATED", "C_ss": "ISOLATED", "stationary_all": "ISOLATED", "D": "ISOLATED"}, "W1_T0": {"R_mirror": "ISOLATED", "C_ss": "ISOLATED", "stationary_all": "ISOLATED", "D": "ISOLATED"}, "W2_T1": {"R_mirror": "ISOLATED", "C_ss": "ISOLATED", "stationary_all": "ISOLATED", "D": "ISOLATED"}}, "OUTPUT_TABLE_SUFFICIENT_SHARP": true, "FEASIBILITY_PROBE_INTERPRETABLE": true, "X1_MATERIAL": true, "X1_ECONOMICALLY_PLAUSIBLE": true, "X1_COST_RATIOS": {"per_edit": 0.8159017648421718, "per_source": 0.5608004395142819}}
+W1_T1 R_mirror {"G0": 0.0226, "EE-ORA": -0.0002, "J": 0.0207, "A": 0.0226, "S": -0.0009, "iso": "ISOLATED", "factor": "ANGULAR", "m*": 1}
+W1_T1 C_ss {"G0": 0.0012, "EE-ORA": -0.0003, "J": 0.0012, "A": 0.0015, "S": 0.0, "iso": "ISOLATED", "factor": "ANGULAR", "m*": 1}
+W1_T1 stationary_all {"G0": 0.0005, "EE-ORA": -0.0, "J": 0.0004, "A": 0.0004, "S": 0.0001, "iso": "ISOLATED", "factor": "ANGULAR", "m*": 1}
+W1_T1 D {"G0": 0.0003, "EE-ORA": -0.0, "J": 0.0002, "A": 0.0002, "S": 0.0001, "iso": "ISOLATED", "factor": "BOTH_OR_INTERACTING", "m*": 2}
+W1_T0 R_mirror {"G0": 0.0314, "EE-ORA": 0.0009, "J": 0.0309, "A": 0.0339, "S": -0.0011, "iso": "ISOLATED", "factor": "ANGULAR", "m*": 1}
+W1_T0 C_ss {"G0": 0.0004, "EE-ORA": 0.0, "J": 0.0004, "A": 0.0003, "S": 0.0, "iso": "ISOLATED", "factor": "ANGULAR", "m*": 2}
+W1_T0 stationary_all {"G0": 0.0006, "EE-ORA": 0.0, "J": 0.0005, "A": 0.0005, "S": 0.0, "iso": "ISOLATED", "factor": "ANGULAR", "m*": 2}
+W1_T0 D {"G0": 0.0002, "EE-ORA": 0.0001, "J": 0.0001, "A": 0.0, "S": 0.0001, "iso": "ISOLATED", "factor": "BOTH_OR_INTERACTING", "m*": 4}
+W2_T1 R_mirror {"G0": 0.0166, "EE-ORA": -0.0004, "J": 0.017, "A": 0.0177, "S": -0.0027, "iso": "ISOLATED", "factor": "ANGULAR", "m*": 1}
+W2_T1 C_ss {"G0": 0.0005, "EE-ORA": -0.0, "J": 0.0004, "A": 0.0003, "S": 0.0001, "iso": "ISOLATED", "factor": "BOTH_OR_INTERACTING", "m*": 2}
+W2_T1 stationary_all {"G0": 0.0003, "EE-ORA": -0.0, "J": 0.0003, "A": 0.0003, "S": 0.0, "iso": "ISOLATED", "factor": "ANGULAR", "m*": 1}
+W2_T1 D {"G0": 0.0002, "EE-ORA": -0.0, "J": 0.0002, "A": 0.0001, "S": 0.0001, "iso": "ISOLATED", "factor": "BOTH_OR_INTERACTING", "m*": 2}

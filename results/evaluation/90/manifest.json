@@ -1,0 +1,26 @@
+{
+ "worklog": 90,
+ "source": "LabServer63 ~/rest_gap90/results/viz (viz90.py, freeze 51b93b8)",
+ "files": {
+  "fig1_error_maps_projection_factors.png": {
+   "sha256": "2bc19e252edca26c7734e152b84b303f5418fe86675f58c6711c642ac94721da",
+   "content": "W1 T1 |hl - h_REF| for ORACLE, no-projection operator (EE = M4), M1, M0 (converged table recurrence), angular-only, spatial-only and projection-once; one shared absolute sqrt scale; sharp-region outlines"
+  },
+  "fig2_signed_projection_loss_maps.png": {
+   "sha256": "872299ac4b928e55c639b26284a627466e266404e4e5cb47329f5bc627fcf1a9",
+   "content": "W1 T1 signed table-term differences: M0 - EE, projection-once - EE, angular-only - EE, spatial-only - EE, M1 - EE, EE - ORACLE (shared signed-sqrt scale; sharp and broad regions)"
+  },
+  "fig3_gap_decomposition.png": {
+   "sha256": "c010251b58a5e65144d4b8dc630c828037d92a9f172e105eacf1d465d5f4c695",
+   "content": "E_H in R_mirror and C_ss for every operator (hybrids, factorial, fixed grid, per-order composites) on W1 T1, W1 T0 and the held-out W2 T1"
+  },
+  "fig4_per_order_field_error.png": {
+   "sha256": "79c873b6846c1e600dbcf10b7617673ee87a04da77d0069a2cd69fa16b23be49",
+   "content": "W1 T1 field-level relative L1 per table order and patch class (table recurrence, projection-once, angular-only, spatial-only, exact gather) against path-traced order fields, with truth noise"
+  },
+  "fig5_feasibility_probe.png": {
+   "sha256": "2d6e667fe140ff7c4f87140d17bc194a01da93ce8223dbb282df8cc6f217cfe5",
+   "content": "First-gather-exact probe: R_mirror E_H over the 16 realizations for R0 / R0X1 / C3UR / C3URX1 (W1 T1, T0) and measured warm costs"
+  }
+ }
+}

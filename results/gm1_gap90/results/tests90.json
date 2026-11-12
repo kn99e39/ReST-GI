@@ -1,0 +1,54 @@
+{
+ "T_ORDERS_PT": {
+  "e1": 2.144813212506949e-07,
+  "e2": 4.195395687485646e-08,
+  "h": 1.2376622710120252e-07,
+  "PASS": true
+ },
+ "T_SUB": {
+  "g1": {
+   "same_sub_bin_fraction": 1.0,
+   "same_sub_patch_fraction": 1.0
+  },
+  "g4": {
+   "same_sub_bin_fraction": 1.0,
+   "same_sub_patch_fraction": 1.0
+  },
+  "g16": {
+   "same_sub_bin_fraction": 0.9999899943468059,
+   "same_sub_patch_fraction": 1.0
+  },
+  "exact_identity": 0.0,
+  "PASS": true
+ },
+ "T_EE_TRUTH": {
+  "flux_ratio_orders_2_5": [
+   1.0008671610847886,
+   1.0001299411134275,
+   1.0013993708945164,
+   0.9988012465906595
+  ],
+  "PASS": true
+ },
+ "T_PP_Q": {
+  "flux_ratio": 0.999225047435099,
+  "rel_l1": 0.007005815394222736,
+  "PASS": true
+ },
+ "T_REPLAY": {
+  "maxrel": 0.0,
+  "PASS": true
+ },
+ "T_X1_PLUMBING": {
+  "c3ur": 2.960850675748361e-09,
+  "r0": 0.0,
+  "PASS": true
+ },
+ "T_SOURCE_INDEPENDENT": {
+  "c3ur_digest_unchanged": true,
+  "r0_digest_unchanged": true,
+  "pooled_states_unchanged": true,
+  "PASS": true
+ },
+ "ALL_PASS": true
+}
