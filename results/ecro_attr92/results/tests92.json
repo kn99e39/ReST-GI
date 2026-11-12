@@ -1,0 +1,97 @@
+{
+ "T_REPRO_TABLE": {
+  "max_rel": {
+   "ecro_s8601:E2_T1": 0.0,
+   "ecro_s8602:E2_T1": 0.0,
+   "ecro_s8601:E2_T0": 0.0,
+   "ecro_s8602:E2_T0": 0.0,
+   "ecro_s8601:E1_T1": 0.0,
+   "ecro_s8602:E1_T1": 0.0
+  },
+  "PASS": true
+ },
+ "T_SPLIT_SUM": {
+  "cases": {
+   "E2_T1": {
+    "flux_ratio": 1.0001626019686456,
+    "min_part": 0.0,
+    "C_read_diff_over_h": -0.008958646058504167,
+    "C_read_sigma_over_h": 0.005842926369812049,
+    "z": -1.533246440480533
+   },
+   "E2_T0": {
+    "flux_ratio": 1.00017810921329,
+    "min_part": 0.0,
+    "C_read_diff_over_h": -0.004861788708900707,
+    "C_read_sigma_over_h": 0.005243020920566759,
+    "z": -0.9272876806250009
+   },
+   "E1_T1": {
+    "flux_ratio": 1.0002558764150533,
+    "min_part": 0.0,
+    "C_read_diff_over_h": 0.0012402528953723458,
+    "C_read_sigma_over_h": 0.0003624959283435363,
+    "z": 3.4214257275655844
+   }
+  },
+  "PASS": true
+ },
+ "T_FORM": {
+  "rel_l1": {
+   "E2_T1": 0.018029297043115997,
+   "E2_T0": 0.017816485657915496,
+   "E1_T1": 0.020979942597726203
+  },
+  "PASS": true
+ },
+ "T_LINEAR": {
+  "sets": {
+   "frozen": {
+    "superposition": 3.1697501867711253e-07,
+    "scaling": 6.762133466509113e-07,
+    "zero": 0.0,
+    "min": 1.1758145774365403e-05,
+    "single_plus_global_minus_B": 1.6905333666272782e-07
+   },
+   "R16": {
+    "superposition": 2.0165660430393473e-07,
+    "scaling": 5.041414965489821e-07,
+    "zero": 0.0,
+    "min": 7.52355936128879e-06,
+    "single_plus_global_minus_B": 1.0082830215196736e-07
+   },
+   "M64": {
+    "superposition": 2.867855926069751e-07,
+    "scaling": 6.402655117199174e-07,
+    "zero": 0.0,
+    "min": 0.0
+   }
+  },
+  "PASS": true
+ },
+ "T_OWNERSHIP_CODE": {
+  "max_single_plus_global_minus_B": 2.2431471853487596e-07,
+  "parts_nonnegative": true,
+  "PASS": true
+ },
+ "T_STATE": {
+  "rebuild_identical": true,
+  "selective_equals_full": true,
+  "equals_fresh_scene": true,
+  "null_edit_identical": true,
+  "dirty_rays": 66546,
+  "matches_stored_T1": true,
+  "PASS": true
+ },
+ "T_DISJOINT": {
+  "fit_light_min_distance_m": [
+   0.3085386867369912,
+   0.3080272581065452,
+   0.3287682705797612
+  ],
+  "e4_choice_recorded": true,
+  "e4_radiance_absent": true,
+  "PASS": true
+ },
+ "ALL_PASS": true
+}

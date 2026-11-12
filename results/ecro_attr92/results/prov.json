@@ -1,0 +1,80 @@
+{
+ "checkpoints": {
+  "ecro_s8601": "9d332cd61a7118bd39c1a042121c2b0a4917c869649ca7b5d033686bf98be978",
+  "ecro_s8602": "4d993121e41dd0bbc688f04c71a15cfedbed71332388e684f7eb5053020569df"
+ },
+ "er_states": "d3c5be854d80665b11f476eff0333a0232828293d31b28a6069f4dbd81371b3f",
+ "protocol86": "ecca67246ef013d798fa4bbec2cd93aef4f0430b43d51429b6953821ce2451b5",
+ "model86": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+ "train86": "340180b3a06ef20a264b1ebd01a09f61beadf34e1e065cc03f6f9250a8e638f8",
+ "data": {
+  "train": {
+   "files": 1024,
+   "listing_sha256": "b76cc80f07008f2f126f68b25d226869e8a15ca1a989501b4bf4a3e2bd935fbc",
+   "first4_sha256": [
+    "f15a2a099aaee999170d0a72605714a53501681142e9ea9e67c5a5f13f1420a4",
+    "8a9147922a35917bde0525e634270f028d28358f719c718a1c74a69c46e9f8e7",
+    "0a06980d5b6aa47a08befe53d5ad7422e07281f1531656b0052fe4421a46c75f",
+    "b1bb1e9ff3ddc79402e07ebf6c297756eb839e51008d9854932e2b07ce6836ff"
+   ]
+  },
+  "val": {
+   "files": 64,
+   "listing_sha256": "6cbb40c0356d3e2ba4586360d6db2c5391205920ef89db2c73635ec946b18354",
+   "first4_sha256": [
+    "300a3775fa31b254efc72d9fe97c58455f81dca87375c28746c0d521c8de5ae6",
+    "21d8cd875f464c59ec23bb65f7249d8bd2db71c469011b5092e62227907ff5dc",
+    "fad22d90d4174d7220c257357fa55ac46f23b6ddf0516bbdeb73b38e630a7b4e",
+    "3d26e16208cc758cf70b0b58b5477c9e82e8095f5e0283b4bc19d9cfac66be77"
+   ]
+  },
+  "trainhq": {
+   "files": 32,
+   "listing_sha256": "88e256fca0af00a97cca4994eabe42f3b72071aecdcd7d60e6fea1e4609e7224",
+   "first4_sha256": [
+    "b52692d90c3a587b44fc9434ada3b5b2454e88e9f43a5b5ea55ef2677c99722c",
+    "07a0bd0229ee9e9a775c3f4a81b539b1efd4f7662020a81e32b62750816b3525",
+    "d9caa90481fc83fdefcce6e4f0ae76eb71e4464f29607076d2c9df153011ea15",
+    "6f9c06ac9343252ea749a9065251b4aa2f7eb4052d3256e7b837245e350adf10"
+   ]
+  }
+ },
+ "references": {
+  "REF_ER_*": {
+   "files": 40,
+   "listing_sha256": "d5eb6fa4ff596afb9f42759da161a2dc52e54e0645f1bfd2dec5ad581fd2a058"
+  },
+  "REF_P_*": {
+   "files": 32,
+   "listing_sha256": "36b8036e245741046f7f8f12af82082f56cee52985f94cb9ef9f1fc9164f1b48"
+  },
+  "ORA_*": {
+   "files": 8,
+   "listing_sha256": "6a5f546f17c4611dc4c1c154535ac1bcf506fcb82e5c86af2960db1a33871801"
+  },
+  "EC_*": {
+   "files": 48,
+   "listing_sha256": "67fdcae9b37de88c722d1cabd1b506886c421d0c0d08b5c77a10e1ec67d7f208"
+  }
+ },
+ "fields": {
+  "F_E1_T0.npz": "0c2b64cd2d1471385dada51520e36508fd8b050fdd8e9e3f3cb8f67e49a334b4",
+  "F_E1_T1.npz": "5eb84be4e8ac7abe5685d88b8b5656193fdae3924322d3f247b1762b41aa5c0b",
+  "F_E2_T0.npz": "3c84bfb770ad19471bb409b73edda058cb99b0e3cf9a4613c5d08c349d961394",
+  "F_E2_T1.npz": "6f60aa311c6eb5d63c51a71f5ccd7c50caf77be3578cbb0f2f14fca5911c8170"
+ },
+ "masks": {
+  "E1.npz": "83cef64be94d8004ef2c1e458e96f735d260861103e5ebe12c138c26c49de16b",
+  "E1_LMIX.npz": "a99a15af105c226a9f36d539d9eea12a9ec326954caddfb170d239990fbaa44c",
+  "E1_LSPOT.npz": "bd6370c1401f78e453c3ebed9a0a62a59147088b0b1ea784be868fb113874d42",
+  "E2.npz": "0ba5435f94e77cf0859971de8ed0b17f87514b6018508f3f6fd2db48ca8d960b"
+ },
+ "wl86_final_sha256": "59b0cecebb135ea0a5d6b10140a8e5aa1a43b8ac2777a690e82d3b0fa4fee4c3",
+ "env": {
+  "torch": "2.3.1+cu121",
+  "mitsuba": "3.5.1",
+  "drjit": "0.4.6",
+  "gpu": "NVIDIA GeForce RTX 3080 Ti, 595.71.05, 12288 MiB"
+ },
+ "code_commit": "5e672ff578ca3fb276af24c0172cfb7503e48bee"
+}
