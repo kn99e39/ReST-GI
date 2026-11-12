@@ -210,3 +210,262 @@ Conclusion: the STOP was caused solely by a test that hashed non-semantic stored
 - Also committed: the stop-branch verdict crash fix (`analyze89.verdict`, analysis only).
 - Unchanged: candidates, sampling, MIS, material rule, workloads, qualification, references, seeds, thresholds and evaluation.
 - **Resume point.** The chain resumes with RESUME at the Stage 0 test gate. Qualification, references and truth fields are reused (sha256 manifest).
+
+## Evidence run, part 2 (amendment `5d6bb5c`; resumed 2026-11-12 06:01 UTC; `CHAIN_DONE` 06:36:46)
+
+| Stage | Wall | Mean GPU | Outcome |
+|---|---|---|---|
+| Stage 0 test gate (re-run) | 1.5 min | 3 % | **GATE TESTS PASS** (tests88.T_EDIT still FAIL, reported; T_R1_EDIT_OPERATIONAL PASS, strict-invalid entries differing 2) |
+| tables (6) + realisations (W1 T0 / T1) | 4.8 min | 9 % | finite, non-negative |
+| renders (~310, 4,096 spp) | 14.1 min | 89 % | — |
+| stage 1 (validity gate) | 0.4 min | — | tests, finite / non-negative, **target identity**, **RAYSEND repair**: all true |
+| economics (alone) | 12.4 min | 36 % | measured; no foreign GPU process before or after |
+| scaling (alone) | 1.0 min | 21 % | measured; **update points include first-call compilation** (see defects) |
+| stage 2 / 3, verdict, visuals | 0.3 min | — | — |
+
+- The part-1 GPU trace (03:55–04:35) was overwritten when the watcher restarted; it is not available. Part 2: `gpu_util_trace_part2.txt`.
+- The table and realisation stages are CPU-bound (numpy / Python relation bookkeeping), at 9 % GPU.
+
+**Measurement defects.**
+- `econ89` checked R1 selective = full with the strict WL88 digest, so its `selective_equals_full.R1 = false` is the same non-semantic artefact. R1's operational equivalence comes from tests89 and the audit.
+- `econ89.scale` timed the edit update without a warm-up call, so the scaling *update* times (C3UR / R1 / R0) include first-call compilation and are invalid as warm measures. The scaling *build* and *application* times are warm.
+
+## Final report (Korean)
+
+### Implementation Fact
+
+- **A. 원래 frozen test 결과 (보존).**
+  - 2026-11-12 04:35:33 UTC에 `GATE TESTS FAIL → STOPPED_INVALID_COMPARISON`이 났습니다(`results/orig_stop/`).
+  - 실패 항목은 WL88 frozen test `tests88.T_EDIT`(R1 selective = full) 하나였습니다. 그 시점에는 candidate 품질 결과가 하나도 없었습니다(tables 비어 있음).
+  - stop 분기 verdict가 crash해 `CHAIN_FAILED`가 됐습니다.
+- **B. Amendment 근거와 범위.**
+  - 사용자가 조건부로 승인했습니다.
+  - 코드 감사: 무효 sample 값을 읽는 곳은 `SAM.digest` 하나뿐이고, 연산 경로는 모두 valid mask를 거칩니다.
+  - 실행 감사(`audit89.json`):
+    - 차이는 무효 grazing sample 2개의 저장 bin뿐이었습니다. 이 bin은 segment(1.02 / 1.35 m) 너머 표면의 값입니다(T0 벽 4.9 m, T1 움직인 slab 2.7 m).
+    - operator tensor와 CPU 결정론적 출력이 bit 단위로 같았습니다.
+    - 무효 entry 157,538개에 random / 255 / NaN 교란을 넣어도 출력과 이후 update가 불변이었습니다.
+  - 그래서 판정 기준만 "연산에 쓰이는 state의 bit 단위 동일성"으로 바꿨습니다(POST-FREEZE AMENDMENT 1, `5d6bb5c`). 원래 FAIL은 계속 실행하고 보고합니다.
+  - 후보, 파라미터, workload, reference, 임계값, 평가는 바꾸지 않았습니다.
+  - 정정 사항이 두 가지 있습니다.
+    - 제 첫 진단("비활성 lane 쓰레기 값")은 틀렸고, 실행 감사로 바로잡았습니다.
+    - 감사 1차 실행에는 test 버그가 있었습니다(다른 scene 객체끼리 비교). 그 결과는 보존했습니다.
+- **C. 정정된 정확성 결과.**
+  - T_R1_EDIT_OPERATIONAL PASS(null edit, selective = full, move-and-return). 그 밖의 WL88 / WL89 test도 모두 PASS입니다.
+  - stage-1 validity 4개 항목이 모두 true입니다.
+    - target identity: R0_INF / R1_INF / C3UR_INF의 region signed 차이가 noise 이내입니다. W1 T1 R_mirror 수렴 E_H는 0.038 / 0.038 / 0.038입니다.
+    - 수리한 RAYSEND: table 모드 오차 ≤ 1e-5, exact trace의 sender 적중률 ≥ 99 %.
+- **D. 구현 사실.**
+  - C3UR은 (sender patch, outgoing bin)마다 8 ray를 bin 안에서 cos 가중으로 쏘고, receiver의 dense incident cell에 deposit합니다. relation 하나를 모든 order에 재사용합니다.
+  - geometry와 재질만으로 만들고, ray별 key stream으로 selective update가 full rebuild와 bit 단위로 같습니다. 추적 ray는 R0와 같은 650,240개입니다.
+  - R0(WL87 EXP)와 R1 / R1M(WL88 SAM)은 바꾸지 않았습니다. 추적 ray: R1 1.05 M, R1M 0.73 M.
+
+### Measurement
+
+**Workload.** V3(큰 S1 slab, yaw −0.10 → 0.45)가 독립 qualification partition(T마다 8 × 8,192 spp)에서 Q1–Q8을 모두 통과했습니다.
+
+| 항목 | 값 |
+|---|---|
+| C_ss 변화 | 0.023 |
+| R_mirror 변화 | 0.134 |
+| D 고차 SNR | 5.5 |
+| sharp reference noise | 0.010 |
+
+**W1 fidelity (deployed draw, T1, 4,096 spp, common random numbers).**
+
+| 방법 | stationary | C_ss | R_mirror | D |
+|---|---|---|---|---|
+| R0 | 0.0047 | 0.0109 | 0.0598 | 0.0043 |
+| C3UR | 0.0039 | 0.0080 | 0.0416 | 0.0033 |
+| R1 | 0.0043 | 0.0093 | 0.0527 | 0.0038 |
+| R1M | 0.0052 | 0.0106 | 0.0576 | 0.0045 |
+| C3 | 0.0035 | 0.0074 | 0.0366 | 0.0031 |
+| ORACLE | 0.0028 | 0.0059 | 0.0137 | 0.0026 |
+
+- 모든 arm이 W1의 F1 / F2 / F3를 통과합니다. R0의 R_mirror는 기준 0.06에 0.0002 차이로 통과했습니다.
+
+**16개 독립 relation draw (W1 T1).**
+
+| 방법 | R_mirror E_H (pass) | C_ss E_H | stationary E_H |
+|---|---|---|---|
+| R0 | 0.047 ± 0.015 (81 %) | 0.0105 ± 0.0027 | 0.0056 ± 0.0015 |
+| C3UR | 0.040 ± 0.005 (100 %) | 0.0079 ± 0.0005 | 0.0040 ± 0.0001 |
+| R1 | 0.040 ± 0.009 (100 %) | 0.0097 ± 0.0025 | — |
+
+- 모든 region 통과율: R0 81 %, C3UR 100 %, R1 100 %.
+
+**Paired 차이 (95 % 구간).**
+
+| 비교 | T1 | T0 |
+|---|---|---|
+| C3UR − R0, C_ss | −0.0026 [−0.0041, −0.0010] | −0.0020 [−0.0032, −0.0007] |
+| C3UR − R0, R_mirror | −0.0077 [−0.0167, +0.0013] (0 포함) | −0.0067 [−0.0128, −0.0006] |
+| C3UR − R0, stationary | −0.0016 [−0.0024, −0.0009] | — |
+| C3UR − R0, D | −0.0017 [−0.0025, −0.0009] | — |
+| C3UR − R1, C_ss | −0.0018 (구간 < 0) | — |
+| C3UR − R1, R_mirror | −0.0003 [−0.0068, +0.0062] | — |
+
+**오차 분해 (W1 T1 R_mirror, signed; noise 0.014).**
+
+| 성분 | R0 | R1 | C3UR |
+|---|---|---|---|
+| sampling (deployed − converged) | −0.031 | −0.018 | −0.001 |
+| relation discretisation (converged − ORACLE) | −0.024 | −0.025 | −0.025 |
+| first-gather sender projection | −0.049 | −0.023 | — |
+| output representation (ORACLE − REF) | −0.005 (공통) | | |
+
+**Relation coverage (17 draws).** C3UR의 이점은 pair coverage가 아닙니다.
+
+| 방법 | 중요 relation 누락 에너지 | 에너지 coverage |
+|---|---|---|
+| R0 | 0.28 | 0.71 |
+| C3UR | 0.21 | 0.78 |
+| R1 | 0.003 | 0.996 |
+
+**Edit response.**
+- W1: 모든 arm이 F3를 통과합니다. R_mirror slope: R0 1.12, C3UR 0.86, R1 0.82.
+- W2(held-out edit), C_ss: C3UR 0.79 / 0.93, C3 0.80 / 0.95, ORACLE 0.87 / 0.98은 PASS입니다. R0 0.67 / 0.88, R1 0.71 / 0.92, R1M 0.66 / 0.89는 slope가 0.75 미만이라 **FAIL**입니다.
+- W2 R_mirror는 resolvable하지 않습니다.
+- W2 T1 R_mirror E_H: R0 0.051, C3UR 0.038, R1 0.044.
+
+**Held-out sources (relation 재사용, 단일 draw).**
+- 모든 arm이 F4와 sharp F2를 통과합니다.
+- LMIX89 R_mirror: C3UR 0.023 대 R0 0.017로, C3UR이 더 나쁩니다.
+- LSPOT89 R_mirror: 0.038 대 0.037.
+
+**경제성 (RTX 3080 Ti 단독, warm median).**
+
+| per-edit 비용 (렌더 전) | ms |
+|---|---|
+| R0 | 92 |
+| C3UR | 86 |
+| R1 | 192 |
+| C3 | 510 |
+| PT | 36 |
+| TF256 | 322 |
+| TF1024 | 1,183 |
+
+- C3UR과 R0의 per-edit 구성:
+
+  | 단계 | C3UR | R0 |
+  |---|---|---|
+  | relation update | 14.3 ms | 26.6 ms (discovery 20.3 + coefficient 6.3) |
+  | 적용 (4 order) | 11.6 ms | 6.1 ms |
+  | geometry | 31.8 ms | 31.8 ms |
+  | q | 26.6 ms | 26.6 ms |
+  | 전체에서 relation update 몫 | 17 % | 29 % |
+
+- R1의 relation update는 125 ms로 per-edit의 65 %입니다.
+- source-only 갱신: R0 32, R1 34, C3UR 38, C3 451 ms.
+- quality-matched edit-to-first-frame, C3UR / R0:
+  - 대부분의 수준에서 1.03–1.12×입니다(stationary 0.10–0.03, C_ss 0.10 / 0.06, R_mirror 0.10, D).
+  - 예외는 R_mirror 0.06입니다. R0 deployed draw가 14,432 spp(12.95 s)를 쓰는 반면 C3UR은 347 spp(0.39 s)로, **33×** 차이입니다.
+- PT / C3UR: stationary 1.7–5.2×, R_mirror 18×.
+- 품질 floor(ladder 최소): R_mirror R0 0.060, C3UR 0.042, R1 0.053, PT 0.024.
+- memory: C3UR 20.8 MB, R0 17.6 MB, R1 35.4 MB.
+
+**Scaling (s = 1 / 1.5 / 2, N 1,270–5,080; warm build / apply).**
+- C3UR build ∝ N^1.03, bytes ∝ N^1.0, 4-order apply ∝ N^0.38.
+- R1 build ∝ N^2.15, pair 수 ∝ N^1.99.
+- R0 state ∝ N^0.4.
+- glossy B를 추가해도 같은 경향입니다.
+- update scaling 값은 첫 호출 컴파일이 섞인 측정 결함이라 무효입니다.
+
+### Observation
+
+1. C3UR의 가장 뚜렷한 측정 효과는 **realization 분산 감소**입니다.
+   - E_H SD: stationary 0.0001 대 0.0015, C_ss 0.0005 대 0.0027, R_mirror 0.005 대 0.015.
+   - deployed draw의 sampling 성분(−0.001)이 수렴 relation과 거의 같습니다.
+2. 평균 fidelity는 C3UR, R1, C3가 같은 수렴 floor(R_mirror 0.038)에 모이고, ORACLE(0.014)과의 간격은 모든 relation이 공유합니다.
+3. W2 held-out edit의 C_ss edit response는 C3UR(와 C3, ORACLE)만 F3를 통과하고, 수신측 R0 / R1 / R1M은 실패합니다(단일 draw).
+4. 오차 지도(fig1)에서 C3UR의 오차는 방의 모서리, 즉 수직 patch가 만나는 곳에 집중되어 보입니다. R0는 R_mirror 영역 안에 집중됩니다.
+5. LMIX 광원의 R_mirror에서 C3UR이 R0보다 나쁩니다(0.023 대 0.017, 단일 draw).
+6. 33× quality-matched 이득은 R_mirror 0.06 한 수준에서만 나옵니다. 그 수준이 R0 deployed draw의 bias floor(0.0598)와 거의 같습니다.
+
+### Interpretation
+
+- **Relation 발견 (coverage).**
+  - C3UR은 중요 relation을 R0보다 조금 덜 놓칠 뿐입니다(0.21 대 0.28).
+  - 그런데도 이득이 있는 것은 sender cell마다 ray를 균등하게 할당해, 밝은 sender cell의 에너지가 항상 전달되기 때문으로 추론됩니다. 그래서 분산이 작습니다.
+  - 이것은 WL88 E2 Task A의 "sender 배치" 귀속과 일치합니다(추론).
+- **표현 한계.**
+  - 남은 sharp 오차는 relation discretisation이고, 모든 구성이 공유합니다: 수렴 relation 0.038, ORACLE 0.014.
+  - 따라서 relation을 더 촘촘히 표본해도 이 workload의 R_mirror를 ORACLE 수준으로 낮출 수 없습니다. 중간 order의 patch × bin 표현이 그 바닥을 만듭니다.
+- **Quadrature와 sampling.**
+  - R0와 R1의 deployed 오차 중 sampling 몫이 큽니다(R_mirror −0.031 / −0.018).
+  - R1은 coverage를 거의 채우지만, 분산은 C3UR보다 큽니다(R_mirror SD 0.009 대 0.005).
+- **Source 의존성.**
+  - C3UR은 source 없이 만들어지고, 3개 광원 조건에서 digest가 변하지 않았습니다.
+  - held-out 광원에서 gate는 통과했지만, LMIX의 R_mirror는 R0보다 나빴습니다(단일 draw). source 분포에 따른 sender 표본 효율 차이일 수 있으나, 분리하지 않았습니다.
+- **비용.**
+  - C3UR의 per-edit 비용은 R0보다 7 % 작습니다(update는 0.54×, 적용은 1.9×).
+  - 두 방법 모두 per-edit 비용은 geometry 갱신(32 ms)과 q(27 ms)가 지배합니다. relation 구성과 반복 적용은 지배적이지 않습니다.
+  - R1은 relation 구성이 지배하고(65 %), 규모에 따라 거의 제곱으로 늘어납니다.
+  - quality-matched 이점은 R0의 sampling floor가 걸리는 sharp 수준에서만 1.25×를 넘습니다. 나머지 수준에서는 같은 비용입니다.
+- **H 판정.**
+  - 사전 mapping으로 **H1 SUPPORTED**입니다. 근거는 C_ss paired 개선(구간 < 0, 모든 region에서 악화 없음)과 R_mirror 0.06 수준의 quality-matched 이득이고, sharp 손실은 없습니다.
+  - 다만 C_ss 개선의 절대값은 작고(0.0026, 모든 arm이 기준을 크게 통과하는 영역), T1의 R_mirror 개선 구간은 0을 포함합니다.
+  - quality-matched 이득은 R0 deployed draw의 floor 근접에서 나옵니다.
+  - 따라서 이 결과는 "같은 비용에서 C3UR이 더 안정적(저분산)이고 같거나 나은 정확도를 낸다"로 읽는 것이 측정에 맞습니다. "큰 정확도 / 비용 우위"는 측정되지 않았습니다.
+
+### Unresolved Question
+
+- 남은 sharp 오차(R_mirror 0.038 vs ORACLE 0.014)는 relation discretisation(중간 order 표현)의 몫입니다. relation 구성으로는 줄지 않습니다.
+- LMIX에서 C3UR이 R_mirror로 R0보다 나쁜 이유를 분리하지 않았습니다(단일 draw).
+- C3UR 오차가 방 모서리(수직 patch 접합부)에 집중되는 원인은 추론뿐입니다. dense cell-centre deposition과 grazing 입사가 후보입니다.
+- W2의 C_ss F3 결과는 단일 draw입니다. realization 분포로 확인하지 않았습니다.
+- workload는 단일 장면 family이고 edit 유형도 하나(G 회전, 그리고 W2 평행이동+회전)라, 일반화 범위가 좁습니다.
+- scaling update 시간은 측정 결함으로 무효입니다.
+
+### Architecture Verdict
+
+범위: qualified W1 = V3(회전하는 S1 slab), held-out edit W2 = X2, held-out 광원 LMIX89 / LSPOT89, frozen ER, 512², patch × 64-bin table.
+
+| 항목 | 판정 |
+|---|---|
+| WORKLOAD QUALIFICATION | **SUPPORTED** (V3, 독립 partition, Q1–Q8) |
+| EXPERIMENTAL VALIDITY | **SUPPORTED**. POST-FREEZE AMENDMENT 1 이후 기준. 원래 frozen 결과는 STOPPED_INVALID_COMPARISON이며 보존 |
+| C3UR PHYSICAL FIDELITY | **SUPPORTED** (W1 F1–F3, W2, held-out 광원 gate) |
+| R0 / R1 PHYSICAL FIDELITY | **CONDITIONALLY SUPPORTED** (W2 C_ss F3 실패) |
+| C3UR SAMPLING / RELATION QUALITY | **SUPPORTED** (C_ss paired 개선, 악화 region 없음, 통과율 100 %). R_mirror T1 개선 구간은 0 포함 |
+| SOURCE-INDEPENDENT REUSE | **SUPPORTED** (구성에 source 없음, digest 불변, held-out 광원 gate 통과). LMIX R_mirror는 R0보다 나쁨 |
+| DYNAMIC EDIT VALIDITY | **SUPPORTED** (C3UR null / selective = full / move-and-return 동일, W1 / W2 F3) |
+| RELATION CONSTRUCTION ECONOMICS | **SUPPORTED** (C3UR / R0 update 0.54×) |
+| OPERATOR APPLICATION ECONOMICS | **CONDITIONALLY SUPPORTED** (1.9×; 절대 11.6 ms) |
+| QUALITY-MATCHED ADVANTAGE | **SUPPORTED by rule**: R_mirror 0.06 한 수준(33×, R0 floor 근접). 그 밖은 1.03–1.12× |
+| SCALING | **SUPPORTED by rule**: build N^1.03. update 지수는 측정 결함 |
+| H0 / H1 / H2 | **H1 SUPPORTED**, H0 / H2 NOT SUPPORTED (사전 mapping) |
+
+**Completion answer.**
+- 원래 STOP은 비의미 test false positive(무효 sample의 저장 bin) 하나가 원인이었습니다.
+- 이를 정정한 뒤, qualified workload에서 source-independent sender relation(C3UR)은 측정 범위에서 다음을 보였습니다.
+  - R0와 같은 ray 수와 약간 낮은 per-edit 비용에서 relation 분산을 크게 줄였습니다.
+  - C_ss와 broad 영역은 작지만 유의하게 개선했습니다.
+  - R_mirror는 평균 개선이었지만, T1 구간은 0을 포함합니다.
+  - W2 sharp edit response를 통과했습니다.
+- 남은 sharp 오차는 모든 relation이 공유하는 discretisation 바닥이며, 비용은 relation이 아니라 geometry 갱신과 source 사영이 지배합니다.
+- C3UR, R1, 어떤 아키텍처도 채택하지 않았습니다.
+
+### Reproducibility
+
+- **Commits.** freeze `7515a29`, amendment `5d6bb5c`, results in the closing commit. Branch `Selective_Recompute`.
+- **Environment.** LabServer63, RTX 3080 Ti 12 GB, driver 595.71.05, Mitsuba 3.5.1 `cuda_ad_rgb`, Dr.Jit 0.4.6, torch 2.3.1.
+- **Protocol.** `experiments/gm1_relation89/protocol/gm1_relation89.json` (v1 + `amendments[0]`).
+- **Seeds.**
+  - Screening 89900–89901; qualification 89140+.
+  - REF-ER 89100+, W2 89180+, sources 89160+, P 89120+.
+  - ORACLE / order fields 89450 / 89460.
+  - C3UR 89007 (realisation + 1000 · i); realisations 89201–89216; converged 89301–89348 / sender 89011.
+  - Pair energy 89009; renders 89600 / 89601; ladders 89600 + 97 · spp + rep; TF 89700+; sources 89720.
+  - R1 / R1M use the WL88 relation seeds.
+- **Server.** `~/rest_rel89`. Original stop artifacts in `results/orig_stop/`. Amendment evidence in `results/amend1/` (audit89.json, the run-1 test-bug JSON, segment_check.txt, reference_manifest.json).
+- **Local.**
+  - `results/gm1_relation89/`: chain status, part-2 GPU trace, JSON (w_screen, wq_V3, tests88 / 89, stage1–3, econ, scale, final89), logs, orig_stop, amend1.
+  - `results/evaluation/89/`: seven figures plus a manifest with sha256.
+- **Invalid or excluded.**
+  - The original stop branch (preserved).
+  - Audit run 1 (test bug).
+  - Scaling update times (compilation).
+  - econ R1 strict-digest check.
+  - The part-1 GPU trace (overwritten).
+  - Screening partition (design only).

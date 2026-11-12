@@ -1,0 +1,175 @@
+{
+ "w1": "V3",
+ "strict": {
+  "digest_selective": "a6ca0d0dc29cf1c2",
+  "digest_full": "a1aba342d639bc4c",
+  "equal": false,
+  "same_pairs": true,
+  "mismatch_counts": {
+   "valid": 0,
+   "dbin": 2,
+   "cell": 0,
+   "w": 0
+  },
+  "entries": [
+   {
+    "pair": 19535,
+    "sample": 2,
+    "receiver": 206,
+    "sender": 1260,
+    "receiver_shape": 0,
+    "sender_shape": 6,
+    "valid_sel": false,
+    "valid_full": false,
+    "dbin_sel": 37,
+    "dbin_full": 51,
+    "cell_sel": 8514,
+    "cell_full": 8514,
+    "w_sel": 0.0,
+    "w_full": 0.0,
+    "cos_receiver": 0.5778401738992403,
+    "cos_sender": 0.013785994193618334,
+    "lane_traced": true,
+    "segment_equal": true,
+    "first_hit_if_traced": {
+     "T0": {
+      "hit_valid": true,
+      "t": 4.940150737762451,
+      "shape": 3,
+      "hit_patch": 885,
+      "bin_if_traced": 37
+     },
+     "T1": {
+      "hit_valid": true,
+      "t": 2.675731897354126,
+      "shape": 7,
+      "hit_patch": 1145,
+      "bin_if_traced": 51
+     }
+    }
+   },
+   {
+    "pair": 92145,
+    "sample": 2,
+    "receiver": 1053,
+    "sender": 1268,
+    "receiver_shape": 4,
+    "sender_shape": 6,
+    "valid_sel": false,
+    "valid_full": false,
+    "dbin_sel": 54,
+    "dbin_full": 53,
+    "cell_sel": 13648,
+    "cell_full": 13648,
+    "w_sel": 0.0,
+    "w_full": 0.0,
+    "cos_receiver": 0.833166786748087,
+    "cos_sender": 0.0006533680813646009,
+    "lane_traced": true,
+    "segment_equal": true,
+    "first_hit_if_traced": {
+     "T0": {
+      "hit_valid": true,
+      "t": 4.800839424133301,
+      "shape": 3,
+      "hit_patch": 803,
+      "bin_if_traced": 54
+     },
+     "T1": {
+      "hit_valid": true,
+      "t": 2.6624741554260254,
+      "shape": 7,
+      "hit_patch": 1142,
+      "bin_if_traced": 53
+     }
+    }
+   }
+  ],
+  "all_mismatches_invalid_in_both": true
+ },
+ "operational": {
+  "op_digest_selective": "79f2d17e11381e5d",
+  "op_digest_full": "79f2d17e11381e5d",
+  "op_digest_equal": true,
+  "operator_tensors_equal": {
+   "a_cell": true,
+   "a_er0": true,
+   "a_er1": true,
+   "a_er4": true,
+   "a_idx": true,
+   "a_lam": true,
+   "a_recv": true,
+   "a_w": true,
+   "lam_rho": true,
+   "mr": true,
+   "uop_W": true,
+   "uop_group0": true,
+   "uop_group1": true,
+   "uop_group3": true,
+   "uop_group4": true,
+   "uop_group5": true,
+   "uop_group6": true,
+   "uop_group7": true,
+   "uop_group8": true,
+   "uop_group9": true,
+   "uop_idx": true,
+   "uop_ok": true
+  },
+  "all_tensors_equal": true,
+  "u_state_equal": true,
+  "valid_mask_equal": true,
+  "segments_equal": true
+ },
+ "transport_outputs": {
+  "random": {
+   "cpu_bitwise_equal": true,
+   "cpu_self_repeat_equal": true,
+   "finite": true,
+   "max_abs": 0.0
+  },
+  "q_single": {
+   "cpu_bitwise_equal": true,
+   "cpu_self_repeat_equal": true,
+   "finite": true,
+   "max_abs": 0.0
+  },
+  "q_recurrence_J4": {
+   "cpu_bitwise_equal": true,
+   "cpu_self_repeat_equal": true,
+   "finite": true,
+   "max_abs": 0.0
+  },
+  "gpu_recurrence_J4": {
+   "sel_vs_full_maxrel": 1.621419727371176e-07,
+   "self_repeat_maxrel": 3.242839454742352e-07,
+   "note": "GPU index_add_ is atomic (non-deterministic summation order); reported against its own repeat floor"
+  }
+ },
+ "null_and_return": {
+  "null_edit_op_equal": true,
+  "null_edit_strict_equal": true,
+  "move_and_return_op_equal": true,
+  "move_and_return_strict_equal": true
+ },
+ "perturbation": {
+  "dbin_random": {
+   "perturbed_invalid_entries": 157538,
+   "operator_tensors_unchanged": true,
+   "cpu_outputs_bitwise_unchanged_and_finite": true,
+   "later_selective_update_uncontaminated": true
+  },
+  "dbin_255_cell_max": {
+   "perturbed_invalid_entries": 157538,
+   "operator_tensors_unchanged": true,
+   "cpu_outputs_bitwise_unchanged_and_finite": true,
+   "later_selective_update_uncontaminated": true
+  },
+  "w_nan_cell_random": {
+   "perturbed_invalid_entries": 157538,
+   "operator_tensors_unchanged": true,
+   "cpu_outputs_bitwise_unchanged_and_finite": true,
+   "later_selective_update_uncontaminated": true
+  }
+ },
+ "AUDIT_PASS": true
+}

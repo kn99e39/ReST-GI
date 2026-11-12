@@ -1,0 +1,171 @@
+{
+ "T_WL87": {
+  "R0_vs_EXP": 1.0297412970641973e-07,
+  "q_vs_WL87": 6.109508044083766e-07,
+  "PASS": true
+ },
+ "T_REDUCE": {
+  "R1_m0_vs_R0": 0.0,
+  "PASS": true
+ },
+ "T_PEAKED": {
+  "Pi_median": [
+   4.931031913839775,
+   37.95230014124924,
+   16.13124211592185,
+   1.0,
+   37.98092360710868,
+   1.0
+  ],
+  "peaked": [
+   false,
+   true,
+   true,
+   false,
+   true,
+   false
+  ],
+  "PASS": true
+ },
+ "T_CULL": {
+  "missing_pairs": 0,
+  "PASS": true
+ },
+ "T_ER": {
+  "rows": {
+   "m0_th0.3": {
+    "albedo_sample_weight": 0.48382240533828735,
+    "albedo_eval_over_pdf": 0.48382240533828735,
+    "albedo_uniform": 0.4841551960358396,
+    "pdf_rel_median": 0.0
+   },
+   "m0_th0.8": {
+    "albedo_sample_weight": 0.4324732720851898,
+    "albedo_eval_over_pdf": 0.4324732720851898,
+    "albedo_uniform": 0.4328211431607731,
+    "pdf_rel_median": 0.0
+   },
+   "m0_th1.2": {
+    "albedo_sample_weight": 0.37984350323677063,
+    "albedo_eval_over_pdf": 0.37984350323677063,
+    "albedo_uniform": 0.38007086855152955,
+    "pdf_rel_median": 0.0
+   },
+   "m1_th0.3": {
+    "albedo_sample_weight": 0.41990479826927185,
+    "albedo_eval_over_pdf": 0.41990479826927185,
+    "albedo_uniform": 0.4160020793335402,
+    "pdf_rel_median": 0.0
+   },
+   "m1_th0.8": {
+    "albedo_sample_weight": 0.4075820744037628,
+    "albedo_eval_over_pdf": 0.4075820744037628,
+    "albedo_uniform": 0.40563375862850826,
+    "pdf_rel_median": 0.0
+   },
+   "m1_th1.2": {
+    "albedo_sample_weight": 0.38239145278930664,
+    "albedo_eval_over_pdf": 0.38239145278930664,
+    "albedo_uniform": 0.38597787428202834,
+    "pdf_rel_median": 0.0
+   },
+   "m2_th0.3": {
+    "albedo_sample_weight": 0.6699267625808716,
+    "albedo_eval_over_pdf": 0.6699267625808716,
+    "albedo_uniform": 0.6716155785017891,
+    "pdf_rel_median": 0.0
+   },
+   "m2_th0.8": {
+    "albedo_sample_weight": 0.5872471332550049,
+    "albedo_eval_over_pdf": 0.5872471332550049,
+    "albedo_uniform": 0.5877561051666921,
+    "pdf_rel_median": 0.0
+   },
+   "m2_th1.2": {
+    "albedo_sample_weight": 0.49990755319595337,
+    "albedo_eval_over_pdf": 0.49990755319595337,
+    "albedo_uniform": 0.5000372432782849,
+    "pdf_rel_median": 0.0
+   }
+  },
+  "PASS": true
+ },
+ "T_FRAMES": {
+  "excluded_coincident": 34,
+  "tangent_err_rect": 5.960464477539063e-08,
+  "tangent_err_box": 2.0,
+  "normal_err": 1.1920928955078125e-07,
+  "S1_azimuthal_anisotropy_relL1": 0.00762695400044322,
+  "PASS": true,
+  "note": "box-face tangent frames may differ from the patch frame by a rotation about n; admissible if S1 is azimuthally isotropic"
+ },
+ "T_DENSE": {
+  "m0": {
+   "albedo_rel_median": 0.008509930845052222,
+   "per_bin_relL1_median": 0.11821159498982807
+  },
+  "m1": {
+   "albedo_rel_median": 0.01387338196154392,
+   "per_bin_relL1_median": 0.06208077540706225
+  },
+  "PASS": true,
+  "note": "per-bin error includes the within-cell direction offset (jitter 0.004) and both estimators noise"
+ },
+ "T_UNBIASED": {
+  "R0_pool_vs_area_relL1": 0.03220731365835213,
+  "R1_pool_vs_area_relL1": 0.007143257062716256,
+  "R0_flux_ratio": 1.0009329363306834,
+  "R1_flux_ratio": 1.0006893055028907,
+  "PASS": true
+ },
+ "T_ZERO_LIN_NONNEG": {
+  "zero": 0.0,
+  "linearity": 1.4630024768631934e-06,
+  "min_weight_or_output": 0.0,
+  "PASS": true
+ },
+ "T_SOURCE_INDEPENDENT": {
+  "signature": [
+   "self",
+   "ctx",
+   "quad",
+   "dense",
+   "kappa_u",
+   "m",
+   "seed",
+   "st",
+   "timing"
+  ],
+  "digest_a": "e496717dcf59430a",
+  "digest_b": "e496717dcf59430a",
+  "PASS": true
+ },
+ "T_DETERMINISTIC": {
+  "PASS": true
+ },
+ "T_EDIT": {
+  "null_edit_identical": true,
+  "null_dirty_samples": 176516,
+  "selective_equals_full": false,
+  "move_and_return_identical": true,
+  "edit_dirty_samples": 183724,
+  "edit_u_dirty": 46319,
+  "PASS": false
+ },
+ "T_FAMILY": {
+  "e1": 1.429636098997725e-07,
+  "e2": 9.013031581842923e-08,
+  "h": 1.1512264936818388e-07,
+  "sum_classes_minus_h": 1.151226626214098e-07,
+  "H2G_le_H2": true,
+  "PASS": true
+ },
+ "report": {
+  "pairs": 100498,
+  "area_valid": 244454,
+  "rays_R1": 1052232,
+  "rays_R0": 650240,
+  "no_double_counting": "B = L2..L5 excludes q (as WL87); MIS weights of the u and a proposals sum to 1 for every first-hit-peaked direction by construction (balance heuristic, same D)"
+ },
+ "ALL_PASS": false
+}

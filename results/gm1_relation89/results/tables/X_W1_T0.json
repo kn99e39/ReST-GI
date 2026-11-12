@@ -1,0 +1,100 @@
+{
+ "cfg": "W1_T0",
+ "ls": "L89c",
+ "timing": {
+  "R0_first": {
+   "state_s": 0.19373749941587448,
+   "q_s": 0.09641674906015396,
+   "apply_s": 0.13937458209693432
+  },
+  "raysend_validation": {
+   "RS1_table_vs_apply_maxrel": 2.4100413505254756e-07,
+   "RS0_table_vs_apply_maxrel": 0.0,
+   "RS1_area_exact_hit_fraction": 0.9999959159836149
+  },
+  "C3_s": 0.5627892315387726
+ },
+ "relations": {
+  "C3UR": {
+   "kappa_s": 8,
+   "rays": 650240,
+   "landed": 526287,
+   "bytes": 20807680,
+   "timing_first": {
+    "trace_s": 0.2424478530883789,
+    "coeff_s": 0.04955880902707577
+   },
+   "digest": "7ca17a1b3bb8a49f"
+  },
+  "C3UR16": {
+   "kappa_s": 16,
+   "rays": 1300480,
+   "landed": 1052415,
+   "bytes": 41615360,
+   "timing_first": {
+    "trace_s": 0.39399491995573044,
+    "coeff_s": 0.009001903235912323
+   },
+   "digest": "617d236173ac7b4d"
+  },
+  "R1": {
+   "kappa_u": 8,
+   "m": 4,
+   "pairs": 100543,
+   "area_valid": 244857,
+   "missing_pairs": 0,
+   "rays": 1052412,
+   "bytes": 35439976,
+   "timing_first": {
+    "u_state_s": 1.588277518749237e-05,
+    "pairs_s": 0.07899874821305275,
+    "area_trace_s": 0.22424745745956898,
+    "coeff_s": 0.2192132119089365
+   },
+   "digest": "b0367f1a20a975e7"
+  },
+  "R1M": {
+   "kappa_u": 4,
+   "m": 4,
+   "pairs": 100543,
+   "area_valid": 244857,
+   "missing_pairs": 0,
+   "rays": 727292,
+   "bytes": 35439976,
+   "timing_first": {
+    "u_state_s": 2.101995050907135e-05,
+    "pairs_s": 0.07959501445293427,
+    "area_trace_s": 0.18794127367436886,
+    "coeff_s": 0.04011501930654049
+   },
+   "digest": "21966018070d1028"
+  }
+ },
+ "state_digest": "1801279420791663",
+ "finite": true,
+ "min": {
+  "q": 0.0,
+  "R0": 0.0,
+  "R0_L2": 0.0,
+  "R0_L3": 0.0,
+  "R0_L4": 0.0,
+  "R0_L5": 0.0,
+  "C3UR": 0.0,
+  "C3UR_L2": 0.0,
+  "C3UR_L3": 0.0,
+  "C3UR_L4": 0.0,
+  "C3UR_L5": 0.0,
+  "C3UR16": 0.0,
+  "R1": 0.0,
+  "R1_L2": 0.0,
+  "R1_L3": 0.0,
+  "R1_L4": 0.0,
+  "R1_L5": 0.0,
+  "RS1": 0.0,
+  "RS0": 0.0,
+  "R1M": 0.0,
+  "POOL2": 0.0,
+  "C3": 0.0,
+  "C3U": 0.0
+ }
+}

@@ -1,0 +1,49 @@
+{
+ "T_C3UR_ZERO_LIN_NONNEG": {
+  "zero": 0.0,
+  "linearity": 3.4010800329018137e-07,
+  "min": 0.0,
+  "PASS": true
+ },
+ "T_C3UR_FORM": {
+  "maxrel": 2.645412771450652e-07,
+  "PASS": true
+ },
+ "T_C3UR_UNBIASED": {
+  "flux_ratio": 0.9929873576759745,
+  "pool_vs_area_relL1": 0.04160298591273569,
+  "R0_R1_reference": {
+   "R0_pool_vs_area_relL1": 0.03220731365835213,
+   "R1_pool_vs_area_relL1": 0.007143259594069837,
+   "R0_flux_ratio": 1.0009329363306834,
+   "R1_flux_ratio": 1.0006893055028907
+  },
+  "PASS": true
+ },
+ "T_C3UR_SOURCE_INDEPENDENT": {
+  "signature": [
+   "self",
+   "ctx",
+   "kappa_s",
+   "seed",
+   "dense8",
+   "timing",
+   "chunk"
+  ],
+  "PASS": true
+ },
+ "T_C3UR_EDIT": {
+  "null_edit_identical": true,
+  "selective_equals_full": true,
+  "move_and_return_identical": true,
+  "edit_dirty_rays": 46923,
+  "PASS": true
+ },
+ "T_RAYSEND_REPAIRED": {
+  "table_mode_vs_apply_maxrel": 2.81561594097568e-07,
+  "area_exact_hit_fraction": 0.9999959092508202,
+  "PASS": true
+ },
+ "ALL_PASS": false,
+ "tests88_ALL_PASS": false
+}

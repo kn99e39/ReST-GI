@@ -1,0 +1,34 @@
+{
+ "worklog": 89,
+ "source": "LabServer63 ~/rest_rel89/results/viz (viz89.py; evidence chain resumed after POST-FREEZE AMENDMENT 1)",
+ "files": {
+  "fig0_workload_qualification.png": {
+   "sha256": "5470af3dbb59ad6e9a0e41d35357d66bee403bc2dfabffb14a36dd6080eabb2c",
+   "content": "Qualification partition (8 x 8192 spp per T, seeds 89140+) of V3 (admitted): T1 reference, |T1-T0| of the H2 and G-involving families, masks"
+  },
+  "fig1_sharp_error_maps_T1.png": {
+   "sha256": "7f08b200422bde14ff6f7decca5f53dc1ee9f18cf5c6f7ff2ee367478e27dfb2",
+   "content": "W1 T1 |hl - h_REF| for ORACLE, R0, C3UR, R1, R1M, C3 (4096 spp, common random numbers), one shared absolute sqrt scale; sharp-region outlines"
+  },
+  "fig2_signed_change_maps.png": {
+   "sha256": "375e722a471c845eaf2f36fca0151102c486c0124698f4e3ec51c1ada63d6e5a",
+   "content": "W1 signed T1 - T0 change of the higher-order radiance (reference, R0, C3UR, R1) and each arm change error, shared signed-sqrt scale"
+  },
+  "fig3_relation_coverage_missing_energy.png": {
+   "sha256": "0e0a098e5fb16aa116fb62ca23a88c9fbcb85c7c60b7f1026f4200c70cb7263d",
+   "content": "Important peaked-sender irradiance per receiver patch and the missed important energy (mean over 17 relation draws) of R0, C3UR, R1, projected to the first camera hit"
+  },
+  "fig4_rendered_T0_T1.png": {
+   "sha256": "80d23077f2d43dd67747e7d6bc3b8b46e24e2808a31a9dabcc0d3ff48e538d1b",
+   "content": "Rendered T0 / T1: reference vs reference LOW (e1 + e2) plus each arm table term (R0, C3UR, R1)"
+  },
+  "fig5_realizations.png": {
+   "sha256": "2fb4e51f3f735b7f5c8e1c31466cda4f4b8cfc887ee1c6e878a013b197ffb7bf",
+   "content": "E_H mean / range over 16 independent relation draws of R0, C3UR, R1 in C_ss and R_mirror at T0 and T1"
+  },
+  "fig6_cost_quality_scaling.png": {
+   "sha256": "0e0216989e58761464c383785c98bac83c4cf3e0d4328110840dc9a53f85f909",
+   "content": "Per-edit lifecycle (warm, before rendering), quality vs edit-to-first-frame in C_ss / R_mirror, construction / update scaling (update points include first-call compilation: invalid as warm)"
+  }
+ }
+}
