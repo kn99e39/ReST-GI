@@ -1,0 +1,66 @@
+{
+ "T_WL90_MECHANISM": {
+  "vs_gap90_functions_maxrel": 7.17148163076331e-09,
+  "relation_digest_equal": true,
+  "vs_stored_WL90_table_maxrel": 1.7211556269103312e-07,
+  "C3UR_vs_stored_WL90_table_maxrel": 2.423814748908626e-07,
+  "PASS": true
+ },
+ "T_ZERO_FINITE_NONNEG": {
+  "zero_light_max": 0.0,
+  "no_visibility_max_over_ref": 0.0,
+  "finite": true,
+  "min": 0.0,
+  "PASS": true
+ },
+ "T_SOURCE_CURRENT": {
+  "two_lights_vs_sum_maxrel": 5.290996796247782e-07,
+  "A_after_B_equals_A_maxrel": 5.188894647289999e-09,
+  "A_differs_from_B": true,
+  "relation_digest_unchanged": true,
+  "PASS": true
+ },
+ "T_RELATION_SOURCE_INDEPENDENT": {
+  "build_update_signature": [
+   "self",
+   "ctx",
+   "kappa_s",
+   "seed",
+   "dense8",
+   "timing",
+   "self",
+   "ctx",
+   "moved",
+   "timing"
+  ],
+  "PASS": true
+ },
+ "T_REPLAY": {
+  "maxrel": 7.17148163076331e-09,
+  "PASS": true
+ },
+ "T_EDIT": {
+  "null_edit_identical": true,
+  "selective_vs_full": {
+   "relation_digest_equal": true,
+   "segments_equal": true,
+   "probe_buffer_equal": true,
+   "table_maxrel": 7.1714834071201494e-09
+  },
+  "selective_equals_full": true,
+  "move_and_return_identical": true,
+  "vs_fresh_scene_T1_maxrel": 6.884622507641325e-07,
+  "stale_geometry_guard_raises": true,
+  "PASS": true
+ },
+ "T_ORDER_FLUX": {
+  "flux_ratio_orders_2_5": [
+   1.0002861695083314,
+   0.9972874058336109,
+   0.9936730158282241,
+   0.9920455835199371
+  ],
+  "PASS": true
+ },
+ "ALL_PASS": true
+}
