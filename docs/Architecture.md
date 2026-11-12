@@ -1,6 +1,6 @@
 # Architecture — FNTO Dynamic Transport Reuse
 
-**Current as of:** 2026-11-10. **Role:** current physical/representation contracts, candidate status and unresolved design decisions. See [document ownership](README.md).
+**Current as of:** 2026-11-13. **Role:** current physical/representation contracts, candidate status and unresolved design decisions. See [document ownership](README.md).
 
 ## 1. Objective and design boundary
 
@@ -9,6 +9,8 @@ Maintain physically credible global illumination after geometry edits by preserv
 FNTO separates **intrinsic optical-domain transport K** from **editable free-space coupling C**. This document owns the current central contracts. [FNTO v0.1](FNTO_ARCHITECTURE_CONTRACT_V0_1.md) is the unchanged **historical design contract dated 2026-10-23**; its original “not implemented” status is a statement at that date, not today’s implementation status. Experimental candidates do not become accepted architecture merely by being implemented.
 
 **Current status and human development decision (2026-11-10):** The **WL84 learned ER compiled closure is selected as the primary local-scattering development baseline**, with learned E retained as a cheaper comparison control. This is a **component-level starting point, not adoption as final FNTO K, global transport architecture, or production integration**. WL82–84 support physically constrained local material response, learned descriptor generalisation and limited rendering/GPU economics only within a coated-conductor family. Global directional interreflection, coupling/edit response and quality-matched dynamic GI economics with ER remain untested. FNTO's physical K/C ownership contract is retained; the representation and update mechanism beyond ER are open. Earlier WL59 F/S state reuse and WL41–80 negative results remain historical evidence for their own mechanisms, **not measured failures of ER**. The [roadmap](RESEARCH_ROADMAP.md#global-development-milestones--approved-direction-not-approved-implementation-batches) defines the milestone dependencies and GM1 as the next approved research direction, not an automatically authorised implementation batch.
+
+**Updated global implementation decision (human, 2026-11-13):** Resume the **ECRO learned-global-transport lineage** as the central implementation base for GM1. This is a development-baseline choice, **not** acceptance of the WL86 frozen ECRO v0 result: its sharp/held-out fidelity failures, learned-flight under-transfer and unconstrained component-compensation concerns remain unresolved. The specific improved global representation, ownership partition, supervision and dynamic-update rule remain open research decisions. Preserve frozen learned ER for local scattering, and keep EXP/C3UR as learning-free explicit transport comparators/diagnostics rather than the global method to be published. Later X1-style first-gather findings constrain information preservation but do not justify converting the project to explicit GI. Physical K/C ownership and the learned-dynamic-reuse scientific objective are unchanged. No successor experiment is authorised solely by this decision.
 
 ## 2. Physical transport ownership
 
