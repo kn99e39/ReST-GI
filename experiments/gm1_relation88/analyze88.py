@@ -192,9 +192,16 @@ def geom_of(cfg, R):
 
 
 # ------------------------------------------------------------------------------------------------ Stage 1
+def w1_admitted(R):
+    return os.path.exists(os.path.join(R, 'results', 'masks', 'W1.npz'))
+
+
 def stage1(R, R86):
     out = {}
-    cfgs = P88['stage1']['configs']
+    # post-freeze analysis fix (2026-11-12): without an admitted W1 only the historical E2 configurations exist (protocol stage0:
+    # 'None admitted: STOPPED_WORKLOAD_UNQUALIFIED (Task A on the historical E2 still runs)'); no rule changes
+    ok_cfg = lambda c: not c.startswith('W') or w1_admitted(R)
+    cfgs = [c for c in P88['stage1']['configs'] if ok_cfg(c)]
     for cfg in cfgs:
         root = cfg_root(cfg, R, R86)
         M, regs = cfg_masks(cfg, R, R86)
@@ -240,7 +247,7 @@ def stage1(R, R86):
         out[cfg] = o
     # dH (T1 - T0) for edits with both configurations
     dH = {}
-    for e in P88['stage1']['edits']:
+    for e in [e for e in P88['stage1']['edits'] if ok_cfg(e)]:
         root = cfg_root(f'{e}_T1', R, R86)
         M, regs = cfg_masks(f'{e}_T1', R, R86)
         r0, r1 = A.load(root, f'REF_ER_{e}_T0'), A.load(root, f'REF_ER_{e}_T1')
@@ -270,7 +277,7 @@ def stage1(R, R86):
     out['taskA_factors'] = fac
     # physical-target identity: converged relations agree (rendered, region signed)
     ident = {}
-    for cfg in P88['stage2']['real_configs']:
+    for cfg in [c for c in P88['stage2']['real_configs'] if ok_cfg(c)]:
         F_ = out[cfg]['fidelity']
         regs = ['C', 'stationary_all'] if cfg.startswith('E2') else SHARP_W + ['stationary_all', 'D']
         if 'R0_INF' not in F_:
@@ -326,7 +333,7 @@ def stage1(R, R86):
     out['R1_vs_R0_summary'] = {'worse_beyond_noise': worse, 'better_beyond_noise': better}
     # coverage (information)
     cov = {}
-    for cfg in P88['stage2']['real_configs']:
+    for cfg in [c for c in P88['stage2']['real_configs'] if ok_cfg(c)]:
         fn = os.path.join(R, 'results', 'tables', f'R_{cfg}.json')
         if os.path.exists(fn):
             c = jl(fn)['coverage']
@@ -387,7 +394,7 @@ def stage2(R, R86):
     S2 = P88['stage2']
     real = {}
     seeds = [86001] + S2['seeds']
-    for cfg in S2['real_configs']:
+    for cfg in [c for c in S2['real_configs'] if not c.startswith('W') or w1_admitted(R)]:
         root = cfg_root(cfg, R, R86)
         M, regs = cfg_masks(cfg, R, R86)
         ref = A.load(root, f'REF_ER_{cfg}')
@@ -421,6 +428,8 @@ def stage2(R, R86):
     ho = {}
     for cfg, ls in [('W2_T0', None), ('W2_T1', None), ('W1_T1', 'LMIX88'), ('W1_T1', 'LSPOT88')]:
         tag = cfg + ('_' + ls if ls else '')
+        if not w1_admitted(R):
+            continue
         M, regs = cfg_masks(cfg, R, R86, ls)
         try:
             ref = A.load(R, f'REF_ER_{tag}')
@@ -429,6 +438,7 @@ def stage2(R, R86):
         ho[tag] = {arm: eh(ref, load_hl(R, f'X88_{arm}_{tag}'), M, regs) for arm in S2['heldout_arms'] if glob.glob(os.path.join(R, 'results', 'renders', f'X88_{arm}_{tag}_r*.npz'))}
     out['heldout'] = ho
     try:
+        assert w1_admitted(R)
         M, regs = cfg_masks('W2_T1', R, R86)
         r0, r1 = A.load(R, 'REF_ER_W2_T0'), A.load(R, 'REF_ER_W2_T1')
         out['dH_W2'] = {arm: dh(r0, r1, load_hl(R, f'X88_{arm}_W2_T0'), load_hl(R, f'X88_{arm}_W2_T1'), M, regs) for arm in S2['heldout_arms']}
@@ -576,7 +586,27 @@ def stage3(R):
 
 
 # ------------------------------------------------------------------------------------------------ verdict
+def verdict_stopped(R):
+    """Verdict when no W1 candidate was admitted: only qualification, correctness and the historical E2 Task A evidence exist."""
+    s1 = jl(os.path.join(R, 'results', 'stage1_88.json'))
+    tests = jl(os.path.join(R, 'results', 'tests88.json'))
+    adm = {os.path.basename(f)[3:-5]: jl(f) for f in sorted(glob.glob(os.path.join(R, 'results', 'wq_*.json')))}
+    V = {'WORKLOAD_QUALIFICATION': 'NOT SUPPORTED (STOPPED_WORKLOAD_UNQUALIFIED: no candidate admitted)',
+         'PHYSICAL_CORRECTNESS': ('SUPPORTED' if tests['ALL_PASS'] and s1['target_identity']['PASS'] else
+                                  'CONDITIONALLY SUPPORTED' if tests['ALL_PASS'] else 'NOT SUPPORTED') + ' (tests on the dev / E2 / candidate geometry; target identity on E2 T1 only)'}
+    for k in ('SHARP_RELATION_INFORMATION_SUFFICIENCY', 'SOURCE_INDEPENDENT_REUSE', 'DYNAMIC_EDIT_VALIDITY', 'RELATION_CONSTRUCTION_ECONOMICS',
+              'OPERATOR_APPLICATION_ECONOMICS', 'QUALITY_MATCHED_END_TO_END_ECONOMICS', 'REPRESENTATION_SCALABILITY'):
+        V[k] = 'NOT TESTED on the qualified workload (stopped); E2 historical evidence reported descriptively'
+    V['GM1_ARCHITECTURE_IMPLICATION'] = {'outcomes': ['STOPPED_WORKLOAD_UNQUALIFIED'], 'note': 'no outcome A-F classification is possible without the qualified workload'}
+    q = {n: {k: v['PASS'] for k, v in a['qualification'].items()} for n, a in adm.items()}
+    jd({'verdicts': V, 'qualification': q, 'E2_R1_class_descriptive': s1['R1_classification'], 'E2_limit_attribution': s1['limit_attribution'],
+        'E2_taskA': s1['taskA_factors'], 'E2_target_identity': s1['target_identity']}, os.path.join(R, 'results', 'final88.json'))
+    print('VERDICT', json.dumps(V), flush=True)
+
+
 def verdict(R):
+    if not w1_admitted(R):
+        return verdict_stopped(R)
     VM = P88['verdict_mapping']
     s1 = jl(os.path.join(R, 'results', 'stage1_88.json'))
     s2 = jl(os.path.join(R, 'results', 'stage2_88.json'))

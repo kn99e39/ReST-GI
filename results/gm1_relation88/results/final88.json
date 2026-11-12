@@ -1,0 +1,174 @@
+{
+ "verdicts": {
+  "WORKLOAD_QUALIFICATION": "NOT SUPPORTED (STOPPED_WORKLOAD_UNQUALIFIED: no candidate admitted)",
+  "PHYSICAL_CORRECTNESS": "SUPPORTED (tests on the dev / E2 / candidate geometry; target identity on E2 T1 only)",
+  "SHARP_RELATION_INFORMATION_SUFFICIENCY": "NOT TESTED on the qualified workload (stopped); E2 historical evidence reported descriptively",
+  "SOURCE_INDEPENDENT_REUSE": "NOT TESTED on the qualified workload (stopped); E2 historical evidence reported descriptively",
+  "DYNAMIC_EDIT_VALIDITY": "NOT TESTED on the qualified workload (stopped); E2 historical evidence reported descriptively",
+  "RELATION_CONSTRUCTION_ECONOMICS": "NOT TESTED on the qualified workload (stopped); E2 historical evidence reported descriptively",
+  "OPERATOR_APPLICATION_ECONOMICS": "NOT TESTED on the qualified workload (stopped); E2 historical evidence reported descriptively",
+  "QUALITY_MATCHED_END_TO_END_ECONOMICS": "NOT TESTED on the qualified workload (stopped); E2 historical evidence reported descriptively",
+  "REPRESENTATION_SCALABILITY": "NOT TESTED on the qualified workload (stopped); E2 historical evidence reported descriptively",
+  "GM1_ARCHITECTURE_IMPLICATION": {
+   "outcomes": [
+    "STOPPED_WORKLOAD_UNQUALIFIED"
+   ],
+   "note": "no outcome A-F classification is possible without the qualified workload"
+  }
+ },
+ "qualification": {
+  "Wc": {
+   "Q1_A_direct_change": true,
+   "Q2_B_indirect_change": true,
+   "Q3_C_ss_sharp_to_sharp": false,
+   "Q4_R_mirror_moving_sharp_sender": true,
+   "Q5_D_broad_multibounce": false,
+   "Q6_H_share": true,
+   "Q7_uncertainty_final": true,
+   "Q8_reference_resolution_sharp": true
+  },
+  "Wh": {
+   "Q1_A_direct_change": true,
+   "Q2_B_indirect_change": false,
+   "Q3_C_ss_sharp_to_sharp": false,
+   "Q4_R_mirror_moving_sharp_sender": true,
+   "Q5_D_broad_multibounce": false,
+   "Q6_H_share": true,
+   "Q7_uncertainty_final": true,
+   "Q8_reference_resolution_sharp": true
+  },
+  "Wi": {
+   "Q1_A_direct_change": true,
+   "Q2_B_indirect_change": true,
+   "Q3_C_ss_sharp_to_sharp": true,
+   "Q4_R_mirror_moving_sharp_sender": true,
+   "Q5_D_broad_multibounce": false,
+   "Q6_H_share": true,
+   "Q7_uncertainty_final": true,
+   "Q8_reference_resolution_sharp": true
+  }
+ },
+ "E2_R1_class_descriptive": {
+  "class": "SUFFICIENT",
+  "tests_pass": true,
+  "finite_nonneg": true
+ },
+ "E2_limit_attribution": {
+  "E2_T1:C": {
+   "oracle_passes": true,
+   "converged_relation_passes": true,
+   "C3_passes": true,
+   "R1_passes": true,
+   "R0_passes": true
+  }
+ },
+ "E2_taskA": {
+  "E2_T0": {
+   "C": {
+    "allocation (C3 - C3U)": {
+     "d_signed": -0.0075737959792684315,
+     "d_E_H": -0.001878958499250974,
+     "noise": 0.01049422259340479
+    },
+    "fresh relation per order (C3U - C3UR)": {
+     "d_signed": 0.004299957265995386,
+     "d_E_H": 0.003288814570975813,
+     "noise": 0.01049422259340479
+    },
+    "sender vs receiver placement, equal rays, dense quadrature (C3UR - R0D)": {
+     "d_signed": 0.053167044311830065,
+     "d_E_H": -0.0356450915743965,
+     "noise": 0.01046843843566202
+    },
+    "scattering quadrature dense vs per-ray (R0D - R0)": {
+     "d_signed": 0.0001599763080776806,
+     "d_E_H": -0.0001486347581301367,
+     "noise": 0.010191926611704785
+    },
+    "4x work (POOL4 - R0)": {
+     "d_signed": 0.017547033657723497,
+     "d_E_H": -0.017554496802993425,
+     "noise": 0.01023367353990354
+    },
+    "fresh realization per order (R0F - R0)": {
+     "d_signed": 0.041166067942375546,
+     "d_E_H": -0.031673326229759546,
+     "noise": 0.010379052209045947
+    },
+    "sender projection, first gather (RS0 - R0)": {
+     "d_signed": 0.002672707764285416,
+     "d_E_H": -0.0025355828511489306,
+     "noise": 0.010254136155613745
+    }
+   }
+  },
+  "E2_T1": {
+   "C": {
+    "allocation (C3 - C3U)": {
+     "d_signed": -0.002463048754777326,
+     "d_E_H": 0.0008001578332429878,
+     "noise": 0.013021388930263805
+    },
+    "fresh relation per order (C3U - C3UR)": {
+     "d_signed": -0.004154100639106281,
+     "d_E_H": -0.0027252453910962295,
+     "noise": 0.013055996381298035
+    },
+    "sender vs receiver placement, equal rays, dense quadrature (C3UR - R0D)": {
+     "d_signed": 0.05001442930199073,
+     "d_E_H": -0.022982572869552177,
+     "noise": 0.013055996381298035
+    },
+    "scattering quadrature dense vs per-ray (R0D - R0)": {
+     "d_signed": 0.00015239968334501697,
+     "d_E_H": -0.0001530249683824314,
+     "noise": 0.012848896405128773
+    },
+    "4x work (POOL4 - R0)": {
+     "d_signed": 0.014447912519959166,
+     "d_E_H": -0.01246700445279416,
+     "noise": 0.012865758352025206
+    },
+    "fresh realization per order (R0F - R0)": {
+     "d_signed": 0.05871301738944472,
+     "d_E_H": -0.018335709293515128,
+     "noise": 0.01312366061028843
+    },
+    "sender projection, first gather (RS0 - R0)": {
+     "d_signed": -0.009362909593053345,
+     "d_E_H": 0.00973928776258054,
+     "noise": 0.012847900691427114
+    }
+   }
+  }
+ },
+ "E2_target_identity": {
+  "rendered": {
+   "E2_T1": {
+    "C": {
+     "R1_INF": {
+      "d_signed": -0.009207017687228276,
+      "noise": 0.012981137761791127
+     },
+     "C3U_INF": {
+      "d_signed": -0.0011000624946409503,
+      "noise": 0.012981137761791127
+     }
+    },
+    "stationary_all": {
+     "R1_INF": {
+      "d_signed": -0.00028552471178896403,
+      "noise": 0.0026615599900978735
+     },
+     "C3U_INF": {
+      "d_signed": 8.673196801405264e-05,
+      "noise": 0.002664679994813188
+     }
+    }
+   }
+  },
+  "PASS": true,
+  "rendered_ok": true,
+  "field_flux_ok": true
+ }
+}

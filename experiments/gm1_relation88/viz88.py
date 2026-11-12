@@ -38,6 +38,27 @@ def main():
     def save(fig, name):
         fig.savefig(os.path.join(out, name), dpi=100); plt.close(fig); files.append(name)
 
+    # 0. workload qualification (qualification partition, every candidate tried): reference, |change of H2|, masks
+    cands = [c for c in ('Wc', 'Wh', 'Wi') if glob.glob(os.path.join(R, 'results', 'renders', f'REF_ERQ_{c}_T1_r*.npz'))]
+    if cands:
+        fig, ax = plt.subplots(len(cands), 5, figsize=(17, 3.4 * len(cands)), squeeze=False)
+        for i, c in enumerate(cands):
+            q0, q1 = A.load(R, f'REF_ERQ_{c}_T0'), A.load(R, f'REF_ERQ_{c}_T1')
+            mz = np.load(os.path.join(R, 'results', 'masks', f'M_{c}.npz'))
+            wq = jl(os.path.join(R, 'results', f'wq_{c}.json'))
+            fails = [k.split('_')[0] for k, v in wq['qualification'].items() if not v['PASS']]
+            ax[i, 0].imshow(tm(q1['tot'].mean(0))); ax[i, 0].set_title(f'{c} T1 REF-ER (qualification partition)')
+            dH2 = np.abs((q1['H2'] - q0['H2']).mean(0)).mean(-1); dG = np.abs((q1['H1G'] + q1['H2G'] - q0['H1G'] - q0['H2G']).mean(0)).mean(-1)
+            vm = float(np.percentile(np.concatenate([dH2.ravel(), dG.ravel()]), 99.9))
+            ax[i, 1].imshow(np.sqrt(dH2), cmap='magma', vmin=0, vmax=np.sqrt(vm)); ax[i, 1].set_title('|T1 - T0| of H2 (sqrt, shared with next)')
+            ax[i, 2].imshow(np.sqrt(dG), cmap='magma', vmin=0, vmax=np.sqrt(vm)); ax[i, 2].set_title('|T1 - T0| of H1G + H2G')
+            ax[i, 3].imshow(mz['C_ss'] * 1.0 + mz['R_mirror'] * 2.0, cmap='viridis'); ax[i, 3].set_title('C_ss (1) / R_mirror (2)')
+            ax[i, 4].imshow(mz['D'], cmap='gray'); ax[i, 4].set_title(f"D; ADMITTED={wq['ADMITTED']} fails {','.join(fails) or '-'}")
+            for a in ax[i]:
+                a.axis('off')
+        fig.suptitle('WL88 workload qualification (independent partition, 4 x 8192 spp per T): every candidate NOT ADMITTED by the frozen rule' if not any(
+            jl(os.path.join(R, 'results', f'wq_{c}.json'))['ADMITTED'] for c in cands) else 'WL88 workload qualification')
+        fig.tight_layout(); save(fig, 'fig0_workload_qualification.png')
     # 1. workload: references and geometry-only masks
     try:
         r0 = A.load(R, 'REF_ER_W1_T0'); r1 = A.load(R, 'REF_ER_W1_T1')
@@ -87,6 +108,7 @@ def main():
         fig, ax = plt.subplots(1, 3, figsize=(13, 3.6))
         for i, (cfg, k) in enumerate([('W1_T1', 'C_ss'), ('W1_T1', 'R_mirror'), ('E2_T1', 'C')]):
             if cfg not in real or k not in real[cfg]['R0']:
+                ax[i].axis('off')
                 continue
             for j, a in enumerate(('R0', 'R1')):
                 v = real[cfg][a][k]

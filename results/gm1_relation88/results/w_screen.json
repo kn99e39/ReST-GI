@@ -1,0 +1,120 @@
+{
+ "candidates": {
+  "Wc": {
+   "counts": {
+    "frame": 246280,
+    "stationary_all": 243066,
+    "A": 4104,
+    "Bset": 238962,
+    "C_ss": 5285,
+    "R_mirror": 2840,
+    "D": 32490,
+    "E": 39338,
+    "C86": 356,
+    "mover": 3214,
+    "obj_floor": 58593,
+    "obj_ceiling": 41821,
+    "obj_walls": 126549,
+    "obj_panel": 5479,
+    "obj_sphere": 5762,
+    "obj_boxB": 4862,
+    "obj_G_T1": 3114,
+    "fp_P_T0": 14137,
+    "fp_P_T1": 13685,
+    "fp_G_T0": 13556,
+    "fp_G_T1": 13075,
+    "fp_PG_T0": 0,
+    "fp_PG_T1": 173,
+    "fp_GP_T0": 0,
+    "fp_GP_T1": 5244,
+    "fp_M3_T0": 0,
+    "fp_M3_T1": 0
+   },
+   "geometry_ok": true,
+   "admissible": true
+  },
+  "Wh": {
+   "counts": {
+    "frame": 246280,
+    "stationary_all": 243406,
+    "A": 2771,
+    "Bset": 240635,
+    "C_ss": 2042,
+    "R_mirror": 1995,
+    "D": 33659,
+    "E": 41872,
+    "C86": 305,
+    "mover": 2874,
+    "obj_floor": 58593,
+    "obj_ceiling": 41821,
+    "obj_walls": 126889,
+    "obj_panel": 5479,
+    "obj_sphere": 5762,
+    "obj_boxB": 4862,
+    "obj_G_T1": 2755,
+    "fp_P_T0": 10615,
+    "fp_P_T1": 10664,
+    "fp_G_T0": 10324,
+    "fp_G_T1": 11605,
+    "fp_PG_T0": 0,
+    "fp_PG_T1": 0,
+    "fp_GP_T0": 0,
+    "fp_GP_T1": 2042,
+    "fp_M3_T0": 0,
+    "fp_M3_T1": 0
+   },
+   "geometry_ok": true,
+   "admissible": true
+  },
+  "Wi": {
+   "counts": {
+    "frame": 246280,
+    "stationary_all": 242622,
+    "A": 4008,
+    "Bset": 238614,
+    "C_ss": 3334,
+    "R_mirror": 2102,
+    "D": 28596,
+    "E": 39817,
+    "C86": 459,
+    "mover": 3658,
+    "obj_floor": 58593,
+    "obj_ceiling": 41821,
+    "obj_walls": 126105,
+    "obj_panel": 5479,
+    "obj_sphere": 5762,
+    "obj_boxB": 4862,
+    "obj_G_T1": 3562,
+    "fp_P_T0": 14129,
+    "fp_P_T1": 13026,
+    "fp_G_T0": 11197,
+    "fp_G_T1": 11760,
+    "fp_PG_T0": 0,
+    "fp_PG_T1": 0,
+    "fp_GP_T0": 0,
+    "fp_GP_T1": 3480,
+    "fp_M3_T0": 0,
+    "fp_M3_T1": 0
+   },
+   "geometry_ok": true,
+   "admissible": true
+  }
+ },
+ "rule": {
+  "min_pixels": 1000,
+  "regions": [
+   "A",
+   "C_ss",
+   "R_mirror",
+   "D",
+   "E"
+  ],
+  "geometry": "scene86.geom_ok at T0 and T1 and light_ok for the workload light and LMIX88 / LSPOT88"
+ },
+ "order": [
+  "Wc",
+  "Wh",
+  "Wi"
+ ],
+ "note": "geometry / visibility only; no radiance of any candidate exists"
+}
