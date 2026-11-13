@@ -1,0 +1,76 @@
+{
+ "protocol": "ecro_own92a v1",
+ "status": "frozen before any evidence run (freeze commit recorded in the worklog); amendments only as labelled appended entries",
+ "numbering": "user brief titled 'WL93 - ECRO Physical Component Supervision'; run as WL92A by the user's instruction (2026-11-13)",
+ "question": "Under an unchanged ECRO representation, does physically exclusive component supervision produce a demonstrable improvement in learned sharp interreflection and dynamic geometry generalisation over the original SUM-only training contract?",
+ "primary_hypothesis": "Under unchanged ECRO architecture and capacity, physical component supervision improves recovery of sharp directional transport by reducing incorrect allocation between the single-flight and global terms.",
+ "prior": "WL92 (verdicts unchanged): gate STOP_INTERVENTION_G_rep (designated OWN-k16 fit unconverged); information through the deployed interface SUPPORTED; separately, converged OWN-r1 fixed-geometry fits reached E2 T1 / T0 region-C E_H 0.041 / 0.024 (descriptive, not a gate result). This batch is a new, independently controlled learning experiment.",
+ "preserved": "WL84 ER; WL86 model86 architecture (735,664 parameters, R 16, global rank 24, 1,270 patches x 64 bins, 512 state rays, 16-point source encoding, LOW + lookup readout); WL86 data, checkpoints, references, masks, thresholds and verdicts; WL86A / WL87-WL92 code and results (imported and called unchanged).",
+ "arms": {
+  "FROZEN": "ecro_s8601 / ecro_s8602 (WL86 checkpoints; reference only; trained on the unreduced population)",
+  "SUM": "fresh control: train86 contract (model86.loss_fn on the whole table) on the reduced population, seeds 8601 / 8602",
+  "OWN": "intervention: identical contract with the objective OWN, seeds 8601 / 8602"
+ },
+ "objective": {
+  "den": "den = t.mean(over bins, keepdim) + 0.05 * t.mean(over lightings, patches, bins, colours, keepdim)  (model86.loss_fn denominator of the total target t)",
+  "SUM": "L = mean(((B_single + B_global - t) / den)^2)  (= model86.loss_fn)",
+  "OWN": "L = mean(((B_single + B_global - t) / den)^2) + mean(((B_single - t2) / den)^2) + mean(((B_global - t3) / den)^2), weights 1 / 1 / 1 (WL92 OWN, unchanged)",
+  "targets": "t = the stored WL86 target (train: f; val / trainhq: mean of the halves f, fb); t2 = regenerated exactly-2-event part with the WL86 generator seeds and samples (val / trainhq: mean of its two halves); t3 = t - t2 (no clamping; float16 rounding can make single entries slightly negative, disclosed)",
+  "terms": "B_single = model.apply(factors, use_global=False), B_global = model.apply(factors, use_single=False); one factor evaluation per step"
+ },
+ "training": {
+  "contract": "train86: Adam lr 1e-3, warm-up 500, cosine to 1e-5, 24,000 steps, one geometry (4 lightings) per step, gradient clip 10; model init and data order from the seed (torch.manual_seed(seed), np.random.default_rng(seed))",
+  "seeds": [8601, 8602],
+  "population": "WL86 train / val / trainhq files minus the exclusion list (same for SUM and OWN)",
+  "exclusion": "a file is removed if a box centre is within 0.15 m of the same box of E4 T0 or T1, or any of its lights is within 0.3 m of any E4 light (L4, LMIX4, LSPOT4) - the WL86 exclusion rule applied to E4; geometry / light positions only",
+  "logged": "objective, SUM term, component terms, gradient norm before clipping (mean, max, clipped fraction), non-finite count; every 500 steps; validation every 4,000 steps",
+  "identity": "initial state-dict sha256 per seed must be equal across SUM and OWN (T_INIT)"
+ },
+ "component_targets": {
+  "tracer": "pt86a.field_src(split=True) (WL86A, unchanged): e2_p + e2_o = exactly 2 scattering events; e3_p + e3_o = 3..5 events",
+  "seeds": "the WL86 generator seeds: (split seed % 1000) * 100000 + idx * 16 + lighting + offset; val / trainhq second half seed + 8; same sample counts (256; 512 + 512)",
+  "check": "per lighting: (sum of the four parts) against the stored target (each half): relative L1 <= 1e-3 and flux ratio within 1e-3 for every lighting of every used file (T_F2_SUM)"
+ },
+ "e4": {
+  "choice": "WL92 results/e4_choice.json (WL87 candidate E3b, geometry-only rule, no radiance); masks E4 / E4_LMIX4 / E4_LSPOT4 from WL92 (geometry only)",
+  "references": {"ER": {"replicas": 8, "spp": 8192, "seed_base": 92610}, "P": {"replicas": 8, "spp": 8192, "seed_base": 92630}, "sources": {"replicas": 4, "spp": 8192, "seed_base": 92650}, "oracle_field": {"spp": 4096, "seed": 92450}, "split": "diag92 split (2 x 2,048 spp, seeds 92400 / 92405) for attribution"},
+  "admission": "analyze92.py e4: WL86 stage-0 criteria Q1-Q4, Q6, Q7 with unchanged thresholds on REF-P / REF-ER of E4. Not admitted -> no held-out verdict (outcome D for the held-out question; component evidence still reported)"
+ },
+ "renders": {"spp": 4096, "replicas": 2, "seeds": [86600, 86601], "tags": ["E1_T0", "E1_T1", "E2_T0", "E2_T1", "E1_T1_LMIX", "E1_T1_LSPOT", "E4_T0", "E4_T1", "E4_T1_LMIX4", "E4_T1_LSPOT4"],
+             "controls": "STALE (T0 state, current source) for every model on E2_T1 and E4_T1; ORACLE table and explicit X_EXP (xport87, WL87 parameters) on E4_T0 / E4_T1"},
+ "thresholds": {"EH_stationary_max": 0.03, "capture_max": 0.25, "EH_region_max": 0.06, "dH_slope": [0.75, 1.25], "dH_corr_min": 0.8, "EH_unseen_source_max": 0.04, "min_pixels": 1000, "snr": 4.0, "source": "WL86 protocol, unchanged"},
+ "criteria": {
+  "OWNERSHIP_IMPROVED": "for both seeds: OWN validation field relative L1 of B_single vs L2 <= 0.75 x SUM's AND of B_global vs L3+ <= 0.75 x SUM's (validation geometries of the reduced population, same targets)",
+  "PANEL_LOCAL_IMPROVED": "for both seeds: mirror-bin flux retention of the learned panel local matrix a c^T (flux-transfer norm, diag92.mat_metrics, mean over panel patches and colours, E4_T1 geometry) OWN >= 1.5 x SUM",
+  "HELDOUT_SHARP": "E4 admitted and, for both seeds, E4 T1 region-C E_H of OWN <= 0.06 AND <= SUM E_H - max(noise bound of the region, 0.005)",
+  "NO_REGRESSION": "for both seeds: every WL86 gate that the same-seed SUM passes is passed by OWN (F1 on E1, E2, E4 T0 / T1; F2 in A and D at T1 on E1, E2, E4; F4 on E1 LMIX / LSPOT and E4 LMIX4 / LSPOT4), and stationary_all and D E_H of OWN <= 1.25 x SUM + 0.002 on every rendered T1 configuration and source configuration",
+  "DYNAMIC": "for both seeds: F3 (region D) not FAIL on E1, E2, E4 where the same-seed SUM passes; region-C edit response on E4 reported (slope, correlation; 'improved' if resolvable and |slope - 1| and 1 - corr both smaller than SUM's)",
+  "SOURCE": "F4 on E4 LMIX4 / LSPOT4 for OWN (and its comparison with SUM)",
+  "seeds_note": "two training seeds give limited statistical confidence; no robustness claim beyond them"
+ },
+ "outcome_mapping": {
+  "D_STOPPED": "any stop condition: T_REPRO, T_F2_SUM, T_INIT, T_DISJOINT or T_CTL fails; non-finite loss in any run; E4 not admitted (held-out question)",
+  "C_NOT_SUPPORTED": "OWNERSHIP_IMPROVED fails (valid controls)",
+  "A_SUPPORTED": "OWNERSHIP_IMPROVED and HELDOUT_SHARP and NO_REGRESSION and DYNAMIC (no F3 lost)",
+  "B_PARTIALLY_SUPPORTED": "OWNERSHIP_IMPROVED but not A",
+  "hypotheses": "H1 = A; H2 = ownership improved and E4 / E2 rendered sharp fidelity not improved; H3 = OWN improves the inspected E2 sharp error but not E4 / sources; H4 = ownership not improved; H5 = H4 and PANEL_LOCAL_IMPROVED fails (consistent with, not proof of, a generator limit under the fixed architecture)"
+ },
+ "controls": {"T_CTL": "fresh SUM validation relative L1 within 15 % of the frozen checkpoint's on the same reduced validation set (both seeds); else the training contract is not reproduced (D)", "stale": "STALE renders (E2_T1, E4_T1)", "oracle": "ORACLE table E4", "explicit": "X_EXP E4 (null comparator, never a learned output)"},
+ "economics": {
+  "offline": "component-target regeneration wall, training wall and GPU memory per arm (measured), storage per checkpoint",
+  "runtime": "per model on E4: factor generation + application (warm median of 10), state rebuild / selective update, source encoding; identical architecture by construction",
+  "ladder": "run only if outcome A: E4 T1 time-to-tier (stationary 0.10 / 0.05 / 0.03, region C 0.06 / 0.04) for own_s8601, sum_s8601 and plain frozen-ER path tracing; GPU kernel time (compilation excluded) and wall; spp ECRO [16, 64, 256, 1024, 4096], PT [64, 256, 1024, 4096, 16384]"
+ },
+ "tests": {
+  "T_REPRO": "frozen checkpoints reproduce the tables stored with the WL86 renders on E2_T1 / E2_T0 / E1_T1 (max |diff| <= 1e-4 x max)",
+  "T_F2_SUM": "component targets (see component_targets.check)",
+  "T_OWNERSHIP_CODE": "B_single + B_global == B (<= 1e-5 relative) for every model; split parts >= 0",
+  "T_LINEAR": "zero input -> 0; superposition and scaling (<= 1e-4 relative); outputs >= 0 (every model, after training)",
+  "T_STATE": "deterministic rebuild; selective update == full rebuild == fresh scene on E4 T0 -> T1; null edit identical",
+  "T_REPLAY": "two forward passes of a model on the same input identical",
+  "T_DISJOINT": "after exclusion: min distance of remaining training boxes / lights to E4 boxes / lights >= 0.15 / 0.3 m; E4 has no radiance before the references of this batch",
+  "T_INIT": "initial state dict identical across SUM and OWN per seed",
+  "T_CTL": "see controls"
+ },
+ "scope": "one room family, rigid box edits, three frozen ER materials, point / cone sources, 512^2, patch x 64-bin table; two training seeds. No capacity, representation, sampling, ER or threshold change; no explicit residual; no GM2 / GM3; no adoption."
+}
