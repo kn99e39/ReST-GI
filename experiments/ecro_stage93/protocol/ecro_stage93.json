@@ -1,0 +1,55 @@
+{
+ "protocol": "ecro_stage93 v1",
+ "status": "frozen before any evidence run (freeze commit recorded in the worklog); amendments only as labelled appended entries",
+ "batch_class": "regular numbered batch WL93 (user brief; AGENTS.md numbering policy 2026-11-13)",
+ "question": "Can ECRO achieve reproducible sharp interreflection fidelity with a physically shared local response operator once its source-stage response is explicitly supervised, or is source/receiver factor separation required beyond supervision and capacity effects?",
+ "hypotheses": {"H_IDENTIFIABILITY": "stronger source-stage supervision improves the learned local response and sharp interreflection without factor untying", "H_SHARING": "even with identifiable source-stage supervision, tied factors prevent independently accurate source and receiver responses", "H_INTERACTION": "neither alone is sufficient, their combination yields a reproducible improvement"},
+ "wl92b_reconciliation": "before any WL93 evidence: prep93 recon92b re-evaluates WL92B H_interact / outcome under its written frozen rule; WL92B files are not modified; WL93 thresholds do not depend on it",
+ "architecture": {
+  "base": "ECRO v0 generator (model86, unchanged class), initialised from WL92A own_s<seed>",
+  "global_branch": "frozen: the global term of WL92A own_s<seed> with its own factors (c, a, P, Q); identical for every arm of a seed (verified); never trained in WL93",
+  "single_flight": "S = a_r . (c_r . flight(a_s . (c_s . s))) from a trainable copy of the OWN generator (trunk + local heads); its global heads are frozen and unused",
+  "disclosed_change": "in every WL93 arm the single-flight local factors are decoupled from the global term's factors (needed to hold the global prediction identical across arms); 'tied' refers to source / receiver tying inside the single-flight term",
+  "modes": {"tied": "c_s = c_r, a_s = a_r (heads head_c, head_a)", "untied": "source (head_c, head_a), receiver (duplicated heads head_c2, head_a2), shared trunk", "tiedcm": "capacity-matched tied control: one shared (c, a) = softplus(head(tb) + head2(tb)) with an additive second head of the same architecture (hidden layers freshly initialised from torch.Generator seed = run seed + 9300 with the nn.Linear default bound 1/sqrt(fan_in), output layer zero): a 2x-wide tied head with exactly the untied arm's trainable parameter count", "pre_freeze_correction": "the first tiedcm design (copy-initialised duplicated heads, pre-activations averaged) was rejected before the freeze: it is symmetric, receives identical Adam updates and reproduced the tied arm bit-for-bit in the dev chain (degenerate control); the extra-parameter initialisation of tiedcm (fresh hidden / zero output) necessarily differs from untied (copies), disclosed"},
+  "initialisation": "every arm equals WL92A OWN exactly at step 0 (untied: duplicated heads are copies; tiedcm: the added head outputs zero; test T_INIT_EQUIV)"
+ },
+ "arms": {
+  "T0": {"mode": "tied", "w_source_stage": 0.0},
+  "TQ": {"mode": "tied", "w_source_stage": 1.0},
+  "U0": {"mode": "untied", "w_source_stage": 0.0},
+  "UQ": {"mode": "untied", "w_source_stage": 1.0},
+  "C0": {"mode": "tiedcm", "w_source_stage": 0.0, "role": "capacity-matched control for U0"},
+  "CQ": {"mode": "tiedcm", "w_source_stage": 1.0, "role": "capacity-matched control for UQ"}
+ },
+ "objective": {
+  "OWN": "mean(((S + G - t) / den)^2) + mean(((S - t2) / den)^2) + mean(((G - (t - t2)) / den)^2), den = t.mean(bins) + 0.05 t.mean(all) (the WL92A OWN objective; the last term is constant because G is frozen)",
+  "source_stage": "+ w * mean(((Bq - q) / den_q)^2), Bq = a_s . (c_s . s) (the single-flight term's source-side once-scattered table), den_q = q.mean(bins) + 0.05 q.mean(all), w = 1 (fixed now)",
+  "targets": "t: stored WL86 target; t2: WL92A regenerated exactly-2-event target; q: offline physical once-scattered table quad87.qtable(P 16, Mq 1,024, seed 93000 + 4 idx + lighting) of the same geometry and light (no runtime use)"
+ },
+ "training": {"population": "the WL92A population (WL86 train / val minus the WL92A E4 exclusion: 928 / 55 geometries x 4 lights)", "steps": 8000, "lr": 0.0003, "lr_final": 1e-05, "warmup_steps": 200, "clip": 10.0, "optimizer": "Adam (fresh)", "batch": "one geometry (4 lightings) per step", "order_seed_offset": 93, "seeds": [8601, 8602], "note": "fine-tuning phase from the converged OWN state; identical budget, data order and exposure for every arm of a seed; no extension, no seed replacement"},
+ "source_stage": {"q_seed": 93000, "identifiability_gate": "on the 55 validation geometries and E2 T0 / T1: the irreducible discrepancy of the exact frozen-ER operator through the deployed encoding (rel L1 of quad87.enc_matrix-applied s16 vs q on panel patches) must be <= 0.5 x the WL92A OWN learned discrepancy (Bq vs q on panel patches), both seeds; else STOP_TARGET_NOT_IDENTIFIABLE"},
+ "e5": {"candidate": 995, "source": "WL92B ~/rest_x92b (references, masks, truth split); inspected workload"},
+ "e6": {"rng_seed": 93550, "max_candidates": 20000, "reference_attempts": 3, "population": "ordered candidates k from np.random.default_rng([93550, k]) with the WL92B E5 generation rule (sample_geom T0, one box moved >= 0.6 m, geom_ok)", "light": "L1 (even k) / L2 (odd k): WL86 test lights excluded from every training light; held-out sources LMIX, LSPOT", "disjointness": "every box centre of T0 / T1 >= 0.15 m from the same box of all 1,120 WL86 data files", "geometry_rule": "A, C, D, E >= 1,000 px and C_footprint >= 1,000 px", "sharp_family_min": 0.08, "admission": "WL86 stage-0 Q1-Q4, Q6, Q7 (Q4 SNR 4.0) AND light -> panel -> receiver 2-event share of the region-C higher-order reading at T1 >= 0.08 with SNR >= 4 (WL92B rule, prep93 e6admit)", "references": {"ER": {"replicas": 8, "spp": 8192, "seed_base": 93710, "per_candidate_offset": 100}, "P": {"replicas": 8, "spp": 8192, "seed_base": 93730, "per_candidate_offset": 100}, "sources": {"replicas": 4, "spp": 8192, "seed_base": 93750}, "oracle_field": {"spp": 4096, "seed": 93460}, "split": "diag92 split (2 x 2,048 spp, seeds 92400 / 92405)"}, "order": "qualified BEFORE training; if no candidate is admitted: STOPPED_WORKLOAD_UNQUALIFIED, no training, no held-out claim"},
+ "evaluation": {"tags": ["E2_T0", "E2_T1", "E1_T1_LSPOT", "E5k995_T0", "E5k995_T1", "E5k995_T1_LSPOT", "E6_T0", "E6_T1", "E6_T1_LMIX", "E6_T1_LSPOT"], "models": "6 arms x 2 seeds; WL92A sum_s / own_s for context on E6", "renders": "2 x 4,096 spp, seeds 86600 / 86601", "controls": "ORACLE table and explicit X_EXP on E6 T0 / T1"},
+ "thresholds": {"EH_stationary_max": 0.03, "capture_max": 0.25, "EH_region_max": 0.06, "dH_slope": [0.75, 1.25], "dH_corr_min": 0.8, "EH_unseen_source_max": 0.04, "min_pixels": 1000, "snr": 4.0, "source": "WL86 protocol, unchanged"},
+ "criteria": {
+  "ADV(X, Y)": "for both seeds, on E6 (the admitted held-out) region C at T1 AND at T0: E_H(X) <= E_H(Y) - max(noise bound of X, noise bound of Y, 0.005)",
+  "STAGE(X, Y)": "for both seeds: panel-patch relative L1 of Bq vs q on E6 T1 and on E2 T1 of X <= 0.9 x that of Y",
+  "NOREG(X)": "for both seeds, against the same-seed T0 arm: no WL86 gate (F1; F2 in A and D; F4) passed by T0 is lost; stationary and D E_H <= 1.25 x T0 + 0.002 on E2 / E5 / E6 T0 and T1 and on every source configuration (E1 LSPOT, E5 LSPOT, E6 LMIX / LSPOT)",
+  "DYN(X)": "for both seeds: F3 (region D) not lost against T0 on E2, E5, E6",
+  "PASS_sup(X, Y)": "ADV and STAGE and NOREG(X) and DYN(X)",
+  "PASS_share(X, Y)": "ADV and NOREG(X) and DYN(X)"
+ },
+ "labels": {
+  "INTERACTION_SUPPORTED": "PASS_sup(UQ, T0) and PASS_share(UQ, CQ) and not PASS_sup(TQ, T0) and not PASS_share(U0, C0)",
+  "SHARING_SUPPORTED": "PASS_share(UQ, CQ) and PASS_share(UQ, TQ) (beyond matched supervision and capacity), unless INTERACTION_SUPPORTED; reported with the source / receiver operator difference on unchanged material (ownership caveat)",
+  "IDENTIFIABILITY_SUPPORTED": "PASS_sup(TQ, T0) and not PASS_share(UQ, CQ)",
+  "NOT_SUPPORTED": "none of PASS_sup(TQ, T0), PASS_sup(UQ, U0), PASS_share(U0, C0), PASS_share(UQ, CQ), PASS_sup(UQ, T0) holds",
+  "INCONCLUSIVE": "any other combination",
+  "STOPPED": "a test / control / baseline reproduction fails, the target is not identifiable, or E6 is not admitted (STOPPED_WORKLOAD_UNQUALIFIED)",
+  "note": "labels do not authorise adoption; nested contrasts are not additive shares"
+ },
+ "diagnostics": "per model: Bq vs q (all / panel; flux), source and receiver panel matrices vs frozen-ER M64 (flux norm: residual, mirror-bin retention), source - receiver matrix difference on unchanged material, receiver-stage response vs M64 on the model's own first-flight irradiance, region-C reading split (single level / directional, panel family delivered), panel matrix change E2 T0 -> T1, seed-to-seed variation; trainable parameters, head FLOPs, memory, train / inference time",
+ "tests": {"T_INIT_EQUIV": "every arm at step 0 reproduces WL92A own_s<seed> tables on E2_T1 (<= 1e-5 relative)", "T_GLOBAL_IDENTITY": "the global term of every trained arm equals the frozen own_s<seed> global term (identical)", "T_TIED": "tied / tiedcm: c_s is c_r and a_s is a_r; untied: separate tensors and a gradient step on a source-only loss leaves the receiver heads unchanged; trainable parameter counts: untied = tiedcm > tied, OWN base and global heads frozen; after training the tiedcm and untied single-flight terms differ from tied (> 1e-4 relative; non-degenerate controls)", "T_LINEAR": "zero input -> 0, superposition / scaling <= 1e-4, outputs >= 0 for every arm", "T_QTARGET": "quad87.qtable with the WL87 seed reproduces the stored D q of E2 T1 exactly (target construction)", "T_NO_ORACLE": "inference uses only (geometry state, source encoding): Local.factors(gs) and Local.single(f, gs, s) signatures", "T_DET": "two evaluations identical", "T_REPRO": "WL92A own_s<seed> E2 T1 / T0 tables via the WL93 table path, re-rendered (2 x 4,096 spp, seeds 86600 / 86601), vs WL92A's own renders: |region-C E_H difference| <= 1e-6 (set before the freeze from the full-scale probe: the re-rendered table differs from WL92A's at float32 ULP level, max |hl| difference 6e-8, single-half region-C E_H difference 4.2e-9; 1e-6 is three orders below the 0.005 decision margin)"},
+ "scope": "one room family, rigid box edits, three frozen ER materials, point / cone / two-light sources, 512^2, two seeds per arm; global branch frozen (LSPOT global regression not addressed). No global retraining, encoding change, capacity search, threshold change, new representation beyond the declared arms, adoption or successor."
+}
