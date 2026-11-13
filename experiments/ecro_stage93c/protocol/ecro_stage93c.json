@@ -1,0 +1,39 @@
+{
+ "protocol": "ecro_stage93c v1",
+ "status": "frozen before any evidence run (freeze commit recorded in the worklog); amendments only as labelled appended entries",
+ "batch_class": "suffix batch WL93C (user brief 2026-11-13): continues the WL93 / WL93A / WL93B local-operator question on the tied operator with supervision changes only; WL93 STOPPED-INCONCLUSIVE (Amendment 1 pending), WL93A NO_SIGNAL_AT_SMOKE_SCALE and WL93B SHARING_SIGNAL are preserved and not reinterpreted",
+ "question": "Can ECRO's physically shared local operator learn accurate source and receiver responses simultaneously under direct stage supervision, and does that reduce the integrated transport regression observed in WL93A?",
+ "hypothesis": {"H_DUAL": "explicit physical supervision at both local uses lets a tied operator keep source-stage fidelity while reducing the whole-transport regression caused by source-only supervision"},
+ "inspection_disclosure": "WL93A T0 / TQ and WL93B U0 / UQ / C0 / CQ results were inspected before this protocol (incl. the exact-local floor 0.0998 of the receiver use on the physical first flight vs t2, WL93B account); the oracle composition below and TR / TQR have never been evaluated on this population (WL92B evaluated X_M12 on E2 / E4 tables only)",
+ "invariants": "ECRO / model86 generator, frozen ER, deployed 16-sample source encoding, local rank 16, widths, tied source / receiver factors (model93.Local mode tied), global branch frozen to WL92A own_s<seed> (identical, tested), geometry / lighting interfaces, WL92A split, WL93A training subset / targets / references / optimisation; no runtime oracle in any trained arm",
+ "physical_local_operator": "M64 = quad87 dense frozen-ER bin matrix Mq[material] (diag92.local_matrices, flat patch frame; sphere patches use the flat-frame matrix as WL87 declared); exact local use on an incident field E [N, bi, 3]: out[i, bo] = sum_bi E[i, bi] M64[m_i, bi, bo]; flight = the deployed state-ray gather with the model's fixed ray weights rw (identical in every arm)",
+ "task_a_oracle": {
+  "construction": "ORA_s = M64( flight( M64(s16) ) ) + G_s: the exact physical local operator at BOTH uses of the single flight on the deployed encoding, plus the frozen learned global term of WL92A own_s<seed> (non-deployable diagnostic, no learning)",
+  "attribution_variants": {"ORA_SRC_s": "exact source use, T0_s learned receiver use", "ORA_RCV_s": "T0_s learned source use, exact receiver use on its own first flight", "ORA_PHYS_s": "exact receiver use on the first flight of the physical once-scattered field (B5 mean) + G_s (physical source, no encoding)"},
+  "evaluation": "WL93B accounting on validation (55 x 4, g00010 included; primary), train-representative and E2: source stage vs B5, receiver use on the physical first flight vs t2 (exact by construction for ORA), single vs t2, whole vs t, global vs t - t2, signed level errors of single and global (compensation reading); renders of ORA_s on E2 T0 / T1, E5k995 T0 / T1, E1 T1 LSPOT (2 x 4,096 spp, seeds 86600 / 86601)",
+  "gate_ORACLE_FEASIBLE": "for BOTH seeds: WHOLE(ORA_s) <= WHOLE(TQ_s) - max(margin_WHOLE, 0.5 gap_s) AND SINGLE(ORA_s) <= SINGLE(TQ_s) - margin_SINGLE, with gap_s = WHOLE(TQ_s) - WHOLE(T0_s) and margin = 2 SE of the paired geometry bootstrap (2,000 resamples, seed 93003). If the gate fails: verdict ORACLE_COMPOSITION_LIMITED, no training",
+  "limiting_factor_mapping": "(reported in every case, both seeds) LOCAL_OPERATOR if SINGLE(ORA_s) > SINGLE(T0_s) - margin_SINGLE (the exact composition is not a more accurate single flight than the learned tied operator); GLOBAL_COMPENSATION if SINGLE(ORA_s) <= SINGLE(T0_s) - margin_SINGLE but WHOLE(ORA_s) > WHOLE(T0_s) - margin_WHOLE (a better single flight does not carry into the whole because the frozen global term was co-trained with the learned single flight); otherwise NOT_LIMITING; per-seed labels, INTERACTION if the seeds disagree"
+ },
+ "task_b_training": {
+  "condition": "only if ORACLE_FEASIBLE",
+  "arms": {"T0": {"w_q": 0.0, "w_r": 0.0, "source": "WL93A checkpoint (hash-verified)"}, "TQ": {"w_q": 1.0, "w_r": 0.0, "source": "WL93A checkpoint (hash-verified)"}, "TR": {"w_q": 0.0, "w_r": 1.0, "source": "trained here"}, "TQR": {"w_q": 1.0, "w_r": 1.0, "source": "trained here"}},
+  "objective": "OWN + w_q l_q + w_r l_r; l_q = WL93 source-stage loss mean(((Bq - q)/den(q))^2); l_r = mean(((R_theta - R*)/den(R*))^2) with R_theta = a (c flight(q)) (the tied operator's receiver use on the physical first flight of the training target q) and R* = M64(flight(q)) (the physically correct receiver response to the same first flight); den(x) = x.mean(bins) + 0.05 x.mean(all) (the WL93 normalisation); weights fixed now, never tuned",
+  "training": "WL93A contract unchanged: 128-geometry subset, WL93A B0 training targets q (seeds 93.5M range), 2,000 steps, lr 3e-4 -> 1e-5 cosine after 200 warmup, clip 10, order rng(seed + 93), seeds 8601 / 8602, init WL92A own_s<seed>"
+ },
+ "task_b_criteria": {
+  "notation": "per seed s; SRC / RECV / SINGLE / WHOLE = validation pooled relative L1 (source stage vs B5 mean; receiver use on the physical B5 first flight vs t2; single vs t2; whole vs t); gain_s = SRC(T0) - SRC(TQ); gap_s = WHOLE(TQ) - WHOLE(T0); margin = 2 SE (paired geometry bootstrap, seed 93003) - training is deterministic on this path (WL93B: retrained = WL93A to every digit)",
+  "a_source_preserved": "SRC(TQR) <= SRC(T0) - 0.5 gain_s AND SRC(TQR) <= SRC(TQ) + margin_SRC",
+  "r_receiver_improved": "RECV(TQR) <= RECV(T0) - margin_RECV AND RECV(TQR) <= RECV(TQ) - margin_RECV",
+  "b_whole_vs_TQ": "WHOLE(TQR) <= WHOLE(TQ) - max(margin_WHOLE, 0.5 gap_s) AND SINGLE(TQR) <= SINGLE(TQ) + margin_SINGLE",
+  "s_no_sharp_regression": "renders: region-C E_H(TQR) <= 1.25 x E_H(TQ) + 0.002 on E2 T0 / T1 and E5k995 T0 / T1; stationary and D E_H <= 1.25 x T0 + 0.002 on those and E1 LSPOT; no WL86 gate passed by T0 lost",
+  "DUAL_SUPERVISION_SIGNAL": "a, r, b, s for both seeds",
+  "STAGE_ONLY_IMPROVEMENT": "a and r for both seeds, but b or s fails for at least one seed",
+  "NO_SIGNAL_AT_SMOKE_SCALE": "r fails for both seeds, or (a fails for both seeds and b fails for both seeds)",
+  "INCONCLUSIVE": "any other combination or a control / test failure",
+  "ORACLE_COMPOSITION_LIMITED": "Task A gate failed (no training)",
+  "descriptive_contrasts": "TQ vs T0, TR vs T0, TQR vs TQ, TQR vs TR with the same margins; not additive shares"
+ },
+ "tests": {"T_REUSE": "WL93A T0 / TQ load with their recorded state hashes", "T_FLIGHT": "flight(rw, gs, Bq) equals the first flight inside model93.Local.single (exact)", "T_ORACLE": "ORA_s on E2 T1 equals the WL92B X_M12 counterfactual of own_s<seed> (CF_E2_T1.npz; <= 1e-5 relative)", "T_RECV_TARGET": "R* is linear (scaling / superposition <= 1e-5), non-negative, zero -> zero, built from q (not from the model's first flight; changing the model leaves R* unchanged), and its correspondence to the path-traced 2-event field is reported (M64 flight(D q) vs t2 on E2 T1)", "T_TIED": "c_s is c_r for every arm", "T_GLOBAL": "global term identical across arms (exact)", "T_INIT": "every arm equals WL92A own on E2 T1 at step 0 (<= 1e-5); T0 / TQ / TR / TQR initial state dicts identical", "T_TARGETS": "training-target seeds disjoint from the B5 evaluation-reference seeds; train / validation geometry content disjoint", "T_DET": "two evaluations identical"},
+ "renders": {"tags": ["E2_T0", "E2_T1", "E1_T1_LSPOT", "E5k995_T0", "E5k995_T1"], "models": "ORA_s (Task A); T0 / TQ / TR / TQR x seeds (Task B, if run)", "spp": "2 x 4,096, seeds 86600 / 86601", "references": "existing WL86 / WL92B REF-ER (inspected conditions)"},
+ "scope": "smoke scale; inspected conditions only; no untied factors, no architecture / encoding / rank change, no global training, no weight tuning, no full-scale training, no new held-out suite, no successor"
+}
