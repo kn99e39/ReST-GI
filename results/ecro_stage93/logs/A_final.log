@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "/home/nd/rest_x93/code/experiments/ecro_stage93/analyze93.py", line 214, in <module>
+    main()
+  File "/home/nd/rest_x93/code/experiments/ecro_stage93/analyze93.py", line 173, in main
+    C = {'PASS_sup(TQ,T0)': PASS('TQ', 'T0', True), 'PASS_sup(UQ,U0)': PASS('UQ', 'U0', True), 'PASS_sup(UQ,T0)': PASS('UQ', 'T0', True),
+  File "/home/nd/rest_x93/code/experiments/ecro_stage93/analyze93.py", line 170, in PASS
+    g, gd = STAGE(X, Y); r['STAGE'] = {'pass': g, 'detail': gd}; ok = ok and g
+  File "/home/nd/rest_x93/code/experiments/ecro_stage93/analyze93.py", line 124, in STAGE
+    p = bool(xv <= 0.9 * yv); det[f's{s}:{cn}'] = {'X': xv, 'Y': yv, 'pass': p}; ok &= p
+TypeError: unsupported operand type(s) for *: 'float' and 'dict'

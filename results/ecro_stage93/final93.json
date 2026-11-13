@@ -1,0 +1,717 @@
+{
+ "recon92b": {
+  "written_rule": "SUPPORTED if no single counterfactual is DOMINANT in both E2 cases but at least two have f >= 0.25 for both OWN seeds in a case",
+  "implemented_rule": "no_dom = not (H_local or H_global SUPPORTED)  (only X_M12 and X_L3 checked)",
+  "dominant_counterfactuals_both_E2_cases": {
+   "X_L2": true,
+   "X_L3": false,
+   "X_M1": false,
+   "X_M2": false,
+   "X_M12": false,
+   "X_Q": true,
+   "X_SHQ": false
+  },
+  "interaction_clause": true,
+  "H_interact_official": "SUPPORTED",
+  "H_interact_written_rule": "INCONCLUSIVE",
+  "outcome_official": "C",
+  "outcome_written_rule": "D (code fall-through; the written mapping has no clause for exactly one non-dominance hypothesis SUPPORTED)",
+  "measurements_affected": false,
+  "note": "WL92B files are not modified; this record is the WL93 clarification"
+ },
+ "ident": {
+  "val": {
+   "8601": {
+    "irreducible_panel_rel_l1": 0.5079254258260072,
+    "own_learned_panel_rel_l1": 0.9703785788791728
+   },
+   "8602": {
+    "irreducible_panel_rel_l1": 0.5079254258260072,
+    "own_learned_panel_rel_l1": 0.9658061080344419
+   }
+  },
+  "E2": {
+   "E2_T1": {
+    "irreducible_panel_rel_l1": 0.36236614845336473,
+    "own_learned_panel_rel_l1": {
+     "own_s8601": 1.1395280661205076,
+     "own_s8602": 1.067729070034909
+    }
+   },
+   "E2_T0": {
+    "irreducible_panel_rel_l1": 0.3623661460158517,
+    "own_learned_panel_rel_l1": {
+     "own_s8601": 1.1177073577698593,
+     "own_s8602": 1.0840808092423175
+    }
+   }
+  },
+  "PASS": false
+ },
+ "tests_pre": null,
+ "tests_post": null,
+ "local": null,
+ "timing": null,
+ "e6": {
+  "candidates": null,
+  "admissions": [],
+  "chosen": null,
+  "dev_forced": false
+ },
+ "training": {
+  "T0_s8601": null,
+  "T0_s8602": null,
+  "TQ_s8601": null,
+  "TQ_s8602": null,
+  "U0_s8601": null,
+  "U0_s8602": null,
+  "UQ_s8601": null,
+  "UQ_s8602": null,
+  "C0_s8601": null,
+  "C0_s8602": null,
+  "CQ_s8601": null,
+  "CQ_s8602": null
+ },
+ "conditions": {
+  "E2": {
+   "models": {},
+   "controls": {}
+  },
+  "E5": {
+   "models": {},
+   "controls": {}
+  }
+ },
+ "repro": {
+  "cases": {
+   "own_s8601:E2_T0": null,
+   "own_s8601:E2_T1": null,
+   "own_s8602:E2_T0": null,
+   "own_s8602:E2_T1": null
+  },
+  "PASS": false
+ },
+ "criteria": {
+  "PASS_sup(TQ,T0)": {
+   "ADV": {
+    "pass": false,
+    "detail": {
+     "s8601:T1": null,
+     "s8601:T0": null,
+     "s8602:T1": null,
+     "s8602:T0": null
+    }
+   },
+   "NOREG": {
+    "pass": false,
+    "detail": {
+     "lost": [],
+     "worse": [],
+     "missing": [
+      [
+       "E2",
+       8601
+      ],
+      [
+       "E5",
+       8601
+      ],
+      [
+       "E6",
+       8601
+      ],
+      [
+       "E2",
+       8602
+      ],
+      [
+       "E5",
+       8602
+      ],
+      [
+       "E6",
+       8602
+      ]
+     ]
+    }
+   },
+   "DYN": {
+    "pass": false,
+    "detail": {
+     "lost": [
+      [
+       8601,
+       "E2",
+       "missing"
+      ],
+      [
+       8601,
+       "E5",
+       "missing"
+      ],
+      [
+       8601,
+       "E6",
+       "missing"
+      ],
+      [
+       8602,
+       "E2",
+       "missing"
+      ],
+      [
+       8602,
+       "E5",
+       "missing"
+      ],
+      [
+       8602,
+       "E6",
+       "missing"
+      ]
+     ]
+    }
+   },
+   "STAGE": {
+    "pass": false,
+    "detail": {
+     "s8601:E6": null,
+     "s8601:E2": null,
+     "s8602:E6": null,
+     "s8602:E2": null
+    }
+   },
+   "PASS": false
+  },
+  "PASS_sup(UQ,U0)": {
+   "ADV": {
+    "pass": false,
+    "detail": {
+     "s8601:T1": null,
+     "s8601:T0": null,
+     "s8602:T1": null,
+     "s8602:T0": null
+    }
+   },
+   "NOREG": {
+    "pass": false,
+    "detail": {
+     "lost": [],
+     "worse": [],
+     "missing": [
+      [
+       "E2",
+       8601
+      ],
+      [
+       "E5",
+       8601
+      ],
+      [
+       "E6",
+       8601
+      ],
+      [
+       "E2",
+       8602
+      ],
+      [
+       "E5",
+       8602
+      ],
+      [
+       "E6",
+       8602
+      ]
+     ]
+    }
+   },
+   "DYN": {
+    "pass": false,
+    "detail": {
+     "lost": [
+      [
+       8601,
+       "E2",
+       "missing"
+      ],
+      [
+       8601,
+       "E5",
+       "missing"
+      ],
+      [
+       8601,
+       "E6",
+       "missing"
+      ],
+      [
+       8602,
+       "E2",
+       "missing"
+      ],
+      [
+       8602,
+       "E5",
+       "missing"
+      ],
+      [
+       8602,
+       "E6",
+       "missing"
+      ]
+     ]
+    }
+   },
+   "STAGE": {
+    "pass": false,
+    "detail": {
+     "s8601:E6": null,
+     "s8601:E2": null,
+     "s8602:E6": null,
+     "s8602:E2": null
+    }
+   },
+   "PASS": false
+  },
+  "PASS_sup(UQ,T0)": {
+   "ADV": {
+    "pass": false,
+    "detail": {
+     "s8601:T1": null,
+     "s8601:T0": null,
+     "s8602:T1": null,
+     "s8602:T0": null
+    }
+   },
+   "NOREG": {
+    "pass": false,
+    "detail": {
+     "lost": [],
+     "worse": [],
+     "missing": [
+      [
+       "E2",
+       8601
+      ],
+      [
+       "E5",
+       8601
+      ],
+      [
+       "E6",
+       8601
+      ],
+      [
+       "E2",
+       8602
+      ],
+      [
+       "E5",
+       8602
+      ],
+      [
+       "E6",
+       8602
+      ]
+     ]
+    }
+   },
+   "DYN": {
+    "pass": false,
+    "detail": {
+     "lost": [
+      [
+       8601,
+       "E2",
+       "missing"
+      ],
+      [
+       8601,
+       "E5",
+       "missing"
+      ],
+      [
+       8601,
+       "E6",
+       "missing"
+      ],
+      [
+       8602,
+       "E2",
+       "missing"
+      ],
+      [
+       8602,
+       "E5",
+       "missing"
+      ],
+      [
+       8602,
+       "E6",
+       "missing"
+      ]
+     ]
+    }
+   },
+   "STAGE": {
+    "pass": false,
+    "detail": {
+     "s8601:E6": null,
+     "s8601:E2": null,
+     "s8602:E6": null,
+     "s8602:E2": null
+    }
+   },
+   "PASS": false
+  },
+  "PASS_share(U0,C0)": {
+   "ADV": {
+    "pass": false,
+    "detail": {
+     "s8601:T1": null,
+     "s8601:T0": null,
+     "s8602:T1": null,
+     "s8602:T0": null
+    }
+   },
+   "NOREG": {
+    "pass": false,
+    "detail": {
+     "lost": [],
+     "worse": [],
+     "missing": [
+      [
+       "E2",
+       8601
+      ],
+      [
+       "E5",
+       8601
+      ],
+      [
+       "E6",
+       8601
+      ],
+      [
+       "E2",
+       8602
+      ],
+      [
+       "E5",
+       8602
+      ],
+      [
+       "E6",
+       8602
+      ]
+     ]
+    }
+   },
+   "DYN": {
+    "pass": false,
+    "detail": {
+     "lost": [
+      [
+       8601,
+       "E2",
+       "missing"
+      ],
+      [
+       8601,
+       "E5",
+       "missing"
+      ],
+      [
+       8601,
+       "E6",
+       "missing"
+      ],
+      [
+       8602,
+       "E2",
+       "missing"
+      ],
+      [
+       8602,
+       "E5",
+       "missing"
+      ],
+      [
+       8602,
+       "E6",
+       "missing"
+      ]
+     ]
+    }
+   },
+   "PASS": false
+  },
+  "PASS_share(UQ,CQ)": {
+   "ADV": {
+    "pass": false,
+    "detail": {
+     "s8601:T1": null,
+     "s8601:T0": null,
+     "s8602:T1": null,
+     "s8602:T0": null
+    }
+   },
+   "NOREG": {
+    "pass": false,
+    "detail": {
+     "lost": [],
+     "worse": [],
+     "missing": [
+      [
+       "E2",
+       8601
+      ],
+      [
+       "E5",
+       8601
+      ],
+      [
+       "E6",
+       8601
+      ],
+      [
+       "E2",
+       8602
+      ],
+      [
+       "E5",
+       8602
+      ],
+      [
+       "E6",
+       8602
+      ]
+     ]
+    }
+   },
+   "DYN": {
+    "pass": false,
+    "detail": {
+     "lost": [
+      [
+       8601,
+       "E2",
+       "missing"
+      ],
+      [
+       8601,
+       "E5",
+       "missing"
+      ],
+      [
+       8601,
+       "E6",
+       "missing"
+      ],
+      [
+       8602,
+       "E2",
+       "missing"
+      ],
+      [
+       8602,
+       "E5",
+       "missing"
+      ],
+      [
+       8602,
+       "E6",
+       "missing"
+      ]
+     ]
+    }
+   },
+   "PASS": false
+  },
+  "PASS_share(UQ,TQ)": {
+   "ADV": {
+    "pass": false,
+    "detail": {
+     "s8601:T1": null,
+     "s8601:T0": null,
+     "s8602:T1": null,
+     "s8602:T0": null
+    }
+   },
+   "NOREG": {
+    "pass": false,
+    "detail": {
+     "lost": [],
+     "worse": [],
+     "missing": [
+      [
+       "E2",
+       8601
+      ],
+      [
+       "E5",
+       8601
+      ],
+      [
+       "E6",
+       8601
+      ],
+      [
+       "E2",
+       8602
+      ],
+      [
+       "E5",
+       8602
+      ],
+      [
+       "E6",
+       8602
+      ]
+     ]
+    }
+   },
+   "DYN": {
+    "pass": false,
+    "detail": {
+     "lost": [
+      [
+       8601,
+       "E2",
+       "missing"
+      ],
+      [
+       8601,
+       "E5",
+       "missing"
+      ],
+      [
+       8601,
+       "E6",
+       "missing"
+      ],
+      [
+       8602,
+       "E2",
+       "missing"
+      ],
+      [
+       8602,
+       "E5",
+       "missing"
+      ],
+      [
+       8602,
+       "E6",
+       "missing"
+      ]
+     ]
+    }
+   },
+   "PASS": false
+  },
+  "PASS_sup(CQ,C0)": {
+   "ADV": {
+    "pass": false,
+    "detail": {
+     "s8601:T1": null,
+     "s8601:T0": null,
+     "s8602:T1": null,
+     "s8602:T0": null
+    }
+   },
+   "NOREG": {
+    "pass": false,
+    "detail": {
+     "lost": [],
+     "worse": [],
+     "missing": [
+      [
+       "E2",
+       8601
+      ],
+      [
+       "E5",
+       8601
+      ],
+      [
+       "E6",
+       8601
+      ],
+      [
+       "E2",
+       8602
+      ],
+      [
+       "E5",
+       8602
+      ],
+      [
+       "E6",
+       8602
+      ]
+     ]
+    }
+   },
+   "DYN": {
+    "pass": false,
+    "detail": {
+     "lost": [
+      [
+       8601,
+       "E2",
+       "missing"
+      ],
+      [
+       8601,
+       "E5",
+       "missing"
+      ],
+      [
+       8601,
+       "E6",
+       "missing"
+      ],
+      [
+       8602,
+       "E2",
+       "missing"
+      ],
+      [
+       8602,
+       "E5",
+       "missing"
+      ],
+      [
+       8602,
+       "E6",
+       "missing"
+      ]
+     ]
+    }
+   },
+   "STAGE": {
+    "pass": false,
+    "detail": {
+     "s8601:E6": null,
+     "s8601:E2": null,
+     "s8602:E6": null,
+     "s8602:E2": null
+    }
+   },
+   "PASS": false
+  }
+ },
+ "label": {
+  "label": "STOPPED-INCONCLUSIVE",
+  "stops": [
+   "STOP_TARGET_NOT_IDENTIFIABLE",
+   "STOPPED_WORKLOAD_UNQUALIFIED",
+   "STOPPED_TEST_FAILURE",
+   "STOPPED_BASELINE_NOT_REPRODUCED",
+   "STOPPED_TRAINING_INCOMPLETE"
+  ],
+  "note": "PASS_sup(CQ,C0) is descriptive (not in the label mapping); labels do not authorise adoption"
+ }
+}

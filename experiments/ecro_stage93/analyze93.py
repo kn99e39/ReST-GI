@@ -116,7 +116,7 @@ def main():
         for s in SEEDS:
             for cn in ('E6', 'E2'):
                 x, y = mo(cn, X, s), mo(cn, Y, s)
-                v = lambda m: (m or {}).get('diag', {}).get('T1', {}) and m['diag']['T1'].get('Bq_vs_q_panel_rel_l1')
+                v = lambda m: (((m or {}).get('diag') or {}).get('T1') or {}).get('Bq_vs_q_panel_rel_l1')   # Amendment 1: None when absent (stop path)
                 xv, yv = v(x), v(y)
                 if xv is None or yv is None:
                     ok = False; det[f's{s}:{cn}'] = None
