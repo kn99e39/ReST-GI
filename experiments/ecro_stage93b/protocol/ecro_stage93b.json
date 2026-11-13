@@ -1,0 +1,56 @@
+{
+ "protocol": "ecro_stage93b v1",
+ "status": "frozen before any evidence run (freeze commit recorded in the worklog); amendments only as labelled appended entries",
+ "batch_class": "suffix batch WL93B (user brief 2026-11-13): continues the WL93 architecture question with WL93A evidence; the existing WL93 tied / untied / capacity-matched implementations at the WL93A smoke scale; no new architecture class or mechanism. WL93 STOPPED-INCONCLUSIVE (Amendment 1 pending approval) and WL93A NO_SIGNAL_AT_SMOKE_SCALE are preserved",
+ "question": "At smoke scale, does source / receiver factor separation alleviate the source-stage versus whole-transport accuracy conflict observed in WL93A, beyond parameter-capacity effects?",
+ "hypothesis": {"H_SHARING": "untying source and receiver local factors reduces the whole-transport regression associated with source-stage supervision while preserving its source-stage benefit"},
+ "inspection_disclosure": "T0 / TQ results (WL93A) were inspected before this protocol; U0 / UQ / C0 / CQ quality has never been observed (WL93 stopped before training, the WL93 dev chain used 48 geometries / 200 steps / Mq 64 and is not evidence)",
+ "invariants": "ECRO / model86 generator class, frozen ER materials and path semantics, deployed 16-sample source encoding, local rank 16, widths, backbone and geometry interface, global branch frozen to WL92A own_s<seed> (identical across arms, tested), WL92A split, WL93A training subset / targets / references / optimisation, existing thresholds; no runtime oracle",
+ "arms": {
+  "T0": {"mode": "tied", "w_source_stage": 0.0, "source": "WL93A checkpoint (reused after verification)"},
+  "TQ": {"mode": "tied", "w_source_stage": 1.0, "source": "WL93A checkpoint (reused after verification)"},
+  "U0": {"mode": "untied", "w_source_stage": 0.0, "source": "trained here"},
+  "UQ": {"mode": "untied", "w_source_stage": 1.0, "source": "trained here"},
+  "C0": {"mode": "tiedcm", "w_source_stage": 0.0, "source": "trained here", "role": "capacity-matched tied control for U0"},
+  "CQ": {"mode": "tiedcm", "w_source_stage": 1.0, "source": "trained here", "role": "capacity-matched tied control for UQ"}
+ },
+ "models": "experiments/ecro_stage93/model93.py unchanged: untied = receiver heads head_c2 / head_a2 copied from the source heads (shared trunk); tiedcm = one shared (c, a) = softplus(head + head2), head2 hidden layers from torch.Generator(seed + 9300), output layer zero (WL93 freeze c30c797 definition); every arm equals WL92A own at step 0",
+ "training": {"contract": "WL93A task_b.training unchanged: the WL93A 128-geometry train subset, WL93A B0 training targets (seeds 93.5M range) and training-validation targets (93.6M range), 2,000 steps, Adam, lr 3e-4 -> 1e-5 cosine after 200 warmup steps, clip 10, one geometry (4 lightings) per step, order rng(seed + 93), seeds 8601 / 8602; objective OWN + w x WL93 source-stage loss (w = 1 for *Q)", "reproduction_controls": "R_T0 / R_TQ: T0 and TQ retrained here under the identical contract (both seeds) to verify the reused WL93A checkpoints and to measure run-to-run variation r_m; STOP (historical controls not reproduced) if any validation whole / single-vs-L2 / source-stage (training-validation target) relative L1 of R_X differs from the WL93A X by more than 2 % relative", "no_extension": "no extra steps, no seed replacement, no weight change"},
+ "references": "WL93A B5 four-realization evaluation references (data/qref, seeds 93.1M range; independent of every training target) on 16 train-representative, 55 validation (g00010 included everywhere) and E2 T0 / T1 configurations; WL86 targets t (f, fb), WL92A exactly-2-event targets t2 (f2, f2b); E2 truth split D (WL92B)",
+ "accounting": {
+  "source_stage": "Bq = a_s (c_s s) vs B5: relative L1 vs the B5 mean (primary SRC), cross-product relative L2 M (sqrt of a ratio of two unbiased cross-product estimates; the ratio / sqrt is not exactly unbiased), flux / directional split, peak-bin retention",
+  "receiver_stage": "R_q = a_r (c_r flight(q_B5 mean)) vs t2 (receiver use given the physical once-scattered field; exact-local floor M64 flight(q_B5 mean) vs t2) and the receiver use on the model's own first flight vs M64 on the same field",
+  "single_flight": "S vs t2: relative L1 (SINGLE) and cross-product relative L2 with the f2 / f2b halves",
+  "global": "G (frozen, identical) vs t - t2",
+  "whole": "S + G vs t: relative L1 (WHOLE, primary) and cross-product relative L2 with the f / fb halves",
+  "distribution": "per-geometry values, median / IQR, count of geometries improved, top shares; the WL93A high-confidence subgroup (B5 noise <= 0.10, previously inspected) as a clearly secondary analysis",
+  "operators": "panel source / receiver matrices a c^T vs frozen-ER M64 on E2 T1 (flux norm: residual, mirror-bin retention) and the relative source - receiver difference (role separation vs a single intrinsic material response)"
+ },
+ "uncertainty": "paired geometry bootstrap (2,000 resamples, seed 93002) of pooled-metric differences over the 55 validation geometries (SE); run-to-run variation r_m = max over seeds and X in {T0, TQ} of |m(R_X) - m(X)|; WL93A B5 pairing spread for M",
+ "criteria": {
+  "notation": "per seed s; SRC = validation panel source-stage relative L1 vs the B5 mean; WHOLE / SINGLE = validation whole-table / single-vs-L2 relative L1; gap_s = WHOLE(TQ_s) - WHOLE(T0_s); gain_s = SRC(T0_s) - SRC(TQ_s); margin_m = max(2 SE(paired difference), r_m)",
+  "a_source_preserved": "SRC(UQ_s) <= SRC(T0_s) - 0.5 gain_s AND SRC(UQ_s) <= SRC(TQ_s) + margin_SRC",
+  "b_whole_vs_TQ": "WHOLE(UQ_s) <= WHOLE(TQ_s) - max(margin_WHOLE, 0.5 gap_s) AND SINGLE(UQ_s) <= SINGLE(TQ_s) + margin_SINGLE",
+  "c_whole_vs_CQ": "WHOLE(UQ_s) <= WHOLE(CQ_s) - max(margin_WHOLE, 0.5 gap_s)",
+  "d_no_compensating_regression": "renders vs same-seed T0: stationary_all and D E_H <= 1.25 x T0 + 0.002 on E2 T0 / T1, E5k995 T0 / T1 and E1 T1 LSPOT; no WL86 gate passed by T0 lost (F1 T0 / T1, F2 A / D at T1, F3 D on E2 / E5, F4 stationary on E1 LSPOT)",
+  "SHARING_SIGNAL": "a, b, c, d for both seeds",
+  "CAPACITY_EXPLANATION": "a and b for both seeds, c fails for at least one seed, and CQ meets b (CQ in place of UQ) for both seeds",
+  "TRADEOFF_REMAINS": "a for both seeds and b fails for both seeds",
+  "NO_ADVANTAGE": "b fails for both seeds, a fails for at least one seed, and U0 shows no whole improvement over T0 for either seed (WHOLE(U0_s) > WHOLE(T0_s) - margin_WHOLE)",
+  "INCONCLUSIVE": "any other combination, or a failed control / test / reproduction",
+  "order": "STOP / control failure -> INCONCLUSIVE; else SHARING_SIGNAL, CAPACITY_EXPLANATION, TRADEOFF_REMAINS, NO_ADVANTAGE, INCONCLUSIVE (first match)",
+  "descriptive_contrasts": "U0 vs T0, UQ vs U0, CQ vs C0, UQ vs CQ, C0 vs T0 with the same margins (not additive shares)",
+  "note": "labels are smoke-scale feasibility evidence only; none validates an architecture"
+ },
+ "renders": {"tags": ["E2_T0", "E2_T1", "E1_T1_LSPOT", "E5k995_T0", "E5k995_T1", "E2_T1_LPAT"], "models": "6 arms x 2 seeds + WL92A own (reproduction of WL93A renders)", "spp": "2 x 4,096, seeds 86600 / 86601 (common random numbers)", "references": "existing WL86 / WL92B REF-ER (inspected conditions); LPAT: new REF-ER 8 x 8,192 spp, seeds 93810 + r"},
+ "pattern_diagnostic": {
+  "role": "visual diagnostic only; never enters the verdict",
+  "interface_limit": "the source interface (scene86.light_arrays) admits at most two lights; a multi-cell checkerboard is not expressible without changing the source contract -> reduced to a 2 x 2 checker: two hard-edged cone lights (the existing cone class, as LSPOT) illuminate the two diagonal 40 cm cells of a 2 x 2 cell block on the panel; the two other cells stay unlit",
+  "geometry": "E2 T1 geometry; panel cells y [-0.1, 0.3] x z [0.9, 1.3] and y [0.3, 0.7] x z [0.5, 0.9] (cell edges on the 20 cm patch grid); lights at x = -0.3 (1.2 m in front of the panel) and 0.8 m toward -y of the cell centres, aimed at the cell centres (oblique, so the rays clear the moved box B at T1), cone half-angle atan(0.13 / 1.44)", "pre_freeze_correction": "the first design (lights straight in front, cone radius 0.17 m) failed the representability gate in the dev chain: the moved box B at T1 shadows the second cell completely (all 4 patch levels 0); corrected before any evidence run and before any model output on the pattern existed",
+  "flux": "both lights equal; intensity scaled so that the panel-incident flux (patch area x encoded incident level) equals that of the E2 L1 light on the E2 T1 panel",
+  "representability_gate": "before any render, from the deployed encoding s16: every patch of the two lit cells >= 0.3 x the maximum lit-patch level, every other panel patch <= 0.05 x that maximum; otherwise the pattern is omitted from evidence (reported). No above-Nyquist stress pattern is run",
+  "evaluation": "masks masks86.compute('E2', ls = 'LPAT'); E_H (region C / stationary) and aligned crops of reference, tied, untied and differences on one shared scale; caveat: the cone source class was never used in training (LSPOT is a held-out class)"
+ },
+ "tests": {"T_REUSE": "WL93A T0 / TQ checkpoints load and their state hashes equal the WL93A recorded final_sha256", "T_INIT": "every arm equals WL92A own on E2_T1 at step 0 (<= 1e-5); T0 / TQ / U0 / UQ / C0 / CQ initial outputs identical", "T_GLOBAL": "global term identical across arms (exact)", "T_OWNERSHIP": "untied: a source-only loss gives zero gradient to the receiver heads and non-zero to the source heads; tied / tiedcm: c_s / c_r are the same tensor", "T_CAPACITY": "trainable parameters untied = tiedcm > tied; after training C0 / CQ differ from T0 / TQ (> 1e-4 relative, non-degenerate)", "T_TARGETS": "training-target / training-validation-target / evaluation-reference seed sets disjoint; training and evaluation targets are different files", "T_SPLIT": "train subset vs validation disjoint by geometry content hash", "T_DET": "two evaluations identical", "T_RENDER_REF": "re-rendered WL92A own E2 T1 / T0 equals the WL93A render (region-C E_H difference <= 1e-6); reference files are the hashed WL86 / WL92B renders"},
+ "scope": "smoke scale; inspected conditions only (no held-out claim); no full-scale training, no new held-out suite, no rank / width / loss-weight / threshold change, no successor"
+}
