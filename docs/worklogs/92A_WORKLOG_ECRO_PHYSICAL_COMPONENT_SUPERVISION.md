@@ -78,4 +78,13 @@
 - **Fixes from the dev run (before the freeze).**
   - The timing stage listed its own process as foreign.
   - The ladder recorded no GPU kernel time (kernel-history flag not set).
+
+## Evidence run 1 (freeze `7247d30`): stopped by the operator, no evidence produced
+
+- 2026-11-13 00:20–00:51 UTC. Pre-tests passed. The component-target stage then ran eight split-tracer shards concurrently.
+- That exhausted the 12 GB GPU: Dr.Jit entered an allocation-cache flush loop with GPU utilisation 0 % and 100 % CPU per process. Six files were written in 30 min.
+- **This is a defect of my execution plan.** The full-scale probe before the freeze ran one tracer alone; it did not probe eight concurrently.
+- The chain was stopped by PID. Its status, output and GPU trace are kept as `chain_run1.status`, `chain_run1.out`, `gpu_trace_run1.csv`. All its data were deleted; it produced no target, reference or model that is used.
+- **Execution fix (no research change).** Target shards run at most five at a time, then the E4 references at six. The split tracer keeps the WL86 batch size (128 samples per launch), because the launch partition determines the samples.
+- **Probe of the fix.** Four concurrent full-spp shards (3 files each): 6.7 GB peak, no flush warning, about 10 s per file per process, regenerated sum vs stored target 1.8e-4.
 - **Throughput (dev, four trainings concurrently):** about 100 ms per step for both objectives. Hence about 40 min per training at 24,000 steps; OWN costs no measurable extra time per step. The full component-target regeneration runs in the WL86 shard layout (8 × 128 train, 4 × 16 val, 4 × 8 high-quality), concurrently with the E4 references. Expected chain wall: about 1 h 45 min.

@@ -45,11 +45,13 @@ else
   for s in 0 1 2 3 4 5 6 7; do j+=(S1_gen_train_$s "$PY own92a.py gen $R $R86 train $((s*128)) 128"); done
   for s in 0 1 2 3; do j+=(S1_gen_val_$s "$PY own92a.py gen $R $R86 val $((s*16)) 16" S1_gen_trainhq_$s "$PY own92a.py gen $R $R86 trainhq $((s*8)) 8"); done
 fi
+pool 5 "${j[@]}"                                  # split-tracer shards: at most 5 concurrent (8 exhausted the 12 GB GPU in run 1; 4 used 6.7 GB in the probe)
+j=()
 for t in T0 T1; do for r in $REPS; do
   j+=(S1_refER_${t}_$r "$PY $A92/interv92.py ref $R $R86 E4_$t ER $((92610+r)) $RSPP REF_ER_E4_${t}_r$r" S1_refP_${t}_$r "$PY $A92/interv92.py ref $R $R86 E4_$t P $((92630+r)) $RSPP REF_P_E4_${t}_r$r")
 done; done
 for ls in LMIX4 LSPOT4; do for r in $SREPS; do j+=(S1_refS_${ls}_$r "$PY $A92/interv92.py ref $R $R86 E4_T1_$ls ER $((92650+r)) $RSPP REF_ER_E4_T1_${ls}_r$r"); done; done
-pool 8 "${j[@]}"
+pool 6 "${j[@]}"
 run S1_f2 "$PY tests92a.py f2 $R $DEV"
 F2=$(grep '^T_F2_SUM' $O/logs/S1_f2.log | tail -1 | cut -d' ' -f2)
 run S1_e4admit "$PY $A92/analyze92.py e4 $R $R86"
