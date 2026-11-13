@@ -1,0 +1,67 @@
+{
+ "protocol": "ecro_cf92b v1",
+ "status": "frozen before any evidence run (freeze commit recorded in the worklog); amendments only as labelled appended entries",
+ "question": "After physically identifiable component supervision improves ECRO's learned transport ownership, what mechanism limits its remaining sharp-response fidelity and source / geometry generalisation, and is the improvement reproducible on an independently qualified edit?",
+ "primary_hypothesis": "OWN constrains the physical distribution of transport contributions, but the remaining sharp fidelity is limited by the quality and consistency of the generated angular / local transport response.",
+ "alternatives": {"H_source": "the source representation binds in the regressing source condition", "H_local": "the learned local angular response dominates the remaining sharp error", "H_global": "the learned higher-order composition / compensation dominates", "H_geometry": "the generator produces inconsistent local response across intrinsically equivalent configurations", "H_interact": "more than one mechanism is needed"},
+ "preserved": "every model parameter (nothing retrained or fine-tuned), training data / objectives, ranks, encoding, bins, ray budgets, ER, thresholds; WL92A D_STOPPED verdict; E4 stays non-admitted. WL86-WL92A code imported and called unchanged.",
+ "models": {"frozen": ["ecro_s8601", "ecro_s8602"], "sum": ["sum_s8601", "sum_s8602"], "own": ["own_s8601", "own_s8602"], "sources": "WL86 ~/rest_ecro86/results/models, WL92A ~/rest_x92a/results/models (sha256 recorded)"},
+ "conditions": {
+  "historical_inspected": ["E2_T1", "E2_T0", "E1_T1_LSPOT", "E1_T1"],
+  "non_admitted_diagnostic": ["E4_T1", "E4_T0"],
+  "regions": {"sharp": "C", "panel": "obj_panel", "broad": "stationary_all"},
+  "focus": "E2 T1 / T0 region C (SUM vs OWN, both seeds); E1 T1 LSPOT stationary pixels and region C (own_s8602 regression); E4 diagnostic only"
+ },
+ "repro": {"tables": "recomputed B / single / global / panel-single / Bq of every model on E2_T1, E2_T0, E1_T1_LSPOT, E4_T1 equal the WL92A I_ tables (max |diff| <= 1e-4 x max)", "renders": "E_H recomputed from the stored WL92A renders equals final92a.json (<= 1e-9)", "field": "validation component errors of every model on the 55 WL92A validation geometries equal fieldeval.json (<= 1e-4 relative)", "stop": "any mismatch -> STOP_BASELINE_NOT_REPRODUCED"},
+ "truth": "WL92 / WL92A path-traced family splits D_<tag> (2 x 2,048 spp) and reader weights W_<tag> for E2_T1, E2_T0, E1_T1, E4_T0, E4_T1 (copied, hashes recorded); new split for E1_T1_LSPOT (diag92 split, seeds 92400 / 92405)",
+ "counterfactuals": {
+  "rule": "each replaces exactly ONE quantity of the frozen model's table; everything else is the model's own output; all are non-deployable diagnostics; the original output is evaluated alongside",
+  "ORIG": "B = single + global (model)",
+  "X_L2": "single-flight term replaced by the path-traced 2-event field L2 (oracle data); global = model -> share of the error in the single-flight term",
+  "X_L3": "global term replaced by the path-traced 3-5-event field L3+ (oracle data); single = model -> share of the error in the global term (composition / compensation)",
+  "X_M1": "first local use only: once-scattered table from the deployed 16-point encoding through the exact frozen-ER bin matrix M64 (quad87.enc_matrix); flight and second local use (a c^T) and global = model -> learned source-side local response",
+  "X_M2": "second local use only: receiver-side response M64 applied to the model's own first-flight irradiance; first stage and global = model -> learned receiver-side local response",
+  "X_M12": "both local uses of the single-flight term by M64 (WL92 ENCB form); global = model -> learned local response in the single-flight term as a whole",
+  "X_Q": "first stage replaced by the exact once-scattered table q (quad87 qtable, no encoding); flight, second local use and global = model. Compared with X_M1 it changes only the source information (encoding vs exact q)",
+  "X_SHQ": "whole model evaluated with the 1,024-point source encoding instead of the deployed 16-point encoding (pt86a.source_hq) -> source-estimator sensitivity",
+  "notes": "M64 uses the flat patch-frame approximation on sphere patches (WL87 declared); X_M* and X_Q are diagnostic compositions, X_L2 / X_L3 replace a component by its physical target"
+ },
+ "attribution_rules": {
+  "floor": "E_floor = rendered E_H of the path-traced table (L2 + L3+) in the same region",
+  "accounted": "f(X) = (E_orig - E_X) / max(E_orig - E_floor, 1e-4)  (rendered E_H, 2 x 4,096 spp)",
+  "dominant": "a counterfactual is DOMINANT for a case if f >= 0.5 for both OWN seeds",
+  "H_local": "SUPPORTED if X_M12 is DOMINANT in both E2 cases (T1, T0; region C); NOT SUPPORTED if f(X_M12) < 0.25 for both OWN seeds in both; else INCONCLUSIVE",
+  "H_global": "same rule with X_L3",
+  "H_source": "on E1_T1_LSPOT (stationary pixels and region C, OWN seeds): SUPPORTED if X_SHQ is DOMINANT or the encoding effect (E_X_M1 - E_X_Q) / (E_orig - E_floor) >= 0.5 for both OWN seeds in the stationary region; NOT SUPPORTED if both < 0.25; else INCONCLUSIVE",
+  "H_geometry": "learned panel local matrix change between E2 T0 and E2 T1 (panel intrinsically unchanged): G = mean over panel patches of the relative flux-norm difference; SUPPORTED (inconsistency present) if G >= 0.10 for both OWN seeds; NOT SUPPORTED if G < 0.03; else INCONCLUSIVE. Reported with the seed-to-seed difference at the same configuration as scale; a change alone is not a K/C violation (tied factors may carry other responsibilities)",
+  "H_interact": "SUPPORTED if no single counterfactual is DOMINANT in both E2 cases but at least two have f >= 0.25 for both OWN seeds in a case",
+  "seed_gap": "E2 T1 OWN seed gap closed by X: 1 - |E_X(8601) - E_X(8602)| / |E_orig(8601) - E_orig(8602)|",
+  "level_direction": "reader-weighted signed error of a table split into a level part (per sender patch flux ratio x its true reading) and a directional remainder (WL86A definition)"
+ },
+ "e5": {
+  "population": "ordered candidates k = 0, 1, ... from np.random.default_rng([92550, k]): T0 = scene86.sample_geom(rng); moved box A or B (rng < 0.5 -> A); T1 = the moved box resampled from the training distribution with |dc| >= 0.6 m, new yaw, geom_ok; at most 20,000 candidates",
+  "light": "candidate k uses the WL86 test light L1 (k even) or L2 (k odd); held-out sources LMIX and LSPOT (WL86 test sources). These positions were excluded from every WL86 training light at data generation (0.3 m), so the light / source disjointness holds for the frozen, SUM and OWN models",
+  "disjointness": "every box centre of T0 and T1 at least 0.15 m from the same box of every WL86 train / val / trainhq geometry (all 1,120 files: covers the frozen and the WL92A populations); light_ok for T0 and T1",
+  "geometry_rule": "masks86.compute on the candidate: A, C, D, E >= 1,000 pixels and C_footprint >= 1,000 pixels (light -> panel -> receiver paths enabled / blocked)",
+  "reference_stage": "the first 3 geometry-admissible candidates, in order, get REF-ER / REF-P (8 x 8,192 spp, T0 / T1; seeds 92710+ / 92730+ per candidate offset 100 k) and the truth split (2 x 2,048 spp, diag92 seeds) until one is admitted",
+  "admission": "WL86 stage-0 Q1-Q4, Q6, Q7 with unchanged thresholds (Q4 SNR 4.0 included) AND sharp family: the light -> panel -> receiver 2-event family carries >= 0.08 of the region-C higher-order reading at T1 with SNR >= 4 against the half-split difference of that share",
+  "after_admission": "E5 source references LMIX / LSPOT (4 x 8,192 spp, seeds 92750+), oracle field (4,096 spp, seed 92460), tables, renders (2 x 4,096 spp, seeds 86600 / 86601)",
+  "no_admission": "if none of the 3 is admitted or fewer than one geometry-admissible candidate exists: no held-out claim; attribution reported alone"
+ },
+ "e5_criteria": {
+  "OWN_CONSISTENT_ADVANTAGE": "for both seeds: E5 region-C E_H of OWN <= SUM - max(noise bound, 0.005) at T1 AND at T0",
+  "NO_REGRESSION": "for both seeds: no WL86 gate (F1, F2 A / C / D, F4) passed by SUM lost by OWN on E5; stationary and D E_H of OWN <= 1.25 x SUM + 0.002 on E5 T0 / T1 and both E5 sources",
+  "DYNAMIC": "F3 (D) not lost; region-C edit response reported",
+  "ABSOLUTE": "WL86 F1 / F2 / F3 / F4 reported for every model"
+ },
+ "outcome_mapping": {
+  "A": "a dominant mechanism (H_local or H_global or H_source SUPPORTED as the only SUPPORTED one) AND E5 admitted AND OWN_CONSISTENT_ADVANTAGE AND NO_REGRESSION",
+  "B": "a dominant mechanism identified, E5 admitted, and OWN not consistently better or regressing",
+  "C": "H_interact SUPPORTED or more than one of H_local / H_global / H_source / H_geometry SUPPORTED (E5 admitted)",
+  "D": "no candidate admitted, or the baseline not reproduced, or no mechanism isolated (every hypothesis INCONCLUSIVE / NOT SUPPORTED)",
+  "note": "mechanism findings are reported under every outcome"
+ },
+ "thresholds": {"EH_stationary_max": 0.03, "capture_max": 0.25, "EH_region_max": 0.06, "dH_slope": [0.75, 1.25], "dH_corr_min": 0.8, "EH_unseen_source_max": 0.04, "min_pixels": 1000, "snr": 4.0, "source": "WL86 protocol, unchanged"},
+ "tests": {"T_REPRO": "see repro", "T_CF_IDENTITY": "X_* with the replaced quantity set back to the model's own (e.g. M64 -> learned a c^T) reproduce ORIG (<= 1e-5 relative)", "T_LINEAR": "superposition / zero / non-negativity of every counterfactual composition (<= 1e-4)", "T_EVENT": "D split parts >= 0 and their sum equals the stored oracle field (WL92 T_SPLIT_SUM rule) for E1_T1_LSPOT", "T_STATE": "state rebuild deterministic for every tag; equals the stored D hit / dbin", "T_DISJOINT": "E5 disjointness recomputed from the data files"},
+ "scope": "one room family, rigid box edits, three frozen ER materials, point / cone / two-light sources, 512^2, two seeds per arm; diagnostics only. No retraining, no new representation, no adoption, no successor."
+}
