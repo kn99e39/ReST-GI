@@ -1,0 +1,49 @@
+{
+ "T_REPLAY": {
+  "max": 0.0,
+  "PASS": true
+ },
+ "T_REPRO": {
+  "max_rel": {
+   "ecro_s8601:E2_T1": 0.0,
+   "ecro_s8602:E2_T1": 0.0,
+   "ecro_s8601:E2_T0": 0.0,
+   "ecro_s8602:E2_T0": 0.0,
+   "ecro_s8601:E1_T1": 0.0,
+   "ecro_s8602:E1_T1": 0.0
+  },
+  "PASS": true
+ },
+ "T_STATE": {
+  "rebuild_identical": true,
+  "selective_equals_full": true,
+  "equals_fresh_scene": true,
+  "null_edit_identical": true,
+  "dirty_rays": 48653,
+  "PASS": true
+ },
+ "T_DISJOINT": {
+  "min_distance_kept": {
+   "train": {
+    "box_m": 0.15258045154710362,
+    "light_m": 0.3017169240586533
+   },
+   "val": {
+    "box_m": 0.2518469041687721,
+    "light_m": 0.3472277529111903
+   },
+   "trainhq": {
+    "box_m": 0.2367597490297893,
+    "light_m": 0.3140649925796704
+   }
+  },
+  "excluded": {
+   "train": 96,
+   "val": 9,
+   "trainhq": 2
+  },
+  "e4_radiance_before_refs": 0,
+  "PASS": true
+ },
+ "ALL_PASS": true
+}

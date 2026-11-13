@@ -1,0 +1,103 @@
+{
+ "chosen": "E3b",
+ "candidates": {
+  "E3b": {
+   "counts": {
+    "frame": 246280,
+    "stationary_all": 238057,
+    "A": 9529,
+    "Bset": 228528,
+    "C": 5937,
+    "D": 89411,
+    "E": 33860,
+    "B_other": 99320,
+    "mover": 8223,
+    "C_footprint": 877,
+    "C_mirror": 5060,
+    "obj_floor": 50406,
+    "obj_ceiling": 41821,
+    "obj_walls": 122407,
+    "obj_panel": 5479,
+    "obj_sphere": 3464,
+    "obj_boxes_static": 14480
+   },
+   "geometry_ok": true,
+   "admissible": true
+  }
+ },
+ "rule": {
+  "regions": [
+   "A",
+   "C",
+   "D"
+  ],
+  "min_pixels": 1000,
+  "sharp_reader": "C_mirror >= 1000 pixels (panel / sphere receivers whose mirror cone sees the change)",
+  "also": "scene86.geom_ok and light_ok; geometry / visibility only (masks86.compute); no radiance before the choice is recorded"
+ },
+ "training_exclusion": {
+  "train": [
+   [
+    "g00012.npz",
+    0.12283409744320616
+   ],
+   [
+    "g00158.npz",
+    0.13437109080637852
+   ],
+   [
+    "g00193.npz",
+    0.08780739146926557
+   ],
+   [
+    "g00199.npz",
+    0.1466612190192293
+   ],
+   [
+    "g00228.npz",
+    0.14587006921202408
+   ],
+   [
+    "g00244.npz",
+    0.14976109810329633
+   ],
+   [
+    "g00251.npz",
+    0.12501160231548628
+   ],
+   [
+    "g00265.npz",
+    0.11860036270075235
+   ],
+   [
+    "g00284.npz",
+    0.06058442714312393
+   ],
+   [
+    "g00328.npz",
+    0.14927276190324962
+   ],
+   [
+    "g00845.npz",
+    0.12414282047203515
+   ],
+   [
+    "g00880.npz",
+    0.08983199301571271
+   ]
+  ],
+  "val": [
+   [
+    "g00057.npz",
+    0.11234872058528668
+   ]
+  ],
+  "trainhq": [
+   [
+    "g00012.npz",
+    0.12283409744320616
+   ]
+  ]
+ },
+ "note": "geometry / visibility only; no radiance of any E4 candidate exists"
+}

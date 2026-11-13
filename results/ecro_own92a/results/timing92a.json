@@ -1,0 +1,46 @@
+{
+ "gpu": "NVIDIA GeForce RTX 3080 Ti, 595.71.05, 12288 MiB",
+ "foreign": [],
+ "state_full_s": 0.033494703471660614,
+ "state_selective_s": 0.017328287474811077,
+ "source_encoding_s": 0.004574069753289223,
+ "models": {
+  "ecro_s8601": {
+   "factors_s": 0.007651659660041332,
+   "apply_s": 0.000825788825750351,
+   "transfer_s": 0.0023089703172445297,
+   "checkpoint_bytes": 2965730
+  },
+  "ecro_s8602": {
+   "factors_s": 0.007681499235332012,
+   "apply_s": 0.001141686923801899,
+   "transfer_s": 0.0022726841270923615,
+   "checkpoint_bytes": 2965730
+  },
+  "sum_s8601": {
+   "factors_s": 0.007220171391963959,
+   "apply_s": 0.0011432794854044914,
+   "transfer_s": 0.002277517691254616,
+   "checkpoint_bytes": 2965670
+  },
+  "sum_s8602": {
+   "factors_s": 0.007225072011351585,
+   "apply_s": 0.0011416403576731682,
+   "transfer_s": 0.002275552600622177,
+   "checkpoint_bytes": 2965670
+  },
+  "own_s8601": {
+   "factors_s": 0.007204798050224781,
+   "apply_s": 0.0011373376473784447,
+   "transfer_s": 0.0022933166474103928,
+   "checkpoint_bytes": 2965670
+  },
+  "own_s8602": {
+   "factors_s": 0.007207817398011684,
+   "apply_s": 0.0011457931250333786,
+   "transfer_s": 0.0022684549912810326,
+   "checkpoint_bytes": 2965670
+  }
+ },
+ "torch_peak_mib": 222.39208984375
+}

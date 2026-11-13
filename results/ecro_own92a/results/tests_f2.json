@@ -1,0 +1,47 @@
+{
+ "files": {
+  "train": 928,
+  "val": 55,
+  "trainhq": 30
+ },
+ "kept": {
+  "train": 928,
+  "val": 55,
+  "trainhq": 30
+ },
+ "max_rel_l1": 0.00021283228124957532,
+ "max_flux_dev": 4.851818084716797e-05,
+ "worst": [
+  {
+   "file": "g00527.npz",
+   "max_rel_l1": 0.00021283228124957532,
+   "max_flux_dev": 4.851818084716797e-05,
+   "split": "train"
+  },
+  {
+   "file": "g00060.npz",
+   "max_rel_l1": 0.0001890712301246822,
+   "max_flux_dev": 1.0728836059570312e-06,
+   "split": "val"
+  },
+  {
+   "file": "g00672.npz",
+   "max_rel_l1": 0.00018834757793229073,
+   "max_flux_dev": 7.152557373046875e-07,
+   "split": "train"
+  },
+  {
+   "file": "g00666.npz",
+   "max_rel_l1": 0.00018717977218329906,
+   "max_flux_dev": 4.76837158203125e-07,
+   "split": "train"
+  },
+  {
+   "file": "g00036.npz",
+   "max_rel_l1": 0.00018710861331783235,
+   "max_flux_dev": 1.1920928955078125e-06,
+   "split": "train"
+  }
+ ],
+ "PASS": true
+}
