@@ -1,0 +1,64 @@
+{
+ "protocol": "ecro_stage93a v1",
+ "status": "frozen before any evidence run (freeze commit recorded in the worklog); amendments only as labelled appended entries",
+ "batch_class": "suffix batch WL93A of WL93 (user brief 2026-11-13; AGENTS.md numbering policy): resolves the target-reliability uncertainty that stopped WL93; no new mechanism; WL93's STOPPED-INCONCLUSIVE / STOP_TARGET_NOT_IDENTIFIABLE verdict and its pending Amendment 1 are preserved unchanged",
+ "question": "Can a reliably estimated physical source-stage target produce a measurable, independently validated improvement in ECRO's learned local response under a small, controlled tied-factor training experiment?",
+ "hypotheses": {
+  "H_TARGET": "reference uncertainty materially affects the WL93 source-stage identifiability assessment",
+  "H_SUPERVISION": "with a sufficiently reliable target, adding source-stage supervision gives a measurable improvement over matched short continuation training without it"
+ },
+ "invariants": "ECRO / model86 generator class, frozen ER materials and path semantics, deployed 16-sample source encoding, local rank 16, widths, geometry interface, tied source / receiver factors, global branch frozen to WL92A own_s<seed>, WL92A checkpoints and split, WL86 thresholds; no runtime oracle; WL93 gate not relaxed or re-judged",
+ "target": {
+  "quantity": "q[i, bo]: once-scattered outgoing radiance per (patch, outgoing bin), quad87.qtable (unchanged estimator: P stratified points per patch x Mq one-sample MIS directions per point on ER patches; Lambert exact per point)",
+  "budgets": {"B0": {"P": 16, "Mq": 1024, "note": "the WL93 / WL87 budget"}, "B1": {"P": 16, "Mq": 4096}, "B2": {"P": 64, "Mq": 1024}, "B3": {"P": 64, "Mq": 4096}, "B4": {"P": 256, "Mq": 1024}, "B5": {"P": 256, "Mq": 4096, "note": "evaluation reference budget"}},
+  "budget_axes": "spatial (P: B0 -> B2 -> B4) and directional (Mq: B0 -> B1, B2 -> B3, B4 -> B5) varied separately; only the estimator budget changes, never the quantity",
+  "realizations": 4,
+  "probe": "pre-protocol timing / memory only (training geometry g00000, no noise statistic): seconds per geometry (4 lights) B0 0.39, B1 0.41, B2 0.81, B3 0.88, B4 2.42, B5 2.74; GPU memory B5 11.5 GB (first probe, incl. warm-up) / 9.4 GB (6-configuration chain probe), run alone; P = 256 budgets CPU-side bound (GPU 17-27 %); B0-B3 + stage tables concurrently 8.1 GB; B4 in 3 shards",
+  "seeds": {
+   "evaluation_reference": "93,100,000 + 1,000 cfg + 40 budget_index + 4 r + lighting (cfg < 80, budget_index 0-5, r 0-3)",
+   "training_target": "93,500,000 + 4 file_index + lighting",
+   "training_validation_target": "93,600,000 + 4 file_index + lighting",
+   "disjointness": "ranges disjoint from each other, from WL93 (93,000 + 4 idx + l, post hoc + 500,000) and from WL87 seed_q (tested)"
+  }
+ },
+ "configurations": {
+  "train_subset": "WL92A training population (WL86 train minus the WL92A E4 exclusion, sorted by file name) -> every 7th starting at position 0, first 128 (deterministic, by position only)",
+  "train_representative": "every 8th of the 128-geometry train subset (16 geometries x 4 lights)",
+  "validation": "all 55 WL92A validation geometries x 4 lights (incl. the WL93 post hoc difficult cases g00010 / g00039; nothing excluded)",
+  "sharp": "E2_T0 and E2_T1 (WL86 E2 light set)",
+  "order": "cfg 0-15 train-representative, 16-70 validation (sorted), 71 E2_T0, 72 E2_T1"
+ },
+ "task_a": {
+  "primary_metric": "M(X) = pooled debiased relative L2 on panel patches: sqrt(max(sum (X - qa)(X - qb), 0) / sum qa qb), qa / qb = means of two disjoint pairs of the four independent B5 realizations (unbiased for ||X - q||^2 / ||q||^2 when X is independent of the reference); pairing uncertainty U(X) = max - min of M over the 3 pairings",
+  "secondary": "relative L1 vs the B5 four-realization mean (with its own floor), all-patch versions, flux (patch-level) and directional (within-patch distribution) split, panel peak-bin retention (X at the argmax bin of the reference mean / reference there), per-geometry values, top-5 shares of the pooled numerator, geometry bootstrap (2,000 resamples, seed 93001) intervals",
+  "target_disagreement": "N_b = single-realization noise at budget b: sqrt(sum over elements of the unbiased across-realization variance / sum qa qb) (panel, pooled), plus relative L1 between independent realizations; bias check: M(four-realization mean of budget b) against B5",
+  "quantities_distinguished": ["(1) independent target disagreement N_b", "(2) frozen-ER-through-encoding discrepancy M(enc_q(s16)) - an operator / encoding discrepancy, NOT called an information-theoretic irreducible error", "(3) learned WL92A OWN source-stage discrepancy M(Bq_own) per seed"],
+  "wl93_comparison": "on validation: relative L1 of enc_q and OWN against WL93's own stored q (B0, seed 93,000 + 4 idx + l) vs against the B5 reference mean",
+  "subgroup_predeclared": "high-confidence geometries: B5 single-realization noise of the geometry <= 0.10; always reported together with the full population",
+  "H_TARGET": "SUPPORTED if, on pooled validation panel patches, |relL1(enc vs WL93 q) - relL1(enc vs B5 mean)| >= 0.05 (twice WL93's 0.023 miss margin) while the B5 mean's own relative L1 floor <= 0.02; NOT SUPPORTED if < 0.02; otherwise INCONCLUSIVE. Assessment only - the WL93 gate is not re-judged",
+  "training_budget_rule": "train budget = the cheapest of B0..B4 (cost order = index) whose N_b on the train-representative panel (pooled) <= 0.10; else B5 if N_B5 <= 0.20; else STOP TARGET_UNRELIABLE (no training)",
+  "TARGET_RELIABLE": "delta = 0.10 x mean over seeds of M(Bq_own init) on validation panel (the WL93 STAGE effect size); RELIABLE iff the training budget rule is met AND U(Bq_own init) <= delta / 3 for both seeds; else STOP TARGET_UNRELIABLE before training"
+ },
+ "task_b": {
+  "arms": {"T0": {"mode": "tied", "w_source_stage": 0.0}, "TQ": {"mode": "tied", "w_source_stage": 1.0}},
+  "model": "model93.Local(own, 'tied'): trainable copy of the WL92A own_s<seed> generator for the single-flight term; global term = frozen own_s<seed> (identical for both arms)",
+  "objective": "WL93 unchanged: OWN (sum + single-vs-L2 + global-vs-L3) + w mean(((Bq - q)/den_q)^2), den_q = q.mean(bins) + 0.05 q.mean(all), w = 1",
+  "training": {"population": "train_subset (128 x 4 lightings)", "steps": 2000, "lr": 0.0003, "lr_final": 1e-05, "warmup_steps": 200, "clip": 10.0, "optimizer": "Adam (fresh)", "order_seed_offset": 93, "seeds": [8601, 8602], "targets": "t (WL86), t2 (WL92A), q = one realization at the train budget (training_target seeds)", "monitoring": "validation loss on the 55 validation geometries with training_validation_target q (independent of the evaluation reference)", "note": "smoke scale; no extension or seed replacement"}
+ },
+ "evaluation": {
+  "stage": "for T0 / TQ per seed and WL92A own init: M, U, relative L1, flux / directional split and peak retention vs the B5 reference on validation (primary), train-representative and E2 T0 / T1; on train-representative also the fit to the model's own training target (noise-fitting diagnostic)",
+  "whole": "validation whole-table relative L1 vs t, single-vs-L2 relative L1 (train93 validation definitions)",
+  "renders": "diagnostic only: E2_T0, E2_T1, E1_T1_LSPOT, E5k995_T0, E5k995_T1; models T0 / TQ / own92a x seeds; 2 x 4,096 spp, seeds 86600 / 86601; E_H vs the existing REF-ER (WL86 / WL92B); no rendered superiority claim"
+ },
+ "criteria": {
+  "delta": "0.10 x mean_s M(Bq_own init) on validation panel",
+  "dM_s": "M(TQ_s) - M(T0_s) on validation panel; SE_s = paired geometry-bootstrap standard error; S_s = pairing spread (max - min over the 3 pairings)",
+  "LEARNING_SIGNAL": "TARGET_RELIABLE and, for BOTH seeds: dM_s <= -max(delta / 2, 2 SE_s, S_s) and TQ validation whole relative L1 and single-vs-L2 <= 1.05 x T0 and no non-finite step",
+  "NO_SIGNAL": "TARGET_RELIABLE, no non-finite step, and for NEITHER seed dM_s <= -max(delta / 2, 2 SE_s, S_s)",
+  "INCONCLUSIVE": "any other combination (one seed only, signal with whole-table regression, instability, failed test)"
+ },
+ "verdict": {"TARGET_UNRELIABLE": "training budget rule or TARGET_RELIABLE fails (stop before training)", "FEASIBLE_FOR_FULL_SCALE_EVALUATION": "LEARNING_SIGNAL", "NO_SIGNAL_AT_SMOKE_SCALE": "NO_SIGNAL", "INCONCLUSIVE": "INCONCLUSIVE or any STOP other than target reliability", "note": "feasibility assessments only; no adoption, no full-scale run, no successor"},
+ "stops": ["q not reliable within the budget ladder (TARGET_UNRELIABLE)", "T0 / TQ not comparable (init / parameter count / data / global identity test fails)", "train / validation leakage (file-identity test)", "synthetic test failure", "an intervention would need a source-encoding / rank / global change"],
+ "tests": {"T_INIT": "T0 and TQ initial state dicts identical and equal to WL92A own on E2_T1 (<= 1e-5)", "T_PARAMS": "identical trainable parameter counts", "T_GLOBAL": "global term identical across arms (exact)", "T_QGEN": "qtable at B0 with the WL87 seed reproduces the stored E2_T1 D q; budgets B1-B5 run with the declared P / Mq", "T_SEEDS": "evaluation / training / validation-target / WL93 seed sets pairwise disjoint", "T_SPLIT": "train subset and validation file sets disjoint; train-representative subset of the train subset; no validation file in training", "T_DET": "two evaluations identical"},
+ "scope": "smoke scale: 128 training geometries, 2,000 steps, 2 seeds, 2 tied arms; evaluation on validation / train-representative / E2 tables, renders diagnostic. No untied arms, no factorial, no encoding change, no E6, no full-scale training, no successor."
+}
