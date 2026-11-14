@@ -1,210 +1,211 @@
-# Worklog — WL93D Post-hoc Qualitative Addendum: Patch-aligned Checkerboard Albedo (2026-11-14)
+# Worklog — WL93D Post-hoc Qualitative Addendum: Checkerboard Reflected by the Sharp Panel (2026-11-14, revision 2)
 
-> **POST-HOC QUALITATIVE ADDENDUM to WL93D (non-numbered).** This is not part of the frozen WL93D protocol, evidence or labels, and nothing here changes them. WL93D's labels stand unchanged: REPRESENTATION_OR_OPTIMIZATION_DOMINANT + COADAPTATION_LIMITED ([93D worklog](93D_WORKLOG_ECRO_FROZEN_LOCAL_OPERATOR_OWNERSHIP_ATTRIBUTION.md)). Every number below is descriptive and post hoc. No gate, label or verdict is computed.
+> **POST-HOC QUALITATIVE ADDENDUM to WL93D (non-numbered).** Not part of the frozen WL93D protocol, evidence or labels, and nothing here changes them. WL93D's labels stand: REPRESENTATION_OR_OPTIMIZATION_DOMINANT + COADAPTATION_LIMITED ([93D worklog](93D_WORKLOG_ECRO_FROZEN_LOCAL_OPERATOR_OWNERSHIP_ATTRIBUTION.md)). Every number below is descriptive and post hoc; no gate, label or verdict is computed.
 
-- Brief: "ReST-GI — WL93D Checkerboard Qualitative Addendum" (Non-Numbering / Post-hoc Qualitative Evaluation).
-- Code: [experiments/ecro_local93d/addendum_checker/](../../experiments/ecro_local93d/addendum_checker/).
-- Protocol and amendments: [protocol_checker93d.json](../../experiments/ecro_local93d/addendum_checker/protocol_checker93d.json).
-- Commits: 29f394b (protocol and code), a8a5340 (A1–A3, before any full-budget render), 18c35ba (A4, post hoc).
-- Server root: LabServer63 `~/rest_x93d_ck`, about 16 GPU-min in total.
-- Results: `results/ecro_local93d_checker/`. Reviewer images: `results/evaluation/93D/addendum_checker/`.
+- Code: [experiments/ecro_local93d/addendum_checker/](../../experiments/ecro_local93d/addendum_checker/)
+- Scene: [scene_ck2.json](../../experiments/ecro_local93d/addendum_checker/scene_ck2.json)
+- Protocol and revision history: [protocol_checker93d.json](../../experiments/ecro_local93d/addendum_checker/protocol_checker93d.json)
+- Revision-2 code commit: d8d092f
+- Server root: LabServer63 `~/rest_x93d_ck2`; the full chain took 11 min, the scene iteration about 2 min
+- Results: `results/ecro_local93d_checker/`. Reviewer images: `results/evaluation/93D/addendum_checker/`
 
-## What was asked
+## Revision history (why this report replaces the first one)
 
-Render a physically valid, patch-aligned checkerboard albedo on a Lambertian surface that the near-mirror panel reflects. Compare the path-traced reference with the frozen WL93D arms C0, C2_src, C2_rcv and C2_both on E2 T1. The texture must never silently change the physical material while leaving the model unaware of the change. Nothing may be trained, and no checkpoint or operator may change.
+**Revision 1 is withdrawn.** It used a back-wall checker on E2 T1.
+- The S1 panel lobe at about 1.8 m did not resolve 25 cm cells, so the checker could not be seen in the reflection, even in the physical reference. The reference LOW ratios were 0.84 / 0.85 against the ideal 0.43 / 1.14.
+- Its visibility rule was geometric only (an ideal-mirror ray landing on the wall). It passed, and the reflection was never checked on a render.
+- A post hoc 1 m variant (A4) was added instead of stopping.
+
+**The owner reopened the addendum** with these instructions:
+- change the scene composition;
+- check on actual renders that the checker is visibly and correctly reflected by the sharp panel, and adjust object placement until it is;
+- replace the earlier report and renders.
+
+Revision 2 does exactly that. Revision 1's code, results and report remain in git history (commits 29f394b, a8a5340, 18c35ba, 8c11bea); they are not repeated here.
 
 ## Implementation Fact
 
-**How the texture enters each path.** The texture is a per-patch **material-id map** (`PMAT`). Each of the three paths consumes it identically:
+**How the texture reaches each path.** The texture is a per-patch material-id map, `PMAT`, and all three paths consume it identically. No learned weight, checkpoint or operator changed. The model's input changes on exactly the 54 checker patches (T_aware).
+- **Learned ECRO.** Its only material input is `mat_states[PMAT[patch]]` ([model86.py:95](../../experiments/ecro86/model86.py#L95)). The frozen WL92A own s8601 / s8602 checkpoints are used.
+- **M64.** `Mn = Mq[PMAT[patch]]`.
+- **Physical reference / LOW / ECRO-lookup renderer.** At every surface hit the material id is `PMAT[patch_bin(hit)]`. This is a run-time source patch of `pt86.Ctx.trace`; `pt86.py` itself is unchanged.
 
-| path | how it sees the texture |
-|---|---|
-| learned ECRO (frozen WL92A own s8601 / s8602) | Its only material input is `mat_mlp(mat_states[PMAT[patch]])` ([model86.py:95](../../experiments/ecro86/model86.py#L95)). A per-patch id is therefore a native, model-visible input. No learned weight changes. |
-| M64 (frozen-ER dense bin matrices) | `Mn = Mq[PMAT[patch]]`, as in WL93D. |
-| physical reference / LOW / ECRO-lookup renderer (pt86) | WL86 looks up the material per *shape* (`SMAT[sid]`). One lookup was inserted at run time: at a back-wall hit, the material id is `PMAT[patch_bin(hit)]`. This is a source patch applied in-process; `pt86.py` itself is unchanged. |
+**Scene (changed; the camera is not a model input).**
 
-**Scene.** E2 T1. The texture sits on the back wall (y = 2 m), whose 16 × 12 patches are each exactly 25 cm × 25 cm. A cell boundary is therefore always a patch boundary.
+| element | setting | constraint check |
+|---|---|---|
+| Room, panel S1, sphere, materials | WL86 | unchanged |
+| Box A (checker) | centre (−1.08, 0.60, 1.00), half sizes (0.20, 0.45, 0.45), yaw 0.15 | inside the training box rule, `geom_ok` = True; corner x = −1.345 against the rule's −1.35, so the panel-facing face is about 0.22 m from the panel plane; largest allowed face, 30 cm patches |
+| Box B | (1.4, 1.5, 0.5), out of view | — |
+| Light | one point light at (−1.45, −0.6, 1.7), intensity 30 | inside the training light distribution, `light_ok` = True |
+| Camera | (0.3, −1.6, 1.3) → (−1.3, 0.45, 1.0), fov 32° | views the panel at about 45° |
 
-**Variants.** All three are labelled **material-distribution tests**.
+**Scene iteration.** Every step was checked on an actual render (`checker93d.py probe`: textured and untextured at the same seed). The images are in `scene_iteration/`.
 
-| id | cells | materials | why it is a material-distribution test |
+| probe | change | what the render showed |
+|---|---|---|
+| p01 | yaw 45° box at about 0.5 m | blurred blobs |
+| p02 | box closer, yaw 20° | still blurred |
+| p03 / p04 | largest face, yaw 0.15, face at about 0.22 m | the 3 × 3 checker is clearly visible in the reflection |
+| p05 | tighter framing | final framing |
+
+At p03 / p04 the reference LOW ratio in the reflection is 0.79 / 1.36, against the ideal 0.6 / 1.6, at a median mirror distance of 0.36 m. That is about the minimum distance the training box rule allows. The remaining softness of cell edges is the frozen S1 lobe itself.
+
+**Variants.** Both are **material-distribution tests**. An untextured counterpart (box A uniform, id 4) is rendered in the same scene with the same seeds, so all differences use common random numbers.
+
+| variant | materials | why a material-distribution test | note |
 |---|---|---|---|
-| ck38 | 25 cm (1 patch) | Lambert 0.3 / 0.8. Two new rows built with the WL86 `lambert_state` constructor and appended to the renderer's material table and to the model's `mat_states` buffer. | Outside the Lambert range seen in training (0.5–0.7). |
-| ck75 | 25 cm | Existing ids 3 (walls, 0.7) and 4 (box A, 0.5). | Training-vocabulary states, but box material placed on wall patches. |
-| ck38L (post hoc, A4) | 1 m (4 × 4 patches, still patch-aligned) | Same as ck38. | Same as ck38. |
+| bx38 | Lambert 0.3 / 0.8 (new rows from the WL86 constructor) | outside the training Lambert range 0.5–0.7 | — |
+| bx75 | ids 3 (0.7) / 4 (0.5) | training vocabulary, but wall material on box patches | contrast only 1.4 : 1 |
 
-**M64 rows for ids 6 / 7.** These are `Mq[3] × albedo / 0.7`. This is admissible because the Lambert rows are exactly proportional to albedo (T_mq, rel 5.7e-8).
-
-**Preflight.** All nine tests pass for ck38 and for ck38L (`results/pre/pre*.json`):
+**Preflight: 9 / 9 PASS** (`results/pre/pre.json`).
 
 | test | result |
 |---|---|
-| T_state | constructor reproduces mats86 ids 3–5 bit-exactly |
-| T_buffer | each checkpoint's `mat_states` equals mats86 bit-exactly; the first 6 rows are unchanged after extension |
-| T_mq | Lambert rows proportional to albedo (rel 5.7e-8) |
-| T_closure | the frozen ER closure is linear in albedo (eval rel 8.9e-8; identical sampled directions; weights equal albedo) |
-| T_identity | with the checker off, the patched renderer equals the original (rel 1.4e-7, equal to the original-vs-original float-atomic floor) |
-| T_tables | with the checker off, the B tables reproduce the WL93D tables (C0 exact; C2 arms ≤ 1.0e-7) |
-| T_corr | the material id at 64,998 back-wall pixels equals the analytic checker from the hit position: 0 mismatches |
-| T_e2e | kmax = 1 CRN renders: textured / untextured direct radiance = albedo / 0.7 at 36,139 lit pixels (max abs error 3.2e-7) |
-| T_aware | the model input changes on exactly the 192 back-wall patches and nowhere else |
+| T_state | constructor bit-exact |
+| T_buffer | `mat_states` buffer bit-exact |
+| T_mq | Lambert rows proportional to albedo |
+| T_closure | closure linear in albedo |
+| T_identity | patched renderer equals the original, untextured E2 T1: rel ≤ 2e-7, the float-atomic floor |
+| T_tables | WL93D tables reproduced |
+| T_corr | material id at 86,042 box pixels equals an independent face / cell computation: 0 mismatches |
+| T_e2e | direct-light ratio = albedo / 0.5 at 31,173 pixels, max error 3.8e-7 |
+| T_aware | model input changes on exactly the 54 checker patches |
 
-**Visibility rule (geometry only, ideal mirror).** VISIBLE. 94 % of the camera-visible panel pixels (5,171 / 5,479) reflect the back wall, hitting 14 patches (7 even, 7 odd). This set is called **ROI_W**. Of region C's 3,974 pixels, 3,041 lie in ROI_W.
+**ROI_T.** The panel pixels whose ideal-mirror ray hits a checker patch: 58,035 pixels, 15 patches.
 
 **Renders.**
-- Reference: REF-ER, 4 × 8,192 spp per variant. Seeds 86100–86103 are those of the WL86 untextured E2 T1 references r0–r3, which gives common random numbers. Lambert lobe choice and sampling do not depend on albedo, so the paths are identical and only the weights differ.
-- Arms: 2 × 4,096 spp. Seeds 86600 / 86601 match the WL93D untextured arm renders (CRN).
-- GPU about 100 % during the renders.
-
-**Amendments.**
-- A1–A3 were made after the 32-spp dev smoke and before any full-budget render:
-  - A1: T_identity uses a tolerance, because `accum` uses float atomics.
-  - A2: T_e2e excludes silhouette pixels.
-  - A3: presentation scale only.
-- A4 is post hoc (see Observation 1). It added ck38L and a reflection-parity metric.
-- The 25 cm results are kept unchanged.
+- Reference: REF-ER, 4 × 8,192 spp per variant (none / bx38 / bx75), seeds 86100–86103.
+- Arms: own s8601 / s8602 × C0, C2_src, C2_rcv, C2_both, at 2 × 4,096 spp, seeds 86600 / 86601.
+- GPU 83–94 % during the reference renders.
 
 ## Measurement
 
-The sheet shows one exposure for the whole addendum, keyed to the untextured reference median (Reinhard, gamma 2.2). The error and response maps each use one absolute signed-sqrt scale across the whole addendum: 0.133 for the higher-order error and 0.163 for the panel-pixel texture response.
+Exposure and scales:
+- One exposure for every image, keyed to the untextured reference median.
+- One absolute signed-sqrt scale each, shared across the whole addendum: 0.62 for the higher-order error and 0.34 for the panel-pixel texture response.
 
-**Table 1 — reflection parity in ROI_W.** Median of textured / untextured per checker parity of the mirror cell (even / odd):
+**Table 1 — Reflection in the reference.**
 
-| | ck38 (25 cm) | ck38L (1 m) | ck75 (25 cm) |
-|---|---|---|---|
-| ideal mirror (albedo ratio) | 0.43 / 1.14 | 0.43 / 1.14 | 1.00 / 0.71 |
-| reference LOW (events 1–2) | 0.84 / 0.85 | 0.76 / 0.93 | 0.90 / 0.89 |
-| reference higher-order h | 0.77 / 0.81 | 0.72 / 0.90 | 0.86 / 0.85 |
-| C0 hl (s8601 / s8602) | 0.78 / 0.80 · 0.76 / 0.79 | 0.75 / 0.89 · 0.75 / 0.87 | 0.97 / 0.97 · 0.97 / 0.97 |
-| C2_src hl | 0.77 / 0.80 · 0.76 / 0.78 | 0.75 / 0.89 · 0.75 / 0.87 | 0.98 / 0.98 · 0.97 / 0.97 |
-| C2_rcv hl | 0.80 / 0.83 · 0.80 / 0.83 | 0.76 / 0.92 · 0.77 / 0.92 | 0.93 / 0.91 · 0.93 / 0.92 |
-| C2_both hl | 0.80 / 0.83 · 0.81 / 0.84 | 0.77 / 0.93 · 0.78 / 0.92 | 0.92 / 0.91 · 0.93 / 0.92 |
+| | bx38 | bx75 |
+|---|---|---|
+| Pixel correlation of log ratio, ideal-mirror prediction vs reference LOW, in ROI_T | 0.81 (slope 0.46) | 0.81 (slope 0.47) |
+| Ratio per mirror-cell material, reference LOW | 0.79 / 1.36 | 1.32 / 1.09 |
+| Ratio per mirror-cell material, reference higher-order h | 0.83 / 1.36 | 1.36 / 1.14 |
+| Ratio per mirror-cell material, ideal | 0.6 / 1.6 | 1.4 / 1.0 |
 
-**Table 2 — region E_H (WL86 definition), textured vs untextured on the same pixels.** Seed s8601; s8602 is in `metrics_checker93d.json`.
+**Table 2 — The arms' higher-order term hl in ROI_T, per mirror-cell material** (textured / untextured, median; s8601 · s8602):
 
-| arm | ck38 C (unt.) | ck38L C | ck75 C | ck38 ROI_W (unt.) | ck75 ROI_W |
-|---|---|---|---|---|---|
-| C0 | 0.075 (0.077) | 0.081 | 0.042 | 0.064 (0.061) | 0.059 |
-| C2_src | 0.036 (0.021) | 0.035 | 0.078 | 0.034 (0.026) | 0.100 |
-| C2_rcv | 0.075 (0.093) | 0.082 | 0.063 | 0.065 (0.076) | 0.054 |
-| C2_both | 0.028 (0.031) | 0.028 | 0.028 | 0.027 (0.026) | 0.035 |
+| arm | bx38: 0.3 cells / 0.8 cells | bx75: 0.7 cells / 0.5 cells |
+|---|---|---|
+| reference h | 0.83 / 1.36 | 1.36 / 1.14 |
+| C0 | 1.00 / 1.12 · 0.84 / 1.09 | 1.17 / 1.07 · 1.17 / 1.05 |
+| C2_src | 0.99 / 1.11 · 0.88 / 1.07 | 1.17 / 1.08 · 1.17 / 1.06 |
+| C2_rcv | 0.96 / 1.20 · 0.85 / 1.17 | 1.21 / 1.08 · 1.20 / 1.06 |
+| C2_both | 0.94 / 1.22 · 0.87 / 1.13 | 1.21 / 1.08 · 1.20 / 1.07 |
 
-The noise bound in ROI_W is 0.014–0.017.
+**Table 3 — Texture response in ROI_T** (textured − untextured higher-order term, slope / corr against the reference; reference half-split noise 5 % (bx38) / 3 % (bx75) of |Δh|), and **E_H in ROI_T** (textured, with untextured in brackets; noise bound 0.008–0.010):
 
-**Table 3 — texture response in ROI_W.** Textured − untextured higher-order term, luminance, pixel level, slope / corr vs the reference. Reference half-split noise is 3 % (ck38), 2 % (ck75) and 3 % (ck38L) of |Δh|.
+| arm | bx38 response s8601 · s8602 | bx75 response | bx38 E_H s8601 · s8602 | bx75 E_H |
+|---|---|---|---|---|
+| C0 | 0.28 / 0.76 · 0.46 / 0.94 | 0.41 / 0.70 · 0.52 / 0.89 | 0.076 (0.047) · 0.046 (0.042) | 0.070 · 0.030 |
+| C2_src | 0.33 / 0.78 · 0.34 / 0.95 | 0.46 / 0.75 · 0.45 / 0.89 | 0.063 (0.031) · 0.054 (0.019) | 0.048 · 0.044 |
+| C2_rcv | 0.39 / 0.93 · 0.63 / 0.96 | 0.49 / 0.79 · 0.62 / 0.88 | 0.069 (0.048) · 0.047 (0.046) | 0.067 · 0.035 |
+| C2_both | 0.47 / 0.97 · 0.48 / 0.96 | 0.55 / 0.86 · 0.53 / 0.89 | 0.053 (0.033) · 0.046 (0.023) | 0.046 · 0.038 |
 
-| arm | ck38 s8601 · s8602 | ck38L s8601 · s8602 | ck75 s8601 · s8602 |
-|---|---|---|---|
-| C0 | 0.93 / 0.95 · 1.04 / 0.91 | 0.91 / 0.96 · 1.02 / 0.93 | 0.19 / 0.77 · 0.31 / 0.77 |
-| C2_src | 1.02 / 0.96 · 1.08 / 0.91 | 0.95 / 0.96 · 1.04 / 0.93 | 0.17 / 0.71 · 0.31 / 0.78 |
-| C2_rcv | 0.80 / 0.95 · 0.82 / 0.95 | 0.83 / 0.98 · 0.83 / 0.98 | 0.51 / 0.94 · 0.52 / 0.90 |
-| C2_both | 0.85 / 0.96 · 0.83 / 0.95 | 0.86 / 0.98 · 0.83 / 0.98 | 0.57 / 0.96 · 0.54 / 0.92 |
+On the box seen directly, every arm gives slope 0.96–1.01 and corr ≥ 0.999. This is not a model test: there the albedo multiplies the arm's lookup through the renderer's physical throughput at x1.
 
-The back wall seen directly gives slope 0.85–0.97 and corr ≥ 0.995 for every arm and variant. This is not a test of the model: there the albedo multiplies the arm's lookup through the renderer's physical throughput at x1.
+**Table 4 — Table-level ratios of the checker patches** (textured / untextured sums per material, s8601 · s8602; S = single flight, G = learned global term; G carries 49–52 % of B on these patches):
 
-**Table 4 — table-level diagnostic of the back-wall patches** (`sg_ck38.json`, `sg_ck75.json`; textured / untextured ratio of sums per material id; S = single flight, G = learned global term):
-
-| | albedo ratio | C0 S | C0 G | C2_rcv S | G share of B (untextured) |
-|---|---|---|---|---|---|
-| ck38 id 6 (0.3) | 0.43 | 0.62 · 0.59 | 0.58 · 0.60 | 0.430 · 0.428 | 0.53 |
-| ck38 id 7 (0.8) | 1.14 | 0.97 · 0.93 | 0.98 · 0.98 | 1.147 · 1.143 | 0.53 |
-| ck75 id 4 (0.5) | 0.71 | 0.89 · 0.83 | 0.87 · 0.84 | 0.717 · 0.714 | 0.53 |
-| ck75 id 3 (0.7) | 1.00 | 1.00 · 0.99 | 1.00 · 1.01 | 1.004 · 1.000 | 0.53 |
+| | ideal | C0 S | C0 G | C2_rcv S |
+|---|---|---|---|---|
+| bx38, 0.3 cells | 0.6 | 0.94 · 0.78 | 0.88 · 0.77 | 0.600 · 0.598 |
+| bx38, 0.8 cells | 1.6 | 1.35 · 1.28 | 1.28 · 1.25 | 1.599 · 1.594 |
+| bx75, 0.7 cells | 1.4 | 1.30 · 1.28 | 1.25 · 1.26 | 1.399 · 1.396 |
+| bx75, 0.5 cells (box's own id) | 1.0 | 1.00 · 0.99 | 1.00 · 0.99 | 0.999 · 0.996 |
 
 ## Observation
 
-1. **The 25 cm checker is not resolved in the panel reflection, even in the physical reference.**
-   - In the reference LOW the ck38 parity ratios are 0.84 vs 0.85, where an ideal mirror gives 0.43 vs 1.14.
-   - The S1 lobe (α 0.026–0.075) at a mean mirror distance of 1.82 m averages several 25 cm cells.
-   - The geometric visibility rule passed because it assumes an ideal mirror. The panel close-ups in figCK0 show only a soft gradient.
-   - With 1 m cells (ck38L), a partial two-tone reflection appears: 0.76 vs 0.93.
-   - The 25 cm sheets therefore test the arms' response to a blurred mixture of cells, not to individually resolved cells.
-2. **ck38 and ck38L (new states 0.3 / 0.8).**
-   - In the reflection, every arm follows the reference texture response closely: slope 0.80–1.08, corr 0.91–0.98.
-   - In ck38L the arms' parity contrast is 0.14–0.16, against the reference higher-order 0.18.
-3. **ck75 (in-vocabulary ids 3 / 4).**
-   - The reference higher-order term in ROI_W drops by about 15 %.
-   - The arms whose receiver use stays learned barely move: C0 and C2_src change by 2–3 %, slope 0.17–0.31.
-   - The M64-receiver arms move about halfway: slope 0.51–0.57.
-   - As a result, C2_src's E_H in region C rises from 0.021 untextured to 0.078 textured, and C0's falls from 0.077 to 0.042: the arm ordering changes with the wall material.
-4. **Table level (Table 4).**
-   - The M64 receiver reproduces the albedo ratio exactly in S (0.430 / 1.147 / 0.717).
-   - The learned local operator compresses the albedo response: id 6 S 0.59–0.62 vs 0.43; id 4 0.83–0.89 vs 0.71. For id 7 its S ratio (0.93–0.97) points the opposite way from the albedo ratio (1.14).
-   - The learned global term G, which carries 53 % of B on the back wall and is kept learned in every arm, behaves the same way: 0.58–0.60 / 0.98 / 0.84–0.87.
-5. **The learned operator does see the texture.** Its per-patch inputs change exactly on the textured patches. In every variant its table and its rendered higher-order term change in the direction of the albedo, except at the 0.8 cells, where the table ratio is 0.93–0.98.
+1. **The physical reference clearly shows the box checker in the panel reflection.**
+   - It is visible in the full radiance, in events 1–2 (LOW) and in the higher-order term (events ≥ 3); see figCK0 rows 1–3.
+   - It lies where an ideal mirror predicts (pixel correlation 0.81, figCK0 row 4).
+   - Its contrast is softened by the S1 lobe (slope 0.46–0.47 in log ratio).
+2. **Every arm places the reflected texture response on the correct cells.** The patterns in figCK1 row 6 coincide with the reference, with corr 0.70–0.97.
+3. **Every arm's amplitude is compressed.**
+   - Response slopes are 0.28–0.63 (bx38) and 0.41–0.62 (bx75).
+   - The darkening of the 0.3 cells is almost absent for C0 s8601 (0.997 vs reference 0.83).
+   - The arms' hl ratios sit between 0.84 and 1.22, against the reference's 0.83 / 1.36.
+4. **The checker raises the higher-order error in ROI_T for every arm.**
+   - For example, C0 s8601 goes from 0.047 to 0.076, and C2_src s8601 from 0.031 to 0.063.
+   - The WL93D (untextured) observation that C2_src is best on sharp readers holds in this scene untextured (0.031 / 0.019).
+   - With the checker, C2_both is best or near best, and no single arm is best for both seeds and both variants.
+5. **At the table level, the M64 receiver use reproduces the albedo ratio exactly in S** (0.600 / 1.599 / 1.399). The learned local operator (C0 S) and the learned global term G compress it: 0.78–0.94 vs 0.6 and 1.25–1.35 vs 1.6. Because G stays learned in every arm, even C2_rcv's total B ratio is 0.68–0.75 / 1.43.
 
 ## Interpretation
 
-- The checkerboard is a valid, model-consistent material-distribution test here. The interface is the per-patch material id, which the frozen ECRO, M64 and the patched reference all consume identically (tests above). No retraining or architecture change was needed. The texture is not an image-space effect, and the model is not unaware of it.
-- Within this scene and these two checkpoints, the learned components respond to a back-wall albedo change in a compressed way. This applies both to the local receiver use and to the global term. Exact albedo scaling appears only where M64 replaces the receiver use, and even there only in S: G stays learned.
-- The 0.3 / 0.8 case looks well tracked in the rendered reflection because the reflection blurs the cells. The blurred average of the compressed per-patch ratios (about 0.79) happens to match the average of the true per-patch ratios. ck38L, with partially resolved cells, shows that the arms' contrast is 75–85 % of the reference.
-- The ck75 failure to follow the reference is consistent with Table 4:
-  - id 4 patches respond 0.83–0.89 instead of 0.71;
-  - id 3 patches are unchanged in both S and G (1.00);
-  - so the blurred average stays near 0.93–0.97 while the reference falls to about 0.85.
-  This is a descriptive account from table ratios; it is not an isolated attribution. Why a training-vocabulary state on wall patches is compressed more than the two out-of-range states is not resolved here.
-- On the WL93D question: the C2_src advantage in region C seen in WL93D (untextured) does not carry over to ck75, where C2_src is the worst arm in region C. It remains in ck38 and ck38L.
-  - This qualifies the WL93D observation as dependent on the receiving surface's material distribution.
-  - It does not change WL93D's frozen labels.
+- **The test is valid.** The texture is consumed identically and model-awarely by all three paths (9 / 9 preflight). It is visibly and correctly reflected by the sharp panel in the physical reference, so the comparison now tests what the brief asked for.
+- **On this scene and these two checkpoints, the frozen model localises a reflected albedo pattern correctly but under-responds in amplitude.** The table-level split (Table 4) locates the compression in both learned parts:
+  - the local receiver use, which M64 fixes in S;
+  - the learned global term, which no arm replaces.
+- The compression appears both for new states (0.3 / 0.8) and for training-vocabulary states (0.7 / 0.5 on box patches).
+- This is a descriptive account from table ratios and renders, not an isolated attribution. It agrees in direction with revision 1's table-level finding on the back wall.
 
 ## Unresolved Question
 
-- Why does the learned receiver and global response to the in-vocabulary id 4 compress more (0.83–0.89 vs 0.71) than its response to the out-of-range 0.3 state? Possible readings are a co-adapted wall/box context in the token features, and the albedo encoding being one of 69 state entries passed through `mat_mlp`. Neither is tested here.
-- How much of the reference's ROI_W change at the id 3 cells is blur from neighbouring id 4 cells, and how much is multi-bounce coupling? Separating them would need a per-cell reference table (truth fields), which was not generated.
-- Would a sharper, smaller-α panel resolve 25 cm cells? That would change transport, so it is out of scope.
-- The WL93A T0 family and E5k995 were not rendered.
+- Why do the learned local and global terms compress albedo response? Candidate readings include an albedo encoding that is one of 69 state entries through `mat_mlp`, and per-material training (each training patch's material was fixed per object). Neither is tested.
+- How much of the arms' remaining rendered under-response (Table 2) beyond the table-level compression comes from bin-specific B values toward the panel, rather than bin sums? This is not separated.
+- The WL93A T0 family was not rendered.
 
 ## Architecture Verdict
 
-None. This qualitative addendum computes no label. WL93D's frozen labels and evidence are unchanged. No architecture, document role or canonical contract changes, nothing is adopted, and no successor is authorised.
+None. No label is computed. WL93D's frozen labels and evidence are unchanged. Nothing is adopted and no successor is authorised. The addendum's status (closed or not) is the owner's decision.
 
 ## Reproducibility
 
-- `bash run_ck.sh <R> ~/rest_ecro86 ~/rest_x92a ~/rest_x93a ~/rest_x93d` (one detached chain; add `--dev` for the 32-spp smoke; finished jobs resume by return code). Run `python diag_sg93d.py <R> ~/rest_x92a ~/rest_x93a <variant>` for Table 4.
-- Inputs:
-  - frozen checkpoints `rest_x92a/results/models/own_s860{1,2}.pt`, checked through T_buffer and the T_tables reproduction of WL93D;
-  - WL86 untextured references `rest_ecro86/results/renders/REF_ER_E2_T1_r0-3`;
-  - WL93D untextured arm renders `rest_x93d/results/renders/I93D_own_s*_E2_T1_r{0,1}`;
-  - WL86 masks `rest_ecro86/results/masks/E2.npz`.
-- The trace patch hash is in each `pre*.json` and in each reference render's JSON.
-- Images, with sha256 in `manifest_checker93d.json` (`results/evaluation/93D/addendum_checker/`):
+- **Commands.**
+  - Full chain: `bash run_ck.sh <R> ~/rest_x92a ~/rest_x93a ~/rest_x93d`. This is one detached chain covering preflight, tables, S / G diagnostic, references, arm renders and viz. Add `--dev` for the 32-spp smoke.
+  - Scene iteration: `python checker93d.py probe <R> bx38 <spp> <out>`.
+- **Inputs.**
+  - Frozen checkpoints `rest_x92a/results/models/own_s860{1,2}.pt`, checked by T_buffer and T_tables.
+  - WL93D tables `rest_x93d/results/tables/I_E2_T1.npz` (T_tables only).
+  - The scene JSON, whose sha256 is logged in `chain.status`.
+  - Trace patch hash: in `pre.json` and in every reference render's JSON.
+- **Images and data** (`results/evaluation/93D/addendum_checker/`; sha256 in `manifest_checker93d.json`):
 
 | file | contents |
 |---|---|
-| `figCK0_scene_references.png` | untextured and three textured references: full frame, panel close-ups with ROI_W (cyan) and region C (yellow), higher-order term |
-| `figCK1_{ck38,ck75,ck38L}_own_s{8601,8602}_sheet.png` | comparison sheets, columns REF / C0 / C2_src / C2_rcv / C2_both. Rows: full frame (textured LOW + arm higher-order), higher-order only, panel close-up, signed error vs the reference (full and close-up; the reference column shows its half-split noise), and the texture response textured − untextured |
-| `figCK2_cell_response.png` | per-patch texture response, arm vs reference, in ROI_W and on the directly seen wall |
-| `metrics_checker93d.json`, `sg_ck38.json`, `sg_ck75.json` | all numbers above |
+| `figCK0_scene_references.png` | untextured / bx38 / bx75 references: full frame with ROI_T, panel-reflection close-ups of LOW and of the higher-order term, and the reflection-correspondence maps (ideal-mirror prediction next to the reference) |
+| `figCK1_{bx38,bx75}_own_s{8601,8602}_sheet.png` | comparison sheets, columns REF / C0 / C2_src / C2_rcv / C2_both. Rows: full frame (reference LOW + arm higher-order), higher-order only, reflection close-up, signed error vs the reference (full and close-up), texture response |
+| `figCK2_cell_response.png` | per-patch texture response, arm vs reference |
+| `metrics_checker93d.json`, `sg_bx38.json`, `sg_bx75.json` | all numbers |
+| `scene_iteration/p01–p05*.png` | the scene-iteration renders |
 
 ## Final report (Korean)
 
 **Implementation Fact.**
-- 체커는 뒷벽(25 cm 패치 16×12)의 **패치별 material id 맵**입니다. 세 경로가 같은 맵을 같은 방식으로 소비합니다.
-  - 학습 ECRO: `mat_states[PMAT]`
-  - M64: `Mq[PMAT]`
-  - 물리 레퍼런스 렌더러: 런타임 소스 패치로 재질 조회 1줄을 패치 기준으로 바꿨습니다. pt86.py는 수정하지 않았습니다.
-- 재학습, 체크포인트 변경, 연산자 변경은 없었습니다.
-- preflight 9개 테스트가 모두 통과했습니다. 여기에는 WL93D 테이블 재현, 픽셀 단위 대응(불일치 0), 직접광 알베도 비 end-to-end 검사(오차 3e-7)가 포함됩니다.
-- 모든 variant는 **material-distribution test**입니다. 0.3/0.8은 학습 범위 밖이고, 0.7/0.5는 박스 재질을 벽에 놓은 경우입니다.
+- 장면을 바꿨습니다. 체커는 박스 A의 각 면(3×3 패치, 셀 30 cm)에 깔았고, 박스는 학습 박스 분포 경계 안에서 패널 평면으로부터 약 0.22 m까지 붙였습니다.
+- 카메라는 패널을 약 45°로 보도록 옮겼습니다. 카메라는 모델 입력이 아닙니다. 조명 1개는 학습 분포 안에 두었습니다.
+- 배치는 실제 렌더 p01–p05를 직접 보면서 조정했습니다.
+- 텍스처는 패치별 material id이고, ECRO, M64, 물리 레퍼런스가 같은 방식으로 소비합니다.
+- preflight 9/9 PASS입니다. 박스 픽셀 대응 불일치 0, 직접광 비 오차 3.8e-7이며, 재학습이나 체크포인트·연산자 변경은 없었습니다.
 
 **Measurement / Observation.**
-- (1) 25 cm 체커는 물리 레퍼런스에서도 패널 반사에 분해되지 않습니다. 반사 LOW 비가 0.84/0.85로, 이상 거울의 0.43/1.14와 거리가 멉니다. 원인은 S1 로브 α 0.026–0.075와 반사 거리 1.8 m입니다. 그래서 사후(A4)로 1 m 셀(ck38L)을 추가했고, 여기서는 0.76/0.93으로 부분적으로 보입니다.
-- (2) 0.3/0.8에서는 모든 arm이 반사 영역의 텍스처 응답을 대체로 따라갑니다(slope 0.80–1.08, corr 0.91–0.98). 다만 1 m 셀에서 arm의 대비는 레퍼런스의 75–85 %입니다.
-- (3) 0.7/0.5에서는 레퍼런스 고차항이 약 15 % 줄어듭니다. 이에 비해 C0와 C2_src는 2–3 %만 줄고(slope 0.17–0.31), M64 수신 arm은 절반 정도(0.51–0.57) 반응합니다. 그 결과 C2_src의 region C E_H가 0.021에서 0.078로 나빠져, WL93D에서 보였던 C2_src 우위가 이 재질 분포에서는 사라집니다.
-- (4) 테이블 수준에서 M64 수신은 S에서 알베도 비를 정확히 재현합니다(0.430/1.147/0.717). 반면 학습 로컬 연산자와 학습 global 항 G(벽 B의 53 %)는 응답이 압축됩니다(id 4: 0.83–0.89 vs 0.71). 0.8 셀에서는 학습 응답이 오히려 반대 방향입니다(0.93–0.98 vs 1.14).
+- (1) 레퍼런스에서 박스 체커가 패널 반사에 분명히 보입니다. LOW와 고차항 모두에서 보이고, 이상 거울 예측과의 픽셀 상관은 0.81입니다.
+- (2) 모든 arm이 반사된 텍스처 응답의 위치는 맞힙니다(corr 0.70–0.97).
+- (3) 진폭은 압축됩니다. slope는 0.28–0.63입니다. 0.3 셀의 어두워짐이 C0 s8601에서는 거의 없습니다(1.00, 레퍼런스 0.83).
+- (4) 체커가 들어가면 모든 arm에서 ROI 고차항 오차가 커집니다. 예를 들어 C0는 0.047→0.076, C2_src는 0.031→0.063입니다.
+- (5) 테이블 수준에서 M64 수신 S는 알베도 비를 정확히 재현합니다(0.600/1.599/1.399). 반면 학습 로컬 연산자와 학습 global 항 G는 압축됩니다(0.78–0.94 vs 0.6, 1.25–1.35 vs 1.6).
 
 **Interpretation.**
-- 텍스처는 모델이 인식하는 유효한 재질 분포 테스트였습니다.
-- 학습 구성요소(수신 사용과 global 항)는 벽 알베도 변화에 압축된 응답을 보입니다.
-- 0.3/0.8에서 잘 맞아 보인 것은 반사 블러가 셀을 평균한 결과입니다.
-- 이상은 서술적 해석이고, 원인을 분리 검증한 것은 아닙니다.
+- 이번에는 브리프가 요구한 "반사에 보이는 체커"로 비교했습니다.
+- 동결 모델은 반사된 알베도 패턴의 위치는 맞히지만 진폭 응답이 압축됩니다. 압축은 학습 수신 사용과 학습 global 항 양쪽에 있습니다.
+- 이상은 서술적 해석이며, 원인을 분리 검증한 것은 아닙니다.
 
 **Unresolved Question.**
-- id 4(학습 어휘)가 0.3(범위 밖)보다 더 압축되는 이유
-- id 3 셀 변화 중 블러와 다중 반사가 각각 차지하는 비중
-- 더 날카로운 패널에서의 결과. 전송이 바뀌므로 범위 밖입니다.
-- T0 계열과 E5는 렌더하지 않았습니다.
+- 학습 항이 알베도 응답을 압축하는 원인
+- 렌더된 응답 부족 중 bin별 B가 차지하는 몫
+- T0 계열은 렌더하지 않았습니다.
 
-**Architecture Verdict.** 없음. WL93D의 동결 라벨과 증거는 바뀌지 않았고, 채택하거나 후속 승인한 것도 없습니다.
+**Architecture Verdict.** 없음. WL93D의 동결 라벨은 그대로이고, 애드엔덤 종결 여부는 오너가 결정합니다.
 
-**Reproducibility.** 커밋 29f394b / a8a5340 / 18c35ba, 서버 63 `~/rest_x93d_ck`, 이미지는 `results/evaluation/93D/addendum_checker/`에 있습니다.
+**Reproducibility.** 코드 커밋 d8d092f, 서버 63 `~/rest_x93d_ck2`, 이미지는 `results/evaluation/93D/addendum_checker/`에 있습니다.

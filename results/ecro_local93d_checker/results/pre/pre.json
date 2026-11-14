@@ -1,5 +1,68 @@
 {
  "status": "PASS",
+ "scene": {
+  "tag": "CK2",
+  "targets": [
+   "A"
+  ],
+  "light_set": "LCK2",
+  "camera": {
+   "origin": [
+    0.3,
+    -1.6,
+    1.3
+   ],
+   "target": [
+    -1.3,
+    0.45,
+    1.0
+   ],
+   "fov_deg": 32.0,
+   "res": 512
+  },
+  "geom": {
+   "A": {
+    "c": [
+     -1.08,
+     0.6,
+     1.0
+    ],
+    "h": [
+     0.2,
+     0.45,
+     0.45
+    ],
+    "yaw": 0.15
+   },
+   "B": {
+    "c": [
+     1.4,
+     1.5,
+     0.5
+    ],
+    "h": [
+     0.3,
+     0.25,
+     0.5
+    ],
+    "yaw": 0.0
+   }
+  },
+  "lights": [
+   {
+    "pos": [
+     -1.45,
+     -0.6,
+     1.7
+    ],
+    "rgb": [
+     30.0,
+     30.0,
+     30.0
+    ]
+   }
+  ]
+ },
  "tests": {
   "T_state": {
    "pass": true
@@ -9,37 +72,27 @@
   },
   "T_mq": {
    "pass": true,
-   "rel_max": 5.6766331227915784e-08,
-   "Mq_shape": [
-    6,
-    64,
-    64,
-    3
-   ]
+   "rel_max": 5.6766331227915784e-08
   },
   "T_closure": {
    "pass": true,
    "eval_rel": 8.920283538566353e-08,
    "weight_abs": 1.9158635811145075e-07,
-   "dir_abs": 0.0,
-   "id3_vs_lambert_0.7cos/pi_abs": 3.329429565379627e-08,
-   "valid_all": true
+   "dir_abs": 0.0
   },
   "T_identity": {
    "pass": true,
    "cam": {
-    "keys_equal": true,
-    "orig_vs_orig_rel": 1.4028956327017217e-07,
-    "orig_vs_patched_rel": 1.4028956327017217e-07,
+    "orig_vs_orig_rel": 1.192055664231297e-07,
+    "orig_vs_patched_rel": 9.789118885324779e-08,
     "pass": true
    },
    "ecro": {
-    "keys_equal": true,
-    "orig_vs_orig_rel": 1.909445927164567e-07,
-    "orig_vs_patched_rel": 1.4028956327017217e-07,
+    "orig_vs_orig_rel": 1.9578237770649559e-07,
+    "orig_vs_patched_rel": 1.9578237770649559e-07,
     "pass": true
    },
-   "note": "bit-exact comparison is not possible: pt86.accum sums samples with float atomics (scatter_reduce), whose order varies between runs; tolerance rel 1e-5 (amended after the dev smoke, before any full-budget render)"
+   "note": "float-atomic accumulation: tolerance rel 1e-5 (rev. 1 A1)"
   },
   "T_tables": {
    "pass": true,
@@ -56,49 +109,38 @@
   },
   "T_corr": {
    "pass": true,
-   "pixels": 64998,
-   "mismatch": 0,
-   "edge_excluded": 891
+   "pixels": 86042,
+   "mismatch": 0
   },
   "T_e2e": {
    "pass": true,
-   "lit_pixels": 36139,
-   "ratio_abs_err_max": 3.156975134643858e-07,
-   "ratio_abs_err_p50": 3.449274643685385e-08,
-   "note": "pixels whose 3 x 3 neighbourhood is not entirely back wall are excluded (jittered samples of silhouette pixels hit other objects; amended after the dev smoke, before any full-budget render)"
+   "lit_pixels": 31173,
+   "ratio_abs_err_max": 3.779923662960982e-07,
+   "base_albedo": {
+    "A": 0.5
+   }
   },
   "T_aware": {
    "pass": true,
-   "ck38": {
+   "bx38": {
     "8601": {
-     "changed_patches_changed": true,
+     "target_patches_changed": true,
      "other_patches_unchanged": true
     },
     "8602": {
-     "changed_patches_changed": true,
+     "target_patches_changed": true,
      "other_patches_unchanged": true
     }
    },
-   "ck75_changes_patches": 96,
-   "ck38_changes_patches": 192,
-   "note": "ck75 keeps id 3 on half of the wall, so only the id-4 cells change (checked via the PMAT map; same lookup path as ck38)"
+   "target_patches": 54
   }
  },
  "visibility": {
-  "panel_pixels_camera": 5479,
-  "panel_pixels_reflect_back_wall": 5171,
-  "share": 0.9437853622923891,
-  "cells_hit": 14,
-  "cells_even": 7,
-  "cells_odd": 7,
-  "pixels_even": 2614,
-  "pixels_odd": 2557,
-  "C_pixels": 3974,
-  "C_on_panel": 3349,
-  "C_reflect_back_wall": 3041,
-  "obj_panel_pixels": 5479,
-  "mean_mirror_distance_m": 1.8221687078475952,
-  "visible": true
+  "panel_pixels": 108358,
+  "roi_pixels": 58035,
+  "target_direct_pixels": 87679,
+  "mirror_patches_hit": 15,
+  "mirror_distance_m_median": 0.3641893267631531
  },
- "trace_patch_sha256": "608f4abecfcde463be905d2f3426ff47340373c5153a26b691059c4259c379cd"
+ "trace_patch_sha256": "57b30a3268542c6ff5db7ed705b8e3f97088e57f6a25ab1f8e56061186848c44"
 }
