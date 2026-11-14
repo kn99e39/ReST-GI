@@ -1,0 +1,97 @@
+{
+ "status": "PASS",
+ "tests": {
+  "T_BINS": {
+   "pass": 1.0,
+   "bin_formula_agreement": 1.0,
+   "sum_WT": 3.141592653589793,
+   "sum_W94": 3.141592653589793,
+   "W94_vs_WT_ring0_sector_ratio": [
+    0.5,
+    1.5
+   ],
+   "an94_W_equals_W94": true
+  },
+  "T_MASKS": {
+   "pass": true
+  },
+  "T_EVENT": {
+   "pass": true,
+   "e2_p_on_panel": 0.0,
+   "note": "field_src split: k = 2 vertex material 1 -> _p (pt86a.py:175-180)"
+  },
+  "T_COS": {
+   "pass": true,
+   "max_rel": 1.6467113905793695e-07
+  },
+  "T_REPRO94D": {
+   "pass": true,
+   "max_abs_dev": 1.4813043613948196e-07,
+   "floor_W94": {
+    "receivers": {
+     "ratio": 1.3782469041792993,
+     "corr": 0.7125124849079415,
+     "rel_l1": 0.9397396152226791
+    },
+    "boxA": {
+     "ratio": 1.2114709040552927,
+     "corr": 0.7161184790238488,
+     "rel_l1": 0.527718749966363
+    },
+    "panel_face": {
+     "ratio": 1.2057054621547902,
+     "corr": -0.3339031242462412,
+     "rel_l1": 0.5977259864003313
+    }
+   },
+   "wl94d_floor": {
+    "receivers": {
+     "ratio": 1.3782468983831326,
+     "corr": 0.712512482334751,
+     "corr_halves": 0.9297572792340049,
+     "rel_l1": 0.9397396120024692,
+     "half_noise_rel_l1": 0.12721187196988423
+    },
+    "boxA": {
+     "ratio": 1.2114708566498122,
+     "corr": 0.7161185072908048,
+     "corr_halves": 0.9827265950995286,
+     "rel_l1": 0.5277187081912211,
+     "half_noise_rel_l1": 0.058198331105900405
+    },
+    "panel_face": {
+     "ratio": 1.205705407229102,
+     "corr": -0.3339030580785568,
+     "corr_halves": 0.8673728501887797,
+     "rel_l1": 0.5977259301162438,
+     "half_noise_rel_l1": 0.0692607652362704
+    }
+   },
+   "sender_ck2_W94": {
+    "8601": {
+     "rel_l1_flux_W94": 1.0746493683253195,
+     "wl94d": 1.0746492201948834
+    },
+    "8602": {
+     "rel_l1_flux_W94": 1.2207934125201385,
+     "wl94d": 1.2207932828895183
+    }
+   }
+  },
+  "T_OPS": {
+   "pass": true,
+   "regenerated_rank": 32,
+   "regen": {
+    "op_l1": 0.23305602509523055,
+    "val_field_rel_l1": 0.1458158449362617
+   },
+   "wl95": {
+    "op_l1": 0.23305602509523055,
+    "val": 0.1458158449362617
+   },
+   "M64_nmf_npz_equals_mq_ext": true
+  }
+ },
+ "ops_sha256": "d4d02e5a2f423ce97749ad73287bc2c35f7907f60c03d1941a626778b90b0c70",
+ "protocol_sha256": "fb136ad2da79fdca5af4493a798c3f0c217b1df3a2480381851f3c8510a54735"
+}
