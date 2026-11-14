@@ -1,0 +1,49 @@
+{
+ "name": "wl93d_checker_addendum_v1",
+ "class": "WL93D POST-HOC QUALITATIVE ADDENDUM (non-numbered). Not part of the frozen WL93D protocol, evidence or labels; nothing here changes them.",
+ "frozen_inputs": {
+  "checkpoints": "WL92A own s8601 / s8602 (loaded through ops93d.load_family, unchanged); the WL93A T0 family is not rendered here",
+  "operator": "ops93d.arm_eval / local_factors / global_term unchanged; arms C0, C2_src, C2_rcv, C2_both",
+  "M64": "diag92.local_matrices (quad87 dense frozen-ER bin matrices)",
+  "renderer": "pt86 (WL86) path tracer and ECRO lookup renderer; the only change is the material lookup at a surface hit (see texture.interface)",
+  "masks": "WL86 E2 masks (geometry / visibility only; unchanged by albedo)"
+ },
+ "scene": "E2 T1 (WL86 edit E2, light set as recorded in the fixture)",
+ "texture": {
+  "surface": "back wall (rectangle index 2, y = 2 m, normal -y; 16 x 12 patches of exactly 25 cm x 25 cm)",
+  "pattern": "patch-aligned checkerboard: patch (iu, iv) of the back wall gets material a if (iu + iv) is even, else b; one checker cell = one patch, so cell boundaries are patch boundaries",
+  "interface": "the texture is a per-patch MATERIAL-ID map PMAT. (i) learned ECRO: its only material input is mat_states[PMAT[patch]] (model86.factors), so it sees the per-patch state; (ii) M64: Mn = Mq[PMAT[patch]]; (iii) physical reference / LOW / ECRO renderer: at a back-wall hit the material id is PMAT[patch_bin(hit)] instead of the per-shape id (one inserted lookup in pt86.Ctx.trace, applied by source patch at run time; pt86.py itself is not edited)",
+  "variants": {
+   "ck38": "a = id 6 = Lambert 0.3, b = id 7 = Lambert 0.8; new rows built with the WL86 lambert_state constructor (reproduced bit-exactly on ids 3-5) and appended to the material table of the renderer and to the model's mat_states buffer (learned weights untouched). Albedos lie outside the Lambert range seen in training (0.5-0.7) -> MATERIAL-DISTRIBUTION TEST",
+   "ck75": "a = id 3 (walls, 0.7), b = id 4 (box A, 0.5): existing training-vocabulary states, new spatial distribution (box material on wall patches) -> MATERIAL-DISTRIBUTION TEST",
+   "none": "patched code path with the checker off (identity control only, not rendered at full budget)"
+  },
+  "M64_new_rows": "Mq rows for ids 6 / 7 = Mq[3] x (albedo / 0.7), admissible only if test T_mq shows the Lambert rows are exactly proportional to albedo"
+ },
+ "preflight_tests_stop_on_failure": {
+  "T_state": "lambert_state(0.7 / 0.5 / 0.6) == mats86 states rows 3 / 4 / 5 bit-exactly",
+  "T_buffer": "each checkpoint's mat_states == mats86 states bit-exactly before extension; first 6 rows unchanged after extension",
+  "T_mq": "max |Mq[4] / 0.5 - Mq[3] / 0.7| and |Mq[5] / 0.6 - Mq[3] / 0.7| <= 1e-5 x max |Mq[3] / 0.7|",
+  "T_closure": "DrClosure83 on ids 3 / 6 / 7: eval(6) / 0.3 = eval(3) / 0.7 = eval(7) / 0.8 (rel <= 1e-5); sampled directions identical; sample weights = albedo (rel <= 1e-5)",
+  "T_identity": "variant none: patched renderer output == original renderer output bit-exactly (cam mode reference, ecro mode with a WL93D table; 128 x 128, 8 spp)",
+  "T_tables": "variant none: B tables == WL93D I_E2_T1 tables for own s8601 / s8602 and arms C0, C2_src, C2_rcv, C2_both (max abs diff <= 1e-6 x max |B|)",
+  "T_corr": "ck38 G-buffer: material id at every back-wall pixel == analytic checker from the hit position (pixels within 1 mm of a cell boundary excluded); mismatch fraction 0",
+  "T_e2e": "kmax = 1 render, common random numbers, original renderer (untextured) vs patched (ck38): textured / untextured e1 at lit back-wall pixels == albedo / 0.7 per cell (rel <= 1e-4)",
+  "T_aware": "ck38 and ck75 change the model's per-patch material input on exactly the back-wall patches whose id changed and nowhere else"
+ },
+ "visibility_check": {
+  "rule": "geometry only: camera rays hitting the panel (E2 T1), ideal mirror reflection about the panel normal, first hit; VISIBLE if >= 25 % of camera-visible panel pixels reflect the back wall and >= 2 cells of each parity are hit",
+  "preview": "64-spp reference preview of untextured / ck38 / ck75 (presentation only)",
+  "stop": "NOT VISIBLE -> stop (making the reflection visible would require changing the transport / scene)"
+ },
+ "renders": {
+  "reference": "REF-ER, 4 realizations x 8,192 spp per variant, seeds 86100-86103 = the seeds of the WL86 untextured E2 T1 references r0-r3 (common random numbers: Lambert sampling and lobe choice do not depend on albedo, so paths are identical and only weights change)",
+  "arms": "own s8601 / s8602 x C0, C2_src, C2_rcv, C2_both, 2 realizations x 4,096 spp, seeds 86600 / 86601 = the seeds of the WL93D untextured arm renders (common random numbers)"
+ },
+ "outputs": {
+  "sheet": "per variant and seed: full frames (reference LOW + arm higher-order term), higher-order term only, panel close-ups with ROI contours, signed reference-relative higher-order difference (shared absolute scale), texture response textured - untextured of the higher-order term (shared absolute scale); one exposure keyed to the untextured reference median",
+  "numbers": "descriptive only: region E_H (WL86 definition) in C, obj_panel, ROI_W (panel pixels whose mirror ray hits the back wall), back wall direct; texture-response slope / correlation / relative error vs the reference in ROI_W and on the back wall; reference half-split noise",
+  "labels": "none. No verdict, gate or label is computed; the frozen WL93D labels are unchanged"
+ },
+ "not_done": "no training, no checkpoint / operator change, no new transport mechanism, no image-space pattern, no protocol / verdict change of WL93D, no full-scale evaluation, no WL94"
+}
