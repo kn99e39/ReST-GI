@@ -25,7 +25,7 @@ pool() {
 }
 run() { local n=$1; shift; pool 1 "$n" "$*"; }
 gpu() { nvidia-smi --query-gpu=utilization.gpu,memory.used --format=csv,noheader >> "$O/logs/gpu.txt"; }
-( while true; do gpu; sleep 20; done ) & GP=$!
+( while true; do gpu; sleep 20; done ) & GP=$!; disown $GP          # not a job of this shell (pool counts jobs)
 trap 'kill $GP 2>/dev/null' EXIT
 cd "$CODE" || exit 1
 log "CHAIN_START dev=$DEV commit=$(cat $R/code/COMMIT 2>/dev/null) R86=$R86 R92A=$R92A R93A=$R93A R93D=$R93D"

@@ -220,13 +220,17 @@ def pre(R, R86, R92A, R93A, R93D):
     res_t = {}
     for mode in ('cam', 'ecro'):
         outs = []
-        for tr in (_INST['orig_trace'], _INST['patched_trace']):
+        for tr in (_INST['orig_trace'], _INST['orig_trace'], _INST['patched_trace']):      # orig twice: float-atomic accumulation floor
             PT.Ctx.trace = tr
             acc, _ = cn.render(lt, 'ER', cam, 128, 8, 93901, mode, B=Bt if mode == 'ecro' else None, b=8)
             outs.append(acc)
         PT.Ctx.trace = _INST['patched_trace']
-        res_t[mode] = bool(sorted(outs[0]) == sorted(outs[1]) and all(np.array_equal(outs[0][k], outs[1][k]) for k in outs[0]))
-    T['T_identity'] = {'pass': all(res_t.values()), **res_t}
+        rel = lambda x, y: max(float(np.abs(x[k] - y[k]).max() / max(np.abs(x[k]).max(), 1e-30)) for k in x)
+        same_keys = sorted(outs[0]) == sorted(outs[2])
+        res_t[mode] = {'keys_equal': same_keys, 'orig_vs_orig_rel': rel(outs[0], outs[1]), 'orig_vs_patched_rel': rel(outs[0], outs[2]) if same_keys else None}
+        res_t[mode]['pass'] = bool(same_keys and res_t[mode]['orig_vs_patched_rel'] <= 1e-5)
+    T['T_identity'] = {'pass': all(v['pass'] for v in res_t.values()), **res_t,
+                       'note': 'bit-exact comparison is not possible: pt86.accum sums samples with float atomics (scatter_reduce), whose order varies between runs; tolerance rel 1e-5 (amended after the dev smoke, before any full-budget render)'}
     # T_tables (variant none: per-shape materials, original renderer path is irrelevant for tables)
     tn, inp_n = tables_of(R92A, R93A, cn, lt, S, mq_ext(Mq))
     dt = {k: float(np.abs(tn[k] - I[k]).max() / max(np.abs(I[k]).max(), 1e-30)) for k in tn}
@@ -264,11 +268,19 @@ def pre(R, R86, R92A, R93A, R93D):
     PT.Ctx.trace = _INST['patched_trace']
     a1, _ = ctx.render(lt, 'ER', cam, res, 4, 93902, 'cam', kmax=1, b=4)
     e0 = sum(a0[f'e1{c}'] for c in range(3)); e1 = sum(a1[f'e1{c}'] for c in range(3))
-    lit = sel_j & (e0 > 1e-6 * max(e0.max(), 1e-30))
+    wg = wn.reshape(res, res)
+    er_ = wg.copy()
+    for dy in (-1, 0, 1):
+        for dx in (-1, 0, 1):
+            er_ &= np.roll(np.roll(wg, dy, 0), dx, 1)
+    er_[0, :] = er_[-1, :] = er_[:, 0] = er_[:, -1] = False             # 3 x 3 neighbourhood all back wall: no silhouette pixels
+    lit = sel_j & er_.ravel() & (e0 > 1e-6 * max(e0.max(), 1e-30))
     ratio = e1[lit] / e0[lit]
     expr = np.vectorize(lambda m: ALB[int(m)] / 0.7)(exp[lit])
     er = float(np.abs(ratio - expr).max()) if lit.any() else 1.0
-    T['T_e2e'] = {'pass': er <= 1e-4 and int(lit.sum()) > 500, 'lit_pixels': int(lit.sum()), 'ratio_abs_err_max': er}
+    T['T_e2e'] = {'pass': er <= 1e-4 and int(lit.sum()) > 500, 'lit_pixels': int(lit.sum()), 'ratio_abs_err_max': er,
+                  'ratio_abs_err_p50': float(np.median(np.abs(ratio - expr))) if lit.any() else None,
+                  'note': 'pixels whose 3 x 3 neighbourhood is not entirely back wall are excluded (jittered samples of silhouette pixels hit other objects; amended after the dev smoke, before any full-budget render)'}
     # T_aware: model inputs change exactly on the back-wall patches whose id changed
     _, inp_c = tables_of(R92A, R93A, ctx, lt, S, mq_ext(Mq))     # ck38 tables (also used below as a smoke of the table path)
     chg = np.zeros(ctx.N, bool)

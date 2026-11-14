@@ -45,5 +45,11 @@
   "numbers": "descriptive only: region E_H (WL86 definition) in C, obj_panel, ROI_W (panel pixels whose mirror ray hits the back wall), back wall direct; texture-response slope / correlation / relative error vs the reference in ROI_W and on the back wall; reference half-split noise",
   "labels": "none. No verdict, gate or label is computed; the frozen WL93D labels are unchanged"
  },
- "not_done": "no training, no checkpoint / operator change, no new transport mechanism, no image-space pattern, no protocol / verdict change of WL93D, no full-scale evaluation, no WL94"
+ "not_done": "no training, no checkpoint / operator change, no new transport mechanism, no image-space pattern, no protocol / verdict change of WL93D, no full-scale evaluation, no WL94",
+ "amendments_before_full_budget": [
+  "A1 (after the dev smoke at 32 spp, before any full-budget render): T_identity compares with tolerance rel <= 1e-5 instead of bit-exactly, because pt86.accum sums samples with float atomics whose order varies between runs (measured orig-vs-orig floor 1.4e-7, equal to orig-vs-patched)",
+  "A2 (same time): T_e2e excludes pixels whose 3 x 3 G-buffer neighbourhood is not entirely back wall (jittered samples of silhouette pixels hit other objects; the failing pixels gave ratio 1.0)",
+  "A3 (same time, presentation only): the shared scale of the texture-response maps is the max over panel pixels (the directly seen wall saturates); figure titles shortened",
+  "chain fix: the GPU sampler loop is disowned (it was counted by the job pool and blocked the first dev launch)"
+ ]
 }

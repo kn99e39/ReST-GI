@@ -135,7 +135,7 @@ def main(R, R86, R93D, out):
         ax[0, j].imshow(tm(tot, key)); ax[0, j].set_title(lab + '\nfull frame', fontsize=8)
         ax[1, j].imshow(tm(tot[sl], key)); ax[1, j].contour(M['ROI_W'][sl], levels=[0.5], colors='c', linewidths=0.6)
         ax[1, j].contour(M['C'][sl], levels=[0.5], colors='y', linewidths=0.5)
-        ax[1, j].set_title('panel close-up (cyan: ROI_W = panel pixels whose mirror ray hits the back wall; yellow: region C)', fontsize=7)
+        ax[1, j].set_title('panel close-up\ncyan: ROI_W (mirror ray hits back wall)\nyellow: region C', fontsize=7)
         ax[2, j].imshow(tm(d['h'].mean(0)[sl], keyh)); ax[2, j].set_title('panel close-up, higher-order term only (events >= 3)', fontsize=8)
     for a_ in ax.ravel():
         a_.set_xticks([]); a_.set_yticks([])
@@ -154,9 +154,9 @@ def main(R, R86, R93D, out):
                     continue
                 err_max = max(err_max, float(np.abs(lum(xt.mean(0) - h)).max()))
                 if xu is not None:
-                    dif_max = max(dif_max, float(np.abs(lum(xt.mean(0) - xu.mean(0))[sl]).max()))
-        dif_max = max(dif_max, float(np.abs(lum(h - h_u)[sl]).max()))
-    num['scales'] = {'higher_order_error_max_abs': err_max, 'texture_response_max_abs_panel_crop': dif_max}
+                    dif_max = max(dif_max, float(np.abs(lum(xt.mean(0) - xu.mean(0))[M['obj_panel']]).max()))
+        dif_max = max(dif_max, float(np.abs(lum(h - h_u)[M['obj_panel']]).max()))
+    num['scales'] = {'higher_order_error_max_abs': err_max, 'texture_response_max_abs_panel_pixels': dif_max}
     json.dump(num, open(os.path.join(out, 'metrics_checker93d.json'), 'w'), indent=1)
     # ------------------------------------------------------------------ fig 1: comparison sheets
     for v, vlab in VARS:
@@ -185,13 +185,13 @@ def main(R, R86, R93D, out):
                 ax[4, j].imshow(sq(lum(err)[sl], err_max), cmap='RdBu_r', vmin=-1, vmax=1); ax[4, j].contour(M['ROI_W'][sl], levels=[0.5], colors='k', linewidths=0.5)
                 ax[4, j].set_title('same, panel close-up', fontsize=7)
                 im2 = ax[5, j].imshow(sq(lum(dresp)[sl], dif_max), cmap='PuOr_r', vmin=-1, vmax=1); ax[5, j].contour(M['ROI_W'][sl], levels=[0.5], colors='k', linewidths=0.5)
-                ax[5, j].set_title('texture response of the higher-order term\n(textured - untextured, common random numbers), close-up', fontsize=7)
+                ax[5, j].set_title('texture response of the higher-order term\n(textured - untextured, CRN), close-up', fontsize=7)
             for a_ in ax.ravel():
                 a_.set_xticks([]); a_.set_yticks([])
             for row, (imx, vm) in ((3, (im, err_max)), (5, (im2, dif_max))):
                 cb = fig.colorbar(imx, ax=list(ax[row]), fraction=0.02, pad=0.01)
                 tk = np.array([-1, -0.5, -0.25, 0, 0.25, 0.5, 1]); cb.set_ticks(tk); cb.set_ticklabels([f'{np.sign(t) * t * t * vm:.3g}' for t in tk])
-                cb.set_label('radiance (signed sqrt scale, shared over the addendum)', fontsize=7)
+                cb.set_label('radiance (signed sqrt; shared over the addendum' + ('; set by panel pixels, wall saturates)' if row == 5 else ')'), fontsize=7)
             fig.suptitle(f'WL93D checkerboard addendum (POST HOC, QUALITATIVE; material-distribution test), E2 T1, {vlab}, WL92A own s{sd} (frozen). '
                          f'Full frame = textured reference LOW (events 1-2, identical for all arms) + each arm\'s higher-order term (2 x 4,096 spp). '
                          f'One exposure for the whole addendum; error and response maps on one absolute scale each.', fontsize=9, wrap=True)
