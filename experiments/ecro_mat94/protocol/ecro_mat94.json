@@ -1,0 +1,193 @@
+{
+ "protocol": "ecro_mat94",
+ "version": 1,
+ "title": "WL94 - ECRO material generalization vs. sharp angular representation: controlled attribution and conditional small-scale training",
+ "brief": "user brief 'WL94 - ECRO Material Generalization vs. Sharp Angular Representation, Controlled Attribution and Conditional Small-Scale Training' (2026-11-14)",
+ "batch_class": "named WL94 by the brief (regular number). Disclosed: under the 2026-11-13 numbering policy it could also be read as a suffix of WL93D (dependent follow-up of the checkerboard addendum); the owner decides, the agent does not renumber.",
+ "hypotheses": {
+  "H-M": "material-scene entanglement: the existing ECRO architecture could represent the required material response, but its training distribution tied material identity to object / patch context",
+  "H-A": "angular representation limitation: even with adequately learned material response, the existing operator cannot reproduce the directional structure required for sharp interreflection"
+ },
+ "implementation_facts_audited_before_design": [
+  "WL86 training materials are fixed per object for every training item: floor B (id 0), panel S1 (1), sphere S2 (2), walls + ceiling Lambert 0.7 (3), box A Lambert 0.5 (4), box B Lambert 0.6 (5). The model's only material input is the 69-d frozen state vector mat_states[PMAT[patch]] through mat_mlp; ids 3 / 4 / 5 differ only in the three albedo entries.",
+  "ECRO render mode: at the camera vertex x1 the renderer is exact (e1, e2); the higher-order term is hl = throughput(x1) * B[patch(x2), bin(x2 -> x1)]. In the sharp-panel reflection ROI the reflected checker amplitude is therefore set by the learned table B at the LAMBERT box patches read in the bins that face the panel; the panel's sharp lobe enters the model through the panel's learned SENDER (source) use, which delivers light to the box, and through the global term.",
+  "B = S + G with S = a (c . E1) the single learned flight (E1 = flight of the learned once-scattered table Bq = a (c . s)) and G the learned low-rank global term. WL92A OWN supervises S with the exactly-2-event field (e2_p + e2_o) and G with the 3..5-event field (e3_p + e3_o) (pt86a.field_src split; e2_p = last sender on the panel).",
+  "pt86a.field_src has its own transport loop with the per-shape material lookup mid = SMAT[sid]; per-patch materials therefore need the same one-line run-time patch there as in pt86.Ctx.trace (WL93D addendum). At k = 1 of field_src, when the hit lies on the probe patch's own shape it is the probe point of patch pid0, so its material is PMAT[pid0] (hits on another shape within 1 mm, i.e. contacts, keep the original lookup so the default map stays identical to the original); re-deriving the cell with patch_bin rounded a few probe points to the neighbouring checker cell (dev preflight: 6 of 10,368 box-A cells, abs share 1e-5) - fixed before the freeze."
+ ],
+ "linearity_audit": {
+  "S_reference_at_box_patch": "exactly proportional to the receiver albedo with common random numbers: box A is convex, so no exactly-2-event path at a box-A point has another box-A vertex, and the Lambert closure's sample weight and eval scale with albedo with identical directions (T_FIELD_E2 tests this to rel 1e-4)",
+  "G_reference_at_box_patch": "NOT proportional: 3..5-event paths can revisit box A (e.g. box -> panel -> box), so the incident higher-order field depends on the whole box material distribution; measured directly from references, never imposed",
+  "model_S_at_box_patch": "E1 at a box-A patch is gathered from other objects only (convexity), so the physically correct S response equals the reference S response; exact receiver M64 (C2_rcv) reproduces it by construction",
+  "model_G": "learned nonlocal term; its target response is the measured G-reference response",
+  "rendered_ROI_h": "throughput(panel) * B_box(panel-facing bins) plus other x2; reference response measured from renders",
+  "box_as_sender": "patches other than box A respond to the box material through the box's learned source use and the global term (measured against references; split S1-panel receivers vs Lambert / floor receivers)"
+ },
+ "inputs": {
+  "frozen_models": "WL92A own_s8601 / own_s8602 (~/rest_x92a/results/models), file sha256 checked against ~/rest_x92b/results/repro.json",
+  "scene": "experiments/ecro_local93d/addendum_checker/scene_ck2.json (WL93D addendum rev. 2, unchanged; sha256 recorded)",
+  "reused_references": "addendum REF_ER_CK_{none,bx38,bx75}_CK2_T1_r{0..3} (4 x 8,192 spp, seeds 86100 + r) from ~/rest_x93d_ck2, copied with sha256; reuse is valid only if T_REF_REPRO passes",
+  "wl86_data": "~/rest_ecro86/data/{train,val} (geometries, lights, source encodings, state rays); WL92A exclusion ~/rest_x92a/results/exclusion.json",
+  "wl93d_tables": "~/rest_x93d/results/tables/I_E2_T1.npz (T_TABLES_REPRO)",
+  "addendum_tables": "~/rest_x93d_ck2/results/tables/CK_{none,bx38,bx75}_CK2_T1.npz (T_CK_REPRO)"
+ },
+ "materials": {
+  "frozen_ids": "0..5 as WL86",
+  "appended_lambert_ids": {
+   "6": 0.3,
+   "7": 0.8,
+   "8": 0.2,
+   "9": 0.4,
+   "10": 0.9
+  },
+  "constructor": "WL86 mats86.lambert_state(albedo) (T_STATE: reproduces ids 3 / 4 / 5 bit-exactly)",
+  "model": "appended to the mat_states BUFFER only; no parameter is added or changed (T_BUFFER)",
+  "m64": "Lambert M64 rows are exactly linear in albedo: Mq[id] = Mq[3] / 0.7 * albedo (T_MQ)"
+ },
+ "stage_A_tests": {
+  "T_CKPT": "own_s8601 / s8602 file sha256 = WL92B repro.json",
+  "T_STATE": "constructor reproduces ids 3 / 4 / 5",
+  "T_BUFFER": "extended buffer: rows 0..5 unchanged, rows 6..10 = constructor; parameter count unchanged",
+  "T_MQ": "Lambert Mq rows proportional to albedo (rel 1e-5)",
+  "T_CLOSURE": "ER closure eval and sample weight / albedo identical for ids 3, 6..10, sampled directions identical (rel 1e-5)",
+  "T_ID_TRACE": "patched Ctx.trace with the default material map = original trace (CK2 and E2 T1 untextured, 64 spp, same seed; per-pixel max |diff| <= 1e-5 x image mean, float-atomic floor)",
+  "T_ID_FIELD": "patched field_src with the default map = original field_src (CK2, 64 spp, same seed): whole-table rel L1 <= 1e-6 (dev finding: float-atomic accumulation alone gives rel L1 ~4e-8 with ~18 % of cells differing between two original runs, so the original per-cell max criterion was ill-conditioned; the original-vs-original floor is recorded)",
+  "T_FIELD_E2": "CK2 bx38 vs none field (same seed, 256 spp): exactly-2-event part at every box-A patch / albedo ratio = untextured (rel 1e-4) - the reference consumes the per-patch material",
+  "T_MODEL_INPUT": "model material input at box-A patches = mat_mlp(lambert_state(albedo of the variant)); other patches unchanged",
+  "T_TABLES_REPRO": "frozen own C0 / C2_src / C2_rcv / C2_both tables on E2 T1 (default map) = WL93D I_E2_T1 (rel 1e-5)",
+  "T_CK_REPRO": "frozen own tables on CK2 none / bx38 / bx75 = addendum tables (rel 1e-5)",
+  "T_SRCS1": "linearity of the new diagnostic arm: S(C2_srcS1) + S(C2_srcNonS1) = S(C2_src) + S(C0) (rel 1e-5)",
+  "T_REF_REPRO": "this module re-renders REF_ER_CK_bx38_CK2_T1_r0 (seed 86100, 8,192 spp) = the addendum file (per-pixel max |diff| <= 1e-4 x image mean); otherwise the addendum references are not reused (STOP_REPRO)",
+  "T_LEAK": "Stage C: no training material map contains ids 6 / 7 (0.3 / 0.8) or any within-rectangle variation; training / validation file sets disjoint; every training / validation geometry passes the CK2 exclusion rule",
+  "T_INIT": "Stage C: A and B initial state dicts identical (= frozen own_s<seed> + extended buffer)",
+  "T_ITEM_PMAT": "Stage C: the material map used by the model for each item = the map used to generate its targets (digest)"
+ },
+ "stage_B": {
+  "scene": "CK2 geometry, light LCK2 and camera of the addendum (unchanged)",
+  "variants_on_box_A_faces": {
+   "none": "default (box A id 4 = 0.5)",
+   "U07": "every box-A patch id 3 (0.7) - a training-vocabulary state (walls) on new patches",
+   "U03": "every box-A patch id 6 (0.3) - new value, uniform",
+   "bx75": "checker ids 3 / 4 (0.7 / 0.5; vocabulary values)",
+   "bx38": "checker ids 6 / 7 (0.3 / 0.8; new values)",
+   "bx38i": "inverted checker ids 7 / 6 (value histogram identical to bx38, layout permuted)"
+  },
+  "checker_rule": "(iu + iv) even -> first id, odd -> second id on every box-A face (3 x 3 patches)",
+  "references": {
+   "field": "pt86a.field_src split (e2_p, e2_o, e3_p, e3_o) with the patched material lookup, 2 halves x 4,096 spp, seeds 94301 / 94302, identical for every variant (common random numbers)",
+   "image": "REF-ER camera renders 4 x 8,192 spp, seeds 86100 + r (none / bx38 / bx75 reused from the addendum if T_REF_REPRO passes; U07 / U03 / bx38i new, same seeds)"
+  },
+  "frozen_arms": {
+   "C0": "deployed",
+   "C2_src": "frozen-ER M64 at every source use",
+   "C2_rcv": "M64 at every receiver use",
+   "C2_both": "M64 at both",
+   "C2_srcS1": "NEW diagnostic restriction: M64 source use on S1 panel patches only, learned elsewhere (isolates the sharp sender)",
+   "global_term": "deployed factors in every arm (as WL93D)",
+   "renders": "2 x 4,096 spp, seeds 86600 + r, every variant, both seeds, all five arms (ECRO lookup mode)"
+  },
+  "patch_sets": {
+   "T": "54 box-A patches",
+   "T_panel_face": "box-A face rect 6 (outward normal -x, facing the panel)",
+   "T_other_faces": "box-A rects 7..11",
+   "panel_facing_bins": "at a box-A patch, outgoing bins whose state rays hit S1 panel patches in >= half of their kappa rays (geometry only)",
+   "Q_receivers": "patches not on box A whose reference exitance log-response to the variant exceeds 4 x its half-split noise; split into S1 panel patches (sharp receivers) and Lambert / floor / sphere patches (non-sharp receivers)"
+  },
+  "image_regions": {
+   "ROI_T": "addendum definition: panel pixels whose ideal-mirror centre ray hits a box-A patch (sharp reader)",
+   "DIFF": "camera-visible floor / wall / ceiling pixels whose cosine-weighted view factor to box A (256 rays from the centre-ray hit point) is >= 0.10 (diffuse reader of the box B table); if fewer than 2,000 pixels qualify, the 5,000 pixels with the largest view factor (geometry only; fixed before any radiance)"
+  },
+  "metrics": {
+   "exitance": "per patch: sum over bins and channels of X[p, b, c] * z_b * dOmega (Lambert outgoing radiance is isotropic, so the weighting only sets the pooling)",
+   "log_response": "rho(p) = log(X_variant(p) / X_none(p)) for reference and model; components S (model arm S vs reference e2), G (model global vs reference e3), B (S + G vs total)",
+   "amplitude": "slope of rho_model on rho_ref through the origin over the patch set; for the uniform variants this is the pooled log-ratio ratio",
+   "location": "Pearson corr of rho_model and rho_ref over the patch set (checker variants)",
+   "baseline_error": "untextured: sum |X_none - F_none| / sum F_none over the patch set (also per patch-bin rel L1)",
+   "error_decomposition": "X_v - F_v = r_mod (X_none - F_none) [baseline carried] + F_none (r_mod - r_ref) [response]; both summed in absolute value and divided by sum F_v",
+   "sender_split": "model S of C0 split by the sender group (S1 panel vs other) through the linear flight; compared with e2_p and e2_o",
+   "direction_split": "per patch-bin rel L1 of B in panel-facing bins vs other bins at box-A patches (untextured and textured) and the per-bin-group amplitude",
+   "image": "E_H per region (addendum definition, noise bound from half splits); texture response slope / corr / rel error of (textured - untextured) hl vs reference h, with the reference half-split noise"
+  },
+  "noise_rules": {
+   "table_stop": "STOP_NOISE if the median over box-A patches of |rho_ref| / (half-split noise of rho_ref) is < 4 for any checker variant",
+   "image": "an image texture response whose reference half-split rel noise exceeds 1/3 is reported as noise-limited (not a stop)"
+  },
+  "gate_to_stage_C": {
+   "rule": "RUN_C iff all Stage A tests pass AND no STOP AND NOT MR_frozen",
+   "MR_frozen": "frozen own C0, both seeds, table level over T, component B: amplitude in [0.85, 1.15] for every textured variant AND location corr >= 0.9 for bx75 / bx38 / bx38i",
+   "if_MR_frozen": "Stage C is skipped and H-M is WEAKENED by frozen evidence (material response already correct)"
+  },
+  "SSR_frozen": "sharp-specific residual (H-A input), untextured CK2 ROI_T, for EACH seed: E_H(C0) - E_H(C2_srcS1) >= max(2 x noise bound, 0.005) AND that difference / E_H(C0) >= 0.30. The untextured scene uses only training-vocabulary materials in their training contexts, so this residual cannot come from material generalization."
+ },
+ "stage_C": {
+  "init": "both candidates start from the frozen WL92A own_s<seed> state dict + the extended material buffer (WL93A-C smoke lineage; the candidates then answer whether disentangling changes the OBSERVED operator's under-response). Disclosed consequence: a null result for B is qualified by the entangled initial solution.",
+  "candidates": {
+   "A": "original fixed material-object assignment (default map)",
+   "B": "controlled material-diverse assignment: for every training geometry, each Lambert rectangle (ceiling + 3 walls = rects 1..4, box A faces 6..11, box B faces 12..17) gets ONE albedo drawn uniformly from V_train = {0.2, 0.4, 0.5, 0.6, 0.7, 0.9} (ids 8, 9, 4, 5, 3, 10) with rng(94100 + file index); floor B, panel S1 and sphere S2 keep their materials"
+  },
+  "holdouts": "values 0.3 / 0.8 never occur in training (A or B); within-rectangle patterns (checkers) never occur in training; the CK2 geometry and light are excluded by margin; validation geometries are WL86 validation files",
+  "training_population": "the first 96 WL86 train files (sorted) kept by the WL92A exclusion AND the CK2 rule (a box centre within 0.15 m of the same CK2 box, or any light within 0.3 m of the CK2 light, is excluded); identical for A and B",
+  "targets": "pt86a.field_src split with the patched material lookup, 256 spp, one realization, seed 940000000 + 16 * file index + light index, identical for A and B (common random numbers); f = sum of the four parts, f2 = e2_p + e2_o",
+  "objective": "WL92A OWN: SUM + L_single(f2) + L_global(f - f2), WL86 denominator",
+  "schedule": "2,000 steps, Adam lr 3e-4, warm-up 200, cosine to 1e-5, gradient clip 10, one geometry (4 lightings) per step, data order rng(seed + 94) identical for A and B, all parameters trainable",
+  "budget": "per candidate 2,000 steps = 8.3 % of the 24,000-step WL86 / WL92A run and 96 target geometries = 9.4 % of the 1,024-geometry population (hard cap 10 %); no extension if optimisation fails",
+  "seeds": "seed 8601 pair first; the seed 8602 pair runs iff FIT(8601) AND (MR_C(8601) OR SR_C(8601)) (a positive result is replicated; a null result is not decision-relevant to replicate)",
+  "validation": {
+   "V_orig": "first 24 WL86 val files kept by both rules, default materials, 2 halves x 512 spp, seeds 941000000 + 16 * index + light (+ 8 for half b)",
+   "V_ck": "the same 24 geometries and seeds with a held-out layout: every Lambert rectangle carries a per-patch 0.3 / 0.8 checker with phase from rng(94200 + file index)"
+  },
+  "fit_validity": {
+   "F1": "no non-finite step",
+   "F2": "V_orig whole-field rel L1 <= 1.10 x that of the initial own_s<seed> (same targets), for A and B",
+   "F3": "mean L_sum of the last 200 steps <= 1.5 x that of the first 200 steps, for A and B",
+   "FIT": "F1 AND F2 AND F3 for both candidates of the pair, else INCONCLUSIVE_SMOKE_FIT"
+  },
+  "evaluation": {
+   "CK2_tables": "Stage B metrics for A and B (arms C0, C2_rcv, C2_srcS1)",
+   "V_ck_population": "per-patch exitance log-response (V_ck vs V_orig) amplitude / corr over Lambert patches and over S1 panel patches whose reference |rho| > 4 x noise; V_orig / V_ck rel L1 of B, S, G",
+   "CK2_renders": "every variant, arms C0 and C2_srcS1, 2 x 4,096 spp, seeds 86600 + r"
+  },
+  "MR_C": "for EACH of bx38, bx38i, U03 (table level, T, component B, arm C0): |1 - a_B| <= 0.5 |1 - a_A| AND |1 - a_A| - |1 - a_B| >= 0.15; AND on V_ck Lambert patches |1 - a_B| < |1 - a_A|",
+  "SR_C": "ROI_T image E_H (arm C0) for bx38 AND bx38i: E_H_B <= 0.8 E_H_A AND E_H_A - E_H_B >= max(2 x noise bound, 0.005)",
+  "SSR_C": "candidate B, untextured ROI_T: E_H(C0) - E_H(C2_srcS1) >= max(2 x noise bound, 0.005) AND share >= 0.30"
+ },
+ "labels": {
+  "H-M": {
+   "SUPPORTED": "FIT AND MR_C (every run pair); SR_C additionally states whether the sharp textured error is substantially reduced",
+   "WEAKENED": "MR_frozen (Stage C skipped), OR FIT AND NOT MR_C with |1 - a_A| - |1 - a_B| < 0.05 for every one of bx38, bx38i, U03 (diversification gives no material-response improvement at smoke scale; not a representation statement)",
+   "INCONCLUSIVE": "otherwise (including INCONCLUSIVE_SMOKE_FIT, mixed variants or seeds)"
+  },
+  "H-A": {
+   "SUPPORTED": "SSR_frozen for both seeds AND (if Stage C ran with FIT AND MR_C) SSR_C",
+   "WEAKENED": "SSR_frozen fails for both seeds, OR (FIT AND MR_C AND SR_C AND NOT SSR_C)",
+   "INCONCLUSIVE": "otherwise"
+  },
+  "qualifier": "H-A SUPPORTED means a directional (sharp-sender) deficit of the TRAINED operator that is present with in-distribution materials and persists independently of material-response correction; it is not a representation-class proof (WL92's representability control remains INCONCLUSIVE and no capacity is changed here)"
+ },
+ "stops": [
+  "STOP_CONTRACT (any Stage A test fails)",
+  "STOP_NOISE",
+  "STOP_LEAK (T_LEAK)",
+  "STOP_REPRO (T_TABLES_REPRO, T_CK_REPRO or T_REF_REPRO fails, or T_CKPT)",
+  "INCONCLUSIVE_SMOKE_FIT",
+  "a representation-class change would be required (not applicable by design)"
+ ],
+ "pre_freeze_exposure": "The WL93D addendum (rev. 2) already showed on CK2 that frozen own C0 compresses the table-level single-flight response at box-A patches for bx38 (S ratio 0.78-0.94 vs 0.6). The gate outcome RUN_C is therefore anticipated. No reference field, U07 / U03 / bx38i render, Stage C target or candidate output exists before the freeze. Dev and probe runs use reduced spp / a non-evidence geometry and suppress value prints. Disclosed: the dev chain (~/rest_x94dev, 32 spp references / renders, 60-step dev candidates on 8 items, 16 spp targets) ran end to end and its figures were opened to check layout (fig0 / fig3 bx38): they show low-spp frozen-own CK2 renders of every variant and plumbing-only candidates. No dev metric value was printed or used; every criterion above was written before the dev run and is unchanged.",
+ "not_authorised": [
+  "full-scale training",
+  "IDTS / LSIT or any new architecture",
+  "capacity / rank / bin changes",
+  "parameter sweeps",
+  "scene changes after observing candidate errors",
+  "learned surrogate references",
+  "rewriting historical worklogs or the WL93D verdict",
+  "WL95 or any automatic successor"
+ ],
+ "execution": {
+  "server": "LabServer63 (RTX 3080 Ti, 12 GB), root ~/rest_x94, one detached setsid chain",
+  "probe": "full-scale timing probe on a throwaway root (values not read, root deleted): field reference 23 s (2 x 4,096 spp), REF image 69 s (8,192 spp, b = 32 kept for common random numbers with the reused addendum references), ECRO render 10 s (4,096 spp), training target ~8 s per item at 1.7 GB; single processes use 13-33 % GPU because the frozen renderer traces in Python per launch, so the chain runs references 4-wide, renders 3-wide and target generation 6-wide",
+  "dev_fixes_before_freeze": [
+   "T_ID_FIELD metric (per-cell max -> whole-table rel L1, original-vs-original floor recorded)",
+   "field_src k = 1 probe material = PMAT[pid0] when the hit is on the probe patch's shape"
+  ]
+ }
+}
