@@ -24,7 +24,8 @@ import ops93d as OP  # noqa: E402  (puts the frozen WL86 / WL92 / WL93 module di
 DEV = '--dev' in sys.argv
 TAG = 'E2_T1'
 WALL = 2                                     # rectangle index of the back wall (y = 2, 16 x 12 patches of 25 cm)
-VAR = {'none': None, 'ck38': (6, 7), 'ck75': (3, 4)}
+VAR = {'none': None, 'ck38': (6, 7), 'ck75': (3, 4), 'ck38L': (6, 7)}
+BLOCK = {'ck38L': 4}                         # A4 (post hoc): ck38L = ck38 materials with 1 m cells = 4 x 4 patches (still patch-aligned)
 NEW_ALB = {6: 0.3, 7: 0.8}
 ALB = {3: 0.7, 4: 0.5, 5: 0.6, 6: 0.3, 7: 0.8}
 SEEDS = [8601, 8602]
@@ -54,7 +55,8 @@ def new_rows():
 
 def checker_ids(variant, nu=16, nv=12):
     a, b = VAR[variant]
-    return np.array([[a if (iu + iv) % 2 == 0 else b for iu in range(nu)] for iv in range(nv)], np.int64)   # [iv, iu]
+    k = BLOCK.get(variant, 1)
+    return np.array([[a if (iu // k + iv // k) % 2 == 0 else b for iu in range(nu)] for iv in range(nv)], np.int64)   # [iv, iu]
 
 
 def install(variant):
@@ -158,10 +160,10 @@ def tables_of(R92A, R93A, ctx, lt, S, Mq):
 
 
 # ------------------------------------------------------------------------------------------------ preflight
-def pre(R, R86, R92A, R93A, R93D):
+def pre(R, R86, R92A, R93A, R93D, variant='ck38'):
     import torch
     T, V = {}, {}
-    fx92, PT, S, FX, ctx, lt = ctx_of('ck38', R)
+    fx92, PT, S, FX, ctx, lt = ctx_of(variant, R)
     dr, mi, CD = PT.dr, PT.mi, PT.CD
     U, F = PT.U, PT.F
     z = np.load(os.path.join(os.path.dirname(PT.__file__), 'data', 'mats86.npz'))
@@ -251,7 +253,7 @@ def pre(R, R86, R92A, R93A, R93D):
     inside = (iu >= 0) & (iu < 16) & (iv >= 0) & (iv < 12)
     sel = wn & ~edge & inside
     sel_j = wn & ~(dist < 0.03) & inside           # jittered renders: stay >= 3 cm (about 3 pixel footprints) away from cell boundaries
-    ids = checker_ids('ck38')
+    ids = checker_ids(variant)
     exp = ids[np.clip(iv, 0, 11), np.clip(iu, 0, 15)]
     mism = int((md[sel] != exp[sel]).sum())
     T['T_corr'] = {'pass': mism == 0 and int(sel.sum()) > 1000, 'pixels': int(sel.sum()), 'mismatch': mism, 'edge_excluded': int((wn & edge).sum())}
@@ -310,9 +312,10 @@ def pre(R, R86, R92A, R93A, R93D):
     dr.eval(w5, hw, pid2, s2.t); dr.sync_thread()
     w5n = np.asarray(w5).reshape(res, res); hwn = np.asarray(hw).reshape(res, res); p2 = np.asarray(pid2).reshape(res, res)
     cells = p2[hwn] - ctx.G.RBASE[WALL]
-    par = (cells % nu + cells // nu) % 2
+    kb = BLOCK.get(variant, 1)
+    par = ((cells % nu) // kb + (cells // nu) // kb) % 2
     uc = np.unique(cells)
-    upar = (uc % nu + uc // nu) % 2
+    upar = ((uc % nu) // kb + (uc // nu) // kb) % 2
     Mz = np.load(os.path.join(R86, 'results', 'masks', 'E2.npz'))
     Cm = Mz['C']; Pm = Mz['obj_panel']
     V = {'panel_pixels_camera': int(w5n.sum()), 'panel_pixels_reflect_back_wall': int(hwn.sum()), 'share': float(hwn.sum() / max(w5n.sum(), 1)),
@@ -322,10 +325,11 @@ def pre(R, R86, R92A, R93A, R93D):
          'obj_panel_pixels': int(Pm.sum()), 'mean_mirror_distance_m': float(np.asarray(s2.t).reshape(res, res)[hwn].mean()) if hwn.any() else None}
     V['visible'] = bool(V['share'] >= 0.25 and V['cells_even'] >= 2 and V['cells_odd'] >= 2)
     out = os.path.join(R, 'results', 'pre'); os.makedirs(out, exist_ok=True)
-    np.savez_compressed(os.path.join(out, 'masks_ck.npz'), ROI_W=hwn, panel_cam=w5n, wall_direct=wall_px, mirror_cell=np.where(hwn, p2 - ctx.G.RBASE[WALL], -1))
+    sfx = '' if variant == 'ck38' else f'_{variant}'
+    np.savez_compressed(os.path.join(out, f'masks_ck{sfx}.npz'), ROI_W=hwn, panel_cam=w5n, wall_direct=wall_px, mirror_cell=np.where(hwn, p2 - ctx.G.RBASE[WALL], -1))
     ok = all(v['pass'] for v in T.values())
     status = 'PASS' if ok and V['visible'] else ('STOP_TESTS' if not ok else 'STOP_NOT_VISIBLE')
-    jd({'status': status, 'tests': T, 'visibility': V, 'trace_patch_sha256': _INST['patch_sha']}, os.path.join(out, 'pre.json'))
+    jd({'status': status, 'variant': variant, 'tests': T, 'visibility': V, 'trace_patch_sha256': _INST['patch_sha']}, os.path.join(out, f'pre{sfx}.json'))
     print('PRE', status, json.dumps({k: v['pass'] for k, v in T.items()}), json.dumps(V), flush=True)
 
 
@@ -386,7 +390,7 @@ if __name__ == '__main__':
     a = [x for x in sys.argv[1:] if not x.startswith('--')]
     cmd = a[0]
     if cmd == 'pre':
-        pre(*a[1:6])
+        pre(*a[1:7])
     elif cmd == 'preview':
         preview(a[1], a[2], a[3], a[4])
     elif cmd == 'tables':

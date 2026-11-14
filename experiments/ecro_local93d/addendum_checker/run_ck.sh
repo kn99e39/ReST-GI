@@ -35,12 +35,16 @@ CK="$PY checker93d.py"
 run P_pre "$CK pre $R $R86 $R92A $R93A $R93D $DEV"
 PS=$(grep '^PRE' $O/logs/P_pre.log | tail -1 | cut -d' ' -f2); log "PRE $PS"
 pool 3 P_prev_none "$CK preview $R none $PSPP PREV_none" P_prev_ck38 "$CK preview $R ck38 $PSPP PREV_ck38" P_prev_ck75 "$CK preview $R ck75 $PSPP PREV_ck75"
+# A4 (post hoc, after the full 25 cm results): ck38 materials with 1 m patch-aligned cells; its own preflight (same tests, variant ck38L)
+run P_pre_ck38L "$CK pre $R $R86 $R92A $R93A $R93D ck38L $DEV"
+PL=$(grep '^PRE' $O/logs/P_pre_ck38L.log | tail -1 | cut -d' ' -f2); log "PRE_ck38L $PL"
+[ "$PL" = PASS ] || { log "STOP ck38L $PL"; log CHAIN_DONE; exit 0; }
 [ "$PS" = PASS ] || { log "STOP $PS"; log CHAIN_DONE; exit 0; }
 # ---- B tables (frozen own s8601 / s8602; arms C0, C2_src, C2_rcv, C2_both)
-pool 2 T_ck38 "$CK tables $R $R92A $R93A ck38" T_ck75 "$CK tables $R $R92A $R93A ck75"
+pool 3 T_ck38 "$CK tables $R $R92A $R93A ck38" T_ck75 "$CK tables $R $R92A $R93A ck75" T_ck38L "$CK tables $R $R92A $R93A ck38L"
 # ---- references (common random numbers with the WL86 untextured E2 T1 references r0-r3) + arm renders (CRN with WL93D)
 j=()
-for v in ck38 ck75; do
+for v in ck38 ck75 ck38L; do
   for r in $RR; do j+=(R_${v}_r$r "$CK ref $R $v $((86100+r)) $RSPP REF_ER_CK_${v}_E2_T1_r$r"); done
   L=$O/lists/a_$v.txt; : > "$L"
   for r in 0 1; do for s in 8601 8602; do for a in C0 C2_src C2_rcv C2_both; do

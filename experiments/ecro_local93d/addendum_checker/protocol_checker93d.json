@@ -51,5 +51,8 @@
   "A2 (same time): T_e2e excludes pixels whose 3 x 3 G-buffer neighbourhood is not entirely back wall (jittered samples of silhouette pixels hit other objects; the failing pixels gave ratio 1.0)",
   "A3 (same time, presentation only): the shared scale of the texture-response maps is the max over panel pixels (the directly seen wall saturates); figure titles shortened",
   "chain fix: the GPU sampler loop is disowned (it was counted by the job pool and blocked the first dev launch)"
+ ],
+ "amendments_after_full_results": [
+  "A4 (POST HOC, after inspecting the full ck38 / ck75 results): the geometric (ideal-mirror) visibility rule passed (94 % of panel pixels reflect the back wall, 7 + 7 cells), but the radiometric reflection does not resolve the 25 cm checker: in ROI_W the textured / untextured median ratio of the reference LOW is 0.84 (even cells) vs 0.85 (odd cells) for ck38, where an ideal mirror would give 0.43 / 1.14 - the S1 lobe (alpha 0.026-0.075) at about 1.8 m averages several cells. Added variant ck38L: identical materials (ids 6 / 7) and code path, cells of 4 x 4 patches = 1 m (still patch-aligned, no transport or material change), with its own preflight and the same render budget. A reflection-parity metric (median ratio per checker parity of the mirror cell in ROI_W, for reference e2 / h / LOW and each arm's hl) is added to the descriptive numbers. The 25 cm results are kept unchanged."
  ]
 }

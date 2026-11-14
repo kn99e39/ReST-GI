@@ -11,7 +11,9 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-VARS = [('ck38', 'checker 0.3 / 0.8 (new Lambert states)'), ('ck75', 'checker 0.7 / 0.5 (existing ids 3 / 4)')]
+VARS = [('ck38', 'checker 0.3 / 0.8, 25 cm cells (new Lambert states)'), ('ck75', 'checker 0.7 / 0.5, 25 cm cells (existing ids 3 / 4)'),
+        ('ck38L', 'checker 0.3 / 0.8, 1 m cells = 4 x 4 patches (post hoc A4)')]
+BLOCK = {'ck38L': 4}
 ARMS = [('C0', 'deployed (C0)'), ('C2_src', 'M64 at source use (C2_src)'), ('C2_rcv', 'M64 at receiver use (C2_rcv)'), ('C2_both', 'M64 at both uses (C2_both)')]
 SEEDS = [8601, 8602]
 RB_WALL = 512                       # first patch id of the back wall (floor 256 + ceiling 256)
@@ -90,9 +92,10 @@ def main(R, R86, R93D, out):
     key = 0.5 / float(np.median(lum(tot_u)[lum(tot_u) > 0])); keyh = 0.5 / float(np.median(lum(h_u)[lum(h_u) > 0]))
     ys, xs = np.nonzero(M['obj_panel']); pad = 20
     sl = (slice(max(ys.min() - pad, 0), ys.max() + pad), slice(max(xs.min() - pad, 0), xs.max() + pad))
-    T = {v: load_ref(R, f'REF_ER_CK_{v}_E2_T1', reps) for v, _ in VARS}
+    VARS_ = [(v, l) for v, l in VARS if glob.glob(os.path.join(R, 'results', 'renders', f'REF_ER_CK_{v}_E2_T1_r*.npz'))]
+    T = {v: load_ref(R, f'REF_ER_CK_{v}_E2_T1', reps) for v, _ in VARS_}
     AT, AU = {}, {}
-    for v, _ in VARS:
+    for v, _ in VARS_:
         for sd in SEEDS:
             for a, _ in ARMS:
                 AT[(v, sd, a)] = load_hl(R, f'CK_{v}_own_s{sd}_{a}_E2_T1')
@@ -101,12 +104,18 @@ def main(R, R86, R93D, out):
             AU[(sd, a)] = load_hl(R93D, f'I93D_own_s{sd}_{a}_E2_T1')
     # ------------------------------------------------------------------ numbers
     num = {'exposure_key_untextured_median': key, 'reference_realizations': reps, 'regions': {k: int(m.sum()) for k, m in M.items()}, 'variants': {}}
-    for v, _ in VARS:
+    for v, _ in VARS_:
         tv = T[v]; tot = tv['tot'].mean(0); h = tv['h'].mean(0)
         dref = h - h_u
         n = len(reps); dA = tv['h'][:n // 2].mean(0) - U['h'][:n // 2].mean(0); dB = tv['h'][n // 2:].mean(0) - U['h'][n // 2:].mean(0)
         low_chg = {k: float(np.abs(lum((tot - h) - (tot_u - h_u)))[m].sum() / max(lum(tot_u - h_u)[m].sum(), 1e-30)) for k, m in M.items()}
-        V = {'LOW_change_rel_L1_vs_untextured': low_chg, 'H_change_rel_L1_vs_untextured': {k: float(np.abs(lum(dref))[m].sum() / max(lum(h_u)[m].sum(), 1e-30)) for k, m in M.items()},
+        kb = BLOCK.get(v, 1); cm = cell_mirror; parm = np.where(cm >= 0, ((cm % 16) // kb + (cm // 16) // kb) % 2, -1)
+        roi = M['ROI_W']
+        pr = lambda xt, xu: {f'{nm}': float(np.median((lum(xt) / np.maximum(lum(xu), 1e-12))[roi & (parm == q)])) for q, nm in ((0, 'even'), (1, 'odd'))}
+        parity = {'REF_e2': pr(tv['e2'].mean(0), U['e2'].mean(0)), 'REF_h': pr(h, h_u), 'REF_LOW': pr(tot - h, tot_u - h_u),
+                  'ideal_mirror_albedo_ratio': {'even': 0.3 / 0.7 if v != 'ck75' else 1.0, 'odd': 0.8 / 0.7 if v != 'ck75' else 0.5 / 0.7}}
+        V = {'reflection_parity_ratio_ROI_W (textured / untextured, median per checker parity of the mirror cell)': parity,
+             'LOW_change_rel_L1_vs_untextured': low_chg, 'H_change_rel_L1_vs_untextured': {k: float(np.abs(lum(dref))[m].sum() / max(lum(h_u)[m].sum(), 1e-30)) for k, m in M.items()},
              'arms': {}}
         for sd in SEEDS:
             for a, _ in ARMS:
@@ -114,6 +123,7 @@ def main(R, R86, R93D, out):
                 if xt is None or xu is None:
                     continue
                 darm = xt.mean(0) - xu.mean(0)
+                parity[f's{sd}:{a}_hl'] = pr(xt.mean(0), xu.mean(0))
                 r = {'E_H_textured': {k: eh(tv['h'], xt, tot, m) for k, m in M.items()},
                      'E_H_untextured_same_pixels': {k: eh(U['h'], xu, tot_u, m) for k, m in M.items()},
                      'texture_response': {'ROI_W': response(dref, darm, M['ROI_W'], cell_mirror, dA, dB),
@@ -128,8 +138,8 @@ def main(R, R86, R93D, out):
     json.dump(num, open(os.path.join(out, 'metrics_checker93d.json'), 'w'), indent=1)
     made = ['metrics_checker93d.json']
     # ------------------------------------------------------------------ fig 0: the scene (references, LOW, mirror ROI)
-    fig, ax = plt.subplots(3, 3, figsize=(12, 12))
-    cols = [('untextured reference (WL86 REF-ER)', U)] + [(lab + '\nreference (REF-ER)', T[v]) for v, lab in VARS]
+    fig, ax = plt.subplots(3, len(VARS_) + 1, figsize=(4 * (len(VARS_) + 1), 12))
+    cols = [('untextured reference (WL86 REF-ER)', U)] + [(lab + '\nreference (REF-ER)', T[v]) for v, lab in VARS_]
     for j, (lab, d) in enumerate(cols):
         tot = d['tot'].mean(0); low = tot - d['h'].mean(0)
         ax[0, j].imshow(tm(tot, key)); ax[0, j].set_title(lab + '\nfull frame', fontsize=8)
@@ -145,7 +155,7 @@ def main(R, R86, R93D, out):
     fn = 'figCK0_scene_references.png'; fig.savefig(os.path.join(out, fn), dpi=110, bbox_inches='tight'); plt.close(fig); made.append(fn)
     # ------------------------------------------------------------------ shared absolute scales
     err_max, dif_max = 0.0, 0.0
-    for v, _ in VARS:
+    for v, _ in VARS_:
         h = T[v]['h'].mean(0)
         for sd in SEEDS:
             for a, _ in ARMS:
@@ -159,7 +169,7 @@ def main(R, R86, R93D, out):
     num['scales'] = {'higher_order_error_max_abs': err_max, 'texture_response_max_abs_panel_pixels': dif_max}
     json.dump(num, open(os.path.join(out, 'metrics_checker93d.json'), 'w'), indent=1)
     # ------------------------------------------------------------------ fig 1: comparison sheets
-    for v, vlab in VARS:
+    for v, vlab in VARS_:
         tv = T[v]; tot = tv['tot'].mean(0); h = tv['h'].mean(0); low = tot - h; n = len(reps)
         for sd in SEEDS:
             cols = [('reference (REF-ER)', None)] + [(lab, a) for a, lab in ARMS if AT[(v, sd, a)] is not None]
@@ -197,9 +207,9 @@ def main(R, R86, R93D, out):
                          f'One exposure for the whole addendum; error and response maps on one absolute scale each.', fontsize=9, wrap=True)
             fn = f'figCK1_{v}_own_s{sd}_sheet.png'; fig.savefig(os.path.join(out, fn), dpi=100, bbox_inches='tight'); plt.close(fig); made.append(fn)
     # ------------------------------------------------------------------ fig 2: per-cell texture response
-    fig, ax = plt.subplots(2, 2, figsize=(11, 10))
+    fig, ax = plt.subplots(len(VARS_), 2, figsize=(11, 5 * len(VARS_)))
     mk = {'C0': 'o', 'C2_src': 's', 'C2_rcv': '^', 'C2_both': 'D'}
-    for i, (v, vlab) in enumerate(VARS):
+    for i, (v, vlab) in enumerate(VARS_):
         for j, reg in enumerate(('ROI_W', 'wall_direct')):
             a_ = ax[i, j]; lim = 0.0
             for sd, col in zip(SEEDS, ('tab:blue', 'tab:orange')):
