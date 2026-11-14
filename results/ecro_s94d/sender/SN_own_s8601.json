@@ -1,0 +1,39 @@
+{
+ "spec": "own:8601",
+ "train": {
+  "rel_l1_flux": 0.7955366395268214,
+  "energy_ratio": 0.9270282920239931,
+  "peak_ratio": 0.28702322552056647,
+  "delivery_rel_l1": 0.5223772210621922,
+  "delivery_ratio": 0.8945928429123625,
+  "delivery_box_rel_l1": 0.34261809243544916,
+  "operator_rel_l1": {
+   "train_bins": 0.9760829462797157,
+   "heldout_bins": null
+  }
+ },
+ "val": {
+  "rel_l1_flux": 0.8779166057726097,
+  "energy_ratio": 0.8276943794857785,
+  "peak_ratio": 0.22405320260972597,
+  "delivery_rel_l1": 0.6680402476335782,
+  "delivery_ratio": 0.7885499386811098,
+  "delivery_box_rel_l1": 0.49352499349897655,
+  "operator_rel_l1": {
+   "train_bins": 0.9751170868883585,
+   "heldout_bins": null
+  }
+ },
+ "ck2": {
+  "rel_l1_flux": 1.0746492201948834,
+  "energy_ratio": 0.556687271943166,
+  "peak_ratio": 0.037789266633123715,
+  "delivery_rel_l1": 0.8796186782779956,
+  "delivery_ratio": 0.3815830677423129,
+  "delivery_box_rel_l1": 0.633824086857546,
+  "operator_rel_l1": {
+   "train_bins": 1.0179047497498481,
+   "heldout_bins": null
+  }
+ }
+}

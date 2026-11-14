@@ -1,0 +1,90 @@
+{
+ "status": "PASS",
+ "tests": {
+  "T_INDEX": {
+   "pass": true
+  },
+  "T_SEM": {
+   "pass": true,
+   "8601": {
+    "C2_srcS1_vs_stored": 1.5112836138087005e-07,
+    "Bl_path_vs_model_apply": 0.0
+   },
+   "8602": {
+    "C2_srcS1_vs_stored": 6.003241992402764e-08,
+    "Bl_path_vs_model_apply": 0.0
+   }
+  },
+  "T_ENERGY": {
+   "pass": true,
+   "albedo_max": 0.8246719748160699,
+   "albedo_mean": 0.6349271625396713
+  }
+ },
+ "gates": {
+  "G_PHYS": {
+   "pass": true,
+   "pooled_ratio": 0.952912154439625,
+   "corr_exact_vs_label": 0.6412443486401868,
+   "label_reliability_corr_256_vs_64": 0.5248599841746533,
+   "corr_exact_vs_independent_label": 0.4462173629236207,
+   "rel_l1": 0.6413594662001816,
+   "first_draft_rule": "ratio in [0.8, 1.25] and corr >= 0.9 -> failed (corr 0.641) because the label reliability is 0.525",
+   "ck2_flight_floor_diagnostic": {
+    "receivers": {
+     "ratio": 1.3782468983831326,
+     "corr": 0.712512482334751,
+     "corr_halves": 0.9297572792340049,
+     "rel_l1": 0.9397396120024692,
+     "half_noise_rel_l1": 0.12721187196988423
+    },
+    "boxA": {
+     "ratio": 1.2114708566498122,
+     "corr": 0.7161185072908048,
+     "corr_halves": 0.9827265950995286,
+     "rel_l1": 0.5277187081912211,
+     "half_noise_rel_l1": 0.058198331105900405
+    },
+    "panel_face": {
+     "ratio": 1.205705407229102,
+     "corr": -0.3339030580785568,
+     "corr_halves": 0.8673728501887797,
+     "rel_l1": 0.5977259301162438,
+     "half_noise_rel_l1": 0.0692607652362704
+    }
+   }
+  },
+  "G_LAM": {
+   "pass": true,
+   "lam": {
+    "8601": {
+     "T": 0.018864956752527997,
+     "R": 0.9343672305220042,
+     "grad_own": 0.1711217740084976,
+     "grad_T": 9.070880800485611,
+     "grad_R": 0.18314188299700618,
+     "teacher_loss_T0": 7.592229276895523,
+     "teacher_loss_R0": 0.09423719253391027
+    },
+    "8602": {
+     "T": 0.012704798185574741,
+     "R": 1.143011621142709,
+     "grad_own": 0.17591364146210253,
+     "grad_T": 13.84623658657074,
+     "grad_R": 0.15390363335609436,
+     "teacher_loss_T0": 7.433330625295639,
+     "teacher_loss_R0": 0.0877349351067096
+    }
+   }
+  }
+ },
+ "coverage": {
+  "train_bins": 64,
+  "val_bins": 62,
+  "val_bins_not_in_train": 0,
+  "ck2_bins": 4,
+  "ck2_bins_not_in_train": 0,
+  "ck2_irradiance_share_in_train_bins": 1.0
+ },
+ "protocol_sha256": "e0a389463e172bc75c4a1b298b6addfb1e6e18c6529280419880b056d3894059"
+}

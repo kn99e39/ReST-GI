@@ -1,0 +1,39 @@
+{
+ "spec": "cand:D_s8602",
+ "train": {
+  "rel_l1_flux": 0.7990938350314095,
+  "energy_ratio": 0.9453128953572724,
+  "peak_ratio": 0.31335429745044124,
+  "delivery_rel_l1": 0.5137046152968123,
+  "delivery_ratio": 0.9289510783089768,
+  "delivery_box_rel_l1": 0.34851993210980514,
+  "operator_rel_l1": {
+   "train_bins": 0.9787065377032086,
+   "heldout_bins": null
+  }
+ },
+ "val": {
+  "rel_l1_flux": 0.8738442101254461,
+  "energy_ratio": 0.9915039006557429,
+  "peak_ratio": 0.2723541718784351,
+  "delivery_rel_l1": 0.6783686273679074,
+  "delivery_ratio": 0.9840297297460747,
+  "delivery_box_rel_l1": 0.6524876272862707,
+  "operator_rel_l1": {
+   "train_bins": 0.9729262193379271,
+   "heldout_bins": null
+  }
+ },
+ "ck2": {
+  "rel_l1_flux": 1.586833780859207,
+  "energy_ratio": 1.6175337091539976,
+  "peak_ratio": 0.150005668636811,
+  "delivery_rel_l1": 1.0691125059643665,
+  "delivery_ratio": 1.0918315401464003,
+  "delivery_box_rel_l1": 1.20101846785261,
+  "operator_rel_l1": {
+   "train_bins": 0.9934706382776642,
+   "heldout_bins": null
+  }
+ }
+}
