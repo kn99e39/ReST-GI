@@ -1,7 +1,7 @@
 """WL93D rendered-image visuals (post-run, presentation only; no new renders): reference vs intervention arms.
   python vizrender93d.py <R> <R86> <R92A> <R92B> <out>
 Full frame of an arm = reference LOW (physical camera-path events 1-2, identical for every arm: REF tot - REF h) + the arm's rendered
-higher-order term hl (2 x 4,096 spp). One exposure / tone map per figure, set from the reference."""
+higher-order term hl (2 x 4,096 spp). One exposure per row, keyed to the reference median, Reinhard tone curve (an earlier white-point-at-p99.5 version was dominated by the ceiling hotspot and rendered too dark)."""
 import glob, hashlib, json, os, sys
 import numpy as np
 import matplotlib
@@ -16,8 +16,10 @@ import analyze86 as A  # noqa: E402
 ARMS = [('C0', 'deployed (C0)'), ('C1_both', 'other-geometry operator (C1_both)'), ('C2_src', 'M64 at source use (C2_src)'), ('C2_rcv', 'M64 at receiver use (C2_rcv)'), ('C2_both', 'M64 at both uses (C2_both)')]
 
 
-def tm(x, white):
-    return np.clip(x / white, 0, 1) ** (1 / 2.2)
+def tm(x, key):
+    """exposure from the reference median (median -> 0.5 before the curve), Reinhard x / (1 + x), display gamma 2.2."""
+    y = x * key
+    return np.clip(y / (1 + y), 0, 1) ** (1 / 2.2)
 
 
 def main():
@@ -41,7 +43,7 @@ def main():
                     imgs.append((arm, lab, x['hl'].mean(0)))
             if not imgs:
                 continue
-            white = float(np.quantile(tot, 0.995)); whiteh = float(np.quantile(h, 0.995))
+            white = 0.5 / float(np.median(tot.mean(-1)[tot.mean(-1) > 0])); whiteh = 0.5 / float(np.median(h.mean(-1)[h.mean(-1) > 0]))
             n = len(imgs) + 1
             fig, ax = plt.subplots(3, n, figsize=(3.3 * n, 10.5))
             cols = [('reference (REF-ER 8 x 8,192 spp)', tot, h)] + [(lab, low + x, x) for arm, lab, x in imgs]
@@ -54,7 +56,7 @@ def main():
             for a_ in ax.ravel():
                 a_.set_xticks([]); a_.set_yticks([])
             fig.suptitle(f'{tag}, {fam} s{sd}: rendered images. Full frame = reference LOW (physical camera-path events 1-2, identical for all arms) '
-                         f'+ each arm\'s higher-order term (2 x 4,096 spp). Same exposure per row (white point from the reference).', fontsize=9)
+                         f'+ each arm\'s higher-order term (2 x 4,096 spp). Same exposure per row (key from the reference median, Reinhard tone curve, gamma 2.2).', fontsize=9)
             fn = f'fig6_{tag}_{fam}_s{sd}_rendered.png'
             fig.savefig(os.path.join(out, fn), dpi=110, bbox_inches='tight'); plt.close(fig); made.append(fn)
     mf = os.path.join(out, 'manifest.json'); man = json.load(open(mf))
