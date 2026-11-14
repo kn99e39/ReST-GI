@@ -1,0 +1,48 @@
+{
+ "protocol": "ecro_mat94r",
+ "version": 1,
+ "title": "WL94A (brief label WL94-R) - material fidelity retention smoke: 50/50 original + diversified fine-tuning of the existing ECRO",
+ "brief": "user brief 'WL94-R - Material Fidelity Retention Smoke, Non-numbered follow-up to WL94' (2026-11-14)",
+ "batch_class": "suffix of WL94 (dependent evidence-gap follow-up, preserved architecture contract). The brief labels it WL94-R; under the repository's letter convention the worklog is 94A. The owner decides; no historical number changes.",
+ "hypothesis": {"H-R": "WL94 B's baseline degradation is substantially caused by removing the original material-object distribution during fine-tuning; a controlled 50/50 mixture preserves baseline fidelity while recovering material-response generalization"},
+ "preserved": ["WL94 labels H-M INCONCLUSIVE, H-A INCONCLUSIVE", "frozen WL92A own s8601 / s8602", "WL94 smoke A_s8601 / B_s8601 checkpoints, tables, renders and measurements (reused read-only through links)", "CK2 scene, variants, field and image references", "WL94 code experiments/ecro_mat94 (imported unchanged)"],
+ "candidate_C": {
+  "composition": "the same 96 WL94 training geometries (results/select94.json order). Geometry at sorted rank k uses the ORIGINAL material map and WL94 train_A targets if k is even, the DIVERSIFIED map and WL94 train_B targets if k is odd: exactly 48 / 48 training examples, total 96 (= A, B). Targets are the cached WL94 files (same seeds, common random numbers), digests checked against select94.json.",
+  "why_50_50_by_rank_parity": "the brief fixes the ratio at 50/50; assigning by rank parity keeps every geometry exactly once (no examples added), is deterministic and auditable, and leaves the WL94 data order unchanged so that at every step C trains on the same geometry as A and B did",
+  "training": "c94.train UNCHANGED (WL94 OWN objective, 2,000 steps, Adam 3e-4 warm-up 200 cosine to 1e-5, clip 10, one geometry x 4 lightings per step, data order rng(seed + 94), init own_s<seed> + extended buffer); only the item list differs",
+  "step_split_precomputed": {"8601": {"original_steps": 1002, "diversified_steps": 998}, "8602": {"original_steps": 1005, "diversified_steps": 995}},
+  "budget": "2,000 steps, 96 geometries (= WL94 A / B); no extension"
+ },
+ "controls": {
+  "A_s8601, B_s8601": "WL94 checkpoints and evaluations reused",
+  "Ar_s8601": "descriptive training-noise control: A_s8601 retrained with the same code and data (c94.train cand A); not a gate",
+  "seed_8602": "only if C_s8601 passes F2 AND MR: C_s8602 and a compute-matched fixed-material control A_s8602 (both from own_s8602); B_s8602 is not needed for the C question"
+ },
+ "tests": {
+  "T_REPRO": "A_s8601 / B_s8601 file sha256 recorded and state sha256 = WL94 final_sha256; CK2 tables recomputed from the checkpoints = stored WL94 CD tables (rel 1e-5); WL94 Stage C table metrics recomputed from the recomputed tables = stageC_s8601.json (abs 1e-6)",
+  "T_MIX": "C item list: 48 original + 48 diversified examples, each WL94 geometry exactly once, per-item material digest = select94 digest of its assignment; replayed step counts equal the precomputed split",
+  "T_LEAK": "no C training map contains ids 6 / 7 or within-rectangle variation (inherited from WL94 T_LEAK on the A / B maps; re-checked on the loaded maps); validation sets unchanged",
+  "T_INIT": "C (and Ar, A_s8602 / C_s8602 if run) initial state sha256 = WL94 A / B init sha256 for that seed (a85ddb42... for 8601)",
+  "T_PROPAGATION": "the model input map of every loaded item equals its target map (c94.It assert + first-items check in c94.train)"
+ },
+ "criteria": {
+  "F2": "V_orig whole rel L1 (final) <= 1.10 x the initial own_s<seed> value (WL94 threshold, 0.0856 for s8601)",
+  "MR": "WL94 material-response criteria, C0, table level over box-A patches, component B: amplitude in [0.85, 1.15] for U07 / U03 / bx75 / bx38 / bx38i AND corr >= 0.90 for bx75 / bx38 / bx38i; AND the V_ck Lambert population (patches with reference |rho| > 4 x noise) amplitude in [0.85, 1.15] with corr >= 0.90",
+  "RET": "sharp baseline retention: untextured CK2 ROI_T higher-order E_H, arm C0: E_H(C) <= E_H(A same seed) + max(2 x max(noise bound C, noise bound A), 0.005) (WL94 noise-bound definition)",
+  "outcome": {
+   "COEXISTENCE_OBSERVED": "F2 AND MR AND RET for every run seed",
+   "MATERIAL_GAIN_WITH_BASELINE_LOSS": "MR AND NOT (F2 AND RET), for every run seed",
+   "BASELINE_RETAINED_MATERIAL_GAIN_LOST": "F2 AND RET AND NOT MR, for every run seed",
+   "INCONCLUSIVE": "anything else (neither, seed disagreement, non-finite steps, a stop)"
+  },
+  "replication_rule": "seed 8602 runs iff C_s8601 passes F2 AND MR (brief Stage D); no replication or budget increase otherwise"
+ },
+ "secondary_measurements": ["B / S / G amplitudes and corr per CK2 variant (C0, C2_rcv, C2_srcS1)", "V_orig / V_ck rel L1 of B, S, G; V_ck Lambert and S1 amplitudes", "textured ROI_T E_H per variant vs A and B (no gate; checker contrast is not a substitute for absolute transport)", "texture-response slope / corr in ROI_T and DIFF", "panel-face (box rect 6) and other-face signed / rel L1 errors of B, S, G, untextured (the WL94 post hoc face split, predeclared here); panel-sender single flight vs e2_p", "SSR for C: untextured ROI E_H(C0) - E_H(C2_srcS1), share (WL94 SSR rule)", "training trajectories, GPU / time"],
+ "answers_mapping": {
+  "forgetting_main_reason": "supported if C passes F2 AND RET (B failed both) with its panel-face G signed bias within 0.05 of A's; contradicted if C fails F2 or RET with a panel-face G bias at least half of B's; otherwise inconclusive",
+  "sharp_specific_residual": "reported from C's untextured SSR and panel-sender split, compared with A and frozen own"
+ },
+ "stops": ["T_REPRO, T_MIX, T_LEAK, T_INIT or T_PROPAGATION fails", "non-finite training values", "reference noise: inherited WL94 reference S/N (table median >= 4 already measured, 990-3,950)"],
+ "pre_freeze_exposure": "All WL94 results (A / B / frozen own) are known before this design; C has no output before the freeze. The dev chain (~/rest_x94rdev, 8 items, 60 steps, 32 spp renders) prints no metric values and its figures are not opened.",
+ "not_authorised": ["full-scale training", "budget extension", "mixture-ratio sweeps", "new sharp transport operator", "panel material / geometry changes", "model size / loss weight changes", "changes to WL94 verdicts", "automatic successor"]
+}
