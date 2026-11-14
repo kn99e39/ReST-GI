@@ -1,0 +1,84 @@
+{
+ "protocol": "ecro_exp94b",
+ "version": 1,
+ "title": "WL94B - sharp-panel transport exposure smoke: stratified step allocation of the WL94A 50/50 training items toward panel-mediated transport",
+ "brief": "user brief 'WL94B - Sharp-Panel Transport Preservation Smoke' (2026-11-14)",
+ "batch_class": "suffix of WL94 (dependent evidence-gap follow-up of WL94 / WL94A under the preserved ECRO contract; only the training-example sampling exposure changes). Named WL94B by the brief; the owner decides; no historical number changes.",
+ "hypothesis": {"H-P": "sharp-panel-mediated transport is insufficiently constrained relative to its importance in the current ECRO training distribution; a controlled increase of its training exposure preserves its fidelity without changing the architecture"},
+ "preserved": ["ECRO architecture, 735,664 parameters, material-state buffer (WL94 extension ids 6-10)", "OWN objective, loss weights, Adam 3e-4 warm-up 200 cosine to 1e-5, clip 10, 2,000 steps, one geometry x 4 lightings per step",
+               "frozen own_s8601 / own_s8602 (WL92A)", "WL94 A_s8601 / B_s8601 and WL94A C_s8601 / C_s8602 / A_s8602 / Ar_s8601 checkpoints, tables, renders, pop evaluations (read-only links)",
+               "WL94A candidate C item list: the 96 WL94 training geometries, rank parity -> original (even) / diversified (odd) material map and its cached WL94 target", "CK2 scene, variants, masks, field and image references, exposure",
+               "WL94 / WL94A code (experiments/ecro_mat94, experiments/ecro_mat94r) imported unchanged", "WL94 / WL94A labels and worklogs"],
+ "stage_A_audit": {
+  "current_sampling": "c94.train draws items uniformly (rng(seed + 94) permutations of the 96 items, ~20.8 visits per item); every step supervises all 4 lightings x all patches x all 64 bins x 3 channels with the per-(lighting, patch, channel) normalised relative L2 (den = bin mean + 0.05 x item mean) on three terms: sum vs f, S vs e2 = e2_p + e2_o, G vs e3 = e3_p + e3_o. There is no path-, receiver- or bin-specific weight.",
+  "path_labels": "pt86a.field_src(split=True) (with the WL94 per-patch material routing) partitions the target into e2_p / e2_o (exactly 2 scattering events; the vertex next to the receiver on the S1 panel / elsewhere) and e3_p / e3_o (3..kmax events with the same last-sender rule). The panel is material id 1 in every original and diversified map. 'Panel-mediated' = e2_p + e3_p (last sender = sharp panel).",
+  "render": "every training item (its C assignment) re-rendered with split=True using the IDENTICAL seeds / spp / batch of its cached WL94 target (940000000 + 16 idx + light, 256 spp, b = 128): the four parts must sum to the stored training target (T_PATH_ID). An independent realization (943000000 + 16 idx + light, 64 spp) measures stratum reliability.",
+  "aggregates": "per item, lighting, patch and part: loss-normalised mass sum_{bin, channel} X / den (den from the stored training target, exactly as c94.objective), and exitance sum X cos dOmega",
+  "scores": {
+   "PM": "stratum score: loss-normalised panel-mediated mass on box receivers (box A + box B patches, e2_p + e3_p) / the item's total loss-normalised target mass",
+   "PMb_A / PMb": "panel-mediated share of the loss-normalised target on box-A (resp. all box) patches",
+   "panel_share_e2_box": "e2_p / (e2_p + e2_o) on box patches (how much of the jointly supervised S target is the panel sender)",
+   "panel_share_e3_box": "e3_p / (e3_p + e3_o) on box patches",
+   "facing": "share of the box panel-mediated mass on box faces whose outward normal points towards the panel centre and whose centre lies in front of the panel plane"
+  },
+  "ck2_comparison": "the same box-A scores on the CK2 untextured field reference (CKF_none, mean of the two 4,096-spp halves; one light set) over the box-A patch mask T",
+  "underrepresented_rule": "UNDERREPRESENTED if fewer than 10 % of training items reach the CK2 box-A panel-mediated share PMb_A(CK2) AND the uniform (C) stream mean PMb_A < 0.5 x PMb_A(CK2); REPRESENTED if at least 25 % of items reach it; otherwise PARTIAL. Coverage only - errors are not used.",
+  "semantics_note": "the objective supervises e2_p + e2_o and e3_p + e3_o jointly; the panel's learned once-scattered response is supervised only through receivers. Exposure changes cannot add a path-specific supervision term (loss changes are not authorised); this is reported as a semantics limit, separate from sampling."
+ },
+ "stage_B_intervention": {
+  "candidate": "D",
+  "items": "the WL94A C item list unchanged (96 geometries; 48 original / 48 diversified; same cached targets and digests)",
+  "stratum": "within each material half (48 items), the 12 items with the largest PM (top quartile) = stratum H; the other 36 = generic",
+  "allocation": "sigma = 0.5: within each half, H receives 500 of the half's 1,000 steps and generic 500 (C gives H 25 %). Per-item counts: floor + remainder, the remainder to the larger PM in H and to the larger PM in generic: H 41-42 visits (2.0x C), generic 13-14 (0.67x C); every item is visited. Original / diversified steps exactly 1,000 / 1,000. Dev: the same rule on 60 steps.",
+  "why": "doubles the exposure of the top-quartile panel-mediated stratum while every generic geometry keeps two thirds of its C exposure; one moderate allocation, fixed before the audit and before any candidate output; no sweep",
+  "order": "the 2,000 per-step item copies (counts in select order) are passed to c94.train UNCHANGED; its rng(seed + 94).permutation(2,000) gives one exact pass, i.e. a uniformly random order of the multiset. The sequence is replayed and stored (sampling manifest).",
+  "budget": "2,000 steps; per-step queries 4 x N x 64 x 3 identical for every item (constant patch layout) -> identical total query count to C; same init own_s<seed> + extended buffer; seeds 8601 and 8602 both run"
+ },
+ "audit_validity_gates": {
+  "T_PATH_ID": "for every item: whole-table rel L1 of (e2_p + e2_o + e3_p + e3_o) vs the stored target f and of (e2_p + e2_o) vs the stored f2 <= 1e-6 (WL94 float-atomic floor 3.7e-8)",
+  "T_PANEL_ID": "every map: panel patches (rect 5) have id 1 and no other patch has id 1",
+  "T_ALLOC": "counts sum to STEPS; original / diversified = STEPS / 2 each; H share 0.5 in each half; every item >= 1 visit (evidence run); replayed sequence counts = counts",
+  "T_QUERY": "all items have 4 lightings and the same N",
+  "T_MIX": "48 / 48 items, digests = select94 (WL94A rule)",
+  "G_REL": "stratum reliability: Spearman(PM, PM_independent) >= 0.90 AND top-quartile membership agreement >= 0.80 in each half",
+  "G_CONTRAST": "mean PM(H) >= 2 x mean PM(generic) (pooled)",
+  "G_EXPOSURE": "expected panel-mediated loss-mass share of the D step stream >= 1.25 x that of the realized C stream (same seed)",
+  "on_failure": "STOP_INVALID_INTERVENTION (no training); T_* failure = STOP_TEST"
+ },
+ "T_REPRO": "own_s8601 / own_s8602 and C_s8601 / C_s8602 CK2 tables recomputed from the checkpoints = stored tables (rel 1e-5); own checkpoint file sha256 = 739e7eb5... / cee9a09a...; C state sha256 = WL94A final_sha256; own untextured ROI_T E_H (C0) and box-A C0 B amplitudes recomputed = WL94 stageB.json (abs 1e-6); C's E_H and panel-face G signed = WL94A r_s<seed>.json (abs 1e-6). Failure = STOP_REPRO.",
+ "T_INIT": "D initial state sha256 = C initial sha256 of the same seed",
+ "evaluation": {
+  "models": "own (frozen anchor), A (fixed material; s8601 WL94, s8602 WL94A), C (WL94A 50/50 uniform), D; arms C0 and C2_srcS1 (exact M64 panel sender = oracle / control)",
+  "A_sharp": "untextured CK2 ROI_T higher-order E_H (abs) and signed, arm C0, per seed, with the WL94 half-split noise bound",
+  "B_sender": "panel-sender single flight (S_C0_fromS1) vs e2_p reference: rel L1 and signed on the panel-facing box face (rect 6) and on the other box-A faces; exact-sender control = C2_srcS1 arm",
+  "C_global": "deployed global term G vs the e3 = e3_p + e3_o reference on the panel face (rel L1, signed) and other faces; the e3_p share of the panel-face reference is reported",
+  "D_material": "F2, MR (table C0 + V_ck Lambert population) as WL94A; V_orig / V_ck rel L1 of B, S, G",
+  "noise": "table metrics: 0.5 x sum |X_a - X_b| / sum X of the reference half fields over the same entries; images: WL94 eh noise bound",
+  "qualitative": "per variant: REF / own / A / C / D (C0) and D C2_srcS1, higher-order close-ups, shared-scale signed error and texture response; audit distribution figure; training curves"
+ },
+ "criteria": {
+  "F2": "V_orig whole rel L1 (final) <= 1.10 x init, no non-finite step",
+  "MR": "WL94A MR (table C0 amplitudes [0.85, 1.15] all textured variants, corr >= 0.90 checker variants; V_ck Lambert population amplitude [0.85, 1.15], corr >= 0.90)",
+  "SHARP_OK": "E_H(D) <= E_H(own same seed) + max(2 x max(noise bound D, own), 0.005)  [primary anchor: frozen own]",
+  "SHARP_vs_C": "descriptive: E_H(D) <= E_H(C) - max(2 x max(noise bounds), 0.005) = improved; >= E_H(C) + tol = worse",
+  "component_status": "for X in {sender (panel-face panel-sender rel L1), global (panel-face G rel L1)}: IMPROVED if err(D) <= 0.8 x err(C) and err(C) - err(D) > 2 x noise_X; else ANCHOR if err(D) <= err(own) + 2 x noise_X; else LIMITED",
+  "outcome": {
+   "SHARP_FIDELITY_PRESERVED": "F2 AND MR AND SHARP_OK on both seeds",
+   "SENDER_IMPROVED_GLOBAL_LIMITED": "not the above; sender IMPROVED on both seeds and global LIMITED on both seeds",
+   "GLOBAL_IMPROVED_SENDER_LIMITED": "not the above; global IMPROVED on both seeds and sender LIMITED on both seeds",
+   "MATERIAL_SHARP_TRADEOFF_REMAINS": "none of the above; on both seeds (F2 AND MR) holds and SHARP_OK fails, or on both seeds SHARP_OK holds and (F2 AND MR) fails",
+   "INCONCLUSIVE": "anything else (seed disagreement, non-finite steps, init mismatch)"
+  },
+  "precedence": "in the order listed"
+ },
+ "answers_mapping": {
+  "underrepresented": "Stage A underrepresented_rule",
+  "sender_improved / global_improved": "YES if IMPROVED on both seeds, NO if on neither, MIXED otherwise",
+  "sharp": "PRESERVED if SHARP_OK on both seeds (IMPROVED if additionally E_H(D) <= E_H(own) - tol on both), LOST if fails on both, MIXED otherwise",
+  "F2 / MR": "per seed",
+  "exposure_sufficient": "SUPPORTED_AS_SUFFICIENT only for SHARP_FIDELITY_PRESERVED; otherwise NOT_SHOWN (a smoke failure is not evidence of representation impossibility; representation uncertainty remains)"
+ },
+ "stops": ["T_REPRO -> STOP_REPRO", "any T_* audit test -> STOP_TEST", "G_REL / G_CONTRAST / G_EXPOSURE -> STOP_INVALID_INTERVENTION", "non-finite training values (recorded; outcome INCONCLUSIVE)", "reference noise: inherited WL94 CK2 reference S/N (table median >= 4: 990-3,950)"],
+ "pre_freeze_exposure": "All WL94 / WL94A results (own / A / B / C) are known before this design. The audit and D have no output before the freeze. The dev chain (~/rest_x94bdev; first 8 training items, 60 steps, 16-spp independent audit, 32-spp renders) printed the audit gate flags, and its audit.json was opened to check the computation: on the 8-item dev subset (4 items per half, a stratum of 1 item per half) T_* and G_REL passed while G_CONTRAST (ratio 1.83) and G_EXPOSURE (1.17) failed; item PM 0.002-0.007, CK2 box-A PMb_A 0.138 vs items 0.008-0.078. No threshold, score, stratum or allocation was changed after this exposure. Noted before the freeze: with sigma = 0.5 and a top quartile, G_EXPOSURE >= 1.25 requires mean PM(H) / mean PM(generic) >= 2.33, so it binds before G_CONTRAST (2.0); both are kept as written. Dev candidate outputs (tables, renders, an) were not opened; only their key structure was listed.",
+ "not_authorised": ["new operator or representation", "material-specific heuristics", "capacity / loss-weight / optimizer / step changes", "material mixture ratio change", "sampling ratio sweep or post-result tuning", "reference renderer changes", "full training", "automatic successor"]
+}
