@@ -1,0 +1,86 @@
+{
+ "protocol": "ecro_q94c",
+ "version": 1,
+ "title": "WL94C - panel-mediated query-level supervision smoke: per-(lighting, patch) emphasis of panel-dominated box queries (D) vs matched non-panel box queries (E) inside the WL94A 50/50 stream",
+ "brief": "user brief 'WL94C - Panel-Mediated Query-Level Supervision Smoke' (2026-11-14)",
+ "batch_class": "suffix of WL94 (bounded continuation of WL94B under the preserved ECRO contract; only the per-query supervision weights change). Named WL94C by the brief; the owner decides; no historical number changes.",
+ "hypothesis": {
+  "H-Q": "the existing ECRO better preserves sharp-panel transport if physically identified panel-mediated receiver/patch queries receive sufficient training emphasis, beyond the effect of equivalent emphasis on matched non-panel queries"
+ },
+ "preserved": [
+  "ECRO architecture, 735,664 parameters, material buffer",
+  "OWN objective terms and targets (sum vs f, S vs e2, G vs e3), den, Adam 3e-4 warm-up 200 cosine to 1e-5, clip 10, 2,000 steps",
+  "WL94A C item list, rank-parity 50/50 material assignment, cached targets, item order rng(seed + 94), init own_s<seed> + extended buffer",
+  "frozen own_s8601 / own_s8602; WL94 / WL94A / WL94B checkpoints, tables, renders, audit aggregates (read-only links)",
+  "CK2 scene, references, masks, exposure",
+  "WL94 / WL94A / WL94B code (imported unchanged) and labels"
+ ],
+ "query": "one (item, lighting, receiver patch) = the 64 bins x 3 channels of that patch's table under that lighting; Q = 4 x 1,270 = 5,080 queries per item",
+ "path_labels": "WL94B audit aggregates (results/audit/tgt): per query the loss-normalised mass of e2_p / e2_o / e3_p / e3_o from the split re-render with the target seeds (parts = stored f to 4.7e-8, e2_p + e2_o = f2 to 5.8e-8); independent 64-spp realization (results/audit/ind) for reliability. The model does not expose e2_p / e3_p: the weights multiply the EXISTING e2 / e3 / sum terms of the query; no isolated panel component is predicted or supervised.",
+ "selection_D": "panel-dominated box query: receiver patch on a Lambert box face (box A or B) with pm_q = (e2_p + e3_p) / total loss-normalised mass >= 0.5 (TAU). Seed-independent.",
+ "selection_E": "matched negative control, per seed: the same TOTAL number of box queries as D, drawn from the SAME material half (any item) among box queries with a positive target and pm_q < 0.10 (TAU_E, not in D), by an optimal one-to-one assignment (Hungarian, scipy linear_sum_assignment) minimising |d log err0| / SD + |d log exitance| / SD + 1.0 x [box A/B differs] (SD over positive-target box queries of the seed); err0 = the frozen own_s<seed> per-query objective error (non-training instrumentation of the initialization), exitance = the query's target exitance. Controls receiver category (box, and A vs B), query count, target magnitude and initial difficulty (hard-example effect).",
+ "weights": "per item: KAPPA = 8 on the k selected queries, (Q - 8 k) / (Q - k) on the others, so the item mean weight is exactly 1 (same per-step and total supervision budget as C); items without selected queries are unchanged. D and E have the same total number of emphasised queries; E's queries lie mostly in other items of the same half, so per-item counts differ while every item keeps mean weight 1. The weight multiplies all three normalised squared terms of the query; the gradient uses the weighted objective, the training log records the UNWEIGHTED terms (comparable with C).",
+ "why_kappa_8": "pre-freeze analytic accounting (WL94B aggregates, before any candidate training): selected queries carry 0.20 % of the loss mass and 27 % of the box panel-mediated mass; KAPPA = 4 gives ~1.8x box panel-mediated exposure (below the 2x contract), KAPPA = 8 ~2.9x. The smallest power of two meeting the contract with margin; one value, no sweep.",
+ "feasibility_gates (pre-freeze computed and re-checked in the chain)": {
+  "G_POP": ">= 500 D queries in >= 40 items",
+  "G_REL": "D selection agreement with the independent realization >= 0.80",
+  "G_EXPO_D": "D stream (C's realized item counts) box panel-mediated weighted loss-mass share >= 2.0 x C AND D-query weighted share >= 4.0 x C",
+  "G_EXPO_E": "E stream box panel-mediated share <= 1.10 x C",
+  "G_MATCH": "|standardised mean difference| <= 0.10 for log err0 and log exitance (D vs E pairs), mean pm of E <= 0.05, no unmatched D query",
+  "on_failure": "STOP_INVALID_INTERVENTION (no training)"
+ },
+ "tests": {
+  "T_PATH_ID": "audit aggregates: parts sum to the total per query (<= 1e-6); WL94B T_PATH_ID cited",
+  "T_OBJ_ID": "weighted objective with w = 1 equals c94.objective (rel <= 1e-6) on 4 items with own",
+  "T_BUDGET": "item mean weight = 1 (<= 1e-9) for D and E; equal total D / E query counts; emphasised query-visits under C's realized item counts within 5 % (D vs E)",
+  "T_MIX": "48 / 48 items",
+  "T_REPRO": "WL94B T_REPRO re-run (own / C tables recomputed = stored, checkpoints, metric replays)",
+  "T_INIT": "D, E and C initial state sha256 equal per seed"
+ },
+ "training": "D and E, seeds 8601 and 8602 (all four runs), c94.train unchanged except the objective weights; 2,000 steps each",
+ "evaluation": "own (frozen anchor), C (WL94A), D, E; arms C0 and C2_srcS1 (exact panel sender); WL94B metric definitions: untextured / textured ROI_T E_H + signed + noise bound, panel-face panel-sender rel L1 / signed vs e2_p, panel-face G rel L1 / signed vs e3, CK2 box-A amplitudes / corr, image texture-response slope / corr, F2, MR (table + V_ck population), V_orig / V_ck rel L1",
+ "criteria": {
+  "sharp_compare": "for models x, y: x better than y if E_H(y) - E_H(x) > tol, tol = max(2 x max(noise bounds), 0.005) (untextured ROI_T, C0)",
+  "own_anchor": "SHARP_OK_vs_own: E_H(x) <= E_H(own) + tol (reported for every candidate)",
+  "components": "X improved vs Y if rel_l1(X) <= 0.8 rel_l1(Y) and rel_l1(Y) - rel_l1(X) > 2 x reference half noise (panel-face sender, panel-face G)",
+  "F2 / MR": "WL94A definitions",
+  "outcome": {
+   "PANEL_SPECIFIC_IMPROVEMENT": "on both seeds: D better than C AND D better than E AND D keeps F2 and MR",
+   "GENERIC_SUPERVISION_EFFECT": "on both seeds: D better than C AND E better than C AND (D not distinguishable from E on both seeds, or D worse than E on both seeds)",
+   "NO_RELIABLE_IMPROVEMENT": "D better than C on neither seed",
+   "INCONCLUSIVE": "anything else (seed disagreement, F2 / MR loss with improvement, init mismatch, non-finite steps)",
+   "STOP_INVALID_INTERVENTION": "a feasibility gate fails (no training)"
+  },
+  "precedence": "STOP, then in the order listed"
+ },
+ "answers_mapping": "exposure increased = G_EXPO_D values; panel-specific / sender / global / sharp improved: YES both seeds, NO neither, MIXED otherwise; F2 / MR per seed; sharp at own level reported separately",
+ "stops": [
+  "T_REPRO / T_* failure",
+  "feasibility gate failure",
+  "non-finite training (recorded; INCONCLUSIVE)",
+  "reference noise: inherited WL94 CK2 reference S/N (table median >= 4: 990-3,950)"
+ ],
+ "pre_freeze_exposure": "All WL94 / WL94A / WL94B results are known. Pre-freeze feasibility (no training) ran in ~/rest_x94cfeas: the manifest step (selection, own initial per-query errors on the 96 training items, matching, weights, accounting, gates), three times, plus one matching probe printing balance values only; see pre_freeze_refinement. A dev chain (~/rest_x94cdev, 60 steps, 32-spp renders) checks the training / evaluation path; its candidate outputs are not opened. No candidate output exists before the freeze. The dev chain ran end to end (4 trainings, tables, renders, analysis, figures); its manifest reported T_BUDGET false only because the 60-step dev stream makes the visit comparison small-sample (D / E 584 / 594 and 650 / 604; the 2,000-step feasibility run passes at 0.3 %), and its final step printed a dev outcome label (60 steps, 32 spp; not evidence, not used). Dev tables, renders and figures were not opened.",
+ "feasibility_result": {
+  "run": "~/rest_x94cfeas, run 3 (adopted implementation), REPRO PASS, MANIFEST PASS",
+  "G_POP": "974 D queries in 59 items (of 41,472 box queries)",
+  "G_REL": "selection agreement 0.914",
+  "G_EXPO_D": "box panel-mediated exposure 2.907 / 2.902 x C; D-query weighted share 7.998 x; all panel-mediated mass 1.25 x",
+  "G_EXPO_E": "box panel-mediated 1.033 / 1.035 x; E-query weighted share 7.998 x",
+  "G_MATCH": "SMD log err0 0.059 / 0.066, log exitance 0.054 / 0.054; mean pm D 0.646 vs E 0.016; box-A fraction 0.235 vs 0.239 / 0.238; same item 4 %",
+  "T_BUDGET": "item mean weight 1 (4e-16); emphasised query-visits D / E 20,323 / 20,264 (s8601), 20,225 / 20,291 (s8602); min weight 0.923",
+  "T_OBJ_ID": "8.3e-8",
+  "T_PATH_ID": "9.8e-8"
+ },
+ "not_authorised": [
+  "new operator / representation / capacity",
+  "material mixing changes",
+  "item population or geometry / light changes",
+  "step / optimizer changes",
+  "KAPPA / TAU sweeps or post-result tuning",
+  "easier scenes",
+  "full training",
+  "automatic successor"
+ ],
+ "pre_freeze_refinement": "Feasibility run 1 (greedy same-item matching on raw log covariates) failed G_MATCH (SMD log err0 0.12 / 0.17, log exitance 0.21 / 0.23). Run 2 (Hungarian, same item, box penalty) failed exitance balance (0.49 / 0.54): log(1e-30) of zero-target box queries (e.g. faces on the floor) inflated the exitance SD to 19.5. A matching probe (balance values only) then compared same-item vs same-half pools with positive-target candidates: same-item stays above 0.10 (0.13-0.19), the same-half pool with a box penalty gives 0.06 / 0.05. Adopted before the freeze: same-half pool, positive-target candidates, Hungarian, box penalty 1.0. TAU, TAU_E, KAPPA, the D rule and every gate threshold are unchanged."
+}
