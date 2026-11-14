@@ -1,0 +1,52 @@
+{
+ "status": "PASS",
+ "tests": {
+  "T_REPRO": {
+   "pass": true,
+   "checkpoints": {
+    "A": {
+     "state_sha256": "b276e30f8997f9055a3628225311865c7c2d00420d60e1140fdf5863cb246a45",
+     "wl94_final_sha256": "b276e30f8997f9055a3628225311865c7c2d00420d60e1140fdf5863cb246a45",
+     "file_sha256": "f80fd6cd441adbe2f3df28176ab9f9723702207ece41394981f8923b52a99a42"
+    },
+    "B": {
+     "state_sha256": "2b62f908a555861d9829c17900abb5f06096f391b83bd50124ee208b62a39f0a",
+     "wl94_final_sha256": "2b62f908a555861d9829c17900abb5f06096f391b83bd50124ee208b62a39f0a",
+     "file_sha256": "b443682c65a79e37bb783fac6e2ded3fc09ac1e0b81511f67898e89fd5d6353c"
+    }
+   },
+   "tables_rel_max": {
+    "A": 1.824437987352212e-07,
+    "B": 1.8031322213118983e-07
+   },
+   "metric_abs_max": {
+    "A": 2.325410308756659e-09,
+    "B": 9.331271311197042e-10
+   }
+  },
+  "T_MIX": {
+   "pass": true,
+   "examples": {
+    "A": 48,
+    "B": 48
+   },
+   "digests_ok": true,
+   "step_split": {
+    "8601": {
+     "original_steps": 1002,
+     "diversified_steps": 998
+    },
+    "8602": {
+     "original_steps": 1005,
+     "diversified_steps": 995
+    }
+   }
+  },
+  "T_LEAK": {
+   "pass": true,
+   "ids_6_7": 0,
+   "nonuniform_rects": 0
+  }
+ },
+ "protocol_sha256": "d0fd618cb4e1cc9e414885c18836d561dc983d3c1976cf5e374e174ec0740e9f"
+}
