@@ -1,0 +1,93 @@
+{
+ "protocol": "ecro_attr95a",
+ "version": 1,
+ "title": "WL95A - sharp sender representability and flight attribution smoke (learning-free; CK2 none)",
+ "brief": "user brief 'WL95A - Sharp Sender Representability & Flight Attribution Smoke' (2026-11-15)",
+ "batch_class": "suffix of WL95 (dependent evidence-gap follow-up of its PREMATURE verdict; no new mechanism, no training). Named WL95A by the brief.",
+ "proposition": "The deployed learned S1 sender is a major avoidable error source, while the residual sharp first-flight error must be separated into angular projection and propagation sampling before choosing a replacement representation. Falsify where possible.",
+ "preserved": [
+  "ECRO, model86.py, ecro86.py, all checkpoints (own_s8601 / own_s8602 WL92A loaded read-only)",
+  "ER closure (eval = f cos(theta_o), second argument = light direction)",
+  "CK2 scene / light / camera, CKF_none event-exclusive field references (2 x 4,096 spp), REF_ER_CK_none images (4 x 8,192 spp), masks94",
+  "WL94-WL95 history"
+ ],
+ "workload": "CK2 'none' only (default materials; single point light [-1.45, -0.6, 1.7], rgb 30). E2 T1/T0 secondary workload not used (no semantically identical panel-tagged split verified).",
+ "stage_0_contract": {
+  "T_BINS": "scene86 NZ = 4, NPHI = 16, NB = 64; bin(z, phi) of pt86.bin_of for random test directions = iz*16 + iphi; corrected weight W_T[d] = ((d // 16) + 0.5) / 4 * 2 pi / 64 sums to pi; an94.W (8 x 8) reported as W94",
+  "T_MASKS": "S1 = patches 1088..1129 = PSID 5 = PMAT 1 (42); box A = masks94 T = 1130..1183 (54); panel face = masks94 T_panel_face = rect 6 = 1130..1138 (9)",
+  "T_EVENT": "CKF_none holds e2_p / e2_o / e3_p / e3_o for halves a / b (pt86a.field_src split: k = 2 vertex material 1 -> _p); e2_p on panel receivers ~ 0",
+  "T_COS": "ER eval of a Lambert material equals rho / pi * cos(theta_wo) (second argument), i.e. eval(wi = viewer, wo = light) * I / d^2 is the NEE radiance as in pt86a.field_src",
+  "T_REPRO94D": "with the WL94D convention (W94 exitance, deployed state, M64(s) on S1, exact receiver) reproduce results/ecro_s94d/audit.json ck2_flight_floor_diagnostic (ratio / corr / rel L1 for receivers, boxA, panel_face; abs 1e-3) and WL94D sender CK2 rel_l1_flux of own_s8601 / own_s8602 (SN_own_*.json, abs 1e-3)",
+  "T_OPS": "A1 = S1_ops nmf16_wl92, A2 = S1_ops nmf16_l1irls (WL95, file sha recorded); A3 = rank-32 field-adapted non-negative L1 operator regenerated deterministically (rank 32 also in dev) with the WL95 wl95_calc2 ladder code (seed 9500 + 320 + c, W94 fit weights as in WL95) and must reproduce wl95_calc2.json rank-32 op_l1 / val metrics (abs 1e-6); all non-negative",
+  "on_failure": "STOP before attribution"
+ },
+ "senders": {
+  "A0": "learned OWN s8601 / s8602: Bl = a (c^T s16) on S1 from model.factors on the deployed CK2 state",
+  "A1": "nmf16_wl92 applied to s16",
+  "A2": "nmf16_l1irls (L1-targeted; known energy ~0.7) applied to s16",
+  "A3": "rank-32 non-negative L1 applied to s16",
+  "A4": "M64 applied to s16 (= the WL94D exact-bin sender)",
+  "M64_spool": "M64 applied to the source field pooled over the source-point draws (16 x 16 = 256 random points)",
+  "q256": "physical once-scattered table quad87.qtable (P = 256 stratified points, Mq = 1,024 MIS) restricted to S1, two seeds (95001 / 95002) -> mean; split-half = MC uncertainty",
+  "X1c": "exact per-ray once-scattered radiance (ER eval at the exact light and exact outgoing ray directions, shadowed) evaluated at the CENTRE of the hit panel patch (angular exact, spatial collapsed)",
+  "X1": "the same at the exact ray hit point (angular and spatial exact)",
+  "s16": "the deployed 16 fixed source points (ctx.source)"
+ },
+ "propagation": {
+  "deployed": "the deployed state (u_state seed 86001; 512 rays / patch, 8 / bin) and its rw",
+  "pooled": "independent redraws of all state-ray offsets (rng 950000 + d), rw recomputed from the same draw; same flight code; pilot D = 16 draws, extended to 64 only if a decision-relevant comparison lies within 2 SE of its boundary",
+  "source_draws": "independent source-point draws (rng 951000 + d, 16 points each) used for M64_spool; source and relation draws are separate factors",
+  "receiver": "exact receiver M64[pmat] for every receiver (Lambert receivers exact: box A, panel face)",
+  "only_S1": "every arm delivers only S1-sender (panel-mediated, exactly 2 events) light; reference = e2_p"
+ },
+ "metrics": {
+  "weights": "W_T (corrected) everywhere; W94 only for the T_REPRO94D bridge",
+  "sender": "CK2 S1 field: flux rel L1 / energy / peak vs M64(s16) and vs q256 (W_T); operator flux-L1 vs M64 (zb_in zb_out); directional albedo per incident bin sum_d A[m, d] W_T[d] (passive if <= 1; violations flagged, not repaired); q split-half",
+  "delivery": "per receiver-patch exitance (W_T) of the delivered e2_p table vs the reference mean of halves, box A (54) and panel face (9): flux ratio, signed rel, abs rel L1, Pearson corr (box A), peak patch position and peak amplitude ratio; reference half-split noise 0.5 sum|a - b| / sum; per-draw distribution (mean, SE, median, p90, worst) and paired arm-vs-arm comparisons on common draws",
+  "render": "CK2 ROI_T higher-order image, 2 x 4,096 spp per table (seeds 86600 + r, the WL94 arm-render contract) via mat94.render, E_H and signed vs REF h (an94.eh noise bound). Table per arm = arm's delivered S1-mediated e2 + reference e2_o + e3_p + e3_o (identical for every arm); oracle-table floor = reference e2_p + e2_o + e3_p + e3_o. Diagnostic G_s<seed> = reference e2 + own learned global term (FZ_own 'none|G'), labelled diagnostic"
+ },
+ "decisions": {
+  "noise": "an arm-vs-arm delivery difference counts only if > 2 x paired SE over draws and > 0.02 abs; an E_H difference only if > tol = max(2 x max(noise bounds), 0.005)",
+  "RANK16_DELIVERY": {
+   "criteria_for_arm_X_in_{A1,A2}": "(i) passive (albedo <= 1 + 1e-6); (ii) box-A delivered flux ratio X / A4 in [0.9, 1.1]; (iii) box-A delivered map rel L1 vs A4 <= 0.10 (pooled, paired); (iv) ROI E_H(X pooled table) <= E_H(A4 pooled table) + tol",
+   "ADEQUATE_ON_TESTED_WORKLOAD": "A1 or A2 meets (i)-(iv)",
+   "INADEQUATE_ON_TESTED_WORKLOAD": "neither meets (i)-(iv) and for each of A1, A2 at least one failed criterion is outside its noise margin",
+   "INCONCLUSIVE": "otherwise"
+  },
+  "FLIGHT_ATTRIBUTION": {
+   "quantities": "E(X) = box-A delivery abs rel L1 of arm X vs reference e2_p minus the reference half-split noise n0; E0 = E(A4, deployed); Rs = E0 - E(M64_spool, pooled) (sampling: relations + source points); Ra = E(M64_spool, pooled) - E(X1c, pooled) (directional: incident + outgoing angular projection); Rp = E(X1c, pooled) - E(X1, pooled) (sender spatial projection); q256 reported as the incident/outgoing split",
+   "significance": "a reduction counts if >= 0.25 E0 and > 2 x paired SE",
+   "SAMPLING_DOMINANT": "Rs counts and Rs >= 0.5 E0 and Ra does not count",
+   "ANGULAR_PROJECTION_EVIDENCED": "Ra counts and Rs does not count",
+   "MIXED": "Rs and Ra both count",
+   "INCONCLUSIVE": "neither counts, or E(X1, pooled) > 0.5 E0 (the chain does not reach the reference), or a validity gate fails",
+   "stage_3": "only if INCONCLUSIVE because E(X1, pooled) > 0.5 E0: estimate cost of a targeted footprint quadrature first; stop and report if substantial"
+  },
+  "NEXT_DESIGN_TARGET": {
+   "components": "one-at-a-time ROI E_H excess over the oracle-table floor: dS(seed) = E_H(A0 deployed) - floor; dF = E_H(A4 deployed) - floor; dG(seed) = E_H(G_s<seed>) - floor",
+   "HIGHER_ORDER_TRANSPORT": "dG > max(dS, dF) + tol on both seeds",
+   "LEARNED_SENDER": "dS > max(dF, dG) + tol on both seeds",
+   "DIRECTIONAL_CARRIER": "dF >= max(dS, dG) - tol and dF > tol on both seeds and FLIGHT_ATTRIBUTION in {ANGULAR_PROJECTION_EVIDENCED, MIXED}",
+   "UNDETERMINED": "otherwise",
+   "note": "evidence classification only; no implementation permission"
+  }
+ },
+ "stops": [
+  "Stage 0 test failure",
+  "q split-half too large: q256 S1 field split-half rel L1 > 0.25 x |q256 - M64_spool| field rel L1 -> the M64-to-q step is reported as noise-limited",
+  "unapproved full render / training",
+  "cost beyond the bounded purpose"
+ ],
+ "not_authorised": [
+  "training or tuning anything",
+  "fitting operators to CK2",
+  "renormalising operators",
+  "rank / bin increases as repair",
+  "learned global residuals",
+  "e2 / e3 rebalancing",
+  "material / light / geometry changes",
+  "promoting G1 / G2 / EXP / C3UR",
+  "successor batch"
+ ],
+ "pre_freeze_exposure": "All WL92-WL95 results are known. Dev run ~/rest_x95adev (D = 2 / 4 draws, q Mq = 64, 32-spp renders): Stage 0 test flags were read (all PASS; first attempt crashed on a JSON print of numpy bools after writing s0.json, fixed); the chain exercised main, renders, analysis and the rule-based extension path ('AN EXTEND' printed). No dev metric value, table or figure was opened."
+}
