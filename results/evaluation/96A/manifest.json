@@ -1,0 +1,12 @@
+{
+ "worklog": "docs/worklogs/96A_WORKLOG_LEARNED_HIGHER_ORDER_UTILITY_CEILING.md",
+ "protocol": "experiments/ecro_util96a/protocol/ecro_util96a.json (sha256 prefix 0a5936504fb8c345; freeze commit a1718f7)",
+ "source_run": "LabServer63 ~/rest_x96a, chain 2026-11-15T17:05:02Z - 17:09:01Z (UTC)",
+ "artifacts": {
+  "figW1_tail_arms.png": {"sha256": "5c6d79701ccc241c8e365439f508a37ea40429986a6247b1c7f820cf8d48dbeb", "what": "CK2 ROI_T higher-order (hl) close-ups of every tail arm (table = reference e2 + tail; mean of 4 x 4,096 spp) and |arm - F| on one shared absolute sqrt scale; REF h path-traced image", "source": "~/rest_x96a/results/eval96a (w96a.py final)"},
+  "figW2_boxA_tail_field.png": {"sha256": "87f18aa3625011eece8a036e5cb4e4eaba6ca9dced80cce4c979554355dd200f", "what": "box A per-patch exitance of e3_o and e3_p: reference mean, half band, explicit deployed and pooled", "source": "~/rest_x96a/results/eval96a (w96a.py final)"},
+  "figW3_lifecycle.png": {"sha256": "30b01f87a743392f4a9cde993350028665311919b2049b4ca6236381eedc51d5", "what": "chain figure of the warm lifecycle components; COLOUR DEFECT: colours were assigned per panel, so the same colour means different components in the two panels and the legend is shown only on the right. Kept for provenance; use the post-hoc version", "source": "~/rest_x96a/results/eval96a (w96a.py final)"},
+  "figW3_lifecycle_posthoc.png": {"sha256": "6ac46d077fd4d62b7dfcb9db95f9d2d48fdcf33eb23c356ff01309e4c31fe037", "what": "same data (cost_s1.0.json) with one colour per component across both panels and the median event wall written on each bar; figure-only fix, no value changed", "source": "experiments/ecro_util96a/figw3_posthoc.py on ~/rest_x96a/results/cost_s1.0.json"}
+ },
+ "results_copied": "results/ecro_util96a/ (s0.json, s1.json, tails.json, tails.npz, T96A.npz, cost_s1.0.json, final.json, chain.status, gpu.txt)"
+}

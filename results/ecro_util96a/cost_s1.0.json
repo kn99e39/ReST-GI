@@ -1,0 +1,208 @@
+{
+ "s": 1.0,
+ "N": 1270,
+ "gpu": "NVIDIA GeForce RTX 3080 Ti, 595.71.05, 12288 MiB",
+ "foreign_before": [],
+ "frame_spp": 64,
+ "res": 512,
+ "arms": {
+  "R0": {
+   "edit": {
+    "wall_s": 0.14413186814635992,
+    "wall_raw_s": 0.14413186814635992,
+    "compile_s_total": 0.0,
+    "events_with_compilation": 0,
+    "cpu_s": 0.148891754000001,
+    "gpu_kernel_ms": 25.467775692930445,
+    "parts": {
+     "geometry_update": 0.030184770934283733,
+     "prefix_order": 0.0020243823528289795,
+     "relation_coefficients": 0.004953144118189812,
+     "relation_update": 0.018144385889172554,
+     "render": 0.059513166546821594,
+     "source_q_table": 0.025682514533400536,
+     "table_handover": 0.00021506007760763168,
+     "tail_orders": 0.0033112289384007454
+    },
+    "parts_sum_over_wall": 0.9998102020266183,
+    "n": 6
+   },
+   "source": {
+    "wall_s": 0.08853004220873117,
+    "wall_raw_s": 0.08853004220873117,
+    "compile_s_total": 0.0,
+    "events_with_compilation": 0,
+    "cpu_s": 0.09044294599999958,
+    "gpu_kernel_ms": 24.28998428909108,
+    "parts": {
+     "prefix_order": 0.0020504510030150414,
+     "render": 0.05851397942751646,
+     "source_q_table": 0.024372229352593422,
+     "table_handover": 0.00021211430430412292,
+     "tail_orders": 0.003310844302177429
+    },
+    "parts_sum_over_wall": 0.999701665478876,
+    "n": 16
+   },
+   "dirty_rays_median": 49936.0,
+   "torch_peak_mib": 250.57373046875
+  },
+  "LAM24": {
+   "edit": {
+    "wall_s": 0.15462632570415735,
+    "wall_raw_s": 0.15462632570415735,
+    "compile_s_total": 0.0,
+    "events_with_compilation": 0,
+    "cpu_s": 0.5801017204999983,
+    "gpu_kernel_ms": 25.504400418605655,
+    "parts": {
+     "generator": 0.008362113498151302,
+     "geometry_update": 0.03027352597564459,
+     "lambda_apply": 0.00020901300013065338,
+     "prefix_order": 0.001994163729250431,
+     "relation_coefficients": 0.0050608087331056595,
+     "relation_update": 0.017939385026693344,
+     "render": 0.059370108880102634,
+     "source_q_table": 0.031255885027348995,
+     "table_handover": 0.0002095671370625496
+    },
+    "parts_sum_over_wall": 0.9998259384562611,
+    "n": 6
+   },
+   "source": {
+    "wall_s": 0.08508476987481117,
+    "wall_raw_s": 0.08508476987481117,
+    "compile_s_total": 0.0,
+    "events_with_compilation": 0,
+    "cpu_s": 0.08697091399999834,
+    "gpu_kernel_ms": 24.334880132693797,
+    "parts": {
+     "lambda_apply": 0.0002091405913233757,
+     "prefix_order": 0.00203077495098114,
+     "render": 0.058213818818330765,
+     "source_q_table": 0.02438927534967661,
+     "table_handover": 0.00020349211990833282
+    },
+    "parts_sum_over_wall": 0.9996833679897101,
+    "n": 16
+   },
+   "dirty_rays_median": 49936.0,
+   "torch_peak_mib": 355.0673828125
+  },
+  "LAM64": {
+   "edit": {
+    "wall_s": 0.1565015111118555,
+    "wall_raw_s": 0.1565015111118555,
+    "compile_s_total": 0.0,
+    "events_with_compilation": 0,
+    "cpu_s": 0.7268625094999983,
+    "gpu_kernel_ms": 25.48990395758301,
+    "parts": {
+     "generator": 0.00836588628590107,
+     "geometry_update": 0.030231233686208725,
+     "lambda_apply": 0.00028934236615896225,
+     "prefix_order": 0.0020037777721881866,
+     "relation_coefficients": 0.005035841837525368,
+     "relation_update": 0.01792462170124054,
+     "render": 0.05956540908664465,
+     "source_q_table": 0.03270242176949978,
+     "table_handover": 0.0002090204507112503
+    },
+    "parts_sum_over_wall": 0.9998283725857608,
+    "n": 6
+   },
+   "source": {
+    "wall_s": 0.08526427205651999,
+    "wall_raw_s": 0.08526427205651999,
+    "compile_s_total": 0.0,
+    "events_with_compilation": 0,
+    "cpu_s": 0.08715217399999808,
+    "gpu_kernel_ms": 24.32075200136751,
+    "parts": {
+     "lambda_apply": 0.00028968043625354767,
+     "prefix_order": 0.0020420746877789497,
+     "render": 0.058209002017974854,
+     "source_q_table": 0.024344717152416706,
+     "table_handover": 0.00020457711070775986
+    },
+    "parts_sum_over_wall": 0.9996827221057405,
+    "n": 16
+   },
+   "dirty_rays_median": 49936.0,
+   "torch_peak_mib": 350.41650390625
+  },
+  "ZERO": {
+   "edit": {
+    "wall_s": 0.13885154202580452,
+    "wall_raw_s": 0.13885154202580452,
+    "compile_s_total": 0.0,
+    "events_with_compilation": 0,
+    "cpu_s": 0.14348333549999914,
+    "gpu_kernel_ms": 23.75617670500651,
+    "parts": {
+     "geometry_update": 0.030238484032452106,
+     "prefix_order": 0.0020233215764164925,
+     "relation_coefficients": 0.004866988398134708,
+     "relation_update": 0.01786518283188343,
+     "render": 0.05795806460082531,
+     "source_q_table": 0.02551449555903673,
+     "table_handover": 0.00021742843091487885
+    },
+    "parts_sum_over_wall": 0.9998040850895455,
+    "n": 6
+   },
+   "source": {
+    "wall_s": 0.08488957025110722,
+    "wall_raw_s": 0.08488957025110722,
+    "compile_s_total": 0.0,
+    "events_with_compilation": 0,
+    "cpu_s": 0.08677640949999699,
+    "gpu_kernel_ms": 24.168096594512463,
+    "parts": {
+     "prefix_order": 0.002053210511803627,
+     "render": 0.05812665354460478,
+     "source_q_table": 0.024324427358806133,
+     "table_handover": 0.00021683424711227417
+    },
+    "parts_sum_over_wall": 0.9996885100431523,
+    "n": 16
+   },
+   "dirty_rays_median": 49936.0,
+   "torch_peak_mib": 305.60546875
+  }
+ },
+ "components": {
+  "q_table_s": 0.0242000799626112,
+  "one_order_s": 0.0011352160945534706,
+  "tail_3_orders_s": 0.003293312154710293,
+  "lambda24_apply_s": 0.0001558726653456688,
+  "lambda64_apply_s": 0.0002428051084280014,
+  "generator_factors_s": 0.0052984319627285,
+  "ecro_apply_s": 0.0007731951773166656,
+  "frame_s": 0.05733892507851124
+ },
+ "rays": {
+  "relation_rays": 650240,
+  "q_shadow_rays_per_light": 20320,
+  "render_rays_nominal_per_frame": 67108864,
+  "dirty_rays_per_edit_median": 49936.0
+ },
+ "process_gpu_mem": [
+  "3430383, 1452 MiB"
+ ],
+ "U": {
+  "LAM24": {
+   "edit": 0.9321302015681585,
+   "source": 1.040492233086946
+  },
+  "LAM64": {
+   "edit": 0.9209615109936242,
+   "source": 1.038301742024448
+  },
+  "ZERO": {
+   "edit": 1.038028573853174,
+   "source": 1.0428847966464583
+  }
+ },
+ "boundary_ok": true
+}

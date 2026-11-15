@@ -1,0 +1,45 @@
+{
+ "T_PMAT": {
+  "digest": "3d894e73cef701a4",
+  "expected": "3d894e73cef701a4",
+  "pass": true
+ },
+ "T_KMAX": {
+  "D_minus_1": 5,
+  "J": 4,
+  "pass": true
+ },
+ "T_SPLIT_FIELD": {
+  "rel_l1": 9.771604328503778e-08,
+  "min_part": 0.0,
+  "pass": true
+ },
+ "T_SPLIT_TAG": {
+  "v2p_at_k2": true,
+  "parts_by_k": true,
+  "loop_and_names": true,
+  "patched_sha": "14f7367ceebdd0133f13e33632c14f5d000203ddc89e170a45b77abac11b3210",
+  "installed_sha": "14f7367ceebdd0133f13e33632c14f5d000203ddc89e170a45b77abac11b3210",
+  "pass": true
+ },
+ "T_REF_RECON": {
+  "rel_l1": 2.0541322420176287e-08,
+  "pass": true
+ },
+ "T_EXP_DEPLOYED": {
+  "pass": true
+ },
+ "T_EXP_SPLIT": {
+  "split_rel": 2.1731140507374692e-07,
+  "linearity_rel": 2.188386929447006e-07,
+  "min_tp": 0.0,
+  "min_to": 0.0,
+  "pass": true
+ },
+ "T_READOUT": {
+  "masks_sha_equal": true,
+  "render_max_rel": 1.7091031380240322e-07,
+  "pass": true
+ },
+ "ALL": true
+}
