@@ -1,0 +1,108 @@
+{
+ "protocol": "ecro_util96a",
+ "version": 1,
+ "title": "WL96A - learned higher-order transport utility ceiling (learning-free; CK2 none)",
+ "brief": "user brief 'WL96A - Learned Higher-Order Transport Utility Ceiling' (2026-11-16)",
+ "batch_class": "suffix of WL96 (dependent evidence-gap follow-up of its NO_VIABLE_LEARNED_MECHANISM verdict and its specified section-F smoke; no new mechanism, no training). Named WL96A by the brief.",
+ "question": "Given a fixed, physically accurate transport prefix, is there meaningful representability or lifecycle-cost headroom for a learned higher-order ECRO operator over explicit recurrence? Accuracy headroom and runtime headroom are separated. A positive result is not evidence of trainability or generalization.",
+ "preserved": [
+  "ER and its convention (eval(wi = viewer, wo = light) = f cos(theta_wo))",
+  "ECRO model86 / ecro86 / pt86 / pt86a / quad87 / xport87 / mat94 / an94 source files and every checkpoint (own_s8601 / own_s8602 WL92A loaded read-only)",
+  "the explicit comparator EXP (xport87.XOp, quad87.Quad, deployed realization 86001, J = 4 orders)",
+  "CK2 geometry, materials (default map 'none'), light LCK2, camera, masks94",
+  "CKF_none field reference (2 x 4,096 spp, seeds 94301 / 94302) and REF_ER_CK_none images (4 x 8,192 spp)",
+  "WL86-WL96 history and verdicts"
+ ],
+ "families": {
+  "vertex_naming": "pt86a.field_src traces from the receiver: k = 1 is the receiver point r (the table patch), k = 2 the vertex s1 adjacent to r on the light side, k >= 3 earlier vertices s2, s3 ... (light order: light -> ... -> s2 -> s1 -> r -> out). NEE at vertex k gives a path with exactly k scattering events.",
+  "prefix": "e2 = e2_p + e2_o: exactly 2 events (light -> s1 -> r). Physically referenced (PT).",
+  "tail": "e3 = e3_p + e3_o: 3..5 events (kmax = pt86.D - 1 = 5), the higher-order term; the ECRO table B holds 2..5 events",
+  "e3_p": "tail AND s1 has material 1 (S1 panel): the last sender into r is sharp. Tag is set at k = 2 (the vertex adjacent to r), NOT at the first light-side scattering event",
+  "e3_o": "tail AND s1 is not material 1. It includes paths with the panel at s2, s3 ... (sharp structure earlier in the chain) and with the moderately glossy floor (B) / sphere (S2) at s1; the existing tag cannot separate these and this batch does not create a new tag",
+  "receiver_class": "a separate predicate: r on the panel (S1, 42 patches, sharp readers of their own outgoing lobe) vs every other receiver. Reported as a region, not a family",
+  "resolvent_domain": "declared ownership of the learned higher-order resolvent tested here: e3_o at every receiver (input = the exact e2 field of all patches; output passed through the exact receiver operator in the explicit arm; the ECRO global term outputs B directly). e3_p is owned by an explicit sharp relay and is taken from the reference in the domain-isolating arms. prefix (k = 2) and tail (k >= 3) are disjoint by event count; e3_p / e3_o are disjoint by the s1 predicate",
+  "existing_learned_G": "the OWN global term (WL92A) was supervised on L3+ = e3_p + e3_o (both families) with ECRO's own source encoding as input; it is therefore compared with the whole tail and is descriptive only (not event-exclusive, different input)"
+ },
+ "stage_0_contract": {
+  "T_PMAT": "CK2 'none' material map digest = CKF_none.json pmat_digest (3d894e73cef701a4)",
+  "T_KMAX": "pt86.D - 1 = 5 = number of explicit orders on top of q (J = 4): tail orders L3..L5 (3..5 events) match e3",
+  "T_SPLIT_FIELD": "mat94-installed field_src on CK2 'none', 64 spp, seed 96001: split=True parts are non-negative and sum to the split=False total of the same seed (whole-table rel L1 <= 1e-6; float-atomic floor recorded)",
+  "T_SPLIT_TAG": "source check: in the installed field_src the _p tag is assigned once at k == 2 (v2p = mid == 1) and e2 parts receive only k == 2 contributions, e3 parts only k >= 3 (regular-expression check of the source text)",
+  "T_REF_RECON": "CKF_none halves: e2_p + e2_o + e3_p + e3_o mean = the WL95A floor table T95A['floor'] (rel 1e-6)",
+  "T_EXP_SPLIT": "explicit tail: T_p(S) + T_o(S) = T(S) and T(L2 + L3 + L4) = L3 + L4 + L5 for the deployed realization (rel 1e-5); outputs non-negative; linearity T(a + b) = T(a) + T(b) (rel 1e-5)",
+  "T_EXP_DEPLOYED": "the deployed explicit state built here equals EC.build_state(ctx) on the default realization (hit / dbin identical)",
+  "T_READOUT": "re-render of the WL95A floor table (seed 86600, 4,096 spp) = ~/rest_x95a CK_none_floor_X_CK2_T1_r0 (per-pixel max |diff| <= 1e-4 x image mean); masks94 sha identical to WL95A's",
+  "on_failure": "STOP before Stage 1"
+ },
+ "stage_1": {
+  "explicit": "EXP tail from the reference prefix: L2 = reference e2 (mean of halves unless stated), L3 = T L2, L4 = T L3, L5 = T L4 with T = xport87.XOp (deployed state 86001, quad87.Quad(us, M_ray 65536, seed_ray 87001)). Split of the LAST gather by s1 = hit patch material: e3_p_exp = T_p(L2 + L3 + L4), e3_o_exp = T_o(L2 + L3 + L4)",
+  "pooled": "R = 16 independent realizations (state offsets realization_us(960000 + d), Quad seed_ray 87001 + 1000 (d + 1)); pooled = mean of the 16 explicit tails (expected value of the estimator: binning / quadrature bias without state-ray variance). Per-realization tails kept for the distribution",
+  "tables": "every render table = reference e2 (mean) + tail; arms: F (tail = reference e3 mean; = the WL95A floor), Fa / Fb (tail = e3 half a / b; reference-tail noise), Z (tail = 0), XD / XP (explicit e3, deployed / pooled), XOD / XOP (reference e3_p + explicit e3_o: the resolvent domain only), XSD / XSP (explicit e3_p + reference e3_o; sharp-last, descriptive), G8601 / G8602 (OWN learned global term; descriptive)",
+  "render": "mat94.render, CK2 'none', 4 reps x 4,096 spp per arm, seeds 86600 + r (r = 0..3): identical camera random numbers across arms (paired)",
+  "field_metrics": "per family (e3_o, e3_p, e3) and region (boxA 54, panel face 9, S1 panel receivers 42, non-S1 receivers, all): exitance flux ratio, per-patch exitance abs rel L1, W_T-weighted table rel L1 (patch x bin x channel), energy; reference half-split noise n0 = 0.5 sum|a - b| / sum mean; excess E = rel L1 - n0; cross-half check (explicit from e2 half a vs tail half b); pooled jackknife SE over realizations; deployed rank among the 16 realizations",
+  "image_metrics": "ROI_T (primary) and DIFF of masks94. x_X = mean over reps of the arm's hl; tot = mean REF total. Paired change dI(X) = sum|x_X - x_F| / sum tot, signed sum(x_X - x_F) / sum tot; paired noise nb(X) = 0.5 sum|mean_{r0,r1}(x_X - x_F) - mean_{r2,r3}(x_X - x_F)| / sum tot; reference-tail noise n_img = 0.5 dI(Fa vs Fb) (paired); absolute E_H vs REF h with the an94.eh noise bound",
+  "minimum_meaningful_image_effect": "M_img = 0.005 of the ROI total (L1): the E_H tolerance floor used by every WL93D-WL95A rule; nothing smaller was ever treated as meaningful in this lineage",
+  "decision": {
+   "H": "H = dI(XOD) - n_img (debiased image magnitude of the deployed explicit error inside the resolvent domain = the most a perfect learned resolvent could remove); U = H + 2 nb(XOD); Lo = H - 2 nb(XOD); realized R = E_H(XOD) - E_H(F), tol_E = max(2 max(noise_bound(XOD), noise_bound(F)), 0.005)",
+   "S1_NO_HEADROOM": "U < M_img",
+   "S1_HEADROOM": "Lo >= M_img and R > tol_E",
+   "S1_UNRESOLVED": "otherwise -> one predeclared extension: 6 more field halves (field_src split, 4,096 spp, seeds 96101..96106; reference = mean of 8 halves, Fa / Fb = means of halves {a, 96101, 96103, 96105} / {b, 96102, 96104, 96106}) and 8 more render reps (r = 4..11) for every arm; all explicit tails recomputed from the new prefix; then the same rules; still unresolved -> S1_INCONCLUSIVE",
+   "field_secondary": "field-level headroom (reported, not the decision): E(XOD, e3_o, region) > max(2 SE, n0 / 2) as in the WL96 section-F mapping (SE: jackknife for pooled; none for deployed)"
+  }
+ },
+ "stage_2": {
+  "trigger": "only if S1_HEADROOM; otherwise recorded STAGE2_NOT_TRIGGERED (no targets created)",
+  "why_multi_source": "a fit to the single CK2 light is degenerate (any rank >= 1 operator reproduces one input-output pair), so representability needs many sources on the same geometry with the same contract",
+  "targets": "160 point lights (rgb 30) by the WL91 random_sources rule (x in [-1.6, 1.6], y in [-1.6, 1.0], z in [1.2, 2.8], scene86.light_ok on the CK2 geometry) from rng 96200, additionally rejected within 0.3 m of the CK2 light; field_src split, 2 x 512 spp each (seeds 96300 + 2 l, + 1); estimated 12 GPU-min",
+  "form": "per channel non-negative Lambda = P Q^T, P, Q in R+^{(N x 64) x rho}, rho in {24, 64} (fixed; no increase after results); input x = e2 table, output = e3_o table",
+  "fit": "half a of the 160 fit lights; objective sum_l sum W_T (y - P Q^T x)^2 / sum W_T y^2; Adam lr 1e-2, 5,000 steps, init rng 96400, projection to >= 0; deterministic",
+  "evaluation": "held-out CK2 light (x = CKF e2 mean, y = CKF e3_o mean) and in-sample fit lights on half b; field rel L1 per region and image dI as in Stage 1 (table = e2 + reference e3_p + Lambda x)",
+  "attribution": "capacity = in-sample half-a residual; target noise = half-a vs half-b in-sample gap relative to n0; objective mismatch = L2-trained vs L1 metric ordering; source generalization = held-out vs in-sample",
+  "ACCURACY_HEADROOM_CONFIRMED": "for rho = 24 or 64 on the held-out CK2 light: dI(fit) <= dI(XOD) - M_img AND boxA e3_o field rel L1(fit) < rel L1(XOD) - max(n0 / 2, 0.02)"
+ },
+ "stage_3": {
+  "run": "always at the CK2 size (a cost-only hypothesis has not been measured on CK2); run ALONE on the GPU",
+  "arms": {
+   "R0": "explicit lifecycle: edit = set_geom + EC.update_state (dirty rays) + XOp coefficients + q table (quad87.qtable P 16, Mq 1,024) + 4 orders + table hand-over + frame; source = q table + 4 orders + hand-over + frame",
+   "LAM_rho": "same prefix (q table + first order L2 = T q as the stand-in for the physical prefix; a real sharp prefix is more expensive, which only lowers U) + Lambda apply (random non-negative P, Q of rank rho in {24, 64}; cost does not depend on values) + hand-over + frame; edit additionally regenerates the operator with the ECRO-class generator (OWN s8601 model86.factors on the new geometry state) - timed separately and included in edit",
+   "ZERO": "LAM with Lambda and generator cost 0 (the Amdahl ceiling)"
+  },
+  "frame": "CK2 camera (512 x 512), 'ecro' table lookup, 64 spp, plain (the WL91 lifecycle frame convention)",
+  "edit": "CK2 has no approved geometry edit with references; timing-only rigid edit: box A translated by +0.15 m along y and back (alternating, moved = ['A']); no quality is measured on it",
+  "events": "2 untimed warm events of each kind, then 6 edits and 16 source updates (16 random point lights, rng 96500, the WL91 random_sources rule), one synchronised wall timer per event (Dr.Jit + torch) plus component timers; compilation excluded via the Dr.Jit kernel history (WL91 rule), raw walls recorded; component medians of 20 warm repetitions for: 3 tail orders, Lambda apply, generator",
+  "U": "U = wall(R0) / wall(arm) per lifecycle (edit -> frame, source -> frame), medians",
+  "required_cost_advantage": "COST criterion met iff U(LAM_rho) >= 1.25 for edit -> frame (generator included) or source -> frame, for rho = 24 or 64, at the tested N",
+  "scaling_extension": "only if U(ZERO) >= 1.15 for either lifecycle at the CK2 size: the same measurement at patch refinement s = 1.5 / 2.0 (econ88.refine rule: stationary grids, box faces, sphere bands); COST criterion may then also be met at the largest N",
+  "recorded": "ray counts (relation rays, dirty rays per edit, q shadow rays N x P x lights, nominal render rays), torch peak memory, process GPU memory, CPU time, GPU kernel time, GPU utilisation trace"
+ },
+ "verdict": {
+  "LEARNED_RESOLVENT_UTILITY": {
+   "ACCURACY_HEADROOM": "S1_HEADROOM and ACCURACY_HEADROOM_CONFIRMED, COST criterion not met",
+   "COST_HEADROOM": "COST criterion met, accuracy not (S1_NO_HEADROOM, or S1_HEADROOM without confirmation)",
+   "BOTH": "both",
+   "NO_MEANINGFUL_HEADROOM": "S1_NO_HEADROOM (or S1_HEADROOM not confirmed by Stage 2) and COST criterion not met",
+   "INCONCLUSIVE": "S1_INCONCLUSIVE and COST not met, or a validity gate fails after Stage 0"
+  },
+  "note": "evidence classification only; headroom is not viability, trainability or generalization; no implementation or training permission"
+ },
+ "stops": [
+  "Stage 0 failure",
+  "event-family ownership invalid",
+  "reference mismatch (T_REF_RECON / T_READOUT)",
+  "Stage 2 cost estimate exceeded by > 2x",
+  "a new representation-class decision becomes necessary",
+  "any training / tuning / rank increase"
+ ],
+ "not_authorised": [
+  "training or tuning anything (Stage 2 free fits are learning-free feasibility probes, not trained models)",
+  "new sharp carriers",
+  "rank / capacity increase after results",
+  "new lights or geometry for evaluation (Stage 2 fit lights only as predeclared)",
+  "renormalisation, clamping, energy correction",
+  "changes to ECRO / explicit / reference code",
+  "promoting explicit GI or any arm to the method",
+  "Architecture changes, successor batch"
+ ],
+ "execution": "one detached chain on LabServer63 (~/rest_x96a); renders pool 4, extension field halves pool 3, Stage 2 references pool 4 (full-scale probe: a single 4,096-spp render uses ~23 % GPU, a field half ~3 % (CPU-bound accumulation)); Stage 3 runs after every pool has finished (GPU alone)",
+ "pre_freeze_exposure": "All WL86-WL96 results are known, including WL95A's G_s8601 / G_s8602 ROI E_H (0.0251 / 0.0150 vs floor 0.0118) and WL96's cross-workload Amdahl estimate (1.09x / 1.16x from WL91 GM1 timings). Criteria above were written before any WL96A code ran. Pre-freeze runs: (1) dev chain ~/rest_x96adev (--dev: R_pool 2, 2 / 4 render reps at 32 spp, 32-spp extension halves, 8 Stage 2 lights at 32 spp, 200 fit steps, 8-spp lifecycle frames; every path incl. extension, Stage 2 and scaling forced); outcome lines were suppressed ('S1 DEV', 'FINAL DEV'); Stage 0 test values were read. DISCLOSED: the dev figure figW1 was opened to check layout; because the dev tails use the REAL CKF_none reference and the real explicit operator (only the render spp was reduced), it showed qualitatively that |arm - F| in the ROI is visibly smallest for XOD / XOP among the tail arms and larger for the learned G arms and for Z (no number was read). (2) full-scale timing probe ~/rest_x96aprobe (stage 0 at full spp: all PASS incl. T_READOUT; tails 26 s; one render ~10 s; one extension half 18 s; Stage 2 two lights 21 s, two fits 178 s at 98 % GPU; lifecycle 18 s, boundary_ok); only walls, GPU utilisation and pass flags were read, no metric or timing value of an arm. No criterion was changed after either run; the only post-dev changes are the JSON-bool / import fixes and the pool sizes."
+}
