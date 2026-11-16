@@ -155,3 +155,22 @@ the eight Seal/Teaset per-method/per-seed JSON run records were copied into
 these committed evidence copies as well as the two PNGs. The relocated
 `evaluation/` tree's existing ignore rules remain unchanged. These are the
 initial 128-spp snapshots, not a refresh or a final high-spp accuracy verdict.
+
+## Public evaluation stopped by the user (2026-11-17)
+
+At 01:19:18 KST the user requested stopping the Fabric render. The current
+Fabric neural r0 128-spp process had been running for about 3 hours 24 minutes.
+Consecutive GPU samples showed 0% compute utilisation, around 26 W power and
+11312 MiB attributed to that process, while its main CPU thread consumed
+approximately one core. Its log contained initial loading and a Dr.Jit
+allocation-cache warning. The exact CPU hotspot was not established.
+
+`stop_public_queue.py` verified the queue and Fabric argv, froze dispatch,
+recorded process identities and terminated the verified 35-process queue /
+renderer tree. The server records `stopped_by_user` for the queue and current
+job. The follow-up check found no GPU compute processes, GPU memory at
+1/12288 MiB, and no surviving dispatcher / timeout / Fabric main process.
+The active public evaluation is stopped. Its interruption is a user stop.
+The process record and original Fabric log are preserved under
+`evaluation/21A/execution_evidence/`. The completed CK2 30-epoch fit and
+previously collected images remain available at their recorded locations.
