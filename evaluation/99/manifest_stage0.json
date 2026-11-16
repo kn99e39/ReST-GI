@@ -1,0 +1,161 @@
+{
+ "display": "Reinhard x / (1 + x) of 2^0 * radiance, gamma 2.2, no per-image normalisation",
+ "source": "reference halves mean",
+ "qual99": {
+  "A1_g90s1": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": false,
+    "Q5": true
+   }
+  },
+  "A2_g90s1_graze": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": false,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "B1_g90s2": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "C_box": {
+   "admitted": true,
+   "gates": {
+    "Q1_null": true
+   }
+  },
+  "A3_corner": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "A4_channel": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "A5_g90s1_obl": {
+   "admitted": true,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": true,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "A6_g90s1_zoom": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "B2_g90s2_zoom": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "A8_channel_zoom": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "A9_corner_bars": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "A10_g90s1_obl_mirror": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": false,
+    "Q1": false,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "B3_g90s2_obl": {
+   "admitted": true,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": true,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "A11_channel_obl": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  },
+  "A12_corner_obl": {
+   "admitted": false,
+   "gates": {
+    "Q_ref": true,
+    "Q1": true,
+    "Q3": false,
+    "Q4": true,
+    "Q5": true
+   }
+  }
+ },
+ "required_set": {
+  "A_dev_geometry": false,
+  "B": true,
+  "C_null": true,
+  "A_heldout_geometry": false,
+  "A_heldout_illumination": true,
+  "Q6_intrusion": true
+ },
+ "verdict": "NOT_QUALIFIED_WITHIN_FIRST_CANDIDATES"
+}
