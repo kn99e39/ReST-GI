@@ -1,0 +1,72 @@
+{
+  "stage": "Initial two assets; 800x800, two independent 128-spp replicates per method; final accuracy pending",
+  "source_server": "LabServer63:/home/nd/rest_8dna_public21a",
+  "source_snapshot_manifest": "evaluation/21A/snapshot_manifest.json",
+  "display": "PT reference / 8DNA / HDR absolute error divided by labelled 99th percentile; RGB previews use fixed gamma 1/2.2",
+  "files": [
+    {
+      "path": "eval_comparison/8DNA/seal_128spp_comparison.png",
+      "sha256": "394cda2391271dcca9dc4e1f7dec37a9f78a66596f54c352b784032f96c3daec",
+      "bytes": 2679511,
+      "previous_path": "evaluation/21A/seal_128spp_comparison.png"
+    },
+    {
+      "path": "eval_comparison/8DNA/teaset_128spp_comparison.png",
+      "sha256": "0bedf6cb64523078f29f54552a7395d692442f2912faa3443d59dcf9725645cc",
+      "bytes": 4630085,
+      "previous_path": "evaluation/21A/teaset_128spp_comparison.png"
+    }
+  ],
+  "initial_measurement_evidence": [
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/initial_summary.json",
+      "sha256": "842ebeff5011015d80ca51d9fd74b98db0b43798fec7abde2a79f28343c8f3bf",
+      "bytes": 3385
+    },
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/provenance.json",
+      "sha256": "2441f833e1c0db6c2c4f316ac1474d54d804e1442abee7292f580379f34d468a",
+      "bytes": 2554
+    },
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/run_records/seal_neural_r0_800.json",
+      "sha256": "564bb1a5258f70fdcb8e1483197e03edba21123b6ed8c7de5651ea0af9ec3180",
+      "bytes": 4148
+    },
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/run_records/seal_neural_r1_800.json",
+      "sha256": "9c3bd0a008d66c8263b00e238a3d2129e611669412709550df90607e55834cd8",
+      "bytes": 4155
+    },
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/run_records/seal_pt_r0_800.json",
+      "sha256": "54922a365e4dbd51e11f4a45f016f657143ec490ef649b6945083cbca33d857a",
+      "bytes": 4128
+    },
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/run_records/seal_pt_r1_800.json",
+      "sha256": "3537d8da8b98745d6c4f7d7764c512e5da80d4ba216f86e4741274f6abeb81bb",
+      "bytes": 4128
+    },
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/run_records/teaset_neural_r0_800.json",
+      "sha256": "2c8897c78e1821c1b432c73f1bbe606905c2486762eecf46841dfcf9b15108d1",
+      "bytes": 4154
+    },
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/run_records/teaset_neural_r1_800.json",
+      "sha256": "078c6f994daad9adb86418a8ea9ba78f5ec4e013a6ab469698da0413dc0f6c4d",
+      "bytes": 4160
+    },
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/run_records/teaset_pt_r0_800.json",
+      "sha256": "0f2dadf4fa111d944b9d7d998824ffa31b27e91ef01a44252ecc2c04c815fb1a",
+      "bytes": 4152
+    },
+    {
+      "path": "eval_comparison/8DNA/initial_measurements/run_records/teaset_pt_r1_800.json",
+      "sha256": "7b2214f6297b22b7abab883f96d61221d26d7457a77dc54bac0ebcb7dda11667",
+      "bytes": 4151
+    }
+  ]
+}

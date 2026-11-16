@@ -1,0 +1,17 @@
+{
+  "protocol": "8dna_public21a_independent_seed_precision_v1",
+  "frozen_before_additional_seeds": "2026-11-16",
+  "purpose": "Supplement the unchanged high-spp primary protocol with an early, explicitly noise-unbiased estimate of squared reconstruction bias. Primary high-spp targets are not relaxed or replaced.",
+  "trigger": "First measured Seal physical reference costs 94.28s per 128 spp; its full 65536-spp target alone projects about 13.4 GPU hours. No neural-versus-reference MSE has been computed when this supplemental diagnostic is declared.",
+  "assets": ["seal", "teaset", "milk", "cat", "candle", "dragon", "bunny", "curlhair", "hair", "fabric"],
+  "resolution": 800,
+  "replicates": 8,
+  "spp_each_method_each_replicate": 128,
+  "seed_bases": "neural 210000+100000*rep; PT 410000+100000*rep as implemented in the primary wrapper. Cross-method seed overlap at different rep indices is possible; the estimator MUST use separate nonoverlapping seed streams below for NEW replicates, and must not assume independence of existing overlapping streams across methods.",
+  "new_seed_bases": "neural 10000000+100000*rep; PT 20000000+100000*rep for NEW diagnostic-only outputs. Existing primary outputs are not reused in this estimator.",
+  "estimator": "For paired independent residual images D_i=N_i-R_i, U=mean_RGBpixels(((sum_i D_i)^2-sum_i D_i^2)/(m*(m-1))). This estimates squared difference of expected linear images without positive reference-noise bias.",
+  "uncertainty": "Leave-one-independent-replicate-out U-statistic jackknife standard error; report approximate t(m-1) 95% interval. Only eight independent pairs, so interval is diagnostic, not a certified exact-replication gate. Do not treat pairwise products as independent replicates.",
+  "metrics": "Raw linear whole-image 100*U is primary. Display-transformed residual U is separately labelled; it estimates expected displayed finite-spp images, not the display of expected radiance, and cannot decide Table 1 reconstruction bias.",
+  "timing": "Same 800-square native scenes, unmodified checkpoints, 4-spp chunks and warmup; wall timing and cold overhead separately retained.",
+  "interpretation": "Numeric paper ratio with interval, no invented pass threshold. No retraining or training-time claim. High-spp primary convergence and unpublished evaluation-mapping limitations remain explicit."
+}

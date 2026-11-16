@@ -1,0 +1,207 @@
+{
+  "key": "teaset_pt_r0_800",
+  "arguments": {
+    "upstream": "/home/nd/NeuralShaderDemo/external/8dna26",
+    "out": "/home/nd/rest_8dna_public21a/results",
+    "asset": "teaset",
+    "method": "pt",
+    "spp": 128,
+    "rep": 0,
+    "res": 800,
+    "chunk": 4,
+    "vcall": 0
+  },
+  "completed_spp": 128,
+  "chunks": [
+    {
+      "seed": 410000,
+      "spp": 4,
+      "wall_s": 0.5727506261318922
+    },
+    {
+      "seed": 410001,
+      "spp": 4,
+      "wall_s": 0.6282130889594555
+    },
+    {
+      "seed": 410002,
+      "spp": 4,
+      "wall_s": 0.4936273228377104
+    },
+    {
+      "seed": 410003,
+      "spp": 4,
+      "wall_s": 0.47911678813397884
+    },
+    {
+      "seed": 410004,
+      "spp": 4,
+      "wall_s": 0.45369028113782406
+    },
+    {
+      "seed": 410005,
+      "spp": 4,
+      "wall_s": 0.5215817261487246
+    },
+    {
+      "seed": 410006,
+      "spp": 4,
+      "wall_s": 0.45675635896623135
+    },
+    {
+      "seed": 410007,
+      "spp": 4,
+      "wall_s": 0.45822592824697495
+    },
+    {
+      "seed": 410008,
+      "spp": 4,
+      "wall_s": 0.4689171090722084
+    },
+    {
+      "seed": 410009,
+      "spp": 4,
+      "wall_s": 0.5482595209032297
+    },
+    {
+      "seed": 410010,
+      "spp": 4,
+      "wall_s": 0.5203629862517118
+    },
+    {
+      "seed": 410011,
+      "spp": 4,
+      "wall_s": 0.48470430076122284
+    },
+    {
+      "seed": 410012,
+      "spp": 4,
+      "wall_s": 0.4561560954898596
+    },
+    {
+      "seed": 410013,
+      "spp": 4,
+      "wall_s": 0.4959223885089159
+    },
+    {
+      "seed": 410014,
+      "spp": 4,
+      "wall_s": 0.39889811910688877
+    },
+    {
+      "seed": 410015,
+      "spp": 4,
+      "wall_s": 0.5062536839395761
+    },
+    {
+      "seed": 410016,
+      "spp": 4,
+      "wall_s": 0.49473895132541656
+    },
+    {
+      "seed": 410017,
+      "spp": 4,
+      "wall_s": 0.4746043924242258
+    },
+    {
+      "seed": 410018,
+      "spp": 4,
+      "wall_s": 0.4973865319043398
+    },
+    {
+      "seed": 410019,
+      "spp": 4,
+      "wall_s": 0.5358696598559618
+    },
+    {
+      "seed": 410020,
+      "spp": 4,
+      "wall_s": 0.4743995927274227
+    },
+    {
+      "seed": 410021,
+      "spp": 4,
+      "wall_s": 0.41823113337159157
+    },
+    {
+      "seed": 410022,
+      "spp": 4,
+      "wall_s": 0.46086277440190315
+    },
+    {
+      "seed": 410023,
+      "spp": 4,
+      "wall_s": 0.47715925239026546
+    },
+    {
+      "seed": 410024,
+      "spp": 4,
+      "wall_s": 0.5032371766865253
+    },
+    {
+      "seed": 410025,
+      "spp": 4,
+      "wall_s": 0.4796042684465647
+    },
+    {
+      "seed": 410026,
+      "spp": 4,
+      "wall_s": 0.459411209449172
+    },
+    {
+      "seed": 410027,
+      "spp": 4,
+      "wall_s": 0.4576104339212179
+    },
+    {
+      "seed": 410028,
+      "spp": 4,
+      "wall_s": 0.4597583245486021
+    },
+    {
+      "seed": 410029,
+      "spp": 4,
+      "wall_s": 0.469520865008235
+    },
+    {
+      "seed": 410030,
+      "spp": 4,
+      "wall_s": 0.4491139203310013
+    },
+    {
+      "seed": 410031,
+      "spp": 4,
+      "wall_s": 0.4677705392241478
+    }
+  ],
+  "created_utc": "2026-11-16T03:30:50Z",
+  "environment": {
+    "python": "3.10.21 (main, Sep 24 2026, 17:54:40) [Clang 22.1.3 ]",
+    "torch": "2.3.1+cu121",
+    "cuda": "12.1",
+    "mitsuba": "3.5.1",
+    "drjit": "0.4.6",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti",
+    "platform": "Linux-6.8.0-134-generic-x86_64-with-glibc2.39"
+  },
+  "checkpoint_sha256": "6feb5e1b00e17d662596fcc0e6abde686ebbbd48d5233a2100caa407780f5bbc",
+  "scene_source_sha256": "cb4acb814d18f3a055fad4bdbe70b25e47f52dac0d5f0adb15c5a56939e33375",
+  "upstream_commit": "4a2157ca24e506c5ac0831f27d656ecc50a64f07",
+  "jit_flags": {
+    "LoopRecord": false,
+    "VCallRecord": false
+  },
+  "invocations": [
+    {
+      "load_s": 4.060138424858451,
+      "warmup_s": 1.2347558178007603,
+      "target_spp": 128,
+      "gpu_start": "4794 MiB, 20 %"
+    }
+  ],
+  "torch_peak_bytes": 0,
+  "last_checkpoint_sha256": "811d272556ef210e6d58d9d101522a397cd40b40da6063c18735bafcf67f37ce",
+  "last_checkpoint_utc": "2026-11-16T03:31:11Z",
+  "timed_wall_s": 15.522715350612998,
+  "gpu_end": "4794 MiB, 0 %"
+}
