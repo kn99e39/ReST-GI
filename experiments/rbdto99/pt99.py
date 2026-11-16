@@ -245,14 +245,17 @@ class Ctx:
         dr.eval(bufs); dr.sync_thread()
         return {k: np.asarray(b, np.float64) for k, b in zip(keys, bufs)}
 
-    def render(self, cam, res, spp, seed, kmax=8, mode='cam', b=16):
-        """Per-pixel channel sums (float64) over spp samples + timing (GPU kernel ms from Dr.Jit's kernel history, wall s)."""
+    def render(self, cam, res, spp, seed, kmax=8, mode='cam', b=128):
+        """Per-pixel channel sums over spp samples + timing (GPU kernel ms from Dr.Jit's kernel history, wall s).
+        Execution (WL99, after the GPU-utilisation check at 10:43 UTC): per launch the float32 sample values are scatter-added into
+        persistent float64 GPU buffers (no per-launch host transfer); b = 128 spp per launch (b = 16: 12.7 spp/s at 31 % GPU, b = 128: 262 spp/s at 100 %, measured with bench99b.py). Same estimator; the launch partition changes the per-launch seeds only."""
         n = res * res
-        acc = {}
+        bufs = {}
         dr.set_flag(dr.JitFlag.KernelHistory, True)
         Tm = {'gpu_ms': 0.0, 'wall_s': 0.0, 'launches': 0, 'spp': spp}
         t_all = time.perf_counter()
         done, launch = 0, 0
+        F64 = mi.Float64
         while done < spp:
             bb = min(b, spp - done)
             dr.kernel_history()
@@ -260,12 +263,19 @@ class Ctx:
             rng = mi.PCG32(size=n * bb, initstate=sd, initseq=mi.UInt64(0))
             ray, pix = gen_rays(cam, res, bb, rng)
             out = self.trace(ray, rng, kmax, mode)
-            a = self.accum(out, pix, n)
+            keys = sorted(out)
+            vals = [out[k] for k in keys]
+            dr.eval(vals, pix)                                   # evaluate BEFORE any scatter (Dr.Jit lazy-scatter defect, WL84)
+            for k_, v in zip(keys, vals):
+                if k_ not in bufs:
+                    bufs[k_] = dr.zeros(F64, n)
+                dr.scatter_reduce(dr.ReduceOp.Add, bufs[k_], F64(v), pix)
+            dr.eval(list(bufs.values()))
             Tm['gpu_ms'] += sum(float(h.get('execution_time', 0.0)) for h in dr.kernel_history())
-            for k_, v in a.items():
-                acc[k_] = acc[k_] + v if k_ in acc else v
             Tm['launches'] += 1
             done += bb; launch += 1
+        dr.sync_thread()
+        acc = {k: np.asarray(v, np.float64) for k, v in bufs.items()}
         Tm['wall_s'] = time.perf_counter() - t_all
         return acc, Tm
 
