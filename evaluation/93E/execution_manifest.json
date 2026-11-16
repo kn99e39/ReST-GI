@@ -1,0 +1,623 @@
+{
+  "exported_utc": "2026-11-16T05:28:44.420292+00:00",
+  "local_base_commit": "3cf69733d91e0defa4a4648bb64565e45dcd9c47",
+  "server_dependency_bundle_commit": "d8d092fd9634921190e7fcc438cb57f2adb79e36",
+  "server_root": "LabServer63 /home/nd/rest_nm93e",
+  "local_export_root": "C:\\Projects\\ReST-GI\\results\\ecro_nearmirror93e",
+  "command": "run93e.sh ROOT full; overlapping independent high-material worker run_high93e.sh ROOT; final viz93e.py/export93e.py LOCAL_ROOT evaluation/93E",
+  "environment": {
+    "physical_render_example": {
+      "material": "G010",
+      "variant": "bx38",
+      "res": 1024,
+      "spp": 2048,
+      "seed": 931500,
+      "timing": {
+        "trace_s": 29.115148166194558,
+        "eval_s": 67.52182486094534,
+        "gpu_ms": 0.0,
+        "launches": 256,
+        "wall_s": 96.63841278664768,
+        "spp": 2048
+      },
+      "scene": {
+        "tag": "CK2NM93E",
+        "targets": [
+          "A"
+        ],
+        "light_set": "LCK2NM93E",
+        "camera": {
+          "origin": [
+            0.3,
+            -1.6,
+            1.3
+          ],
+          "target": [
+            -1.3,
+            0.45,
+            1.0
+          ],
+          "fov_deg": 32.0,
+          "res": 1024
+        },
+        "geom": {
+          "A": {
+            "c": [
+              -1.08,
+              0.6,
+              1.0
+            ],
+            "h": [
+              0.2,
+              0.45,
+              0.45
+            ],
+            "yaw": 0.15
+          },
+          "B": {
+            "c": [
+              1.4,
+              1.5,
+              0.5
+            ],
+            "h": [
+              0.3,
+              0.25,
+              0.5
+            ],
+            "yaw": 0.0
+          }
+        },
+        "lights": [
+          {
+            "pos": [
+              -1.45,
+              -0.6,
+              1.7
+            ],
+            "rgb": [
+              30.0,
+              30.0,
+              30.0
+            ]
+          }
+        ]
+      },
+      "scene_sha256": "0dba643c2a34756ef7d3612429a92538712999aa3f757b314f4c4a392b28d398",
+      "protocol_sha256": "b18bb9026a2a589986a89d265e8b4fb5490c7cd8f8df95312bf346eea0cc2176",
+      "script_sha256": "264da1c694df7576fa8dd87ca49385e2012803749f3095c0ec5bdbd7365f940b",
+      "trace_patch_sha256": "57b30a3268542c6ff5db7ed705b8e3f97088e57f6a25ab1f8e56061186848c44",
+      "state_table_sha256": "9d91b73517fd6181cd9ee5c3571d221f065ca651f9a9c2351b964b59ffe23b2f",
+      "original_table_sha256": "b69515a91b5f476f9638472729b2d38e453a5935ab78cecf3be48c7d8ac0a609",
+      "mitsuba": "3.5.1",
+      "drjit": "0.4.6",
+      "variant_mitsuba": "cuda_ad_rgb",
+      "python": "3.10.21 (main, Sep 24 2026, 17:54:40) [Clang 22.1.3 ]",
+      "platform": "Linux-6.8.0-134-generic-x86_64-with-glibc2.39",
+      "scope": "REF-ER elsewhere; specified analytic material at panel"
+    },
+    "gpu": "NVIDIA GeForce RTX 3080 Ti, driver 595.71.05, 12288 MiB",
+    "gpu_start_file": "Mon Nov 16 04:50:09 2026       \n+-----------------------------------------------------------------------------------------+\n| NVIDIA-SMI 595.71.05              Driver Version: 595.71.05      CUDA Version: 13.2     |\n+-----------------------------------------+------------------------+----------------------+\n| GPU  Name                 Persistence-M | Bus-Id          Disp.A | Volatile Uncorr. ECC |\n| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |\n|                                         |                        |               MIG M. |\n|=========================================+========================+======================|\n|   0  NVIDIA GeForce RTX 3080 Ti     Off |   00000000:AF:00.0 Off |                  N/A |\n| 59%   51C    P2            142W /  370W |    2862MiB /  12288MiB |     30%      Default |\n|                                         |                        |                  N/A |\n+-----------------------------------------+------------------------+----------------------+\n\n+-----------------------------------------------------------------------------------------+\n| Processes:                                                                              |\n|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |\n|        ID   ID                                                               Usage      |\n|=========================================================================================|\n|    0   N/A  N/A         3610740      C   ...ernal/8dna26/.venv/bin/python       2852MiB |\n+-----------------------------------------------------------------------------------------+\n"
+  },
+  "freeze_file": "2026-11-16T04:50:09Z\n264da1c694df7576fa8dd87ca49385e2012803749f3095c0ec5bdbd7365f940b  /home/nd/rest_nm93e/code/experiments/ecro_nearmirror93e/render93e.py\n7ed39041c5715ac7a6c060fb32a305c1006dd4bc959624900b23ebcee2b55158  /home/nd/rest_nm93e/code/experiments/ecro_nearmirror93e/viz93e.py\nb18bb9026a2a589986a89d265e8b4fb5490c7cd8f8df95312bf346eea0cc2176  /home/nd/rest_nm93e/code/experiments/ecro_nearmirror93e/protocol.json\n0dba643c2a34756ef7d3612429a92538712999aa3f757b314f4c4a392b28d398  /home/nd/rest_nm93e/code/experiments/ecro_nearmirror93e/scene.json\nda514c9502adb9e7d20b70b67931b3bdff05f6a79200b6873a42ca02ebf83e79  /home/nd/rest_nm93e/code/experiments/ecro_nearmirror93e/run93e.sh\n",
+  "status": {
+    "preview": "2026-11-16T04:46:09Z START\n2026-11-16T04:46:26Z S1 done\n2026-11-16T04:46:44Z G075 done\n2026-11-16T04:47:02Z G040 done\n2026-11-16T04:47:19Z G010 done\n2026-11-16T04:47:38Z MIRROR done\n2026-11-16T04:47:38Z DONE\n2026-11-16T04:47:38Z EXIT=0\n",
+    "full": "2026-11-16T04:50:09Z START\n2026-11-16T04:51:55Z S1 bx38 931500 done\n2026-11-16T04:53:31Z S1 bx38 931501 done\n2026-11-16T04:56:02Z S1 none 931500 done\n2026-11-16T04:58:37Z S1 none 931501 done\n2026-11-16T05:00:28Z G075 bx38 931500 done\n2026-11-16T05:02:20Z G075 bx38 931501 done\n2026-11-16T05:04:04Z G075 none 931500 done\n2026-11-16T05:05:43Z G075 none 931501 done\n2026-11-16T05:07:25Z G040 bx38 931500 done\n2026-11-16T05:08:57Z G040 bx38 931501 done\n2026-11-16T05:10:34Z G040 none 931500 done\n2026-11-16T05:12:07Z G040 none 931501 done\n2026-11-16T05:12:08Z G010 bx38 931500 done\n2026-11-16T05:12:09Z G010 bx38 931501 done\n2026-11-16T05:12:10Z G010 none 931500 done\n2026-11-16T05:12:11Z G010 none 931501 done\n2026-11-16T05:12:11Z MIRROR bx38 931500 done\n2026-11-16T05:12:12Z MIRROR bx38 931501 done\n2026-11-16T05:12:13Z MIRROR none 931500 done\n2026-11-16T05:12:14Z MIRROR none 931501 done\n2026-11-16T05:12:50Z ECRO bx38 931500 done\n2026-11-16T05:13:24Z ECRO bx38 931501 done\n2026-11-16T05:13:59Z ECRO none 931500 done\n2026-11-16T05:14:33Z ECRO none 931501 done\n2026-11-16T05:14:33Z DONE\n2026-11-16T05:14:33Z EXIT=0\n",
+    "high": "2026-11-16T04:53:29Z START\n2026-11-16T04:55:11Z G010 bx38 931500 done\n2026-11-16T04:56:56Z G010 bx38 931501 done\n2026-11-16T04:58:35Z G010 none 931500 done\n2026-11-16T05:00:19Z G010 none 931501 done\n2026-11-16T05:02:03Z MIRROR bx38 931500 done\n2026-11-16T05:03:50Z MIRROR bx38 931501 done\n2026-11-16T05:05:29Z MIRROR none 931500 done\n2026-11-16T05:07:12Z MIRROR none 931501 done\n2026-11-16T05:07:12Z DONE\n2026-11-16T05:07:12Z EXIT=0\n"
+  },
+  "new_code": [
+    {
+      "file": "export93e.py",
+      "sha256": "061e10804cd57cc827f2648f084e9f0788ece8cb10e37641d3eabe2dd9b4ca0f"
+    },
+    {
+      "file": "protocol.json",
+      "sha256": "b18bb9026a2a589986a89d265e8b4fb5490c7cd8f8df95312bf346eea0cc2176"
+    },
+    {
+      "file": "render93e.py",
+      "sha256": "264da1c694df7576fa8dd87ca49385e2012803749f3095c0ec5bdbd7365f940b"
+    },
+    {
+      "file": "run93e.sh",
+      "sha256": "da514c9502adb9e7d20b70b67931b3bdff05f6a79200b6873a42ca02ebf83e79"
+    },
+    {
+      "file": "run_high93e.sh",
+      "sha256": "14efa4f13d88395087a4d1b320f7871ecb45eb1fc84db02c87190c57902a9b1e"
+    },
+    {
+      "file": "scene.json",
+      "sha256": "0dba643c2a34756ef7d3612429a92538712999aa3f757b314f4c4a392b28d398"
+    },
+    {
+      "file": "validate93e.py",
+      "sha256": "595ac143b4efb1b107a8dc6d5a49671b5c4438e724d957e4b37be530fd4058f0"
+    },
+    {
+      "file": "viz93e.py",
+      "sha256": "9fde89573a85c90dfa1ecc5bfc548db313c23df698adaa2eea60fbecef21855f"
+    }
+  ],
+  "analysis_execution": "Local isolated Windows Python venv; numpy 1.26.4, scipy 1.14.1, matplotlib 3.10.9, Pillow 12.3.0. Additional script upload rejected by automatic approval review; no further code sent. Downloaded existing renders for local analysis. Final visualization labels clarify mirror scope, without changing renderer, raw arrays, protocol conditions or metric formulas.",
+  "frozen_dependency_files": [
+    {
+      "path": "experiments/ecro86/pt86.py",
+      "sha256": "912e68acd314d79ef0cc270784d99f79ed8024caf856527a127f31e6ccd6c983",
+      "server_match": true
+    },
+    {
+      "path": "experiments/ecro86/scene86.py",
+      "sha256": "b75a2d9cbae1f738429e16fa32095a1c3cdf346bff5f5e55d5576ad14ce39e69",
+      "server_match": true
+    },
+    {
+      "path": "experiments/fnto_compiled83/closure83_dr.py",
+      "sha256": "3eee59095fc77fdb7a965d1a14a124230efa40fda05a2c4744e260b64c904614",
+      "server_match": true
+    },
+    {
+      "path": "experiments/ecro_local93d/addendum_checker/checker93d.py",
+      "sha256": "c720dcd0d9fad5fa6df4ae127884ac4c50788fb15405f83e4348aebff887f9ea",
+      "server_match": true
+    },
+    {
+      "path": "experiments/ecro_local93d/addendum_checker/scene_ck2.json",
+      "sha256": "977ba122ab3232e7d428155c0963cff2f7764ce56704274832ee12d37b09de75",
+      "server_match": true
+    }
+  ],
+  "local_preservation_checks": [
+    {
+      "file": "experiments/ecro_local93d/addendum_checker/scene_ck2.json",
+      "before_sha256": "977ba122ab3232e7d428155c0963cff2f7764ce56704274832ee12d37b09de75",
+      "after_sha256": "977ba122ab3232e7d428155c0963cff2f7764ce56704274832ee12d37b09de75",
+      "unchanged": true
+    },
+    {
+      "file": "experiments/ecro_local93d/addendum_checker/checker93d.py",
+      "before_sha256": "c720dcd0d9fad5fa6df4ae127884ac4c50788fb15405f83e4348aebff887f9ea",
+      "after_sha256": "c720dcd0d9fad5fa6df4ae127884ac4c50788fb15405f83e4348aebff887f9ea",
+      "unchanged": true
+    },
+    {
+      "file": "experiments/fnto_compiled83/closure83_dr.py",
+      "before_sha256": "3eee59095fc77fdb7a965d1a14a124230efa40fda05a2c4744e260b64c904614",
+      "after_sha256": "3eee59095fc77fdb7a965d1a14a124230efa40fda05a2c4744e260b64c904614",
+      "unchanged": true
+    },
+    {
+      "file": "experiments/ecro86/scene86.py",
+      "before_sha256": "b75a2d9cbae1f738429e16fa32095a1c3cdf346bff5f5e55d5576ad14ce39e69",
+      "after_sha256": "b75a2d9cbae1f738429e16fa32095a1c3cdf346bff5f5e55d5576ad14ce39e69",
+      "unchanged": true
+    },
+    {
+      "file": "experiments/ecro86/pt86.py",
+      "before_sha256": "912e68acd314d79ef0cc270784d99f79ed8024caf856527a127f31e6ccd6c983",
+      "after_sha256": "912e68acd314d79ef0cc270784d99f79ed8024caf856527a127f31e6ccd6c983",
+      "unchanged": true
+    },
+    {
+      "file": "docs/Architecture.md",
+      "before_sha256": "f7e42b08ce65603c9264ebf39c257077ff6a460155ec75fa4fa418f68c463271",
+      "after_sha256": "f7e42b08ce65603c9264ebf39c257077ff6a460155ec75fa4fa418f68c463271",
+      "unchanged": true
+    },
+    {
+      "file": "docs/worklogs/93D_WORKLOG_ADDENDUM_CHECKERBOARD_QUALITATIVE.md",
+      "before_sha256": "38c653642717b7d96878de657218e4441ed8c5707812b22f05938a2b2a9e769a",
+      "after_sha256": "38c653642717b7d96878de657218e4441ed8c5707812b22f05938a2b2a9e769a",
+      "unchanged": true
+    }
+  ],
+  "immutable_models_and_tables": [
+    {
+      "file": "/home/nd/rest_x92a/results/models/own_s8601.pt",
+      "before_sha256": "739e7eb50b25d3291352a7dd79895a9a45d41616bb72f9e3b3066422945a7a19",
+      "after_sha256": "739e7eb50b25d3291352a7dd79895a9a45d41616bb72f9e3b3066422945a7a19",
+      "unchanged": true
+    },
+    {
+      "file": "/home/nd/rest_x92a/results/models/own_s8602.pt",
+      "before_sha256": "cee9a09a289fca8c4d3de89b56b7c59fffe7f22a9b5811d1c560167ce5858438",
+      "after_sha256": "cee9a09a289fca8c4d3de89b56b7c59fffe7f22a9b5811d1c560167ce5858438",
+      "unchanged": true
+    },
+    {
+      "file": "/home/nd/rest_x93d_ck2/results/tables/CK_bx38_CK2_T1.npz",
+      "before_sha256": "8b913a67b4b21111085fb2490f00c2ba8fb403024f9123075e06bc5d652c8db2",
+      "after_sha256": "8b913a67b4b21111085fb2490f00c2ba8fb403024f9123075e06bc5d652c8db2",
+      "unchanged": true
+    },
+    {
+      "file": "/home/nd/rest_x93d_ck2/results/tables/CK_none_CK2_T1.npz",
+      "before_sha256": "63d084145b934b1ce03d14fa166ed7f843ef232ebea01eedf389d061a1c91c59",
+      "after_sha256": "63d084145b934b1ce03d14fa166ed7f843ef232ebea01eedf389d061a1c91c59",
+      "unchanged": true
+    }
+  ],
+  "actual_geometry_lighting_camera_scene_hash_identical": true,
+  "original_state_table_hash_identical_all_physical_arms": true,
+  "physical_frame_count": 20,
+  "model_frame_count": 8,
+  "raw_results": [
+    {
+      "path": "results\\analytic_material_checks.json",
+      "bytes": 1235,
+      "sha256": "74e8f763d85d257cceaedd5552d3dd1634c1dd64be8b6c89bd9f55498108af6b"
+    },
+    {
+      "path": "results\\logs\\full.log",
+      "bytes": 3723,
+      "sha256": "9112f32c17c6df07ce932ca6c278f03e1a63b914cf2821b909be4567175c1826"
+    },
+    {
+      "path": "results\\logs\\high.log",
+      "bytes": 1298,
+      "sha256": "ff3ff9dc00999d1e70ccd3b0386b02dad6818f1f846a9c905bc1b2c58aa7fd1f"
+    },
+    {
+      "path": "results\\logs\\preview.log",
+      "bytes": 791,
+      "sha256": "3fdfbc69d3de152d18a94378d7571cc87184c5706e2d708ec24667137c66c5e3"
+    },
+    {
+      "path": "results\\maps_1024.npz",
+      "bytes": 9844840,
+      "sha256": "b54b3ec9e28e42d853d803fb1d2eb207568ac326fd7035b61cca7c6998a94639"
+    },
+    {
+      "path": "results\\maps_512.npz",
+      "bytes": 2484748,
+      "sha256": "8a1e8554ed64c87715fe8b053a3bc5d8db98500821ae06fc17f5903db5cb7b38"
+    },
+    {
+      "path": "results\\preflight.json",
+      "bytes": 5070,
+      "sha256": "17cd6647f4e08960bf9f95abae3fd5962b305c27feb9e3fdcc07749d9765de11"
+    },
+    {
+      "path": "results\\renders\\ECRO8601_bx38_1024_931500.json",
+      "bytes": 589,
+      "sha256": "2ab570bdd139f022c926f83077e39992d522befe1b6e0c99fe030627919f404e"
+    },
+    {
+      "path": "results\\renders\\ECRO8601_bx38_1024_931500.npz",
+      "bytes": 28426419,
+      "sha256": "5910061ab6f91c9099b924d99d7d7840c20bc12015449ff45a0ff9a234d94c2d"
+    },
+    {
+      "path": "results\\renders\\ECRO8601_bx38_1024_931501.json",
+      "bytes": 590,
+      "sha256": "3ecc0e3ce1f3cfb5ff4c71f4dbc3cab01f081f6ce535b16bae862f7cd0b29346"
+    },
+    {
+      "path": "results\\renders\\ECRO8601_bx38_1024_931501.npz",
+      "bytes": 28426331,
+      "sha256": "6905aaf7878cf64c52361a1e59e2150dd110e09c4d427194662ce3272a536803"
+    },
+    {
+      "path": "results\\renders\\ECRO8601_none_1024_931500.json",
+      "bytes": 590,
+      "sha256": "e82b8a6e70fd142453ec890577058187873ac812c0d9d48a93863d2dbda17cc9"
+    },
+    {
+      "path": "results\\renders\\ECRO8601_none_1024_931500.npz",
+      "bytes": 28221380,
+      "sha256": "f953ecc59c02b1aa02df695ce445c986129878a505c28f7125c68c331d634780"
+    },
+    {
+      "path": "results\\renders\\ECRO8601_none_1024_931501.json",
+      "bytes": 590,
+      "sha256": "24be15a23ea5383158d199e47481f3861da18b38cebaef6c547287c6f97e9626"
+    },
+    {
+      "path": "results\\renders\\ECRO8601_none_1024_931501.npz",
+      "bytes": 28222938,
+      "sha256": "35d74fb242320e4c48509f9a067b2185415201d119207fef5dbda319c289209d"
+    },
+    {
+      "path": "results\\renders\\ECRO8602_bx38_1024_931500.json",
+      "bytes": 590,
+      "sha256": "f51898fb684b4229089929878c97c452eb224be29f7505da678de57ed05400a2"
+    },
+    {
+      "path": "results\\renders\\ECRO8602_bx38_1024_931500.npz",
+      "bytes": 28441699,
+      "sha256": "866f404fdb6ae3b6337a8efc3829c9806e5e1ac0805be52171cf769055488400"
+    },
+    {
+      "path": "results\\renders\\ECRO8602_bx38_1024_931501.json",
+      "bytes": 589,
+      "sha256": "ed881567b771ef7d0c7a6f5552232c99adcdfc5bafdc0c5255a6fdafd4786b45"
+    },
+    {
+      "path": "results\\renders\\ECRO8602_bx38_1024_931501.npz",
+      "bytes": 28441651,
+      "sha256": "21c5c3653796df1d9ee34b92ea0da053b75ef7f4205c00cc030e57cbbbb363f1"
+    },
+    {
+      "path": "results\\renders\\ECRO8602_none_1024_931500.json",
+      "bytes": 589,
+      "sha256": "c017badfa72c537799bfd26b2f24d3ecb79dec37ad8529f102cd65bccfd8332a"
+    },
+    {
+      "path": "results\\renders\\ECRO8602_none_1024_931500.npz",
+      "bytes": 28241945,
+      "sha256": "da3e7bd80cb8eb8a94d3a0b6dc4cb67a7068b9619802b132efd37e55baccd578"
+    },
+    {
+      "path": "results\\renders\\ECRO8602_none_1024_931501.json",
+      "bytes": 589,
+      "sha256": "2400d2e6e36ff8783254b6f69789fd849c8ad089a6d4cbcbba4edd72d9374b4e"
+    },
+    {
+      "path": "results\\renders\\ECRO8602_none_1024_931501.npz",
+      "bytes": 28243463,
+      "sha256": "60d2aa5ac0925df9cb179db2c2141c39f91110b272e68d322052d57fad830780"
+    },
+    {
+      "path": "results\\renders\\G010_bx38_1024_931500.json",
+      "bytes": 1966,
+      "sha256": "01b62400f66f20b6bed656c00f660a57abd4fb2fdd72b3dd721eba13cac72639"
+    },
+    {
+      "path": "results\\renders\\G010_bx38_1024_931500.npz",
+      "bytes": 55173818,
+      "sha256": "66da655193b6aaa4f8c9fabc4e1760696eef5f0e784ed9d05dfb3bb6752f234a"
+    },
+    {
+      "path": "results\\renders\\G010_bx38_1024_931501.json",
+      "bytes": 1965,
+      "sha256": "4334b0979627ff78586330512cb65e71977016d391fff1173231fcf578db6def"
+    },
+    {
+      "path": "results\\renders\\G010_bx38_1024_931501.npz",
+      "bytes": 55170063,
+      "sha256": "f596180501954d51b05e4c5da615b2a8c9795bbe7989df68201a73908ae10837"
+    },
+    {
+      "path": "results\\renders\\G010_bx38_512_931490.json",
+      "bytes": 1960,
+      "sha256": "c75e9b9f7b5ed7b5559529788ac31c5ae0456cf5c439df608bd50e9da2976155"
+    },
+    {
+      "path": "results\\renders\\G010_bx38_512_931490.npz",
+      "bytes": 13070175,
+      "sha256": "040e2c71cf643aff7ef9f060d9ef441e801a93f883c2b9d97e8b5119ebbc864d"
+    },
+    {
+      "path": "results\\renders\\G010_none_1024_931500.json",
+      "bytes": 1966,
+      "sha256": "a459b1035f2af1a52e3d698b28091e2dbf48d021682ede0ed8883e34fe712116"
+    },
+    {
+      "path": "results\\renders\\G010_none_1024_931500.npz",
+      "bytes": 54785428,
+      "sha256": "684409dc9b6319e5bce53c773e310f6ff0789110833252862a76849e73b9932a"
+    },
+    {
+      "path": "results\\renders\\G010_none_1024_931501.json",
+      "bytes": 1966,
+      "sha256": "9dca228166b7ea26fc631ebc57f7a80610e5780182bde4d8aeebb95f8a0f8fe3"
+    },
+    {
+      "path": "results\\renders\\G010_none_1024_931501.npz",
+      "bytes": 54781867,
+      "sha256": "6c230ede69490066cd24b2dcab874e2a13da26dfc1bab2e7d86f8846ef96ec0e"
+    },
+    {
+      "path": "results\\renders\\G040_bx38_1024_931500.json",
+      "bytes": 1965,
+      "sha256": "62e19d62d0c0e698b2e96d997bd14e120844b60466030da13f78d738d02978e9"
+    },
+    {
+      "path": "results\\renders\\G040_bx38_1024_931500.npz",
+      "bytes": 57752539,
+      "sha256": "b06846c5b229f92cf879074d9af9af24c4bebb6d082bb3fa2fa296ac320a6ca7"
+    },
+    {
+      "path": "results\\renders\\G040_bx38_1024_931501.json",
+      "bytes": 1966,
+      "sha256": "d48d16102bdc4f865b9ee3c7026f5043c1a0bab2759ad8d2e93fd3cc17d42dee"
+    },
+    {
+      "path": "results\\renders\\G040_bx38_1024_931501.npz",
+      "bytes": 57752786,
+      "sha256": "69e006c7f94b3b607b6104d20210953567a4af047509607c1c1b498e5b02722a"
+    },
+    {
+      "path": "results\\renders\\G040_bx38_512_931490.json",
+      "bytes": 1962,
+      "sha256": "0a4a801d9fd1582edab3681fe9a92f3d4832d8180a5ce975b2ae7b01fb3c8667"
+    },
+    {
+      "path": "results\\renders\\G040_bx38_512_931490.npz",
+      "bytes": 13443144,
+      "sha256": "b80feb251f9cc38f0aa6303e0615841f2d59f84a665645aa96c35579ed060b2a"
+    },
+    {
+      "path": "results\\renders\\G040_none_1024_931500.json",
+      "bytes": 1967,
+      "sha256": "e2696662c3156138a48320521346401da4916b860be24f9ae37370351f81474c"
+    },
+    {
+      "path": "results\\renders\\G040_none_1024_931500.npz",
+      "bytes": 57416488,
+      "sha256": "9d90a658435c99038f32f18310f596cee8d3b52f65bfe0449bb7bc5d8f6047db"
+    },
+    {
+      "path": "results\\renders\\G040_none_1024_931501.json",
+      "bytes": 1966,
+      "sha256": "4214ee0088d378652b02a680c028a5d1d21d64871b9a10a25a20516dee6a3eee"
+    },
+    {
+      "path": "results\\renders\\G040_none_1024_931501.npz",
+      "bytes": 57417873,
+      "sha256": "b41babb4fe385bcbc4b56accf70300b8472efccce77212b099e22f990b7c70f0"
+    },
+    {
+      "path": "results\\renders\\G075_bx38_1024_931500.json",
+      "bytes": 1967,
+      "sha256": "cc55ff21873fb92dff06435012adf9bfc9efd0d2e94e6c5c10e959742dbb00ab"
+    },
+    {
+      "path": "results\\renders\\G075_bx38_1024_931500.npz",
+      "bytes": 58331020,
+      "sha256": "1f10ca16eb1cf9dbf6c1621738218da7e1f85afc119ab81d57a625d2394002c4"
+    },
+    {
+      "path": "results\\renders\\G075_bx38_1024_931501.json",
+      "bytes": 1967,
+      "sha256": "06b3a40401cd08308ba8fca99830a0d065c3a0bdbaa51a6a159bf6c7c22713e7"
+    },
+    {
+      "path": "results\\renders\\G075_bx38_1024_931501.npz",
+      "bytes": 58334430,
+      "sha256": "6c8073ba63fe4eac10b91a78053fe6a9d1d4bbabbc292d283aa1c866378b4571"
+    },
+    {
+      "path": "results\\renders\\G075_bx38_512_931490.json",
+      "bytes": 1962,
+      "sha256": "4e685291d24559dbff2fce4f82744d87a807a438ffec2e8531aa9cb555909798"
+    },
+    {
+      "path": "results\\renders\\G075_bx38_512_931490.npz",
+      "bytes": 13708993,
+      "sha256": "db7f41a6015e5369d79bdc5f4a15f84e77c35f9073d27922a440cdf375f939f9"
+    },
+    {
+      "path": "results\\renders\\G075_none_1024_931500.json",
+      "bytes": 1966,
+      "sha256": "51a308a91932c24a6a7e81f31b7da23477f177407c1d99531c09f4f0a4411cc8"
+    },
+    {
+      "path": "results\\renders\\G075_none_1024_931500.npz",
+      "bytes": 58055194,
+      "sha256": "cca6e0d06b01299436215e50a023de0960ed595ed4c6357a547901df7e455c0e"
+    },
+    {
+      "path": "results\\renders\\G075_none_1024_931501.json",
+      "bytes": 1966,
+      "sha256": "fe774e6ae479273a5cbed68e8c93435ee2df0f70b6a3038303ea3336df54ee50"
+    },
+    {
+      "path": "results\\renders\\G075_none_1024_931501.npz",
+      "bytes": 58057011,
+      "sha256": "3dbaecc0360e64b588196c0836cc8a1c1c2f0e1a3b5405c9828e39728b0436a2"
+    },
+    {
+      "path": "results\\renders\\MIRROR_bx38_1024_931500.json",
+      "bytes": 1966,
+      "sha256": "f1d09b407d9e770c310d4c14f210576d5812852db84fbd0355cfb7f00b9118f2"
+    },
+    {
+      "path": "results\\renders\\MIRROR_bx38_1024_931500.npz",
+      "bytes": 50123073,
+      "sha256": "137dd45a2b0130a173d8630c3f9734bb44920fc349dfb518af40eff9ebaf5383"
+    },
+    {
+      "path": "results\\renders\\MIRROR_bx38_1024_931501.json",
+      "bytes": 1967,
+      "sha256": "9d67fc5e2b0f56bcd1a33154bc85b85e4769d94fccb0f6036bc383caca3693ce"
+    },
+    {
+      "path": "results\\renders\\MIRROR_bx38_1024_931501.npz",
+      "bytes": 50124014,
+      "sha256": "2628f4651b27ab0c3d235c4794adf03b9bfa0d887b0e3ac2646eb28e2eede2e6"
+    },
+    {
+      "path": "results\\renders\\MIRROR_bx38_512_931490.json",
+      "bytes": 1963,
+      "sha256": "6510a7027e2bae98d82f8389f838a2c2c4a4e5a5ede66bced17b528db3b74144"
+    },
+    {
+      "path": "results\\renders\\MIRROR_bx38_512_931490.npz",
+      "bytes": 12163043,
+      "sha256": "cd9283878c707e462d8a200976b0247efb4c57595d186cf8d165bb63f711f451"
+    },
+    {
+      "path": "results\\renders\\MIRROR_none_1024_931500.json",
+      "bytes": 1966,
+      "sha256": "38996a512a1162dd841a87ea7391e42225a20890e26d78722d1cd9a289a8c0b8"
+    },
+    {
+      "path": "results\\renders\\MIRROR_none_1024_931500.npz",
+      "bytes": 49712285,
+      "sha256": "f28508828a6b2f9e976391262e9fdf2fd21749b4bf21a1fe73a5b47c73315a2c"
+    },
+    {
+      "path": "results\\renders\\MIRROR_none_1024_931501.json",
+      "bytes": 1968,
+      "sha256": "4367709dd4392f4367dfbd168aaa220e47968e329142c63f927d71e73c82345b"
+    },
+    {
+      "path": "results\\renders\\MIRROR_none_1024_931501.npz",
+      "bytes": 49711454,
+      "sha256": "afb7afb9e98e511032406b1926df2653c96d0f6085af4b2eb09c735d474d34cf"
+    },
+    {
+      "path": "results\\renders\\S1_bx38_1024_931500.json",
+      "bytes": 1963,
+      "sha256": "098d630642f9da995361fadacefa7592365015a40a298f853e3c57a78dbc4c03"
+    },
+    {
+      "path": "results\\renders\\S1_bx38_1024_931500.npz",
+      "bytes": 61876704,
+      "sha256": "b52108d8e556b98bb727ce6b7c4b215842323a77515e8fc86057c38ed47a38be"
+    },
+    {
+      "path": "results\\renders\\S1_bx38_1024_931501.json",
+      "bytes": 1965,
+      "sha256": "6c25434a157c0ef4d57c0863146e944bda2341b0e3a86546e66ab223e15882d5"
+    },
+    {
+      "path": "results\\renders\\S1_bx38_1024_931501.npz",
+      "bytes": 61876975,
+      "sha256": "362a51a73388323ab28f71814b72c322d4aba77ee036b779e40adeecf908724f"
+    },
+    {
+      "path": "results\\renders\\S1_bx38_512_931490.json",
+      "bytes": 1959,
+      "sha256": "af82603c532c1c758aac574d2daddd418baf40cad80f324f65fad35f179a664d"
+    },
+    {
+      "path": "results\\renders\\S1_bx38_512_931490.npz",
+      "bytes": 14789835,
+      "sha256": "87dca602cb6c5caf06a56acf47cd7af87e9433064556d518cd7fd58a4daccf11"
+    },
+    {
+      "path": "results\\renders\\S1_none_1024_931500.json",
+      "bytes": 1966,
+      "sha256": "f6904317a8afe6e108076eef273daaddb4f6f7e8cc43b9277d0ad465d9c036ca"
+    },
+    {
+      "path": "results\\renders\\S1_none_1024_931500.npz",
+      "bytes": 61560462,
+      "sha256": "d2259a57156d31bb9b174a6b8ba5aea7bfbfd494a8435927cbd507246dcddb12"
+    },
+    {
+      "path": "results\\renders\\S1_none_1024_931501.json",
+      "bytes": 1966,
+      "sha256": "b2a38177bc166f8f0e3d642e628e70f892ae222f539011416e669fac50ab4562"
+    },
+    {
+      "path": "results\\renders\\S1_none_1024_931501.npz",
+      "bytes": 61560596,
+      "sha256": "4b54bc5b75f981580d9ccfe9328f701d8c6c5ff219be675de4b788d7561bcf31"
+    }
+  ],
+  "qualification": {
+    "near_mirror_noise": true,
+    "near_mirror_profile_noise": true,
+    "analytic_delta_e2": true,
+    "roi_pixels": true
+  },
+  "limitations": [
+    "finite six-event reference",
+    "mirror e2 qualified; full/h exclude light-side delta caustic connector",
+    "frozen ECRO has no new-GGX/mirror contract; S1 checker comparison itself is OOD",
+    "concurrent unrelated GPU work; no uncontended performance or architecture verdict"
+  ]
+}

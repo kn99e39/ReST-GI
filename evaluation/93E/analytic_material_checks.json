@@ -1,0 +1,26 @@
+{
+  "G075": {
+    "numpy_analytic_eval_relative_rms": 1.0771085295719232e-06,
+    "reciprocity_relative_max": 8.317428338960541e-08,
+    "sample_weight_max": 0.8500000834465027,
+    "nonnegative": true,
+    "pass": true
+  },
+  "G040": {
+    "numpy_analytic_eval_relative_rms": 1.5181549517275338e-06,
+    "reciprocity_relative_max": 3.3087467388968326e-08,
+    "sample_weight_max": 0.8500002026557922,
+    "nonnegative": true,
+    "pass": true
+  },
+  "G010": {
+    "numpy_analytic_eval_relative_rms": 4.6607972402708105e-06,
+    "reciprocity_relative_max": 3.67814833630035e-08,
+    "sample_weight_max": 0.8500002026557922,
+    "nonnegative": true,
+    "pass": true
+  },
+  "all_pass": true,
+  "semantics": "Neutral .85 single-GGX with F0=1, height-correlated Smith; alpha is direct NDF slope. This is an idealized passive reflector, not the original coated-conductor P material.",
+  "mirror_scope": "True camera-side delta sampled exactly. Point-light next-event sampling cannot estimate a delta at the light-side end of a path (caustic connector). Ideal-mirror e2 on the primary panel is valid; ideal-mirror full and h images omit that family and are restricted diagnostics. Do not use the latter as complete physical ground truth."
+}

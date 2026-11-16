@@ -1,0 +1,240 @@
+{
+  "name": "wl93e_nearmirror_reference_v1",
+  "architecture_verdict": "NOT APPLICABLE",
+  "resolution": 1024,
+  "spp_per_condition": 4096,
+  "replica_seeds": [
+    931500,
+    931501
+  ],
+  "metrics": {
+    "S1": {
+      "dark_ratio_median": 0.7699806600779403,
+      "bright_ratio_median": 1.3912536498637136,
+      "michelson_contrast": 0.28746211686901524,
+      "texture_ratio_response_vs_mirror": {
+        "slope": 0.5202278895902203,
+        "intercept": 0.022622440880105076,
+        "correlation": 0.8499806875337367,
+        "pixels": 198898
+      },
+      "edge_10_90_width_pixels": 106.39542803549554,
+      "edge_x10": -49.26825619515349,
+      "edge_x90": 57.127171840342044,
+      "edge_width_scope": "Ideal .6/1.6 ratio levels; pooled signed-distance profile on largest reflected face; null if thresholds not attained in +/-60 px",
+      "profile_sem_max": 0.0006705692600154078,
+      "noise": {
+        "full": {
+          "relative_rms_sem_of_mean": 0.040877538738539304,
+          "absolute_rms_sem_of_mean": 0.05639606874585878
+        },
+        "e2": {
+          "relative_rms_sem_of_mean": 0.009848262712354769,
+          "absolute_rms_sem_of_mean": 0.009478550245801964
+        },
+        "h": {
+          "relative_rms_sem_of_mean": 0.12668335466969266,
+          "absolute_rms_sem_of_mean": 0.055304349942377616
+        },
+        "reflection": {
+          "relative_rms_sem_of_mean": 0.04120959924100331,
+          "absolute_rms_sem_of_mean": 0.056390998011933646
+        }
+      },
+      "contrast_retention_vs_ideal": 0.6324166699356963
+    },
+    "G075": {
+      "dark_ratio_median": 0.7455616069219835,
+      "bright_ratio_median": 1.4208090305828553,
+      "michelson_contrast": 0.3116952436350419,
+      "texture_ratio_response_vs_mirror": {
+        "slope": 0.5589512039965256,
+        "intercept": 0.021704957244650245,
+        "correlation": 0.8633089251569985,
+        "pixels": 198898
+      },
+      "edge_10_90_width_pixels": 88.04580989081612,
+      "edge_x10": -40.98735053607244,
+      "edge_x90": 47.05845935474368,
+      "edge_width_scope": "Ideal .6/1.6 ratio levels; pooled signed-distance profile on largest reflected face; null if thresholds not attained in +/-60 px",
+      "profile_sem_max": 0.0005967519571115076,
+      "noise": {
+        "full": {
+          "relative_rms_sem_of_mean": 0.06971225157284622,
+          "absolute_rms_sem_of_mean": 0.12995465542262968
+        },
+        "e2": {
+          "relative_rms_sem_of_mean": 0.009024807024125713,
+          "absolute_rms_sem_of_mean": 0.011282624203162693
+        },
+        "h": {
+          "relative_rms_sem_of_mean": 0.1991470348590696,
+          "absolute_rms_sem_of_mean": 0.12928638718073757
+        },
+        "reflection": {
+          "relative_rms_sem_of_mean": 0.07084676281562644,
+          "absolute_rms_sem_of_mean": 0.12995208586866983
+        }
+      },
+      "contrast_retention_vs_ideal": 0.6857295499020098
+    },
+    "G040": {
+      "dark_ratio_median": 0.6621555900348993,
+      "bright_ratio_median": 1.5221729949898941,
+      "michelson_contrast": 0.3937216272547352,
+      "texture_ratio_response_vs_mirror": {
+        "slope": 0.7146634010505216,
+        "intercept": 0.01685238819624674,
+        "correlation": 0.9239095301634053,
+        "pixels": 198898
+      },
+      "edge_10_90_width_pixels": 43.54135459420977,
+      "edge_x10": -20.891063143104567,
+      "edge_x90": 22.650291451105204,
+      "edge_width_scope": "Ideal .6/1.6 ratio levels; pooled signed-distance profile on largest reflected face; null if thresholds not attained in +/-60 px",
+      "profile_sem_max": 0.000615543242747707,
+      "noise": {
+        "full": {
+          "relative_rms_sem_of_mean": 0.09240866596492167,
+          "absolute_rms_sem_of_mean": 0.1809076141294465
+        },
+        "e2": {
+          "relative_rms_sem_of_mean": 0.0071183387541523075,
+          "absolute_rms_sem_of_mean": 0.01006758752890081
+        },
+        "h": {
+          "relative_rms_sem_of_mean": 0.29354463806993186,
+          "absolute_rms_sem_of_mean": 0.18053328536345742
+        },
+        "reflection": {
+          "relative_rms_sem_of_mean": 0.09290415125236351,
+          "absolute_rms_sem_of_mean": 0.1809038529423111
+        }
+      },
+      "contrast_retention_vs_ideal": 0.8661875975245827
+    },
+    "G010": {
+      "dark_ratio_median": 0.6047822229282103,
+      "bright_ratio_median": 1.5938060291334084,
+      "michelson_contrast": 0.44984494267072944,
+      "texture_ratio_response_vs_mirror": {
+        "slope": 0.9293434542551025,
+        "intercept": 0.00486786336074676,
+        "correlation": 0.9892148645252004,
+        "pixels": 198898
+      },
+      "edge_10_90_width_pixels": 10.435531937091515,
+      "edge_x10": -4.685105164618135,
+      "edge_x90": 5.75042677247338,
+      "edge_width_scope": "Ideal .6/1.6 ratio levels; pooled signed-distance profile on largest reflected face; null if thresholds not attained in +/-60 px",
+      "profile_sem_max": 0.0004571036499875225,
+      "noise": {
+        "full": {
+          "relative_rms_sem_of_mean": 0.14126157987979251,
+          "absolute_rms_sem_of_mean": 0.29816612765835127
+        },
+        "e2": {
+          "relative_rms_sem_of_mean": 0.0038653602834450027,
+          "absolute_rms_sem_of_mean": 0.006222472738192048
+        },
+        "h": {
+          "relative_rms_sem_of_mean": 0.48711502833274467,
+          "absolute_rms_sem_of_mean": 0.2980837752531998
+        },
+        "reflection": {
+          "relative_rms_sem_of_mean": 0.14135539759107527,
+          "absolute_rms_sem_of_mean": 0.2981648995416906
+        }
+      },
+      "contrast_retention_vs_ideal": 0.9896588939434658
+    },
+    "MIRROR": {
+      "dark_ratio_median": 0.600000025101812,
+      "bright_ratio_median": 1.60000002976265,
+      "michelson_contrast": 0.4545454453283848,
+      "texture_ratio_response_vs_mirror": {
+        "slope": 0.9999999999999927,
+        "intercept": -5.0451403420336726e-18,
+        "correlation": 1.0,
+        "pixels": 198898
+      },
+      "edge_10_90_width_pixels": 1.2823226994571242,
+      "edge_x10": -0.0726021017687597,
+      "edge_x90": 1.2097205976883645,
+      "edge_width_scope": "Ideal .6/1.6 ratio levels; pooled signed-distance profile on largest reflected face; null if thresholds not attained in +/-60 px",
+      "profile_sem_max": 0.00011198747946061793,
+      "noise": {
+        "full": {
+          "relative_rms_sem_of_mean": 0.005622151557576157,
+          "absolute_rms_sem_of_mean": 0.012154751862839494
+        },
+        "e2": {
+          "relative_rms_sem_of_mean": 0.0007073428471917912,
+          "absolute_rms_sem_of_mean": 0.0011933152710697982
+        },
+        "h": {
+          "relative_rms_sem_of_mean": 0.02283835843379501,
+          "absolute_rms_sem_of_mean": 0.012060794819135873
+        },
+        "reflection": {
+          "relative_rms_sem_of_mean": 0.0056137699452204395,
+          "absolute_rms_sem_of_mean": 0.01213244662977105
+        }
+      },
+      "contrast_retention_vs_ideal": 1.0
+    }
+  },
+  "qualified_scope": "Exactly-two-event panel reflection e2 and its texture edge/contrast; not complete full radiance or higher-order convergence",
+  "higher_order_convergence": "NOT QUALIFIED: ROI h relative RMS SEM is 0.127 / 0.199 / 0.294 / 0.487 for S1/G075/G040/G010; rare bright paths dominate. Full/h images and model-h metrics are descriptive diagnostics only.",
+  "roi": {
+    "bbox_xyxy_exclusive": [
+      0,
+      195,
+      421,
+      811
+    ],
+    "pixels": 232175,
+    "direct_pixels": 350702,
+    "coordinate_convention": "origin top-left, x right, y down; same primary-centre-ray pixels for every material",
+    "edge_face": 0,
+    "edge_pixels": 93766,
+    "metric_pixels": 198898
+  },
+  "analytic_mirror_control": {
+    "analytic_delta_e2_relative_rms": 0.0003353706247677555,
+    "pixels": 193549,
+    "description": "independent NumPy ideal mirror to OBB, Lambert albedo and point-light inverse-square/cosine; centre-ray expectation away from cell/silhouette edges, compared to subpixel-integrated render"
+  },
+  "qualification": {
+    "near_mirror_noise": true,
+    "near_mirror_profile_noise": true,
+    "analytic_delta_e2": true,
+    "roi_pixels": true
+  },
+  "qualified": true,
+  "exposure_key": 0.5031535626500656,
+  "tone_map": "(key*x/(1+key*x))**(1/2.2); identical all RGB/component/model images",
+  "noise_definition": "spatial RMS of independent replica difference / 2, relative to spatial RMS of mean, for ROI; estimated SEM of 2-replica mean, not pixelwise confidence",
+  "path_scope": "Reflection on primary panel pixels = e2+h; exact two-event e2; higher order h=events 3..6. Finite depth, no denoise/clamp. Ideal mirror e2 is qualified; its full/reflection/h omit light-side point-light delta caustics and are restricted diagnostics only. GGX finite lobes do not have this delta support exclusion.",
+  "frozen_ecro_material_scope": "Only original six frozen states; pure GGX and mirror not supported. S1 comparison retains panel state but checker 0.3/0.8 is material-distribution OOD; no architecture verdict.",
+  "model_S1_OOD_diagnostic": {
+    "8601": {
+      "higher_order_relative_rms": 0.32348571056275216,
+      "higher_order_texture_response": {
+        "slope": 0.23725018819056642,
+        "intercept": 0.013924148734907289,
+        "correlation": 0.7478783230316728,
+        "pixels": 232175
+      }
+    },
+    "8602": {
+      "higher_order_relative_rms": 0.2237403599741691,
+      "higher_order_texture_response": {
+        "slope": 0.5069815354610098,
+        "intercept": -0.03280362541353796,
+        "correlation": 0.9235603889866615,
+        "pixels": 232175
+      }
+    }
+  }
+}

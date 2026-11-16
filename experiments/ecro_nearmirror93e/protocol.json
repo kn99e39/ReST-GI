@@ -1,0 +1,27 @@
+{
+  "name": "wl93e_nearmirror_reference_v1",
+  "classification": "WL93D-dependent visual reference follow-up; suffix WL93E; no architecture hypothesis",
+  "authorization": "User near-mirror benchmark brief, 2026-11-16",
+  "base_commit": "3cf69733d91e0defa4a4648bb64565e45dcd9c47",
+  "scene": "scene.json (CK2 geometry, light, 3x3 patch checker, camera retained; resolution increased)",
+  "conditions": {
+    "S1": "bit-identical WL86 frozen ER state, all seven anisotropic GGX lobes and refracted inner terms preserved; not a single-alpha material",
+    "G075": "single isotropic GGX, alpha=0.075, F0=1, weight=0.85",
+    "G040": "same single GGX, alpha=0.04",
+    "G010": "same single GGX, alpha=0.01",
+    "MIRROR": "true delta reflection, reflectance=0.85; not alpha=0 in a finite GGX evaluation"
+  },
+  "roughness_convention": "au/av are direct GGX slope parameters, no squaring or perceptual remap; sqrt(alpha) is only a labelled r^2-convention equivalent",
+  "scope": "Physical path tracing under specified passive analytic GGX/delta materials and frozen ER elsewhere; S1 reference is REF-ER, not the original layered-BSDF P reference. M64 is never ground truth.",
+  "controls": "Only panel material changes across conditions. Same geometry, lights, camera, patch texture, depth, pixel filter, exposure and tone mapping. G075/G040/G010/MIRROR also share neutral reflectance and differ only in roughness/delta limit. S1 differs in spectral weight and lobe composition and is a historical control.",
+  "texture_variants": {"bx38": "existing 0.3/0.8 Lambert checker", "none": "existing uniform 0.5 counterpart; paired common random numbers"},
+  "render": {"resolution": 1024, "depth": 6, "replica_spp": 2048, "replicas": 2, "seeds": [931500, 931501], "batch_spp": 8, "filter": "box pixel integral by uniform subpixel jitter", "denoise": false, "clamp": false},
+  "preview": {"resolution": 512, "spp": 128, "seed": 931490, "selection": "physical references only, same scene for every material; never inspect model error to select framing"},
+  "instrumentation": "Run-time copy of the preserved pt86 trace: patch texture lookup inherited from checker93d; explicit mirror delta; first camera vertex panel => reflection contribution equals events 2..6 on panel pixels. Events 1,2,3..6 retained independently.",
+  "frozen_ecro": "Near-mirror/new GGX states are not in the six-state frozen ECRO material contract: no fidelity verdict or model inference there. Optional S1 C0 readout uses original CK2 bx38/none frozen tables unchanged; identical material/camera/geometry to REF-ER, but the checker distribution itself is a post-hoc OOD diagnostic, not an IID qualification.",
+  "measurements": ["centre-ray ROI and mirror-hit patch correspondence", "linear-HDR textured/uniform response slope and Pearson correlation vs ideal delta", "Michelson contrast of textured/uniform ratios and retention vs ideal", "edge-aligned ratio profile and 10-90 percent transition width in native pixels", "RMS independent-replica difference / 2 as estimated standard error of the two-replica mean; spatial RMS, not a per-pixel confidence interval", "low-order closure against independent direct point-light analytic evaluation on the reflected box face", "unchanged renderer and input/checkpoint hashes"],
+  "noise_and_stops": {"roi_min_pixels": 10000, "near_mirror_e2_replica_mean_relative_rms_max": 0.02, "near_mirror_edge_profile_sem_max": 0.03, "delta_direct_relative_error_max": 0.01, "material_tests": "parameter and dispatch checks mandatory; stop invalid component or correspondence; physical reference continues if model material unsupported", "if_noise_fails": "report unresolved or append disclosed sampling-only extension before further sampling; do not tune material/scene using model"},
+  "outputs": "evaluation/93E/; raw arrays and execution provenance results/ecro_nearmirror93e/; images at shared exposure and shared component scales, no per-image normalization",
+  "architecture_verdict": "NOT APPLICABLE",
+  "prohibited": "training, parameter tuning, new architecture, branch/worktree creation, alteration of prior worklogs/checkpoints/references, downstream experiment"
+}

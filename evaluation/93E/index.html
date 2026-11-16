@@ -1,0 +1,21 @@
+<!doctype html><meta charset="utf-8"><title>WL93E Near-Mirror Reference</title>
+<style>body{font:17px system-ui;background:#131820;color:#eee;margin:30px}img{max-width:100%}a{color:#80d6ff}.row{display:flex;gap:12px}.row figure{margin:0;flex:1}h2{margin-top:40px}</style>
+<h1>WL93E — Near-mirror checker reflection</h1>
+<p>Same CK2 geometry, camera, lighting and checker. 1024×1024, 4096 spp per condition. Shared exposure; no denoise. Architecture verdict: NOT APPLICABLE.</p>
+<p>The exactly-two-event panel reflection (e2) is qualified for edge/contrast conclusions. Full radiance and higher-order images remain noise-unconverged diagnostics; near-mirror h has 48.7% pixel RMS SEM from rare bright paths.</p>
+<p>S1 is the original multilobe frozen ER material. The neutral GGX group changes alpha only; the ideal mirror is a true delta event. Frozen ECRO does not support the new material states.</p>
+<p>Ideal mirror scope: its exactly-two-event panel reflection is the qualified edge control. Its full and higher-order images omit light-side point-light delta caustics and are restricted diagnostics, not complete ground truth.</p>
+<div class="row">
+<figure><a href="S1_full_1024.png"><img src="S1_full_1024.png"></a><figcaption>Original S1 / frozen ER</figcaption></figure>
+<figure><a href="G075_full_1024.png"><img src="G075_full_1024.png"></a><figcaption>GGX alpha = 0.075</figcaption></figure>
+<figure><a href="G040_full_1024.png"><img src="G040_full_1024.png"></a><figcaption>GGX alpha = 0.04</figcaption></figure>
+<figure><a href="G010_full_1024.png"><img src="G010_full_1024.png"></a><figcaption>GGX alpha = 0.01</figcaption></figure>
+<figure><a href="MIRROR_full_1024.png"><img src="MIRROR_full_1024.png"></a><figcaption>Ideal mirror / e2 qualified</figcaption></figure>
+</div>
+<h2>Qualified checker reflection: LOW context and e2</h2><a href="figNM5_qualified_low_and_e2.png"><img src="figNM5_qualified_low_and_e2.png"></a>
+<h2>Full frames and reflection crops / noise-unconverged diagnostics</h2><a href="figNM0_full_and_roi.png"><img src="figNM0_full_and_roi.png"></a>
+<h2>Separated reflection and higher-order contributions</h2><a href="figNM1_path_contributions.png"><img src="figNM1_path_contributions.png"></a>
+<h2>Ideal mirror edge comparison</h2><a href="figNM2_edges_and_contrast.png"><img src="figNM2_edges_and_contrast.png"></a>
+<h2>Direct versus reflected texture</h2><a href="figNM3_correspondence.png"><img src="figNM3_correspondence.png"></a>
+<h2>Frozen ECRO: original S1 only / checker OOD</h2><a href="figNM4_frozen_ecro_S1_only.png"><img src="figNM4_frozen_ecro_S1_only.png"></a>
+<p><a href="metrics_nearmirror93e.json">Machine-readable measurements</a></p>
