@@ -23,7 +23,9 @@ def make(checkpoint,stage,spp=256):
     d,_=B.make_scene(512,max_depth=7); scene=mi.load_dict(d)
     integrator=mi.load_dict({'type':'neuralpath','max_depth':10,'rr_depth':5,'device':0,'model_type':'8dna','asset_instance0':str(checkpoint)})
     reps=[]; timings=[]
-    for seed in [21201,21202]:
+    # render(chunk=1) increments its seed once per spp, so reserve disjoint ranges.
+    seeds=[21201,21201+spp]
+    for seed in seeds:
         image,sec=render(scene,integrator,spp,seed,chunk=1); reps.append(image); timings.append(sec)
     neural=np.mean(reps,axis=0); np.save(out/f'8dna_{stage}.npy',neural)
     mi.Bitmap(neural.astype(np.float32)).write(str(out/f'8dna_{stage}.exr'))
@@ -58,7 +60,7 @@ def make(checkpoint,stage,spp=256):
     fig.suptitle('CK2 checkerboard interreflection: references and candidates (WL84-style layout)',fontsize=15)
     fig.text(.02,.065,'Frozen ER materials, original CK2 camera/light, bx38 checker (0.3/0.8). Display: x/(1+x), gamma 2.2; exposure 1 for all images.\n8DNA owns panel + checker box A; room/other objects are external. Native intrinsic paths are not the same as the stored six-event target.\nStatic qualitative comparison; different training lifecycles/budgets. '+('PRELIMINARY: only 1 of 30 native training epochs completed.' if stage=='epoch01_preview' else 'Fixed final native 30-epoch fit.'),fontsize=9)
     path=out/f'ck2_references_and_candidates_{stage}.png'; fig.savefig(path,dpi=140); plt.close(fig)
-    payload={'stage':stage,'checkpoint_epoch':saved_epoch,'checkpoint_global_step':global_step,'checkpoint':str(checkpoint),'checkpoint_sha256':hashlib.sha256(checkpoint.read_bytes()).hexdigest(),'neural_spp_per_replicate':spp,'neural_seeds':[21201,21202],'neural_render_seconds':timings,'metrics_descriptive_only':metrics,'error_scale_max_mean_rgb_abs':maximum,'figure':str(path),'figure_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'reference_role':'Stored frozen-ER six-event reference. Native intrinsic full transport is a different path-depth regime, so no strict fidelity/speed winner is declared.'}
+    payload={'stage':stage,'checkpoint_epoch':saved_epoch,'checkpoint_global_step':global_step,'checkpoint':str(checkpoint),'checkpoint_sha256':hashlib.sha256(checkpoint.read_bytes()).hexdigest(),'neural_spp_per_replicate':spp,'neural_seeds':seeds,'neural_render_seconds':timings,'metrics_descriptive_only':metrics,'error_scale_max_mean_rgb_abs':maximum,'figure':str(path),'figure_sha256':hashlib.sha256(path.read_bytes()).hexdigest(),'reference_role':'Stored frozen-ER six-event reference. Native intrinsic full transport is a different path-depth regime, so no strict fidelity/speed winner is declared.'}
     (out/f'figure_{stage}.json').write_text(json.dumps(payload,indent=2)+'\n')
     print('FIGURE',json.dumps(payload),flush=True)
     return payload

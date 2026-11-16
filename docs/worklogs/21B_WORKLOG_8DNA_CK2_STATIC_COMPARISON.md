@@ -470,3 +470,40 @@ and expected dimensions. The packed-pipeline admission JSON confirms paired
 correctness and the predeclared >=1.2x timing gate. Completed images were
 visually reviewed in the earlier entries. These checks do not turn the
 ongoing fit into a completed 30-epoch result.
+
+## Fixed 30-epoch fit completed and automatic preview sampling correction
+
+The check at 01:01 KST on 2026-11-17 verified that the fixed 30-epoch fit
+completed at 21:43 KST on 2026-11-16. `Trainer.fit` reached max_epochs 30,
+global_step 245760, with all recovery epochs retained. The final checkpoint
+is `training_recovery19/CK2_bx38/final.ckpt`, SHA256
+`d107c982ce9546774acf2c0d575c0f151c482a50af1f6f6a1b92e15c7fafd077`.
+The chain exited successfully at 21:52:16 KST after producing its automatic
+comparison figure. The Windows collector verified and downloaded it at
+21:52:23 KST. The actual local figure was opened and checked.
+
+The automatic figure used two 256-spp calls to the helper, with base seeds
+21201 and 21202. Inspection exposed an execution defect in this helper:
+`render(chunk=1)` increments the seed for every one-spp call. Consequently,
+the two ranges are 21201--21456 and 21202--21457, sharing 255 seeds. There
+are 257 unique seeds with duplicated weights, giving an effective independent
+sample count of approximately 256.5 under the usual independent-seed model.
+The earlier first-epoch two-by-128 preview likewise shared 127 seeds. This
+corrects its earlier description as two independent replicates. Historical
+images, metadata, hashes and measurements are preserved.
+
+The automatic 30-epoch preview therefore retains substantial noise. Its
+recorded relative L1 (8DNA frame 0.17568 / reflection 0.63524) describes that
+image. Comparing these values with the 18-epoch 4096-spp figure does not
+isolate training quality. The independent-seed diagnostic and the single
+4096-spp rendering use distinct sampling loops and seed ranges. Their recorded
+conditions remain valid.
+
+`figure.py` now reserves non-overlapping ranges with bases 21201 and
+21201+spp for future invocations. The original executed source is preserved
+in `evaluation/21B/execution_evidence/figure_source_used_final.py`. The corrected
+source passed syntax and seed-range checks. Existing renders retain their
+original bytes and provenance. At this check the server's public Fabric
+renderer occupied about 11.3/12 GiB of GPU memory. The completed final-model
+preview is available locally, and a 4096-spp render of the 30-epoch model
+requires a subsequent rendering run.

@@ -1,0 +1,65 @@
+{
+  "created_utc": "2026-11-16T16:03:53.653212+00:00",
+  "training_status": "completed 30 epochs / global_step245760, exit0",
+  "training_completed_kst": "2026-11-16 21:43",
+  "automatic_figure_completed_kst": "2026-11-16 21:52",
+  "sampling_correction": {
+    "executed_base_seeds": [
+      21201,
+      21202
+    ],
+    "spp_per_call": 256,
+    "shared_seeds": 255,
+    "unique_seeds": 257,
+    "effective_independent_sample_count": 256.5009784735812,
+    "future_helper_base_seeds": "21201,21201+spp"
+  },
+  "final_model_4096spp_status": "requires subsequent render",
+  "files": [
+    {
+      "path": "evaluation/21B/8dna_final_epoch30.npy",
+      "sha256": "2a5209e4c73a17e6904b2b4a07044dfecf62137fcc194b8d6f3410405fd67dad",
+      "bytes": 6291584
+    },
+    {
+      "path": "evaluation/21B/8dna_final_epoch30.exr",
+      "sha256": "879eed1b9dad60b21de3663f23f2d1bad661791c94d7e0b3890957b138dfc874",
+      "bytes": 3125146
+    },
+    {
+      "path": "evaluation/21B/figure_final_epoch30.json",
+      "sha256": "1cd843b09d7d4b7532edc81a1f74e9c834c52bbc7d936ff24f9d9cb8a83eee2d",
+      "bytes": 1072
+    },
+    {
+      "path": "evaluation/21B/ck2_references_and_candidates.png",
+      "sha256": "8b2dcef292faff2093a5f99f3d175a3476dc5be8696d89d0ed772867cf97cf32",
+      "bytes": 1723921
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/train_recovery19.status",
+      "sha256": "2a80e8541d7964af7d91d5a04ca86f8f2b5076e96d01951e72d8cc6b266d4e63",
+      "bytes": 28
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/final_execution_history.log",
+      "sha256": "380114c2373189d999600c273bf3148e4571f4efc1c8f394f88069213f9a353f",
+      "bytes": 525
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/final_training_tail.txt",
+      "sha256": "9a5dd14464b29306677211e3293eb60c057477f246b5f4fc2510c68a6ba259dc",
+      "bytes": 1200
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/figure_source_used_final.py",
+      "sha256": "cebf75ee641fd707bae315121806979ec3cc463a96bae3e3a181f62b4e359eec",
+      "bytes": 5416
+    },
+    {
+      "path": "eval_comparison/8DNA/ck2_references_and_candidates.png",
+      "sha256": "8b2dcef292faff2093a5f99f3d175a3476dc5be8696d89d0ed772867cf97cf32",
+      "bytes": 1723921
+    }
+  ]
+}
