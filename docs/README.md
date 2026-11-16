@@ -12,7 +12,8 @@ Living documents are mutable representations of current decisions, not cumulativ
 | [Plans](plans/) | Explicitly unadopted candidate designs and implementation plans; existence is not adoption or completed evidence |
 | [Worklogs](worklogs/) | Complete append-only chronological evidence: authorisation, hypotheses, implementation, metrics, failures, interpretation, verdicts, provenance and amendments |
 | Experiment protocols (`experiments/.../protocol/`) | Frozen experimental conditions, stage dependencies and acceptance criteria, with labelled amendments |
-| Results (`results/.../`) | Raw measurements, machine verdicts and execution artifacts; reviewer exports retain their numbered provenance |
+| Results (`results/.../`) | Raw measurements, machine verdicts and execution artifacts |
+| Evaluation (`evaluation/<worklog>/`, repository root) | Reviewer-facing images, figures and their manifests, keyed by worklog number. Moved out of `results/evaluation/` on 2026-11-16 (WL97A). Older documents still name `results/evaluation/<N>/`; read such paths as `evaluation/<N>/` |
 | [History](history/) | Superseded designs and source snapshots, retained with their original context; no current authorisation inferred from historical text |
 | [Repository instructions](../AGENTS.md) | Operating constraints and user instructions; read newer explicit bounded authorisation in context rather than applying an older batch's stop to all future work |
 

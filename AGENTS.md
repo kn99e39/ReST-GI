@@ -250,8 +250,18 @@ pattern was retired 2026-08-24 for exactly that reason):
 
 Human-reviewable intermediate and final artifacts (images, GIFs, videos, and
 their evaluation manifest entries) belong under a folder keyed by the session
-worklog number: `results/evaluation/<number>/`. For example, artifacts for
-`docs/worklogs/17_WORKLOG_*.md` go in `results/evaluation/17/`.
+worklog number: `evaluation/<number>/` at the repository root. For example,
+artifacts for `docs/worklogs/17_WORKLOG_*.md` go in `evaluation/17/`.
+
+- **Relocation (user decision, 2026-11-16, WL97A).** The evaluation tree moved
+  from `results/evaluation/` to the top-level `evaluation/`, so that reviewer
+  artifacts are not mixed with raw results. Folder contents are unchanged.
+- Historical worklogs, manifests and frozen experiment scripts still name
+  `results/evaluation/<N>/...`. Read every such path as `evaluation/<N>/...`.
+  Do not rewrite those historical files.
+- New export code writes to `evaluation/<N>/`.
+- Files that were untracked under the gitignored `results/` stay untracked
+  through the list in `evaluation/.gitignore`.
 
 - Create the matching evaluation folder for every substantive session that
   produces reviewable output, even if earlier numbers have no evaluation
