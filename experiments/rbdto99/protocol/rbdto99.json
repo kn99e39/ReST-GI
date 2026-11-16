@@ -1,0 +1,64 @@
+{
+ "protocol": "rbdto99_v1",
+ "batch": "WL99 - RB-DTO-E Quality, Reuse, and Learned Utility Validation",
+ "status": "FROZEN before any qualification evidence (development looks dev_a / dev_b / dev_c were rendered before the freeze and are disclosed)",
+ "rules_set_by": "agent (the brief asks for pre-registration; no human numbers were given); every number below is fixed before the evidence it governs",
+ "hypotheses": {
+  "H1": "representability of high-frequency multi-bounce body self-transport by the learned body-local operator (only reached if Stage 1 passes)",
+  "H2": "reuse of the body-local state under qualified rigid edits with fixed weights / state (only reached if Stage 1 passes)",
+  "H3": "learning-specific utility over strong non-learned precomputed transport, credit split U_pre / U_learn"
+ },
+ "fixture": {
+  "room": "'dark': GM1 room geometry, floor ER B, walls / ceiling Lambert albedo 0 (open-air-like; the floor is the only external reflector). Chosen in development because in the GM1 room the glossy body mostly reflects lit walls (X 0.96 of body-pixel radiance in dev_a).",
+  "materials": "frozen WL86 table experiments/ecro86/data/mats86.npz (sha in mats86.json): body S1 (sharpest ER state in project use, GGX lobes alpha 0.026-0.075) or S2 (alpha 0.074-0.18); boxes Lambert 0.5; no new material",
+  "estimator": "pt99.py: NEE to point lights at every vertex + ER sampling, no RR, max depth D = 8 vertices",
+  "resolution": 384,
+  "tags": "B1, S2, S3, SX, X, ES, E (pt99 docstring); N_b output at body pixels = S2 + S3 (direct-light input, 'Sd') + SX (external-indirect input); representation comparisons use Sd; SX is supplied identically (reference) to every representation arm",
+  "depth_check": "Sd truncation residual: D = 8 vs D = 12 on one qualified workload, reported"
+ },
+ "workloads": "experiments/rbdto99/protocol/workloads99.json (frozen with this file); candidate budget <= 16 workload definitions; selection only by the admission rules below; frozen list written to results before Stage 1",
+ "stage0": {
+  "reference": {"spp_per_half": 16384, "halves": 2, "seeds": "half A 990001+, half B 990501+ (offset by a hash of the configuration name)", "extend_rule": "if Q_ref fails, the T0 and T1 references (the only ones Q_ref is measured on) are re-rendered at 2x spp per half, repeated up to 65536 per half; then the workload is not admitted. stale / co / T1x references stay at 16384 per half"},
+  "masks": {
+   "ROI_body": "reference body-pixel fraction mb >= 0.99",
+   "ROI_self": "ROI_body pixels with reference self >= 0.25 * reference tot and self > 0",
+   "ROI_sharp": "ROI_self pixels in the top 10 % of |grad Sd| / (local mean Sd in 7x7 + eps)"
+  },
+  "Q_ref": "per-pixel noise of the reference (sigma_ref = |A - B| / 2): rel_noise = ||A - B||_2 / (2 ||ref||_2) over ROI_self, for tot and for Sd; both <= 0.025",
+  "Q1_significance": "A / B types: Sd share of ROI_body radiance = sum Sd / sum tot >= 0.20.  C (null): sum (S2 + S3 + SX + ES) / sum tot <= 1e-6 (exact zero expected)",
+  "Q2_noise": "covered by Q_ref (Sd distinguishable from reference noise: ||Sd|| / noise >= 40)",
+  "Q3_resolution": {
+   "spatial": "edge width w_px = (p95 - p5 of Sd in 7x7) / max |grad Sd| in 7x7, median over ROI_sharp >= 2.0 px (detail spans pixels, not aliased); and ROI_sharp median local contrast (p95 - p5) / mean >= 0.30 (details exist)",
+   "angular": "exact-direction probes at 3 ROI_sharp points (highest |grad Sd|), exit direction scanned over +-4 deg in 0.25 deg steps in two orthogonal planes, 4096 spp per probe: the angle over which Sd changes by 25 % from the camera direction >= 2 x pixel angular pitch (fov / res)"
+  },
+  "Q4_intrinsic": "co-moved control: body, lights, boxes and camera all transformed by the T0 -> T1 body motion; ||Sd_co - Sd_T0|| / ||Sd_T0|| over ROI_self <= max(3 x Sd rel_noise, 0.02); certificate(T0) and certificate(T1) true",
+  "Q5_T1_change": "stale = T0 scene co-moved to the T1 body pose, T1 camera (the exit field a frozen T0 state would deliver); ||Sd_T1 - Sd_stale|| / ||Sd_T1|| over ROI_self(T1) >= 0.30",
+  "Q6_intrusion": "designated intrusion case T1x: certificate(T1x) false and ||Sd_T1x - Sd_T1|| / ||Sd_T1|| over ROI_self(T1) >= 0.10",
+  "Q7_multibounce_report": "S3 share of Sd reported per workload (not a gate)",
+  "admission": "a non-null workload is admitted iff Q_ref, Q1, Q3, Q4, Q5 pass at T0 and T1; the null workload iff Q_ref and Q1-null pass",
+  "required_set": "A (sharp, S1) >= 1 on the development geometry; B (S2) >= 1; C null; >= 1 admitted A on a held-out geometry; >= 1 admitted A with held-out illumination; Q6 on the designated intrusion case",
+  "stop": "required set not met within the candidate budget -> STOPPED_WORKLOAD_UNQUALIFIED; reference / tag test failure -> STOPPED_REFERENCE_UNQUALIFIED"
+ },
+ "stage1": {
+  "principle": "learning-free; zero-cost / best-case bounds first; no training",
+  "timing": "GPU kernel time (Dr.Jit kernel history) of complete frame renders with the GPU otherwise idle (exclusive), plus wall; kernel compilation excluded and counted separately; 3 repeats, median",
+  "tiers": {"tau1": 0.05, "tau2": 0.10, "metric": "relative RMSE of the frame total on ROI_self, reference-noise corrected (err^2 - sigma_ref^2)"},
+  "E0": "reference (Stage 0 halves)",
+  "E1": "per-update explicit: full tagged path tracer (mode cam), spp ladder 16 / 64 / 256 x 4 seeds; variance model err^2 = v / spp fitted per arm",
+  "E_oracle": "zero-cost exact N_b: mode oracle_self (body-pixel paths whose v2 is on the body terminate after v1) + reference Sd + SX; same ladder",
+  "U0": "U0(tau) = spp_E1(tau) * t_E1 / (max(spp_O(tau), 1) * t_O), t = GPU kernel ms per spp",
+  "E1c": "cached self-relation explicit (Twin 1): body-frame records traced once (y-cells h_y on inner faces x n_d stratified cosine directions, first hit), per update exact NEE at record hits (incident map with explicit visibility), exact ER at y and at the hit; orders >= 3 by iterating over the record graph with hit points snapped to their cell",
+  "E2": "per-body precomputed transfer TwinP (WL98 J2 definition): incident cells (inner-face spatial cell h_x x hemisphere direction cell, equal-area) -> n_e light-side self paths per cell, stored uncompressed as self-incident photons (landing face / uv, incoming direction, flux weight); applied per update to incident samples (explicit NEE with external visibility) with nearest-cell lookup; delivered to camera queries by exact ER at the landing point and a spatial kernel of radius r",
+  "E3": "TwinP compressed / adaptive: memory budgets via (h_x, direction cells, n_e, fp16) on a ladder and a first-order offset variant (photon landing positions shifted by the per-cell least-squares Jacobian of the in-cell incident offset)",
+  "E4": "best achievable of the precomputed family: TwinP at the finest feasible cells and n_e (dense limit) + the zero-cost oracle U0",
+  "frontier": "per arm: Sd error on ROI_self and ROI_sharp (deterministic arms: bias incl. fixed-sample noise), memory per body, apply time per update, precompute time; U(R) = T_E1(tau) / (t_apply + spp_O' * t_O) with spp_O' from the noise budget tau^2 - err_R^2 (NOT REACHED if err_R >= tau)",
+  "U_pre": "max over precomputed arms with memory <= M_real of U(R)",
+  "gate_G1a": "U0(tau1) >= U_min = 1.25 on >= 1 admitted A workload (T0 or T1), else STOPPED_NO_LEARNABLE_HEADROOM (no representation, learned or not, can reach the utility margin over per-update explicit transport)",
+  "gate_G1b": "learning-specific headroom: U0(tau1) / U_pre(tau1) >= m_req = 1.25 on >= 1 admitted A workload (U_pre NOT REACHED counts as infinite headroom), OR [U0 >= U_min and the best precomputed arm reaching tau1 at <= M_real needs precompute >= 10 s and >= 10 x the record-tracing time]; else STOPPED_NO_LEARNABLE_HEADROOM",
+  "M_real": "64 MB per body (16 and 256 MB reported)",
+  "scope_if_G1a_fails": "E1c / E2 / E3 are still constructed on the primary A workload (T0, T1) for the brief's frontier and U_pre report; no training"
+ },
+ "stage2_3": "conditional; specified and frozen as a protocol amendment only if Stage 1 passes (shared RB-DTO-E model over explicit self-relation records, capacity test, seed pilot, frozen evaluation), per the brief",
+ "statistics": "paired common random numbers between arms where applicable; block bootstrap (16x16 px blocks) for ROI errors; reference noise from independent halves; no L1 noise floor used as a tolerance",
+ "verdict_labels": ["STOPPED_REFERENCE_UNQUALIFIED", "STOPPED_WORKLOAD_UNQUALIFIED", "STOPPED_NO_LEARNABLE_HEADROOM", "STOPPED_CONTRACT", "STOPPED_INVALID_COMPARISON", "NOT_SUPPORTED", "INCONCLUSIVE", "SUPPORTED"]
+}
