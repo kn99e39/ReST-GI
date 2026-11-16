@@ -4,6 +4,9 @@
 
 ## Current frontier
 
+**Bounded material-training request completed (human, 2026-11-16; WL100):** Two separate pre-RB-DTO-E ECRO OWN models completed 24,000 steps each on new near-mirror and physically modelled SSS datasets; held-out reference/prediction/error-map, ROI, higher-order and noise-control figures are available. The learned architecture is unchanged; physical material response and LOW remain explicit. SSS sphere ROI discrepancy is 1.47-2.08% versus the finite-depth reference; near raw ROI discrepancy (8.3-20.1%) is almost the reference sampling noise, so converged near fidelity remains unqualified. This is bounded material-coverage evidence, not adoption, whole-neural local SSS, dynamic/economic evidence or an RB-DTO-E successor decision. Full scope and limits: [WL100](worklogs/100_WORKLOG_ECRO_NEAR_MIRROR_AND_SSS_TRAINING.md).
+
+
 **Retained local-scattering decision (human, 2026-11-10):** The learned ER closure qualified through WL82–84 is the **primary development baseline for local material scattering**, not the selected final ReST-GI architecture. Its demonstrated scope is a coated-conductor family, learned descriptor-to-closure generalisation, local physical/runtime contracts and limited static rendering/economics. Dynamic interreflection, learned nonlocal intrinsic response and quality-matched end-to-end dynamic GI remain **UNTESTED with this baseline**. [Architecture](Architecture.md) owns the baseline contract; [WL84](worklogs/84_WORKLOG_RENDERING_QUALIFICATION_UTILITY_CLOSURE.md) owns the evidence. The approved *research milestone* is GM1; **no implementation batch or later milestone is automatically authorised**.
 
 ### Global development milestones — approved direction, not approved implementation batches

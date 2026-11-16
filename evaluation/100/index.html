@@ -1,0 +1,23 @@
+<!doctype html><meta charset="utf-8"><title>WL100 ECRO Near Mirror and SSS</title>
+<style>body{font:17px system-ui;background:#171c24;color:#eee;margin:30px}img{max-width:100%}a{color:#8ddbff}table{border-collapse:collapse}td,th{padding:8px;border:1px solid #617080}</style>
+<h1>WL100 — pre-RB-DTO-E ECRO training</h1>
+<p>Two independent fixed ECRO OWN fits, 24,000 steps each. Same 735,664 trainable parameters. Fresh physical datasets: near-mirror GGX and real volume SSS. Held-out geometry/light evaluations, not training images.</p>
+<p>ECRO predicts the higher-order boundary table. Physical material response and the first two optical-domain interactions remain explicit. SSS internal collisions are grouped into one entry-to-first-exit interaction. This is not a claim that the neural model learns the entire local SSS response.</p>
+<h2>Near-mirror GGX alpha=0.01</h2>
+<p>128 train geometries, 16 validation, 8 test; 24,000 steps; training 9.6 minutes (actual possibly contended wall).</p>
+<a href="near_overview.png"><img src="near_overview.png"></a>
+<p>Held-out boundary-field target noise: relative L1 0.081, relative RMS 0.926. Near-mirror point-light targets have rare-path heavy tails; those field errors do not isolate neural representation failure. Image reference-half noise is reported separately in each figure.</p>
+<h3>Reference noise control</h3><a href="near_noise_control.png"><img src="near_noise_control.png"></a>
+<h3>Held-out test 0: full / higher-order and ROI</h3><a href="near_test0_comparison.png"><img src="near_test0_comparison.png"></a>
+<h3>Held-out test 1: full / higher-order and ROI</h3><a href="near_test1_comparison.png"><img src="near_test1_comparison.png"></a>
+<h3>Held-out test 2: full / higher-order and ROI</h3><a href="near_test2_comparison.png"><img src="near_test2_comparison.png"></a>
+<h2>Subsurface scattering / homogeneous RTE sphere</h2>
+<p>128 train geometries, 16 validation, 8 test; 24,000 steps; training 8.9 minutes (actual possibly contended wall).</p>
+<a href="sss_overview.png"><img src="sss_overview.png"></a>
+<p>Held-out boundary-field target noise: relative L1 0.046, relative RMS 0.053. Near-mirror point-light targets have rare-path heavy tails; those field errors do not isolate neural representation failure. Image reference-half noise is reported separately in each figure.</p>
+<h3>Reference noise control</h3><a href="sss_noise_control.png"><img src="sss_noise_control.png"></a>
+<h3>Physical SSS versus opaque control</h3><p>Post-hoc material-physics visual control, not training/model evidence.</p><img src="sss_physical_nonlocal_control.png">
+<h3>Held-out test 0: full / higher-order and ROI</h3><a href="sss_test0_comparison.png"><img src="sss_test0_comparison.png"></a>
+<h3>Held-out test 1: full / higher-order and ROI</h3><a href="sss_test1_comparison.png"><img src="sss_test1_comparison.png"></a>
+<h3>Held-out test 2: full / higher-order and ROI</h3><a href="sss_test2_comparison.png"><img src="sss_test2_comparison.png"></a>
+<h2>Fixed-run learning curves</h2><img src="training_curves.png"><p><a href="metrics100.json">Full numerical results</a> · <a href="manifest100.json">Provenance and hashes</a></p>

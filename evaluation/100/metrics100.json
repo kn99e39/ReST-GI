@@ -1,0 +1,1373 @@
+{
+  "batch": "WL100",
+  "cases": {
+    "near": {
+      "training": {
+        "case": "near",
+        "seed": 10001,
+        "steps": 24000,
+        "params": 735664,
+        "train_s": 577.4610090999995,
+        "train_items": 128,
+        "val_items": 16,
+        "test_items": 8,
+        "log": [
+          {
+            "step": 500,
+            "losses": [
+              0.24575380399823188,
+              0.10331946051120758,
+              0.1326945203766227
+            ],
+            "seconds": 9.299757900000259
+          },
+          {
+            "step": 1000,
+            "losses": [
+              0.14189649990200998,
+              0.06082925057411194,
+              0.07130242438241839
+            ],
+            "seconds": 18.71607779999613
+          },
+          {
+            "step": 1500,
+            "losses": [
+              0.13716706654429436,
+              0.057711186695843936,
+              0.07131441895663738
+            ],
+            "seconds": 28.134469600001466
+          },
+          {
+            "step": 2000,
+            "losses": [
+              0.13159533347189425,
+              0.055558960005640985,
+              0.0687444705478847
+            ],
+            "seconds": 37.55834070000128
+          },
+          {
+            "step": 2500,
+            "losses": [
+              0.13049549876898528,
+              0.053987490352243185,
+              0.06983862224593759
+            ],
+            "seconds": 46.97336389999691
+          },
+          {
+            "step": 3000,
+            "losses": [
+              0.12756478185951708,
+              0.05273309142142534,
+              0.0684185332134366
+            ],
+            "seconds": 56.44247599999653
+          },
+          {
+            "step": 3500,
+            "losses": [
+              0.1269384752586484,
+              0.05210156151652336,
+              0.0685422029197216
+            ],
+            "seconds": 65.869417599999
+          },
+          {
+            "step": 4000,
+            "losses": [
+              0.1273761475235224,
+              0.052259648349136115,
+              0.06884394554793835
+            ],
+            "seconds": 75.32453949999763,
+            "val": {
+              "whole_rel_l1": 0.10759121462243806,
+              "single_rel_l1": 0.1296040065735731,
+              "global_rel_l1": 0.13865185641775166
+            }
+          },
+          {
+            "step": 4500,
+            "losses": [
+              0.12611551892012357,
+              0.05165044942870736,
+              0.0682350013591349
+            ],
+            "seconds": 84.87868699999672
+          },
+          {
+            "step": 5000,
+            "losses": [
+              0.12628068419545888,
+              0.051629795581102374,
+              0.06846095483005046
+            ],
+            "seconds": 94.25616109999828
+          },
+          {
+            "step": 5500,
+            "losses": [
+              0.12591163181513548,
+              0.05145561452582478,
+              0.06832706065103411
+            ],
+            "seconds": 103.32535729999654
+          },
+          {
+            "step": 6000,
+            "losses": [
+              0.12545292495936156,
+              0.05121424748748541,
+              0.06816021860390901
+            ],
+            "seconds": 110.719777600003
+          },
+          {
+            "step": 6500,
+            "losses": [
+              0.12622787380963563,
+              0.05144890701770782,
+              0.06875020746514202
+            ],
+            "seconds": 118.65285210000002
+          },
+          {
+            "step": 7000,
+            "losses": [
+              0.12391965247690678,
+              0.05051840852573514,
+              0.06738961553573608
+            ],
+            "seconds": 126.62514240000019
+          },
+          {
+            "step": 7500,
+            "losses": [
+              0.12581660532951355,
+              0.05150769966840744,
+              0.06836533280462026
+            ],
+            "seconds": 136.8822072999974
+          },
+          {
+            "step": 8000,
+            "losses": [
+              0.12485852555930614,
+              0.050530644815415145,
+              0.06841226404905319
+            ],
+            "seconds": 147.13458559999708,
+            "val": {
+              "whole_rel_l1": 0.10352007853199342,
+              "single_rel_l1": 0.12375393740530598,
+              "global_rel_l1": 0.13486946893271914
+            }
+          },
+          {
+            "step": 8500,
+            "losses": [
+              0.12487457387894392,
+              0.051043296474963425,
+              0.06792333026602865
+            ],
+            "seconds": 157.53074229999766
+          },
+          {
+            "step": 9000,
+            "losses": [
+              0.12554722634702922,
+              0.05137903086096048,
+              0.06830933934077621
+            ],
+            "seconds": 165.79193680000026
+          },
+          {
+            "step": 9500,
+            "losses": [
+              0.1245309325158596,
+              0.050595323409885165,
+              0.06809194098785519
+            ],
+            "seconds": 173.7929234999974
+          },
+          {
+            "step": 10000,
+            "losses": [
+              0.12447049749642611,
+              0.05055519853159785,
+              0.06810309411585332
+            ],
+            "seconds": 181.1514782000013
+          },
+          {
+            "step": 10500,
+            "losses": [
+              0.1245813940167427,
+              0.05097417353838682,
+              0.06782334804162383
+            ],
+            "seconds": 191.31390980000288
+          },
+          {
+            "step": 11000,
+            "losses": [
+              0.12398248387128115,
+              0.050467202447354795,
+              0.06773942434042692
+            ],
+            "seconds": 200.60211429999617
+          },
+          {
+            "step": 11500,
+            "losses": [
+              0.12428527728468179,
+              0.05066389781609178,
+              0.06785135688632726
+            ],
+            "seconds": 211.05787769999733
+          },
+          {
+            "step": 12000,
+            "losses": [
+              0.1247497853115201,
+              0.05090969752147794,
+              0.0680884579345584
+            ],
+            "seconds": 225.6936218999981,
+            "val": {
+              "whole_rel_l1": 0.10213520021383017,
+              "single_rel_l1": 0.12186896163014409,
+              "global_rel_l1": 0.13366934319392648
+            }
+          },
+          {
+            "step": 12500,
+            "losses": [
+              0.12428867533057929,
+              0.05024080129340291,
+              0.06829478004574775
+            ],
+            "seconds": 240.4565322999988
+          },
+          {
+            "step": 13000,
+            "losses": [
+              0.12398629450798035,
+              0.05065365523099899,
+              0.06758614492416382
+            ],
+            "seconds": 255.08054399999673
+          },
+          {
+            "step": 13500,
+            "losses": [
+              0.125459133438766,
+              0.050933746930211785,
+              0.06880010241270065
+            ],
+            "seconds": 269.7178533999977
+          },
+          {
+            "step": 14000,
+            "losses": [
+              0.12411821816116571,
+              0.05062064256519079,
+              0.06776854790374637
+            ],
+            "seconds": 284.35519170000043
+          },
+          {
+            "step": 14500,
+            "losses": [
+              0.12486406048387289,
+              0.05084180093556642,
+              0.06829799231514334
+            ],
+            "seconds": 298.97173420000036
+          },
+          {
+            "step": 15000,
+            "losses": [
+              0.12317209732532501,
+              0.05019385377317667,
+              0.06725659238919615
+            ],
+            "seconds": 313.6317954999977
+          },
+          {
+            "step": 15500,
+            "losses": [
+              0.12493075218051672,
+              0.050751210533082486,
+              0.06846252594888211
+            ],
+            "seconds": 328.2506160999983
+          },
+          {
+            "step": 16000,
+            "losses": [
+              0.12392381492257118,
+              0.05044184514507651,
+              0.06776239680498838
+            ],
+            "seconds": 342.86963359999936,
+            "val": {
+              "whole_rel_l1": 0.10132541339139794,
+              "single_rel_l1": 0.12051746003416644,
+              "global_rel_l1": 0.13299145418501296
+            }
+          },
+          {
+            "step": 16500,
+            "losses": [
+              0.12395021918416023,
+              0.050367566354572776,
+              0.06786760687083006
+            ],
+            "seconds": 357.67865999999776
+          },
+          {
+            "step": 17000,
+            "losses": [
+              0.12454881036281586,
+              0.05062421667575836,
+              0.06821137550100684
+            ],
+            "seconds": 372.3584007000027
+          },
+          {
+            "step": 17500,
+            "losses": [
+              0.12355231502652168,
+              0.05028361462429166,
+              0.06756217709928751
+            ],
+            "seconds": 387.00182179999683
+          },
+          {
+            "step": 18000,
+            "losses": [
+              0.12511217594146729,
+              0.050952218044549226,
+              0.06843803496286273
+            ],
+            "seconds": 401.6274315999981
+          },
+          {
+            "step": 18500,
+            "losses": [
+              0.12273777718096972,
+              0.04991560905426741,
+              0.06710944087058306
+            ],
+            "seconds": 416.25196549999964
+          },
+          {
+            "step": 19000,
+            "losses": [
+              0.12507076698541642,
+              0.050936154454946515,
+              0.06843833430483938
+            ],
+            "seconds": 430.9369490999961
+          },
+          {
+            "step": 19500,
+            "losses": [
+              0.12392850034683943,
+              0.0504542096555233,
+              0.06776244701817631
+            ],
+            "seconds": 445.4649277999997
+          },
+          {
+            "step": 20000,
+            "losses": [
+              0.12425650227814913,
+              0.05021705449000001,
+              0.06833126125112175
+            ],
+            "seconds": 460.1334227999978,
+            "val": {
+              "whole_rel_l1": 0.10126041846885198,
+              "single_rel_l1": 0.12023173186132638,
+              "global_rel_l1": 0.13286550438320732
+            }
+          },
+          {
+            "step": 20500,
+            "losses": [
+              0.12345486941188574,
+              0.0503883906416595,
+              0.06735992354527116
+            ],
+            "seconds": 474.9286060000013
+          },
+          {
+            "step": 21000,
+            "losses": [
+              0.12452414431422949,
+              0.050568789925426245,
+              0.06824755487218499
+            ],
+            "seconds": 489.5424686999977
+          },
+          {
+            "step": 21500,
+            "losses": [
+              0.1240558844730258,
+              0.05045423841848969,
+              0.06789538841694594
+            ],
+            "seconds": 504.1650404000029
+          },
+          {
+            "step": 22000,
+            "losses": [
+              0.12376601249724627,
+              0.050426435232162475,
+              0.06763086983934045
+            ],
+            "seconds": 518.8162071999977
+          },
+          {
+            "step": 22500,
+            "losses": [
+              0.12410599439591169,
+              0.05048074427247047,
+              0.06792446033284068
+            ],
+            "seconds": 533.4708170000013
+          },
+          {
+            "step": 23000,
+            "losses": [
+              0.12422824700921774,
+              0.05031816278770566,
+              0.06820204338431358
+            ],
+            "seconds": 548.0980887999976
+          },
+          {
+            "step": 23500,
+            "losses": [
+              0.12338967852294445,
+              0.05009369248151779,
+              0.06758748064935208
+            ],
+            "seconds": 562.6774669000006
+          },
+          {
+            "step": 24000,
+            "losses": [
+              0.1257315128222108,
+              0.05147877576947212,
+              0.0685561730824411
+            ],
+            "seconds": 577.2778799000007,
+            "val": {
+              "whole_rel_l1": 0.10118799411061227,
+              "single_rel_l1": 0.12016532710980989,
+              "global_rel_l1": 0.13281992829685776
+            }
+          }
+        ],
+        "validation": {
+          "whole_rel_l1": 0.10118799411061227,
+          "single_rel_l1": 0.12016532710980989,
+          "global_rel_l1": 0.13281992829685776
+        },
+        "test": {
+          "whole_rel_l1": 0.08195219040278276,
+          "single_rel_l1": 0.09448044041623695,
+          "global_rel_l1": 0.10684985682860774
+        },
+        "checkpoint_sha256": "b3550787e08c8a4d41c975eb485be459591d84cf14a7c010a36984d10ac62e5a",
+        "model86_source_sha256": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+        "architecture_changed": false,
+        "objective": "WL92A OWN (1,1,1)",
+        "torch": "2.8.0+cu128",
+        "gpu": "NVIDIA GeForce RTX 5080",
+        "peak_mib": 661.38720703125
+      },
+      "target_noise": {
+        "val": {
+          "lighting_fields": 64,
+          "independent_half_noise_rel_l1": 0.10110438251913537,
+          "independent_half_noise_relative_rms_of_mean": 0.965747386760829
+        },
+        "test": {
+          "lighting_fields": 16,
+          "independent_half_noise_rel_l1": 0.0808213503454418,
+          "independent_half_noise_relative_rms_of_mean": 0.9263349587894966
+        }
+      },
+      "exposure_key": 0.4834977801154364,
+      "absolute_error_display_max": 0.6575229164150892,
+      "metrics": [
+        {
+          "test_index": 0,
+          "full": {
+            "relative_rmse": 0.5109052394765587,
+            "relative_l1": 0.051361924920035607,
+            "psnr_hdr_peak_db": 33.7661431366412,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 262144
+          },
+          "roi": {
+            "relative_rmse": 0.08325869815841516,
+            "relative_l1": 0.020764199092265245,
+            "psnr_hdr_peak_db": 40.78066641055123,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 101983
+          },
+          "higher_order_roi": {
+            "relative_rmse": 0.22099048367921245,
+            "relative_l1": 0.04677725122660678,
+            "psnr_hdr_peak_db": 40.689248563454356,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 101983
+          },
+          "reference_noise_roi": 0.08157940322421188,
+          "reference_noise_full": 0.29088380501649375,
+          "reference_noise_h_roi": 0.21667917565146,
+          "physical_h_fraction_roi": 0.43709654889921673,
+          "predicted_h_fraction_roi": 0.4371858835220337,
+          "roi_box_xyxy": [
+            0,
+            0,
+            299,
+            512
+          ],
+          "reference_used_at_inference": false,
+          "posthoc_reference_noise_corrected_full_roi": {
+            "relative_rmse": 0.016693303111210055,
+            "cross_mse": 0.0007950361405550407,
+            "reference_cross_power": 2.8530035543397703,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          },
+          "posthoc_reference_noise_corrected_h_roi": {
+            "relative_rmse": 0.04449588748119335,
+            "cross_mse": 0.0007675935670163356,
+            "reference_cross_power": 0.38769623167540535,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          }
+        },
+        {
+          "test_index": 1,
+          "full": {
+            "relative_rmse": 0.3645360340593497,
+            "relative_l1": 0.03916521177941083,
+            "psnr_hdr_peak_db": 34.34385622445975,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 262144
+          },
+          "roi": {
+            "relative_rmse": 0.15984997158271452,
+            "relative_l1": 0.026876492147914596,
+            "psnr_hdr_peak_db": 42.91224104656875,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 112993
+          },
+          "higher_order_roi": {
+            "relative_rmse": 0.3545189341735873,
+            "relative_l1": 0.05506113313500775,
+            "psnr_hdr_peak_db": 42.836407796656964,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 112993
+          },
+          "reference_noise_roi": 0.1586951634551235,
+          "reference_noise_full": 0.23499875757267397,
+          "reference_noise_h_roi": 0.35204225742620765,
+          "physical_h_fraction_roi": 0.4828284811804673,
+          "predicted_h_fraction_roi": 0.4797072112560272,
+          "roi_box_xyxy": [
+            0,
+            0,
+            299,
+            512
+          ],
+          "reference_used_at_inference": false,
+          "posthoc_reference_noise_corrected_full_roi": {
+            "relative_rmse": 0.019425809002574058,
+            "cross_mse": 0.0005420566034386481,
+            "reference_cross_power": 1.436436429353311,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          },
+          "posthoc_reference_noise_corrected_h_roi": {
+            "relative_rmse": 0.04469316169099213,
+            "cross_mse": 0.0005239014344735644,
+            "reference_cross_power": 0.2622813619817232,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          }
+        },
+        {
+          "test_index": 2,
+          "full": {
+            "relative_rmse": 0.5172442058700527,
+            "relative_l1": 0.0399391941472111,
+            "psnr_hdr_peak_db": 37.64230875434216,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 262144
+          },
+          "roi": {
+            "relative_rmse": 0.20104995613318002,
+            "relative_l1": 0.022073450384102866,
+            "psnr_hdr_peak_db": 47.298956258777665,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 102676
+          },
+          "higher_order_roi": {
+            "relative_rmse": 0.469435001508485,
+            "relative_l1": 0.05083114600349424,
+            "psnr_hdr_peak_db": 47.236565400526885,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 102676
+          },
+          "reference_noise_roi": 0.20023121988796605,
+          "reference_noise_full": 0.37456615407991833,
+          "reference_noise_h_roi": 0.4675584281247494,
+          "physical_h_fraction_roi": 0.4298325153401168,
+          "predicted_h_fraction_roi": 0.4265429377555847,
+          "roi_box_xyxy": [
+            0,
+            0,
+            299,
+            512
+          ],
+          "reference_used_at_inference": false,
+          "posthoc_reference_noise_corrected_full_roi": {
+            "relative_rmse": 0.018500425588801366,
+            "cross_mse": 0.0006991007873530241,
+            "reference_cross_power": 2.042567196830495,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          },
+          "posthoc_reference_noise_corrected_h_roi": {
+            "relative_rmse": 0.047437016857207186,
+            "cross_mse": 0.0006861077274208413,
+            "reference_cross_power": 0.30490010271779455,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          }
+        }
+      ],
+      "reference_spp": 8192,
+      "prediction_spp": 4096,
+      "tone_map": "(key*x/(1+key*x))**(1/2.2)",
+      "error_definition": "mean absolute RGB difference in linear HDR; shared cap across this dataset; metrics never clipped",
+      "reference_noise_definition": "independent half difference / 2 estimates SEM of averaged 8192-spp reference; prediction readout has separate MC noise",
+      "scope": "separate fixed-material ECRO dataset, unchanged architecture, one seed; explicit physical material/LOW, learned global higher order only"
+    },
+    "sss": {
+      "training": {
+        "case": "sss",
+        "seed": 10001,
+        "steps": 24000,
+        "params": 735664,
+        "train_s": 534.3230153999975,
+        "train_items": 128,
+        "val_items": 16,
+        "test_items": 8,
+        "log": [
+          {
+            "step": 500,
+            "losses": [
+              0.06374166006222368,
+              0.02382980457134545,
+              0.05025824975408614
+            ],
+            "seconds": 14.960148799997114
+          },
+          {
+            "step": 1000,
+            "losses": [
+              0.031015795696526766,
+              0.010371918136253953,
+              0.014232089817523956
+            ],
+            "seconds": 29.52123279999796
+          },
+          {
+            "step": 1500,
+            "losses": [
+              0.02901193579658866,
+              0.009759412170387805,
+              0.013636263750493526
+            ],
+            "seconds": 44.13182049999887
+          },
+          {
+            "step": 2000,
+            "losses": [
+              0.027866220980882643,
+              0.009296022648923099,
+              0.013278670955449342
+            ],
+            "seconds": 58.75852129999839
+          },
+          {
+            "step": 2500,
+            "losses": [
+              0.02774783270061016,
+              0.009236168686300516,
+              0.01324007697403431
+            ],
+            "seconds": 73.396282099995
+          },
+          {
+            "step": 3000,
+            "losses": [
+              0.027654708914458752,
+              0.009194964381866157,
+              0.01319401977583766
+            ],
+            "seconds": 88.0003968999954
+          },
+          {
+            "step": 3500,
+            "losses": [
+              0.027433956015855073,
+              0.009135585044510662,
+              0.013027848461642861
+            ],
+            "seconds": 102.62515919999714
+          },
+          {
+            "step": 4000,
+            "losses": [
+              0.02698840255662799,
+              0.009058049954473972,
+              0.012584692686796189
+            ],
+            "seconds": 117.30040799999551,
+            "val": {
+              "whole_rel_l1": 0.06620771384475366,
+              "single_rel_l1": 0.07850968149186895,
+              "global_rel_l1": 0.09030815945361383
+            }
+          },
+          {
+            "step": 4500,
+            "losses": [
+              0.026712671160697938,
+              0.008973391472361982,
+              0.012385765440762043
+            ],
+            "seconds": 132.09617859999707
+          },
+          {
+            "step": 5000,
+            "losses": [
+              0.02656564877554774,
+              0.008939652073197068,
+              0.012295211780816316
+            ],
+            "seconds": 146.69741889999568
+          },
+          {
+            "step": 5500,
+            "losses": [
+              0.026599958136677742,
+              0.008921252250671387,
+              0.012333059962838889
+            ],
+            "seconds": 161.34063819999574
+          },
+          {
+            "step": 6000,
+            "losses": [
+              0.026460336416959763,
+              0.008887096942402422,
+              0.012232822904363274
+            ],
+            "seconds": 176.00386469999648
+          },
+          {
+            "step": 6500,
+            "losses": [
+              0.02629084847867489,
+              0.00884569177031517,
+              0.012098742559552192
+            ],
+            "seconds": 190.6348721999966
+          },
+          {
+            "step": 7000,
+            "losses": [
+              0.026228956282138824,
+              0.008819471300579607,
+              0.012041403487324714
+            ],
+            "seconds": 205.24954779999825
+          },
+          {
+            "step": 7500,
+            "losses": [
+              0.026218476470559835,
+              0.00880857711005956,
+              0.012039792872965336
+            ],
+            "seconds": 219.92671179999888
+          },
+          {
+            "step": 8000,
+            "losses": [
+              0.02598304683342576,
+              0.008734528629109263,
+              0.011906215270981192
+            ],
+            "seconds": 234.54765909999696,
+            "val": {
+              "whole_rel_l1": 0.05977477975308845,
+              "single_rel_l1": 0.07510692492736773,
+              "global_rel_l1": 0.07627156936561623
+            }
+          },
+          {
+            "step": 8500,
+            "losses": [
+              0.026041666973382234,
+              0.008743752500042319,
+              0.011936915079131723
+            ],
+            "seconds": 249.3805080999955
+          },
+          {
+            "step": 9000,
+            "losses": [
+              0.025956624113023283,
+              0.008709371791221202,
+              0.011892955487594009
+            ],
+            "seconds": 263.9294061999972
+          },
+          {
+            "step": 9500,
+            "losses": [
+              0.026004526421427726,
+              0.00873697423376143,
+              0.011916056819260121
+            ],
+            "seconds": 278.557493399996
+          },
+          {
+            "step": 10000,
+            "losses": [
+              0.025897031921893358,
+              0.008671205836348235,
+              0.011870511228218675
+            ],
+            "seconds": 293.15110179999465
+          },
+          {
+            "step": 10500,
+            "losses": [
+              0.02589984403550625,
+              0.008677152724005282,
+              0.01187606542930007
+            ],
+            "seconds": 307.79548509999586
+          },
+          {
+            "step": 11000,
+            "losses": [
+              0.025793447088450192,
+              0.008635205257683992,
+              0.011828314138576388
+            ],
+            "seconds": 322.4451029999982
+          },
+          {
+            "step": 11500,
+            "losses": [
+              0.025806602742522954,
+              0.008629932472482324,
+              0.011843768974766135
+            ],
+            "seconds": 337.071535199997
+          },
+          {
+            "step": 12000,
+            "losses": [
+              0.025790476813912392,
+              0.008628068147227169,
+              0.01183844750188291
+            ],
+            "seconds": 351.7124212999988,
+            "val": {
+              "whole_rel_l1": 0.05845546758227051,
+              "single_rel_l1": 0.07372127175505862,
+              "global_rel_l1": 0.07444010999969114
+            }
+          },
+          {
+            "step": 12500,
+            "losses": [
+              0.025761410724371672,
+              0.008603253479115665,
+              0.011830844791606069
+            ],
+            "seconds": 366.5396308999989
+          },
+          {
+            "step": 13000,
+            "losses": [
+              0.02579950378090143,
+              0.008613261636346578,
+              0.011855841014534236
+            ],
+            "seconds": 377.0623521999951
+          },
+          {
+            "step": 13500,
+            "losses": [
+              0.025521735042333602,
+              0.008524658547714352,
+              0.011714580388739706
+            ],
+            "seconds": 384.1870729000002
+          },
+          {
+            "step": 14000,
+            "losses": [
+              0.025750007081776858,
+              0.008590725717134774,
+              0.011839364191517234
+            ],
+            "seconds": 391.31186049999815
+          },
+          {
+            "step": 14500,
+            "losses": [
+              0.025715691175311802,
+              0.008576928802765905,
+              0.011824671123176813
+            ],
+            "seconds": 398.43652049999946
+          },
+          {
+            "step": 15000,
+            "losses": [
+              0.025663782138377427,
+              0.008555917940102518,
+              0.011801455119624734
+            ],
+            "seconds": 405.5647758999985
+          },
+          {
+            "step": 15500,
+            "losses": [
+              0.025622970297932625,
+              0.008539051942527295,
+              0.011782728455960751
+            ],
+            "seconds": 412.690191099995
+          },
+          {
+            "step": 16000,
+            "losses": [
+              0.025657764840871095,
+              0.008550714313983918,
+              0.011804776389151811
+            ],
+            "seconds": 419.8513573999953,
+            "val": {
+              "whole_rel_l1": 0.05824804255555037,
+              "single_rel_l1": 0.07305827707443882,
+              "global_rel_l1": 0.07425975560205886
+            }
+          },
+          {
+            "step": 16500,
+            "losses": [
+              0.025583391807973387,
+              0.008521012797951697,
+              0.01176815140247345
+            ],
+            "seconds": 427.0622887999998
+          },
+          {
+            "step": 17000,
+            "losses": [
+              0.025608259834349157,
+              0.008534690856002272,
+              0.011783259244635701
+            ],
+            "seconds": 434.20061970000097
+          },
+          {
+            "step": 17500,
+            "losses": [
+              0.02560435874760151,
+              0.008524589690379798,
+              0.011786220900714397
+            ],
+            "seconds": 441.33923869999853
+          },
+          {
+            "step": 18000,
+            "losses": [
+              0.025608609773218632,
+              0.008521983521059156,
+              0.011789044367149473
+            ],
+            "seconds": 448.48423249999905
+          },
+          {
+            "step": 18500,
+            "losses": [
+              0.025576211489737034,
+              0.008501533819362521,
+              0.011781133191660046
+            ],
+            "seconds": 455.63483459999406
+          },
+          {
+            "step": 19000,
+            "losses": [
+              0.02556533236429095,
+              0.00851052094809711,
+              0.011768413908779621
+            ],
+            "seconds": 462.7775044999944
+          },
+          {
+            "step": 19500,
+            "losses": [
+              0.025588164206594228,
+              0.008529888249933719,
+              0.011779044710099697
+            ],
+            "seconds": 469.9481080999976
+          },
+          {
+            "step": 20000,
+            "losses": [
+              0.025539495680481195,
+              0.008484713756479323,
+              0.011765685692429542
+            ],
+            "seconds": 477.0851939999993,
+            "val": {
+              "whole_rel_l1": 0.05787724514556523,
+              "single_rel_l1": 0.07252168954542952,
+              "global_rel_l1": 0.07404267953197323
+            }
+          },
+          {
+            "step": 20500,
+            "losses": [
+              0.025506414022296666,
+              0.008477170407772064,
+              0.011748136304318904
+            ],
+            "seconds": 484.295526599999
+          },
+          {
+            "step": 21000,
+            "losses": [
+              0.025525789216160773,
+              0.008494361666962505,
+              0.011754499210044742
+            ],
+            "seconds": 491.4391259999975
+          },
+          {
+            "step": 21500,
+            "losses": [
+              0.025514071576297283,
+              0.008484519871883095,
+              0.01175178524851799
+            ],
+            "seconds": 498.5830083999972
+          },
+          {
+            "step": 22000,
+            "losses": [
+              0.02551039544865489,
+              0.008482732365839183,
+              0.011751816589385271
+            ],
+            "seconds": 505.7217459999956
+          },
+          {
+            "step": 22500,
+            "losses": [
+              0.025551737029105424,
+              0.00849764112662524,
+              0.011772257899865508
+            ],
+            "seconds": 512.8523382999992
+          },
+          {
+            "step": 23000,
+            "losses": [
+              0.02551978875696659,
+              0.008483581899665296,
+              0.01175808305107057
+            ],
+            "seconds": 519.9889120999942
+          },
+          {
+            "step": 23500,
+            "losses": [
+              0.025446558892726897,
+              0.008447370806708931,
+              0.01172254984639585
+            ],
+            "seconds": 527.1174036000011
+          },
+          {
+            "step": 24000,
+            "losses": [
+              0.025548598781228067,
+              0.00850656713731587,
+              0.011768983885645866
+            ],
+            "seconds": 534.250500999995,
+            "val": {
+              "whole_rel_l1": 0.05765740009922736,
+              "single_rel_l1": 0.07223093492226146,
+              "global_rel_l1": 0.07368672986660853
+            }
+          }
+        ],
+        "validation": {
+          "whole_rel_l1": 0.05765740009922736,
+          "single_rel_l1": 0.07223093492226146,
+          "global_rel_l1": 0.07368672986660853
+        },
+        "test": {
+          "whole_rel_l1": 0.04722870385436322,
+          "single_rel_l1": 0.06098600923453262,
+          "global_rel_l1": 0.06080825116421625
+        },
+        "checkpoint_sha256": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+        "model86_source_sha256": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+        "architecture_changed": false,
+        "objective": "WL92A OWN (1,1,1)",
+        "torch": "2.8.0+cu128",
+        "gpu": "NVIDIA GeForce RTX 5080",
+        "peak_mib": 661.38720703125
+      },
+      "target_noise": {
+        "val": {
+          "lighting_fields": 64,
+          "independent_half_noise_rel_l1": 0.05798916795946537,
+          "independent_half_noise_relative_rms_of_mean": 0.06780851716017001
+        },
+        "test": {
+          "lighting_fields": 16,
+          "independent_half_noise_rel_l1": 0.04573826053536324,
+          "independent_half_noise_relative_rms_of_mean": 0.052517110501656264
+        }
+      },
+      "exposure_key": 0.1938553403045695,
+      "absolute_error_display_max": 0.09056394701202716,
+      "metrics": [
+        {
+          "test_index": 0,
+          "full": {
+            "relative_rmse": 0.0048871397161729824,
+            "relative_l1": 0.005118051528239431,
+            "psnr_hdr_peak_db": 56.204622397951326,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 262144
+          },
+          "roi": {
+            "relative_rmse": 0.01856022258775958,
+            "relative_l1": 0.017388322190305824,
+            "psnr_hdr_peak_db": 49.4973122013355,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 49660
+          },
+          "higher_order_roi": {
+            "relative_rmse": 0.03645794313714757,
+            "relative_l1": 0.026170256053269187,
+            "psnr_hdr_peak_db": 40.04809496412088,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 49660
+          },
+          "reference_noise_roi": 0.01020758942255393,
+          "reference_noise_full": 0.0028681961977615683,
+          "reference_noise_h_roi": 0.019032433222921884,
+          "physical_h_fraction_roi": 0.4396035208986229,
+          "predicted_h_fraction_roi": 0.4403790533542633,
+          "roi_box_xyxy": [
+            122,
+            169,
+            390,
+            437
+          ],
+          "reference_used_at_inference": false,
+          "posthoc_reference_noise_corrected_full_roi": {
+            "relative_rmse": 0.01550200051510342,
+            "cross_mse": 0.00038327113029129525,
+            "reference_cross_power": 1.5948895537506471,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          },
+          "posthoc_reference_noise_corrected_h_roi": {
+            "relative_rmse": 0.031101422657789823,
+            "cross_mse": 0.00021163265374820188,
+            "reference_cross_power": 0.2187873294988385,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          }
+        },
+        {
+          "test_index": 1,
+          "full": {
+            "relative_rmse": 0.004351021312860703,
+            "relative_l1": 0.005024608431421173,
+            "psnr_hdr_peak_db": 59.189130450969586,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 262144
+          },
+          "roi": {
+            "relative_rmse": 0.020798351779332147,
+            "relative_l1": 0.019038048016572495,
+            "psnr_hdr_peak_db": 48.12158001051064,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 49660
+          },
+          "higher_order_roi": {
+            "relative_rmse": 0.03893502838768555,
+            "relative_l1": 0.028404057637424065,
+            "psnr_hdr_peak_db": 38.937283027860445,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 49660
+          },
+          "reference_noise_roi": 0.011558632994107037,
+          "reference_noise_full": 0.00259676077340451,
+          "reference_noise_h_roi": 0.020601755905229,
+          "physical_h_fraction_roi": 0.4633792858596845,
+          "predicted_h_fraction_roi": 0.46540895104408264,
+          "roi_box_xyxy": [
+            122,
+            169,
+            390,
+            437
+          ],
+          "reference_used_at_inference": false,
+          "posthoc_reference_noise_corrected_full_roi": {
+            "relative_rmse": 0.017291887933238957,
+            "cross_mse": 0.000457439304760977,
+            "reference_cross_power": 1.5298493046265427,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          },
+          "posthoc_reference_noise_corrected_h_roi": {
+            "relative_rmse": 0.033044932372801136,
+            "cross_mse": 0.0002639581947344031,
+            "reference_cross_power": 0.24172714051744842,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          }
+        },
+        {
+          "test_index": 2,
+          "full": {
+            "relative_rmse": 0.006521340215960212,
+            "relative_l1": 0.0059026517959099595,
+            "psnr_hdr_peak_db": 52.40428745894488,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 262144
+          },
+          "roi": {
+            "relative_rmse": 0.014718750441227332,
+            "relative_l1": 0.013819945921883495,
+            "psnr_hdr_peak_db": 47.88024677014556,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 49660
+          },
+          "higher_order_roi": {
+            "relative_rmse": 0.031287304583536554,
+            "relative_l1": 0.022756716356247788,
+            "psnr_hdr_peak_db": 39.47769936585756,
+            "psnr_definition": "10 log10(max(reference ROI)^2 / RGB MSE), linear HDR, no clipping",
+            "pixels": 49660
+          },
+          "reference_noise_roi": 0.0081416356842347,
+          "reference_noise_full": 0.0037197987986934515,
+          "reference_noise_h_roi": 0.016328582691461736,
+          "physical_h_fraction_roi": 0.38948213421117384,
+          "predicted_h_fraction_roi": 0.39083486795425415,
+          "roi_box_xyxy": [
+            122,
+            169,
+            390,
+            437
+          ],
+          "reference_used_at_inference": false,
+          "posthoc_reference_noise_corrected_full_roi": {
+            "relative_rmse": 0.012262354997664553,
+            "cross_mse": 0.0003204796296401626,
+            "reference_cross_power": 2.1313396301143093,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          },
+          "posthoc_reference_noise_corrected_h_roi": {
+            "relative_rmse": 0.026691998315550827,
+            "cross_mse": 0.00016845649182462163,
+            "reference_cross_power": 0.23644251735505903,
+            "scope": "Post-hoc descriptive cross-half estimate; reference variance cancels in expectation. Prediction readout noise remains; no confidence interval or architecture verdict."
+          }
+        }
+      ],
+      "reference_spp": 8192,
+      "prediction_spp": 4096,
+      "tone_map": "(key*x/(1+key*x))**(1/2.2)",
+      "error_definition": "mean absolute RGB difference in linear HDR; shared cap across this dataset; metrics never clipped",
+      "reference_noise_definition": "independent half difference / 2 estimates SEM of averaged 8192-spp reference; prediction readout has separate MC noise",
+      "scope": "separate fixed-material ECRO dataset, unchanged architecture, one seed; explicit physical material/LOW, learned global higher order only",
+      "posthoc_physical_control": {
+        "camera_shadow_pixels": 46541,
+        "sss_mean_direct_radiance_on_opaque_shadow": 0.12012003577808957,
+        "opaque_mean_direct_radiance_on_same_pixels": 0.0,
+        "scope": "physical-only, same RGB parameter not matched emergent reflectance; no learned evidence"
+      }
+    }
+  },
+  "architecture_adoption": "NOT APPLICABLE",
+  "preflight": {
+    "tests": {
+      "sss_native_mean_energy": true,
+      "sss_finite_nonnegative": true,
+      "sss_reference_noise": true,
+      "ballistic_beer_renderer": true,
+      "model_parameter_count": true,
+      "near_panel_visible": true,
+      "renderer_material_feature_table": true,
+      "zero_superposition": true
+    },
+    "pass": true,
+    "native_energy_ratio_rgb": [
+      0.9768518209457397,
+      0.9878856539726257,
+      0.9932994246482849
+    ],
+    "native_noise_relative_rms": 0.018077639862895012,
+    "custom_timing": {
+      "trace_s": 2.137043199953041,
+      "eval_s": 0.25179440002830233,
+      "gpu_ms": 0.0,
+      "launches": 256,
+      "wall_s": 2.389041999995243,
+      "spp": 2048
+    },
+    "native_scope": "Mitsuba homogeneous volpath; isolated sphere, same point light/camera; sigma_t=12/m, known null-interface epsilon small at this density",
+    "params": 735664,
+    "ballistic_renderer_relative_error": 1.2160828524399037e-05,
+    "linearity_relative_error": 6.843134769951575e-08,
+    "mitsuba": "3.5.1",
+    "drjit": "0.4.6",
+    "torch": "2.8.0+cu128",
+    "gpu": "NVIDIA GeForce RTX 5080",
+    "boundary_offset_qualification": "low-density sphere only; not dense-media validity"
+  },
+  "limits": [
+    "one seed per material dataset",
+    "bounded new scene/light family, no broad generalisation or dynamic/economic claim",
+    "local SSS physics and LOW explicitly traced; learned ECRO owns higher-order table",
+    "six optical-domain interactions; native SSS isolated-sphere agreement only within 5% bound",
+    "sharp point-light reference outliers/noise must be considered with error maps"
+  ]
+}
