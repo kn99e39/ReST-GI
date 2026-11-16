@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "/home/nd/NeuralShaderDemo/external/8dna26/train.py",
+    "--config",
+    "/home/nd/NeuralShaderDemo/external/8dna26/configs/default.yaml",
+    "--experiment_name",
+    "CK2_bx38",
+    "--log_path",
+    "/home/nd/rest_8dna_ck21b/training",
+    "--max_epochs",
+    "30",
+    "--device",
+    "0",
+    "--seed",
+    "21101",
+    "scene=ck21b_bx38",
+    "dataset.SPP=32",
+    "val_spp=16"
+  ],
+  "target_epochs": 30,
+  "native_steps_per_epoch": 8192,
+  "final_selection": "fixed final.ckpt; no image-based selection"
+}

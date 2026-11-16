@@ -1,0 +1,30 @@
+{
+  "stage": "epoch01_preview",
+  "checkpoint_epoch": 0,
+  "checkpoint_global_step": 8192,
+  "checkpoint": "/home/nd/rest_8dna_ck21b/results/epoch01_preview.ckpt",
+  "checkpoint_sha256": "f0936a6d186ea11fe0f406aead7b6ab1d75d258b1bea4060ddd7f6b146472a24",
+  "neural_spp_per_replicate": 128,
+  "neural_seeds": [
+    21201,
+    21202
+  ],
+  "neural_render_seconds": [
+    172.16529677435756,
+    174.24225226789713
+  ],
+  "metrics_descriptive_only": {
+    "rest_gi": {
+      "frame": 0.01990804999868514,
+      "reflection": 0.07589953529883856
+    },
+    "8dna": {
+      "frame": 0.20237333880082817,
+      "reflection": 0.6949873192735548
+    }
+  },
+  "error_scale_max_mean_rgb_abs": 86.56997992129375,
+  "figure": "/home/nd/rest_8dna_ck21b/results/ck2_references_and_candidates_epoch01_preview.png",
+  "figure_sha256": "f3fb8ab932d6e537c01ebd1c535d879c3472917b9cecca36ff8e516ffaec8734",
+  "reference_role": "Stored frozen-ER six-event reference. Native intrinsic full transport is a different path-depth regime, so no strict fidelity/speed winner is declared."
+}

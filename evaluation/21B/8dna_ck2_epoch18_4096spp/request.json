@@ -1,0 +1,37 @@
+{
+  "epochs_completed": 18,
+  "checkpoint_global_step": 147456,
+  "checkpoint_source": "/home/nd/rest_8dna_ck21b/training_packed/CK2_bx38/epoch=17-step=147456.ckpt",
+  "checkpoint": "/home/nd/rest_8dna_ck21b/results/8dna_ck2_epoch18_4096spp/checkpoint.ckpt",
+  "checkpoint_sha256": "f5a7c4db6faed2cc31b419888db7e53f585bf1e5481323cdc363b20b59c56b86",
+  "resolution": [
+    512,
+    512
+  ],
+  "target_spp": 4096,
+  "max_depth": 10,
+  "rr_depth": 5,
+  "display": "exposure1, Reinhard x/(1+x), gamma2.2; no denoising",
+  "scope": "Intermediate fixed 18/30-epoch fit; native full transport differs from stored six-event reference. No convergence or dynamic superiority claim.",
+  "scheduling": "Read-only render concurrent with continuing fit. All speed observations include contention.",
+  "batch_spp": 4,
+  "batch_probes": [
+    {
+      "spp": 1,
+      "steady_seconds": 1.228195572271943,
+      "seconds_per_spp": 1.228195572271943,
+      "torch_peak_bytes": 863798272
+    },
+    {
+      "spp": 4,
+      "steady_seconds": 2.459070850163698,
+      "seconds_per_spp": 0.6147677125409245,
+      "torch_peak_bytes": 3483266560
+    },
+    {
+      "spp": 8,
+      "status": "oom_not_admitted"
+    }
+  ],
+  "seed_base": 23101
+}

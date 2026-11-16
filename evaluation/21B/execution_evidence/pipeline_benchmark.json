@@ -1,0 +1,52 @@
+{
+  "anchor": {
+    "status": "paused_at_epoch_boundary",
+    "pid": 3610740,
+    "checkpoint": "/home/nd/rest_8dna_ck21b/resume_anchor/epoch=4-step=40960.ckpt",
+    "source_checkpoint": "/home/nd/rest_8dna_ck21b/training/CK2_bx38/epoch=4-step=40960.ckpt",
+    "sha256": "3c101c004966228812af98a36afcd70ffaaac2c18ad109d3719c81ca4cc3df56",
+    "utc": "2026-11-16T05:46:10Z",
+    "reason": "User-authorized execution-pipeline profiling; next epoch reload cannot have performed an optimizer update before this 250ms observer."
+  },
+  "anchor_epoch": 4,
+  "anchor_step": 40960,
+  "status": "admitted",
+  "model_and_batch": "Unchanged FP32 8DNA, Adam state, clipping=5, batch32768",
+  "scope": "Timing fixture only: real native small-buffer tuples tiled to the full 128^4 host address footprint. Never used for the main training fit.",
+  "tuple_count": 268435456,
+  "packed_bytes": 17179869184,
+  "legacy_host_bytes": 16374562816,
+  "field_bit_equal": true,
+  "paired_optimizer": [
+    {
+      "loss_abs": 0.0,
+      "gradient_max_abs": 4.656612873077393e-10,
+      "gradient_rel_l2": 1.3289215061718096e-08,
+      "parameter_max_abs": 1.4901161193847656e-08
+    },
+    {
+      "loss_abs": 0.0,
+      "gradient_max_abs": 1.862645149230957e-09,
+      "gradient_rel_l2": 3.918343338682462e-08,
+      "parameter_max_abs": 2.9802322387695312e-08
+    },
+    {
+      "loss_abs": 0.0,
+      "gradient_max_abs": 1.0104849934577942e-07,
+      "gradient_rel_l2": 4.321404958318453e-06,
+      "parameter_max_abs": 5.960464477539063e-08
+    }
+  ],
+  "correctness_pass": true,
+  "seconds_per_complete_step": {
+    "baseline": [
+      0.08814729301957414,
+      0.07491848198696971
+    ],
+    "prefetch": [
+      0.05381544528063387,
+      0.06272042688215151
+    ]
+  },
+  "speedup": 1.3992753645741138
+}

@@ -1,0 +1,82 @@
+{
+  "epochs_completed": 18,
+  "checkpoint_global_step": 147456,
+  "checkpoint_source": "/home/nd/rest_8dna_ck21b/training_packed/CK2_bx38/epoch=17-step=147456.ckpt",
+  "checkpoint": "/home/nd/rest_8dna_ck21b/results/8dna_ck2_epoch18_4096spp/checkpoint.ckpt",
+  "checkpoint_sha256": "f5a7c4db6faed2cc31b419888db7e53f585bf1e5481323cdc363b20b59c56b86",
+  "resolution": [
+    512,
+    512
+  ],
+  "target_spp": 4096,
+  "max_depth": 10,
+  "rr_depth": 5,
+  "display": "exposure1, Reinhard x/(1+x), gamma2.2; no denoising",
+  "scope": "Intermediate fixed 18/30-epoch fit; native full transport differs from stored six-event reference. No convergence or dynamic superiority claim.",
+  "scheduling": "Read-only render concurrent with continuing fit. All speed observations include contention.",
+  "batch_spp": 4,
+  "batch_probes": [
+    {
+      "spp": 1,
+      "steady_seconds": 1.228195572271943,
+      "seconds_per_spp": 1.228195572271943,
+      "torch_peak_bytes": 863798272
+    },
+    {
+      "spp": 4,
+      "steady_seconds": 2.459070850163698,
+      "seconds_per_spp": 0.6147677125409245,
+      "torch_peak_bytes": 3483266560
+    },
+    {
+      "spp": 8,
+      "status": "oom_not_admitted"
+    }
+  ],
+  "seed_base": 23101,
+  "status": "complete",
+  "spp_completed": 4096,
+  "render_seconds_this_session": 2528.3156532030553,
+  "files": {
+    "8dna_ck2_epoch18_4096spp.png": "377343b0c512b478a94aca30c5f0294f9c8ec05b1148e67671eff56649cfce63",
+    "8dna_ck2_epoch18_4096spp.npy": "5d7ea10e2dfaf310f0291ae41b45c0f4a052606a739e65029ebe63febfd4ab96",
+    "8dna_ck2_epoch18_4096spp.exr": "191e595d63e30e11374fd734199fd6a410c09ec7908686c5b58b83fc98310ac0",
+    "ck2_references_and_candidates_epoch18_matched4096spp.png": "57311f71754cb1391ea4b727b5b3bebbc4a3a4fd9fc2f0f62bd201d91da96c43"
+  },
+  "metrics_descriptive_only": {
+    "rest_gi": {
+      "frame": 0.01999194142622901,
+      "reflection": 0.0759055733446899
+    },
+    "8dna": {
+      "frame": 0.06646550072016262,
+      "reflection": 0.1989927921989236
+    }
+  },
+  "rest_gi_spp": 4096,
+  "rest_gi_replicate": "r0",
+  "rest_gi_render_metadata": {
+    "variant": "bx38",
+    "src": "results/tables/CK_bx38_CK2_T1.npz:B_own_s8601_C0",
+    "seed": 86600,
+    "spp": 4096,
+    "timing": {
+      "trace_s": 4.436959138140082,
+      "eval_s": 5.91063073836267,
+      "gpu_ms": 0.0,
+      "launches": 128,
+      "wall_s": 10.348381901159883,
+      "spp": 4096
+    }
+  },
+  "rest_gi_composition": "Stored high-spp reference LOW + single 4096-spp learned H; inherited baseline contract.",
+  "source_hashes": {
+    "/home/nd/rest_x93d_ck2/results/renders/CK_bx38_own_s8601_C0_CK2_T1_r0.npz": "157d8052b7d6681475b89d9f0d4ae491121eeb5ca5dd9b3b7b45fad00909aedf",
+    "/home/nd/rest_x93d_ck2/results/renders/CK_bx38_own_s8601_C0_CK2_T1_r0.json": "3009dbaa5b72a9e59d85ce9862653cf0270977d28d0c39fd66b5900e730fdc90",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r0.npz": "2f4496a79cb67bb4bb067a4e7f60a5ec17018e64d970381e5e68388c50a2e413",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r1.npz": "077128bf5a27e3d1a1041cc45605c403baa29192ec05f6f2cbbb01a01fb4c0e2",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r2.npz": "aa2d0e1a244c5708acf74e0aab541117ccfec3d46f75b20cd7ba073396e10a53",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r3.npz": "2fba528d9595b217d4a2c584527609fa0ba1dd4c8ae8a04b905224b2606ee290"
+  },
+  "original_render_manifest_sha256": "169ff685538f5994d6bc1fcd7283fd63cfe4c15bd3f1a422329473732640614c"
+}

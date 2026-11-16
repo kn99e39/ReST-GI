@@ -1,0 +1,62 @@
+, 11.54it/s, v_num=0, train/loss=-0.00263]Epoch 21: 100%|█████████▉| 8189/8192 [11:49<00:00, 11.54it/s, v_num=0, train/loss=-0.00263]Epoch 21: 100%|█████████▉| 8189/8192 [11:49<00:00, 11.54it/s, v_num=0, train/loss=-0.00246]Epoch 21: 100%|█████████▉| 8190/8192 [11:49<00:00, 11.54it/s, v_num=0, train/loss=-0.00246]Epoch 21: 100%|█████████▉| 8190/8192 [11:49<00:00, 11.54it/s, v_num=0, train/loss=0.000898]Epoch 21: 100%|█████████▉| 8191/8192 [11:49<00:00, 11.54it/s, v_num=0, train/loss=0.000898]Epoch 21: 100%|█████████▉| 8191/8192 [11:49<00:00, 11.54it/s, v_num=0, train/loss=-0.00536]Epoch 21: 100%|██████████| 8192/8192 [11:49<00:00, 11.54it/s, v_num=0, train/loss=-0.00536]Epoch 21: 100%|██████████| 8192/8192 [11:49<00:00, 11.54it/s, v_num=0, train/loss=-0.00249]
+Validation: |          | 0/? [00:00<?, ?it/s][A
+Validation:   0%|          | 0/1 [00:00<?, ?it/s][A
+Validation DataLoader 0:   0%|          | 0/1 [00:00<?, ?it/s][ATraceback (most recent call last):
+  File "/home/nd/rest_8dna_ck21b/scripts/train_packed21b.py", line 94, in <module>
+    main()
+  File "/home/nd/rest_8dna_ck21b/scripts/train_packed21b.py", line 87, in main
+    runpy.run_path(str(UP / 'train.py'), run_name='__main__')
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/runpy.py", line 289, in run_path
+    return _run_module_code(code, init_globals, run_name,
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/runpy.py", line 96, in _run_module_code
+    _run_code(code, mod_globals, init_globals,
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/runpy.py", line 86, in _run_code
+    exec(code, run_globals)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/train.py", line 165, in <module>
+    trainer.fit(
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 544, in fit
+    call._call_and_handle_interrupt(
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 44, in _call_and_handle_interrupt
+    return trainer_fn(*args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 580, in _fit_impl
+    self._run(model, ckpt_path=ckpt_path)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 989, in _run
+    results = self._run_stage()
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/trainer/trainer.py", line 1035, in _run_stage
+    self.fit_loop.run()
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 202, in run
+    self.advance()
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/loops/fit_loop.py", line 359, in advance
+    self.epoch_loop.run(self._data_fetcher)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 137, in run
+    self.on_advance_end(data_fetcher)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/loops/training_epoch_loop.py", line 285, in on_advance_end
+    self.val_loop.run()
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/loops/utilities.py", line 182, in _decorator
+    return loop_run(self, *args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 134, in run
+    self._evaluation_step(batch, batch_idx, dataloader_idx, dataloader_iter)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/loops/evaluation_loop.py", line 391, in _evaluation_step
+    output = call._call_strategy_hook(trainer, hook_name, *step_args)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/trainer/call.py", line 309, in _call_strategy_hook
+    output = fn(*args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/lightning/pytorch/strategies/strategy.py", line 403, in validation_step
+    return self.lightning_module.validation_step(*args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/train.py", line 89, in validation_step
+    img_est,img_gt = render_simple(
+  File "/home/nd/NeuralShaderDemo/external/8dna26/utils/light_transport.py", line 359, in render_simple
+    xo,wo,_,weight = model.sample(channel,sample2_1,sample2_2,cond)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 147, in sample
+    xo,pdf_xo,weight_xo = self.sample_xo(channel,sample2_1,cond)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 105, in sample_xo
+    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/normflow.py", line 90, in sample
+    z,logpdf_z = vrqs(params_z,inputs[...,0].unsqueeze(-1),
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/normflow.py", line 175, in vrqs
+    d.take_along_dim(channel,1).squeeze(1),
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 26.00 MiB. GPU 
+Epoch 21: 100%|██████████| 8192/8192 [11:50<00:00, 11.53it/s, v_num=0, train/loss=-0.00249]
+
+                                                              [A

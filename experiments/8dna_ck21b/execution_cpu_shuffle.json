@@ -1,0 +1,12 @@
+{
+  "note": "Pre-optimizer execution accommodation on 12GB RTX 3080 Ti",
+  "date": "2026-11-16",
+  "primary_protocol": "8dna_ck21b_static_visual_v1",
+  "failure": "Native CUDA torch.randperm(128^4) requested an extra 4.07GiB sorting workspace and failed after data generation, epoch 0 at 0/8192 optimizer steps.",
+  "preserved_attempt": "/home/nd/rest_8dna_ck21b/attempt05_cuda_randperm/",
+  "change": "Generate torch.randperm(268435456) on CPU, hash the int64 bytes, copy to the unchanged GPU index array in 1048576-index chunks; flush unused allocator caches first.",
+  "unchanged": ["All 128^4 native online path tuples", "Uniform global permutation distribution and one visit per sample per epoch", "32768-sample training batch", "669K-parameter default 8DNA model", "Original losses, optimizer, learning rate and 30-epoch fixed final schedule", "Physical scene, ER material states and all comparison gates"],
+  "reproducibility_limit": "CPU and CUDA permutations use different RNG streams and produce different orders. Execution wrapper and seed must be retained; this is not a bit-identical hypothetical 24GB CUDA execution.",
+  "first_successful_cpu_permutation": {"count": 268435456, "sha256_int64_bytes": "ba7722b65bc60fffac7bc73975fb6e10ee71b6b0acc95c19af289dd392e22300", "seconds": 35.93407261930406},
+  "scope": "Execution-only memory accommodation; no architecture/data-budget rescue or quality threshold change. Image labels and epoch/step guards distinguish first-epoch preview from final fit."
+}

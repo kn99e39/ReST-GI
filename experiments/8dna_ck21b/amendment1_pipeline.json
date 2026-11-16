@@ -1,0 +1,13 @@
+{
+  "amendment": "WL21B Amendment 1: user-authorized training execution pipeline redesign",
+  "authorization": "User: 그거 학습이 근데 리소스 점유가 너무 낮은거 아니야? 구조적으로 개편할 수 없나?",
+  "date": "2026-11-16",
+  "scope": "Execution-only CPU/GPU data pipeline, not a learned mechanism or a new architecture batch. Preserve original code, all completed checkpoints, optimizer state, losses and evidence.",
+  "diagnostic_hypothesis": "GPU indices -> synchronous CPU copy -> five separate CPU random gathers -> six synchronous CPU/GPU copies plus serialized training leaves the GPU idle.",
+  "candidate": "CPU permutation; contiguous float32 tuple storage (15 physical values plus exact 0/1 mask); reusable pinned staging slots; producer thread; a separate CUDA transfer stream overlapping the same model/optimizer execution. GPU fields unpacked contiguously with original dtype/mask.",
+  "fixed": ["Original 669K-parameter model and float32 arithmetic", "Original objectives, 32768 tuples/batch, Adam and clipping", "128^4 fresh physical path tuples per epoch, all visited once under uniform permutation", "245760 total optimizer steps, including those preserved at the resume anchor", "Scene, material states, camera, reference and image/verdict conventions"],
+  "validation_before_migration": {"data": "Identical ordered tuples, masks, dtypes and contiguous GPU field values for baseline and candidate", "optimizer": "Same checkpoint and Adam state, same batches, compare losses/gradients/updated parameters; no lower precision or changed gradient accumulation", "performance": "Paused original compute, same hardware, warm repetitions of fetch+transfer+forward+backward+clip+Adam with synchronized wall time; profiler distinguishes CPU gather, copy, GPU compute and synchronization", "admit": "At least 1.20x complete-step speedup with passing correctness checks; otherwise inspect profiler and leave the existing run intact."},
+  "migration": "Observe and stop only this job at a newly completed epoch checkpoint before next optimizer work; preserve an immutable anchor and original logs. Resume remaining epochs in a distinct output directory only after measured admission.",
+  "randomness": "If old native checkpoints lack RNG state, disclose a deterministic fresh per-epoch RNG stream after the execution boundary. Never claim bit-identical continuation; do not reset the learned weights, optimizer or step budget.",
+  "stop": "If correctness or performance checks fail, resume the paused original process and report the measured blocker. No automatic model/precision/batch/learning-budget change."
+}

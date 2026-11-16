@@ -1,0 +1,36 @@
+{
+  "argv": [
+    "/home/nd/NeuralShaderDemo/external/8dna26/train.py",
+    "--config",
+    "/home/nd/NeuralShaderDemo/external/8dna26/configs/default.yaml",
+    "--experiment_name",
+    "CK2_bx38",
+    "--log_path",
+    "/home/nd/rest_8dna_ck21b/training_packed",
+    "--max_epochs",
+    "30",
+    "--device",
+    "0",
+    "--seed",
+    "21105",
+    "--resume",
+    "scene=ck21b_bx38",
+    "dataset.SPP=32",
+    "val_spp=16"
+  ],
+  "anchor": {
+    "status": "paused_at_epoch_boundary",
+    "pid": 3610740,
+    "checkpoint": "/home/nd/rest_8dna_ck21b/resume_anchor/epoch=4-step=40960.ckpt",
+    "source_checkpoint": "/home/nd/rest_8dna_ck21b/training/CK2_bx38/epoch=4-step=40960.ckpt",
+    "sha256": "3c101c004966228812af98a36afcd70ffaaac2c18ad109d3719c81ca4cc3df56",
+    "utc": "2026-11-16T05:46:10Z",
+    "reason": "User-authorized execution-pipeline profiling; next epoch reload cannot have performed an optimizer update before this 250ms observer."
+  },
+  "anchor_sha256_verified": "3c101c004966228812af98a36afcd70ffaaac2c18ad109d3719c81ca4cc3df56",
+  "benchmark_speedup": 1.3992753645741138,
+  "target_epochs": 30,
+  "native_steps_per_epoch": 8192,
+  "final_selection": "fixed final.ckpt; no image-based selection",
+  "rng": "fresh seed 21105 after the execution boundary (native checkpoint has no RNG state); not bit-identical"
+}

@@ -1,0 +1,54 @@
+{
+  "checkpoint_step": 98304,
+  "checkpoint_sha256": "49d1ad1ae2b4580c8f6c607fa2782e8d3ff9849da204fd8d7042aeaf28f33a21",
+  "resolution": [
+    256,
+    256
+  ],
+  "independent_blocks": 4,
+  "spp_per_block": 128,
+  "seeds": [
+    221000,
+    222000,
+    223000,
+    224000
+  ],
+  "partial_spp": 32,
+  "regions": {
+    "frame": {
+      "pixels": 65536,
+      "variance_32spp": 4.336363681895876,
+      "variance_128spp": 1.1238489461838057,
+      "variance_ratio_32_over_128": 3.858493347011301,
+      "rms_noise_128spp_linear": 1.0601174209415698,
+      "rms_noise_512spp_estimated_linear": 0.5300587104707849
+    },
+    "ROI_T": {
+      "pixels": 14414,
+      "variance_32spp": 13.559350907538358,
+      "variance_128spp": 3.6591919575929044,
+      "variance_ratio_32_over_128": 3.7055587858413395,
+      "rms_noise_128spp_linear": 1.9129014500472585,
+      "rms_noise_512spp_estimated_linear": 0.9564507250236293
+    },
+    "panel": {
+      "pixels": 26925,
+      "variance_32spp": 7.4810312904986285,
+      "variance_128spp": 2.0224155006806948,
+      "variance_ratio_32_over_128": 3.699057531936785,
+      "rms_noise_128spp_linear": 1.4221165566438971,
+      "rms_noise_512spp_estimated_linear": 0.7110582783219486
+    },
+    "target_direct": {
+      "pixels": 21755,
+      "variance_32spp": 0.05803453117569307,
+      "variance_128spp": 0.017076072502685447,
+      "variance_ratio_32_over_128": 3.39858777049385,
+      "rms_noise_128spp_linear": 0.13067544720675514,
+      "rms_noise_512spp_estimated_linear": 0.06533772360337757
+    }
+  },
+  "seconds": 409.1454188954085,
+  "scope": "Fixed 12-epoch model, four independent seeds. Variance across independent blocks; no physical reference or bias/convergence verdict. 512spp RMS is an estimate from 128spp variance, not an independent 512spp replicate measurement.",
+  "display": "exposure1, x/(1+x), gamma2.2. Comparison left128 right512; nested samples."
+}

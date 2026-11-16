@@ -1,0 +1,243 @@
+{
+  "snapshot_created_utc": "2026-11-16T10:52:20.727708+00:00",
+  "worklog": "docs/worklogs/21B_WORKLOG_8DNA_CK2_STATIC_COMPARISON.md",
+  "completed_stages": [
+    "epoch01 preview",
+    "epoch12 single frame and independent-seed noise diagnostic",
+    "epoch18 4096spp single frame and integrated matched-r0 comparison"
+  ],
+  "ongoing": "Recovery from epoch19 checkpoint toward fixed 30 epochs; not a completed final-fit result.",
+  "interpretation": "Descriptive static comparison. ReST-GI is high-spp reference LOW + 4096spp learned H; native 8DNA transport differs from six-event stored reference.",
+  "validation": {
+    "python_sources_parsed": 15,
+    "artifact_hashes": "first/12/18 epoch figures verified; all epoch18 manifest file hashes and review copies verified",
+    "numpy_finite_arrays_checked": [
+      "evaluation/21B/8dna_ck2_epoch12_preview.npy",
+      "evaluation/21B/8dna_ck2_epoch18_4096spp/8dna_ck2_epoch18_4096spp.npy",
+      "evaluation/21B/noise_epoch12/block1_128spp.npy",
+      "evaluation/21B/noise_epoch12/block2_128spp.npy",
+      "evaluation/21B/noise_epoch12/block3_128spp.npy",
+      "evaluation/21B/noise_epoch12/block4_128spp.npy",
+      "evaluation/21B/noise_epoch12/mean_512spp.npy"
+    ],
+    "benchmark_admission_verified": true
+  },
+  "checkpoint_storage": "Checkpoints and full training/renderer caches remain on LabServer63 at recorded paths; no ignored checkpoint files are staged.",
+  "files": [
+    {
+      "path": "eval_comparison/8DNA/8dna_ck2_epoch12_preview.json",
+      "bytes": 869,
+      "sha256": "f30df19f5fbf41facb03698a548ff3f9687e2d0980326c48ca2d19b83b7d75c4"
+    },
+    {
+      "path": "eval_comparison/8DNA/8dna_ck2_epoch12_preview.png",
+      "bytes": 538375,
+      "sha256": "952e005a3c4f8c5c4ec86a4ace8c95520de6c75667a1ca4e3e20ef898049289c"
+    },
+    {
+      "path": "eval_comparison/8DNA/8dna_ck2_epoch18_4096spp.json",
+      "bytes": 3531,
+      "sha256": "0bdf700498cdd5688729e1c86fc14742e999a81592cce2786577d4e19d1bb2a1"
+    },
+    {
+      "path": "eval_comparison/8DNA/8dna_ck2_epoch18_4096spp.png",
+      "bytes": 373760,
+      "sha256": "377343b0c512b478a94aca30c5f0294f9c8ec05b1148e67671eff56649cfce63"
+    },
+    {
+      "path": "eval_comparison/8DNA/ck2_epoch12_noise_128_vs_512.png",
+      "bytes": 256517,
+      "sha256": "727b36c3f4f76c3e3c5ed6ca6e291c256eb9e480faab18aea21681a077e8a678"
+    },
+    {
+      "path": "eval_comparison/8DNA/ck2_manifest.json",
+      "bytes": 678,
+      "sha256": "fd49c48c5261fa48fd9b804affb13103271344d98f179c298dea17c949ad2dfc"
+    },
+    {
+      "path": "eval_comparison/8DNA/ck2_references_and_candidates_epoch01_preview.png",
+      "bytes": 1737095,
+      "sha256": "f3fb8ab932d6e537c01ebd1c535d879c3472917b9cecca36ff8e516ffaec8734"
+    },
+    {
+      "path": "eval_comparison/8DNA/ck2_references_and_candidates_epoch18_matched4096spp.png",
+      "bytes": 1768292,
+      "sha256": "57311f71754cb1391ea4b727b5b3bebbc4a3a4fd9fc2f0f62bd201d91da96c43"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch12_preview.exr",
+      "bytes": 3137047,
+      "sha256": "23bcce30c464d2a8914b289bef01a800d38cdd9353e5e718a3fbf7ca50772857"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch12_preview.json",
+      "bytes": 869,
+      "sha256": "f30df19f5fbf41facb03698a548ff3f9687e2d0980326c48ca2d19b83b7d75c4"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch12_preview.npy",
+      "bytes": 3145856,
+      "sha256": "efcf44740ae431e2bd7e573667a0bce93728c77479e93ed5022a4db74d3307fc"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch12_preview.png",
+      "bytes": 538375,
+      "sha256": "952e005a3c4f8c5c4ec86a4ace8c95520de6c75667a1ca4e3e20ef898049289c"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch18_4096spp/8dna_ck2_epoch18_4096spp.exr",
+      "bytes": 3034564,
+      "sha256": "191e595d63e30e11374fd734199fd6a410c09ec7908686c5b58b83fc98310ac0"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch18_4096spp/8dna_ck2_epoch18_4096spp.npy",
+      "bytes": 3145856,
+      "sha256": "5d7ea10e2dfaf310f0291ae41b45c0f4a052606a739e65029ebe63febfd4ab96"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch18_4096spp/8dna_ck2_epoch18_4096spp.png",
+      "bytes": 373760,
+      "sha256": "377343b0c512b478a94aca30c5f0294f9c8ec05b1148e67671eff56649cfce63"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch18_4096spp/ck2_references_and_candidates_epoch18_matched4096spp.png",
+      "bytes": 1768292,
+      "sha256": "57311f71754cb1391ea4b727b5b3bebbc4a3a4fd9fc2f0f62bd201d91da96c43"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch18_4096spp/matched4096_complete.json",
+      "bytes": 3531,
+      "sha256": "0bdf700498cdd5688729e1c86fc14742e999a81592cce2786577d4e19d1bb2a1"
+    },
+    {
+      "path": "evaluation/21B/8dna_ck2_epoch18_4096spp/request.json",
+      "bytes": 1220,
+      "sha256": "f99a0d9f62832db210b44f466420f1ebaec0ca710d43821d00b324c480fb2acb"
+    },
+    {
+      "path": "evaluation/21B/ck2_references_and_candidates_epoch01_preview.png",
+      "bytes": 1737095,
+      "sha256": "f3fb8ab932d6e537c01ebd1c535d879c3472917b9cecca36ff8e516ffaec8734"
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/execution_history.log",
+      "bytes": 479,
+      "sha256": "71f575bdfd20cde75b07a9093c36509343d8484708742bf5cbb7aeae43b1250d"
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/pause_boundary.json",
+      "bytes": 498,
+      "sha256": "14e610790a0e18f7be2b758bba7a79f059276a8e8d657f14ef194786eae23bee"
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/pipeline_benchmark.json",
+      "bytes": 1786,
+      "sha256": "aa023dd5d9295e858c94cd5ce6cb5e42203368c254f8ad2b9c27f375df6e9d2f"
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/profile_baseline.txt",
+      "bytes": 5605,
+      "sha256": "7f17793707f3e706f26ff0f618d27fb7af7eca52f98388ad931f5e5c362969f7"
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/profile_prefetch.txt",
+      "bytes": 5608,
+      "sha256": "8f9ae329db8c066ed62df8e33eb64049f5f19be4da91c52e4c85273cad982f28"
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/train_packed.status",
+      "bytes": 28,
+      "sha256": "34b8755a92745d4ae29a8b95790893fb26e81ced9848a0c8558482d4c8cca0af"
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/training_command_packed.json",
+      "bytes": 1336,
+      "sha256": "b5f9bb617b338491a4f0dc56a2a7beb6437ddbe80fb1900d6a952d16d561a88c"
+    },
+    {
+      "path": "evaluation/21B/execution_evidence/validation_oom_tail.txt",
+      "bytes": 6000,
+      "sha256": "647d473ed881a7d517b5afb3c40bc9c299d60aecb68dfa8cafd7f3c7b6d5cd65"
+    },
+    {
+      "path": "evaluation/21B/figure_epoch01_preview.json",
+      "bytes": 1063,
+      "sha256": "4fb3da3e821afebda9de10acb83bc1841629f38d724aa7d4b247a1dc83f7b6b6"
+    },
+    {
+      "path": "evaluation/21B/manifest.json",
+      "bytes": 678,
+      "sha256": "fd49c48c5261fa48fd9b804affb13103271344d98f179c298dea17c949ad2dfc"
+    },
+    {
+      "path": "evaluation/21B/noise_epoch12/block1_128spp.npy",
+      "bytes": 786560,
+      "sha256": "185ae185568477ea4380a55e59350d0daa6357b21bef57fba71157d9f61c17b1"
+    },
+    {
+      "path": "evaluation/21B/noise_epoch12/block2_128spp.npy",
+      "bytes": 786560,
+      "sha256": "18c26606863976444dccaf35216bee048a9077bb06b96dda00b13b698dc88bea"
+    },
+    {
+      "path": "evaluation/21B/noise_epoch12/block3_128spp.npy",
+      "bytes": 786560,
+      "sha256": "c2f733d7c4bc2c125ef2b2d2f98fe3e469d22cfd2eefa18881290429291fb121"
+    },
+    {
+      "path": "evaluation/21B/noise_epoch12/block4_128spp.npy",
+      "bytes": 786560,
+      "sha256": "a970f0d40b1639b5cbc1fbe0f55a35aaafdc07f7534dbd7ed8b50cc2d997a714"
+    },
+    {
+      "path": "evaluation/21B/noise_epoch12/epoch12_128_vs_512.png",
+      "bytes": 256517,
+      "sha256": "727b36c3f4f76c3e3c5ed6ca6e291c256eb9e480faab18aea21681a077e8a678"
+    },
+    {
+      "path": "evaluation/21B/noise_epoch12/epoch12_128spp.png",
+      "bytes": 136371,
+      "sha256": "d1f00b5314ce895024e8f040e1d79da4e65cebb0416296a970d0deb4e9d05c84"
+    },
+    {
+      "path": "evaluation/21B/noise_epoch12/epoch12_512spp.png",
+      "bytes": 120607,
+      "sha256": "b0668aed2c925529884778a16ba7fe48bfc2ea78a3c99aa9fe40cab66dbcaa03"
+    },
+    {
+      "path": "evaluation/21B/noise_epoch12/mean_512spp.npy",
+      "bytes": 786560,
+      "sha256": "0b75c5d1db646697c176fd2d7138e880fd6a9ab129ff5b849453fd6f76d868dd"
+    },
+    {
+      "path": "evaluation/21B/noise_epoch12/metrics.json",
+      "bytes": 1913,
+      "sha256": "c3d6339517b81709964fa82004040559c5bfc52d07484ac85e0e52cc49cc822b"
+    },
+    {
+      "path": "evaluation/21B/preflight.json",
+      "bytes": 3055,
+      "sha256": "00eede8be1d4e55a86bd513303876e981c7e696ee022cb5f098aa092c8fbd312"
+    },
+    {
+      "path": "evaluation/21B/public_hair_preemption.json",
+      "bytes": 15805,
+      "sha256": "b3f6149956436e37e37d6738c19a3963f4bcc5dca45fbcbcf7b137f81981bba7"
+    },
+    {
+      "path": "evaluation/21B/recovery19.json",
+      "bytes": 1181,
+      "sha256": "e6edbb2ddaa97845e4b0cfb14204980212725046ff6be6c85c82579ae027ba4e"
+    },
+    {
+      "path": "evaluation/21B/training_command.json",
+      "bytes": 533,
+      "sha256": "9f95ed6da4d71fdf07f0ce66d08cd41d4053b9a5dc535939cabfd33807cea9ac"
+    },
+    {
+      "path": "evaluation/21B/training_jit_probe.json",
+      "bytes": 123,
+      "sha256": "1313fb06a3255fbc52a8cdedeabd07d96c772a129a4acf6f703e9810794341e0"
+    }
+  ]
+}

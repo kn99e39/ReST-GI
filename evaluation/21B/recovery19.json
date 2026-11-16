@@ -1,0 +1,33 @@
+{
+  "reason": "Original run OOM in validation after epoch21 updates while high-spp rendering overlapped.",
+  "source": "/home/nd/rest_8dna_ck21b/training_packed/CK2_bx38/epoch=18-step=155648.ckpt",
+  "source_sha256": "1f2d106f6d92dfb4b5232c7aa3aa35295a9c038c2079b8cc724c434b7767439c",
+  "resume_epoch_zero_based": 18,
+  "resume_global_step": 155648,
+  "optimizer_preserved": true,
+  "target_epochs": 30,
+  "target_global_step": 245760,
+  "argv": [
+    "/home/nd/NeuralShaderDemo/external/8dna26/train.py",
+    "--config",
+    "/home/nd/NeuralShaderDemo/external/8dna26/configs/default.yaml",
+    "--experiment_name",
+    "CK2_bx38",
+    "--log_path",
+    "/home/nd/rest_8dna_ck21b/training_recovery19",
+    "--max_epochs",
+    "30",
+    "--device",
+    "0",
+    "--seed",
+    "21119",
+    "--resume",
+    "scene=ck21b_bx38",
+    "dataset.SPP=32",
+    "val_spp=16"
+  ],
+  "rng": "Fresh continuation seed 21119; original checkpoint has no RNG state. Not bit-identical.",
+  "lost_unsaved_optimizer_steps": 24576,
+  "retention": "Keep every completed epoch; native model/loss/Adam/batch/data/validation unchanged.",
+  "evaluation": "Fixed final.ckpt, never best-by-image selection."
+}
