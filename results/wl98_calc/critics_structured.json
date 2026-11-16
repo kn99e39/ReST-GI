@@ -1,0 +1,909 @@
+[
+ {
+  "role": "adversarial critic X1 (physics / measure / ownership)",
+  "report_path": "c:\\Projects\\ReST-GI\\docs\\plans\\wl98_learned_directional_transport\\X1_critic_physics_measure.md",
+  "summary": "I critiqued all eight named candidates in the four WL98 designs through a physics, measure and ownership lens. The work rests on code reading and two numpy scratch scripts (experiments/wl98_calc/X1/; outputs results/wl98_calc/X1/physics_checks.json and ck2_spread.json). These are design input only, not evidence.\n\nMain findings:\n\n1. **FLS, the coordinator's primary, fails as a learned candidate.**\n   - [CALC] On the S1 panel under the CK2 light (cos_i about 0.08), the mirror direction sweeps about 18 deg (E-weighted; up to 28 deg) across one 0.2 m patch. The S1 lobe is about 1 deg wide. So about 10 separable lobes are needed per element per light, and 79 % of the irradiance falls on patches that need more than 8. Under the non-grazing lights L1 and L2, one lobe suffices.\n   - A sheared, image-source lobe fixes this, but it is the analytic mirror construction, so nothing is left to learn.\n   - Its radiance formula L = Phi p / cos is measure-inconsistent near the horizon: radiance is unbounded there and estimators have infinite variance.\n   - Its NULL sink is unphysical learned absorption.\n   - It is nonlinear.\n   - In GM1 its learned content reduces to ER compression plus mixture reduction.\n   - Its delivery is explicit lobe cubature, so the learned operator replaces no transport work.\n2. **ECRO-FC fails as a candidate but is useful as a diagnostic arm.** Its generator conditions the per-patch response on current visibility (openness, form-factor message passing), world coordinates and a scene-mean token (model86.py:93-104). As an arm it is confounded, because it changes three treatments at once.\n3. **The existing reference machinery cannot validate sub-bin claims.** pt86a.field_src tallies solid-angle-mean 64-bin radiance, the M64 convention. Its event/class tags are e2/e3 by last sender (panel / other), and it is depth-truncated (kmax 5 for fields, D 6 for the camera). It has no tallies for:\n   - exact-direction outgoing radiance;\n   - cos-weighted cells;\n   - incident flux per receiver cell;\n   - body self-path tags;\n   - media;\n   - all-order transport.\n   pt86.trace does have a probe mode, so exact-direction probes are a small extension, but they need their own qualification.\n4. **Receiver-anchored gather (XQT, EXP/C3UR) is passive only in expectation.** [CALC] With 0.46 expected glint rays per receiver per draw, a single draw delivers more flux than the sender emits with probability up to 0.16-0.40. Sender-anchored deposition is passive per realisation.\n5. **D3's LER-Delta convergence condition is wrong.** The correct condition is rho((I+H_E)(M-B)) < 1, i.e. beta < (1-t)/t in the scalar case. The condition D3 wrote accepts divergent cases.\n6. **Learned-minus-explicit cancellation in LER-Delta produces ghosting by construction.**\n7. **XQT's receiver-side pooling cannot help CK2-type glints.** The glint footprint (about 3.5 cm) is smaller than a receiver patch (0.2 m), and neighbouring receivers are about 11 deg apart, far outside a 1 deg lobe.\n\nSurvivors:\n- XQT: CONDITIONAL on HD-1, a stronger learning-free twin and corrected per-draw passivity wording.\n- LIEM-S: CONDITIONAL on the GM2 scope, a reference qualification that does not exist yet, and a headroom admission. It has the cleanest physics contract but does not learn interreflection.\n- LLT: CONDITIONAL, as an information test only.\n- LIEM-B: CONDITIONAL, as a representation control only.\n- RB-DTO: NO under the current canon; it moves editable same-asset air paths into a learned body operator, which Architecture §2 and the brief forbid.\n- LER-Delta: NO.\n\nFalsification-plan defects, among others:\n- H2 floors are computed against 64-bin references.\n- FLS's stop gate uses an observable that cannot discriminate (delivery to extended receivers, where 8x32 is already within 2-6 %).\n- The learning-free twins are weak.\n- D1's H1 arm and the ECRO-FC arm each change more than one treatment.\n- D2's kill rule can be passed on memory alone.\n- DESIGN_REVIEW cites a CRITIQUE.md that does not exist.",
+  "per_design": [
+   {
+    "design": "DESIGN_REVIEW (coordinator)",
+    "candidate": "FLS - flux-allocated spatio-angular lobe state (primary)",
+    "fatal_objections": [
+     "The state contract cannot hold the motivating case [CALC]. K <= 8 separable anchor x direction lobes per 0.2 m element cannot keep a point-light glint on S1 at CK2 incidence at lobe resolution. The mirror direction sweeps about 18 deg (top patch 28 deg) across a patch versus a lobe of about 1 deg. About 10 lobes are needed per element per light, and 79 % of the irradiance is on patches that need more than 8. A sheared (image-source) lobe fixes this, but it is the analytic mirror construction (nothing to learn), and sub-elements approach per-point explicit evaluation. This hits the brief's stop condition 'sharp response effectively needs full explicit transport'.",
+     "The learned operator replaces no explicit transport work. Delivery is explicit lobe cubature (K*Q*N rays per sweep, about the C3URX1 count by the draft's own arithmetic). Lambda_theta replaces only ER evaluation and lobe fitting, which in GM1 is ER compression plus mixture reduction (D1 Proposition I applies). This hits brief stop condition 1 and the BRDF-compression exclusion."
+    ],
+    "serious_objections": [
+     "The measure formula is inconsistent. With p normalised in the projected measure, L = Phi p / cos theta is wrong. Read as a solid-angle flux density, radiance is unbounded at the horizon: int L domega diverges logarithmically and int L^2 diverges as 1/eps for lobes at about 1 deg elevation [CALC]. T-a tests flux, not radiance.",
+     "The NULL sink is learned absorption beyond exact ER. The exact scattered flux is known, so this degree of freedom reopens WL86A-type compensation.",
+     "It is nonlinear in the source. The superposition tolerance T-s has no evidential basis, the state cannot be validated by impulse tests, and per-source states multiply cost by the number of lights.",
+     "The generic lobe family fails even for a single grazing S1 ER lobe: lobe L1 0.35-0.6 at K <= 4 and 2-7x peak overshoot (D2 scratch).",
+     "Lobe peak position and width cannot be validated with pt86a.field_src, which holds only solid-angle-mean 64-bin tallies. New probe code is needed."
+    ],
+    "strengths": [
+     "Deterministic sender-anchored delivery is passive per realisation and has no single-draw gather variance.",
+     "State in local frames gives exact rigid equivariance.",
+     "Visibility is explicit; contract test T-v is well posed."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "DESIGN_REVIEW (coordinator)",
+    "candidate": "ECRO-FC - flux-conserving adaptive table + coverage + passivity (alternative)",
+    "fatal_objections": [
+     "The generator conditions the per-patch c/a factors on current visibility (openness = 1 - sum of form factors, Ft message passing), world centre / normal / tangent and a scene-mean token [CODE model86.py:93-104]. That is dynamic visibility coupled into the per-patch response, and no rigid-equivariance or local validity certificate is possible.",
+     "Its sender half re-learns the frozen ER, which is BRDF compression."
+    ],
+    "serious_objections": [
+     "As an H2 arm it changes three treatments at once (carrier, coverage, passivity), so neither H1 nor H2 can be attributed. It must be factorised.",
+     "The global term keeps WL86A's blind-compensation risk and is not covered by the passivity constraint.",
+     "The passivity constraint needs a declared projected-measure column norm. That is feasible but not specified."
+    ],
+    "strengths": [
+     "It is the right minimal-change lineage diagnostic once factorised.",
+     "It is exactly linear.",
+     "FC cells are flux-exact."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "DESIGN_REVIEW (coordinator)",
+    "candidate": "Candidate A (continuous kernel) and Candidate B (learned sparse multi-resolution table), both rejected in the draft",
+    "fatal_objections": [
+     "A, nonlocal form: owns visibility. A, local form: BRDF compression with no structural energy contract.",
+     "B as a learned candidate: its learning-free twin (FC 8x32 / adaptive) already removes the binned bias."
+    ],
+    "serious_objections": [],
+    "strengths": [
+     "The learning-free B is correctly retained as the flux-conserving control."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D1_physics_measure_first",
+    "candidate": "XQT - exact-sample quadrature transport (primary)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "'Passive by construction' holds only in expectation. Per relation draw, a sharp sender's delivered flux exceeds its emission with probability up to 0.16-0.40 in a toy anchored on WL96's 0.46 glint rays per receiver per draw [CALC]. Iterated sweeps reuse the draw, which matters on glossy loops.",
+     "Neighbour redistribution asserts point-level visibility from element-level co-visibility, and carries radiance evaluated toward i' rather than toward i. The result is leakage at intra-element occluder edges and wrong values for lobes narrower than the receiver-to-receiver angle. P7 holds only partly.",
+     "Its lever vanishes for CK2-type glints: the footprint (about 3.5 cm) is smaller than a receiver patch (0.2 m), and neighbours are about 11 deg apart against a 1 deg lobe. The author's own flatland scratch shows oracle/twin of only 1.0-1.33, so a Stage-1 stop is likely.",
+     "The learning-free twin (fixed analytic kernel) is the weakest admissible one. Spatial reuse with exact re-evaluation plus a shadow ray, and sender-anchored deposition, are missing as twins, which biases the learned-vs-twin test toward learning.",
+     "No reference tally exists for incident flux per projected-disk receiver cell.",
+     "Admissibility as 'learned transport' is HD-1."
+    ],
+    "strengths": [
+     "Linear and source-independent; ER exact; visibility only from explicit records; rigid-invariant inputs with a dependency certificate.",
+     "Honest information analysis (Proposition I), consistent with the GM1 physics.",
+     "The flux-exact projected-disk carrier is the correct measure."
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D1_physics_measure_first",
+    "candidate": "LLT - learned lobe transfer from sparse probes (alternative)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "Its only possible gain over its twin (photons through the same K_p probes) is inferred visibility between probes. That is learned C, with WL52's negative prior at visibility transitions.",
+     "Per-light cost, like the explicit lobe tracing it would replace.",
+     "Sub-bin footprint validation needs new reference code."
+    ],
+    "strengths": [
+     "Passive per lobe (softmax + miss, normalised density) and linear per incident direction; ER lobe exact.",
+     "The S1-d collision-pair information test is a sound learning-free falsifier."
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D1_physics_measure_first",
+    "candidate": "Rejected A1 / A2 / B1 / C1, control E0, rejected O1",
+    "fatal_objections": [
+     "A1 and C1: BRDF compression. A2: owns visibility or is a non-measure-exact estimator. B1: resolvent-only role with a measured null ceiling. O1: canon conflict (Architecture §2) and empty in GM1."
+    ],
+    "serious_objections": [],
+    "strengths": [
+     "The rejections are consistent with physics. The E0 code finding (world coordinates and a global token) is correct."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D2_learning_generalization_first",
+    "candidate": "LIEM-S - learned intrinsic exit measure with structured lobes (primary)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "It does not learn interreflection or free-space high-frequency transport. Sharpness comes from the exact interface, and the learned part is smooth where it saves work (D2's own slab tension). The central hypothesis is tested only in GM2, and the brief's complex-interreflection focus is not addressed by learning (HD2).",
+     "Passivity depends on an exact per-query ballistic fraction m_bal (an explicit Fresnel/TIR tree). Chart mass lost beyond edges is a measure leak concentrated exactly where learning is supposed to beat Twin-D.",
+     "The 'exact' rough-dielectric closure (single- vs multiple-scatter microfacet BTDF, eta^2 radiance scaling, reciprocity form) must be declared and matched to the reference interface model.",
+     "No qualified reference exists. WL53 covers index-matched media only. Mitsuba float32 skips about 89 um at interfaces. LabServer63's cuda film is wrong. Cycles BSSRDF is path-history-dependent; only the volume RTE inside rough glass is admissible, after qualification.",
+     "The float64 walk is training generator, Twin-W and 'independent check' at once. Independence must come from an external renderer."
+    ],
+    "strengths": [
+     "The cleanest ownership: interior collided transport goes to K, air to explicit C, ballistic stays explicit, and no external geometry enters.",
+     "Linear, impulse-supervised; passive by construction with a declared measure; exactly rigid-equivariant; coverage is a declared treatment.",
+     "Three named twins (walk, analytic diffusion, per-asset table) and a learning-free headroom admission gate."
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D2_learning_generalization_first",
+    "candidate": "LIEM-B - hierarchical categorical exit distribution (alternative)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "Without the exact interface, air-side direction cells must resolve alpha-scale exit lobes by refinement, so the alpha^-2 growth returns.",
+     "It is not mechanism-independent of LIEM-S (shared data, ownership and failure causes)."
+    ],
+    "strengths": [
+     "Deterministic linear operator; softmax-with-NULL gives column sums <= 1; flux-exact cells with no horizon truncation."
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D2_learning_generalization_first",
+    "candidate": "Rejected R-A / R-B / R-C / R-D / R-E",
+    "fatal_objections": [
+     "R-A: undefined energy and owns visibility or re-learns ER. R-B: dominated by its twin. R-C: BRDF compression. R-D: canon conflict. R-E: learned visibility."
+    ],
+    "serious_objections": [],
+    "strengths": [
+     "Consistent with the ownership physics."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D3_systems_cost_first",
+    "candidate": "RB-DTO - rigid-body directional transfer operator (primary)",
+    "fatal_objections": [
+     "It moves editable same-asset air transport (C_self) into a learned body operator. Architecture §2 forbids this ('exposed same-asset paths belong to C'; 'must not merge editable air transport into K'), and the brief says to keep the ownership separation. It is admissible only after a canon change [HUM D1].",
+     "The certificate does not cure partial intrusion: invaded self-paths cannot be subtracted from a learned N_b. The fallback must be whole-body explicit, not 'the invaded part' as written."
+    ],
+    "serious_objections": [
+     "The passivity budget rho_ER - E_esc depends on a 4D escape-visibility quadrature of sharp ER lobes. If E_esc is underestimated, the output can exceed rho_ER.",
+     "The per-patch mixture-reduced lobe cache is nonlinear and breaks superposition.",
+     "Sheared exit distributions of glossy cavities face the same lobe-count problem as FLS.",
+     "Validation needs new self-path tags, references deeper than D = 6 without RR, and a new unqualified scene family. It is identically zero on every qualified workload (E2, E5, CK2).",
+     "The explicit twin B1 is costed with uniform binning. A hierarchical or low-rank precomputed body transfer is missing, so U0 is overestimated."
+    ],
+    "strengths": [
+     "It identifies the only rigid-invariant nonlocal transport that could amortise: self-transport of non-convex bodies.",
+     "The first local event stays exact ER; path-tagged component supervision; a cost-anatomy gate runs before training."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D3_systems_cost_first",
+    "candidate": "LER-Delta - learned environment resolvent with explicit edit-delta (alternative)",
+    "fatal_objections": [
+     "The convergence contract is mis-stated. The iteration matrix is (I+H_E)(M-B), not H_E(M-B). Scalar case: converges iff beta < (1-t)/t (t 0.6 -> 0.67; t 0.7 -> 0.43), while D3's condition accepts divergent cases [CALC]. Iterates are signed, and clamping is forbidden.",
+     "Learned-minus-explicit cancellation: H_E holds a learned approximation of the blocked paths, while B subtracts them exactly. This leaves structural ghosts of blocked sharp beams (negative core, positive halo).",
+     "H_E is per-environment learned state, close to the scene-baked class the Architecture excludes and to the external Native Reuse class."
+    ],
+    "serious_objections": [
+     "H_E's fidelity on signed delta-fields outside its training span is untested (WL41 / WL44 precedent)."
+    ],
+    "strengths": [
+     "The edit enters exactly and explicitly through B and M.",
+     "A learning-free Woodbury / Krylov variant is a valid comparator."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D3_systems_cost_first",
+    "candidate": "Rejected A (patch kernel) / B (learned table) / C (patch lobes)",
+    "fatal_objections": [
+     "A: visibility-coupled factors (confirmed in code). B: dominated by its twin. C: ER compression."
+    ],
+    "serious_objections": [],
+    "strengths": [
+     "The observation that ECRO's local factors depend on current visibility matches the code."
+    ],
+    "survives": "NO"
+   }
+  ],
+  "experiment_plan_defects": [
+   "All designs: the reference-instrument gap is not gated. pt86a.field_src tallies solid-angle-mean 64-bin radiance (the M64 convention), with e2/e3 x panel/other tags only, and is depth-truncated (kmax 5 for fields, D 6 for the camera). It has no exact-direction, cos-weighted, incident-flux, self-path, media or all-order tallies. Every sub-bin representation metric depends on new, unqualified probe code. pt86.trace's probe mode makes this a small extension, but it must be qualified first.",
+   "All designs: H2 class floors are computed against 64-bin references, so they cannot show what is lost below the bin. References finer than the finest carrier tested are needed.",
+   "All designs: event truncation is not matched for all-order candidates (XQT iterated, LIEM, RB-DTO, LER-Delta). The reference must be deepened, or kmax matched and the residual estimated.",
+   "DESIGN_REVIEW: the STOP-FLS gate compares delivery error against FC 8x32 on extended receivers, where 8x32 is already within 2-6 % at box A. The lobe advantage could only appear at glint receivers or camera reads through the panel, and receiver classes are not predeclared.",
+   "DESIGN_REVIEW: ELT (moment-matched lobes) is a weak learning-free twin. It must include exact per-component ER lobes with image-source shear.",
+   "DESIGN_REVIEW: ECRO-FC changes carrier, coverage and passivity together, which confounds H1 and H2. It should be factorised.",
+   "DESIGN_REVIEW: it cites CRITIQUE.md and a §10 response, but neither exists.",
+   "DESIGN_REVIEW: Stage 3 does not list the missing CK2 T1 reference as a prerequisite.",
+   "DESIGN_REVIEW / D3: there is no per-draw passivity or spectral-radius test for gather estimators on glossy loops (WGG, Track B).",
+   "D1: the H1 arm C1 changes both the coverage distribution and the sender supervision (identifiability). It needs C1a (coverage only) and C1b (sender target only).",
+   "D1: the XQT twin is a fixed analytic kernel. Exact-re-evaluation spatial reuse (shadow ray + ER toward the new receiver) and sender-anchored deposition at matched rays are missing as twins.",
+   "D1: contract test T5 (passivity) must be evaluated per relation draw, not in expectation.",
+   "D2: the I3 kill rule survives if memory alone beats Twin-T, which holds for any shared network against a 2 GB per-asset table and says nothing about edit utility. Time-to-quality or accuracy must be required.",
+   "D2: the float64 walk is training generator, Twin-W and 'independent' check at once. Independence must be defined as external-renderer agreement at I0.1, and the interface model must be declared beforehand.",
+   "D3: the LER-Delta convergence condition is wrong. It must be rho((I+H_E)(M-B)) < 1.",
+   "D3: the path-tag identity test needs tracer instrumentation that does not exist. Track B glossy cavities need references deeper than D = 6 without RR.",
+   "D3: the B1 twin is costed with uniform binning, so U0 is overestimated. The fallback is costed as partial, but it must be whole-body explicit, so its cost is underestimated."
+  ],
+  "missed_alternatives": [
+   "A sheared / image-source (virtual-source) lobe parameterisation for planar sharp senders. It is learning-free and exact for planar senders, needs one lobe per light at CK2, and is the right ELT twin and explicit comparator.",
+   "Spatial hit-point reuse with exact ER re-evaluation and shadow rays (ReSTIR-GI class) as the learning-free twin for XQT.",
+   "Woodbury / Krylov (GMRES) edit updates on a precomputed explicit operator. They are robust where LER-Delta's fixed-point splitting diverges, and serve as a learning-free comparator.",
+   "Learned proposal densities only (parametric-mixture guiding over lobes or receivers, with exact ER and explicit visibility). Every energy, measure and ownership contract holds automatically, because learning error costs variance only. It faces the same HD-1 question as XQT.",
+   "A reciprocity-symmetric (A^1/2-scaled) parameterisation for linear learned estimators, so that reciprocity is constructed rather than measured."
+  ],
+  "proposed_verdict": "DESIGN_READY_FOR_HUMAN_REVIEW",
+  "verdict_rationale": "The batch contains physically defensible but conditional candidates.\n\n- **XQT** is within the current canon and GM1. It is linear and source-independent, uses exact ER and explicit visibility, and is passive in expectation. It depends on HD-1: whether a learned estimator counts as \"learned transport\".\n- **LIEM-S** has canonical ownership and is passive by construction with a declared measure. It depends on the GM2 scope decision and on a reference qualification that does not exist yet.\n- Both have learning-free stop gates that come before any training.\n\nThe verdict holds only if the coordinator's pair is not carried forward:\n- FLS fails on spatio-angular shear (about 10 lobes per element per light at CK2), on its measure formula, on its NULL sink and nonlinearity, and on having no learned transport content in GM1.\n- ECRO-FC fails as a candidate because its factors are coupled to visibility.\n\nRB-DTO needs a canon change; LER-Delta fails its own convergence and ghosting contracts.\n\nDissent: under the current canon and the scene86 / GM1 family alone, all three designers and this critic find no learned information advantage. If the owner rules under HD-1 that an estimator is not learned transport and does not open GM2, the correct batch verdict is NO_DEFENSIBLE_CANDIDATE.\n\nBefore any freeze, whichever candidate goes forward, the plan needs:\n- a reference-instrument qualification gate;\n- per-draw passivity contracts;\n- the stronger learning-free twins;\n- factorised H1 / H2 arms.\n\nNone of this is adoption or experiment approval."
+ },
+ {
+  "role": "adversarial critic X2 (learnability and evidence)",
+  "report_path": "c:/Projects/ReST-GI/docs/plans/wl98_learned_directional_transport/X2_critic_learnability.md",
+  "summary": "I read all four WL98 designs in full and tested every candidate with four learnability checks:\n- T-twin: does a learning-free twin get the same result?\n- T-local: is the learned map just element-local ER, i.e. BRDF compression?\n- T-cover: can training coverage be designed, rather than left to a scene/light sampler?\n- T-expose: do training inputs come from the same process as runtime inputs?\n\nResults:\n- The coordinator's primary, FLS, fails two of the brief's stop conditions. In scene86/GM1 every element is planar or convex with pointwise frozen ER [MEAS fixture], so Λ_θ amounts to ER plus a learned mixture reducer. Its delivery is explicit lobe cubature, so the learned part does not replace explicit transport. Its decisive learned-vs-twin test (FLS vs ELT) runs only after training, although a learning-free Stage-1 headroom gate exists.\n- ECRO-FC is visibility-coupled [CODE model86.py:83-104: Ft, opn, world pose, global token]. It is usable only as an H1/H2 diagnostic arm, and only with three additions: a rank axis, an FC arm without passivity, and a physical S1 target.\n- No designer shows learning headroom over a fair twin in GM1. D1's toy gives an oracle/twin ratio of 1.0–1.33. D2's slab has high-frequency exit content only where walks are short. D3's utility appears only with placeholder constants and a straw-man twin.\n- Conditional survivors, each needing a human scope or canon decision:\n  - LIEM-S (D2): best coverage, no exposure bias, normalised output. But its high-frequency content comes from the exact interface, its rigid edit cannot tell it apart from its tabulated twin, and the WL68–WL80 shape-generalisation history is negative.\n  - RB-DTO (D3): physically meaningful learned content, but it conflicts with the K/C canon. It has to infer self-visibility, and its twin is a straw man (uniform-binned tables instead of compressed PRT or chain tracing).\n  - XQT (D1): trainable, but its own toy predicts it is decorative, and its S1-c oracle is field-aware, which inflates the headroom.\n- 13 plan defects are listed (X-1..X-13). The main ones:\n  - H1 vs H2 is ill-posed for a fixed-rank operator; it needs weighting-matched class floors and a rank axis.\n  - '≥ 3 seeds' is underpowered: at the measured spreads, 3 seeds detect only ≥ 2.4× (WL93D-sized drift) to ≥ 11.6× (OWN box-A spread) effects [SCRATCH]. These spread figures come from very few seeds, so a pilot is needed to set the seed count.\n  - Floors and oracles are scored on the same data they were fitted to.\n  - Grazing admission is defined on sender irradiance (B-04).\n  - DESIGN_REVIEW's held-out workload (WH) is drawn from the training sampler, so it is IID, not independent.\n  - DESIGN_REVIEW cites a CRITIQUE.md that does not exist.\n\nThe report already existed from an earlier run of this role (13:56). All four design files predate it. I re-verified its key code and numeric citations against the sources and added one caveat on the seed-spread estimates. No other file was changed. Scratch files: c:/Projects/ReST-GI/experiments/wl98_calc/X2/learnability_calc.py and c:/Projects/ReST-GI/results/wl98_calc/X2/learnability_calc.json.",
+  "per_design": [
+   {
+    "design": "DESIGN_REVIEW",
+    "candidate": "A continuous directional learned kernel (rejected by draft)",
+    "fatal_objections": [
+     "Nonlocal form must learn occlusion between x and x' = dynamic visibility stop condition (WL52)",
+     "Local decoder form is ER compression in GM1 (T-local)"
+    ],
+    "serious_objections": [
+     "Scene-level kernel cannot be impulse-supervised; coverage only via scene sampler (B-04 rarity)"
+    ],
+    "strengths": [
+     "None beyond continuity of angular output"
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "DESIGN_REVIEW",
+    "candidate": "B sparse multi-resolution angular representation (control)",
+    "fatal_objections": [
+     "Learned version decorative: refinement location analytic from ER, coefficients explicit flux integrals (T-twin)"
+    ],
+    "serious_objections": [
+     "Variable-support sparse outputs are hardest output type; support misses are non-differentiable and concentrate at grazing"
+    ],
+    "strengths": [
+     "Learning-free FC 4x16 / 8x32 / adaptive is the correct H2 carrier control"
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "DESIGN_REVIEW",
+    "candidate": "FLS flux-allocated spatio-angular lobe state (primary)",
+    "fatal_objections": [
+     "Local BRDF compression in disguise: element-local map in GM1 is ER at incident deposits + mixture reduction (forbidden by brief)",
+     "Delivery is explicit K*Q lobe cubature in current geometry: learned part does not substantially replace explicit transport"
+    ],
+    "serious_objections": [
+     "H-L (FLS vs ELT) placed after training; learning-free Stage-1 gate (optimal-fit lobes vs ELT, same K,Q) missing",
+     "ELT twin under-specified for multi-component incidence (no declared merge rule; no unbounded-K arm)",
+     "Sharp-lobe position basin under downstream L2 ~±17 deg at alpha 0.03 vs ~80 deg grazing offset [SCRATCH]; must be anchored on ER",
+     "Generic K<=4 mixtures reach only 0.35-0.6 lobe L1 on grazing S1 lobe (D2 5.1)",
+     "Exposure bias (path-traced training inputs vs cubature runtime inputs) acknowledged but not designed against",
+     "Coverage tension: local supervision = ER fit; downstream supervision = scene-level coverage + B-04 rarity",
+     "Non-additivity requires coverage of incident-set distribution; T-s tolerance has no evidence base"
+    ],
+    "strengths": [
+     "Passive pi-softmax-with-NULL allocation",
+     "Clipped-hemisphere normalisation addresses E4 measure",
+     "Deterministic delivery removes single-draw variance",
+     "Stage-0/1 structure absorbs WL97 lessons"
+    ],
+    "stop_conditions_hit": [
+     "learned operator does not substantially replace explicit transport",
+     "learned component reduced to local BRDF compression"
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "DESIGN_REVIEW",
+    "candidate": "ECRO-FC (alternative)",
+    "fatal_objections": [
+     "Learned 'local' factors conditioned on current visibility (Ft, opn), world pose and global token [CODE model86.py:83-104]: dynamic visibility implicitly coupled",
+     "Per-edit generator kernel cost 4.2 ms exceeds replaced work 3.95 ms (D3 2.3)",
+     "Sender half re-learns ER"
+    ],
+    "serious_objections": [
+     "As diagnostic changes carrier+coverage+passivity at once; needs passivity-free FC arm",
+     "Rank 16 is an all-incidence capacity limit (J1/B-06, rank 46-59 for 10%); no rank axis so H1 vs operator-capacity ambiguous",
+     "No physical S1 target in ECRO+coverage arm: B-04/A-06 identifiability persists"
+    ],
+    "strengths": [
+     "Minimal-change lineage test sharing generator, budget and reference with frozen ECRO"
+    ],
+    "stop_conditions_hit": [
+     "dynamic visibility implicitly coupled into the intrinsic representation"
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D1_physics_measure_first",
+    "candidate": "XQT exact-sample quadrature transport (primary)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "Predicted decorative by D1's own toy (oracle vs twin 1.0-1.33)",
+     "S1-c oracle is field-aware while W is field-independent: inflates headroom; oracle must be per-geometry optimised over source distribution",
+     "Spatial pooling = patch-spatial smoothing; conflicts with 0.010 J4 readout floor at sharp-seen receivers",
+     "Information floor: 0.46 expected rays/draw into CK2 glint; pooling cannot create hits",
+     "Per-edit regeneration (~6M MLP evals) is the ECRO generator pattern; cost unmeasured",
+     "Admissibility as learned transport is HD-1 (estimator, not transport)"
+    ],
+    "strengths": [
+     "Supervised regression to noise-free deterministic targets",
+     "No exposure bias; local designable input space",
+     "Linear, flux-exact, passive by construction",
+     "Learning-free stop rules before training"
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D1_physics_measure_first",
+    "candidate": "LLT learned lobe transfer from sparse probes (alternative)",
+    "fatal_objections": [
+     "If probes determine delivery, a learning-free twin from the same probes matches; any added value is inferred visibility between probes = learned dynamic visibility (stop condition, WL52 failure)"
+    ],
+    "serious_objections": [
+     "Softmax over variable candidate set + mixture density: hard output",
+     "Informative occluder-edge cases are a thin set (B-04 rarity pattern)",
+     "Per-light cost does not amortise"
+    ],
+    "strengths": [
+     "S1-d collision-pair information test is a good learning-free kill gate reusable for other candidates"
+    ],
+    "stop_conditions_hit": [
+     "dynamic visibility implicitly coupled into the representation (if not decorative)"
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D2_learning_generalization_first",
+    "candidate": "LIEM-S learned intrinsic exit measure, sampling (primary)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "High-frequency content comes from exact interface closure; learned internal density smooth for long walks, structured only for short walks where Twin-W is cheap",
+     "Rigid edit of medium reuses every rigid-invariant K (Twin-T) exactly: edit cannot discriminate learned part; claim reduces to static memory/time-to-quality",
+     "Strong negative shape-generalisation prior (WL68, WL71-80); no per-shape fitted LIEM arm to split generalisation vs family capacity",
+     "Sampling-based apply reintroduces per-solve variance; Twin-W must be compared at equal variance",
+     "Reference for refractive-boundary media unqualified (WL53 index-matched only; Mitsuba 89 um skip; Cycles BSSRDF path-history)",
+     "Scope requires GM2 workloads and canon decisions (HD2/HD3/HD7)"
+    ],
+    "strengths": [
+     "Designed impulse coverage measure with strata; coverage as a treatment",
+     "No exposure bias (impulse query = runtime format)",
+     "Normalised output family, energy by construction",
+     "Exact rigid invariance; nonlocal intrinsic learned content",
+     "Three named twins and learning-free kill gates (I0.2, I1) before training"
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D2_learning_generalization_first",
+    "candidate": "LIEM-B binned intrinsic exit measure (alternative)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "No exact interface closure: alpha 0.04 sharpness needs ~alpha^-2 cells",
+     "Large categorical output from sparse walk events: H1 risk",
+     "Tabulated per asset becomes Twin-T; learning buys only cross-asset generalisation (L-h risk)",
+     "Not independent of LIEM-S (shared ownership, data, failure modes)"
+    ],
+    "strengths": [
+     "Multinomial NLL on unbiased counts",
+     "Deterministic and linear, fits F/S solve"
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D3_systems_cost_first",
+    "candidate": "RB-DTO rigid-body directional transfer operator (primary)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "Canon conflict: Architecture 2 assigns exposed same-asset paths to C (D3 D1 human decision)",
+     "Shared compiler must infer static self-visibility of unseen meshes (learned visibility) or cache it explicitly (twin gets cache)",
+     "Discontinuous target map at bounce-count changes in low-alpha cavities; mixture densities blur",
+     "Twin is a straw man: uniform-binned tables instead of compressed PRT / radiance transfer fields / sender-side chain tracing",
+     "Regime map uses placeholder constants; utility >=1.25 only in 20-body regime absent from all workloads",
+     "Per-asset B5 is realistic accuracy path but Native Reuse class",
+     "Incident-field-dependent mixture reduction loses superposition; has its own merge-rule twin",
+     "E_esc exact computation is omitted explicit work"
+    ],
+    "strengths": [
+     "Genuinely nonlocal learned content, not BRDF compression (convex N_b=0 contract test)",
+     "Per-exit-sample supervision with path tags avoids sum-only identifiability",
+     "Designed grazing strata; no exposure bias",
+     "Stage-0 cost anatomy before training; B2/B5/B3/B4 attribution ladder; held-out unseen body class"
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D3_systems_cost_first",
+    "candidate": "LER-Delta learned environment resolvent delta (alternative)",
+    "fatal_objections": [
+     "Per-environment learned state = per-scene training, not one shared model (Native Reuse class)",
+     "Applies learned operator to signed out-of-span fields; no fidelity/convergence guarantee (WL41/WL44 failure mode), clamping forbidden"
+    ],
+    "serious_objections": [
+     "Real twin is explicit re-sweeping at 0.53 ms/order at N 1,270: decorative in scope",
+     "All-order sharp resolvent role has measured null headroom (WL96A, CK2)"
+    ],
+    "strengths": [
+     "Edit enters exactly through (M - B); explicit path-tag accounting"
+    ],
+    "stop_conditions_hit": [
+     "learned state cannot be reused after rigid edit without retraining (per-environment)"
+    ],
+    "survives": "NO"
+   }
+  ],
+  "experiment_plan_defects": [
+   "X-1 H1 vs H2 ill-posed for fixed-rank light-independent operator: coverage reallocates capacity (J1/B-06); need three-way attribution with class floor at same incidence weighting and a rank axis 16/48/64, plus separate angular-carrier floor (DR, D1, D2, D3 Track G)",
+   "X-2 class floors and oracle fits scored on their own noisy fitting reference; fit on half A, score on half B (DR Stage 1, D1 R0/S1-c, D2 G1/I1, D3 B2)",
+   "X-3 '>=3 seeds [HUM]' underpowered: 3 seeds detect only >=2.4x (WL93D spread) to >=11.6x (OWN box-A spread) effects [SCRATCH]; these spread anchors come from very few seeds, so a pilot seed-spread stage must set n",
+   "X-4 learned-vs-twin headroom gated after training where a learning-free oracle bound exists (DR FLS vs ELT; D3 missing compressed twin)",
+   "X-5 oracles with more information than the learned model (D1 S1-c field-aware oracle for field-independent W)",
+   "X-6 exposure bias untested (FLS path-traced vs cubature inputs; LIEM-S fixed samples in deterministic solve)",
+   "X-7 grazing admission on sender irradiance selects near-field heavy-tailed lightings (B-04); admit on delivered sharp share at receivers",
+   "X-8 DESIGN_REVIEW WH held-out drawn from training sampler: IID, not independent",
+   "X-9 rigid edits of rigid-invariant K cannot discriminate learned part (D2 Track I, D3 partly); do not label static memory/time-to-quality as geometry-edit utility",
+   "X-10 missing per-instance fitted arms to split shared-model generalisation from family capacity (D2, DR)",
+   "X-11 DR Stage-1 STOP rule over WG includes CK2; exclude CK2 from gate arithmetic",
+   "X-12 DR ECRO+coverage arm has no stated physical S1 target (risk of M64-derived lineage targets)",
+   "X-13 DESIGN_REVIEW 10 cites CRITIQUE.md and a WL98 worklog that do not exist",
+   "D1 H1 reading compares C1 against per-field R0 projection instead of operator-class delivery-optimal floor; C1 also changes table convention",
+   "D1 W-H V3 partition must be radiance-uninspected at partition level (V3 family inspected in WL89-91)",
+   "D2 G2 'closes >=X% of gap to class floor' must use floor at same incidence weighting",
+   "D3 Stage-2 stop level [HUM] without seed pilot; Track G G1 lacks rank axis and weighting-matched floor"
+  ],
+  "missed_alternatives": [
+   "Learned directional guiding distribution in local frames used only as sampling density for explicit relation rays (variance-only error, trivial energy contract, attacks measured heavy-tail residual); admissibility [HUM]",
+   "Light-conditioned or higher-rank ECRO operator as the H2 operator-class control separating operator capacity from angular-carrier capacity",
+   "Learning-free moment-preserving mixture-reduction twin for every K-lobe closure (FLS, RB-DTO per-patch cache)",
+   "Compressed precomputed transfer twins (wavelet/clustered PRT, radiance transfer fields, shadow fields) for RB-DTO and LIEM-S Twin-T",
+   "Learned sub-element incident-field super-resolution at receivers seen through sharp reflections, targeting the measured 0.010 J4 readout bias; admissibility [HUM]"
+  ],
+  "proposed_verdict": "NO_DEFENSIBLE_CANDIDATE",
+  "verdict_rationale": "The scope is GM1/scene86 workloads, the current K/C ownership canon, and the brief's reading that the learned component must carry transport rather than compress ER or reweight explicit samples. Within that scope:\n- FLS is BRDF compression with explicit delivery.\n- ECRO-FC has visibility-coupled factors.\n- LLT is either decorative or infers visibility.\n- LER-Delta is per-scene and fails on signed out-of-span fields.\n- XQT is an estimator, it is predicted decorative, and its admissibility depends on HD-1.\n\nAll three independent designers reach the same scoped conclusion: GM1 holds no rigid-reusable learned object. The coordinator's draft places its primary exactly where they rule one out.\n\nLIEM-S (GM2 media) and RB-DTO (certified rigid self-paths) survive only conditionally, and only outside the current scope. Admitting them needs human scope and canon decisions (D2 HD2/HD3/HD7; D3 D1/D4). Neither has shown learning headroom over a fair twin: LIEM-S's edit does not exercise its learned part, and RB-DTO's twin is a straw man.\n\nIf the owner accepts those decisions and plan fixes X-1..X-13 are made, the verdict could become DESIGN_READY_FOR_HUMAN_REVIEW, with LIEM-S as primary and RB-DTO as the independent alternative. My prediction [PRED] is that LIEM-S's I0.2 gate and RB-DTO's Stage 0 are the likely stopping points. This verdict is not adoption and not experiment approval."
+ },
+ {
+  "role": "X3 adversarial critic (systems and cost)",
+  "report_path": "c:\\Projects\\ReST-GI\\docs\\plans\\wl98_learned_directional_transport\\X3_critic_systems_cost.md",
+  "summary": "I recomputed costs from WL91 life91 / scale91 / ladder91, WL96A cost_s1.0 and the WL97 E5 component tables. The scratch is in experiments/wl98_calc/X3/cost_check{,2}.py with results in results/wl98_calc/X3/; earlier numbers were re-verified.\n\nFindings:\n\n(1) Kernel-basis ceilings [ARITH]. A zero-cost table-level learned role (q ER-half plus 4 orders) caps at:\n- 1.135 at N 1,270 and 1.29 at N 11,430, with a 64-spp frame;\n- 1.60 / 1.39 without the frame;\n- 1.16 / 1.53 and 2.62 / 2.03 with an engineered dirty test.\nThe recorded explicit dirty test grows from 4.4 to 43.5 ms kernel and sets much of the ceiling.\n\n(2) The only large lever in GM1 is the table bias floor seen through the frame [ARITH on MEAS WL91]:\n- Whole-image tiers need the same spp for every table arm, to within 1–2 %.\n- In the R_mirror ROI (about 1 % of pixels), learning-free C3URX1 and C3UR differ 1.75x at tier 0.06 (161 vs 281 spp).\n- Near the floor the comparison is ill-conditioned. A ±0.005 floor shift changes spp 373–4,939 for the W2 deployed draw, and single-draw floors range 0.025–0.054.\n\n(3) Explicit relation draws pool over steady-state frames at about 0.76 ms kernel each, about 3 % of a 64-spp frame. Any \"no single-draw variance\" advantage is therefore a post-edit latency advantage only.\n\n(4) Linearity is what makes source-only updates cheap: the source-update lever (3.5–3.9x, measured in WL87) needs a linear operator. FLS's lobe closure and RB-DTO's mixture reduction lose it.\n\n(5) Lobe-dependent rays cannot be selectively updated. Stateless re-tracing avoids relation upkeep, but explicit twins get that same benefit.\n\n(6) Two corrections to design claims:\n- The ECRO generator scales as N^1.0 over the measured range; the per-(patch, bin) heads are 91 % of its FLOP at N 1,270. The N² term is a memory wall that becomes a time wall only near N ≈ 1.4e4.\n- D3's RB-DTO regime map uses an asymmetric twin: uniform K_int 4096–16384 against a fixed 20–50 k incident samples, when about 164 k C_ext rays actually land per body. A symmetric recount gives U 0.16–1.21 in D3's own example, not 4.8–6.7.\n\nSurvival: FLS NO; ECRO-FC NO as a candidate (diagnostic only, confounded); XQT CONDITIONAL with a predicted Stage-1 stop; LLT NO; LIEM-S CONDITIONAL; LIEM-B NO; RB-DTO CONDITIONAL; LER-Δ NO.\n\nProposed verdict: INSUFFICIENT_EVIDENCE. For GM1 / CK2 alone, NO_DEFENSIBLE_CANDIDATE (scoped).",
+  "per_design": [
+   {
+    "design": "DESIGN_REVIEW.md",
+    "candidate": "FLS (flux-allocated spatio-angular lobe state, primary)",
+    "fatal_objections": [
+     "The learned Λ_θ replaces only the element-local closure (ER evaluation plus reduction to K lobes), which the explicit twin ELT computes at about equal cost. Delivery (lobe cubature, J sweeps), readout and frame are all explicit, so FLS and ELT share runtime cost by construction. Learning cannot give a cost advantage, and its quality advantage at fixed K can be bought back by ELT raising K: +8 lobes is about 0.53 M rays, about 0.14 ms kernel at the measured 0.27 ns per ray. This hits the brief stop condition 'learned operator does not substantially replace explicit transport'.",
+     "The selective-update claim ('re-trace lobes whose cubature rays were dirty') is false. Any edit changes the incident field and therefore every lobe, so each update is a full re-trace of N·K·Q·J state-dependent rays, with no reusable state after a rigid edit (weights only)."
+    ],
+    "serious_objections": [
+     "The outgoing field is nonlinear in the incident field. FLS forfeits the only measured learned lever (the source-only update, 3.5–3.9x in WL87); per-source states multiply the update cost by the number of lights.",
+     "The set encoder is sized for ≤ 32 incident components, but on average 104 deposits land per element per sweep. An unspecified nonlinear incident-reduction step is needed.",
+     "Q = 13 nodes per lobe gives 104 deterministic deposits per element against 512 relation rays. That is structured, frame-invariant aliasing for broad transport; equal broad quality may need ≥ 5x the rays.",
+     "Camera readout of 8 anisotropic lobes per sample (16.8 M samples, about 8 GFLOP per 64-spp frame) is unaccounted, and it adds to the term that dominates every lifecycle.",
+     "In GM1 the sharp closure is exercised on 42 of 1,270 elements (the panel), so image effects sit in the 1 % R_mirror ROI, where time-to-tier is ill-conditioned near the floor."
+    ],
+    "strengths": [
+     "Flux and passivity contract by construction (simplex with NULL).",
+     "Exact rigid equivariance of local frames.",
+     "Deterministic delivery removes the single-draw heavy tail at the deployed budget.",
+     "No relation upkeep (6.5 ms kernel at N 1,270; 65.6 ms at 11,430 recorded) — but ELT shares all of these strengths."
+    ],
+    "survives": "NO",
+    "stop_conditions_hit": [
+     "learned operator does not substantially replace or reuse explicit transport (predicted)",
+     "learned state cannot be reused after a rigid edit (only weights are reused)"
+    ]
+   },
+   {
+    "design": "DESIGN_REVIEW.md",
+    "candidate": "ECRO-FC (independent alternative)",
+    "fatal_objections": [
+     "The per-edit generator costs more than it replaces. At 8x32 the per-(patch, bin) heads (91 % of FLOP) grow 4x: predicted about 15.7 ms kernel at N 1,270 and about 99 ms at 11,430, against 3.96 / 25.8 ms of explicit work replaced. Kernel edit-to-frame U against an FC 8x32 explicit comparator at matched state rays is 0.87 / 0.85.",
+     "There is no rigid state reuse. World centre, normal and tangent plus a scene-global mean token and dense message passing make every factor depend on the whole scene, so all factors are regenerated on every edit."
+    ],
+    "serious_objections": [
+     "K = 512 at 256 bins leaves 2 state rays per bin. Either flight variance rises 4x, or relation, dirty test (17.7 ms kernel recorded) and re-trace grow 4x; the design does not say which.",
+     "Internal inconsistency: candidate B is rejected because variable-support learned output is awkward, yet ECRO-FC is 'adaptive 4x16 → 8x32 per element'. Variable sizes also risk per-update recompilation.",
+     "The H2 contrast ECRO-FC vs ECRO + coverage changes carrier, passivity, head capacity and state rays at once (confounded).",
+     "The dense N² Ft is 0.52 GB at N 11 k and about 40 GB at 100 k."
+    ],
+    "strengths": [
+     "The cleanest lineage-internal test of coverage plus carrier.",
+     "Exactly linear, so it keeps the source-update lever."
+    ],
+    "survives": "NO",
+    "stop_conditions_hit": [
+     "learned operator does not substantially replace explicit transport at a cost advantage (kernel U < 1)"
+    ]
+   },
+   {
+    "design": "DESIGN_REVIEW.md",
+    "candidate": "Rejected A (continuous kernel) and B (learned sparse multi-resolution)",
+    "fatal_objections": [
+     "A: a neural decoder per state ray per flight (650 k evaluations at 1–20 ns) against table fetches at about 0.8 ns, i.e. 1.3–25x an explicit order before any generator. The nonlocal form also owns visibility.",
+     "B: the learning-free flux-conserving or adaptive twin removes the binning bias, and the learned part predicts an index that can be computed analytically."
+    ],
+    "serious_objections": [],
+    "strengths": [
+     "The rejections are correct; B's learning-free form is the right mandatory control."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D1_physics_measure_first.md",
+    "candidate": "XQT (exact-sample quadrature transport, primary)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "Per-flight cost is 8–26x an explicit order. Sparse apply with n_nb 9 (5.9 M nnz) is about 3.8 ms at N 1,270 and 16.6 ms at 11,430. The indirect exact-ER sum adds 0.45–3.0 ms and 4–27 ms respectively.",
+     "The cost lever belongs to the twin. XQT and its analytic-kernel twin have identical runtime. XQT must match about 5–17 pooled explicit draws (0.76 ms each) to break even. D1's own toy gives oracle/twin error ratios of only 1.0–1.33, so the learned share is about 0.5 draw-equivalent, about 0.4 ms per update.",
+     "Explicit draws pool across steady-state frames at about 3 % overhead, so XQT's advantage window is about the first 16 frames after an edit.",
+     "W regeneration after an edit (23–69 % dirty entries, 0.7–6.5 ms of MLP evaluation) and the visibility-consistency neighbour search have no stated cost or data structure.",
+     "W memory is 38–105 MB at N 1,270 and 0.34–0.95 GB at 11,430 (1.8–5x the relation).",
+     "S1-e's 'zero-cost replacement of its role' credits the twin's gain to XQT."
+    ],
+    "strengths": [
+     "Information-honest: reads every queried hit and invents none.",
+     "Linear, so it keeps the source-update lever.",
+     "Flux-exact and passive by construction, with rigid-invariant inputs.",
+     "The pre-named twin and the S1-c oracle/twin gate are the right cheap test."
+    ],
+    "survives": "CONDITIONAL",
+    "stop_conditions_hit": [
+     "learned operator does not substantially replace explicit transport (likely at S1-c if the oracle/twin ratio stays ≤ 1.33)"
+    ]
+   },
+   {
+    "design": "D1_physics_measure_first.md",
+    "candidate": "LLT (learned lobe transfer from sparse probes, alternative)",
+    "fatal_objections": [
+     "There is no cost to amortise. The twin (stratified sender-side photons) traces K_p rays at about 0.27 ns each; even 10^6 photons per light cost about 0.3 ms kernel. LLT saves microseconds of tracing while adding MLP evaluations per candidate.",
+     "Its only route to beating the twin is inferring unprobed visibility, which is implicit visibility in the learned part and a brief stop condition."
+    ],
+    "serious_objections": [
+     "Per-light cost equals the twin's.",
+     "Contact and thin-occluder information limits."
+    ],
+    "strengths": [
+     "The S1-d collision-pair information test is a well-designed learning-free gate."
+    ],
+    "survives": "NO",
+    "stop_conditions_hit": [
+     "dynamic visibility implicitly coupled into the learned representation (by design, gated)",
+     "learned operator does not substantially replace explicit transport"
+    ]
+   },
+   {
+    "design": "D1_physics_measure_first.md",
+    "candidate": "Rejected A1, A2, B1, C1, O1 (E0 as control)",
+    "fatal_objections": [
+     "A1 and C1 are ER compression.",
+     "A2 is learned C (WL52: 8–60x slower).",
+     "B1 is the resolvent with a 1.02 / 1.04 ceiling.",
+     "O1 conflicts with canon and has α^-4-type per-asset content."
+    ],
+    "serious_objections": [],
+    "strengths": [
+     "The rejections are correct."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D2_learning_generalization_first.md",
+    "candidate": "LIEM-S (learned intrinsic exit measure, primary)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "A cost lever exists only for long walks with a small network. Walk/LIEM per exit is 0.27 / 1.07 / 3.2 / 5.0 at 2.5 / 10 / 30 / 47 events with a 2e4-FLOP network, and 0.03–0.62 with 2e5 FLOP. D2's own toy shows angular content at noise exactly where walks are long. 'µs-scale' inference per sample would be 100–1,000x slower than the walk.",
+     "I0.2 gates on events per exit, a proxy. An Amdahl U0 gate on the walk's measured lifecycle share is missing.",
+     "The kill rule is not falsifiable as written. Clause (c) (memory vs a GB-scale per-asset Twin-T, with no per-asset precompute) passes by construction whenever error is matched, and (b) beats only an approximate analytic rule. Only (a), faster than Twin-W at matched quality, is the brief's advantage over explicit transport and must be necessary.",
+     "Sampling output inside a deterministic F/S solve: variance per sample, and the no-variance advantage is a latency one.",
+     "Outside GM1, so new workloads, references and canon decisions are needed."
+    ],
+    "strengths": [
+     "Genuine rigid-invariant nonlocal intrinsic content.",
+     "Linear in the source and passive by construction.",
+     "Named twins and a headroom gate before training."
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D2_learning_generalization_first.md",
+    "candidate": "LIEM-B (hierarchical categorical exit distribution, alternative)",
+    "fatal_objections": [
+     "Autoregressive coarse-to-fine prediction needs L sequential network evaluations per sample (8 × 2–20 ns = 16–160 ns) against a walk of 0.7–13 ns.",
+     "The deterministic-gather form emits about 10^3 coefficients per entry at sharp exits, a bandwidth load no smaller than Twin-T's apply."
+    ],
+    "serious_objections": [
+     "Not mechanism-independent from LIEM-S (D2 says so)."
+    ],
+    "strengths": [
+     "A useful I1 representation-capacity control (adaptive discrete vs continuous structured)."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D2_learning_generalization_first.md",
+    "candidate": "Rejected R-A to R-E",
+    "fatal_objections": [
+     "R-A: per-edit generator plus per-pixel inference.",
+     "R-B: dominated by its learning-free twin.",
+     "R-C: ER compression.",
+     "R-D: canon conflict, and its twin (cached explicit self-relation) is equally rigid-invariant.",
+     "R-E: learned visibility."
+    ],
+    "serious_objections": [],
+    "strengths": [
+     "The rejections are correct; R-D's rejection reason is the systems argument that also bounds D3's RB-DTO."
+    ],
+    "survives": "NO"
+   },
+   {
+    "design": "D3_systems_cost_first.md",
+    "candidate": "RB-DTO (rigid-body directional transfer operator, primary)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "The regime map is inflated by an asymmetric comparison: the explicit twin is charged uniform K_int 4096–16384 at 0.81 ns, while the learned apply sees a fixed 20–50 k incident samples per body. About 164 k C_ext rays actually land on a 400-patch body, and sender-side twins need K about 512. A symmetric recount gives U 0.16–1.21 for 20 × 400, J_int 8, and 0.25–2.35 at J_int 25. Break-even needs J_int·K_int of about 790–21,000 per patch.",
+     "Breaking even at shallow depth needs per-patch incident aggregation, which reintroduces the binned-incidence bias (P2) at the body input for grazing internal incidence.",
+     "C_ext evaluating sharp exit lobes by receiver-anchored gather reintroduces the X1 heavy tail (P3). Sharp-exit sender deposition is missing from L_rb.",
+     "Mixture reduction is nonlinear, so the source-update lever is lost and caches are per light.",
+     "Twin 1 caches the rigid-invariant self-relation for free, so RB-DTO amortises only J_int sweeps per incident change: the resolvent role inside a body.",
+     "Ownership refinement (C_self inside a learned body operator) requires [HUM D1]; D2 rejects the same idea under canon."
+    ],
+    "strengths": [
+     "The only design with a learning-free cost-anatomy gate (U0 against the best explicit twin) before any training, and it explicitly forbids the uniform-binning twin, so a correctly run Stage 0 would catch the inflation.",
+     "Well specified certificate, path-tag ownership test and convex-body N_b ≡ 0 contract."
+    ],
+    "survives": "CONDITIONAL"
+   },
+   {
+    "design": "D3_systems_cost_first.md",
+    "candidate": "LER-Δ (learned environment resolvent with explicit Δ iteration, alternative)",
+    "fatal_objections": [
+     "Per-environment learned state: any static-environment edit invalidates H_E, and its remedy is retraining. It is not one shared model; it is the Native Reuse class.",
+     "The H_E apply is a full-environment learned evaluation every Δ-iteration (the edit changes the incident field everywhere). By the per-entry cost law it costs more than the J explicit sweeps it replaces (4 × 0.53 ms at GM1)."
+    ],
+    "serious_objections": [
+     "−B carries negative flux, so passivity of the composite is not guaranteed and clamps are forbidden; the fallback rate is an unbounded cost term.",
+     "WL41/44 out-of-span fidelity risk on Δ-fields."
+    ],
+    "strengths": [
+     "Edits enter exactly and explicitly through B and M."
+    ],
+    "survives": "NO",
+    "stop_conditions_hit": [
+     "neural retraining required for environment edits",
+     "learned operator does not substantially replace explicit transport at GM1 scale"
+    ]
+   },
+   {
+    "design": "D3_systems_cost_first.md",
+    "candidate": "Rejected A, B, C(patch), NRC, learned C, learned sampling, resolvent at larger J",
+    "fatal_objections": [
+     "Per-edit generator ≥ replaced work (confirmed: kernel U 0.91–0.97 at 4x16, 0.87 at 8x32)."
+    ],
+    "serious_objections": [
+     "The 'O(N²) generator' claim needs qualifying: time is measured as N^1.0 over 1,270–11,430; N² is a memory wall (0.52 GB at 11 k).",
+     "Rejecting learned sampling / guiding as 'not a representation' should be an explicit [HUM] scope ruling: it is the learned component with the cleanest cost story."
+    ],
+    "strengths": [
+     "The rejections are correct apart from the scoping note."
+    ],
+    "survives": "NO"
+   }
+  ],
+  "experiment_plan_defects": [
+   "ALL: no plan states that in GM1 quality-matched utility is decided by the table bias floor seen through the frame. Whole-image tiers show no difference between table arms (within 1–2 %), and ROI tiers near a floor are ill-conditioned (W2 deployed draw: 373–4,939 spp under a ±0.005 floor shift). Required: predeclared tiers away from every floor; a NOT-REACHED rule; per-arm spp ladders; time-to-tier as a distribution over ≥ 16 draws × ≥ 3 seeds; bootstrap that includes reference-half noise.",
+   "ALL: no draw-pooling convention. Explicit relations can be re-drawn across steady-state frames at about 0.76 ms kernel each (about 3 % of a 64-spp frame). Utility must be defined as time-to-tier from the edit with progressive explicit refinement, or deterministic / no-variance arms (FLS, XQT, LIEM-S) are over-credited.",
+   "ALL: the kernel basis is not unified. Recorded kernel numbers mix Dr.Jit exec and torch profiler (E5 nan columns). Either declare one GPU-timeline measure for all arms or implement all arms in one runtime.",
+   "ALL: compilation is excluded by convention, but adaptive or variable-size representations (adaptive cells, variable deposit sets, dirty-dependent nnz) can recompile on every update (WL91 21-s lesson). Kernel cache misses per deployed update must be reported and counted as cost.",
+   "ALL: no de-overheaded explicit comparator arm. The recorded torch dirty test (about 7 ns per entry; 43.5 ms kernel at N 11,430) inflates or deflates every ceiling (1.29 recorded vs 1.53 engineered).",
+   "ALL: the multi-light axis is missing or optional. The source-update lever is the only measured learned lever; nonlinear candidates (FLS, RB-DTO) must pay per-light cost visibly at 1 / 4 / 16 lights.",
+   "DESIGN_REVIEW: the Stage-1 FLS stop 'beat FC 8x32 at ≤ its cost' has no cost basis and no state-ray count for FC 8x32 (2 vs 8 rays per bin), so it is undecidable in an overhead-dominated prototype.",
+   "DESIGN_REVIEW: Stage 3 'equal error → compare cost' has no tiers, ladders, floor conditioning or pooling rule.",
+   "DESIGN_REVIEW: the H2 contrast ECRO-FC vs ECRO + coverage is confounded by carrier + passivity constraint + 4x head capacity + state rays per bin; a carrier-only arm is needed.",
+   "DESIGN_REVIEW: no scale axis. §6 already predicts no raw speed advantage in GM1, so Stage 4 can only find the floor lever that learning-free arms share; this is not stated in advance.",
+   "DESIGN_REVIEW: F8 understates FLS cost (full state-dependent re-trace per sweep and per update, plus per-light states).",
+   "D1: S1-e 'zero-cost replacement of its role' credits XQT with its twin's gain. The right ceiling is 1 draw + XQT apply vs m pooled draws at equal quality, with the twin at the same cost; the decision should require U(XQT)/U(twin) above a [HUM] margin, not only an error margin.",
+   "D1: W-X (scale axis) is optional, although D1 itself says cost-side H3 is predetermined without it.",
+   "D2: the I3 kill rule passes on clause (c) by construction (shared model vs GB-scale per-asset Twin-T). Advantage over the explicit walk (a) must be necessary for a utility claim.",
+   "D2: I0.2 gates on events per exit rather than an Amdahl U0 on the walk's measured lifecycle share.",
+   "D2: G0.3 ceilings use WL96A wall numbers. They should be recomputed on a unified kernel basis with an engineered dirty-test variant.",
+   "D3: the prior body_regimes map (U 4.8–48) uses an asymmetric twin (uniform K_int 4096–16384 vs a fixed 20–50 k incident samples per body); a symmetric recount gives 0.16–1.21. It should be withdrawn or recomputed.",
+   "D3: L_rb omits the sender-side deposition RB-DTO needs for sharp exit lobes delivered through C_ext (otherwise the X1 heavy tail returns); B0 must use sender-side deposition for both intra-body and C_ext sharp transport.",
+   "D3: Stage 4 quality-cost interpolation has no pooling convention and no near-floor rule."
+  ],
+  "missed_alternatives": [
+   "Engineered (de-overheaded) explicit comparator EXP/C3URX1-ENG: kernel dirty test, fused orders, BVH refit. It is the utility reference arm without which every ceiling is convention-bound.",
+   "MIS of receiver gather and sender-side deposition (learning-free). It is the natural explicit competitor to XQT (estimator) and FLS (sender cubature), and is not listed in any design.",
+   "Progressive, temporally pooled explicit relation draws: the steady-state form of the '≥ 16 draws' remedy at about 3 % frame overhead.",
+   "Learned importance sampling / guiding of the explicit estimator, conditioned on object-local geometry: unbiased by construction, with value directly in variance at fixed rays. D3 rejected it as 'not a representation'; it needs an explicit [HUM] scope ruling.",
+   "A low-spp, table-dominated operating point (1–4 spp frames plus denoising) as a declared convention. It is the only GM1 point where zero-cost table ceilings exceed 1.25 (1.49–1.60 recorded, 2.0–2.6 engineered at N 1,270)."
+  ],
+  "proposed_verdict": "INSUFFICIENT_EVIDENCE",
+  "verdict_rationale": "Within the scene86 / GM1 / CK2 family, every cost or quality-matched lever I could compute from recorded numbers is equally available to a learning-free twin. The levers are: the table bias floor seen through the frame (a 1.75x spp gap between two explicit variants in the R_mirror ROI, none in the whole image); stateless re-tracing that avoids relation upkeep; deterministic delivery; and draw efficiency. Learned roles that regenerate factors per edit (ECRO, ECRO-FC) cost more than they replace on the kernel basis (U 0.85–0.97). So for that family the systems reading is NO_DEFENSIBLE_CANDIDATE (scoped).\n\nThe coordinator's primary (FLS) and alternative (ECRO-FC) do not survive. FLS's learned part replaces only cheap element-local work, at a runtime identical to its ELT twin, and its selective-update claim is false. ECRO-FC's 8x32 generator is about 15.7 ms against 3.96 ms of work replaced.\n\nTwo candidates outside the family, RB-DTO and LIEM-S, have a possible but narrow regime:\n- RB-DTO needs J_int·K_int of about 10^3–10^4 per patch;\n- LIEM-S needs ≥ 10–30 internal events per exit with a ≤ 2e4-FLOP network.\nA learning-free Stage-0 / I0 anatomy could establish or refute this regime. However, the workloads do not exist yet, D3's own regime map is inflated by an asymmetric twin, and every plan has timing / comparator defects (no draw-pooling convention, mixed kernel bases, no near-floor rule, no engineered comparator). As written, the plans cannot reliably detect a learned share of utility.\n\nThe decisive evidence is therefore missing but cheaply obtainable without training, hence INSUFFICIENT_EVIDENCE rather than DESIGN_READY. This is not adoption or experiment approval; all thresholds are [HUM]."
+ },
+ {
+  "role": "X4 adversarial critic (prior art and novelty)",
+  "report_path": "c:/Projects/ReST-GI/docs/plans/wl98_learned_directional_transport/X4_critic_prior_art.md",
+  "summary": "Re-run of X4 after an interrupted workflow. The complete report from the earlier run was already on disk. I spot-checked it against the designs and code: model86.py factors() is visibility-coupled; RESEARCH_CENTRIC_TOPIC.md:48 holds the novelty rule; the D2 §5.1 grazing mixture numbers, D1's 1.00-1.33 twin/oracle ratio, D3's 0.91-0.97 kernel-basis ceiling and the coordinator's HD-1 / ELT / superposition text all match. CRITIQUE.md is absent from the directory. I re-verified P37 (arXiv 2510.18189: diffuse GI, only preliminary glossy, adapted by fine-tuning) and corrected E12-related wording. Findings: (1) every candidate's core mechanism exists in prior art. What each adds for ReST-GI is a contract (passivity, flux measure, K/C ownership, rigid certificate), not a new transport mechanism. (2) The K/C ownership composition with rigid reuse without retraining is itself published: OSF 2020, TransGI 2025, PRT, radiance transfer fields, shadow fields. The only open niche is sharp glossy non-local transport in one shared, passive, measure-defined model across unseen assets. (3) FLS = VSL/VSGL/SG-light glossy many-light with a learned lobe fit; in GM1 it is BRDF compression, which the brief excludes. XQT = learned MC kernel denoiser / deep KDE. LLT = learned C/visibility (WL52 class). ECRO-FC keeps visibility-coupled factors. LER-Δ = direct-to-indirect transfer plus negative-energy radiosity, per scene. (4) RB-DTO (learned PRT/OSF self-transfer, sharp and shared) and LIEM-S (close to Vicini 2019 learned shape-adaptive SSS) survive only CONDITIONALLY, on human canon/scope decisions.",
+  "per_design": [
+   {
+    "design": "DESIGN_REVIEW.md (coordinator)",
+    "candidate": "FLS flux-allocated spatio-angular lobe state (primary)",
+    "fatal_objections": [
+     "In GM1 (planar/convex elements, frozen pointwise ER) the learned map is a compression of element-local ER x incident field into lobes, i.e. local BRDF compression, which the brief excludes. D1, D2 and D3 each reject this class independently; the coordinator's own HD-1 concedes it needs a human relaxation of the brief.",
+     "Its learning-free twin ELT is the published VSL / virtual-SG-light method (Hasan 2009, Tokuyoshi 2015). If FLS ~ ELT it is decorative. If FLS > ELT the gain is learned lobe fitting (Currius 2020 / neural parametric mixtures class) = operator compression alone, excluded by the novelty rule."
+    ],
+    "serious_objections": [
+     "Superposition is lost (closure non-additive across sources), regressing from ECRO/PRT linearity and forfeiting the one measured learned advantage (source update 3.5-3.9x, WL87); per-source states give explicit-comparator cost scaling.",
+     "Generic K<=4 lobe mixtures reach 0.35-0.6 lobe L1 at grazing with 2-7x peak overshoot (D2 scratch), exactly where FLS claims its advantage.",
+     "Rigid reuse is weight reuse only; all lobe state is regenerated after any edit; nothing rigid-invariant and non-local is cached.",
+     "Cubature delivery at occlusion edges is explicit visibility work (VSL problem)."
+    ],
+    "strengths": [
+     "Clean flux/passivity contract (albedo-bounded pi-softmax with NULL).",
+     "Deterministic delivery addresses single-draw variance (E5).",
+     "Good contract tests T-a..T-s; ELT is a valuable explicit comparator the other plans lack."
+    ],
+    "survives": "NO",
+    "stop_conditions_hit": [
+     "brief exclusion: reduction to local BRDF compression",
+     "learned operator does not substantially replace explicit transport (delivery explicit)"
+    ]
+   },
+   {
+    "design": "DESIGN_REVIEW.md (coordinator)",
+    "candidate": "ECRO-FC (independent alternative)",
+    "fatal_objections": [
+     "Dynamic visibility is coupled into the learned 'local' factors: model86.py factors() builds Ft from current state rays, uses its row sums (openness), Ft @ msg message passing, a scene-global mean token and world-frame centre/normal/tangent as inputs. ECRO-FC changes only carrier, coverage and passivity, so it keeps this coupling (brief unsuitability criterion 3; breaks rigid invariance)."
+    ],
+    "serious_objections": [
+     "Confounds three treatments (carrier FC 8x32, coverage, passivity), so 'ECRO-FC vs ECRO+coverage' is not a clean H2 test; needs a factorial or carrier-only arm.",
+     "O(N^2) per-edit generator costs more than the explicit work it replaces on the kernel basis (0.91-0.97, D3 §2.3); cannot carry a utility result.",
+     "No novelty beyond ECRO v0: flux-conserving directional tables are directional radiosity / antiradiance practice."
+    ],
+    "strengths": [
+     "Cleanest within-lineage H1/H2 attribution arm."
+    ],
+    "survives": "NO",
+    "stop_conditions_hit": [
+     "dynamic visibility implicitly coupled into the intrinsic representation"
+    ]
+   },
+   {
+    "design": "D1_physics_measure_first.md",
+    "candidate": "XQT exact-sample quadrature transport (primary)",
+    "fatal_objections": [
+     "Not a learned transport representation: holds no transport state; ER exact, visibility explicit, learned part redistributes explicit samples = learned MC kernel denoiser / KDE (KPCN 2017, kernel-splatting 2019, deep photon mapping 2020). Fails criterion 1 (does not replace or reuse explicit transport); Gate A classifies the class as comparator.",
+     "D1's own scratch shows an oracle per-element kernel improves on the learning-free twin by only 1.00-1.33x in error; D1 itself predicts a Stage-1 stop."
+    ],
+    "serious_objections": [
+     "eta measured against the receiver gather X1 instead of sender-side deposition (C3/C3UR/photons), which removes ~90% of the receiver-placement deficit at ~R0 cost.",
+     "'Reuse without retraining' is trivially satisfied by any pretrained denoiser; not a ReST-GI contribution.",
+     "Twin family lacks an edge-aware learning-free filter (cross-bilateral / a-trous)."
+    ],
+    "strengths": [
+     "Strongest physical contract in the batch: linear, flux-exact, passive, rigid-invariant, no visibility inference.",
+     "Decisive cheap learning-free S1-c gate."
+    ],
+    "survives": "NO",
+    "stop_conditions_hit": [
+     "learned operator does not substantially replace or reuse explicit transport"
+    ]
+   },
+   {
+    "design": "D1_physics_measure_first.md",
+    "candidate": "LLT learned lobe transfer from sparse probes (alternative)",
+    "fatal_objections": [
+     "To beat its twin it must infer unqueried visibility: learned C restricted to sharp senders (WL52 failed exactly at contacts/transitions); canon gives visibility to explicit C (criterion 3). The S1-d information test is circular because collision pairs come from the training generator."
+    ],
+    "serious_objections": [
+     "Cost per (node x light) = explicit lobe tracer cost structure.",
+     "No rigid-invariant reuse beyond probe certificates.",
+     "Lobe footprint delivery is VSL/SG-light prior art; sparse-probe visibility interpolation is cone-tracing prior art."
+    ],
+    "strengths": [
+     "S1-d is a sound learning-free information test in form.",
+     "Only design attacking learned delivery beyond queries directly."
+    ],
+    "survives": "NO",
+    "stop_conditions_hit": [
+     "dynamic visibility implicitly coupled into the learned representation"
+    ]
+   },
+   {
+    "design": "D2_learning_generalization_first.md",
+    "candidate": "LIEM-S learned intrinsic exit measure (primary)",
+    "fatal_objections": [],
+    "serious_objections": [
+     "Close to Vicini, Koltun, Jakob 2019 learned shape-adaptive SSS (shared CVAE on local shape features, trained on volumetric PT, one model for all shapes, public code) and Leonard et al. 2021; the novelty rule names BSSRDF approximation as insufficient. New items: exact rough-dielectric closure, analytic anchors, passivity bound, impulse measure (incremental/contract hygiene).",
+     "Does not test the central hypothesis: the sharp exit lobe comes from the exact interface closure; the learned collided measure is angularly smooth wherever amortisation pays (D2 toy, 27-50 events per exit).",
+     "Requires the GM2 media scope change (HD2) and a refractive-interface medium reference that does not exist (WL53 index-matched only; Cycles BSSRDF path-history semantics; Mitsuba float32 boundary skip).",
+     "Learned-K shape-generalisation record is negative (WL68, WL71-80).",
+     "Twins exclude the closest prior art (Vicini 2019); Twin-D dipole/Burley is weak."
+    ],
+    "strengths": [
+     "Most rigorous learning design: impulse coverage as treatment, NLL on unbiased walk events, exact rigid equivariance.",
+     "Headroom gate I0.2 can stop before training."
+    ],
+    "survives": "CONDITIONAL",
+    "stop_conditions_hit": []
+   },
+   {
+    "design": "D2_learning_generalization_first.md",
+    "candidate": "LIEM-B hierarchical categorical exit distribution (alternative)",
+    "fatal_objections": [
+     "Not mechanism-independent of LIEM-S (D2 admits); the brief asks for an independent alternative, so D2 has none."
+    ],
+    "serious_objections": [
+     "Sharp exit lobe needs alpha-resolution cells (alpha^-2 growth) unless the internal-cone variant is used, which is LIEM-S again.",
+     "Hierarchical spatio-directional trees are path-guiding SD-tree prior art (Muller 2017)."
+    ],
+    "strengths": [
+     "Usable as LIEM-S's H2 representation control."
+    ],
+    "survives": "CONDITIONAL",
+    "stop_conditions_hit": []
+   },
+   {
+    "design": "D3_systems_cost_first.md",
+    "candidate": "RB-DTO rigid-body directional transfer operator (primary)",
+    "fatal_objections": [
+     "Requires a canon change: Architecture §2 assigns exposed same-asset free-space paths to C; RB-DTO moves C_self into a body operator. D3 makes it HUM D1 and states it is inadmissible without it; D1 (O1) and D2 (R-D) reject the class on this ground. Not defensible under the current canon."
+    ],
+    "serious_objections": [
+     "Core is learned PRT self-transfer / OSF (Guo 2020) / radiance transfer fields (Pan 2007) / TransGI; novelty only in sharp glossy + one shared compiler, each with partial precedent (wavelet/SG all-frequency PRT; MRT, Vicini 2019, arXiv 2510.18189).",
+     "Twin 2 costed with uniform alpha^-2 binning (0.17-13.7 GB), a straw man; the prior-art twin is compressed all-frequency per-body transfer (Haar/SG/CPCA), equally rigid-reusable without learning. Regime-map utilities 4.8-48x use placeholder constants.",
+     "Workload admission (self-transport share >= s_min, cavity edit) selects for the claimed lever; needs a declared adversarial workload.",
+     "Multimodal exit lobes in grooves/corner reflectors; grazing mixture failure applies.",
+     "Benefit is identically zero on GM1 (planar/convex bodies); cannot address the WL86-96A inter-body sharp failure."
+    ],
+    "strengths": [
+     "Only candidate whose learned part is non-local, rigid-invariant transport content (not just weights), high-frequency and a replacement for explicit iterated sharp work: best match to the brief's central hypothesis.",
+     "Explicit energy contract with defined measure; convex-body null test; cost anatomy gated before training; self-path certificate with explicit fallback."
+    ],
+    "survives": "CONDITIONAL",
+    "stop_conditions_hit": []
+   },
+   {
+    "design": "D3_systems_cost_first.md",
+    "candidate": "LER-Delta learned environment resolvent with explicit edit-delta (alternative)",
+    "fatal_objections": [
+     "Per-environment learned state (per-scene neural precompute; Native Reuse / RNA / 8DNA class), not a shared learned rule; D3 flags as HUM D4.",
+     "Delta iteration carries negative flux; rho(H_E(M - B)) < 1 not guaranteed and clamps are forbidden.",
+     "H_E applied to delta fields outside its training span: passive by construction but fidelity not (WL41/WL44 failure mode)."
+    ],
+    "serious_objections": [
+     "Relabel: Hasan 2006 direct-to-indirect transfer + George/Sillion/Greenberg 1990 negative-energy radiosity redistribution / antiradiance; only directional glossy lobes are new."
+    ],
+    "strengths": [
+     "Honest identification of the second rigid-invariant amortisation target."
+    ],
+    "survives": "NO",
+    "stop_conditions_hit": [
+     "energy/measure convergence contract undefined for negative delta flux"
+    ]
+   }
+  ],
+  "experiment_plan_defects": [
+   "X-1 (all): no plan measures the closest prior-art method as a comparator although the novelty rule (RESEARCH_CENTRIC_TOPIC.md:48) requires measured quality/cost relative to appropriate prior art: VSL/VSGL or SG triangle transfer for FLS/ELT; deep KDE / kernel splatting plus a non-learned edge-aware filter for XQT; Vicini 2019 (public code) for LIEM; compressed per-body precomputed transfer (Haar/SG/CPCA) and OSF/TransGI for RB-DTO; direct-to-indirect transfer for LER-Delta.",
+   "X-2 (all): learning-free twins are weaker than the state of the art at the same interface (moment-matched ELT, isotropic fixed kernel, dipole Twin-D, uniform-binned Twin 2), inflating the learning margin.",
+   "X-3 (all): for FLS, XQT, ECRO-FC and LLT 'fixed weights at T1' is rule reuse with all state regenerated; a T0->T1 test cannot separate them from any pretrained network, so it is not evidence for transport reuse. Only RB-DTO and LIEM-S cache rigid-invariant state that T1 exercises.",
+   "X-4 (all): mandatory baseline terminology gate not met: OSF/TransGI-type object assets under rigid motion are Native Reuse and must be listed as measured or UNMEASURED with reason; only D3 (B7) and D2 (HD9) mention Native Reuse.",
+   "DR-P1: ECRO-FC confounds carrier, coverage and passivity; needs a factorial or carrier-only arm.",
+   "DR-P2: WG/WN workloads cannot exercise FLS's claimed iterated-sharp advantage (one sharp panel in GM1, WGG optional); positive H3 for FLS untestable as planned.",
+   "DR-P3: §10 references CRITIQUE.md, which does not exist in the directory, and the responses live in a worklog that does not exist yet; the critique/response trail is unverifiable.",
+   "DR-P4: prior-art row E12 files Wang 2009 under learned lobe prediction (it is SG fitting) and omits VSL/VSGL/SG-lightcuts/SG triangle transfer, KPCN/kernel-splatting/deep photon mapping, Vicini 2019 / Leonard 2021 and OSF.",
+   "D1-P1: XQT twin family lacks an edge-aware learning-free filter.",
+   "D1-P2: XQT eta measured against the receiver gather X1 instead of sender-side deposition (C3/C3UR/photons).",
+   "D1-P3: the LLT S1-d collision test samples the training generator, so it is circular for out-of-distribution occluders.",
+   "D2-P1: Vicini 2019 is not an arm.",
+   "D2-P2: Track I depends on a refractive-interface medium reference that does not exist; reference engineering should be declared as the first stop.",
+   "D2-P3: Track G's G2 can be skipped by HD8, which leaves H1 unattributed for ECRO.",
+   "D3-P1: Twin 2 is uniform-binned; it must be compressed all-frequency transfer.",
+   "D3-P2: Track-B admission selects for the claimed lever; needs a declared adversarial workload (moderate self-transport, frequent intrusion).",
+   "D3-P3: regime-map utilities use placeholder t_q and must not be read as evidence.",
+   "D3-P4: certificate cost and false-positive rate are not budgeted in Stage 0."
+  ],
+  "missed_alternatives": [
+   "MA-1: all-frequency compressed precomputed per-body transfer (Haar/SG/CPCA; Ng 2003, Pan 2007, Xu 2014) with explicit current C between bodies: learning-free, rigid-reusable, high-frequency; the necessary twin for RB-DTO.",
+   "MA-2: analytic lobe-to-polygon delivery with LTC (Heitz 2016) or SG (Xu 2014) as a deterministic, variance-free twin for FLS/ELT instead of cubature (visibility still explicit).",
+   "MA-3: a learned sampler (parametric-mixture / neural path guiding: Vorba 2014, Ruppert 2020, Dong 2023) driving the unbiased explicit estimator. It addresses the X1 heavy tail without owning transport and is the strongest learned competitor to XQT.",
+   "MA-4: OSF / TransGI-style per-object neural assets as the external Native Reuse baseline for any object-level candidate.",
+   "MA-5: shared-shape modular radiance transfer (Loos 2011) extended to glossy, as the precedent RB-DTO's shared compiler must beat."
+  ],
+  "proposed_verdict": "NO_DEFENSIBLE_CANDIDATE",
+  "verdict_rationale": "Under the current canon (Architecture §2: exposed same-asset paths belong to C) and the brief's exclusions, no WL98 candidate is defensible. FLS fails on BRDF compression, XQT because no learned replacement of explicit transport occurs, LLT on learned visibility, ECRO-FC on visibility coupled into the learned factors, LER-Delta on per-scene state with unguaranteed convergence; each is also an existing method relabelled. The two survivors need human decisions before they are candidates. RB-DTO needs the certified rigid self-coupling canon refinement (D3 HUM D1). It is the only candidate aimed at the brief's hypothesis, and its narrow novelty niche (sharp plus shared) must be measured against compressed PRT, OSF and TransGI. LIEM-S needs the GM2 scope change and acceptance of a BSSRDF-class novelty claim, and it tests learned low-frequency intrinsic transport with exact sharp closure. Three designers independently found no defensible learned candidate in the GM1 surface-only family where FLS lives. This is not a class-level falsification. If the owner grants D3 decision D1 and the plan defects are fixed, DESIGN_READY_FOR_HUMAN_REVIEW for RB-DTO (with LIEM-S as alternative under HD2) would be appropriate; that conversion is a human decision."
+ }
+]

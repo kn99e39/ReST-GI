@@ -1,0 +1,264 @@
+[
+ {
+  "role": "Independent judge J1 (WL98, design-only): defensibility and falsifiability",
+  "report_path": "c:\\Projects\\ReST-GI\\docs\\plans\\wl98_learned_directional_transport\\JUDGE1_report.md",
+  "summary": "I read all four designs (DR, D1, D2, D3) and all four critiques (X1–X4), and checked the key facts in code and canon myself: the model86.py:83-104 generator inputs, Architecture.md:20/25/56/70, the RESEARCH_CENTRIC_TOPIC novelty rule, the human decision of 2026-11-13 that made ECRO central, and the WL97 COORD sections 1, 2 and 8.\n\nFinding accepted after checking: every designer and critic concludes that scene86/GM1, with only planar and convex objects and pointwise ER, has no rigid-reusable learned transport object. I correct the reason. The deciding factor is not 'information beyond explicit queries': D1's Proposition I holds equally for media and for rigid-body self-transport. It is whether the amortised quantity stays invariant under the edit, so that computed STATE can be reused and not only the weights (Architecture.md:56). In GM1 only rule reuse is possible. On the engineered kernel basis, regenerating the learned state for each edit costs as much as or more than the explicit work it replaces (0.85–0.97, D3/X3 arithmetic).\n\nThe coordinator's FLS fails as a learned candidate on four counts: its learned part is ER × incident-deposit lobe compression; K ≤ 8 separable lobes cannot hold the CK2 point-light glint; it gives up linearity; and its delivery is explicit. Its upgraded twin, ELT with image-source shear, is kept as an explicit comparator. ECRO-FC fails as a candidate because its factors are coupled to current visibility. It is useful only as factorised H1/H2 diagnostic arms.\n\nPrimary: RB-DTO-C, D3's RB-DTO corrected with the critics' fixes. The fixes are: linear per-sample pushforward with no nonlinear per-patch reduction; an exact escape budget; sender-side delivery of sharp exits; whole-body fallback; cached explicit self-visibility shared with the twin; and the strongest twins, namely sender-side chain tracing and compressed precomputed per-body transfer. It is conditional on a canon refinement (HA). Alternative: XQT, conditional on HD-1 (HB). It has the cheapest, cleanest learned-vs-twin gate and is predicted to stop there. If HB is 'no', the alternative is none within GM1, and LIEM-S is the GM2 reserve.\n\nProposed verdict: DESIGN_READY_FOR_HUMAN_REVIEW. Conversion rule: if HA is rejected, HB is 'no' and GM2 stays closed, the verdict becomes NO_DEFENSIBLE_CANDIDATE, scoped. Every survivor is predicted more likely to stop at a learning-free Stage-1 gate than to reach training.",
+  "ranking": [
+   {
+    "candidate": "RB-DTO-C (certified rigid-body sharp self-transport operator, corrected)",
+    "source_designs": "D3 RB-DTO (primary); same class as D2 R-D and D1 O1 (both rejected on canon); twins and corrections from X1 §2.2-2.4, X2 §3.10, X3 §4.4, X4 §6.1/MA-1",
+    "score_0_10": 5,
+    "physical_soundness": "6: linear per incident sample once the nonlinear per-patch reduction is removed; first event exact ER; passive only if E_esc is computed exactly against the cached self-relation; whole-body fallback needed on partial intrusion",
+    "falsifiability": "7: decided first by learning-free gates (U0 anatomy against the best explicit twin; per-body oracle floor vs compressed precomputed transfer), then by a clean B2/B5/B4/B3 ladder separating capacity, generalisation and coverage",
+    "learned_value": "4: amortises iterated glossy intra-body sweeps; against the compressed per-body transfer twin it buys only no per-asset precompute, memory and continuity, and its per-sample apply is likely slower",
+    "edit_reuse": "8: exact STATE reuse under rigid motion; the only candidate whose T0->T1 test exercises reused learned state rather than reused weights",
+    "cost_plausibility": "3: D3's regime map used an inflated uniform-binned twin; X3's symmetric recount gives U 0.16-1.21 with break-even J_int*K_int >= ~800-21,000 per patch",
+    "novelty": "3: PRT self-transfer, radiance transfer fields, OSF, TransGI and MRT are close; the only open niche is sharp + one shared compiler + passive measure contract",
+    "decisive_unknown": "Does any admitted workload have a best-explicit-twin intra-body share giving U0 >= U_min, AND a per-body learned oracle that beats compressed precomputed per-body transfer at matched memory and apply time?"
+   },
+   {
+    "candidate": "LIEM-S (learned intrinsic exit measure, media)",
+    "source_designs": "D2 primary; conditional in X1-X4",
+    "score_0_10": 3.5,
+    "physical_soundness": "7: canonical K ownership, passive by construction, exact rigid equivariance; needs an exact ballistic m_bal and a declared interface model",
+    "falsifiability": "5: I0.2 headroom gate is good, but the kill rule passes on memory by construction and the rigid edit cannot separate it from Twin-T",
+    "learned_value": "3: the sharp exit comes from the exact interface; the learned measure is smooth wherever walks are long enough to amortise (D2's own slab toy)",
+    "edit_reuse": "7: exact state reuse, but every rigid-invariant K twin is reused equally",
+    "cost_plausibility": "3: wins only with long walks and a network of <= 2e4 FLOP (X3)",
+    "novelty": "2: close to Vicini 2019; novelty rule excludes BSSRDF approximation alone",
+    "decisive_unknown": "With a qualified refractive-medium reference, does any admitted configuration have both long walks and learned angular/spatial structure above MC noise?"
+   },
+   {
+    "candidate": "XQT (learned flux-conserving quadrature / estimator of the flight)",
+    "source_designs": "D1 primary; conditional in X1/X2/X3, no in X4",
+    "score_0_10": 3.5,
+    "physical_soundness": "6: linear, flux-exact and ER-exact, but passive only in expectation (not per draw), and element-level co-visibility leaks",
+    "falsifiability": "8: cheapest and cleanest learned-vs-twin gate in the batch (learning-free, existing GM1 machinery, CRN), once the oracle is made field-independent",
+    "learned_value": "2: D1's flatland oracle/twin is 1.0-1.33; for CK2-type glints the pooling lever vanishes geometrically (X1 §2.6)",
+    "edit_reuse": "4: rule reuse plus certified W entries; dirty receptive fields regenerated",
+    "cost_plausibility": "2: per flight 8-26x an explicit order; break-even needs the quality of >= 5-17 pooled draws",
+    "novelty": "2: learned MC kernel / deep KDE class",
+    "decisive_unknown": "Does a field-independent per-geometry optimal kernel beat the strongest learning-free twin (edge-aware kernel, exact-re-evaluation spatial reuse, sender-side deposition, MIS) at matched rays in the sharp ROI by a declared margin?"
+   },
+   {
+    "candidate": "ECRO-lineage arms (ECRO-R / ECRO-COV / ECRO-SUP / ECRO-FC carrier-only)",
+    "source_designs": "DR ECRO-FC (alternative); D1 C1/C1f; D2 G2; D3 G1",
+    "score_0_10": 2,
+    "physical_soundness": "3: per-patch 'local' factors depend on current form factors, world pose and a scene token [CODE model86.py:93-104]; rows are non-passive",
+    "falsifiability": "6 as a diagnostic, once factorised and read against weighting-matched class floors with a rank axis",
+    "learned_value": "2: sender half re-learns ER",
+    "edit_reuse": "2: rule reuse only; every factor is regenerated each edit",
+    "cost_plausibility": "1: per-edit generator costs >= the replaced explicit work (0.85-0.97 on the kernel basis)",
+    "novelty": "1",
+    "decisive_unknown": "Does the delivery-optimal operator class (rank axis, matched weighting) meet the target against the reference at all (P0-1b)? If not, H1 coverage training is moot."
+   },
+   {
+    "candidate": "LIEM-B (hierarchical categorical exit distribution)",
+    "source_designs": "D2 alternative",
+    "score_0_10": 2,
+    "decisive_unknown": "Representation-capacity control for LIEM-S only; not mechanism-independent"
+   },
+   {
+    "candidate": "FLS (flux-allocated spatio-angular lobe state)",
+    "source_designs": "DR primary; same class as D1 C1, D2 R-C, D3 §3.5 (all rejected blind)",
+    "score_0_10": 1.5,
+    "physical_soundness": "3: ambiguous radiance measure near the horizon; learned NULL beyond exact ER; nonlinear",
+    "falsifiability": "4: the learned-vs-ELT headroom test is placed after training",
+    "learned_value": "1: element-local ER x deposits + K-lobe mixture reduction (BRDF compression in a wrapper); <= 8 separable lobes cannot hold the CK2 glint (~10 per element per light)",
+    "edit_reuse": "1: weights only; all lobe state and cubature rays are regenerated after any edit",
+    "cost_plausibility": "2: runtime cost identical to ELT by construction",
+    "novelty": "1: VSL/VSGL + learned SG fitting",
+    "decisive_unknown": "None left open for learning; keep ELT with image-source shear as an explicit comparator"
+   },
+   {
+    "candidate": "LLT (learned lobe transfer from sparse probes)",
+    "source_designs": "D1 alternative",
+    "score_0_10": 1.5,
+    "decisive_unknown": "Either the probes determine delivery (the photon twin then has the same information) or LLT infers unprobed visibility (learned C, WL52); the collision-pair information test is grafted"
+   },
+   {
+    "candidate": "LER-Δ (learned environment resolvent + explicit Δ)",
+    "source_designs": "D3 alternative",
+    "score_0_10": 1,
+    "decisive_unknown": "Fails its own contracts: per-environment learned state (Native Reuse class), signed out-of-span Δ fields, and a mis-stated convergence condition (correct iteration matrix is (I-T_E)^-1(M-B), X1 §1.4)"
+   },
+   {
+    "candidate": "Learned guiding (sampling density only; missed alternative)",
+    "source_designs": "X1 §5, X2 §5.1, X3 §6.4, X4 MA-3 (no design)",
+    "score_0_10": 0,
+    "decisive_unknown": "Not a transport representation; needs an explicit in-or-out-of-scope ruling (HH) before it can be ranked"
+   }
+  ],
+  "primary": "RB-DTO-C: D3's Rigid-Body Directional Transfer Operator, corrected. One shared compiler maps a rigid body's mesh and ER descriptors to latents once. An apply network maps each incident sample to a passive, linear pushforward: the body's exit measure after at least one self-hit, N_b = (I − K_b C_self)^-1 K_b − K_b. The first event stays exact ER.\n\nRequired corrections: no nonlinear per-patch mixture reduction; an exact escape budget E_esc computed against the cached explicit self-relation and charged to the method; sharp exits delivered sender-side into current-geometry C_ext; whole-body explicit fallback on any intrusion into the self-path region; self-visibility explicit and cached, shared with the twin; and comparison against the strongest twins (explicit sweeps on the cached rigid self-relation with sender-side chain tracing, and compressed precomputed per-body transfer) and measured prior art (OSF/TransGI as Native Reuse, or explicitly UNMEASURED).\n\nConditional on human decision HA (certified rigid self-coupling) and on a GM1 workload extension with non-convex glossy rigid bodies, including an adversarial workload. It is the only candidate whose learned output is sharp, nonlocal and reusable as state under rigid edits. It is predicted more likely to stop at its learning-free Stage-1 gates (U0 anatomy, oracle vs compressed twin) than to reach training.",
+  "alternative": "XQT (D1), conditional on HD-1 (HB: is a learned estimator over explicit visibility samples admissible as learned transport?). It is canon-compliant, sits in GM1 on existing workloads and machinery, and is independent of RB-DTO-C in regime, ownership, reuse type and failure mode.\n\nRequired corrections: passivity stated as in-expectation, with a per-draw test; point-level visibility consistency; a field-independent per-geometry oracle; the strongest twins (edge-aware kernel, exact-re-evaluation spatial reuse, sender-side deposition, MIS); and a utility ceiling defined as U(1 draw + XQT) vs U(m pooled draws). It is predicted to stop at its learning-free gate.\n\nIf HB is 'no', the alternative is NONE within GM1. LIEM-S is the GM2 reserve only if the owner opens GM2 (X2 and X4 preferred LIEM-S as the alternative).",
+  "best_falsification_plan": "PRINCIPLE: learning-free gates first. Training runs only when a learning-free result makes it informative. Every stop is final for the batch. All thresholds are [HUM].\n\nSTAGE 0 (learning-free, mandatory): freeze, instruments and admission.\n(a) Reference instruments: exact-direction probes qualified against the deterministic exact-ER first-flight quadrature and the existing binned tallies; cos-weighted cell tallies; incident flux per receiver cell; event-count and self-path tags; depth matched to every arm or the truncation residual reported; independent reference halves. Fail -> STOPPED_REFERENCE_UNQUALIFIED.\n(b) Workloads, admitted on geometry-only or learning-free rules before any arm output exists.\n- GM1 Track G: W-G2 grazing, admitted on the delivered sharp difference at glint-core AND tail receivers; W-N non-grazing; W-H held-out with a declared distribution shift; CK2 diagnostic only, excluded from gate arithmetic, and needing a T1 reference if used.\n- Track B (only if HA): grazing cavity, non-grazing, held-out body class and light class, and an adversarial workload.\n- Rigid edits with path-traced references at T0 and T1: an occluder that enables or blocks a sharp path; motion of a sharp object or body; a certificate-violation control.\n- Change SNR checked on an independent partition. Fail -> STOPPED_UNQUALIFIED_WORKLOAD.\n(c) Train/validation/test split by family, class and margins, applied to every trained arm.\n(d) Unified GPU-busy timeline plus wall; compile and recompile counts; an engineered explicit comparator; a full-scale probe of every stage.\n\nSTAGE 1 (learning-free decomposition).\n1a H2-carrier: floors for SA 4x16, FC 4x16, FC 8x32, adaptive FC, pooled exact per-ray and ELT-shear, per receiver class, fitted on half A and scored on half B.\n1b H2-operator / H1 prerequisite: the delivery-optimal patch x 64 operator vs the reference, and a light-independent rank 16/48/64 operator under the declared weightings, plus a light-conditioned control.\n1c H3 ceiling: role-specific ceilings (resolvent-only; full resident operator; full + per-edit generator) on kernel and wall bases, N {1.3k, 5k, 11k}, lights {1, 4, 16}, quality-matched via spp ladders at tiers away from the floors, with draw pooling. If no role that does not learn C reaches U_min on >= 2 workloads -> H3 SUPPORTED at ceiling for the ECRO lineage.\n1d XQT (if HB): field-independent oracle kernel vs the strongest twins, with CRN, >= 16 draws, sharp ROI and equal cost. STOP if the margin < m_req or the U ratio is below threshold.\n1e RB-DTO-C (if HA):\n- U0 against Twin 1 (cached self-relation + sender-side chain tracing). STOP_NO_HEADROOM if U0 < U_min.\n- Per-body oracle floor vs Twin 2 (compressed precomputed transfer) at matched memory and apply time. STOP_NO_LEARNING_HEADROOM if within paired noise.\n- Collision-pair test if any self-visibility is inferred.\n\nSTAGE 2 (H1 attribution of ECRO; only if 1b shows a feasible class floor, or HD requests it).\n- Pilot: ECRO-R with >= 5 fresh seeds, to estimate the seed SD and set n.\n- Arms: ECRO-COV (coverage only), ECRO-SUP (physical S1 target only, never M64), ECRO-FC (carrier only, no passivity, matched rays per bin); frozen checkpoints as the reference point.\n- Readings: opt vs allocation vs operator capacity vs carrier.\n\nSTAGE 3 (train survivors only).\n- RB-DTO-C arms: B3 natural coverage; B4 designed impulse measure with a grazing quota; B5 per-asset fit.\n- XQT, if it survived 1d.\n- Contract tests before any evaluation: zero, superposition, non-negativity, passivity per draw and in expectation, composed spectral radius with a valid estimator, rigid equivariance, convex N_b = 0, path-tag disjointness, certificate, furnace, reciprocity. Fail -> STOPPED_CONTRACT.\n- Exposure-bias metric.\n- H-L STOP if learned <= twin within paired noise on >= 2 workloads.\n\nSTAGE 4: fixed-weight T0->T1 with no retraining.\n- Arms: all survivors + STALE + quality-matched explicit comparators.\n- Evidence: representation, image, leakage/ghosting, extra T1-T0 error, selective = full.\n- External baselines: Native Reuse measured or UNMEASURED; Neural Full Recompute only where a representation is invalidated.\n\nSTAGE 5: economics.\n- Time-to-tier from the edit, with progressive draw pooling allowed to explicit arms.\n- Steady frame, inference, relation recompute, certificate cost, memory and precompute.\n- U vs the quality-matched explicit comparator. A positive claim needs 2 workloads including the held-out one.\n\nSHARING: only the ECRO arms share a generator and budget (COV changes the measure as the treatment). XQT and its twin share inputs and draws. RB-DTO B2/B3/B4/B5 and Twin 2 share the exit samples. Track G and Track B share only the renderer, metrics, statistics and timing.\n\nSTATISTICS: CRN pairing; block bootstrap; independent reference halves; seed as a random effect with n from the pilot; >= 16 draws; never an L1 noise floor as a tolerance; heavy-tail guards; fit/score split halves; all rules frozen before results.",
+  "grafts": [
+   "D1: flux-exact projected-disk carrier rules M1-M3 (flux per projected-measure cell; never tabulate sharp outgoing radiance; emit/read at the exact point); event-count ownership partition; dependency certificate tested as selective = full; contract tests T1-T10; W-G2 admission on the delivered sharp difference at glint-core and tail receivers; collision-pair information test (S1-d)",
+   "D2: principles P1-P8; designed impulse coverage measure as a treatment (mu_D vs mu_S), with a grazing quota, applied to RB-DTO-C incident samples; event-likelihood supervision on unbiased physical samples; ECRO-R fresh-seed arm as the seed pilot; G0 stop rule (no role that does not learn C reaches U_min -> no ECRO-lineage training for architecture purposes); G1 class floors",
+   "D3: Stage-0 cost anatomy before training; role-specific ceilings; path-tag ownership identity test; convex-body N_b = 0 contract; certificate-violation control edit; B2/B3/B4/B5 attribution ladder; Track G / Track B separation",
+   "DR: ELT as the learning-free lobe twin, upgraded with image-source shear (VSL/VSGL class) and used as an explicit comparator; clipped-hemisphere measure lesson; sealed held-out discipline; contract-test style T-a..T-r",
+   "X1: reference-instrument qualification gate (exact-direction probes, cos-weighted tallies, incident flux per cell, self-path tags, matched truncation, CK2 T1 reference); per-draw passivity and spectral-radius tests for stochastic explicit arms; whole-body fallback; corrected LER-Δ convergence condition recorded",
+   "X2: three-way H1 attribution (optimisation / allocation / operator capacity with a rank axis and a light-conditioned control); fit on half A, score on half B; seed-power pilot that sets n; oracles restricted to the learned model's information and linearity; exposure-bias metric; per-instance fitted arm for every shared candidate; held-out with a declared distribution shift",
+   "X3: in GM1 the quality-matched lever is the table floor seen through the frame; predeclared tiers away from floors with a NOT-REACHED rule; progressive draw pooling for explicit arms; unified kernel timeline; compile/recompile accounting; engineered explicit comparator; multi-light axis 1/4/16; symmetric counts in every regime map",
+   "X4: closest prior art as measured comparators (compressed precomputed per-body transfer; deep KDE / edge-aware filters for XQT; Vicini 2019 for LIEM); novelty niche declared in advance (sharp + shared + passive contract); OSF/TransGI-type Native Reuse measured or UNMEASURED"
+  ],
+  "human_decisions": [
+   "HA canon: may a rigid body's free-space self-paths (C_self) be owned by a learned body operator under a geometric dependency certificate with whole-body explicit fallback? (J1 reads this as the F/S certified-validity principle, not identity freezing; X1/D1/D2 read it as a conflict with Architecture §2)",
+   "HB (HD-1): is a learned estimator over explicit visibility samples (XQT) admissible as the project's learned transport?",
+   "HC scope: add non-convex glossy rigid bodies to GM1 (Track B)? Open GM2 media (LIEM-S) now, despite GM2 depending on an interpretable GM1 result?",
+   "HD lineage: given the 2026-11-13 ECRO-central decision, may the follow-up's candidate be non-ECRO-lineage? Do the ECRO H1 training arms run for attribution if Stage 1b/1c already decide them?",
+   "HE numbers: U_min; quality tiers and ROI definitions; learned-vs-twin margin m_req; eta_req; admission values (SNR, sharp share, self-transport share, grazing share); passivity/reciprocity tolerances; minimum meaningful image effect; leakage and extra-T1 limits; coverage quota; seed count via the pilot; draw counts",
+   "HF conventions: kernel vs wall basis; whether an engineered explicit comparator is required; frame spp; draw-pooling horizon; multi-light axis; edit->frame vs edit->valid table",
+   "HG external baselines: Native Reuse (OSF/TransGI/8DNA-type per-object asset) measured or UNMEASURED; Neural Full Recompute only where a representation is actually invalidated",
+   "HH: learned guiding (sampling-density-only learning) explicitly in or out of scope",
+   "HI novelty: accept the narrow RB-DTO-C niche (sharp + shared + passive contract) as worth testing against PRT/OSF/TransGI/MRT prior art",
+   "HJ: batch class (regular vs suffix) and compute/server budget"
+  ],
+  "dissent_to_preserve": [
+   "X2 and X4: the batch verdict should be NO_DEFENSIBLE_CANDIDATE under the current canon and scope; no candidate has demonstrated headroom over a fair twin",
+   "X3: INSUFFICIENT_EVIDENCE; RB-DTO's regime is narrow (symmetric recount U 0.16-1.21 in D3's own 20-body example; break-even J_int*K_int >= ~790-21,000 per patch)",
+   "X1: RB-DTO is NO under the current canon (C_self inside a learned operator violates Architecture §2; partial intrusion forces whole-body fallback); within canon only XQT is physically defensible",
+   "D2 vs D3: D2 rejects rigid-cluster self-transport (its twin, the cached explicit self-relation, is equally rigid-invariant; learning buys only sweep amortisation); D3 makes it primary. J1 sides with D3 on which candidate to test and with D2 on what it must beat",
+   "Unanimous (D1-D3 designing blind, X1-X4): no rigid-reusable learned object in GM1 planar/convex scenes; the coordinator's FLS is NO as a learned candidate; ECRO-FC is NO as a candidate",
+   "X2 and X4 prefer LIEM-S as the independent alternative; J1 chose XQT for falsifiability and canon/GM1 fit",
+   "Coordinator conflict of interest (authored WL86-WL96A); DR §10 cites CRITIQUE.md and a WL98 worklog that do not exist in the directory",
+   "All four critics independently name learned guiding as a missed alternative that no design compared",
+   "Tension with the 2026-11-13 human decision: the design evidence predicts H3 supported at ceiling for every ECRO-lineage role at GM1 scale on the engineered kernel basis",
+   "J1: the deciding factor is whether amortised STATE stays invariant under the edit class, not information beyond explicit queries; Proposition I applies equally to LIEM and RB-DTO",
+   "D1: if HD-1 is no, D1's own GM1 verdict becomes NO_DEFENSIBLE_CANDIDATE except LLT (which J1 and three critics reject)"
+  ],
+  "proposed_verdict": "DESIGN_READY_FOR_HUMAN_REVIEW",
+  "verdict_rationale": "A primary (RB-DTO-C) and an independent alternative (XQT) have complete, corrected contracts, and each depends on one named human decision (HA, HB). The merged plan keeps the hypotheses apart:\n- H1: factorised ECRO arms, read against weighting-matched class floors.\n- H2: carrier floors and operator-class floors with a rank axis.\n- H3: role-specific learning-free ceilings, then a quality-matched fixed-weight T0->T1 test.\n- Learned vs twin: learning-free oracle-vs-strongest-twin gates BEFORE any training.\nCK2 stays diagnostic and M64 stays out of truth.\n\nThe verdict is design-ready because every remaining branch is decided either by a named human decision or by a cheap learning-free gate. It is not an expectation of success: each survivor is predicted more likely to stop at Stage 1 than to reach training.\n\nConversion rule: if the owner rejects HA, answers HB 'no' and keeps GM2 closed, the correct verdict is NO_DEFENSIBLE_CANDIDATE, scoped to scene86/GM1 under the current canon. All three designers and four critics converge on that reading for planar/convex GM1. It is not a class-level falsification of reusable learned transport (WL97 P0-5b). Not adoption, not experiment approval."
+ },
+ {
+  "role": "JUDGE2 (research-objective weighting)",
+  "report_path": "c:\\Projects\\ReST-GI\\docs\\plans\\wl98_learned_directional_transport\\JUDGE2_report.md",
+  "summary": "I read all eight WL98 design and critique files. I checked the canon (Architecture.md:20,25; the roadmap GM1/GM2 rows; the 2026-11-13 human decision that ECRO is the central GM1 base) and the ECRO generator code (model86.py:83-104). I ran one numpy scratch (experiments/wl98_calc/J2/rb_twin_split.py -> results/wl98_calc/J2/rb_twin_split.json).\n\nCentral finding, a pincer covering the whole hypothesis [PRED, merging D1 Proposition I, D2 section 3, D3 section 2.5 and my scratch]:\n(a) Transport that is not rigid-invariant (all inter-body transport in the planar/convex scene86/GM1 family) cannot keep learned state across an edit. Only the weights are reused, and the state must be regenerated per edit. That regeneration competes with cheap explicit evaluation: the resolvent ceiling is 1.02-1.04, and on the kernel basis the per-edit generator costs at least as much as the explicit work it replaces.\n(b) Transport that is rigid-invariant (body self-transport, intrinsic media) has reusable learned state. But a learning-free per-asset precomputed table of the same transport (TwinP or Twin-T) is equally reusable and no more expensive at edit time. The edit-time lever therefore belongs to precomputation, not to learning. What is learning-specific is static: memory (about 2 MB vs 35-180 MB per asset at alpha 0.03, placeholder constants), seconds of one-off precompute, and generalisation to unseen assets.\nSo a geometry-edit advantage attributable to learning is structurally unlikely in any workload buildable now, and the plan must credit utility to precomputation (U_pre) and to learning (U_learn) separately.\n\nThe coordinator's pair, FLS and ECRO-FC, should not go forward; all three designers and all four critics agree. FLS is ER compression plus mixture reduction with explicit cubature delivery, and needs about 10 lobes per element at CK2 grazing. ECRO-FC changes three treatments at once, conditions on the whole scene and re-learns ER.\n\nRanking: RB-DTO-E 4.5 > LIEM-S 4.0 > ECRO lineage 2.5 (diagnostic is mandatory) = XQT 2.5 > FLS 2.0 > LLT 1.5 > LER-Delta 1.0.\n\nPrimary is RB-DTO-E, my canon-compatible reformulation of D3's RB-DTO. The learned rigid-body sharp self-transport operator consumes cached explicit self-relation records validated by the canonical dirty test, so C keeps ownership of C_self. Independent alternative is LIEM-S (D2): canonical ownership but GM2 scope, sharpness exact rather than learned, prior art Vicini 2019, and a medium reference that is not yet qualified.\n\nI disagree with X1, X2 and X4 on one point: ECRO's Ft is an explicit visibility input, not learned visibility. The fatal defects are whole-scene conditioning, full per-edit regeneration and re-learning ER.\n\nProposed verdict: DESIGN_READY_FOR_HUMAN_REVIEW, conditional on the lineage, scope, workload and comparator decisions. The dissent to preserve is that under the current canon and the current GM1 workload family alone the reading is NO_DEFENSIBLE_CANDIDATE. I predict the most likely outcome is a stop at the learning-free stage.",
+  "ranking": [
+   {
+    "candidate": "RB-DTO-E (rigid-body sharp self-transport operator over cached explicit self-relation records; D3 RB-DTO original kept as an [HUM] canon variant)",
+    "source_designs": "D3 RB-DTO; D2 R-D (rejected there); D1 O1 (asset-level, related); X4 MA-1/MA-5 twins; J2 reformulation",
+    "score_0_10": 4.5,
+    "decisive_unknown": "Whether a workload exists where (i) quality-matched per-update explicit sharp self-transport is a large lifecycle share (U0 >= U_min), and (ii) a learned-family oracle restricted to the records beats TwinP (precomputed per-body lobe/compressed transfer) on fidelity or memory beyond paired noise on held-out bodies",
+    "physical_soundness": "Sound once corrected: exact E_esc budget from cached records, linear per-sample cache or declared superposition metric, sender-side deposition of sharp exits charged, per-realisation passivity, convex N_b==0 null, path-tag disjointness",
+    "learned_value": "Learned sharp multi-bounce state reused across rigid edits (matches GM1 question), but the edit-time lever is shared with learning-free TwinP; learning-specific value is memory/precompute/unseen-asset generalisation (static)",
+    "edit_reuse": "Genuine state reuse under rigid motion; records invalidated by canonical dirty test on intrusion; whole-body explicit fallback as conservative control",
+    "cost_plausibility": "Narrow: D3 map inflated (uniform twin), X3 symmetric recount U 0.2-1.2 assumes K_int 512 suffices at equal quality (unmeasured); regime needs deep high-albedo glossy cavities",
+    "falsifiability": "Strong: learning-free S1-B (U0 vs quality-matched Twin 1, per-body oracle floor, TwinP gap, collision-pair test) kills it before training",
+    "novelty": "PRT / OSF / TransGI / MRT class; niche is sharp + shared compiler, must be measured against compressed PRT and Native Reuse"
+   },
+   {
+    "candidate": "LIEM-S (learned intrinsic exit measure, structured lobes) with LIEM-B as its H2 control",
+    "source_designs": "D2 LIEM-S / LIEM-B",
+    "score_0_10": 4,
+    "decisive_unknown": "I0.2: whether any admitted medium configuration has both a long-walk lifecycle share (measured Amdahl U0) and collided exit structure above MC noise; plus I0.1 qualification of a refractive-boundary medium reference",
+    "physical_soundness": "Cleanest ownership (interior collided K, air C, ballistic explicit); passive normalised family; requires exact m_bal and a declared interface model matched to the reference",
+    "learned_value": "Reusable learned intrinsic transport, but sharpness comes from exact interface closure; learned part is smooth where walks are long",
+    "edit_reuse": "Exact rigid reuse, but edits cannot discriminate it from Twin-T (memory/precompute only)",
+    "cost_plausibility": "Lever vs Twin-W only at >=10-30 events with a ~2e4-FLOP network",
+    "falsifiability": "I0.1 / I0.2 / I1 learning-free gates; kill rule must make 'faster than Twin-W at matched quality' necessary",
+    "novelty": "Close to Vicini 2019 (learned shape-adaptive SSS, public code) - BSSRDF approximation class"
+   },
+   {
+    "candidate": "ECRO lineage (ECRO-FC / ECRO+coverage / C1 / C1f / ECRO-COV / G1-G2), factorised diagnostic",
+    "source_designs": "DESIGN_REVIEW ECRO-FC; D1 C1/C1f/E0; D2 G1/G2 ECRO-R/COV/COV-FC; D3 Track G",
+    "score_0_10": 2.5,
+    "decisive_unknown": "Carrier floors (SA/FC 4x16, FC 8x32, adaptive, exact per-ray) and operator-class floors over a rank axis at matched incidence weighting vs fine references; role ceilings vs a quality-matched engineered explicit frontier (Gate G)",
+    "physical_soundness": "Factors conditioned on world pose, global token and dense message passing (no locality certificate); sender re-learns ER (non-passive rows)",
+    "learned_value": "In GM1 collapses to flight weights over explicit rays + resolvent (null CK2 headroom); source-update lever survives",
+    "edit_reuse": "Weights only; full per-edit regeneration",
+    "cost_plausibility": "Per-edit generator >= replaced explicit kernel work; 8x32 heads 4x larger",
+    "falsifiability": "Largely learning-free (floors + ceilings); training arms only factorised and by HD-T",
+    "novelty": "n/a (lineage control)"
+   },
+   {
+    "candidate": "XQT (learned flux-conserving redistribution of exact samples)",
+    "source_designs": "D1 XQT",
+    "score_0_10": 2.5,
+    "decisive_unknown": "S1-c with an oracle restricted to XQT's own (field-independent, linear) information vs a strong learning-free twin (edge-aware filter, spatial reuse with re-evaluation, sender-side deposition)",
+    "physical_soundness": "Linear, flux-exact, passive in expectation only (not per draw); element-level co-visibility masking leaks at intra-element edges",
+    "learned_value": "Estimator, no transport state; twin/oracle 1.0-1.33 in D1 toy; pooling cannot help glints narrower than a receiver patch",
+    "edit_reuse": "Pretrained-denoiser reuse; W regeneration over dirty receptive fields",
+    "cost_plausibility": "Per-flight 8-26x an explicit order; explicit draws poolable over frames at ~3 %",
+    "falsifiability": "Cheap S1-c gate",
+    "novelty": "Learned KDE / kernel splatting class"
+   },
+   {
+    "candidate": "FLS (flux-allocated spatio-angular lobe state)",
+    "source_designs": "DESIGN_REVIEW primary; D1 C1; D2 R-C; D3 C-patch",
+    "score_0_10": 2,
+    "decisive_unknown": "Optimal-fit lobes vs ELT (with image-source shear and an explicit merge rule) at equal K, Q - learning headroom before training",
+    "physical_soundness": "Measure formula inconsistent near horizon; NULL sink is unphysical learned absorption; nonlinear in sources",
+    "learned_value": "In GM1 = ER x deposits compressed to lobes + mixture reducer; delivery explicit cubature",
+    "edit_reuse": "Weights only; all state-dependent rays re-traced every update",
+    "cost_plausibility": "Identical runtime to ELT; loses source-update lever",
+    "falsifiability": "Only if the Stage-1 headroom gate is added",
+    "novelty": "VSL / VSGL / SG-light glossy many-light class with learned fitting"
+   },
+   {
+    "candidate": "LLT (learned lobe transfer from sparse probes)",
+    "source_designs": "D1 LLT",
+    "score_0_10": 1.5,
+    "decisive_unknown": "S1-d information test with collision pairs drawn outside the training generator",
+    "physical_soundness": "Passive per lobe, but infers unprobed visibility",
+    "learned_value": "Either decorative vs photon twin or learned visibility (WL52 prior)",
+    "edit_reuse": "Probe certificate only",
+    "cost_plausibility": "Photon twin ~0.3 ms per 1e6 rays",
+    "falsifiability": "S1-d",
+    "novelty": "Learned C restricted to sharp senders"
+   },
+   {
+    "candidate": "LER-Delta (learned environment resolvent + explicit edit-delta iteration)",
+    "source_designs": "D3 LER-Delta",
+    "score_0_10": 1,
+    "decisive_unknown": "None worth gating",
+    "physical_soundness": "Convergence condition mis-stated (true iteration matrix (I-T_E)^-1(M-B)); signed iterates; cancellation ghosts",
+    "learned_value": "Per-environment state (Native Reuse class)",
+    "edit_reuse": "Environment edits require retraining",
+    "cost_plausibility": "Explicit sweeps cheap in scope",
+    "falsifiability": "weak",
+    "novelty": "Direct-to-indirect transfer + negative-energy radiosity"
+   }
+  ],
+  "primary": "RB-DTO-E (reformulated from D3 RB-DTO). A shared, learned, continuous-lobe operator for the sharp multi-bounce self-transport of a rigid non-convex body, reused unchanged under that body's rigid motion.\n\nIt consumes the body's cached explicit self-relation records, traced once in the body frame and validated after each edit by the canonical dirty test, plus exact ER. So C keeps ownership of C_self, and the learned part owns only the amortised composition (K o C_self)^j. Its output is a passive, measure-defined exit pushforward.\n\nD3's original form, with implicit learned self-visibility under a certificate, needs a refinement of Architecture section 2 [HUM HD-C]. Choosing either form also needs HD-L, because the 2026-11-13 decision asks for an ECRO-lineage hypothesis, and HD-W (a GM1 workload extension with non-convex glossy bodies).\n\nThe low prior is stated: the edit-time lever is shared with a learning-free precomputed transfer (TwinP), and the most likely outcome is a learning-free stop at S1-B. Under the current canon combined with the current scene86/GM1 workload family: none.",
+  "alternative": "LIEM-S (D2), learned intrinsic exit measure with structured lobes, with LIEM-B kept only as its H2 representation control. It is independent of RB-DTO-E in learned object, physics regime, twins, failure modes and the required human decision.\n\nStrengths: canonical ownership (interior collided transport in K, air in C, ballistic explicit), exact rigid equivariance, a passive normalised output family, designed impulse coverage and no exposure bias.\n\nConditions:\n- HD-S: GM2-type media before an interpretable GM1 result, a rough-dielectric closure added next to ER, and the reference renderer choice;\n- I0.1 reference qualification;\n- I0.2 headroom gate with a measured Amdahl U0;\n- a repaired kill rule: faster than Twin-W at matched quality is necessary, memory is reported but not decisive;\n- a per-shape fitted arm and Vicini 2019 as an external arm.\n\nIt does not learn sharp interreflection.",
+  "best_falsification_plan": "One plan, learning-free first. Everything is frozen before its inputs exist; each stop is final; no rescue; every number is [HUM].\n\nHYPOTHESES\n- H1 split three ways: opt (learned arm vs operator-class floor at the same incidence weighting), alloc (floor movement with weighting), cov (natural vs designed coverage).\n- H2 split two ways: carrier floor ladder vs operator-class floor over a rank axis, e.g. r in {16, 48, 64}.\n- H3: quality-matched U at T1 with fixed weights. Credit is split: U_pre = U(TwinP)/U(per-update explicit) goes to precomputation; U_learn = U(learned)/U(TwinP) goes to learning. A learned H3 refutation needs U_learn >= U_min on 2 evidence workloads.\n- H-L: learned-family oracle restricted to the learned model's own information and linearity, vs the strongest learning-free twin.\n\nS0 FREEZE / INSTRUMENTS / WORKLOADS / FRONTIER (learning-free, shared)\n- S0a. Qualify new reference tallies: exact-direction probes, cos-weighted cells, incident flux per cell, self/inter-body/event/last-sender path tags, deeper kmax with truncation residual. Validate against deterministic exact-ER quadrature and existing field_src overlaps, with independent halves. Never M64. Stop: STOPPED_REFERENCE_UNQUALIFIED.\n- S0b. Admit workloads by geometry/SNR rules before any arm output.\n  - GM1 Track G: W-G2 grazing sharp, admitted on delivered sharp share with glint-core and tail receivers; W-N non-grazing; W-H distribution-shifted held-out, radiance uninspected; CK2 diagnostic only with a new T1 reference and excluded from all gate arithmetic.\n  - Track B (if HD-L/HD-W): W-graze-B, W-broad-B, W-held-B (unseen body class and light class), W-adv-B (adversarial: moderate self-transport, frequent intrusion).\n  - Edits: rigid body move, occluder move, record-dirtying intrusion. Path-traced T0 and T1 references everywhere. No T1 data in training or selection. Stop: STOPPED_UNQUALIFIED_WORKLOAD.\n- S0c. Engineered explicit frontier and cost anatomy.\n  - Arms: R0/EXP, C3UR, C3URX1 at 1-16 pooled draws, sender-side deposition, MIS of gather + deposition, FC 4x16 / 8x32 / adaptive, ELT with image-source shear, Track B Twin 1 (quality-matched sender-side chain tracing per update) and TwinP (precomputed per-body lobe/compressed transfer).\n  - Conventions: unified kernel basis plus wall; compile and cache-miss accounting; draw-pooling convention (time-to-tier from the edit, progressive explicit draws allowed); tiers away from all floors with a NOT-REACHED rule; 1/4/16 lights; N in {1.27k, ~5k, ~11k}.\n\nS1 LEARNING-FREE DECISIONS\n- S1-G (ECRO lineage): carrier floors (SA 4x16, FC 4x16, FC 8x32, adaptive, exact per-ray) and non-negative light-independent operator floors over the rank axis at declared weightings, fit on reference half A and scored on half B, plus role ceilings at zero and at measured learned cost vs S0c. GATE G: if no role reaches U_min at matched quality on >= 2 workloads, H3 is supported at ceiling for the lineage on GM1, and training runs only by HD-T.\n- S1-B (RB-DTO-E): U0 = L/(L - A_intra) with quality-matched Twin 1; per-body lobe-family oracle floor (split halves); TwinP at matched memory; oracle-vs-TwinP gap; collision-pair test on any inference beyond records. STOP if U0 < U_min, or the floor fails on W-graze-B, or the gap is within paired noise on both the fidelity and memory axes.\n- S1-I (LIEM-S, only if HD-S): I0.1 reference, I0.2 headroom with measured U0, I0.3 twins, I1 floors.\n\nS2 TRAINING (survivors only)\n- S2a. Seed pilot: >= 5 seeds of the cheapest arm; seed SD on each gate metric; n computed for the declared minimum effect (3 seeds detect only >= 2.4x-11.6x).\n- S2b. ECRO factorised arms: ECRO-R, ECRO-COV (coverage only), ECRO-SUP (physical S1 target only), ECRO-FCc (carrier only, matched state rays per bin), optional ECRO-LOC (local-frame, bounded receptive field). All read against weighting-matched floors.\n- S2c. RB-DTO-E: shared model on natural vs designed grazing coverage, a per-body fitted arm, and an exposure-bias metric (reference vs pipeline incidence per sweep). Contract tests run before evaluation (measure, per-realisation passivity, superposition, rigid equivariance, convex N_b == 0, path-tag disjointness, furnace, planar-mirror image-source exactness); a failure is STOPPED_CONTRACT.\n\nS3 T0 -> T1, FIXED WEIGHTS\n- Arms: survivors, quality-matched frontier points, TwinP, STALE.\n- Measures: changed-region fidelity, signed-change slope/correlation, leakage/ghosting outside predicted support, extra T1 - T0 error, selective = full.\n\nS4 SYSTEMS\n- Update critical path, steady frame including lobe-query overhead, inference, relation recompute and dirty test, memory, compile/training as one-off costs, the U_pre/U_learn split.\n- Native Reuse of an object-level neural asset measured, or UNMEASURED with a reason. Neural Full Recompute only if actually invalidated. PT reported as reference cost only.\n\nSTATISTICS\n- Paired common random numbers; block bootstrap; reference noise from independent halves; seed as a random effect; >= 16 draws with the deployed distribution; never an L1 noise floor as tolerance; heavy-tail guards; two-workload confirmation; CK2 never a gate input; dev on non-evidence inputs.\n\nSHARING\n- ECRO arms share the generator and budget (COV is the measure treatment).\n- RB-DTO-E arms share the body generator and exit samples; TwinP is built from the same samples.\n- Tracks G, B and I share only the renderer, metrics, statistics and conventions.\n\nSynthetic contract tests and real scenes are both required: contracts give exact answers and expose compensation; real scenes give coverage, composition, readout, edit response and economics.",
+  "grafts": [
+   "D1: Proposition I (estimation / amortisation / visibility-inference levers) as the framing of what learning can add; measure rules M1-M3 and the projected-disk flux-exact carrier for controls; local-frame bounded-receptive-field learned inputs (HD-5); contract tests T1-T10; decision-mapping table; W-G2 admission on delivered sharp share with glint-core and tail receivers",
+   "D2: designed impulse coverage mu_D vs scene-induced mu_S as a treatment; event-likelihood supervision against unbiased physical samples; three named twins per candidate; G0 ceiling stop rule; ECRO-R as seed-spread pilot; heavy-tail guards; I0.2 two-property headroom admission",
+   "D3: learning-free cost-anatomy Stage 0 before any training; convex-body N_b==0 null test; path-tagged component supervision; B2 -> B5 -> B3/B4 attribution ladder; certificate/intrusion control edit; unseen-body-class held-out",
+   "DESIGN_REVIEW: ELT explicit lobe twin (strengthened with image-source shear) as comparator; T-a..T-r contract list (T-a corrected to test radiance, not flux); WL97 statistics block; dev runs on non-evidence inputs",
+   "X1: reference-instrument qualification gate (exact-direction probes, cos-weighted cells, incident tallies, path tags, deeper kmax); per-realisation passivity of receiver-anchored estimators; fit/score split halves; matched event truncation; exact E_esc; whole-body fallback as conservative control",
+   "X2: three-way H1 split (opt/alloc/cov) with weighting-matched floors and a rank axis; seed count from a pilot (power table); oracles restricted to the learned model's information; per-instance fitted arms; exposure-bias metric; distribution-shifted held-out",
+   "X3: quality matching via floor-through-frame with tiers away from floors and NOT-REACHED rule; draw-pooling convention (time-to-tier from edit); unified kernel basis and compile accounting; engineered explicit comparator; multi-light and scale axes; symmetric RB-DTO cost recount",
+   "X4: closest prior art as measured comparators (compressed PRT / OSF / TransGI Native Reuse for RB-DTO-E; Vicini 2019 for LIEM-S); declared adversarial workload",
+   "J2: U_pre / U_learn utility credit split with a learning-free per-asset precomputed transfer twin (TwinP / Twin-T); RB-DTO-E canon-compatible reformulation (cached explicit self-relation records as input, dirty-test validation, C keeps ownership of C_self)"
+  ],
+  "human_decisions": [
+   "HD-L lineage: the 2026-11-13 decision asks for one ECRO-lineage hypothesis. May the next GM1 hypothesis be RB-DTO-E (learned-over-explicit-relations, localized to rigid bodies), or must it stay ECRO proper? If ECRO proper, no defensible learned candidate exists on current workloads and only Track G attribution remains",
+   "HD-C canon: choose between RB-DTO-E (records as input; canon-compatible by J2's reading, owner to confirm) and D3's original RB-DTO (implicit learned self-visibility under a certificate; needs a refinement of Architecture section 2 ownership of exposed same-asset paths)",
+   "HD-S scope: whether LIEM-S may run on GM2-type media before an interpretable GM1 result (roadmap dependency), including an analytic rough-dielectric closure next to ER and the reference renderer choice",
+   "HD-W workloads: extending GM1 with non-convex glossy rigid bodies and an adversarial workload; admission values (s_min, grazing threshold, alpha range, body classes, held-out class); a new CK2 T1 reference",
+   "HD-1 estimators: whether learned estimators or guiding (XQT; critics' missed alternatives) are candidates or comparators only (J2 recommends comparators only)",
+   "HD-E comparator definition: whether a per-asset precomputed rigid-body transfer (TwinP / PRT class) counts as 'explicit transport' for H3, which makes the U_pre / U_learn credit split binding",
+   "HD-N numbers: U_min (1.25 is a WL96A precedent only), tiers and minimum meaningful effects per ROI, gate tolerances, superposition tolerance, coverage quota, rank axis, alpha_split, minimum effect for the seed count (pilot-derived), draw count",
+   "HD-U utility conventions: kernel vs wall basis, engineered explicit comparator required, frame inclusion/spp, pooling horizon, counted lifecycle events, light counts, scale axis",
+   "HD-T: whether ECRO training arms run for attribution even if Gate G closes the lineage for architecture purposes",
+   "HD-X external baselines: Native Reuse of an object-level neural asset measured or UNMEASURED; Neural Full Recompute only if actually invalidated",
+   "HD-B: batch classification under the numbering policy, compute budget and server"
+  ],
+  "dissent_to_preserve": [
+   "Scoped NO_DEFENSIBLE_CANDIDATE (X2, X4; the scoped readings of D1 section 8 under HD-1 'no', D2 sections 3 and 9, D3 section 7): under the current canon and the current scene86/GM1 workload family, no learned candidate meets the brief, and a positive H3 there is predetermined to be impossible by the recorded cost anatomy",
+   "INSUFFICIENT_EVIDENCE (X3): candidates with a possible regime live only in workloads that do not exist; symmetric recounts put the regime at J_int*K_int >~ 1e3-1e4 per patch, or >= 10-30 internal events with a small network",
+   "D2 vs D3 disagreement on rigid-cluster self-transport: D2 rejects it on canon and weak learned value (twin = cached explicit relation); D3 makes it primary. J2's TwinP arithmetic sharpens D2's point: the edit-time lever belongs to precomputed transfer",
+   "Coordinator's minority position that FLS's Lambda_theta is not local BRDF compression (distributed incident states under a downstream loss); every designer and critic rejects this for GM1",
+   "D1's position: in GM1 the honest learned transport is an estimator, so XQT should be the GM1 candidate if HD-1 admits estimators",
+   "D2's position: canonical ownership should decide the primary, which would make LIEM-S primary over RB-DTO",
+   "J2's own reservations: RB-DTO-E's edit-time advantage over per-update explicit sweeps may be wholly attributable to a learning-free precomputed transfer; its learned contribution may reduce to static memory/precompute/generalisation levers; its most likely outcome is a learning-free stop at S1-B",
+   "Novelty (X4): every candidate's core mechanism exists in the literature (PRT/OSF/TransGI, VSL/SG lights, learned KDE, Vicini 2019); the ReST-GI addition is a contract, so novelty needs measured comparison with the closest prior art",
+   "J2 disagreement with X1/X2/X4: ECRO's Ft is an explicit visibility input, not learned visibility; the fatal ECRO-lineage defects are whole-scene conditioning (world pose, global token, dense message passing), full per-edit regeneration and re-learning ER"
+  ],
+  "proposed_verdict": "DESIGN_READY_FOR_HUMAN_REVIEW",
+  "verdict_rationale": "What is ready:\n- A primary, RB-DTO-E, with a complete contract once the critics' corrections are carried in. It is the only candidate whose success would answer GM1's own question: learned sharp multi-bounce state reused after rigid edits.\n- An independent alternative, LIEM-S, also with a complete contract after the critics' corrections. Its ownership is canonical.\n- A merged plan that separates H1, H2 and H3 with factorised arms and a weighting-matched rank axis, and splits utility credit between precomputation and learning. Its first decisive stage is learning-free and can close every line, ECRO lineage included, before any training.\n\nWhy the verdict is for human review:\n- Both candidates need human decisions (lineage, scope, workload, comparator definition) before they are candidates at all.\n- Neither is kept alive by force: each passes the brief's six unsuitability criteria on its own corrected contract.\n\nThe dissent stands. Under the current canon and the current GM1 workload family alone, the correct reading is NO_DEFENSIBLE_CANDIDATE. If the owner declines HD-L, HD-W and HD-S, that becomes the batch verdict.\n\n[PRED] A geometry-edit advantage attributable to learning is unlikely in any workload buildable now, because of the pincer: state that is not rigid-invariant must be regenerated, and rigid-invariant transport is equally served by precomputed tables. The experiment deserves its learning-free stage; training is warranted only if that stage finds a matched-quality regime and an oracle-vs-strongest-twin gap. This verdict is not adoption and not experiment approval."
+ }
+]
