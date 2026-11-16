@@ -850,7 +850,316 @@
     "fov_deg": 12.0
    },
    "co_check": true
+  },
+  {
+   "id": "A10_g90s1_obl_mirror",
+   "type": "A",
+   "role": "primary sharp (development geometry), candidate round 3: oblique light from -x with a bar shadow (A5 design, mirrored)",
+   "body": {
+    "kind": "groove",
+    "prm": {
+     "L": 0.6,
+     "W": 0.35,
+     "angle": 90
+    },
+    "mat": "S1"
+   },
+   "T0": {
+    "c": [
+     0.0,
+     0.6,
+     0.45
+    ],
+    "yaw": 0.0,
+    "pitch": 50.0
+   },
+   "T1": {
+    "c": [
+     0.12,
+     0.5499999999999999,
+     0.45
+    ],
+    "yaw": 25.0,
+    "pitch": 50.0
+   },
+   "lights": [
+    {
+     "pos": [
+      -1.6,
+      -0.6,
+      2.0500000000000003
+     ],
+     "rgb": [
+      30,
+      30,
+      30
+     ]
+    }
+   ],
+   "boxes": [
+    {
+     "c": [
+      -0.55,
+      0.14999999999999997,
+      1.07
+     ],
+     "h": [
+      0.012,
+      0.25,
+      0.012
+     ],
+     "yaw": 20.0
+    }
+   ],
+   "camera": {
+    "origin": [
+     -0.5,
+     -1.6,
+     2.3000000000000003
+    ],
+    "target": [
+     0.0,
+     0.48,
+     0.5900000000000001
+    ],
+    "fov_deg": 18.0
+   },
+   "co_check": true,
+   "intrusion": {
+    "c": [
+     0.15237443709670645,
+     0.4805727955985115,
+     0.514278760968654
+    ],
+    "h": [
+     0.04,
+     0.04,
+     0.04
+    ],
+    "yaw": 25.0
+   }
+  },
+  {
+   "id": "B3_g90s2_obl",
+   "type": "B",
+   "role": "broader reflection (S2), candidate round 3: A5 light / bar design",
+   "body": {
+    "kind": "groove",
+    "prm": {
+     "L": 0.6,
+     "W": 0.35,
+     "angle": 90
+    },
+    "mat": "S2"
+   },
+   "T0": {
+    "c": [
+     0.0,
+     0.6,
+     0.45
+    ],
+    "yaw": 0.0,
+    "pitch": 50.0
+   },
+   "T1": {
+    "c": [
+     0.12,
+     0.5499999999999999,
+     0.45
+    ],
+    "yaw": 25.0,
+    "pitch": 50.0
+   },
+   "lights": [
+    {
+     "pos": [
+      1.6,
+      -0.6,
+      2.0500000000000003
+     ],
+     "rgb": [
+      30,
+      30,
+      30
+     ]
+    }
+   ],
+   "boxes": [
+    {
+     "c": [
+      0.55,
+      0.14999999999999997,
+      1.07
+     ],
+     "h": [
+      0.012,
+      0.25,
+      0.012
+     ],
+     "yaw": -20.0
+    }
+   ],
+   "camera": {
+    "origin": [
+     -0.5,
+     -1.6,
+     2.3000000000000003
+    ],
+    "target": [
+     0.0,
+     0.48,
+     0.5900000000000001
+    ],
+    "fov_deg": 18.0
+   }
+  },
+  {
+   "id": "A11_channel_obl",
+   "type": "A",
+   "role": "held-out geometry (U-channel), candidate round 3: oblique light with a bar shadow (A5 design)",
+   "body": {
+    "kind": "channel",
+    "prm": {
+     "L": 0.6,
+     "G": 0.25,
+     "H": 0.3
+    },
+    "mat": "S1"
+   },
+   "T0": {
+    "c": [
+     0.0,
+     0.5,
+     0.05
+    ],
+    "yaw": 0.0,
+    "pitch": 0.0
+   },
+   "T1": {
+    "c": [
+     0.1,
+     0.5,
+     0.05
+    ],
+    "yaw": 20.0,
+    "pitch": 0.0
+   },
+   "lights": [
+    {
+     "pos": [
+      1.4,
+      -0.09999999999999998,
+      1.45
+     ],
+     "rgb": [
+      30,
+      30,
+      30
+     ]
+    }
+   ],
+   "boxes": [
+    {
+     "c": [
+      0.5,
+      0.35,
+      0.6000000000000001
+     ],
+     "h": [
+      0.012,
+      0.2,
+      0.012
+     ],
+     "yaw": -20.0
+    }
+   ],
+   "camera": {
+    "origin": [
+     -0.6,
+     -1.3,
+     1.95
+    ],
+    "target": [
+     0.0,
+     0.5,
+     0.2
+    ],
+    "fov_deg": 18.0
+   }
+  },
+  {
+   "id": "A12_corner_obl",
+   "type": "A",
+   "role": "held-out geometry (trihedral corner), candidate round 3: oblique light with a bar shadow (A5 design)",
+   "body": {
+    "kind": "corner",
+    "prm": {
+     "A": 0.4
+    },
+    "mat": "S1"
+   },
+   "T0": {
+    "c": [
+     0.1,
+     0.5,
+     0.05
+    ],
+    "yaw": -135.0,
+    "pitch": 0.0
+   },
+   "T1": {
+    "c": [
+     0.2,
+     0.55,
+     0.05
+    ],
+    "yaw": -115.0,
+    "pitch": 0.0
+   },
+   "lights": [
+    {
+     "pos": [
+      1.3,
+      -1.1,
+      1.45
+     ],
+     "rgb": [
+      30,
+      30,
+      30
+     ]
+    }
+   ],
+   "boxes": [
+    {
+     "c": [
+      0.55,
+      -0.050000000000000044,
+      0.65
+     ],
+     "h": [
+      0.012,
+      0.22,
+      0.012
+     ],
+     "yaw": -20.0
+    }
+   ],
+   "camera": {
+    "origin": [
+     -0.15,
+     -1.7999999999999998,
+     1.6500000000000001
+    ],
+    "target": [
+     0.1,
+     0.5,
+     0.22999999999999998
+    ],
+    "fov_deg": 16.0
+   }
   }
  ],
- "round2_note": "candidates 8-11 added after the first-round Stage 0 result (NOT_QUALIFIED_WITHIN_FIRST_CANDIDATES), within the predeclared budget of 16; rules and thresholds unchanged; motivation: noise-limited T1 edges (A1, A2), detail sharper than the pixel grid (A4), little detail (A3, B1 T1)"
+ "round2_note": "candidates 8-11 added after the first-round Stage 0 result (NOT_QUALIFIED_WITHIN_FIRST_CANDIDATES), within the predeclared budget of 16; rules and thresholds unchanged; motivation: noise-limited T1 edges (A1, A2), detail sharper than the pixel grid (A4), little detail (A3, B1 T1)",
+ "round3_note": "candidates 12-15 added after round 2 (all failures were Q3: smooth self-reflection, contrast < 0.30, or noise-limited T1 edges); designed after the only admitted A workload (A5: oblique light, bar shadow carried by the self-reflection); within the budget of 16; rules unchanged"
 }
