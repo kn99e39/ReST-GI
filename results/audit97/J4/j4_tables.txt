@@ -1,0 +1,129 @@
+same lanes 2.9802322387695312e-08 reps 8
+== ROI_T e2_content (camera 3 events)
+   Tc - Tn (two independent table references, paired camera paths)            {"signed": 0.00349, "L1": 0.0059, "L1_block16": 0.00582, "rel_l2": 0.00823}
+   audit table noise of the 4-half mean, 0.5 (n01 - n23)                      {"signed": 0.00263, "L1": 0.00531, "L1_block16": 0.00521, "rel_l2": 0.00749}
+   implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)               0.0034
+   Tc - A signed                                                              {"signed": 0.00388, "se": 7e-05}
+   Tn - A signed                                                              {"signed": 0.00039, "se": 7e-05}
+   Tc - D signed                                                              {"signed": 0.00218, "se": 9e-05}
+   Tn - D signed                                                              {"signed": -0.00132, "se": 9e-05}
+   D - A signed                                                               {"signed": 0.00171, "se": 0.0001}
+   debiased rel_l2: D - A (cross halves)                                      0.00736
+   debiased rel_l2: Tc - A                                                    0.00906
+   debiased rel_l2: Tn - A                                                    0.00899
+   table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>   0.0069
+   debiased rel_l2: Tc - D                                                    0.00528
+   debiased rel_l2: Tn - D                                                    0.00548
+   systematic table-vs-D rel_l2: <Tc - D, Tn - D>                             -0.00221
+== ROI_T tail (camera 4..6 events)
+   Tc - Tn (two independent table references, paired camera paths)            {"signed": -0.00067, "L1": 0.00348, "L1_block16": 0.00344, "rel_l2": 0.00473}
+   audit table noise of the 4-half mean, 0.5 (n01 - n23)                      {"signed": 4e-05, "L1": 0.00135, "L1_block16": 0.00133, "rel_l2": 0.00154}
+   implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)               0.00447
+   Tc - A signed                                                              {"signed": -0.00127, "se": 3e-05}
+   Tn - A signed                                                              {"signed": -0.0006, "se": 3e-05}
+   Tc - D signed                                                              {"signed": -0.0009, "se": 4e-05}
+   Tn - D signed                                                              {"signed": -0.00022, "se": 4e-05}
+   D - A signed                                                               {"signed": -0.00038, "se": 5e-05}
+   debiased rel_l2: D - A (cross halves)                                      0.00371
+   debiased rel_l2: Tc - A                                                    0.00483
+   debiased rel_l2: Tn - A                                                    0.0042
+   table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>   0.00305
+   debiased rel_l2: Tc - D                                                    0.00337
+   debiased rel_l2: Tn - D                                                    0.00204
+   systematic table-vs-D rel_l2: <Tc - D, Tn - D>                             -0.00185
+== PANEL e2_content (camera 3 events)
+   Tc - Tn (two independent table references, paired camera paths)            {"signed": 0.00281, "L1": 0.00477, "L1_block16": 0.00471, "rel_l2": 0.00749}
+   audit table noise of the 4-half mean, 0.5 (n01 - n23)                      {"signed": 0.00213, "L1": 0.00406, "L1_block16": 0.00398, "rel_l2": 0.00667}
+   implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)               0.00339
+   Tc - A signed                                                              {"signed": 0.00281, "se": 4e-05}
+   Tn - A signed                                                              {"signed": -0.0, "se": 4e-05}
+   Tc - D signed                                                              {"signed": 0.00181, "se": 7e-05}
+   Tn - D signed                                                              {"signed": -0.001, "se": 7e-05}
+   D - A signed                                                               {"signed": 0.001, "se": 8e-05}
+   debiased rel_l2: D - A (cross halves)                                      0.00662
+   debiased rel_l2: Tc - A                                                    0.00823
+   debiased rel_l2: Tn - A                                                    0.00823
+   table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>   0.0063
+   debiased rel_l2: Tc - D                                                    0.00488
+   debiased rel_l2: Tn - D                                                    0.00489
+   systematic table-vs-D rel_l2: <Tc - D, Tn - D>                             -0.00204
+== PANEL tail (camera 4..6 events)
+   Tc - Tn (two independent table references, paired camera paths)            {"signed": -0.00088, "L1": 0.00335, "L1_block16": 0.00332, "rel_l2": 0.00455}
+   audit table noise of the 4-half mean, 0.5 (n01 - n23)                      {"signed": 0.00055, "L1": 0.00161, "L1_block16": 0.00158, "rel_l2": 0.00206}
+   implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)               0.00405
+   Tc - A signed                                                              {"signed": -0.00079, "se": 2e-05}
+   Tn - A signed                                                              {"signed": 9e-05, "se": 2e-05}
+   Tc - D signed                                                              {"signed": -0.00077, "se": 3e-05}
+   Tn - D signed                                                              {"signed": 0.0001, "se": 3e-05}
+   D - A signed                                                               {"signed": -1e-05, "se": 4e-05}
+   debiased rel_l2: D - A (cross halves)                                      0.00342
+   debiased rel_l2: Tc - A                                                    0.00441
+   debiased rel_l2: Tn - A                                                    0.00421
+   table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>   0.00287
+   debiased rel_l2: Tc - D                                                    0.00307
+   debiased rel_l2: Tn - D                                                    0.00226
+   systematic table-vs-D rel_l2: <Tc - D, Tn - D>                             -0.00176
+== WHOLE e2_content (camera 3 events)
+   Tc - Tn (two independent table references, paired camera paths)            {"signed": 0.00084, "L1": 0.0017, "L1_block16": 0.00165, "rel_l2": 0.00316}
+   audit table noise of the 4-half mean, 0.5 (n01 - n23)                      {"signed": 0.00065, "L1": 0.00143, "L1_block16": 0.00139, "rel_l2": 0.00281}
+   implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)               0.00144
+   Tc - A signed                                                              {"signed": 0.00083, "se": 3e-05}
+   Tn - A signed                                                              {"signed": -0.0, "se": 3e-05}
+   Tc - D signed                                                              {"signed": 0.00048, "se": 2e-05}
+   Tn - D signed                                                              {"signed": -0.00035, "se": 2e-05}
+   D - A signed                                                               {"signed": 0.00035, "se": 2e-05}
+   debiased rel_l2: D - A (cross halves)                                      0.00256
+   debiased rel_l2: Tc - A                                                    0.00348
+   debiased rel_l2: Tn - A                                                    0.00347
+   table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>   0.00266
+   debiased rel_l2: Tc - D                                                    0.00223
+   debiased rel_l2: Tn - D                                                    0.0022
+   systematic table-vs-D rel_l2: <Tc - D, Tn - D>                             -0.00031
+== WHOLE tail (camera 4..6 events)
+   Tc - Tn (two independent table references, paired camera paths)            {"signed": -0.00012, "L1": 0.0013, "L1_block16": 0.00127, "rel_l2": 0.00193}
+   audit table noise of the 4-half mean, 0.5 (n01 - n23)                      {"signed": 0.00016, "L1": 0.00062, "L1_block16": 0.0006, "rel_l2": 0.00089}
+   implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)               0.00171
+   Tc - A signed                                                              {"signed": 4e-05, "se": 1e-05}
+   Tn - A signed                                                              {"signed": 0.00016, "se": 1e-05}
+   Tc - D signed                                                              {"signed": -0.0001, "se": 1e-05}
+   Tn - D signed                                                              {"signed": 2e-05, "se": 1e-05}
+   D - A signed                                                               {"signed": 0.00014, "se": 1e-05}
+   debiased rel_l2: D - A (cross halves)                                      0.00159
+   debiased rel_l2: Tc - A                                                    0.00198
+   debiased rel_l2: Tn - A                                                    0.00186
+   table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>   0.00135
+   debiased rel_l2: Tc - D                                                    0.00134
+   debiased rel_l2: Tn - D                                                    0.00095
+   systematic table-vs-D rel_l2: <Tc - D, Tn - D>                             -0.00071
+== BOXA_PIX e2_content (camera 3 events)
+   Tc - Tn (two independent table references, paired camera paths)            {"signed": 1e-05, "L1": 8e-05, "L1_block16": 8e-05, "rel_l2": 0.00011}
+   audit table noise of the 4-half mean, 0.5 (n01 - n23)                      {"signed": -8e-05, "L1": 9e-05, "L1_block16": 9e-05, "rel_l2": 9e-05}
+   implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)               6e-05
+   Tc - A signed                                                              {"signed": 0.00023, "se": 1e-05}
+   Tn - A signed                                                              {"signed": 0.00021, "se": 1e-05}
+   Tc - D signed                                                              {"signed": -0.0, "se": 1e-05}
+   Tn - D signed                                                              {"signed": -2e-05, "se": 1e-05}
+   D - A signed                                                               {"signed": 0.00023, "se": 1e-05}
+   debiased rel_l2: D - A (cross halves)                                      0.00037
+   debiased rel_l2: Tc - A                                                    0.00035
+   debiased rel_l2: Tn - A                                                    0.00034
+   table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>   0.00034
+   debiased rel_l2: Tc - D                                                    -2e-05
+   debiased rel_l2: Tn - D                                                    -0.0001
+   systematic table-vs-D rel_l2: <Tc - D, Tn - D>                             -0.00011
+== BOXA_PIX tail (camera 4..6 events)
+   Tc - Tn (two independent table references, paired camera paths)            {"signed": 0.00023, "L1": 0.00024, "L1_block16": 0.00024, "rel_l2": 0.00025}
+   audit table noise of the 4-half mean, 0.5 (n01 - n23)                      {"signed": 2e-05, "L1": 5e-05, "L1_block16": 5e-05, "rel_l2": 5e-05}
+   implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)               0.00024
+   Tc - A signed                                                              {"signed": 0.00057, "se": 1e-05}
+   Tn - A signed                                                              {"signed": 0.00034, "se": 1e-05}
+   Tc - D signed                                                              {"signed": 0.00022, "se": 1e-05}
+   Tn - D signed                                                              {"signed": -1e-05, "se": 1e-05}
+   D - A signed                                                               {"signed": 0.00035, "se": 1e-05}
+   debiased rel_l2: D - A (cross halves)                                      0.00041
+   debiased rel_l2: Tc - A                                                    0.00054
+   debiased rel_l2: Tn - A                                                    0.00047
+   table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>   0.00048
+   debiased rel_l2: Tc - D                                                    0.00019
+   debiased rel_l2: Tn - D                                                    -0.00012
+   systematic table-vs-D rel_l2: <Tc - D, Tn - D>                             -0.00014

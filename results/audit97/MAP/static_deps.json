@@ -1,0 +1,2051 @@
+{
+ "WL86": {
+  "dir": "ecro86",
+  "module_deps": {
+   "fnto_compiled81/layered81.py": [
+    "pt86.py:19"
+   ],
+   "fnto_compiled83/closure83_dr.py": [
+    "pt86.py:22"
+   ],
+   "fnto_compiled83/render83.py": [
+    "tests86.py:23"
+   ]
+  },
+  "artifact_deps": {},
+  "seed_86001_and_state": [
+   "econ86.py:64: (st, t_state, g_state) = timed(lambda: EC.build_state(ctx))",
+   "econ86.py:78: (stf, t_full, g_full) = timed(lambda: EC.build_state(ctx))",
+   "ecro86.py:43: def build_state(ctx):",
+   "ecro86.py:108: st = build_state(c0)                      # T0 response state (rays, patch tables); only the source field is current",
+   "ecro86.py:110: st = build_state(ctx)",
+   "ecro86.py:123: st = build_state(ctx)",
+   "ecro86.py:162: st0 = build_state(c2)",
+   "ecro86.py:165: st_full = build_state(c2)",
+   "model86.py:42: rs = np.random.default_rng(S.P['representation'].get('table_seed', 86001))",
+   "pt86.py:114: rs = np.random.default_rng(P['representation'].get('table_seed', 86001))"
+  ],
+  "metric_helper": []
+ },
+ "WL86A": {
+  "dir": "ecro86a",
+  "module_deps": {
+   "ecro86/scene86.py": [
+    "analyze86a.py:10",
+    "d2_86a.py:74",
+    "d2_86a.py:112",
+    "d2_86a.py:140",
+    "d2_86a.py:200",
+    "d3_86a.py:83",
+    "viz86a.py:13",
+    "viz86a2.py:13"
+   ],
+   "ecro86/ecro86.py": [
+    "attrib86a.py:96",
+    "attrib86a.py:139",
+    "d2_86a.py:41",
+    "d2_86a.py:71",
+    "d2_86a.py:138",
+    "d3_86a.py:58"
+   ],
+   "ecro86/train86.py": [
+    "attrib86a.py:97",
+    "d2_86a.py:72"
+   ],
+   "ecro86/model86.py": [
+    "d2_86a.py:42",
+    "d2_86a.py:73",
+    "d2_86a.py:139",
+    "d3_86a.py:84",
+    "viz86a2.py:14"
+   ],
+   "ecro86/pt86.py": [
+    "diag86a.py:129",
+    "pt86a.py:17"
+   ]
+  },
+  "artifact_deps": {},
+  "seed_86001_and_state": [
+   "attrib86a.py:106: st = EC.build_state(ctx)",
+   "d2_86a.py:50: st = EC.build_state(ctx)",
+   "d3_86a.py:63: st = EC.build_state(ctx)"
+  ],
+  "metric_helper": []
+ },
+ "WL87": {
+  "dir": "gm1_explicit87",
+  "module_deps": {
+   "ecro86/analyze86.py": [
+    "analyze87.py:16",
+    "tests87.py:31",
+    "tests87.py:310",
+    "viz87.py:14"
+   ],
+   "ecro86/scene86.py": [
+    "analyze87.py:17"
+   ],
+   "ecro86/ecro86.py": [
+    "devchk87.py:24",
+    "econ87.py:57",
+    "run87.py:103",
+    "run87.py:149",
+    "run87.py:241",
+    "tests87.py:50",
+    "tests87.py:212",
+    "xport87.py:193"
+   ],
+   "ecro86/pt86.py": [
+    "fx87.py:13"
+   ],
+   "ecro86/masks86.py": [
+    "run87.py:43"
+   ]
+  },
+  "artifact_deps": {
+   "WL87:results/e3_admission.json": [
+    "analyze87.py:36",
+    "analyze87.py:91",
+    "analyze87.py:407",
+    "econ87.py:62",
+    "econ87.py:62"
+   ],
+   "WL86A:stageB/f'importance_{cfg}.npz": [
+    "analyze87.py:110",
+    "analyze87.py:347"
+   ],
+   "WL86:results/fields/f'F_{cfg}.npz": [
+    "analyze87.py:111"
+   ],
+   "WL86A:results/fields/f'D_SPLIT_{cfg}.npz": [
+    "analyze87.py:114"
+   ],
+   "WL87:results/tables/f'X_{cfg}.npz": [
+    "analyze87.py:155",
+    "analyze87.py:187"
+   ],
+   "WL86:results/renders/f'EC_{sd}_ecro_{cfg}_r0.npz": [
+    "analyze87.py:158",
+    "analyze87.py:198"
+   ],
+   "WL87:results/renders/f'EC87_{sd}_ecro_{cfg}_r0.npz": [
+    "analyze87.py:158"
+   ],
+   "WL87:results/fields/f'ORD_{cfg}.npz": [
+    "analyze87.py:161"
+   ],
+   "WL87:results/tables/f'R_{cfg}.npz": [
+    "analyze87.py:186",
+    "analyze87.py:345"
+   ],
+   "WL87:results/tables/f'X_{e}_{t}.json": [
+    "analyze87.py:231"
+   ],
+   "WL87:results/tests/tests87.json": [
+    "analyze87.py:236"
+   ],
+   "WL87:results/stage1_87.json": [
+    "analyze87.py:259",
+    "analyze87.py:325",
+    "analyze87.py:368",
+    "viz87.py:29"
+   ],
+   "WL87:results/e3_choice.json": [
+    "analyze87.py:267"
+   ],
+   "WL87:results/stage2_87.json": [
+    "analyze87.py:381",
+    "viz87.py:30"
+   ],
+   "WL87:results/econ/econ87.json": [
+    "analyze87.py:401",
+    "viz87.py:32"
+   ],
+   "WL86:results/qualify.json": [
+    "analyze87.py:402"
+   ],
+   "WL87:results/stage3_87.json": [
+    "analyze87.py:483",
+    "viz87.py:31"
+   ],
+   "WL87:results/n": [
+    "analyze87.py:492"
+   ],
+   "WL87:results/final87.json": [
+    "analyze87.py:573"
+   ],
+   "WL87:results/econ": [
+    "econ87.py:59"
+   ],
+   "WL86:results/final.json": [
+    "tests87.py:32"
+   ],
+   "WL86:results/stage1.json": [
+    "tests87.py:33"
+   ],
+   "WL86:results/renders/f'{tag}.npz": [
+    "tests87.py:56"
+   ],
+   "WL86:results/fields/F_E1_T1.npz": [
+    "tests87.py:325"
+   ],
+   "WL87:results/tests": [
+    "tests87.py:331"
+   ]
+  },
+  "seed_86001_and_state": [
+   "econ87.py:80: (st, t_state, g_state) = timed(lambda: EC.build_state(ctx))",
+   "run87.py:166: us = X.realization_us(rs)",
+   "run87.py:168: st = EC.build_state(ctx)",
+   "run87.sh:33: SEEDS2=\"86001 87201 87202 87203 87204 87205 87206 87207 87208 87209 87210 87211 87212 87213 87214 87215 87216\"",
+   "tests87.py:102: dirs = Q.ray_dirs(X.realization_us(86001))[::64]                       # 8 of the deployed ray directions",
+   "tests87.py:124: dirs = Q.ray_dirs(X.realization_us(86001))[::64]",
+   "tests87.py:131: us = X.realization_us(86001)",
+   "tests87.py:235: st = EC.build_state(ctx)",
+   "tests87.py:281: s0 = EC.build_state(c2)",
+   "tests87.py:284: sfull = EC.build_state(c2)",
+   "tests87.py:297: same = bool(np.array_equal(X.realization_us(86001), ctx.u_state_np))",
+   "tests87.py:298: us = X.realization_us(87201)",
+   "xport87.py:38: def realization_us(seed):",
+   "xport87.py:39: \"\"\"State-ray offsets of a realization: the deployed rule (pt86.Ctx.__init__: default_rng(seed).random((4, 1, K))). 86001 = deployed.\"\"\"",
+   "xport87.py:197: st = EC.build_state(ctx)"
+  ],
+  "metric_helper": []
+ },
+ "WL88": {
+  "dir": "gm1_relation88",
+  "module_deps": {
+   "ecro86/analyze86.py": [
+    "analyze88.py:18",
+    "viz88.py:14"
+   ],
+   "ecro86/scene86.py": [
+    "analyze88.py:19"
+   ],
+   "ecro86/ecro86.py": [
+    "econ88.py:70",
+    "econ88.py:253",
+    "rel88.py:273",
+    "rel88.py:358",
+    "run88.py:185",
+    "run88.py:273",
+    "tests88.py:26"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "econ88.py:71",
+    "econ88.py:254",
+    "rel88.py:32",
+    "run88.py:186",
+    "run88.py:274",
+    "tests88.py:27"
+   ],
+   "gm1_explicit87/pt87.py": [
+    "econ88.py:73"
+   ],
+   "gm1_explicit87/fx87.py": [
+    "fx88.py:19"
+   ],
+   "gm1_explicit87/quad87.py": [
+    "fx88.py:20"
+   ],
+   "ecro86/masks86.py": [
+    "masks88.py:31"
+   ]
+  },
+  "artifact_deps": {
+   "WL87:results/tables/X_E2_T1.npz": [
+    "tests88.py:39"
+   ],
+   "WL88:results/tests88.json": [
+    "tests88.py:207"
+   ]
+  },
+  "seed_86001_and_state": [
+   "analyze88.py:396: seeds = [86001] + S2['seeds']",
+   "econ88.py:89: (st, C['R0_state_s'], _) = timed(lambda: EC.build_state(ctx))",
+   "econ88.py:140: (_, Rr['R0_full_state_s'], _) = timed(lambda: EC.build_state(ctx), warm=True)",
+   "econ88.py:149: st = EC.build_state(ctx)",
+   "econ88.py:268: (st, row['R0_state_s'], row['R0_state_gpu_ms']) = timed(lambda: EC.build_state(ctx), warm=True)",
+   "rel88.py:281: self.st = st if st is not None else EC.build_state(ctx)",
+   "run88.py:221: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run88.py:222: s2 = EC.build_state(ctx)",
+   "run88.py:224: X.set_realization(ctx, X.realization_us(86001))",
+   "run88.py:292: seeds = [86001] + list(S2['seeds'])",
+   "run88.py:295: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run88.py:296: st = EC.build_state(ctx)",
+   "run88.py:297: quad = quad_of(us, ri) if rs != 86001 else Q.Quad(us, E87['M_ray'], E87['seed_ray'])",
+   "run88.py:303: if rs != 86001:",
+   "run88.py:319: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run88.py:320: st = EC.build_state(ctx)",
+   "run88.py:326: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run88.py:327: st = EC.build_state(ctx)",
+   "tests88.py:57: st = EC.build_state(ctx)",
+   "tests88.py:143: us = X.realization_us(88300 + ri); X.set_realization(ctx, us)",
+   "tests88.py:144: s2 = EC.build_state(ctx)",
+   "tests88.py:148: X.set_realization(ctx, X.realization_us(86001))",
+   "tests88.py:171: st2 = EC.build_state(ctx2)",
+   "tests88.py:179: ste = EC.build_state(ctxe)"
+  ],
+  "metric_helper": []
+ },
+ "WL89": {
+  "dir": "gm1_relation89",
+  "module_deps": {
+   "ecro86/analyze86.py": [
+    "analyze89.py:19",
+    "viz89.py:14"
+   ],
+   "gm1_relation88/analyze88.py": [
+    "analyze89.py:20"
+   ],
+   "ecro86/scene86.py": [
+    "analyze89.py:21"
+   ],
+   "gm1_relation88/run88.py": [
+    "audit89.py:23",
+    "econ89.py:17",
+    "run89.py:16",
+    "tests89.py:11"
+   ],
+   "ecro86/ecro86.py": [
+    "audit89.py:98",
+    "econ89.py:68",
+    "econ89.py:221",
+    "rel89.py:129",
+    "run89.py:63",
+    "run89.py:139",
+    "tests89.py:24"
+   ],
+   "gm1_relation88/rel88.py": [
+    "audit89.py:99",
+    "econ89.py:70",
+    "econ89.py:223",
+    "rel89.py:25",
+    "run89.py:65",
+    "run89.py:141",
+    "tests89.py:26"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "econ89.py:69",
+    "econ89.py:222",
+    "rel89.py:26",
+    "run89.py:64",
+    "run89.py:140",
+    "tests89.py:25"
+   ],
+   "gm1_explicit87/pt87.py": [
+    "econ89.py:72"
+   ],
+   "gm1_relation88/econ88.py": [
+    "econ89.py:225"
+   ],
+   "gm1_relation88/fx88.py": [
+    "fx89.py:12"
+   ],
+   "gm1_relation88/masks88.py": [
+    "run89.py:28",
+    "run89.py:47"
+   ],
+   "gm1_relation88/tests88.py": [
+    "tests89.py:12"
+   ]
+  },
+  "artifact_deps": {
+   "WL89:results/tests88.json": [
+    "tests89.py:30"
+   ],
+   "WL89:results/tests89.json": [
+    "tests89.py:138"
+   ]
+  },
+  "seed_86001_and_state": [
+   "audit89.py:110: st0 = EC.build_state(ctx)",
+   "audit89.py:172: rn = RL.SAM(c3, quad, d16, RP['kappa_u'], RP['m'], RP['seed_area'], st=EC.build_state(c3))",
+   "econ89.py:86: (st, C['R0_state_s'], _) = timed(lambda: EC.build_state(ctx))",
+   "econ89.py:131: st = EC.build_state(ctx)",
+   "econ89.py:136: (_, Rr['R0_full_state_s'], _) = timed(lambda: EC.build_state(ctx), warm=True)",
+   "econ89.py:238: (st, row['R0_state_s'], _) = timed(lambda: EC.build_state(ctx), warm=True)",
+   "run89.py:116: us = X.realization_us(P89['stage2']['seeds'][0]); X.set_realization(ctx, us)",
+   "run89.py:117: s2 = EC.build_state(ctx)",
+   "run89.py:119: X.set_realization(ctx, X.realization_us(86001))",
+   "run89.py:159: seeds = [86001] + list(S2['seeds'])",
+   "run89.py:162: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run89.py:163: st = EC.build_state(ctx)",
+   "run89.py:164: quad = R8.quad_of(us, ri) if rs != 86001 else Q.Quad(us, E87['M_ray'], E87['seed_ray'])",
+   "run89.py:167: rc = R9.SendRelR(ctx, S1['kappa_s'], S1['seed_send'] + (0 if rs == 86001 else 1000 * ri), mat['dense8'])",
+   "run89.py:171: if rs != 86001:",
+   "run89.py:184: if rs == 86001:",
+   "run89.py:196: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run89.py:197: st = EC.build_state(ctx)",
+   "run89.py:204: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run89.py:205: st = EC.build_state(ctx)",
+   "tests89.py:103: st = EC.build_state(ctx)",
+   "tests89.py:119: ra = RL.SAM(c0, quad, d16, RP['kappa_u'], RP['m'], RP['seed_area'], st=EC.build_state(c0))"
+  ],
+  "metric_helper": []
+ },
+ "WL90": {
+  "dir": "gm1_gap90",
+  "module_deps": {
+   "ecro86/analyze86.py": [
+    "analyze90.py:13",
+    "viz90.py:12"
+   ],
+   "gm1_relation88/analyze88.py": [
+    "analyze90.py:14"
+   ],
+   "gm1_relation89/analyze89.py": [
+    "analyze90.py:15"
+   ],
+   "ecro86/scene86.py": [
+    "analyze90.py:16"
+   ],
+   "gm1_relation88/run88.py": [
+    "econ90.py:17",
+    "run90.py:14",
+    "tests90.py:9"
+   ],
+   "ecro86/ecro86.py": [
+    "econ90.py:41",
+    "run90.py:29",
+    "run90.py:84",
+    "tests90.py:24"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "econ90.py:42",
+    "gap90.py:33",
+    "run90.py:30",
+    "run90.py:85",
+    "tests90.py:25"
+   ],
+   "gm1_relation88/rel88.py": [
+    "econ90.py:43",
+    "gap90.py:31",
+    "run90.py:86",
+    "tests90.py:26"
+   ],
+   "gm1_relation89/rel89.py": [
+    "econ90.py:44",
+    "gap90.py:32",
+    "run90.py:87",
+    "tests90.py:27"
+   ],
+   "gm1_relation89/econ89.py": [
+    "econ90.py:46"
+   ],
+   "gm1_relation89/fx89.py": [
+    "fx90.py:7"
+   ]
+  },
+  "artifact_deps": {
+   "WL89:results/fields/f'ORD_{cfg}.npz": [
+    "analyze90.py:55",
+    "tests90.py:102"
+   ],
+   "WL89:results/stage3_89.json": [
+    "analyze90.py:169",
+    "analyze90.py:169"
+   ],
+   "WL89:results/w_choice.json": [
+    "run90.sh:30"
+   ],
+   "WL89:results/fields/ORD_W2_T1.npz": [
+    "run90.sh:35"
+   ],
+   "WL89:results/fields/F89_W2_T1.npz": [
+    "run90.sh:36"
+   ],
+   "WL89:results/fields/F89_$c.npz": [
+    "run90.sh:56"
+   ],
+   "WL89:results/masks/cfg.split('_": [
+    "viz90.py:34"
+   ]
+  },
+  "seed_86001_and_state": [
+   "analyze90.py:143: fz = {'deployed': {a: {k: {'E_H': per[a]['86001'][k]['E_H'], 'signed': per[a]['86001'][k]['signed']} for k in ('R_mirror', 'C_ss', 'stationary_all', '",
+   "analyze90.py:144: for a in per if '86001' in per[a]}}",
+   "analyze90.py:145: rs = [s for s in seeds if s != '86001']",
+   "econ90.py:58: st = EC.build_state(ctx)",
+   "run90.py:45: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run90.py:46: st = EC.build_state(ctx)",
+   "run90.py:57: X.set_realization(ctx, X.realization_us(86001))",
+   "run90.py:95: seeds = [86001] + list(fx90.P89['stage2']['seeds'])[: (2 if DEV else 16)]",
+   "run90.py:99: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run90.py:100: st = EC.build_state(ctx)",
+   "run90.py:101: quad = R8.quad_of(us, ri) if rs != 86001 else Q.Quad(us, E87['M_ray'], E87['seed_ray'])",
+   "run90.py:103: rc = R9.SendRelR(ctx, S1['kappa_s'], S1['seed_send'] + (0 if rs == 86001 else 1000 * ri), mat['dense8'])",
+   "run90.py:118: X.set_realization(ctx, X.realization_us(86001))",
+   "run90.sh:47: SEEDS=\"86001 89201 89202 89203 89204 89205 89206 89207 89208 89209 89210 89211 89212 89213 89214 89215 89216\"",
+   "run90.sh:48: [ -n \"$DEV\" ] && SEEDS=\"86001 89201 89202\"",
+   "tests90.py:49: st = EC.build_state(ctx)",
+   "tests90.py:88: us = X.realization_us(90900 + ri); X.set_realization(ctx, us)",
+   "tests90.py:89: s2 = EC.build_state(ctx)",
+   "tests90.py:101: X.set_realization(ctx, X.realization_us(86001))"
+  ],
+  "metric_helper": []
+ },
+ "WL91": {
+  "dir": "gm1_c3urx1_91",
+  "module_deps": {
+   "ecro86/analyze86.py": [
+    "analyze91.py:11",
+    "viz91.py:12"
+   ],
+   "gm1_relation88/analyze88.py": [
+    "analyze91.py:12"
+   ],
+   "gm1_relation89/analyze89.py": [
+    "analyze91.py:13"
+   ],
+   "ecro86/scene86.py": [
+    "analyze91.py:14"
+   ],
+   "gm1_relation88/rel88.py": [
+    "cand91.py:24",
+    "e2e91.py:146",
+    "e2e91.py:317",
+    "e2e91.py:391",
+    "run91.py:27",
+    "tests91.py:26"
+   ],
+   "gm1_relation89/rel89.py": [
+    "cand91.py:25",
+    "e2e91.py:118",
+    "e2e91.py:266",
+    "e2e91.py:392",
+    "run91.py:28",
+    "tests91.py:27"
+   ],
+   "gm1_gap90/gap90.py": [
+    "cand91.py:26",
+    "run91.py:29",
+    "tests91.py:28"
+   ],
+   "gm1_relation88/run88.py": [
+    "e2e91.py:23",
+    "run91.py:14",
+    "tests91.py:11"
+   ],
+   "ecro86/ecro86.py": [
+    "e2e91.py:116",
+    "e2e91.py:315",
+    "e2e91.py:389",
+    "run91.py:25",
+    "tests91.py:25"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "e2e91.py:117",
+    "e2e91.py:316",
+    "e2e91.py:390",
+    "run91.py:26"
+   ],
+   "gm1_relation88/econ88.py": [
+    "e2e91.py:394"
+   ],
+   "gm1_gap90/fx90.py": [
+    "fx91.py:7"
+   ]
+  },
+  "artifact_deps": {
+   "WL89:results/renders/f'REF_ER_{tag}_r*.npz": [
+    "e2e91.py:348"
+   ],
+   "WL89:results/masks/(cfg.split('_": [
+    "e2e91.py:350"
+   ],
+   "WL89:results/w_choice.json": [
+    "run91.sh:30"
+   ],
+   "WL89:results/fields/F89_$t.npz": [
+    "run91.sh:61"
+   ],
+   "WL90:results/tables/F_W1_T1.npz": [
+    "tests91.py:46"
+   ],
+   "WL89:results/fields/f'ORD_{cfg}.npz": [
+    "tests91.py:100"
+   ],
+   "WL89:results/masks/mname(t": [
+    "viz91.py:40"
+   ]
+  },
+  "seed_86001_and_state": [
+   "analyze91.py:68: rs = [s for s in seeds if s != '86001']",
+   "analyze91.py:70: o = {'pixels': {k: int(M[k].sum()) for k in REG if k in M}, 'deployed': {a: per[a]['86001'] for a in ARMS}}",
+   "analyze91.py:87: summ[a]['deployed_gates'] = gates(per[a]['86001'], tag)",
+   "analyze91.py:135: if sd == '86001':",
+   "e2e91.py:130: self.st = EC.build_state(ctx)",
+   "e2e91.py:323: seeds_all = [86001] + list(P89['stage2']['seeds'])",
+   "e2e91.py:338: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "e2e91.py:339: st = EC.build_state(ctx)",
+   "e2e91.py:340: quad = R8.quad_of(us, ri) if rs != 86001 else Q.Quad(us, E87['M_ray'], E87['seed_ray'])",
+   "e2e91.py:342: cand = C.C3URX1(ctx, S1['kappa_s'], S1['seed_send'] + (0 if rs == 86001 else 1000 * ri), mat['dense8'])",
+   "e2e91.py:346: X.set_realization(ctx, X.realization_us(86001))",
+   "run91.py:38: seeds = [86001] + list(P89['stage2']['seeds'])[: (2 if DEV else 16)]",
+   "run91.py:44: us = X.realization_us(rs); X.set_realization(ctx, us)",
+   "run91.py:45: st = EC.build_state(ctx)",
+   "run91.py:46: quad = R8.quad_of(us, ri) if rs != 86001 else Q.Quad(us, E87['M_ray'], E87['seed_ray'])",
+   "run91.py:48: cand = C.C3URX1(ctx, S1['kappa_s'], S1['seed_send'] + (0 if rs == 86001 else 1000 * ri), mat['dense8'])",
+   "run91.py:54: if rs == 86001:",
+   "run91.py:83: X.set_realization(ctx, X.realization_us(86001))",
+   "run91.sh:43: SEEDS=\"86001 89201 89202 89203 89204 89205 89206 89207 89208 89209 89210 89211 89212 89213 89214 89215 89216\"",
+   "run91.sh:44: [ -n \"$DEV\" ] && SEEDS=\"86001 89201 89202\"",
+   "viz91.py:147: ax[0, i].loglog([fixed[base] + r['wall_s'] for r in m], [r[key] for r in m], '-o', ms=2.5, color=col, lw=1.4 if arm.endswith('86001') or arm == 'PT' e",
+   "viz91.py:148: label=base if arm.endswith('86001') or arm == 'PT' else None)"
+  ],
+  "metric_helper": []
+ },
+ "WL92": {
+  "dir": "ecro_attr92",
+  "module_deps": {
+   "ecro86/analyze86.py": [
+    "analyze92.py:12"
+   ],
+   "ecro86/scene86.py": [
+    "analyze92.py:13"
+   ],
+   "ecro86a/pt86a.py": [
+    "diag92.py:71",
+    "diag92.py:341",
+    "interv92.py:92"
+   ],
+   "ecro86/ecro86.py": [
+    "diag92.py:72",
+    "diag92.py:145",
+    "diag92.py:260",
+    "diag92.py:378",
+    "interv92.py:249",
+    "tests92.py:18"
+   ],
+   "gm1_explicit87/quad87.py": [
+    "diag92.py:73",
+    "diag92.py:135",
+    "diag92.py:216",
+    "diag92.py:262"
+   ],
+   "ecro86a/diag86a.py": [
+    "diag92.py:74"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "diag92.py:136",
+    "diag92.py:263"
+   ],
+   "ecro86/model86.py": [
+    "diag92.py:146",
+    "diag92.py:261",
+    "diag92.py:379",
+    "interv92.py:148",
+    "interv92.py:250",
+    "tests92.py:19"
+   ],
+   "gm1_explicit87/fx87.py": [
+    "fx92.py:12"
+   ],
+   "ecro86/masks86.py": [
+    "interv92.py:25"
+   ],
+   "ecro86/train86.py": [
+    "interv92.py:147"
+   ]
+  },
+  "artifact_deps": {
+   "WL86:results/final.json": [
+    "analyze92.py:94",
+    "diag92.py:58"
+   ],
+   "WL86:results/models/f'{sd}.pt": [
+    "diag92.py:45"
+   ],
+   "WL86:data/sp/g*.npz": [
+    "diag92.py:49",
+    "interv92.py:52",
+    "interv92.py:161"
+   ],
+   "WL86:results/renders/pat + '.npz": [
+    "diag92.py:52"
+   ],
+   "WL86:results/fields/F_*.npz": [
+    "diag92.py:54"
+   ],
+   "WL86:results/masks/*.npz": [
+    "diag92.py:56"
+   ],
+   "WL86:data/split/f'g{idx:05d}.npz": [
+    "interv92.py:105"
+   ],
+   "WL86:results/renders/f'EC_{sd}_ecro_{tag}_r0.npz": [
+    "tests92.py:31"
+   ],
+   "WL86:results/fields/f'F_{tag}.npz": [
+    "tests92.py:41"
+   ]
+  },
+  "seed_86001_and_state": [
+   "diag92.py:84: st = EC.build_state(ctx)",
+   "diag92.py:138: quad = Q.Quad(X.realization_us(86001), E87['M_ray'], E87['seed_ray'], E87['M_dense'], E87['seed_dense'])",
+   "diag92.py:272: st = EC.build_state(ctx)",
+   "diag92.py:274: us0 = X.realization_us(86001)",
+   "diag92.py:300: us = X.realization_us(rs)",
+   "diag92.py:302: sti = EC.build_state(ctx)",
+   "interv92.py:255: st = EC.build_state(ctx)",
+   "tests92.py:88: a = EC.build_state(ctx); b = EC.build_state(ctx)",
+   "tests92.py:91: full = EC.build_state(ctx)",
+   "tests92.py:92: fresh = EC.build_state(PT.Ctx(ex['T1']))"
+  ],
+  "metric_helper": [
+   "diag92.py:114: def flux_w():",
+   "diag92.py:155: zb = flux_w()"
+  ]
+ },
+ "WL92A": {
+  "dir": "ecro_own92a",
+  "module_deps": {
+   "ecro_attr92/analyze92.py": [
+    "analyze92a.py:10",
+    "own92a.py:427",
+    "viz92a.py:12"
+   ],
+   "ecro86/ecro86.py": [
+    "own92a.py:42",
+    "own92a.py:241",
+    "own92a.py:306",
+    "own92a.py:349",
+    "own92a.py:386",
+    "tests92a.py:19"
+   ],
+   "ecro_attr92/fx92.py": [
+    "own92a.py:48",
+    "own92a.py:80",
+    "own92a.py:181",
+    "own92a.py:240",
+    "own92a.py:304",
+    "own92a.py:347",
+    "own92a.py:384",
+    "own92a.py:425",
+    "own92a.py:464",
+    "tests92a.py:17"
+   ],
+   "ecro86a/pt86a.py": [
+    "own92a.py:81"
+   ],
+   "ecro86/train86.py": [
+    "own92a.py:129",
+    "own92a.py:182"
+   ],
+   "ecro86/model86.py": [
+    "own92a.py:183",
+    "own92a.py:307",
+    "own92a.py:350",
+    "own92a.py:387",
+    "tests92a.py:20"
+   ],
+   "ecro_attr92/diag92.py": [
+    "own92a.py:308",
+    "own92a.py:351"
+   ],
+   "gm1_explicit87/quad87.py": [
+    "own92a.py:333"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "own92a.py:334"
+   ]
+  },
+  "artifact_deps": {
+   "WL86:data/sp/g*.npz": [
+    "own92a.py:57",
+    "own92a.py:74"
+   ],
+   "WL86:data/split/name": [
+    "own92a.py:95"
+   ],
+   "WL92:results/e4_choice.json": [
+    "run92a.sh:32"
+   ],
+   "WL92:results/masks/E4.npz": [
+    "run92a.sh:33"
+   ],
+   "WL92:results/masks/E4_LMIX4.npz": [
+    "run92a.sh:33"
+   ],
+   "WL92:results/masks/E4_LSPOT4.npz": [
+    "run92a.sh:33"
+   ],
+   "WL92:results/fields/D_$t.npz": [
+    "run92a.sh:34"
+   ],
+   "WL92:results/fields/W_$t.npz": [
+    "run92a.sh:34"
+   ],
+   "WL86:results/renders/f'EC_{sd}_ecro_{tag}_r0.npz": [
+    "tests92a.py:33"
+   ],
+   "WL92:results/renders/*E4*": [
+    "tests92a.py:51"
+   ]
+  },
+  "seed_86001_and_state": [
+   "own92a.py:312: st = EC.build_state(ctx)",
+   "own92a.py:318: st0 = EC.build_state(PT.Ctx(FX[e]['T0']))",
+   "own92a.py:337: quad = Q.Quad(X.realization_us(86001), E87['M_ray'], E87['seed_ray'])",
+   "own92a.py:400: st0 = EC.build_state(ctx)",
+   "own92a.py:402: res['state_full_s'] = tm(lambda: EC.build_state(ctx))",
+   "own92a.py:405: st = EC.build_state(ctx)",
+   "tests92a.py:27: ctx = PT.Ctx(geom); st = EC.build_state(ctx)",
+   "tests92a.py:41: a = EC.build_state(ctx); b = EC.build_state(ctx)",
+   "tests92a.py:44: full = EC.build_state(ctx); fresh = EC.build_state(PT.Ctx(ex['T1']))"
+  ],
+  "metric_helper": [
+   "analyze92a.py:49: m['fidelity'][e] = {t: AN.eh(rf[t], ec[t], Mk) for t in ('T0', 'T1')}",
+   "analyze92a.py:61: m['stale'][e] = {k: v['E_H'] for k, v in AN.eh(rf['T1'], st, Mk).items()}",
+   "analyze92a.py:67: T = AN.eh(AN.ref_of(R, R86, tag), x, AN.mask_of(R, R86, tag))",
+   "analyze92a.py:95: out['controls'][f'{key}_E4_{t}'] = AN.eh(AN.ref_of(R, R86, f'E4_{t}'), x, AN.mask_of(R, R86, 'E4_T1'))",
+   "own92a.py:354: zb = DG.flux_w()"
+  ]
+ },
+ "WL92B": {
+  "dir": "ecro_cf92b",
+  "module_deps": {
+   "ecro_attr92/analyze92.py": [
+    "analyze92b.py:9",
+    "cf92b.py:77",
+    "cf92b.py:356",
+    "viz92b.py:12"
+   ],
+   "ecro86/analyze86.py": [
+    "analyze92b.py:10",
+    "cf92b.py:132",
+    "cf92b.py:354"
+   ],
+   "ecro_attr92/fx92.py": [
+    "cf92b.py:44",
+    "cf92b.py:142",
+    "cf92b.py:294",
+    "cf92b.py:464"
+   ],
+   "ecro86/ecro86.py": [
+    "cf92b.py:59",
+    "cf92b.py:74",
+    "cf92b.py:174",
+    "cf92b.py:250",
+    "cf92b.py:411"
+   ],
+   "ecro86/model86.py": [
+    "cf92b.py:60",
+    "cf92b.py:75",
+    "cf92b.py:175",
+    "cf92b.py:251",
+    "cf92b.py:412"
+   ],
+   "ecro_attr92/diag92.py": [
+    "cf92b.py:76",
+    "cf92b.py:176",
+    "cf92b.py:252",
+    "cf92b.py:413"
+   ],
+   "ecro_own92a/own92a.py": [
+    "cf92b.py:108"
+   ],
+   "ecro86a/pt86a.py": [
+    "cf92b.py:177"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "cf92b.py:191",
+    "cf92b.py:435"
+   ],
+   "ecro86/masks86.py": [
+    "cf92b.py:296"
+   ],
+   "gm1_explicit87/quad87.py": [
+    "cf92b.py:434"
+   ]
+  },
+  "artifact_deps": {
+   "WL92A:results/tables/f'I_{tag}.npz": [
+    "cf92b.py:86"
+   ],
+   "WL92A:results/final92a.json": [
+    "cf92b.py:95"
+   ],
+   "WL92A:results/fieldeval.json": [
+    "cf92b.py:110"
+   ],
+   "WL86:data/sp/g*.npz": [
+    "cf92b.py:301",
+    "tests92b.py:39"
+   ],
+   "WL92:results/e4_choice.json": [
+    "run92b.sh:32"
+   ],
+   "WL92:results/masks/E4.npz": [
+    "run92b.sh:33"
+   ],
+   "WL92:results/masks/E4_LMIX4.npz": [
+    "run92b.sh:33"
+   ],
+   "WL92:results/masks/E4_LSPOT4.npz": [
+    "run92b.sh:33"
+   ],
+   "WL92:results/fields/D_$t.npz": [
+    "run92b.sh:34"
+   ],
+   "WL92:results/fields/W_$t.npz": [
+    "run92b.sh:34"
+   ],
+   "WL92A:results/fields/D_$t.npz": [
+    "run92b.sh:35"
+   ],
+   "WL92A:results/fields/W_$t.npz": [
+    "run92b.sh:35"
+   ]
+  },
+  "seed_86001_and_state": [
+   "cf92b.py:83: ctx = PT.Ctx(geom); st = EC.build_state(ctx)",
+   "cf92b.py:182: st = EC.build_state(ctx)",
+   "cf92b.py:261: ctx = PT.Ctx(geom); st = EC.build_state(ctx)",
+   "cf92b.py:417: st = EC.build_state(ctx)",
+   "cf92b.py:422: st0 = EC.build_state(PT.Ctx(FX[e]['T0'])); gs0 = M.GeoState(st0.G, st0.hit, st0.dbin, EC.dev)",
+   "cf92b.py:438: quad = Q.Quad(X.realization_us(86001), E87['M_ray'], E87['seed_ray'])"
+  ],
+  "metric_helper": [
+   "analyze92b.py:42: floor = AN.eh(rf, fl, M, regs) if fl is not None else {}",
+   "analyze92b.py:49: mo['E_H'][cf] = AN.eh(rf, x, M, regs)",
+   "analyze92b.py:131: m['fidelity'] = {t: AN.eh(rf[t], ec[t], Mk) for t in ('T0', 'T1')}",
+   "analyze92b.py:135: m['stale'] = {k: v['E_H'] for k, v in AN.eh(rf['T1'], st, Mk).items()}",
+   "analyze92b.py:140: m['sources'][src] = AN.eh(rs, x, AN.mask_of(R, R86, f'{e}_T1_{src}'))",
+   "analyze92b.py:162: ctl[f'{key}_{t}'] = AN.eh(ref(R, R86, R92A, f'{e}_{t}'), x, Mk)",
+   "cf92b.py:101: T = AN.eh(rf, x, AN.mask_of(R, R86, f'{e}_T1'))",
+   "cf92b.py:105: T = AN.eh(A_ref(R, R86, R92A, 'E1_T1_LSPOT'), x, AN.mask_of(R, R86, 'E1_T1_LSPOT'))",
+   "cf92b.py:255: zb = DG.flux_w()"
+  ]
+ },
+ "WL93": {
+  "dir": "ecro_stage93",
+  "module_deps": {
+   "ecro_attr92/analyze92.py": [
+    "analyze93.py:10",
+    "prep93.py:165",
+    "viz93.py:13"
+   ],
+   "ecro86/analyze86.py": [
+    "analyze93.py:11",
+    "prep93.py:163",
+    "viz93.py:14"
+   ],
+   "ecro86/scene86.py": [
+    "eval93.py:41",
+    "model93.py:22"
+   ],
+   "ecro_attr92/diag92.py": [
+    "eval93.py:53",
+    "eval93.py:63",
+    "eval93.py:189",
+    "eval93.py:262",
+    "posthoc93.py:23"
+   ],
+   "ecro_attr92/fx92.py": [
+    "eval93.py:62",
+    "eval93.py:98",
+    "eval93.py:259",
+    "eval93.py:339",
+    "posthoc93.py:22",
+    "posthoc93.py:78",
+    "prep93.py:32",
+    "prep93.py:73",
+    "prep93.py:101",
+    "prep93.py:223"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "eval93.py:64",
+    "eval93.py:241",
+    "posthoc93.py:24"
+   ],
+   "ecro86/ecro86.py": [
+    "eval93.py:99",
+    "eval93.py:186",
+    "eval93.py:260",
+    "eval93.py:303"
+   ],
+   "ecro86/model86.py": [
+    "eval93.py:100",
+    "eval93.py:187",
+    "eval93.py:261",
+    "eval93.py:304",
+    "model93.py:21",
+    "train93.py:46"
+   ],
+   "gm1_explicit87/quad87.py": [
+    "eval93.py:148",
+    "eval93.py:240",
+    "posthoc93.py:25",
+    "prep93.py:74"
+   ],
+   "ecro_cf92b/cf92b.py": [
+    "eval93.py:190",
+    "prep93.py:162"
+   ],
+   "ecro86/masks86.py": [
+    "prep93.py:103"
+   ],
+   "ecro86/train86.py": [
+    "train93.py:24"
+   ]
+  },
+  "artifact_deps": {
+   "WL92A:results/models/f'{base}_s{seed}.pt": [
+    "eval93.py:237"
+   ],
+   "WL92A:results/exclusion.json": [
+    "posthoc93.py:32",
+    "prep93.py:77",
+    "train93.py:38"
+   ],
+   "WL86:data/val/g*.npz": [
+    "posthoc93.py:33"
+   ],
+   "WL92A:data/val_f2/os.path.basename(f": [
+    "posthoc93.py:34"
+   ],
+   "WL92B:results/final92b.json": [
+    "prep93.py:45"
+   ],
+   "WL86:data/split/name": [
+    "prep93.py:82"
+   ],
+   "WL86:data/sp/g*.npz": [
+    "prep93.py:108",
+    "train93.py:39"
+   ],
+   "WL92:results/e4_choice.json": [
+    "run93.sh:35"
+   ],
+   "WL92B:results/e5_candidates.json": [
+    "run93.sh:36"
+   ],
+   "WL92B:results/masks/E5k995.npz": [
+    "run93.sh:37"
+   ],
+   "WL92B:results/masks/E5k995_LMIX.npz": [
+    "run93.sh:37"
+   ],
+   "WL92B:results/masks/E5k995_LSPOT.npz": [
+    "run93.sh:37"
+   ],
+   "WL92B:results/fields/D_$t.npz": [
+    "run93.sh:38"
+   ],
+   "WL92B:results/fields/W_$t.npz": [
+    "run93.sh:38"
+   ],
+   "WL92B:results/tables/CF_E2_T1.json": [
+    "run93.sh:39"
+   ],
+   "WL92B:results/tables/CF_E2_T0.json": [
+    "run93.sh:39"
+   ],
+   "WL92A:data/sp + '_f2/os.path.basename(fn": [
+    "train93.py:26"
+   ],
+   "WL92A:data/sp + '_f2/os.path.basename(f": [
+    "train93.py:40"
+   ],
+   "WL92A:results/models/f'own_s{seed}.pt": [
+    "train93.py:48"
+   ]
+  },
+  "seed_86001_and_state": [
+   "eval93.py:106: ctx = PT.Ctx(geom); st = EC.build_state(ctx)",
+   "eval93.py:195: st = EC.build_state(ctx)",
+   "eval93.py:244: quad = Q.Quad(X.realization_us(86001), E87['M_ray'], E87['seed_ray'])",
+   "eval93.py:268: ctx = PT.Ctx(geom); st = EC.build_state(ctx)",
+   "eval93.py:310: ctx = PT.Ctx(geom); st = EC.build_state(ctx)"
+  ],
+  "metric_helper": [
+   "analyze93.py:62: m = {'fidelity': {t: AN.eh(rf[t], ec[t], Mk, REGS) for t in ('T0', 'T1')}, 'dH': AN.dh(rf['T0'], rf['T1'], ec['T0'], ec['T1'], Mk), 'sources': {},",
+   "analyze93.py:67: m['sources'][st] = AN.eh(rs, x, AN.mask_of(R, R86, st), ['stationary_all', 'C', 'D'])",
+   "analyze93.py:78: o['controls'][f'{key}_{t}'] = AN.eh(rf[t], x, Mk, REGS)",
+   "analyze93.py:91: a, b = AN.eh(rf, mine, Mk, ['C'])['C']['E_H'], AN.eh(rf, theirs, Mk, ['C'])['C']['E_H']",
+   "eval93.py:198: _, Mq = DG.local_matrices(); zb = DG.flux_w()",
+   "eval93.py:264: zb = DG.flux_w(); W2 = (zb[:, None] * zb[None, :])[None, :, :, None]"
+  ]
+ },
+ "WL93A": {
+  "dir": "ecro_stage93a",
+  "module_deps": {
+   "ecro_attr92/analyze92.py": [
+    "analyze93a.py:10",
+    "viz93a.py:12"
+   ],
+   "ecro86/analyze86.py": [
+    "analyze93a.py:11",
+    "viz93a.py:13"
+   ],
+   "ecro_stage93/model93.py": [
+    "eval93a.py:49",
+    "eval93a.py:114",
+    "eval93a.py:248",
+    "train93a.py:21"
+   ],
+   "ecro_stage93/train93.py": [
+    "eval93a.py:50",
+    "eval93a.py:82",
+    "eval93a.py:115",
+    "eval93a.py:222",
+    "eval93a.py:249",
+    "train93a.py:22"
+   ],
+   "ecro_attr92/fx92.py": [
+    "eval93a.py:62",
+    "eval93a.py:111",
+    "eval93a.py:213",
+    "eval93a.py:272",
+    "qref93a.py:61",
+    "qref93a.py:75",
+    "qref93a.py:97",
+    "qref93a.py:257"
+   ],
+   "ecro86/ecro86.py": [
+    "eval93a.py:63",
+    "eval93a.py:112",
+    "eval93a.py:214",
+    "eval93a.py:246"
+   ],
+   "ecro86/model86.py": [
+    "eval93a.py:64",
+    "eval93a.py:113",
+    "eval93a.py:215",
+    "eval93a.py:247"
+   ],
+   "ecro86/train86.py": [
+    "eval93a.py:65"
+   ],
+   "ecro_attr92/diag92.py": [
+    "eval93a.py:80",
+    "eval93a.py:216"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "eval93a.py:81"
+   ],
+   "gm1_explicit87/quad87.py": [
+    "eval93a.py:116",
+    "qref93a.py:76",
+    "qref93a.py:98"
+   ],
+   "ecro_stage93/eval93.py": [
+    "eval93a.py:184"
+   ],
+   "ecro_stage93/prep93.py": [
+    "eval93a.py:244"
+   ]
+  },
+  "artifact_deps": {
+   "WL86:data/val/g*.npz": [
+    "eval93a.py:33"
+   ],
+   "WL86:data/sp/c['file']": [
+    "eval93a.py:73",
+    "qref93a.py:66"
+   ],
+   "WL86:data/sp/n": [
+    "eval93a.py:169"
+   ],
+   "WL86:data/train/n": [
+    "eval93a.py:173"
+   ],
+   "WL92A:results/exclusion.json": [
+    "qref93a.py:38"
+   ],
+   "WL86:data/sp/g*.npz": [
+    "qref93a.py:39"
+   ],
+   "WL92A:data/sp + '_f2/os.path.basename(f": [
+    "qref93a.py:40"
+   ],
+   "WL86:data/split/name": [
+    "qref93a.py:107"
+   ],
+   "WL93:data/val_q/c['file']": [
+    "qref93a.py:204"
+   ],
+   "WL92:results/e4_choice.json": [
+    "run93a.sh:32"
+   ],
+   "WL92B:results/e5_candidates.json": [
+    "run93a.sh:32"
+   ],
+   "WL92B:results/masks/E5k995.npz": [
+    "run93a.sh:33"
+   ],
+   "WL92B:results/fields/D_E2_T1.npz": [
+    "run93a.sh:34"
+   ]
+  },
+  "seed_86001_and_state": [
+   "eval93a.py:69: ctx = PT.Ctx(geom); st = EC.build_state(ctx)",
+   "eval93a.py:121: ctx = PT.Ctx(geom); st = EC.build_state(ctx); lt = PT.Lights(FX['light_sets'][ls])",
+   "eval93a.py:219: ctx = PT.Ctx(geom); st_ = EC.build_state(ctx); gs = M.GeoState(ctx.G, st_.hit, st_.dbin, EC.dev)",
+   "eval93a.py:253: ctx = PT.Ctx(geom); lt = PT.Lights(FX['light_sets'][ls]); st = EC.build_state(ctx)"
+  ],
+  "metric_helper": [
+   "analyze93a.py:47: rend[tag] = {n: AN.eh(rf, AN.hl(R, f'I93A_{n}_{tag}'), Mk, REGS) for n in models if AN.hl(R, f'I93A_{n}_{tag}') is not None}",
+   "eval93a.py:220: _, Mq = DG.local_matrices(); zb = DG.flux_w()"
+  ]
+ },
+ "WL93B": {
+  "dir": "ecro_stage93b",
+  "module_deps": {
+   "ecro_attr92/analyze92.py": [
+    "analyze93b.py:10",
+    "viz93b.py:12"
+   ],
+   "ecro86/analyze86.py": [
+    "analyze93b.py:11",
+    "viz93b.py:13"
+   ],
+   "ecro_stage93/model93.py": [
+    "eval93b.py:38",
+    "eval93b.py:85",
+    "eval93b.py:193",
+    "eval93b.py:312",
+    "train93b.py:22"
+   ],
+   "ecro_stage93/train93.py": [
+    "eval93b.py:39",
+    "eval93b.py:60",
+    "eval93b.py:86",
+    "eval93b.py:313",
+    "train93b.py:23"
+   ],
+   "ecro_stage93/prep93.py": [
+    "eval93b.py:49"
+   ],
+   "ecro_attr92/fx92.py": [
+    "eval93b.py:82",
+    "eval93b.py:150",
+    "eval93b.py:336",
+    "eval93b.py:372"
+   ],
+   "ecro86/ecro86.py": [
+    "eval93b.py:83",
+    "eval93b.py:310",
+    "eval93b.py:337"
+   ],
+   "ecro86/model86.py": [
+    "eval93b.py:84",
+    "eval93b.py:311",
+    "eval93b.py:338"
+   ],
+   "ecro_stage93a/qref93a.py": [
+    "eval93b.py:87",
+    "eval93b.py:191",
+    "eval93b.py:252"
+   ],
+   "ecro_attr92/diag92.py": [
+    "eval93b.py:190",
+    "eval93b.py:339"
+   ],
+   "ecro_stage93a/eval93a.py": [
+    "eval93b.py:192"
+   ],
+   "ecro86/masks86.py": [
+    "eval93b.py:266"
+   ],
+   "ecro86/scene86.py": [
+    "eval93b.py:289"
+   ],
+   "ecro_stage93/eval93.py": [
+    "eval93b.py:340"
+   ]
+  },
+  "artifact_deps": {
+   "WL93A:results/models/f'{a}_s{s}.{ext}": [
+    "eval93b.py:66"
+   ],
+   "WL86:data/sp/n": [
+    "eval93b.py:138"
+   ],
+   "WL86:data/sp/c['file']": [
+    "eval93b.py:177"
+   ],
+   "WL92A:data/sp + '_f2/c['file']": [
+    "eval93b.py:177"
+   ],
+   "WL93A:data/$d": [
+    "run93b.sh:32"
+   ],
+   "WL93A:results/configs.json": [
+    "run93b.sh:33"
+   ],
+   "WL93A:results/taskA.json": [
+    "run93b.sh:33"
+   ],
+   "WL92:results/e4_choice.json": [
+    "run93b.sh:34"
+   ],
+   "WL92B:results/e5_candidates.json": [
+    "run93b.sh:34"
+   ],
+   "WL92B:results/masks/E5k995.npz": [
+    "run93b.sh:35"
+   ],
+   "WL92B:results/fields/D_E2_T0.npz": [
+    "run93b.sh:36"
+   ],
+   "WL92B:results/fields/D_E2_T1.npz": [
+    "run93b.sh:36"
+   ]
+  },
+  "seed_86001_and_state": [
+   "eval93b.py:91: ctx = PT.Ctx(geom); st = EC.build_state(ctx); lt = PT.Lights(FX['light_sets'][ls])",
+   "eval93b.py:317: ctx = PT.Ctx(geom); lt = PT.Lights(FX['light_sets'][ls]); st = EC.build_state(ctx)",
+   "eval93b.py:343: ctx = PT.Ctx(geom); st = EC.build_state(ctx); gs = M.GeoState(ctx.G, st.hit, st.dbin, EC.dev)"
+  ],
+  "metric_helper": [
+   "analyze93b.py:105: rend[tag] = {n: AN.eh(rf, AN.hl(R, f'I93B_{n}_{tag}'), Mk, REGS) for n in models if AN.hl(R, f'I93B_{n}_{tag}') is not None}",
+   "analyze93b.py:118: rr[f's{s}:{t}'] = abs(AN.eh(rf, a_, Mk, ['C'])['C']['E_H'] - AN.eh(rf, b_, Mk, ['C'])['C']['E_H'])",
+   "eval93b.py:344: _, Mq = DG.local_matrices(); zb = DG.flux_w(); W2 = (zb[:, None] * zb[None, :])[:, :, None]"
+  ]
+ },
+ "WL93C": {
+  "dir": "ecro_stage93c",
+  "module_deps": {
+   "ecro_attr92/analyze92.py": [
+    "analyze93c.py:10",
+    "viz93c.py:12"
+   ],
+   "ecro86/analyze86.py": [
+    "analyze93c.py:11",
+    "viz93c.py:13"
+   ],
+   "ecro_stage93/model93.py": [
+    "eval93c.py:33",
+    "eval93c.py:60",
+    "eval93c.py:228",
+    "eval93c.py:300",
+    "train93c.py:23"
+   ],
+   "ecro_stage93/train93.py": [
+    "eval93c.py:34",
+    "eval93c.py:105",
+    "eval93c.py:229",
+    "eval93c.py:301",
+    "train93c.py:24"
+   ],
+   "ecro_stage93b/eval93b.py": [
+    "eval93c.py:61",
+    "eval93c.py:92",
+    "eval93c.py:231",
+    "eval93c.py:303",
+    "eval93c.py:336",
+    "train93c.py:28"
+   ],
+   "ecro_attr92/diag92.py": [
+    "eval93c.py:89",
+    "eval93c.py:230",
+    "eval93c.py:302",
+    "train93c.py:27"
+   ],
+   "ecro_stage93a/qref93a.py": [
+    "eval93c.py:90",
+    "eval93c.py:232"
+   ],
+   "ecro_stage93a/eval93a.py": [
+    "eval93c.py:91"
+   ],
+   "ecro_attr92/fx92.py": [
+    "eval93c.py:225",
+    "eval93c.py:341"
+   ],
+   "ecro86/ecro86.py": [
+    "eval93c.py:226",
+    "eval93c.py:298"
+   ],
+   "ecro86/model86.py": [
+    "eval93c.py:227",
+    "eval93c.py:299"
+   ],
+   "ecro_stage93/prep93.py": [
+    "eval93c.py:296",
+    "eval93c.py:329"
+   ]
+  },
+  "artifact_deps": {
+   "WL92B:results/tables/CF_E2_T1.npz": [
+    "eval93c.py:249"
+   ],
+   "WL86:data/sp/n": [
+    "eval93c.py:285"
+   ],
+   "WL93A:data/$d": [
+    "run93c.sh:41"
+   ],
+   "WL93A:results/configs.json": [
+    "run93c.sh:42"
+   ],
+   "WL93A:results/taskA.json": [
+    "run93c.sh:42"
+   ],
+   "WL92:results/e4_choice.json": [
+    "run93c.sh:43"
+   ],
+   "WL92B:results/e5_candidates.json": [
+    "run93c.sh:43"
+   ],
+   "WL92B:results/masks/E5k995.npz": [
+    "run93c.sh:44"
+   ],
+   "WL92B:results/fields/D_E2_T0.npz": [
+    "run93c.sh:45"
+   ],
+   "WL92B:results/fields/D_E2_T1.npz": [
+    "run93c.sh:45"
+   ]
+  },
+  "seed_86001_and_state": [
+   "eval93c.py:236: ctx = PT.Ctx(geom); st = EC.build_state(ctx); lt = PT.Lights(FX['light_sets'][ls])",
+   "eval93c.py:307: ctx = PT.Ctx(geom); lt = PT.Lights(FX['light_sets'][ls]); st = EC.build_state(ctx)"
+  ],
+  "metric_helper": [
+   "analyze93c.py:50: rend[tag] = {n: AN.eh(rf, AN.hl(R, f'I93C_{n}_{tag}'), Mk, REGS) for n in models if AN.hl(R, f'I93C_{n}_{tag}') is not None}"
+  ]
+ },
+ "WL93D": {
+  "dir": "ecro_local93d",
+  "module_deps": {
+   "ecro_attr92/analyze92.py": [
+    "analyze93d.py:10",
+    "viz93d.py:12",
+    "vizrender93d.py:14"
+   ],
+   "ecro86/analyze86.py": [
+    "analyze93d.py:11",
+    "viz93d.py:13",
+    "vizrender93d.py:15"
+   ],
+   "ecro_stage93/prep93.py": [
+    "ops93d.py:37",
+    "ops93d.py:146",
+    "ops93d.py:169",
+    "ops93d.py:304",
+    "ops93d.py:378",
+    "ops93d.py:420"
+   ],
+   "ecro_stage93/train93.py": [
+    "ops93d.py:82",
+    "ops93d.py:114",
+    "ops93d.py:150"
+   ],
+   "ecro_stage93/model93.py": [
+    "ops93d.py:83",
+    "ops93d.py:103",
+    "ops93d.py:465"
+   ],
+   "ecro_stage93a/qref93a.py": [
+    "ops93d.py:135",
+    "ops93d.py:307"
+   ],
+   "ecro_stage93a/eval93a.py": [
+    "ops93d.py:148",
+    "ops93d.py:171",
+    "ops93d.py:308"
+   ],
+   "ecro_stage93b/eval93b.py": [
+    "ops93d.py:149",
+    "ops93d.py:289",
+    "ops93d.py:309",
+    "ops93d.py:383",
+    "ops93d.py:425"
+   ],
+   "ecro_attr92/diag92.py": [
+    "ops93d.py:189",
+    "ops93d.py:306",
+    "ops93d.py:382",
+    "ops93d.py:424"
+   ],
+   "ecro86/ecro86.py": [
+    "ops93d.py:380",
+    "ops93d.py:422"
+   ],
+   "ecro86/model86.py": [
+    "ops93d.py:381",
+    "ops93d.py:423"
+   ],
+   "ecro_attr92/fx92.py": [
+    "ops93d.py:496"
+   ]
+  },
+  "artifact_deps": {
+   "WL86:data/val/g*.npz": [
+    "ops93d.py:71"
+   ],
+   "WL93A:results/models/f'T0_s{seed}.pt": [
+    "ops93d.py:89"
+   ],
+   "WL92B:results/repro.json": [
+    "ops93d.py:116"
+   ],
+   "WL92A:results/models/f'own_s{s}.pt": [
+    "ops93d.py:121"
+   ],
+   "WL93A:results/models/f'T0_s{s}.json": [
+    "ops93d.py:124"
+   ],
+   "WL92B:results/tables/CF_E2_T1.npz": [
+    "ops93d.py:483"
+   ],
+   "WL93A:data/$d": [
+    "run93d.sh:32"
+   ],
+   "WL93A:results/configs.json": [
+    "run93d.sh:33"
+   ],
+   "WL93A:results/taskA.json": [
+    "run93d.sh:33"
+   ],
+   "WL92:results/e4_choice.json": [
+    "run93d.sh:34"
+   ],
+   "WL92B:results/e5_candidates.json": [
+    "run93d.sh:34"
+   ],
+   "WL92B:results/masks/E5k995.npz": [
+    "run93d.sh:35"
+   ],
+   "WL92B:results/fields/D_$t.npz": [
+    "run93d.sh:36"
+   ]
+  },
+  "seed_86001_and_state": [
+   "ops93d.py:392: ctx = PT.Ctx(g); st = EC.build_state(ctx)",
+   "ops93d.py:435: ctx = PT.Ctx(geom1); st = EC.build_state(ctx); gs = M86.GeoState(ctx.G, st.hit, st.dbin, dev)",
+   "ops93d.py:436: ctx0 = PT.Ctx(geom0); st0 = EC.build_state(ctx0); gsp = M86.GeoState(ctx0.G, st0.hit, st0.dbin, dev)"
+  ],
+  "metric_helper": [
+   "analyze93d.py:53: rend.setdefault(tag, {})[f'{fam}_s{sd}:{arm}'] = AN.eh(rf, x, Mk, REGS)",
+   "analyze93d.py:73: rr[f's{sd}:{t}'] = abs(AN.eh(rf, a_, Mk, ['C'])['C']['E_H'] - AN.eh(rf, b_, Mk, ['C'])['C']['E_H'])",
+   "ops93d.py:192: _, Mq = DG.local_matrices(); zb = DG.flux_w()"
+  ]
+ },
+ "WL93D-addendum": {
+  "dir": "ecro_local93d/addendum_checker",
+  "module_deps": {
+   "ecro_local93d/ops93d.py": [
+    "checker93d.py:28"
+   ],
+   "ecro_attr92/fx92.py": [
+    "checker93d.py:89",
+    "checker93d.py:153"
+   ],
+   "ecro86/ecro86.py": [
+    "checker93d.py:169",
+    "diag_sg93d.py:14"
+   ],
+   "ecro86/model86.py": [
+    "checker93d.py:170",
+    "diag_sg93d.py:15"
+   ],
+   "ecro_attr92/diag92.py": [
+    "checker93d.py:300",
+    "checker93d.py:416",
+    "diag_sg93d.py:13"
+   ]
+  },
+  "artifact_deps": {
+   "WL93D:results/tables/f'I_{E2}.npz": [
+    "checker93d.py:330",
+    "checker93d.py:347"
+   ]
+  },
+  "seed_86001_and_state": [
+   "checker93d.py:172: st = EC.build_state(ctx)",
+   "diag_sg93d.py:20: st = EC.build_state(ctx)"
+  ],
+  "metric_helper": []
+ },
+ "WL94": {
+  "dir": "ecro_mat94",
+  "module_deps": {
+   "ecro86/scene86.py": [
+    "c94.py:41",
+    "c94.py:261"
+   ],
+   "ecro_attr92/fx92.py": [
+    "c94.py:97",
+    "mat94.py:144",
+    "mat94.py:190",
+    "mat94.py:509"
+   ],
+   "ecro86/train86.py": [
+    "c94.py:133"
+   ],
+   "ecro86/model86.py": [
+    "c94.py:188",
+    "mat94.py:217",
+    "mat94.py:264",
+    "mat94.py:417"
+   ],
+   "ecro_local93d/ops93d.py": [
+    "mat94.py:21"
+   ],
+   "ecro86a/pt86a.py": [
+    "mat94.py:145"
+   ],
+   "ecro_stage93/train93.py": [
+    "mat94.py:211"
+   ],
+   "ecro_attr92/diag92.py": [
+    "mat94.py:232"
+   ],
+   "ecro_stage93b/eval93b.py": [
+    "mat94.py:242"
+   ],
+   "ecro86/ecro86.py": [
+    "mat94.py:263",
+    "mat94.py:344",
+    "mat94.py:416"
+   ]
+  },
+  "artifact_deps": {
+   "WL92A:results/exclusion.json": [
+    "c94.py:42"
+   ],
+   "WL86:data/sp/g*.npz": [
+    "c94.py:48"
+   ],
+   "WL86:data/split/rec['file']": [
+    "c94.py:107",
+    "c94.py:134"
+   ],
+   "WL92A:results/models/f'own_s{seed}.pt": [
+    "c94.py:199"
+   ],
+   "WL92B:results/repro.json": [
+    "mat94.py:422"
+   ],
+   "WL92A:results/models/f'own_s{s}.pt": [
+    "mat94.py:423"
+   ],
+   "WL93D:results/tables/I_E2_T1.npz": [
+    "mat94.py:516"
+   ],
+   "WL93D-addendum:results/tables/f'CK_{v}_{TAG}.npz": [
+    "mat94.py:535"
+   ],
+   "WL93D-addendum:results/renders/f'REF_ER_CK_bx38_{TAG}_r0.npz": [
+    "mat94.py:541"
+   ],
+   "WL93D-addendum:results/renders/$f.npz": [
+    "run94.sh:42"
+   ],
+   "WL93D-addendum:results/renders/$f.json": [
+    "run94.sh:42"
+   ]
+  },
+  "seed_86001_and_state": [
+   "mat94.py:269: st = EC.build_state(ctx)",
+   "mat94.py:399: st = EC.build_state(ctx)",
+   "mat94.py:493: st = EC.build_state(ctx)",
+   "mat94.py:512: stE = EC.build_state(cE)"
+  ],
+  "metric_helper": [
+   "an94.py:3: python an94.py stageB <R>              -> results/an/stageB.json (prints the gate only)",
+   "an94.py:4: python an94.py stageC <R> <seed>       -> results/an/stageC_s<seed>.json (prints FIT / run-next only)",
+   "an94.py:5: python an94.py final  <R> <out_dir>    -> results/an/final.json + figures + manifest in <out_dir>",
+   "posthoc94.py:7: import an94 as AN",
+   "viz94.py:1: \"\"\"WL94 figures (called by an94.final). Error / response maps use ONE absolute scale per quantity across every figure of the worklog",
+   "viz94.py:5: import an94 as AN"
+  ]
+ },
+ "WL94A": {
+  "dir": "ecro_mat94r",
+  "module_deps": {
+   "ecro_mat94/mat94.py": [
+    "r94.py:14"
+   ],
+   "ecro_mat94/c94.py": [
+    "r94.py:15"
+   ],
+   "ecro_mat94/an94.py": [
+    "r94.py:16"
+   ],
+   "ecro86/scene86.py": [
+    "r94.py:76"
+   ],
+   "ecro_mat94/viz94.py": [
+    "r94.py:187"
+   ]
+  },
+  "artifact_deps": {
+   "WL86:data/train/rec['file']": [
+    "r94.py:83"
+   ],
+   "WL94:data": [
+    "run94r.sh:31"
+   ],
+   "WL94:results/fields": [
+    "run94r.sh:31"
+   ],
+   "WL94:results/pre/masks94.npz": [
+    "run94r.sh:32"
+   ],
+   "WL94:results/select94.json": [
+    "run94r.sh:32"
+   ],
+   "WL94:results/renders/*": [
+    "run94r.sh:33"
+   ],
+   "WL94:results/tables/FZ_own_s860?.npz": [
+    "run94r.sh:34"
+   ],
+   "WL94:results/tables/CD_?_s8601.npz": [
+    "run94r.sh:34"
+   ],
+   "WL94:results/models/*": [
+    "run94r.sh:35"
+   ],
+   "WL94:results/pop/*": [
+    "run94r.sh:36"
+   ],
+   "WL94:results/an/stageC_s8601.json": [
+    "run94r.sh:37"
+   ]
+  },
+  "seed_86001_and_state": [],
+  "metric_helper": [
+   "r94.py:2: WL94 modules (experiments/ecro_mat94: mat94, c94, an94) are imported UNCHANGED; candidate C only changes the training item list.",
+   "r94.py:16: import an94 as AN  # noqa: E402"
+  ]
+ },
+ "WL94B": {
+  "dir": "ecro_exp94b",
+  "module_deps": {
+   "ecro_mat94/mat94.py": [
+    "b94.py:17"
+   ],
+   "ecro_mat94/c94.py": [
+    "b94.py:18"
+   ],
+   "ecro_mat94/an94.py": [
+    "b94.py:19"
+   ],
+   "ecro_mat94r/r94.py": [
+    "b94.py:20"
+   ],
+   "ecro_attr92/fx92.py": [
+    "b94.py:42"
+   ],
+   "ecro86/scene86.py": [
+    "b94.py:139",
+    "posthoc94b.py:16"
+   ],
+   "ecro_mat94/viz94.py": [
+    "b94.py:473"
+   ]
+  },
+  "artifact_deps": {
+   "WL86:data/train/rec['file']": [
+    "b94.py:54"
+   ],
+   "WL86:data/train/names[0]": [
+    "b94.py:141",
+    "posthoc94b.py:19"
+   ],
+   "WL86:data/train/nm": [
+    "b94.py:149"
+   ],
+   "WL92A:results/models/f'own_s{s}.pt": [
+    "b94.py:279"
+   ],
+   "WL94:data": [
+    "run94b.sh:31"
+   ],
+   "WL94:results/fields": [
+    "run94b.sh:31"
+   ],
+   "WL94:results/pre/masks94.npz": [
+    "run94b.sh:32"
+   ],
+   "WL94:results/select94.json": [
+    "run94b.sh:32"
+   ],
+   "WL94:results/tables/FZ_own_s860?.npz": [
+    "run94b.sh:34"
+   ],
+   "WL94:results/an/stageB.json": [
+    "run94b.sh:37"
+   ]
+  },
+  "seed_86001_and_state": [],
+  "metric_helper": [
+   "b94.py:19: import an94 as AN  # noqa: E402",
+   "b94.py:47: W = AN.W"
+  ]
+ },
+ "WL94C": {
+  "dir": "ecro_q94c",
+  "module_deps": {
+   "ecro_exp94b/b94.py": [
+    "q94.py:15"
+   ],
+   "ecro86/scene86.py": [
+    "q94.py:31"
+   ],
+   "ecro_mat94/viz94.py": [
+    "q94.py:317"
+   ]
+  },
+  "artifact_deps": {
+   "WL86:data/train/nm": [
+    "q94.py:33"
+   ],
+   "WL94:data": [
+    "run94c.sh:30"
+   ],
+   "WL94:results/fields": [
+    "run94c.sh:30"
+   ],
+   "WL94:results/pre/masks94.npz": [
+    "run94c.sh:31"
+   ],
+   "WL94:results/select94.json": [
+    "run94c.sh:31"
+   ],
+   "WL94:results/tables/FZ_own_s860?.npz": [
+    "run94c.sh:33"
+   ],
+   "WL94:results/an/stageB.json": [
+    "run94c.sh:36"
+   ]
+  },
+  "seed_86001_and_state": [],
+  "metric_helper": [
+   "q94.py:15: import b94 as B  # noqa: E402  (imports mat94 / c94 / an94 / r94 unchanged)"
+  ]
+ },
+ "WL94D": {
+  "dir": "ecro_s94d",
+  "module_deps": {
+   "ecro_q94c/q94.py": [
+    "s94.py:20"
+   ],
+   "ecro86/model86.py": [
+    "s94.py:65",
+    "s94.py:104",
+    "s94.py:284"
+   ],
+   "ecro86/scene86.py": [
+    "s94.py:93",
+    "s94.py:281"
+   ],
+   "ecro_stage93b/eval93b.py": [
+    "s94.py:94",
+    "s94.py:282"
+   ],
+   "ecro86/ecro86.py": [
+    "s94.py:103",
+    "s94.py:283"
+   ],
+   "ecro_mat94/viz94.py": [
+    "s94.py:433"
+   ]
+  },
+  "artifact_deps": {
+   "WL94:data": [
+    "run94d.sh:29"
+   ],
+   "WL94:results/fields": [
+    "run94d.sh:29"
+   ],
+   "WL94:results/pre/masks94.npz": [
+    "run94d.sh:30"
+   ],
+   "WL94:results/select94.json": [
+    "run94d.sh:30"
+   ],
+   "WL95(calc):results/renders/*": [
+    "run94d.sh:31"
+   ],
+   "WL94:results/tables/FZ_own_s860?.npz": [
+    "run94d.sh:32"
+   ],
+   "WL95(calc):results/tables/CD_D_s860?.npz": [
+    "run94d.sh:32"
+   ],
+   "WL95(calc):results/models/*": [
+    "run94d.sh:33"
+   ],
+   "WL95(calc):results/pop/*": [
+    "run94d.sh:34"
+   ],
+   "WL95(calc):results/manifest/W_s860?.npz": [
+    "run94d.sh:35"
+   ],
+   "WL94:results/an/stageB.json": [
+    "run94d.sh:36"
+   ],
+   "WL86:data/train/files[0]['file']": [
+    "s94.py:98"
+   ]
+  },
+  "seed_86001_and_state": [
+   "s94.py:106: st = EC.build_state(ctx)",
+   "s94.py:337: st = EC.build_state(ctx)"
+  ],
+  "metric_helper": [
+   "s94.py:129: W = torch.as_tensor(AN.W, device=dev, dtype=torch.float32)",
+   "s94.py:157: exm = (Sx * AN.W[None, :, None]).sum((1, 2)); ea = (zf['e2_p_a'] * AN.W[None, :, None]).sum((1, 2)); eb = (zf['e2_p_b'] * AN.W[None, :, None]).sum((1,",
+   "s94.py:287: W = torch.as_tensor(AN.W, device=dev, dtype=torch.float32).view(1, 1, -1, 1)"
+  ]
+ },
+ "WL95A": {
+  "dir": "ecro_attr95a",
+  "module_deps": {
+   "ecro_mat94/mat94.py": [
+    "a95.py:13"
+   ],
+   "ecro_mat94/an94.py": [
+    "a95.py:14"
+   ],
+   "ecro86/model86.py": [
+    "a95.py:157",
+    "a95.py:170",
+    "a95.py:266"
+   ],
+   "ecro86/ecro86.py": [
+    "a95.py:169",
+    "a95.py:265"
+   ],
+   "gm1_explicit87/quad87.py": [
+    "a95.py:297"
+   ],
+   "ecro_mat94/viz94.py": [
+    "a95.py:543"
+   ]
+  },
+  "artifact_deps": {
+   "WL94:data": [
+    "run95a.sh:30"
+   ],
+   "WL94:results/fields": [
+    "run95a.sh:30"
+   ],
+   "WL94:results/pre/masks94.npz": [
+    "run95a.sh:31"
+   ],
+   "WL94:results/renders/REF_ER_CK_none_*": [
+    "run95a.sh:32"
+   ],
+   "WL94:results/tables/FZ_own_s860?.npz": [
+    "run95a.sh:33"
+   ],
+   "WL94D:results/audit94d/audit.json": [
+    "run95a.sh:34"
+   ],
+   "WL94D:results/sender/SN_own_s$s.json": [
+    "run95a.sh:35"
+   ],
+   "WL95(calc):$f": [
+    "run95a.sh:36"
+   ]
+  },
+  "seed_86001_and_state": [
+   "a95.py:199: st = EC.build_state(ctx)",
+   "a95.py:272: st = EC.build_state(ctx)"
+  ],
+  "metric_helper": [
+   "a95.py:2: Production code (model86 / ecro86 / pt86 / mat94 / an94) is imported UNCHANGED; nothing is trained or tuned.",
+   "a95.py:14: import an94 as AN  # noqa: E402",
+   "a95.py:27: WT = ZB * DOM                                         # corrected cos dOmega (4 rings x 16 sectors)",
+   "a95.py:28: W94 = ((np.arange(NB) // 8) + 0.5) / 8 * DOM          # an94.W as coded (8 x 8)",
+   "a95.py:181: 'W94_vs_WT_ring0_sector_ratio': [float(W94[0] / WT[0]), float(W94[8] / WT[8])], 'an94_W_equals_W94': bool(np.allclose(AN.W, W94))}",
+   "a95.py:489: img[k] = AN.eh(refimg['h'], x, tot, M['ROI_T'])"
+  ]
+ },
+ "WL96A": {
+  "dir": "ecro_util96a",
+  "module_deps": {
+   "ecro_mat94/mat94.py": [
+    "w96a.py:18"
+   ],
+   "ecro_mat94/an94.py": [
+    "w96a.py:19"
+   ],
+   "ecro_attr92/fx92.py": [
+    "w96a.py:20",
+    "w96a.py:107",
+    "w96a.py:131",
+    "w96a.py:199",
+    "w96a.py:524"
+   ],
+   "ecro86/ecro86.py": [
+    "w96a.py:106",
+    "w96a.py:169",
+    "w96a.py:523"
+   ],
+   "gm1_explicit87/quad87.py": [
+    "w96a.py:108",
+    "w96a.py:526"
+   ],
+   "gm1_explicit87/xport87.py": [
+    "w96a.py:109",
+    "w96a.py:122",
+    "w96a.py:132",
+    "w96a.py:170",
+    "w96a.py:264",
+    "w96a.py:527"
+   ],
+   "ecro86/pt86.py": [
+    "w96a.py:171",
+    "w96a.py:493",
+    "w96a.py:617"
+   ],
+   "ecro86/scene86.py": [
+    "w96a.py:407",
+    "w96a.py:528"
+   ],
+   "ecro86/model86.py": [
+    "w96a.py:525"
+   ]
+  },
+  "artifact_deps": {
+   "WL94:data": [
+    "run96a.sh:31"
+   ],
+   "WL94:results/fields/CKF_none.*": [
+    "run96a.sh:32"
+   ],
+   "WL94:results/pre/masks94.npz": [
+    "run96a.sh:33"
+   ],
+   "WL94:results/renders/REF_ER_CK_none_*": [
+    "run96a.sh:34"
+   ],
+   "WL94:results/tables/FZ_own_s860?.npz": [
+    "run96a.sh:35"
+   ],
+   "WL95A:results/tables/T95A.npz": [
+    "w96a.py:192"
+   ],
+   "WL95A:results/pre/masks94.npz": [
+    "w96a.py:212"
+   ],
+   "WL95A:results/renders/CK_none_floor_X_CK2_T1_r0.npz": [
+    "w96a.py:217"
+   ]
+  },
+  "seed_86001_and_state": [
+   "w96a.py:111: st = EC.build_state(ctx)",
+   "w96a.py:134: yield 'deployed', X.realization_us(86001), E87['seed_ray']",
+   "w96a.py:136: yield f'pool{d}', X.realization_us(960000 + d), E87['seed_ray'] + 1000 * (d + 1)",
+   "w96a.py:198: st0 = EC.build_state(ctx2)",
+   "w96a.py:199: op, mp, st = explicit_op(ctx, X.realization_us(86001), __import__('fx92').E87['seed_ray'])",
+   "w96a.py:264: ctx.u_state_np = __import__('xport87').realization_us(86001); ctx.set_tables(ctx.G)",
+   "w96a.py:578: self.st = EC.build_state(ctx)"
+  ],
+  "metric_helper": [
+   "w96a.py:2: Production code (pt86 / pt86a / ecro86 / model86 / quad87 / xport87 / mat94 / an94) is imported UNCHANGED; nothing is trained or tuned.",
+   "w96a.py:19: import an94 as AN  # noqa: E402",
+   "w96a.py:33: WT = ZB * DOM                                          # corrected cos dOmega (4 rings x 16 sectors), sums to pi",
+   "w96a.py:368: e = AN.eh(ref['h'], X[k], tot, m)"
+  ]
+ }
+}

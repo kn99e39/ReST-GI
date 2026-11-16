@@ -1,0 +1,279 @@
+== WL86 (ecro86)
+   modules: fnto_compiled81/layered81.py[1], fnto_compiled83/closure83_dr.py[1], fnto_compiled83/render83.py[1]
+   seed/state refs: 10 ; metric-helper refs: 0
+== WL86A (ecro86a)
+   modules: ecro86/ecro86.py[6], ecro86/model86.py[5], ecro86/pt86.py[2], ecro86/scene86.py[8], ecro86/train86.py[2]
+   seed/state refs: 3 ; metric-helper refs: 0
+== WL87 (gm1_explicit87)
+   modules: ecro86/analyze86.py[4], ecro86/ecro86.py[8], ecro86/masks86.py[1], ecro86/pt86.py[1], ecro86/scene86.py[1]
+   artifact WL86:results/fields/F_E1_T1.npz                                        <- tests87.py:325
+   artifact WL86:results/fields/f'F_{cfg}.npz                                      <- analyze87.py:111
+   artifact WL86:results/final.json                                                <- tests87.py:32
+   artifact WL86:results/qualify.json                                              <- analyze87.py:402
+   artifact WL86:results/renders/f'EC_{sd}_ecro_{cfg}_r0.npz                       <- analyze87.py:158,analyze87.py:198
+   artifact WL86:results/renders/f'{tag}.npz                                       <- tests87.py:56
+   artifact WL86:results/stage1.json                                               <- tests87.py:33
+   artifact WL86A:results/fields/f'D_SPLIT_{cfg}.npz                               <- analyze87.py:114
+   artifact WL86A:stageB/f'importance_{cfg}.npz                                    <- analyze87.py:110,analyze87.py:347
+   artifact WL87:results/e3_admission.json                                         <- analyze87.py:36,analyze87.py:91,analyze87.py:407
+   artifact WL87:results/e3_choice.json                                            <- analyze87.py:267
+   artifact WL87:results/econ                                                      <- econ87.py:59
+   artifact WL87:results/econ/econ87.json                                          <- analyze87.py:401,viz87.py:32
+   artifact WL87:results/fields/f'ORD_{cfg}.npz                                    <- analyze87.py:161
+   artifact WL87:results/final87.json                                              <- analyze87.py:573
+   artifact WL87:results/n                                                         <- analyze87.py:492
+   artifact WL87:results/renders/f'EC87_{sd}_ecro_{cfg}_r0.npz                     <- analyze87.py:158
+   artifact WL87:results/stage1_87.json                                            <- analyze87.py:259,analyze87.py:325,analyze87.py:368
+   artifact WL87:results/stage2_87.json                                            <- analyze87.py:381,viz87.py:30
+   artifact WL87:results/stage3_87.json                                            <- analyze87.py:483,viz87.py:31
+   artifact WL87:results/tables/f'R_{cfg}.npz                                      <- analyze87.py:186,analyze87.py:345
+   artifact WL87:results/tables/f'X_{cfg}.npz                                      <- analyze87.py:155,analyze87.py:187
+   artifact WL87:results/tables/f'X_{e}_{t}.json                                   <- analyze87.py:231
+   artifact WL87:results/tests                                                     <- tests87.py:331
+   artifact WL87:results/tests/tests87.json                                        <- analyze87.py:236
+   seed/state refs: 15 ; metric-helper refs: 0
+== WL88 (gm1_relation88)
+   modules: ecro86/analyze86.py[2], ecro86/ecro86.py[7], ecro86/masks86.py[1], ecro86/scene86.py[1], gm1_explicit87/fx87.py[1], gm1_explicit87/pt87.py[1], gm1_explicit87/quad87.py[1], gm1_explicit87/xport87.py[6]
+   artifact WL87:results/tables/X_E2_T1.npz                                        <- tests88.py:39
+   artifact WL88:results/tests88.json                                              <- tests88.py:207
+   seed/state refs: 24 ; metric-helper refs: 0
+== WL89 (gm1_relation89)
+   modules: ecro86/analyze86.py[2], ecro86/ecro86.py[7], ecro86/scene86.py[1], gm1_explicit87/pt87.py[1], gm1_explicit87/xport87.py[6], gm1_relation88/analyze88.py[1], gm1_relation88/econ88.py[1], gm1_relation88/fx88.py[1], gm1_relation88/masks88.py[
+   artifact WL89:results/tests88.json                                              <- tests89.py:30
+   artifact WL89:results/tests89.json                                              <- tests89.py:138
+   seed/state refs: 22 ; metric-helper refs: 0
+== WL90 (gm1_gap90)
+   modules: ecro86/analyze86.py[2], ecro86/ecro86.py[4], ecro86/scene86.py[1], gm1_explicit87/xport87.py[5], gm1_relation88/analyze88.py[1], gm1_relation88/rel88.py[4], gm1_relation88/run88.py[3], gm1_relation89/analyze89.py[1], gm1_relation89/econ89
+   artifact WL89:results/fields/F89_$c.npz                                         <- run90.sh:56
+   artifact WL89:results/fields/F89_W2_T1.npz                                      <- run90.sh:36
+   artifact WL89:results/fields/ORD_W2_T1.npz                                      <- run90.sh:35
+   artifact WL89:results/fields/f'ORD_{cfg}.npz                                    <- analyze90.py:55,tests90.py:102
+   artifact WL89:results/masks/cfg.split('_                                        <- viz90.py:34
+   artifact WL89:results/stage3_89.json                                            <- analyze90.py:169,analyze90.py:169
+   artifact WL89:results/w_choice.json                                             <- run90.sh:30
+   seed/state refs: 19 ; metric-helper refs: 0
+== WL91 (gm1_c3urx1_91)
+   modules: ecro86/analyze86.py[2], ecro86/ecro86.py[5], ecro86/scene86.py[1], gm1_explicit87/xport87.py[4], gm1_gap90/fx90.py[1], gm1_gap90/gap90.py[3], gm1_relation88/analyze88.py[1], gm1_relation88/econ88.py[1], gm1_relation88/rel88.py[6], gm1_rel
+   artifact WL89:results/fields/F89_$t.npz                                         <- run91.sh:61
+   artifact WL89:results/fields/f'ORD_{cfg}.npz                                    <- tests91.py:100
+   artifact WL89:results/masks/(cfg.split('_                                       <- e2e91.py:350
+   artifact WL89:results/masks/mname(t                                             <- viz91.py:40
+   artifact WL89:results/renders/f'REF_ER_{tag}_r*.npz                             <- e2e91.py:348
+   artifact WL89:results/w_choice.json                                             <- run91.sh:30
+   artifact WL90:results/tables/F_W1_T1.npz                                        <- tests91.py:46
+   seed/state refs: 22 ; metric-helper refs: 0
+== WL92 (ecro_attr92)
+   modules: ecro86/analyze86.py[1], ecro86/ecro86.py[6], ecro86/masks86.py[1], ecro86/model86.py[6], ecro86/scene86.py[1], ecro86/train86.py[1], ecro86a/diag86a.py[1], ecro86a/pt86a.py[3], gm1_explicit87/fx87.py[1], gm1_explicit87/quad87.py[4], gm1_e
+   artifact WL86:data/sp/g*.npz                                                    <- diag92.py:49,interv92.py:52,interv92.py:161
+   artifact WL86:data/split/f'g{idx:05d}.npz                                       <- interv92.py:105
+   artifact WL86:results/fields/F_*.npz                                            <- diag92.py:54
+   artifact WL86:results/fields/f'F_{tag}.npz                                      <- tests92.py:41
+   artifact WL86:results/final.json                                                <- analyze92.py:94,diag92.py:58
+   artifact WL86:results/masks/*.npz                                               <- diag92.py:56
+   artifact WL86:results/models/f'{sd}.pt                                          <- diag92.py:45
+   artifact WL86:results/renders/f'EC_{sd}_ecro_{tag}_r0.npz                       <- tests92.py:31
+   artifact WL86:results/renders/pat + '.npz                                       <- diag92.py:52
+   seed/state refs: 10 ; metric-helper refs: 2
+== WL92A (ecro_own92a)
+   modules: ecro86/ecro86.py[6], ecro86/model86.py[5], ecro86/train86.py[2], ecro86a/pt86a.py[1], ecro_attr92/analyze92.py[3], ecro_attr92/diag92.py[2], ecro_attr92/fx92.py[10], gm1_explicit87/quad87.py[1], gm1_explicit87/xport87.py[1]
+   artifact WL86:data/sp/g*.npz                                                    <- own92a.py:57,own92a.py:74
+   artifact WL86:data/split/name                                                   <- own92a.py:95
+   artifact WL86:results/renders/f'EC_{sd}_ecro_{tag}_r0.npz                       <- tests92a.py:33
+   artifact WL92:results/e4_choice.json                                            <- run92a.sh:32
+   artifact WL92:results/fields/D_$t.npz                                           <- run92a.sh:34
+   artifact WL92:results/fields/W_$t.npz                                           <- run92a.sh:34
+   artifact WL92:results/masks/E4.npz                                              <- run92a.sh:33
+   artifact WL92:results/masks/E4_LMIX4.npz                                        <- run92a.sh:33
+   artifact WL92:results/masks/E4_LSPOT4.npz                                       <- run92a.sh:33
+   artifact WL92:results/renders/*E4*                                              <- tests92a.py:51
+   seed/state refs: 9 ; metric-helper refs: 5
+== WL92B (ecro_cf92b)
+   modules: ecro86/analyze86.py[3], ecro86/ecro86.py[5], ecro86/masks86.py[1], ecro86/model86.py[5], ecro86a/pt86a.py[1], ecro_attr92/analyze92.py[4], ecro_attr92/diag92.py[4], ecro_attr92/fx92.py[4], ecro_own92a/own92a.py[1], gm1_explicit87/quad87.p
+   artifact WL86:data/sp/g*.npz                                                    <- cf92b.py:301,tests92b.py:39
+   artifact WL92:results/e4_choice.json                                            <- run92b.sh:32
+   artifact WL92:results/fields/D_$t.npz                                           <- run92b.sh:34
+   artifact WL92:results/fields/W_$t.npz                                           <- run92b.sh:34
+   artifact WL92:results/masks/E4.npz                                              <- run92b.sh:33
+   artifact WL92:results/masks/E4_LMIX4.npz                                        <- run92b.sh:33
+   artifact WL92:results/masks/E4_LSPOT4.npz                                       <- run92b.sh:33
+   artifact WL92A:results/fieldeval.json                                           <- cf92b.py:110
+   artifact WL92A:results/fields/D_$t.npz                                          <- run92b.sh:35
+   artifact WL92A:results/fields/W_$t.npz                                          <- run92b.sh:35
+   artifact WL92A:results/final92a.json                                            <- cf92b.py:95
+   artifact WL92A:results/tables/f'I_{tag}.npz                                     <- cf92b.py:86
+   seed/state refs: 6 ; metric-helper refs: 9
+== WL93 (ecro_stage93)
+   modules: ecro86/analyze86.py[3], ecro86/ecro86.py[4], ecro86/masks86.py[1], ecro86/model86.py[6], ecro86/scene86.py[2], ecro86/train86.py[1], ecro_attr92/analyze92.py[3], ecro_attr92/diag92.py[5], ecro_attr92/fx92.py[10], ecro_cf92b/cf92b.py[2], g
+   artifact WL86:data/sp/g*.npz                                                    <- prep93.py:108,train93.py:39
+   artifact WL86:data/split/name                                                   <- prep93.py:82
+   artifact WL86:data/val/g*.npz                                                   <- posthoc93.py:33
+   artifact WL92:results/e4_choice.json                                            <- run93.sh:35
+   artifact WL92A:data/sp + '_f2/os.path.basename(f                                <- train93.py:40
+   artifact WL92A:data/sp + '_f2/os.path.basename(fn                               <- train93.py:26
+   artifact WL92A:data/val_f2/os.path.basename(f                                   <- posthoc93.py:34
+   artifact WL92A:results/exclusion.json                                           <- posthoc93.py:32,prep93.py:77,train93.py:38
+   artifact WL92A:results/models/f'own_s{seed}.pt                                  <- train93.py:48
+   artifact WL92A:results/models/f'{base}_s{seed}.pt                               <- eval93.py:237
+   artifact WL92B:results/e5_candidates.json                                       <- run93.sh:36
+   artifact WL92B:results/fields/D_$t.npz                                          <- run93.sh:38
+   artifact WL92B:results/fields/W_$t.npz                                          <- run93.sh:38
+   artifact WL92B:results/final92b.json                                            <- prep93.py:45
+   artifact WL92B:results/masks/E5k995.npz                                         <- run93.sh:37
+   artifact WL92B:results/masks/E5k995_LMIX.npz                                    <- run93.sh:37
+   artifact WL92B:results/masks/E5k995_LSPOT.npz                                   <- run93.sh:37
+   artifact WL92B:results/tables/CF_E2_T0.json                                     <- run93.sh:39
+   artifact WL92B:results/tables/CF_E2_T1.json                                     <- run93.sh:39
+   seed/state refs: 5 ; metric-helper refs: 6
+== WL93A (ecro_stage93a)
+   modules: ecro86/analyze86.py[2], ecro86/ecro86.py[4], ecro86/model86.py[4], ecro86/train86.py[1], ecro_attr92/analyze92.py[2], ecro_attr92/diag92.py[2], ecro_attr92/fx92.py[8], ecro_stage93/eval93.py[1], ecro_stage93/model93.py[4], ecro_stage93/pr
+   artifact WL86:data/sp/c['file']                                                 <- eval93a.py:73,qref93a.py:66
+   artifact WL86:data/sp/g*.npz                                                    <- qref93a.py:39
+   artifact WL86:data/sp/n                                                         <- eval93a.py:169
+   artifact WL86:data/split/name                                                   <- qref93a.py:107
+   artifact WL86:data/train/n                                                      <- eval93a.py:173
+   artifact WL86:data/val/g*.npz                                                   <- eval93a.py:33
+   artifact WL92:results/e4_choice.json                                            <- run93a.sh:32
+   artifact WL92A:data/sp + '_f2/os.path.basename(f                                <- qref93a.py:40
+   artifact WL92A:results/exclusion.json                                           <- qref93a.py:38
+   artifact WL92B:results/e5_candidates.json                                       <- run93a.sh:32
+   artifact WL92B:results/fields/D_E2_T1.npz                                       <- run93a.sh:34
+   artifact WL92B:results/masks/E5k995.npz                                         <- run93a.sh:33
+   artifact WL93:data/val_q/c['file']                                              <- qref93a.py:204
+   seed/state refs: 4 ; metric-helper refs: 2
+== WL93B (ecro_stage93b)
+   modules: ecro86/analyze86.py[2], ecro86/ecro86.py[3], ecro86/masks86.py[1], ecro86/model86.py[3], ecro86/scene86.py[1], ecro_attr92/analyze92.py[2], ecro_attr92/diag92.py[2], ecro_attr92/fx92.py[4], ecro_stage93/eval93.py[1], ecro_stage93/model93.
+   artifact WL86:data/sp/c['file']                                                 <- eval93b.py:177
+   artifact WL86:data/sp/n                                                         <- eval93b.py:138
+   artifact WL92:results/e4_choice.json                                            <- run93b.sh:34
+   artifact WL92A:data/sp + '_f2/c['file']                                         <- eval93b.py:177
+   artifact WL92B:results/e5_candidates.json                                       <- run93b.sh:34
+   artifact WL92B:results/fields/D_E2_T0.npz                                       <- run93b.sh:36
+   artifact WL92B:results/fields/D_E2_T1.npz                                       <- run93b.sh:36
+   artifact WL92B:results/masks/E5k995.npz                                         <- run93b.sh:35
+   artifact WL93A:data/$d                                                          <- run93b.sh:32
+   artifact WL93A:results/configs.json                                             <- run93b.sh:33
+   artifact WL93A:results/models/f'{a}_s{s}.{ext}                                  <- eval93b.py:66
+   artifact WL93A:results/taskA.json                                               <- run93b.sh:33
+   seed/state refs: 3 ; metric-helper refs: 3
+== WL93C (ecro_stage93c)
+   modules: ecro86/analyze86.py[2], ecro86/ecro86.py[2], ecro86/model86.py[2], ecro_attr92/analyze92.py[2], ecro_attr92/diag92.py[4], ecro_attr92/fx92.py[2], ecro_stage93/model93.py[5], ecro_stage93/prep93.py[2], ecro_stage93/train93.py[5], ecro_stag
+   artifact WL86:data/sp/n                                                         <- eval93c.py:285
+   artifact WL92:results/e4_choice.json                                            <- run93c.sh:43
+   artifact WL92B:results/e5_candidates.json                                       <- run93c.sh:43
+   artifact WL92B:results/fields/D_E2_T0.npz                                       <- run93c.sh:45
+   artifact WL92B:results/fields/D_E2_T1.npz                                       <- run93c.sh:45
+   artifact WL92B:results/masks/E5k995.npz                                         <- run93c.sh:44
+   artifact WL92B:results/tables/CF_E2_T1.npz                                      <- eval93c.py:249
+   artifact WL93A:data/$d                                                          <- run93c.sh:41
+   artifact WL93A:results/configs.json                                             <- run93c.sh:42
+   artifact WL93A:results/taskA.json                                               <- run93c.sh:42
+   seed/state refs: 2 ; metric-helper refs: 1
+== WL93D (ecro_local93d)
+   modules: ecro86/analyze86.py[3], ecro86/ecro86.py[2], ecro86/model86.py[2], ecro_attr92/analyze92.py[3], ecro_attr92/diag92.py[4], ecro_attr92/fx92.py[1], ecro_stage93/model93.py[3], ecro_stage93/prep93.py[6], ecro_stage93/train93.py[3], ecro_stag
+   artifact WL86:data/val/g*.npz                                                   <- ops93d.py:71
+   artifact WL92:results/e4_choice.json                                            <- run93d.sh:34
+   artifact WL92A:results/models/f'own_s{s}.pt                                     <- ops93d.py:121
+   artifact WL92B:results/e5_candidates.json                                       <- run93d.sh:34
+   artifact WL92B:results/fields/D_$t.npz                                          <- run93d.sh:36
+   artifact WL92B:results/masks/E5k995.npz                                         <- run93d.sh:35
+   artifact WL92B:results/repro.json                                               <- ops93d.py:116
+   artifact WL92B:results/tables/CF_E2_T1.npz                                      <- ops93d.py:483
+   artifact WL93A:data/$d                                                          <- run93d.sh:32
+   artifact WL93A:results/configs.json                                             <- run93d.sh:33
+   artifact WL93A:results/models/f'T0_s{seed}.pt                                   <- ops93d.py:89
+   artifact WL93A:results/models/f'T0_s{s}.json                                    <- ops93d.py:124
+   artifact WL93A:results/taskA.json                                               <- run93d.sh:33
+   seed/state refs: 3 ; metric-helper refs: 3
+== WL93D-addendum (ecro_local93d/addendum_checker)
+   modules: ecro86/ecro86.py[2], ecro86/model86.py[2], ecro_attr92/diag92.py[3], ecro_attr92/fx92.py[2], ecro_local93d/ops93d.py[1]
+   artifact WL93D:results/tables/f'I_{E2}.npz                                      <- checker93d.py:330,checker93d.py:347
+   seed/state refs: 2 ; metric-helper refs: 0
+== WL94 (ecro_mat94)
+   modules: ecro86/ecro86.py[3], ecro86/model86.py[4], ecro86/scene86.py[2], ecro86/train86.py[1], ecro86a/pt86a.py[1], ecro_attr92/diag92.py[1], ecro_attr92/fx92.py[4], ecro_local93d/ops93d.py[1], ecro_stage93/train93.py[1], ecro_stage93b/eval93b.py
+   artifact WL86:data/sp/g*.npz                                                    <- c94.py:48
+   artifact WL86:data/split/rec['file']                                            <- c94.py:107,c94.py:134
+   artifact WL92A:results/exclusion.json                                           <- c94.py:42
+   artifact WL92A:results/models/f'own_s{seed}.pt                                  <- c94.py:199
+   artifact WL92A:results/models/f'own_s{s}.pt                                     <- mat94.py:423
+   artifact WL92B:results/repro.json                                               <- mat94.py:422
+   artifact WL93D-addendum:results/renders/$f.json                                 <- run94.sh:42
+   artifact WL93D-addendum:results/renders/$f.npz                                  <- run94.sh:42
+   artifact WL93D-addendum:results/renders/f'REF_ER_CK_bx38_{TAG}_r0.npz           <- mat94.py:541
+   artifact WL93D-addendum:results/tables/f'CK_{v}_{TAG}.npz                       <- mat94.py:535
+   artifact WL93D:results/tables/I_E2_T1.npz                                       <- mat94.py:516
+   seed/state refs: 4 ; metric-helper refs: 6
+== WL94A (ecro_mat94r)
+   modules: ecro86/scene86.py[1], ecro_mat94/an94.py[1], ecro_mat94/c94.py[1], ecro_mat94/mat94.py[1], ecro_mat94/viz94.py[1]
+   artifact WL86:data/train/rec['file']                                            <- r94.py:83
+   artifact WL94:data                                                              <- run94r.sh:31
+   artifact WL94:results/an/stageC_s8601.json                                      <- run94r.sh:37
+   artifact WL94:results/fields                                                    <- run94r.sh:31
+   artifact WL94:results/models/*                                                  <- run94r.sh:35
+   artifact WL94:results/pop/*                                                     <- run94r.sh:36
+   artifact WL94:results/pre/masks94.npz                                           <- run94r.sh:32
+   artifact WL94:results/renders/*                                                 <- run94r.sh:33
+   artifact WL94:results/select94.json                                             <- run94r.sh:32
+   artifact WL94:results/tables/CD_?_s8601.npz                                     <- run94r.sh:34
+   artifact WL94:results/tables/FZ_own_s860?.npz                                   <- run94r.sh:34
+   seed/state refs: 0 ; metric-helper refs: 2
+== WL94B (ecro_exp94b)
+   modules: ecro86/scene86.py[2], ecro_attr92/fx92.py[1], ecro_mat94/an94.py[1], ecro_mat94/c94.py[1], ecro_mat94/mat94.py[1], ecro_mat94/viz94.py[1], ecro_mat94r/r94.py[1]
+   artifact WL86:data/train/names[0]                                               <- b94.py:141,posthoc94b.py:19
+   artifact WL86:data/train/nm                                                     <- b94.py:149
+   artifact WL86:data/train/rec['file']                                            <- b94.py:54
+   artifact WL92A:results/models/f'own_s{s}.pt                                     <- b94.py:279
+   artifact WL94:data                                                              <- run94b.sh:31
+   artifact WL94:results/an/stageB.json                                            <- run94b.sh:37
+   artifact WL94:results/fields                                                    <- run94b.sh:31
+   artifact WL94:results/pre/masks94.npz                                           <- run94b.sh:32
+   artifact WL94:results/select94.json                                             <- run94b.sh:32
+   artifact WL94:results/tables/FZ_own_s860?.npz                                   <- run94b.sh:34
+   seed/state refs: 0 ; metric-helper refs: 2
+== WL94C (ecro_q94c)
+   modules: ecro86/scene86.py[1], ecro_exp94b/b94.py[1], ecro_mat94/viz94.py[1]
+   artifact WL86:data/train/nm                                                     <- q94.py:33
+   artifact WL94:data                                                              <- run94c.sh:30
+   artifact WL94:results/an/stageB.json                                            <- run94c.sh:36
+   artifact WL94:results/fields                                                    <- run94c.sh:30
+   artifact WL94:results/pre/masks94.npz                                           <- run94c.sh:31
+   artifact WL94:results/select94.json                                             <- run94c.sh:31
+   artifact WL94:results/tables/FZ_own_s860?.npz                                   <- run94c.sh:33
+   seed/state refs: 0 ; metric-helper refs: 1
+== WL94D (ecro_s94d)
+   modules: ecro86/ecro86.py[2], ecro86/model86.py[3], ecro86/scene86.py[2], ecro_mat94/viz94.py[1], ecro_q94c/q94.py[1], ecro_stage93b/eval93b.py[2]
+   artifact WL86:data/train/files[0]['file']                                       <- s94.py:98
+   artifact WL94:data                                                              <- run94d.sh:29
+   artifact WL94:results/an/stageB.json                                            <- run94d.sh:36
+   artifact WL94:results/fields                                                    <- run94d.sh:29
+   artifact WL94:results/pre/masks94.npz                                           <- run94d.sh:30
+   artifact WL94:results/select94.json                                             <- run94d.sh:30
+   artifact WL94:results/tables/FZ_own_s860?.npz                                   <- run94d.sh:32
+   artifact WL95(calc):results/manifest/W_s860?.npz                                <- run94d.sh:35
+   artifact WL95(calc):results/models/*                                            <- run94d.sh:33
+   artifact WL95(calc):results/pop/*                                               <- run94d.sh:34
+   artifact WL95(calc):results/renders/*                                           <- run94d.sh:31
+   artifact WL95(calc):results/tables/CD_D_s860?.npz                               <- run94d.sh:32
+   seed/state refs: 2 ; metric-helper refs: 3
+== WL95A (ecro_attr95a)
+   modules: ecro86/ecro86.py[2], ecro86/model86.py[3], ecro_mat94/an94.py[1], ecro_mat94/mat94.py[1], ecro_mat94/viz94.py[1], gm1_explicit87/quad87.py[1]
+   artifact WL94:data                                                              <- run95a.sh:30
+   artifact WL94:results/fields                                                    <- run95a.sh:30
+   artifact WL94:results/pre/masks94.npz                                           <- run95a.sh:31
+   artifact WL94:results/renders/REF_ER_CK_none_*                                  <- run95a.sh:32
+   artifact WL94:results/tables/FZ_own_s860?.npz                                   <- run95a.sh:33
+   artifact WL94D:results/audit94d/audit.json                                      <- run95a.sh:34
+   artifact WL94D:results/sender/SN_own_s$s.json                                   <- run95a.sh:35
+   artifact WL95(calc):$f                                                          <- run95a.sh:36
+   seed/state refs: 2 ; metric-helper refs: 6
+== WL96A (ecro_util96a)
+   modules: ecro86/ecro86.py[3], ecro86/model86.py[1], ecro86/pt86.py[3], ecro86/scene86.py[2], ecro_attr92/fx92.py[5], ecro_mat94/an94.py[1], ecro_mat94/mat94.py[1], gm1_explicit87/quad87.py[2], gm1_explicit87/xport87.py[6]
+   artifact WL94:data                                                              <- run96a.sh:31
+   artifact WL94:results/fields/CKF_none.*                                         <- run96a.sh:32
+   artifact WL94:results/pre/masks94.npz                                           <- run96a.sh:33
+   artifact WL94:results/renders/REF_ER_CK_none_*                                  <- run96a.sh:34
+   artifact WL94:results/tables/FZ_own_s860?.npz                                   <- run96a.sh:35
+   artifact WL95A:results/pre/masks94.npz                                          <- w96a.py:212
+   artifact WL95A:results/renders/CK_none_floor_X_CK2_T1_r0.npz                    <- w96a.py:217
+   artifact WL95A:results/tables/T95A.npz                                          <- w96a.py:192
+   seed/state refs: 7 ; metric-helper refs: 4
+wrote c:\Projects\ReST-GI\results\audit97\MAP\static_deps.json

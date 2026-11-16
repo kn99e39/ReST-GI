@@ -1,0 +1,58 @@
+{
+ "mats86_sha256_16": "d3c5be854d80665b",
+ "convention": {
+  "lambert_eval_equals_rho_over_pi_cos_wo_max_rel": 1.702989871343874e-08,
+  "reciprocity_fr_max_rel": {
+   "0": 5.962460040001899e-15,
+   "1": 4.004181641914753e-15,
+   "2": 4.847118422465765e-15
+  }
+ },
+ "timing_s_m64": 122.52975749969482,
+ "M64_vs_stored": {
+  "stored": "results\\ecro_attr95a\\ops95a.npz",
+  "stored_sha256_16": "d4d02e5a2f423ce9",
+  "rel_l1": 0.5380570822865626,
+  "flux_weighted_rel_l1": 0.05048299633124832,
+  "mass_ratio_mine_over_stored": 1.0477048887805591,
+  "max_abs_over_max": 1.4016622473476037,
+  "peak_entry_ratio_mean": 1.319693448810812,
+  "albedo_max_WT_mine": 1.2486559038609768,
+  "albedo_max_WT_stored": 0.8246719744363133,
+  "n_out_strata": 576,
+  "note": "mine: deterministic midpoint quadrature, numpy port; stored: MIS Monte Carlo (quad87.fbar), Dr.Jit closure"
+ },
+ "flux_conservation_S1": {
+  "definition": "ratio = sum_bo ZB[bo] int_bo f(v,w) dv / int f(v,w) cos(v) dv for a single incident direction w (green channel)",
+  "physical_albedo_max": 1.07166200489848,
+  "physical_albedo_mean": 0.6341823833823294,
+  "table_albedo_single_direction_max": 4.121580585222418,
+  "ratio_by_incident_cos": {
+   "0.000-0.031": 3.22229811798634,
+   "0.031-0.062": 1.8903130892108455,
+   "0.062-0.125": 1.2578881086822546,
+   "0.125-0.188": 1.0450773914797016,
+   "0.188-0.250": 1.0163444231402061,
+   "0.250-0.500": 1.0162703819762053,
+   "0.500-0.750": 1.0016344018648884,
+   "0.750-1.000": 0.9825379374160021
+  },
+  "ratio_min": 0.9134156705547454,
+  "ratio_max": 3.8562812713423877,
+  "cos_weighted_bin_mean_operator_albedo_max": 0.8395846255758387,
+  "cos_weighted_vs_solid_angle_mean_operator_rel_l1": 0.07340003870040832,
+  "ring0_row_flux_ratio_solid_angle_mean_over_true": 1.7606021884227292
+ },
+ "flux_conservation_mat0": {
+  "physical_albedo_max": 0.5290747621591597,
+  "table_albedo_single_direction_max": 0.5218467275416103,
+  "ratio_min": 0.9855343955138098,
+  "ratio_max": 1.049892399926281
+ },
+ "flux_conservation_mat2": {
+  "physical_albedo_max": 0.6766840073478599,
+  "table_albedo_single_direction_max": 0.6516674073913561,
+  "ratio_min": 0.9589272249850339,
+  "ratio_max": 1.1413061330204735
+ }
+}

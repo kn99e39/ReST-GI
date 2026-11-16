@@ -1,0 +1,155 @@
+{
+ "wl87": {
+  "rows": 36,
+  "rule_better": 0,
+  "rule_worse": [
+   "E1_T1:obj_panel",
+   "E2_T1:C",
+   "E2_T1:obj_panel"
+  ],
+  "rule_equal": 33,
+  "raw_both_seeds_worse": 23,
+  "raw_both_seeds_better": 5,
+  "raw_mixed": 8,
+  "raw_both_better_rows": [
+   "E2_T0:obj_sphere",
+   "E2_T1:obj_sphere",
+   "E3_T0:obj_panel",
+   "E3_T0:obj_sphere",
+   "E3_T1:obj_sphere"
+  ],
+  "mean_diff_ECRO_minus_EXP_per_seed": [
+   0.0029409507708601447,
+   0.002050822589920209
+  ],
+  "median_diff_per_seed": [
+   0.0013920950473677585,
+   0.00034024300782729833
+  ],
+  "verdict_LEARNED_OPERATOR_ADDITIONAL_UTILITY": "SUPPORTED"
+ },
+ "wl90_P2plus_minus_EE_R_mirror": {
+  "W1_T1": {
+   "value": 0.0009003932261084698,
+   "noise": 9.580218207242558e-06
+  },
+  "W1_T0": {
+   "value": 0.0007112227539001151,
+   "noise": 1.6617466193765036e-05
+  },
+  "W2_T1": {
+   "value": -0.00043403670456012775,
+   "noise": 2.3459535869618624e-05
+  }
+ },
+ "wl90_W1T1_R_mirror": {
+  "gap_M0_minus_ORACLE": {
+   "value": 0.022601836411691025,
+   "noise": 7.413244947924134e-05
+  },
+  "angular_A_EA_minus_EE": {
+   "value": 0.02261626399146633,
+   "noise": 7.574814584469271e-05
+  },
+  "spatial_S_SE_minus_EE": {
+   "value": -0.0009264471465158779,
+   "noise": 5.514651253221616e-05
+  },
+  "P1only_minus_EE": {
+   "value": 0.019831484309234294,
+   "noise": 5.9284758925927036e-05
+  }
+ },
+ "wl91_amdahl": {
+  "C3URX1": {
+   "edit_wall_ms": 124.65548515319824,
+   "edit_minus_render_ms": 69.4161131978035,
+   "source_wall_ms": 75.81182010471821,
+   "source_minus_render_ms": 21.41006849706173,
+   "sweeps_edit_ms": 10.574713349342346,
+   "sweeps_source_ms": 9.404681622982025,
+   "amdahl_edit": 1.0926949667514865,
+   "amdahl_source_own_sweep": 1.1416215460867747,
+   "amdahl_source_edit_sweep(WL96 arithmetic)": 1.162096602306339,
+   "amdahl_edit_no_render": 1.1797155298238355,
+   "amdahl_source_no_render_own_sweep": 1.783371808141165,
+   "n_edit": 7,
+   "n_source": 15,
+   "render_share_of_edit": 0.4418614610408861,
+   "gpu_kernel_share_of_edit_wall": 0.1800531127711856
+  },
+  "C3UR": {
+   "edit_wall_ms": 138.19384574890137,
+   "edit_minus_render_ms": 82.98290148377419,
+   "source_wall_ms": 92.21960790455341,
+   "source_minus_render_ms": 37.42215596139431,
+   "sweeps_edit_ms": 11.41025684773922,
+   "sweeps_source_ms": 10.93960925936699,
+   "amdahl_edit": 1.0899979007269973,
+   "amdahl_source_own_sweep": 1.1345916515958856,
+   "amdahl_source_edit_sweep(WL96 arithmetic)": 1.141199708926224,
+   "amdahl_edit_no_render": 1.1594220376480884,
+   "amdahl_source_no_render_own_sweep": 1.413087509387061,
+   "n_edit": 7,
+   "n_source": 15,
+   "render_share_of_edit": 0.3995754219955247,
+   "gpu_kernel_share_of_edit_wall": 0.17599810737322774
+  },
+  "R0": {
+   "edit_wall_ms": 145.40541544556618,
+   "edit_minus_render_ms": 89.83988128602505,
+   "source_wall_ms": 85.43894998729229,
+   "source_minus_render_ms": 30.95261938869953,
+   "sweeps_edit_ms": 5.573557689785957,
+   "sweeps_source_ms": 5.563816055655479,
+   "amdahl_edit": 1.039858997650738,
+   "amdahl_source_own_sweep": 1.0696564222404612,
+   "amdahl_source_edit_sweep(WL96 arithmetic)": 1.0697868942911333,
+   "amdahl_edit_no_render": 1.0661421722453632,
+   "amdahl_source_no_render_own_sweep": 1.2191444780862932,
+   "n_edit": 7,
+   "n_source": 15,
+   "render_share_of_edit": 0.38043176863560224,
+   "gpu_kernel_share_of_edit_wall": 0.16783947614197992
+  }
+ },
+ "wl96a_cost": {
+  "U_recomputed": {
+   "LAM24": {
+    "edit": 0.9321302015681585,
+    "source": 1.040492233086946
+   },
+   "LAM64": {
+    "edit": 0.9209615109936242,
+    "source": 1.038301742024448
+   },
+   "ZERO": {
+    "edit": 1.038028573853174,
+    "source": 1.0428847966464583
+   }
+  },
+  "U_stored": {
+   "LAM24": {
+    "edit": 0.9321302015681585,
+    "source": 1.040492233086946
+   },
+   "LAM64": {
+    "edit": 0.9209615109936242,
+    "source": 1.038301742024448
+   },
+   "ZERO": {
+    "edit": 1.038028573853174,
+    "source": 1.0428847966464583
+   }
+  },
+  "tail_orders_share_of_R0_edit": 0.022973607301324438,
+  "tail_orders_share_of_R0_source": 0.03739797496505543,
+  "q_table_ms_by_arm_edit": {
+   "R0": 25.682514533400536,
+   "LAM24": 31.255885027348995,
+   "LAM64": 32.70242176949978,
+   "ZERO": 25.51449555903673
+  },
+  "render_share_R0_edit": 0.4129077580982191
+ }
+}

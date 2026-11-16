@@ -1,0 +1,107 @@
+{
+ "spot": {
+  "U_ZERO_edit": 1.038028573853174,
+  "U_ZERO_source": 1.0428847966464583,
+  "U_LAM24_edit": 0.9321302015681585,
+  "U_LAM64_edit": 0.9209615109936242,
+  "analytic_edit": 1.0235138042052971,
+  "analytic_source": 1.0388509207257255,
+  "WL91_C3URX1_edit_to_frame_own_sweeps": 1.0926949667514865,
+  "WL91_C3URX1_edit_no_render_own_sweeps": 1.1792314666382788,
+  "WL91_C3URX1_source_to_frame_own_sweeps": 1.1416215460867747,
+  "WL91_C3URX1_source_no_render_own_sweeps": 1.788157116298092,
+  "WL91_critic_source_to_frame_edit_sweeps": 1.162096602306339,
+  "WL91_critic_source_no_render_edit_sweeps": 1.9825550263116267
+ },
+ "LAM24": {
+  "deficit_ms": 10.494457557797432,
+  "q_inflation_ms": 5.57337049394846,
+  "generator_in_event_ms": 8.362113498151302,
+  "generator_isolated_ms": 5.2984319627285,
+  "geostate_and_other_in_generator_part_ms": 3.063681535422802,
+  "artefact_ms": 8.637052029371262,
+  "U_recorded": 0.9321302015681585,
+  "U_minus_artefacts": 0.9872771096007791,
+  "cpu_ms": 580.1017204999984,
+  "cpu_R0_ms": 148.891754000001,
+  "source_event_q_ms": 24.38927534967661,
+  "R0_source_event_q_ms": 24.372229352593422
+ },
+ "LAM64": {
+  "deficit_ms": 12.369642965495586,
+  "q_inflation_ms": 7.019907236099243,
+  "generator_in_event_ms": 8.36588628590107,
+  "generator_isolated_ms": 5.2984319627285,
+  "geostate_and_other_in_generator_part_ms": 3.0674543231725693,
+  "artefact_ms": 10.087361559271812,
+  "U_recorded": 0.9209615109936242,
+  "U_minus_artefacts": 0.9844121526970034,
+  "cpu_ms": 726.8625094999983,
+  "cpu_R0_ms": 148.891754000001,
+  "source_event_q_ms": 24.344717152416706,
+  "R0_source_event_q_ms": 24.372229352593422
+ },
+ "edit_conventions": {
+  "inputs_ms": {
+   "q_kernel_WL87_E2": 2.0006080009043217,
+   "state_update_kernel_WL87_E2": 0.057695998810231686,
+   "frame_kernel_WL91_R0_64spp": 21.667119826190174,
+   "geometry_update_wall": 30.184770934283733,
+   "relation_coefficients_wall": 4.953144118189812,
+   "prefix_wall": 2.0243823528289795,
+   "tail_wall": 3.3112289384007454
+  },
+  "edit_to_table_kernel_geo_at_wall": 1.0844257563571469,
+  "edit_to_table_kernel_geo_excluded": 1.3664554076269657,
+  "edit_to_frame64_kernel_geo_at_wall": 1.0543825400498585,
+  "edit_to_frame64_kernel_geo_excluded": 1.1078472559274715
+ },
+ "overhead_WL96A_R0": {
+  "edit": {
+   "wall_ms": 144.13186814635992,
+   "drjit_kernel_ms": 25.467775692930445,
+   "cpu_ms": 148.891754000001,
+   "kernel_over_wall": 0.17669774228603613,
+   "torch_parts_wall_ms": 5.335611291229725,
+   "non_kernel_non_torch_ms": 113.32848116219975
+  },
+  "source": {
+   "wall_ms": 88.53004220873117,
+   "drjit_kernel_ms": 24.28998428909108,
+   "cpu_ms": 90.44294599999958,
+   "kernel_over_wall": 0.2743699616885025,
+   "torch_parts_wall_ms": 5.3612953051924706,
+   "non_kernel_non_torch_ms": 58.87876261444762
+  }
+ },
+ "scale91": {
+  "N": [
+   1270,
+   2802,
+   5080
+  ],
+  "growth_q_table": 1.665564028710574,
+  "growth_one_order": 1.7012180958698577,
+  "growth_C3UR_J4": 1.6964107573884253,
+  "growth_relation_build": 4.401641225283463,
+  "growth_update": 1.663274258905446,
+  "ceiling_source_to_table_slopes_q_plus_4_orders_remove_3": 1.30453078636101,
+  "ceiling_rows_source_to_frame_q_plus_4_orders_remove_3_frame54ms": {
+   "1270": 1.0976094802630563,
+   "2802": 1.1172113536113655,
+   "5080": 1.1355819693995632
+  }
+ },
+ "DQ_edit": {
+  "critic_union_pairs": 5554862,
+  "xor_pairs_plus_moved": 1968623,
+  "rays_strictly_needed_old_only_plus_moved": 873325,
+  "ECRO_edit_ms": 77.0,
+  "critic_ms": 60.83896476190476,
+  "critic_total_over_ECRO": 1.7901164254792827,
+  "xor_ms": 21.56110904761905,
+  "xor_total_over_ECRO": 1.2800144032158318,
+  "needed_ms": 9.564988095238096,
+  "needed_total_over_ECRO": 1.1242206246134818
+ }
+}

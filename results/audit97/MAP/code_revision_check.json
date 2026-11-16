@@ -1,0 +1,1906 @@
+[
+ {
+  "rundir": "rest_ecro86",
+  "worklog": "WL86",
+  "own_dir": "ecro86",
+  "candidate_commits": [
+   "7786d09",
+   "63972c8"
+  ],
+  "stated_executable_commit": "63972c8",
+  "n_server_files": 86,
+  "n_identical_to_stated": 7,
+  "n_different": 78,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 19,
+  "own_dir_identical": 3,
+  "own_dir_missing_on_server": [],
+  "different": [
+   {
+    "path": "experiments/ecro86/analyze86.py",
+    "blob": "7453c6d9e4be7274a04ca6888e6ba8f8526ab14e",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 15397,
+    "repo_blob_at_stated": "6399d2436f3ca936b62954b74f9fbebd85502d3f",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/data/mats86.json",
+    "blob": "01d1326ebd9e9a68b59d7ffa5b4b09bd24c76b0a",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 273,
+    "repo_blob_at_stated": "f29e6d5c4c50115632524fdb4e649e1dbefbb482",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/diag_v3.py",
+    "blob": "6db79c81a15316536403f7a910d3908179fa011e",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 2365,
+    "repo_blob_at_stated": "fcfccb7fa4e94a1369e6d9a70e1b4c91743aabd7",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/econ86.py",
+    "blob": "bfe76d78584a652e37317978fdbe81b6c3fdcda5",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 12070,
+    "repo_blob_at_stated": "25e79c0740e21e199aef2f46dafb7edd9befe4e6",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/ecro86.py",
+    "blob": "c169c4bff5bdfa44ab3e8dfe6679377afd0dfb47",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 10583,
+    "repo_blob_at_stated": "c1927499c5a574efd203bc3b5d296cc3ca7c54a4",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/gen86.py",
+    "blob": "938b76f07d19898db060edb3fe143614e8a7144e",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 2825,
+    "repo_blob_at_stated": "6a9071377683ee037203d97ee2ea5f2f854180fe",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/masks86.py",
+    "blob": "b63853254effb672135d8c6c34e206fd8f4792f2",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 7973,
+    "repo_blob_at_stated": "ef9b9385ed3c527a5e0dd224204e221b179ca2b3",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/mats86.py",
+    "blob": "c166c15da13b6438c98a59f754121564156e846f",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 1837,
+    "repo_blob_at_stated": "bc0da4cf4e633a809b5ca74967b954ec5366e006",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/model86.py",
+    "blob": "68a638c92feca8d57aa93f1693bd177a305e0661",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 6714,
+    "repo_blob_at_stated": "af74ac9eb44c701dab134b52696267545b2cd1a8",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/protocol/amendment1.json",
+    "blob": "e5e16f4baa78f380b7ed6a4b559b96bef67bba2a",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 2017,
+    "repo_blob_at_stated": "a3d67b2a20973870dc497b45c0a94138196ded0d",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/protocol/ecro86.json",
+    "blob": "46b0a7765e2ff8765b7cc23c6fdd9a6e8ac483b5",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 17092,
+    "repo_blob_at_stated": "881816bc9b9a08a72560f0b713a10a4a4daf9dcc",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/pt86.py",
+    "blob": "bdbd804589a64a3274b538c29b1a65823be0c363",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 25286,
+    "repo_blob_at_stated": "a932a85ee89cd47cb64a99b7cbf8256b9551fe20",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/scene86.py",
+    "blob": "f6b21995054361ce86bc1991a853a5a9aad6ea45",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 11460,
+    "repo_blob_at_stated": "278363cfdc5bfb6ca520435556ec45dd38479ec6",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/tests86.py",
+    "blob": "1e706c0b9e754abe1aad9ca76df63ad2cc8da1f4",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 13227,
+    "repo_blob_at_stated": "7509b1f3cbc852fe5c5f2709286ac62a9f91fb4a",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/train86.py",
+    "blob": "324e8d232f8ecca8bea1a6a408c9bbafec18fd88",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 5492,
+    "repo_blob_at_stated": "a06bd77139cc58c38523d2117afa559f3e68f277",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/viz86.py",
+    "blob": "cb60a909396ed832695d2d640f5130d9a27ba86e",
+    "mtime": "2026-11-11 02:23:36",
+    "size": 12876,
+    "repo_blob_at_stated": "36e82cf3f0073b615dd5b5858907fbf56b1a17cd",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/closure80d_dr.py",
+    "blob": "8919c76d1f4403c78e8fd44328738e53149a17bc",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 9825,
+    "repo_blob_at_stated": "42264505b925de584c963b9d64a8e32ed2a1d44c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/diag80d_posthoc.py",
+    "blob": "8a7d76ca6c344a74b378138ca58faa1f8d83d67c",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 2113,
+    "repo_blob_at_stated": "4fda79a1b03f1cc6d611e188d1d704c864e0fc2e",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/energy80d.py",
+    "blob": "cd89add6262840973fd4dfbeb54cc514d1ced0cd",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 4792,
+    "repo_blob_at_stated": "811ff70142d3ce9811bc8d5cc5fbe64b103f908c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/protocol/closure80d.json",
+    "blob": "ea406bb7032766feb992ac9309b3a34e952f1abf",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 7958,
+    "repo_blob_at_stated": "6146d9a7cb6759b0f5de97b4882548426469eaed",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/run80d.py",
+    "blob": "340e6101010c9ecd26f148717251966cd8eade40",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 25064,
+    "repo_blob_at_stated": "d7b6fc3c49cd3ddd025c4782ad55fa6edb23ded4",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/viz/render80d.py",
+    "blob": "b024f80bfeb83851386b15911cbe9408632386e2",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 8911,
+    "repo_blob_at_stated": "a2a46fffc902ea1602b56b715d6dd8c5a5e006e4",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/viz/viz80d_grids.py",
+    "blob": "9303f3f90579af148f706967f12352410743a994",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 11120,
+    "repo_blob_at_stated": "d123f1b78b08112f7a314da3b98c2cae438464bf",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/bench80c.py",
+    "blob": "ed3f10646403b2b3916633f4d748b26cdc8ca599",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 11536,
+    "repo_blob_at_stated": "f6777afdb556570925889fb53bd4fde5583d7544",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/closure80c.py",
+    "blob": "27f1a1ed340fb06c4e3b1f7290eb4e84d5fefbd4",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 5114,
+    "repo_blob_at_stated": "b56a2db35bb12548fb13d0c7349ba20f2fe42fa2",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/closure80c_dr.py",
+    "blob": "fca9010947c0cf7b66eda91b74deb183cdd198c3",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 9506,
+    "repo_blob_at_stated": "428d396d52d3eb28e496d89f0432182af20500a3",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/contract80c.py",
+    "blob": "e67d04987ccd1378c21da4989585e9f03b0c8006",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 16897,
+    "repo_blob_at_stated": "d8e8839a072d6717658226242ff968ff54c3cdd4",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/data80c.py",
+    "blob": "18482545f4477a95d19d581d284eaa52d10943bc",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 6539,
+    "repo_blob_at_stated": "9edc7827f4bed248e9174e268c6f9f0eb3938b98",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/eval80c.py",
+    "blob": "817c805641d39f518bbed0783cefd86c59d2fc92",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 13302,
+    "repo_blob_at_stated": "ffde4b98fdb78dab4fa85049c88ee776b2d999f1",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/protocol/amendment1_scope_correction.json",
+    "blob": "4d9eb8b0ea1755cfe2955776b0c8e7034fd7fe9c",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 2251,
+    "repo_blob_at_stated": "63116b25e136a4693b5e2018fac338eb0b2c7a74",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/protocol/compiled80c.json",
+    "blob": "503ff0be0fc86f9fe1be8db67fde995c08dd6003",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 16573,
+    "repo_blob_at_stated": "54e6297872ee5c8b4386a5b9a6b16efd62c3e8dc",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/ref80c.py",
+    "blob": "6a3cf460f30bc3c5766cd5368c323c450f73d042",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 6566,
+    "repo_blob_at_stated": "713f9ad9d0f2dc40b56a1bab71540e7119e41651",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/smoke80c.py",
+    "blob": "62c68845238379aca76eaffbd6d94fa922197220",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 8432,
+    "repo_blob_at_stated": "054d2862a7606e7102f966b0cfe33d03a65c7af0",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/survey80c.py",
+    "blob": "79b297d8c9730a624b92ea1305190e660a21e77a",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 4768,
+    "repo_blob_at_stated": "6f03c961eb07e631345d86418c9d555c903ebfc2",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/train80c.py",
+    "blob": "0eea7f0f016ee4e05c0d1dd9a8267204b327e080",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 7298,
+    "repo_blob_at_stated": "6c0fd4545670e1b178dfa105e90333e788bc514c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/bench81.py",
+    "blob": "e6377c0e285a706ec73f97dede4b488694ce5727",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 9308,
+    "repo_blob_at_stated": "f8d8227de23ba1a3dde28c5a45b1fa6c663bb92a",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/closure81.py",
+    "blob": "076347e1598805c86c381e546e76c5a3591c8bb8",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 5164,
+    "repo_blob_at_stated": "b028f981d302951092010257648568b83cf5f4a5",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/closure81_dr.py",
+    "blob": "001394320d452330dd167388d0c69c3823ac1725",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 4131,
+    "repo_blob_at_stated": "0197460fdf9a473f0ac540b02c188f95867cd25c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/compress81.py",
+    "blob": "6c2fd72fbc83b14e5c25c6f955e801c939904b6a",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 4578,
+    "repo_blob_at_stated": "ca99fce36ba33bc7916376e5891490a0f2d667f7",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/contract81.py",
+    "blob": "ad560bcab790bd761dc976dfc20d380df5badc76",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 11339,
+    "repo_blob_at_stated": "d75b82ae7ecf419d9713b01c2d273455b9cec066",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/data81.py",
+    "blob": "c3633e5d753e3e1bcc9f5f9fa159ad3b093d1930",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 19979,
+    "repo_blob_at_stated": "2941f415d5358496c06f03762c9548cfad0937a5",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/diag81_posthoc.py",
+    "blob": "2b19fb89943a700f68cccfaa0adbff38f2c0240e",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 5470,
+    "repo_blob_at_stated": "f6a025dfe73dc7cbd7879a479d6bdc2c0a1714da",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/energy81.py",
+    "blob": "e0c7496cde11e3c45ad0864ac204ebf86c261159",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 4712,
+    "repo_blob_at_stated": "7d186a2be820aecf614a61b1097aac20a5ca82f2",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/eval81.py",
+    "blob": "0d295c347aaee5066c7e23cc86f88d454ef888a9",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 12422,
+    "repo_blob_at_stated": "d38a46b1e8908223b5dd0e8e7fc3d92bb8814e14",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/fit81.py",
+    "blob": "73d8e373221b58c303856fb677fde0a7a917d7ad",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 9941,
+    "repo_blob_at_stated": "617b3a06133039da50736c136582fbb1e85caa5b",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/gate81.py",
+    "blob": "adb00f3cdf352ab093b4e8b9dcbb679ba34b49d1",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 2494,
+    "repo_blob_at_stated": "c31a1cc0c3666b8efe55e6f36013a34530a6f407",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/layered81.py",
+    "blob": "28d02e0da8f890135fd13a570b81440229fb1d51",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 15941,
+    "repo_blob_at_stated": "5b63bbc97dbccdd134ba4bff5abcb4a65f8de1bc",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/protocol/amendment1_candidate.json",
+    "blob": "26a8e7d302fa431736bf701216495496b9b185db",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 4279,
+    "repo_blob_at_stated": "ad85bf3a843956682a361f4c96450db93868fc20",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/protocol/amendment2_execution.json",
+    "blob": "087375e941a466ea1ceaae678a7ac676b23be6e1",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 1874,
+    "repo_blob_at_stated": "5c13d673cfcc9246233bd5818a21a2459bb0ed5a",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/protocol/amendment3_streams_sharding.json",
+    "blob": "900c894bc6442875eda8794dd02bd553f7e8014b",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 1820,
+    "repo_blob_at_stated": "6a4dda7f9f969017c7e7e39872b7bf550940897c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/protocol/compiled81.json",
+    "blob": "94af48329c605a3c29a5344cb748682db9b68210",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 28875,
+    "repo_blob_at_stated": "b410af739776dac9325c29d24034632b5df40725",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/refaudit81.py",
+    "blob": "b216da71f5ea8f01d9cc480ce8671654a087a46b",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 16559,
+    "repo_blob_at_stated": "1cf8cc0517c457f2c8eeade47c38775100bc65e9",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/render81.py",
+    "blob": "2e31b47ee5d7f68403dc1ad6c4c1e88962a7b7d0",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 16973,
+    "repo_blob_at_stated": "576f071e90a57e3e5d375c6ed387eb7eff2c329b",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/testsB81.py",
+    "blob": "8b102c36ba68bee561b37282eaf1a42ffea0fa92",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 7241,
+    "repo_blob_at_stated": "d4ea75388306b08798a0754dfce89688bb52807d",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/viz81.py",
+    "blob": "a3bb0bb6ca914c7395db33d25e9967826f06fa14",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 8031,
+    "repo_blob_at_stated": "7c82d5976744ea7e02a7a4d1e3cb2ab7da774169",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/bench82_posthoc.py",
+    "blob": "1d2c193770520f7136db986ce32268a942db41a1",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 2281,
+    "repo_blob_at_stated": "79dc20615650fd8ced6450332de1c1235bebb21b",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/closure82.py",
+    "blob": "901081685b4964fe20c28a413986357c16301396",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 10967,
+    "repo_blob_at_stated": "2e1f50963ba9e7ce11363717c3922dee281febe0",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/contract82.py",
+    "blob": "a1b840b53b2d988246fe50c1d6c475d2abdcc257",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 22531,
+    "repo_blob_at_stated": "c301b31e7c22de9e34be79a5a8a2ae6b6ed040e9",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/data82.py",
+    "blob": "73d99db5f110e43779aa57b5432d52096fe224cb",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 12746,
+    "repo_blob_at_stated": "7028c37e7b43fda8e7125bf6687d77a5f7a088c7",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/eval82.py",
+    "blob": "e6b03938093afee5b76df76ac3dc8c1b7e509aca",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 14376,
+    "repo_blob_at_stated": "5f598f93cdf3f9b0dfe9fc66e4f68f866834ec6c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/fit82.py",
+    "blob": "7b410947a6bd857ab8236b859090a0cdadb8c2c7",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 5054,
+    "repo_blob_at_stated": "b424a1c8d08f8e29a423fb832125bdc86fa8b707",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/gate82.py",
+    "blob": "ba3a088f0b4cf12ffd7ef62174f7e5d863e69fc6",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 7166,
+    "repo_blob_at_stated": "f015ecdc9eb94fd3d7fa426d1bc9cdef35f967e9",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/protocol/compiled82.json",
+    "blob": "eeeeb7ab8c182a7141169a9544974425f2973083",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 26623,
+    "repo_blob_at_stated": "1458bb3854103af65528ee2a57abe9beb61f1c55",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/viz82.py",
+    "blob": "0f09f066fcb47447a29a2fa6703a6d9c81c214df",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 15968,
+    "repo_blob_at_stated": "fb8ce73e8cdf1a8d58e254b2211cf7e15719e4c3",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/bench83.py",
+    "blob": "cc572a4132471bf47fb82fc0206ac1b626f31896",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 9026,
+    "repo_blob_at_stated": "cf288c8edfbfe7ae58fa9e72f7e8c5f828fd2a23",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/closure83.py",
+    "blob": "6f4a7494c5cbbdc69163bd31c10eadf291b19c65",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 1447,
+    "repo_blob_at_stated": "e915846b4ee62f97a33aebd365aad383c898ce66",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/closure83_dr.py",
+    "blob": "f8dfd1ea1cbfcb6021359fd8b5fc685692fb5c7f",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 9517,
+    "repo_blob_at_stated": "8315820222ebc943085b68801d7bcd138406d975",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/compiler83.py",
+    "blob": "05fd27a8e5b35fa28a5641ad84b78ba2700c6f6c",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 8315,
+    "repo_blob_at_stated": "9d6901860338c9d3a2eb55467c095c701b61caa6",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/data83.py",
+    "blob": "1a0dee0a4883816bfe93e8faf50f016302fe7005",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 9043,
+    "repo_blob_at_stated": "867b8b061118bf71320c7add8e835fa051fe377f",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/eval83.py",
+    "blob": "ae5756d60ec2a19caf34df8a63777fb6803f71a1",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 7291,
+    "repo_blob_at_stated": "454e2f75f59a9905fd3b283edeb0d0ab7443284f",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/fit83.py",
+    "blob": "9436636f747abd0c579fb833184811c52b291c50",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 496,
+    "repo_blob_at_stated": "c29f141ae44bc97fbbb810d54d2b5eb83cff28c9",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/gate83.py",
+    "blob": "be4380a504b10fe8e3722b16f264b545e254e9e0",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 7174,
+    "repo_blob_at_stated": "91fc4d7f6ce1adfdd5077dfda008359385433940",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/protocol/amendment1_runtime_pdf_consistency.json",
+    "blob": "821d87b37c6fcd0a98f2a28d59fd6c3e177b3976",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 1266,
+    "repo_blob_at_stated": "d157571bb90d54b0cfe88c73b9a09bbc08aa1105",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/protocol/amendment2_parallel_render.json",
+    "blob": "f5326c055b51532d53162ac43492a570c3039f37",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 1002,
+    "repo_blob_at_stated": "09b97b031feebe225dd80f971c913b0a1b8d5f05",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/protocol/compiled83.json",
+    "blob": "479d482463356aa218d0bcd5e723dbeb1e48f31d",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 12384,
+    "repo_blob_at_stated": "bf9efd143959f45d9494c889289947123e4695e8",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/render83.py",
+    "blob": "29dd08eeb4ed481052c223c10c5fb459e24f3aaf",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 14920,
+    "repo_blob_at_stated": "4ade794f21f89c591128ca7482cae84001ae98c5",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/tests83.py",
+    "blob": "1f673a48867fb75d953a2a6d333392f242c81328",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 17636,
+    "repo_blob_at_stated": "d6261eeb10286e4176109524367540153626ea6c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/viz83.py",
+    "blob": "400c8c9b1923333a5c03120cdac6ff15924b8180",
+    "mtime": "2026-11-11 01:27:39",
+    "size": 10472,
+    "repo_blob_at_stated": "0c0f7e4108f2edfb8685bb2601c26b6fae4f7784",
+    "blob_found_in_commits": []
+   }
+  ],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-11 01:27:39",
+  "server_code_mtime_max": "2026-11-11 02:23:51"
+ },
+ {
+  "rundir": "rest_ecro86a",
+  "worklog": "WL86A",
+  "own_dir": "ecro86a",
+  "candidate_commits": [
+   "46593f0",
+   "1bd7df1",
+   "f6483ab"
+  ],
+  "stated_executable_commit": "f6483ab",
+  "n_server_files": 99,
+  "n_identical_to_stated": 9,
+  "n_different": 88,
+  "n_not_in_stated_tree": 1,
+  "own_dir_files_on_server": 13,
+  "own_dir_identical": 2,
+  "own_dir_missing_on_server": [],
+  "different": [
+   {
+    "path": "experiments/ecro86/analyze86.py",
+    "blob": "7453c6d9e4be7274a04ca6888e6ba8f8526ab14e",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 15397,
+    "repo_blob_at_stated": "6399d2436f3ca936b62954b74f9fbebd85502d3f",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/data/mats86.json",
+    "blob": "01d1326ebd9e9a68b59d7ffa5b4b09bd24c76b0a",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 273,
+    "repo_blob_at_stated": "f29e6d5c4c50115632524fdb4e649e1dbefbb482",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/diag_v3.py",
+    "blob": "6db79c81a15316536403f7a910d3908179fa011e",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 2365,
+    "repo_blob_at_stated": "fcfccb7fa4e94a1369e6d9a70e1b4c91743aabd7",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/econ86.py",
+    "blob": "bfe76d78584a652e37317978fdbe81b6c3fdcda5",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 12070,
+    "repo_blob_at_stated": "25e79c0740e21e199aef2f46dafb7edd9befe4e6",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/ecro86.py",
+    "blob": "c169c4bff5bdfa44ab3e8dfe6679377afd0dfb47",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 10583,
+    "repo_blob_at_stated": "c1927499c5a574efd203bc3b5d296cc3ca7c54a4",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/gen86.py",
+    "blob": "938b76f07d19898db060edb3fe143614e8a7144e",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 2825,
+    "repo_blob_at_stated": "6a9071377683ee037203d97ee2ea5f2f854180fe",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/masks86.py",
+    "blob": "b63853254effb672135d8c6c34e206fd8f4792f2",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 7973,
+    "repo_blob_at_stated": "ef9b9385ed3c527a5e0dd224204e221b179ca2b3",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/mats86.py",
+    "blob": "c166c15da13b6438c98a59f754121564156e846f",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 1837,
+    "repo_blob_at_stated": "bc0da4cf4e633a809b5ca74967b954ec5366e006",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/model86.py",
+    "blob": "68a638c92feca8d57aa93f1693bd177a305e0661",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 6714,
+    "repo_blob_at_stated": "af74ac9eb44c701dab134b52696267545b2cd1a8",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/protocol/amendment1.json",
+    "blob": "e5e16f4baa78f380b7ed6a4b559b96bef67bba2a",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 2017,
+    "repo_blob_at_stated": "a3d67b2a20973870dc497b45c0a94138196ded0d",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/protocol/ecro86.json",
+    "blob": "46b0a7765e2ff8765b7cc23c6fdd9a6e8ac483b5",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 17092,
+    "repo_blob_at_stated": "881816bc9b9a08a72560f0b713a10a4a4daf9dcc",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/pt86.py",
+    "blob": "bdbd804589a64a3274b538c29b1a65823be0c363",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 25286,
+    "repo_blob_at_stated": "a932a85ee89cd47cb64a99b7cbf8256b9551fe20",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/scene86.py",
+    "blob": "f6b21995054361ce86bc1991a853a5a9aad6ea45",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 11460,
+    "repo_blob_at_stated": "278363cfdc5bfb6ca520435556ec45dd38479ec6",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/tests86.py",
+    "blob": "1e706c0b9e754abe1aad9ca76df63ad2cc8da1f4",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 13227,
+    "repo_blob_at_stated": "7509b1f3cbc852fe5c5f2709286ac62a9f91fb4a",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/train86.py",
+    "blob": "324e8d232f8ecca8bea1a6a408c9bbafec18fd88",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 5492,
+    "repo_blob_at_stated": "a06bd77139cc58c38523d2117afa559f3e68f277",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86/viz86.py",
+    "blob": "cb60a909396ed832695d2d640f5130d9a27ba86e",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 12876,
+    "repo_blob_at_stated": "36e82cf3f0073b615dd5b5858907fbf56b1a17cd",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/analyze86a.py",
+    "blob": "8d1007e7397125370359ab7054889fe093d65f30",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 11667,
+    "repo_blob_at_stated": "43694512ca189e92e9ec70c51ed46713609afcae",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/attrib86a.py",
+    "blob": "e55032b992d84dc40a0e7df1dc1f5637762d8ad5",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 9761,
+    "repo_blob_at_stated": "d12c6de8c1f0d48ab0f1da12982849cf867fc398",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/d2_86a.py",
+    "blob": "c6545ce43414b06b656ad6c343edb133e436ee2d",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 16291,
+    "repo_blob_at_stated": "4bc0c6b15da7c829c97cb6087fc1692eabba43ab",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/d3_86a.py",
+    "blob": "4ac90218a74d769caea9563b46d19f64a1043bd6",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 8959,
+    "repo_blob_at_stated": "d38701fc73fa0123c22a4932c69acc78cb67c0e8",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/diag86a.py",
+    "blob": "db85c101c8973d322946a0d2825fd4bf79f90c2e",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 13523,
+    "repo_blob_at_stated": "01d05c8a37eaa5a9cf02d06ce0760348225e1d2d",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/protocol/amendment1.json",
+    "blob": "c53c9e408e3fdb3a3c2f36eba8f0270f2fda50e8",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 5121,
+    "repo_blob_at_stated": "6197813a8d5b3ca700a03bcb27587e75287af202",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/protocol/amendment2.json",
+    "blob": "72af56bf10c36908f4f923cf808150d56e506349",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 2352,
+    "repo_blob_at_stated": "9002e597bc0c139c06f505b5a9271d6529308f4d",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/protocol/ecro86a.json",
+    "blob": "f17dd0ede25516d8f8ae4a8bb957a2c218cf7968",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 8771,
+    "repo_blob_at_stated": "99b8899bbcda74e54cc9a9fff122e218b1aed566",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/pt86a.py",
+    "blob": "2866dded6f1affada09b2231e105dc4e0e6514ee",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 12262,
+    "repo_blob_at_stated": "19eb1fadb76aacdfd392a558b33e45eec50d2b22",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/ecro86a/viz86a.py",
+    "blob": "8be2b151e6730f48d99258bdba36cf5d3a8dc392",
+    "mtime": "2026-11-11 05:53:26",
+    "size": 7141,
+    "repo_blob_at_stated": "f97f410fa01d655b66973120e79310a9d1a243b8",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/closure80d_dr.py",
+    "blob": "8919c76d1f4403c78e8fd44328738e53149a17bc",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 9825,
+    "repo_blob_at_stated": "42264505b925de584c963b9d64a8e32ed2a1d44c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/diag80d_posthoc.py",
+    "blob": "8a7d76ca6c344a74b378138ca58faa1f8d83d67c",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 2113,
+    "repo_blob_at_stated": "4fda79a1b03f1cc6d611e188d1d704c864e0fc2e",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/energy80d.py",
+    "blob": "cd89add6262840973fd4dfbeb54cc514d1ced0cd",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 4792,
+    "repo_blob_at_stated": "811ff70142d3ce9811bc8d5cc5fbe64b103f908c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/protocol/closure80d.json",
+    "blob": "ea406bb7032766feb992ac9309b3a34e952f1abf",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 7958,
+    "repo_blob_at_stated": "6146d9a7cb6759b0f5de97b4882548426469eaed",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/run80d.py",
+    "blob": "340e6101010c9ecd26f148717251966cd8eade40",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 25064,
+    "repo_blob_at_stated": "d7b6fc3c49cd3ddd025c4782ad55fa6edb23ded4",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/viz/render80d.py",
+    "blob": "b024f80bfeb83851386b15911cbe9408632386e2",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 8911,
+    "repo_blob_at_stated": "a2a46fffc902ea1602b56b715d6dd8c5a5e006e4",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_closure80d/viz/viz80d_grids.py",
+    "blob": "9303f3f90579af148f706967f12352410743a994",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 11120,
+    "repo_blob_at_stated": "d123f1b78b08112f7a314da3b98c2cae438464bf",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/bench80c.py",
+    "blob": "ed3f10646403b2b3916633f4d748b26cdc8ca599",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 11536,
+    "repo_blob_at_stated": "f6777afdb556570925889fb53bd4fde5583d7544",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/closure80c.py",
+    "blob": "27f1a1ed340fb06c4e3b1f7290eb4e84d5fefbd4",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 5114,
+    "repo_blob_at_stated": "b56a2db35bb12548fb13d0c7349ba20f2fe42fa2",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/closure80c_dr.py",
+    "blob": "fca9010947c0cf7b66eda91b74deb183cdd198c3",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 9506,
+    "repo_blob_at_stated": "428d396d52d3eb28e496d89f0432182af20500a3",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/contract80c.py",
+    "blob": "e67d04987ccd1378c21da4989585e9f03b0c8006",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 16897,
+    "repo_blob_at_stated": "d8e8839a072d6717658226242ff968ff54c3cdd4",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/data80c.py",
+    "blob": "18482545f4477a95d19d581d284eaa52d10943bc",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 6539,
+    "repo_blob_at_stated": "9edc7827f4bed248e9174e268c6f9f0eb3938b98",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/eval80c.py",
+    "blob": "817c805641d39f518bbed0783cefd86c59d2fc92",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 13302,
+    "repo_blob_at_stated": "ffde4b98fdb78dab4fa85049c88ee776b2d999f1",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/protocol/amendment1_scope_correction.json",
+    "blob": "4d9eb8b0ea1755cfe2955776b0c8e7034fd7fe9c",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 2251,
+    "repo_blob_at_stated": "63116b25e136a4693b5e2018fac338eb0b2c7a74",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/protocol/compiled80c.json",
+    "blob": "503ff0be0fc86f9fe1be8db67fde995c08dd6003",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 16573,
+    "repo_blob_at_stated": "54e6297872ee5c8b4386a5b9a6b16efd62c3e8dc",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/ref80c.py",
+    "blob": "6a3cf460f30bc3c5766cd5368c323c450f73d042",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 6566,
+    "repo_blob_at_stated": "713f9ad9d0f2dc40b56a1bab71540e7119e41651",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/smoke80c.py",
+    "blob": "62c68845238379aca76eaffbd6d94fa922197220",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 8432,
+    "repo_blob_at_stated": "054d2862a7606e7102f966b0cfe33d03a65c7af0",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/survey80c.py",
+    "blob": "79b297d8c9730a624b92ea1305190e660a21e77a",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 4768,
+    "repo_blob_at_stated": "6f03c961eb07e631345d86418c9d555c903ebfc2",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled80c/train80c.py",
+    "blob": "0eea7f0f016ee4e05c0d1dd9a8267204b327e080",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 7298,
+    "repo_blob_at_stated": "6c0fd4545670e1b178dfa105e90333e788bc514c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/bench81.py",
+    "blob": "e6377c0e285a706ec73f97dede4b488694ce5727",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 9308,
+    "repo_blob_at_stated": "f8d8227de23ba1a3dde28c5a45b1fa6c663bb92a",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/closure81.py",
+    "blob": "076347e1598805c86c381e546e76c5a3591c8bb8",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 5164,
+    "repo_blob_at_stated": "b028f981d302951092010257648568b83cf5f4a5",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/closure81_dr.py",
+    "blob": "001394320d452330dd167388d0c69c3823ac1725",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 4131,
+    "repo_blob_at_stated": "0197460fdf9a473f0ac540b02c188f95867cd25c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/compress81.py",
+    "blob": "6c2fd72fbc83b14e5c25c6f955e801c939904b6a",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 4578,
+    "repo_blob_at_stated": "ca99fce36ba33bc7916376e5891490a0f2d667f7",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/contract81.py",
+    "blob": "ad560bcab790bd761dc976dfc20d380df5badc76",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 11339,
+    "repo_blob_at_stated": "d75b82ae7ecf419d9713b01c2d273455b9cec066",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/data81.py",
+    "blob": "c3633e5d753e3e1bcc9f5f9fa159ad3b093d1930",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 19979,
+    "repo_blob_at_stated": "2941f415d5358496c06f03762c9548cfad0937a5",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/diag81_posthoc.py",
+    "blob": "2b19fb89943a700f68cccfaa0adbff38f2c0240e",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 5470,
+    "repo_blob_at_stated": "f6a025dfe73dc7cbd7879a479d6bdc2c0a1714da",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/energy81.py",
+    "blob": "e0c7496cde11e3c45ad0864ac204ebf86c261159",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 4712,
+    "repo_blob_at_stated": "7d186a2be820aecf614a61b1097aac20a5ca82f2",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/eval81.py",
+    "blob": "0d295c347aaee5066c7e23cc86f88d454ef888a9",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 12422,
+    "repo_blob_at_stated": "d38a46b1e8908223b5dd0e8e7fc3d92bb8814e14",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/fit81.py",
+    "blob": "73d8e373221b58c303856fb677fde0a7a917d7ad",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 9941,
+    "repo_blob_at_stated": "617b3a06133039da50736c136582fbb1e85caa5b",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/gate81.py",
+    "blob": "adb00f3cdf352ab093b4e8b9dcbb679ba34b49d1",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 2494,
+    "repo_blob_at_stated": "c31a1cc0c3666b8efe55e6f36013a34530a6f407",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/layered81.py",
+    "blob": "28d02e0da8f890135fd13a570b81440229fb1d51",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 15941,
+    "repo_blob_at_stated": "5b63bbc97dbccdd134ba4bff5abcb4a65f8de1bc",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/protocol/amendment1_candidate.json",
+    "blob": "26a8e7d302fa431736bf701216495496b9b185db",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 4279,
+    "repo_blob_at_stated": "ad85bf3a843956682a361f4c96450db93868fc20",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/protocol/amendment2_execution.json",
+    "blob": "087375e941a466ea1ceaae678a7ac676b23be6e1",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 1874,
+    "repo_blob_at_stated": "5c13d673cfcc9246233bd5818a21a2459bb0ed5a",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/protocol/amendment3_streams_sharding.json",
+    "blob": "900c894bc6442875eda8794dd02bd553f7e8014b",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 1820,
+    "repo_blob_at_stated": "6a4dda7f9f969017c7e7e39872b7bf550940897c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/protocol/compiled81.json",
+    "blob": "94af48329c605a3c29a5344cb748682db9b68210",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 28875,
+    "repo_blob_at_stated": "b410af739776dac9325c29d24034632b5df40725",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/refaudit81.py",
+    "blob": "b216da71f5ea8f01d9cc480ce8671654a087a46b",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 16559,
+    "repo_blob_at_stated": "1cf8cc0517c457f2c8eeade47c38775100bc65e9",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/render81.py",
+    "blob": "2e31b47ee5d7f68403dc1ad6c4c1e88962a7b7d0",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 16973,
+    "repo_blob_at_stated": "576f071e90a57e3e5d375c6ed387eb7eff2c329b",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/testsB81.py",
+    "blob": "8b102c36ba68bee561b37282eaf1a42ffea0fa92",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 7241,
+    "repo_blob_at_stated": "d4ea75388306b08798a0754dfce89688bb52807d",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled81/viz81.py",
+    "blob": "a3bb0bb6ca914c7395db33d25e9967826f06fa14",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 8031,
+    "repo_blob_at_stated": "7c82d5976744ea7e02a7a4d1e3cb2ab7da774169",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/bench82_posthoc.py",
+    "blob": "1d2c193770520f7136db986ce32268a942db41a1",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 2281,
+    "repo_blob_at_stated": "79dc20615650fd8ced6450332de1c1235bebb21b",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/closure82.py",
+    "blob": "901081685b4964fe20c28a413986357c16301396",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 10967,
+    "repo_blob_at_stated": "2e1f50963ba9e7ce11363717c3922dee281febe0",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/contract82.py",
+    "blob": "a1b840b53b2d988246fe50c1d6c475d2abdcc257",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 22531,
+    "repo_blob_at_stated": "c301b31e7c22de9e34be79a5a8a2ae6b6ed040e9",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/data82.py",
+    "blob": "73d99db5f110e43779aa57b5432d52096fe224cb",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 12746,
+    "repo_blob_at_stated": "7028c37e7b43fda8e7125bf6687d77a5f7a088c7",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/eval82.py",
+    "blob": "e6b03938093afee5b76df76ac3dc8c1b7e509aca",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 14376,
+    "repo_blob_at_stated": "5f598f93cdf3f9b0dfe9fc66e4f68f866834ec6c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/fit82.py",
+    "blob": "7b410947a6bd857ab8236b859090a0cdadb8c2c7",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 5054,
+    "repo_blob_at_stated": "b424a1c8d08f8e29a423fb832125bdc86fa8b707",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/gate82.py",
+    "blob": "ba3a088f0b4cf12ffd7ef62174f7e5d863e69fc6",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 7166,
+    "repo_blob_at_stated": "f015ecdc9eb94fd3d7fa426d1bc9cdef35f967e9",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/protocol/compiled82.json",
+    "blob": "eeeeb7ab8c182a7141169a9544974425f2973083",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 26623,
+    "repo_blob_at_stated": "1458bb3854103af65528ee2a57abe9beb61f1c55",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled82/viz82.py",
+    "blob": "0f09f066fcb47447a29a2fa6703a6d9c81c214df",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 15968,
+    "repo_blob_at_stated": "fb8ce73e8cdf1a8d58e254b2211cf7e15719e4c3",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/bench83.py",
+    "blob": "cc572a4132471bf47fb82fc0206ac1b626f31896",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 9026,
+    "repo_blob_at_stated": "cf288c8edfbfe7ae58fa9e72f7e8c5f828fd2a23",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/closure83.py",
+    "blob": "6f4a7494c5cbbdc69163bd31c10eadf291b19c65",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 1447,
+    "repo_blob_at_stated": "e915846b4ee62f97a33aebd365aad383c898ce66",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/closure83_dr.py",
+    "blob": "f8dfd1ea1cbfcb6021359fd8b5fc685692fb5c7f",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 9517,
+    "repo_blob_at_stated": "8315820222ebc943085b68801d7bcd138406d975",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/compiler83.py",
+    "blob": "05fd27a8e5b35fa28a5641ad84b78ba2700c6f6c",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 8315,
+    "repo_blob_at_stated": "9d6901860338c9d3a2eb55467c095c701b61caa6",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/data83.py",
+    "blob": "1a0dee0a4883816bfe93e8faf50f016302fe7005",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 9043,
+    "repo_blob_at_stated": "867b8b061118bf71320c7add8e835fa051fe377f",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/eval83.py",
+    "blob": "ae5756d60ec2a19caf34df8a63777fb6803f71a1",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 7291,
+    "repo_blob_at_stated": "454e2f75f59a9905fd3b283edeb0d0ab7443284f",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/fit83.py",
+    "blob": "9436636f747abd0c579fb833184811c52b291c50",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 496,
+    "repo_blob_at_stated": "c29f141ae44bc97fbbb810d54d2b5eb83cff28c9",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/gate83.py",
+    "blob": "be4380a504b10fe8e3722b16f264b545e254e9e0",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 7174,
+    "repo_blob_at_stated": "91fc4d7f6ce1adfdd5077dfda008359385433940",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/protocol/amendment1_runtime_pdf_consistency.json",
+    "blob": "821d87b37c6fcd0a98f2a28d59fd6c3e177b3976",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 1266,
+    "repo_blob_at_stated": "d157571bb90d54b0cfe88c73b9a09bbc08aa1105",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/protocol/amendment2_parallel_render.json",
+    "blob": "f5326c055b51532d53162ac43492a570c3039f37",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 1002,
+    "repo_blob_at_stated": "09b97b031feebe225dd80f971c913b0a1b8d5f05",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/protocol/compiled83.json",
+    "blob": "479d482463356aa218d0bcd5e723dbeb1e48f31d",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 12384,
+    "repo_blob_at_stated": "bf9efd143959f45d9494c889289947123e4695e8",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/render83.py",
+    "blob": "29dd08eeb4ed481052c223c10c5fb459e24f3aaf",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 14920,
+    "repo_blob_at_stated": "4ade794f21f89c591128ca7482cae84001ae98c5",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/tests83.py",
+    "blob": "1f673a48867fb75d953a2a6d333392f242c81328",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 17636,
+    "repo_blob_at_stated": "d6261eeb10286e4176109524367540153626ea6c",
+    "blob_found_in_commits": []
+   },
+   {
+    "path": "experiments/fnto_compiled83/viz83.py",
+    "blob": "400c8c9b1923333a5c03120cdac6ff15924b8180",
+    "mtime": "2026-11-11 05:17:59",
+    "size": 10472,
+    "repo_blob_at_stated": "0c0f7e4108f2edfb8685bb2601c26b6fae4f7784",
+    "blob_found_in_commits": []
+   }
+  ],
+  "not_in_stated_tree": [
+   {
+    "path": "experiments/ecro86a/viz86a2.py",
+    "blob": "656a52b525d4168a3823513cf753f353e23b1d44",
+    "mtime": "2026-11-11 05:54:44",
+    "size": 4983,
+    "blob_found_in_commits": [
+     "bd81442 2026-11-11T14:56:46+09:00"
+    ]
+   }
+  ],
+  "server_code_mtime_min": "2026-11-11 05:17:59",
+  "server_code_mtime_max": "2026-11-11 05:54:44"
+ },
+ {
+  "rundir": "rest_gm187",
+  "worklog": "WL87",
+  "own_dir": "gm1_explicit87",
+  "candidate_commits": [
+   "60efecb"
+  ],
+  "stated_executable_commit": "60efecb",
+  "n_server_files": 92,
+  "n_identical_to_stated": 91,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 12,
+  "own_dir_identical": 12,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-11 08:38:11",
+  "server_code_mtime_max": "2026-11-11 08:38:19"
+ },
+ {
+  "rundir": "rest_rel88",
+  "worklog": "WL88",
+  "own_dir": "gm1_relation88",
+  "candidate_commits": [
+   "26e13f2"
+  ],
+  "stated_executable_commit": "26e13f2",
+  "n_server_files": 108,
+  "n_identical_to_stated": 105,
+  "n_different": 2,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 16,
+  "own_dir_identical": 14,
+  "own_dir_missing_on_server": [],
+  "different": [
+   {
+    "path": "experiments/gm1_relation88/analyze88.py",
+    "blob": "39489c81bf3aec22a410004efa23c1cd9dd8cd82",
+    "mtime": "2026-11-12 03:09:06",
+    "size": 43586,
+    "repo_blob_at_stated": "f3a7b812d0b3bf80280ac09a3a80400c73549871",
+    "blob_found_in_commits": [
+     "c5e5e2f 2026-11-12T12:13:42+09:00"
+    ]
+   },
+   {
+    "path": "experiments/gm1_relation88/viz88.py",
+    "blob": "1ca362dc270f3da15ebcd54dd181235102a771f4",
+    "mtime": "2026-11-12 03:09:07",
+    "size": 10509,
+    "repo_blob_at_stated": "3e4ba08639262d3d55f26b6644238473c46f29b4",
+    "blob_found_in_commits": [
+     "c5e5e2f 2026-11-12T12:13:42+09:00"
+    ]
+   }
+  ],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-11 18:05:24",
+  "server_code_mtime_max": "2026-11-12 03:09:07"
+ },
+ {
+  "rundir": "rest_rel89",
+  "worklog": "WL89",
+  "own_dir": "gm1_relation89",
+  "candidate_commits": [
+   "7515a29",
+   "5d6bb5c"
+  ],
+  "stated_executable_commit": "5d6bb5c",
+  "n_server_files": 120,
+  "n_identical_to_stated": 119,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 11,
+  "own_dir_identical": 11,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-12 06:01:21",
+  "server_code_mtime_max": "2026-11-12 06:01:30"
+ },
+ {
+  "rundir": "rest_gap90",
+  "worklog": "WL90",
+  "own_dir": "gm1_gap90",
+  "candidate_commits": [
+   "51b93b8"
+  ],
+  "stated_executable_commit": "51b93b8",
+  "n_server_files": 129,
+  "n_identical_to_stated": 128,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 9,
+  "own_dir_identical": 9,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-12 07:05:09",
+  "server_code_mtime_max": "2026-11-12 07:05:10"
+ },
+ {
+  "rundir": "rest_x191",
+  "worklog": "WL91",
+  "own_dir": "gm1_c3urx1_91",
+  "candidate_commits": [
+   "7a8544e"
+  ],
+  "stated_executable_commit": "7a8544e",
+  "n_server_files": 138,
+  "n_identical_to_stated": 137,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 9,
+  "own_dir_identical": 9,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-12 08:40:07",
+  "server_code_mtime_max": "2026-11-12 08:40:08"
+ },
+ {
+  "rundir": "rest_x92",
+  "worklog": "WL92",
+  "own_dir": "ecro_attr92",
+  "candidate_commits": [
+   "5e672ff"
+  ],
+  "stated_executable_commit": "5e672ff",
+  "n_server_files": 100,
+  "n_identical_to_stated": 99,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 8,
+  "own_dir_identical": 8,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-12 21:57:22",
+  "server_code_mtime_max": "2026-11-12 21:57:23"
+ },
+ {
+  "rundir": "rest_x92a",
+  "worklog": "WL92A",
+  "own_dir": "ecro_own92a",
+  "candidate_commits": [
+   "7247d30",
+   "c40226d"
+  ],
+  "stated_executable_commit": "c40226d",
+  "n_server_files": 106,
+  "n_identical_to_stated": 105,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 6,
+  "own_dir_identical": 6,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-13 00:20:23",
+  "server_code_mtime_max": "2026-11-13 00:57:06"
+ },
+ {
+  "rundir": "rest_x92b",
+  "worklog": "WL92B",
+  "own_dir": "ecro_cf92b",
+  "candidate_commits": [
+   "b29d8ff"
+  ],
+  "stated_executable_commit": "b29d8ff",
+  "n_server_files": 112,
+  "n_identical_to_stated": 111,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 6,
+  "own_dir_identical": 6,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-13 03:47:57",
+  "server_code_mtime_max": "2026-11-13 03:47:57"
+ },
+ {
+  "rundir": "rest_x93",
+  "worklog": "WL93",
+  "own_dir": "ecro_stage93",
+  "candidate_commits": [
+   "c30c797"
+  ],
+  "stated_executable_commit": "c30c797",
+  "n_server_files": 122,
+  "n_identical_to_stated": 118,
+  "n_different": 1,
+  "n_not_in_stated_tree": 2,
+  "own_dir_files_on_server": 10,
+  "own_dir_identical": 7,
+  "own_dir_missing_on_server": [],
+  "different": [
+   {
+    "path": "experiments/ecro_stage93/analyze93.py",
+    "blob": "006b71eb27a3ba360a0cf50d85a3793424ea5dac",
+    "mtime": "2026-11-13 06:45:08",
+    "size": 11772,
+    "repo_blob_at_stated": "d2933f1fa5f5298d3ef9c7191f5043f182ba9def",
+    "blob_found_in_commits": [
+     "56be753 2026-11-13T15:49:20+09:00"
+    ]
+   }
+  ],
+  "not_in_stated_tree": [
+   {
+    "path": "experiments/ecro_stage93/posthoc93.py",
+    "blob": "750de55b3dc68edc4a36daebb36124f5556930aa",
+    "mtime": "2026-11-13 06:45:56",
+    "size": 4545,
+    "blob_found_in_commits": [
+     "56be753 2026-11-13T15:49:20+09:00"
+    ]
+   },
+   {
+    "path": "experiments/ecro_stage93/vizgate93.py",
+    "blob": "512122cd7fcca942460d3f5576351a74c134e8d2",
+    "mtime": "2026-11-13 06:47:16",
+    "size": 3578,
+    "blob_found_in_commits": [
+     "56be753 2026-11-13T15:49:20+09:00"
+    ]
+   }
+  ],
+  "server_code_mtime_min": "2026-11-13 06:42:45",
+  "server_code_mtime_max": "2026-11-13 06:47:16"
+ },
+ {
+  "rundir": "rest_x93a",
+  "worklog": "WL93A",
+  "own_dir": "ecro_stage93a",
+  "candidate_commits": [
+   "888ceb6"
+  ],
+  "stated_executable_commit": "888ceb6",
+  "n_server_files": 131,
+  "n_identical_to_stated": 128,
+  "n_different": 0,
+  "n_not_in_stated_tree": 2,
+  "own_dir_files_on_server": 9,
+  "own_dir_identical": 7,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [
+   {
+    "path": "experiments/ecro_stage93a/posthoc93a.py",
+    "blob": "4276adebf1bb3112682b7123ec9fc8f52a152d13",
+    "mtime": "2026-11-13 07:51:58",
+    "size": 3764,
+    "blob_found_in_commits": [
+     "ab68553 2026-11-13T16:54:37+09:00"
+    ]
+   },
+   {
+    "path": "experiments/ecro_stage93a/vizpost93a.py",
+    "blob": "777428c9fc99c653bba4b9ca9ef309a222861081",
+    "mtime": "2026-11-13 07:52:35",
+    "size": 1972,
+    "blob_found_in_commits": [
+     "ab68553 2026-11-13T16:54:37+09:00"
+    ]
+   }
+  ],
+  "server_code_mtime_min": "2026-11-13 07:22:32",
+  "server_code_mtime_max": "2026-11-13 07:52:35"
+ },
+ {
+  "rundir": "rest_x93b",
+  "worklog": "WL93B",
+  "own_dir": "ecro_stage93b",
+  "candidate_commits": [
+   "03fbc84"
+  ],
+  "stated_executable_commit": "03fbc84",
+  "n_server_files": 137,
+  "n_identical_to_stated": 136,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 6,
+  "own_dir_identical": 6,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-13 09:36:41",
+  "server_code_mtime_max": "2026-11-13 09:36:43"
+ },
+ {
+  "rundir": "rest_x93c",
+  "worklog": "WL93C",
+  "own_dir": "ecro_stage93c",
+  "candidate_commits": [
+   "cab6e18"
+  ],
+  "stated_executable_commit": "cab6e18",
+  "n_server_files": 143,
+  "n_identical_to_stated": 142,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 6,
+  "own_dir_identical": 6,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-13 13:50:18",
+  "server_code_mtime_max": "2026-11-13 13:50:20"
+ },
+ {
+  "rundir": "rest_x93d",
+  "worklog": "WL93D",
+  "own_dir": "ecro_local93d",
+  "candidate_commits": [
+   "4f3fc56"
+  ],
+  "stated_executable_commit": "4f3fc56",
+  "n_server_files": 149,
+  "n_identical_to_stated": 147,
+  "n_different": 0,
+  "n_not_in_stated_tree": 1,
+  "own_dir_files_on_server": 6,
+  "own_dir_identical": 5,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [
+   {
+    "path": "experiments/ecro_local93d/vizrender93d.py",
+    "blob": "5f3314edf6828dba09e0dcc4721c89af83a6742c",
+    "mtime": "2026-11-14 07:29:02",
+    "size": 4278,
+    "blob_found_in_commits": [
+     "c5df24d 2026-11-14T16:29:28+09:00"
+    ]
+   }
+  ],
+  "server_code_mtime_min": "2026-11-14 05:40:57",
+  "server_code_mtime_max": "2026-11-14 07:29:02"
+ },
+ {
+  "rundir": "rest_x93d_ck2",
+  "worklog": "WL93D-addendum",
+  "own_dir": "ecro_local93d",
+  "candidate_commits": [
+   "d8d092f"
+  ],
+  "stated_executable_commit": "d8d092f",
+  "n_server_files": 1253,
+  "n_identical_to_stated": 1252,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 12,
+  "own_dir_identical": 12,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-14 08:30:55",
+  "server_code_mtime_max": "2026-11-14 08:30:58"
+ },
+ {
+  "rundir": "rest_x94",
+  "worklog": "WL94",
+  "own_dir": "ecro_mat94",
+  "candidate_commits": [
+   "e347904"
+  ],
+  "stated_executable_commit": "e347904",
+  "n_server_files": 1259,
+  "n_identical_to_stated": 1258,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 6,
+  "own_dir_identical": 6,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-14 10:43:46",
+  "server_code_mtime_max": "2026-11-14 10:44:00"
+ },
+ {
+  "rundir": "rest_x94r",
+  "worklog": "WL94A",
+  "own_dir": "ecro_mat94r",
+  "candidate_commits": [
+   "5b7c0c8"
+  ],
+  "stated_executable_commit": "5b7c0c8",
+  "n_server_files": 1263,
+  "n_identical_to_stated": 1262,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 3,
+  "own_dir_identical": 3,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-14 12:18:50",
+  "server_code_mtime_max": "2026-11-14 12:18:57"
+ },
+ {
+  "rundir": "rest_x94b",
+  "worklog": "WL94B",
+  "own_dir": "ecro_exp94b",
+  "candidate_commits": [
+   "5c0a6cd"
+  ],
+  "stated_executable_commit": "5c0a6cd",
+  "n_server_files": 1271,
+  "n_identical_to_stated": 1268,
+  "n_different": 0,
+  "n_not_in_stated_tree": 2,
+  "own_dir_files_on_server": 5,
+  "own_dir_identical": 3,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [
+   {
+    "path": "experiments/ecro_exp94b/figb4_posthoc.py",
+    "blob": "bc4b696a2953a29b6a5989f1b786c721edf0d2ab",
+    "mtime": "2026-11-14 14:19:42",
+    "size": 1914,
+    "blob_found_in_commits": [
+     "2990a2d 2026-11-14T23:21:05+09:00"
+    ]
+   },
+   {
+    "path": "experiments/ecro_exp94b/posthoc94b.py",
+    "blob": "d3e7ac608b66e51d820c7a98d7ddaaff3f845e90",
+    "mtime": "2026-11-14 14:19:02",
+    "size": 3846,
+    "blob_found_in_commits": [
+     "2990a2d 2026-11-14T23:21:05+09:00"
+    ]
+   }
+  ],
+  "server_code_mtime_min": "2026-11-14 14:14:42",
+  "server_code_mtime_max": "2026-11-14 14:19:42"
+ },
+ {
+  "rundir": "rest_x94c",
+  "worklog": "WL94C",
+  "own_dir": "ecro_q94c",
+  "candidate_commits": [
+   "6d8b254"
+  ],
+  "stated_executable_commit": "6d8b254",
+  "n_server_files": 1274,
+  "n_identical_to_stated": 1273,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 3,
+  "own_dir_identical": 3,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-14 14:54:01",
+  "server_code_mtime_max": "2026-11-14 14:54:11"
+ },
+ {
+  "rundir": "rest_x94d",
+  "worklog": "WL94D",
+  "own_dir": "ecro_s94d",
+  "candidate_commits": [
+   "a08c9bf"
+  ],
+  "stated_executable_commit": "a08c9bf",
+  "n_server_files": 1277,
+  "n_identical_to_stated": 1276,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 3,
+  "own_dir_identical": 3,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-14 16:30:23",
+  "server_code_mtime_max": "2026-11-14 16:30:23"
+ },
+ {
+  "rundir": "rest_x95a",
+  "worklog": "WL95A",
+  "own_dir": "ecro_attr95a",
+  "candidate_commits": [
+   "c152120"
+  ],
+  "stated_executable_commit": "c152120",
+  "n_server_files": 1282,
+  "n_identical_to_stated": 1281,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 5,
+  "own_dir_identical": 5,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-14 21:01:38",
+  "server_code_mtime_max": "2026-11-14 21:01:38"
+ },
+ {
+  "rundir": "rest_x96a",
+  "worklog": "WL96A",
+  "own_dir": "ecro_util96a",
+  "candidate_commits": [
+   "a1718f7"
+  ],
+  "stated_executable_commit": "a1718f7",
+  "n_server_files": 1283,
+  "n_identical_to_stated": 1282,
+  "n_different": 0,
+  "n_not_in_stated_tree": 0,
+  "own_dir_files_on_server": 3,
+  "own_dir_identical": 3,
+  "own_dir_missing_on_server": [],
+  "different": [],
+  "not_in_stated_tree": [],
+  "server_code_mtime_min": "2026-11-15 17:04:49",
+  "server_code_mtime_max": "2026-11-15 17:04:56"
+ }
+]

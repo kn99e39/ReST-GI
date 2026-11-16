@@ -1,0 +1,99 @@
+{
+ "tag": "ns4_np64_nr4",
+ "NS": 4,
+ "NP": 64,
+ "NR": 4,
+ "sender": {
+  "irradiance_weighted_cos_i_mean": 0.04699601684138845,
+  "cos_i_min": 0.024787886640791804,
+  "cos_i_max": 0.1516196087157808,
+  "incident_ring_share_of_irradiance": [
+   0.9999999999999999,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "emitted_flux_ratio_table_over_true": {
+   "qbar_sa": 1.2987331119387513,
+   "qbar_cos": 1.0000000000000002,
+   "q_M64_stored": 1.2209918201351473
+  },
+  "physical_albedo_of_panel_for_this_light_rgb": [
+   0.47173899744451786,
+   0.5788215619412276,
+   0.5581062450549015
+  ],
+  "q_M64_vs_qbar_sa_field_rel_l1_WT": 0.22443724108393348,
+  "seconds": 234.97602581977844
+ },
+ "delivery": {
+  "exact": {
+   "ratio_boxA_vs_pathtraced_ref": 1.0151541916184206,
+   "abs_rel_l1_vs_ref": 0.06809553084956313,
+   "corr_vs_ref": 0.9950793964908757,
+   "ratio_panel_face_vs_ref": 1.0119984110780182,
+   "ratio_vs_my_exact": 1.0,
+   "abs_rel_l1_vs_my_exact": 0.0
+  },
+  "qbar_sa": {
+   "ratio_boxA_vs_pathtraced_ref": 1.4110209136220988,
+   "abs_rel_l1_vs_ref": 0.42287737253945146,
+   "corr_vs_ref": 0.9502108564225773,
+   "ratio_panel_face_vs_ref": 1.437544084418606,
+   "ratio_vs_my_exact": 1.389957235336401,
+   "abs_rel_l1_vs_my_exact": 0.3999690609182799
+  },
+  "qbar_cos": {
+   "ratio_boxA_vs_pathtraced_ref": 1.204041564199588,
+   "abs_rel_l1_vs_ref": 0.2357323030651706,
+   "corr_vs_ref": 0.9730047518982787,
+   "ratio_panel_face_vs_ref": 1.1923425148557891,
+   "ratio_vs_my_exact": 1.1860676674939714,
+   "abs_rel_l1_vs_my_exact": 0.22219787519323891
+  },
+  "q_M64": {
+   "ratio_boxA_vs_pathtraced_ref": 1.485186264683855,
+   "abs_rel_l1_vs_ref": 0.48639249849905436,
+   "corr_vs_ref": 0.9722973229741946,
+   "ratio_panel_face_vs_ref": 1.4938522319343113,
+   "ratio_vs_my_exact": 1.4630154482405089,
+   "abs_rel_l1_vs_my_exact": 0.46347309553245203
+  }
+ },
+ "ref_half_noise_boxA": 0.05926934169469287,
+ "ref_total_boxA": 15.131073580647898,
+ "my_exact_total_boxA": 15.360372769081458,
+ "exact_irradiance_share_by_sender_ring": [
+  0.29735872286015386,
+  0.43886709970350196,
+  0.2243868253917513,
+  0.03938735204459299
+ ],
+ "wl95a_pooled_for_comparison": {
+  "X1": [
+   1.0224,
+   0.1106
+  ],
+  "X1c": [
+   1.0371,
+   0.2677
+  ],
+  "q256": [
+   1.4221,
+   0.4331
+  ],
+  "M64_spool": [
+   1.4949,
+   0.4996
+  ],
+  "A4_M64_s16": [
+   1.5441,
+   0.5464
+  ],
+  "format": "[ratio, abs_rel_l1] on box A, 64 pooled relation draws (results/ecro_attr95a/an.json)"
+ },
+ "seconds_delivery": 40.153698444366455,
+ "inputs": {
+  "deliv_sha256_16": "f2324a32effc80ca"
+ }
+}

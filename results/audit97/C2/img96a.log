@@ -1,0 +1,312 @@
+{"ROI_T": [[512, 512], "bool", 58035], "DIFF": [[512, 512], "bool", 9039], "vf_boxA": [[512, 512], "float32", null], "panel": [[512, 512], "bool", 108358], "frame": [[512, 512], "bool", 262144], "sid": [[512, 512], "int64", null], "pid": [[512, 512], "int64", null], "mirror_patch": [[512, 512], "int64", null], "T": [[1270], "bool", 54], "T_panel_face": [[1270], "bool", 9], "T_other_faces": [[1270], "bool", 45], "panel_facing_bins": [[1270, 64], "bool", 589], "S1": [[1270], "bool", 42], "PSID": [[1270], "int64", null], "PMAT_default": [[1270], "int64", null]}
+== ROI_T: px 58035 tot-share 0.195 H-share 0.321 n_img 0.00146 H -0.00082 U_frozen -0.00077 U_raw 0.00069 dI/n 0.44
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0118 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00146 signed +0.00019 nb 0.00003 E_H 0.0118 maxpix 0.009 l2 0.00188
+   Fb     dI 0.00146 signed -0.00019 nb 0.00003 E_H 0.0120 maxpix 0.009 l2 0.00188
+   Z      dI 0.17789 signed -0.17789 nb 0.00027 E_H 0.1753 maxpix 0.318 l2 0.17231
+   XD     dI 0.00290 signed +0.00109 nb 0.00004 E_H 0.0119 maxpix 0.013 l2 0.00345
+   XP     dI 0.00308 signed +0.00197 nb 0.00003 E_H 0.0122 maxpix 0.012 l2 0.00363
+   XOD    dI 0.00065 signed +0.00057 nb 0.00002 E_H 0.0120 maxpix 0.003 l2 0.00075
+   XOP    dI 0.00060 signed +0.00007 nb 0.00002 E_H 0.0119 maxpix 0.003 l2 0.00066
+   XSD    dI 0.00272 signed +0.00052 nb 0.00003 E_H 0.0118 maxpix 0.014 l2 0.00343
+   XSP    dI 0.00312 signed +0.00191 nb 0.00003 E_H 0.0122 maxpix 0.013 l2 0.00363
+   G8601  dI 0.02546 signed -0.01887 nb 0.00012 E_H 0.0251 maxpix 0.122 l2 0.03498
+   G8602  dI 0.01262 signed -0.00904 nb 0.00008 E_H 0.0150 maxpix 0.067 l2 0.01706
+== DIFF: px 9039 tot-share 0.026 H-share 0.339 n_img 0.00100 H +0.00007 U_frozen +0.00030 U_raw 0.00130 dI/n 1.07
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0093 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00100 signed +0.00045 nb 0.00011 E_H 0.0096 maxpix 0.006 l2 0.00127
+   Fb     dI 0.00100 signed -0.00045 nb 0.00011 E_H 0.0091 maxpix 0.006 l2 0.00127
+   Z      dI 0.17108 signed -0.17108 nb 0.00056 E_H 0.1716 maxpix 0.277 l2 0.15066
+   XD     dI 0.00107 signed -0.00099 nb 0.00012 E_H 0.0088 maxpix 0.008 l2 0.00140
+   XP     dI 0.00098 signed +0.00010 nb 0.00011 E_H 0.0092 maxpix 0.007 l2 0.00114
+   XOD    dI 0.00107 signed -0.00099 nb 0.00012 E_H 0.0088 maxpix 0.008 l2 0.00139
+   XOP    dI 0.00096 signed +0.00004 nb 0.00011 E_H 0.0092 maxpix 0.007 l2 0.00114
+   XSD    dI 0.00005 signed -0.00000 nb 0.00001 E_H 0.0093 maxpix 0.001 l2 0.00006
+   XSP    dI 0.00006 signed +0.00006 nb 0.00001 E_H 0.0093 maxpix 0.000 l2 0.00006
+   G8601  dI 0.00194 signed +0.00096 nb 0.00013 E_H 0.0098 maxpix 0.006 l2 0.00191
+   G8602  dI 0.00306 signed +0.00296 nb 0.00013 E_H 0.0108 maxpix 0.008 l2 0.00297
+== ALL_VALID: px 262144 tot-share 1.000 H-share 0.252 n_img 0.00068 H +0.00022 U_frozen +0.00032 U_raw 0.00100 dI/n 1.32
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0059 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00068 signed +0.00016 nb 0.00005 E_H 0.0059 maxpix 0.008 l2 0.00088
+   Fb     dI 0.00068 signed -0.00016 nb 0.00005 E_H 0.0059 maxpix 0.008 l2 0.00088
+   Z      dI 0.12772 signed -0.12772 nb 0.00029 E_H 0.1269 maxpix 0.280 l2 0.10849
+   XD     dI 0.00135 signed -0.00027 nb 0.00006 E_H 0.0058 maxpix 0.011 l2 0.00157
+   XP     dI 0.00110 signed +0.00042 nb 0.00005 E_H 0.0060 maxpix 0.011 l2 0.00145
+   XOD    dI 0.00089 signed -0.00037 nb 0.00005 E_H 0.0058 maxpix 0.010 l2 0.00097
+   XOP    dI 0.00059 signed -0.00001 nb 0.00005 E_H 0.0059 maxpix 0.006 l2 0.00063
+   XSD    dI 0.00060 signed +0.00011 nb 0.00001 E_H 0.0059 maxpix 0.012 l2 0.00125
+   XSP    dI 0.00067 signed +0.00042 nb 0.00001 E_H 0.0060 maxpix 0.012 l2 0.00132
+   G8601  dI 0.00656 signed -0.00338 nb 0.00008 E_H 0.0094 maxpix 0.107 l2 0.01291
+   G8602  dI 0.00458 signed -0.00121 nb 0.00007 E_H 0.0077 maxpix 0.059 l2 0.00689
+== panel: px 108358 tot-share 0.288 H-share 0.409 n_img 0.00146 H -0.00022 U_frozen -0.00014 U_raw 0.00133 dI/n 0.85
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0110 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00146 signed +0.00041 nb 0.00005 E_H 0.0111 maxpix 0.012 l2 0.00190
+   Fb     dI 0.00146 signed -0.00041 nb 0.00005 E_H 0.0111 maxpix 0.012 l2 0.00190
+   Z      dI 0.22228 signed -0.22228 nb 0.00034 E_H 0.2202 maxpix 0.402 l2 0.20426
+   XD     dI 0.00283 signed +0.00065 nb 0.00005 E_H 0.0110 maxpix 0.016 l2 0.00345
+   XP     dI 0.00270 signed +0.00155 nb 0.00005 E_H 0.0112 maxpix 0.015 l2 0.00335
+   XOD    dI 0.00124 signed +0.00028 nb 0.00004 E_H 0.0110 maxpix 0.014 l2 0.00167
+   XOP    dI 0.00094 signed +0.00012 nb 0.00004 E_H 0.0110 maxpix 0.007 l2 0.00103
+   XSD    dI 0.00199 signed +0.00036 nb 0.00002 E_H 0.0110 maxpix 0.018 l2 0.00305
+   XSP    dI 0.00226 signed +0.00143 nb 0.00002 E_H 0.0113 maxpix 0.017 l2 0.00323
+   G8601  dI 0.02086 signed -0.01204 nb 0.00012 E_H 0.0227 maxpix 0.154 l2 0.03149
+   G8602  dI 0.01337 signed -0.00540 nb 0.00009 E_H 0.0166 maxpix 0.085 l2 0.01666
+== frame: px 262144 tot-share 1.000 H-share 0.252 n_img 0.00068 H +0.00022 U_frozen +0.00032 U_raw 0.00100 dI/n 1.32
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0059 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00068 signed +0.00016 nb 0.00005 E_H 0.0059 maxpix 0.008 l2 0.00088
+   Fb     dI 0.00068 signed -0.00016 nb 0.00005 E_H 0.0059 maxpix 0.008 l2 0.00088
+   Z      dI 0.12772 signed -0.12772 nb 0.00029 E_H 0.1269 maxpix 0.280 l2 0.10849
+   XD     dI 0.00135 signed -0.00027 nb 0.00006 E_H 0.0058 maxpix 0.011 l2 0.00157
+   XP     dI 0.00110 signed +0.00042 nb 0.00005 E_H 0.0060 maxpix 0.011 l2 0.00145
+   XOD    dI 0.00089 signed -0.00037 nb 0.00005 E_H 0.0058 maxpix 0.010 l2 0.00097
+   XOP    dI 0.00059 signed -0.00001 nb 0.00005 E_H 0.0059 maxpix 0.006 l2 0.00063
+   XSD    dI 0.00060 signed +0.00011 nb 0.00001 E_H 0.0059 maxpix 0.012 l2 0.00125
+   XSP    dI 0.00067 signed +0.00042 nb 0.00001 E_H 0.0060 maxpix 0.012 l2 0.00132
+   G8601  dI 0.00656 signed -0.00338 nb 0.00008 E_H 0.0094 maxpix 0.107 l2 0.01291
+   G8602  dI 0.00458 signed -0.00121 nb 0.00007 E_H 0.0077 maxpix 0.059 l2 0.00689
+== sid0: px 19742 tot-share 0.026 H-share 0.513 n_img 0.00156 H +0.00050 U_frozen +0.00087 U_raw 0.00243 dI/n 1.32
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0211 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00156 signed -0.00087 nb 0.00019 E_H 0.0209 maxpix 0.014 l2 0.00227
+   Fb     dI 0.00156 signed +0.00087 nb 0.00019 E_H 0.0214 maxpix 0.014 l2 0.00227
+   Z      dI 0.26601 signed -0.26601 nb 0.00130 E_H 0.2681 maxpix 0.376 l2 0.26226
+   XD     dI 0.00210 signed +0.00000 nb 0.00019 E_H 0.0211 maxpix 0.009 l2 0.00256
+   XP     dI 0.00213 signed +0.00147 nb 0.00018 E_H 0.0217 maxpix 0.011 l2 0.00266
+   XOD    dI 0.00206 signed +0.00019 nb 0.00019 E_H 0.0211 maxpix 0.009 l2 0.00251
+   XOP    dI 0.00211 signed +0.00141 nb 0.00018 E_H 0.0217 maxpix 0.011 l2 0.00264
+   XSD    dI 0.00019 signed -0.00018 nb 0.00001 E_H 0.0210 maxpix 0.002 l2 0.00032
+   XSP    dI 0.00009 signed +0.00005 nb 0.00001 E_H 0.0211 maxpix 0.001 l2 0.00011
+   G8601  dI 0.00310 signed -0.00042 nb 0.00021 E_H 0.0214 maxpix 0.014 l2 0.00378
+   G8602  dI 0.00498 signed +0.00455 nb 0.00020 E_H 0.0233 maxpix 0.015 l2 0.00545
+== sid2: px 37137 tot-share 0.163 H-share 0.279 n_img 0.00081 H +0.00021 U_frozen +0.00038 U_raw 0.00118 dI/n 1.26
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0065 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00081 signed +0.00045 nb 0.00008 E_H 0.0066 maxpix 0.005 l2 0.00098
+   Fb     dI 0.00081 signed -0.00045 nb 0.00008 E_H 0.0064 maxpix 0.005 l2 0.00098
+   Z      dI 0.13833 signed -0.13833 nb 0.00035 E_H 0.1386 maxpix 0.184 l2 0.13229
+   XD     dI 0.00098 signed -0.00089 nb 0.00008 E_H 0.0062 maxpix 0.006 l2 0.00127
+   XP     dI 0.00078 signed -0.00000 nb 0.00008 E_H 0.0064 maxpix 0.005 l2 0.00100
+   XOD    dI 0.00102 signed -0.00095 nb 0.00008 E_H 0.0062 maxpix 0.006 l2 0.00130
+   XOP    dI 0.00076 signed -0.00002 nb 0.00008 E_H 0.0064 maxpix 0.005 l2 0.00099
+   XSD    dI 0.00006 signed +0.00006 nb 0.00001 E_H 0.0065 maxpix 0.001 l2 0.00011
+   XSP    dI 0.00004 signed +0.00002 nb 0.00000 E_H 0.0065 maxpix 0.000 l2 0.00005
+   G8601  dI 0.00129 signed +0.00031 nb 0.00009 E_H 0.0068 maxpix 0.006 l2 0.00148
+   G8602  dI 0.00217 signed +0.00214 nb 0.00009 E_H 0.0074 maxpix 0.005 l2 0.00229
+== sid3: px 9228 tot-share 0.033 H-share 0.372 n_img 0.00063 H +0.00029 U_frozen +0.00046 U_raw 0.00109 dI/n 1.45
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0074 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00063 signed +0.00045 nb 0.00009 E_H 0.0076 maxpix 0.004 l2 0.00078
+   Fb     dI 0.00063 signed -0.00045 nb 0.00009 E_H 0.0073 maxpix 0.004 l2 0.00078
+   Z      dI 0.18226 signed -0.18226 nb 0.00039 E_H 0.1824 maxpix 0.243 l2 0.18396
+   XD     dI 0.00098 signed -0.00068 nb 0.00009 E_H 0.0073 maxpix 0.004 l2 0.00113
+   XP     dI 0.00047 signed -0.00003 nb 0.00009 E_H 0.0074 maxpix 0.003 l2 0.00059
+   XOD    dI 0.00092 signed -0.00060 nb 0.00009 E_H 0.0073 maxpix 0.004 l2 0.00107
+   XOP    dI 0.00051 signed -0.00000 nb 0.00009 E_H 0.0074 maxpix 0.003 l2 0.00063
+   XSD    dI 0.00010 signed -0.00007 nb 0.00001 E_H 0.0074 maxpix 0.001 l2 0.00015
+   XSP    dI 0.00008 signed -0.00003 nb 0.00001 E_H 0.0074 maxpix 0.001 l2 0.00013
+   G8601  dI 0.00160 signed -0.00052 nb 0.00010 E_H 0.0073 maxpix 0.006 l2 0.00195
+   G8602  dI 0.00131 signed +0.00066 nb 0.00010 E_H 0.0077 maxpix 0.010 l2 0.00156
+== sid5: px 108358 tot-share 0.288 H-share 0.409 n_img 0.00146 H -0.00022 U_frozen -0.00014 U_raw 0.00133 dI/n 0.85
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0110 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00146 signed +0.00041 nb 0.00005 E_H 0.0111 maxpix 0.012 l2 0.00190
+   Fb     dI 0.00146 signed -0.00041 nb 0.00005 E_H 0.0111 maxpix 0.012 l2 0.00190
+   Z      dI 0.22228 signed -0.22228 nb 0.00034 E_H 0.2202 maxpix 0.402 l2 0.20426
+   XD     dI 0.00283 signed +0.00065 nb 0.00005 E_H 0.0110 maxpix 0.016 l2 0.00345
+   XP     dI 0.00270 signed +0.00155 nb 0.00005 E_H 0.0112 maxpix 0.015 l2 0.00335
+   XOD    dI 0.00124 signed +0.00028 nb 0.00004 E_H 0.0110 maxpix 0.014 l2 0.00167
+   XOP    dI 0.00094 signed +0.00012 nb 0.00004 E_H 0.0110 maxpix 0.007 l2 0.00103
+   XSD    dI 0.00199 signed +0.00036 nb 0.00002 E_H 0.0110 maxpix 0.018 l2 0.00305
+   XSP    dI 0.00226 signed +0.00143 nb 0.00002 E_H 0.0113 maxpix 0.017 l2 0.00323
+   G8601  dI 0.02086 signed -0.01204 nb 0.00012 E_H 0.0227 maxpix 0.154 l2 0.03149
+   G8602  dI 0.01337 signed -0.00540 nb 0.00009 E_H 0.0166 maxpix 0.085 l2 0.01666
+== sid7: px 87679 tot-share 0.491 H-share 0.128 n_img 0.00013 H +0.00046 U_frozen +0.00054 U_raw 0.00066 dI/n 4.57
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0018 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00013 signed -0.00004 nb 0.00004 E_H 0.0017 maxpix 0.002 l2 0.00012
+   Fb     dI 0.00013 signed +0.00004 nb 0.00004 E_H 0.0018 maxpix 0.002 l2 0.00012
+   Z      dI 0.05793 signed -0.05793 nb 0.00017 E_H 0.0571 maxpix 0.113 l2 0.04797
+   XD     dI 0.00058 signed -0.00058 nb 0.00004 E_H 0.0017 maxpix 0.003 l2 0.00055
+   XP     dI 0.00027 signed -0.00014 nb 0.00004 E_H 0.0018 maxpix 0.002 l2 0.00029
+   XOD    dI 0.00058 signed -0.00058 nb 0.00004 E_H 0.0017 maxpix 0.003 l2 0.00055
+   XOP    dI 0.00026 signed -0.00014 nb 0.00004 E_H 0.0018 maxpix 0.002 l2 0.00029
+   XSD    dI 0.00002 signed +0.00000 nb 0.00000 E_H 0.0018 maxpix 0.002 l2 0.00003
+   XSP    dI 0.00001 signed +0.00001 nb 0.00000 E_H 0.0018 maxpix 0.002 l2 0.00003
+   G8601  dI 0.00045 signed +0.00013 nb 0.00005 E_H 0.0019 maxpix 0.028 l2 0.00053
+   G8602  dI 0.00042 signed -0.00029 nb 0.00005 E_H 0.0017 maxpix 0.014 l2 0.00041
+== NOT_ROI_T: px 204109 tot-share 0.805 H-share 0.235 n_img 0.00048 H +0.00047 U_frozen +0.00059 U_raw 0.00107 dI/n 1.96
+   F      dI 0.00000 signed +0.00000 nb 0.00000 E_H 0.0044 maxpix 0.000 l2 0.00000
+   Fa     dI 0.00048 signed +0.00016 nb 0.00006 E_H 0.0045 maxpix 0.006 l2 0.00060
+   Fb     dI 0.00048 signed -0.00016 nb 0.00006 E_H 0.0044 maxpix 0.006 l2 0.00060
+   Z      dI 0.11559 signed -0.11559 nb 0.00029 E_H 0.1151 maxpix 0.256 l2 0.09524
+   XD     dI 0.00097 signed -0.00060 nb 0.00006 E_H 0.0043 maxpix 0.010 l2 0.00102
+   XP     dI 0.00063 signed +0.00004 nb 0.00006 E_H 0.0044 maxpix 0.006 l2 0.00066
+   XOD    dI 0.00095 signed -0.00060 nb 0.00006 E_H 0.0043 maxpix 0.010 l2 0.00100
+   XOP    dI 0.00059 signed -0.00002 nb 0.00006 E_H 0.0044 maxpix 0.006 l2 0.00063
+   XSD    dI 0.00009 signed +0.00001 nb 0.00001 E_H 0.0044 maxpix 0.004 l2 0.00016
+   XSP    dI 0.00008 signed +0.00006 nb 0.00000 E_H 0.0045 maxpix 0.004 l2 0.00018
+   G8601  dI 0.00199 signed +0.00037 nb 0.00007 E_H 0.0056 maxpix 0.051 l2 0.00274
+   G8602  dI 0.00263 signed +0.00068 nb 0.00007 E_H 0.0059 maxpix 0.026 l2 0.00328
+{
+ "readout_identity_F_max_abs_over_image_mean": 1.7091031380750106e-07,
+ "ROI_T": {
+  "e3o_image_share_of_tot": 0.0622802353877697,
+  "tail_image_share_of_tot": 0.17788554787475916,
+  "n_img_e3o_only": 0.0007087993906551901,
+  "n_img_frozen_rep0": 0.0014644808291424788,
+  "dI_XOD_rep0": 0.0006475995965559058,
+  "dI_XOP_rep0": 0.0006004203564139337,
+  "dI_XD_rep0": 0.002905239972763663,
+  "cv_rel_l2_XOD_vs_truth": -0.0011776940314829122,
+  "rel_l2_noise_e3o": 0.011475336056722624,
+  "cv_rel_l2_XOP_vs_truth": -0.005513332461848782,
+  "dI_XOD_over_e3o_image": 0.010398155892054936,
+  "signed_XOD_over_e3o_image": 0.00907490554742483,
+  "signed_XOP_over_e3o_image": 0.0010594334336438687
+ },
+ "DIFF": {
+  "e3o_image_share_of_tot": 0.1690724482228471,
+  "tail_image_share_of_tot": 0.17109477952957192,
+  "n_img_e3o_only": 0.0010326839303435194,
+  "n_img_frozen_rep0": 0.0010146648907576907,
+  "dI_XOD_rep0": 0.0010794887120618958,
+  "dI_XOP_rep0": 0.0009810711285500658,
+  "dI_XD_rep0": 0.0010803324509542653,
+  "cv_rel_l2_XOD_vs_truth": 0.003482729328652143,
+  "rel_l2_noise_e3o": 0.008833973783960121,
+  "cv_rel_l2_XOP_vs_truth": -0.00411901806100482,
+  "dI_XOD_over_e3o_image": 0.00638477009949645,
+  "signed_XOD_over_e3o_image": -0.005808212805883734,
+  "signed_XOP_over_e3o_image": 0.0002805699022566427
+ },
+ "ALL_VALID": {
+  "e3o_image_share_of_tot": 0.10279833086176307,
+  "tail_image_share_of_tot": 0.12771975894069787,
+  "n_img_e3o_only": 0.0005306852555747202,
+  "n_img_frozen_rep0": 0.0006856465483914599,
+  "dI_XOD_rep0": 0.0008954094123695745,
+  "dI_XOP_rep0": 0.0006034624120855431,
+  "dI_XD_rep0": 0.0013486175157763518,
+  "cv_rel_l2_XOD_vs_truth": 0.00833964346751746,
+  "rel_l2_noise_e3o": 0.0070002217432042785,
+  "cv_rel_l2_XOP_vs_truth": 0.0015260787252748711,
+  "dI_XOD_over_e3o_image": 0.00871034971933218,
+  "signed_XOD_over_e3o_image": -0.003644113912621853,
+  "signed_XOP_over_e3o_image": -5.4105285975365734e-05
+ },
+ "panel": {
+  "e3o_image_share_of_tot": 0.139069532687569,
+  "tail_image_share_of_tot": 0.22228105764546466,
+  "n_img_e3o_only": 0.000928917874358851,
+  "n_img_frozen_rep0": 0.0014654452842454823,
+  "dI_XOD_rep0": 0.0012465881880835753,
+  "dI_XOP_rep0": 0.0009409624020298272,
+  "dI_XD_rep0": 0.002830955701640499,
+  "cv_rel_l2_XOD_vs_truth": 0.008679515906620904,
+  "rel_l2_noise_e3o": 0.007933709823205638,
+  "cv_rel_l2_XOP_vs_truth": -0.0032208639778925937,
+  "dI_XOD_over_e3o_image": 0.008963776349807235,
+  "signed_XOD_over_e3o_image": 0.0020257705269154445,
+  "signed_XOP_over_e3o_image": 0.0008279031064049596
+ },
+ "frame": {
+  "e3o_image_share_of_tot": 0.10279833086176307,
+  "tail_image_share_of_tot": 0.12771975894069787,
+  "n_img_e3o_only": 0.0005306852555747202,
+  "n_img_frozen_rep0": 0.0006856465483914599,
+  "dI_XOD_rep0": 0.0008954094123695745,
+  "dI_XOP_rep0": 0.0006034624120855431,
+  "dI_XD_rep0": 0.0013486175157763518,
+  "cv_rel_l2_XOD_vs_truth": 0.00833964346751746,
+  "rel_l2_noise_e3o": 0.0070002217432042785,
+  "cv_rel_l2_XOP_vs_truth": 0.0015260787252748711,
+  "dI_XOD_over_e3o_image": 0.00871034971933218,
+  "signed_XOD_over_e3o_image": -0.003644113912621853,
+  "signed_XOP_over_e3o_image": -5.4105285975365734e-05
+ },
+ "sid0": {
+  "e3o_image_share_of_tot": 0.26381077704269557,
+  "tail_image_share_of_tot": 0.266003490301707,
+  "n_img_e3o_only": 0.0015903966676483379,
+  "n_img_frozen_rep0": 0.0015931555185768804,
+  "dI_XOD_rep0": 0.0020860363381178227,
+  "dI_XOP_rep0": 0.002136147334597741,
+  "dI_XD_rep0": 0.002129338232788988,
+  "cv_rel_l2_XOD_vs_truth": 0.004174883579766949,
+  "rel_l2_noise_e3o": 0.008868439472648827,
+  "cv_rel_l2_XOP_vs_truth": 0.0051649330245336295,
+  "dI_XOD_over_e3o_image": 0.007907320396468166,
+  "signed_XOD_over_e3o_image": 0.0007075255606219114,
+  "signed_XOP_over_e3o_image": 0.005356384445931638
+ },
+ "sid2": {
+  "e3o_image_share_of_tot": 0.13651388335299702,
+  "tail_image_share_of_tot": 0.13833233895050823,
+  "n_img_e3o_only": 0.0008234874451402691,
+  "n_img_frozen_rep0": 0.0008161596046239703,
+  "dI_XOD_rep0": 0.0010240205072139653,
+  "dI_XOP_rep0": 0.0007753319666593371,
+  "dI_XD_rep0": 0.000987718165005482,
+  "cv_rel_l2_XOD_vs_truth": 0.006480001811345925,
+  "rel_l2_noise_e3o": 0.00769881422006855,
+  "cv_rel_l2_XOP_vs_truth": 0.000537783230601771,
+  "dI_XOD_over_e3o_image": 0.0075012187922751964,
+  "signed_XOD_over_e3o_image": -0.0069370403462473244,
+  "signed_XOP_over_e3o_image": -0.00018625893491949844
+ },
+ "sid3": {
+  "e3o_image_share_of_tot": 0.17870820009236546,
+  "tail_image_share_of_tot": 0.1822673876235866,
+  "n_img_e3o_only": 0.0005968081907152131,
+  "n_img_frozen_rep0": 0.0006399227280955807,
+  "dI_XOD_rep0": 0.000923582470097687,
+  "dI_XOP_rep0": 0.0005308817711270884,
+  "dI_XD_rep0": 0.0009912930983934627,
+  "cv_rel_l2_XOD_vs_truth": 0.004280312574407294,
+  "rel_l2_noise_e3o": 0.004290705066413707,
+  "cv_rel_l2_XOP_vs_truth": -0.0022643071171698486,
+  "dI_XOD_over_e3o_image": 0.0051681034760594794,
+  "signed_XOD_over_e3o_image": -0.0033787101026450496,
+  "signed_XOP_over_e3o_image": -2.4520931538302705e-05
+ },
+ "sid5": {
+  "e3o_image_share_of_tot": 0.139069532687569,
+  "tail_image_share_of_tot": 0.22228105764546466,
+  "n_img_e3o_only": 0.000928917874358851,
+  "n_img_frozen_rep0": 0.0014654452842454823,
+  "dI_XOD_rep0": 0.0012465881880835753,
+  "dI_XOP_rep0": 0.0009409624020298272,
+  "dI_XD_rep0": 0.002830955701640499,
+  "cv_rel_l2_XOD_vs_truth": 0.008679515906620904,
+  "rel_l2_noise_e3o": 0.007933709823205638,
+  "cv_rel_l2_XOP_vs_truth": -0.0032208639778925937,
+  "dI_XOD_over_e3o_image": 0.008963776349807235,
+  "signed_XOD_over_e3o_image": 0.0020257705269154445,
+  "signed_XOP_over_e3o_image": 0.0008279031064049596
+ },
+ "sid7": {
+  "e3o_image_share_of_tot": 0.056871761095194796,
+  "tail_image_share_of_tot": 0.057932842218759883,
+  "n_img_e3o_only": 0.00014037336556506076,
+  "n_img_frozen_rep0": 0.00014112768722576743,
+  "dI_XOD_rep0": 0.0005829915397708188,
+  "dI_XOP_rep0": 0.0002736061404467101,
+  "dI_XD_rep0": 0.0005833016167441592,
+  "cv_rel_l2_XOD_vs_truth": 0.011358418459009936,
+  "rel_l2_noise_e3o": 0.002917634440648001,
+  "cv_rel_l2_XOP_vs_truth": 0.005523184365016006,
+  "dI_XOD_over_e3o_image": 0.010250984470042671,
+  "signed_XOD_over_e3o_image": -0.010246510406861314,
+  "signed_XOP_over_e3o_image": -0.002525320548691703
+ },
+ "NOT_ROI_T": {
+  "e3o_image_share_of_tot": 0.1125930223284525,
+  "tail_image_share_of_tot": 0.11559287047162933,
+  "n_img_e3o_only": 0.00048762861684180673,
+  "n_img_frozen_rep0": 0.0004973740890273844,
+  "dI_XOD_rep0": 0.0009553140219006404,
+  "dI_XOP_rep0": 0.0006041977871415362,
+  "dI_XD_rep0": 0.0009723254784051304,
+  "cv_rel_l2_XOD_vs_truth": 0.008658892218040337,
+  "rel_l2_noise_e3o": 0.006532835392244975,
+  "cv_rel_l2_XOP_vs_truth": 0.0021982918459692276,
+  "dI_XOD_over_e3o_image": 0.008484664521339797,
+  "signed_XOD_over_e3o_image": -0.005344839073781173,
+  "signed_XOP_over_e3o_image": -0.00020300224492180748
+ }
+}

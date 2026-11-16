@@ -1,0 +1,172 @@
+{
+ "T_GEOM": {
+  "max_abs_err": 0.0,
+  "pass": true,
+  "N": 1270,
+  "panel_pmat": [
+   1
+  ],
+  "boxA_pmat": [
+   4
+  ],
+  "panel_psid": [
+   5
+  ],
+  "boxA_psid": [
+   7
+  ]
+ },
+ "T_FRAME": {
+  "s_local_of_+y": [
+   1.0,
+   0.0,
+   0.0
+  ],
+  "t_local_of_+z": [
+   0.0,
+   1.0,
+   0.0
+  ],
+  "n_local_of_+x": [
+   0.0,
+   0.0,
+   1.0
+  ],
+  "hit_shape_ids": [
+   5
+  ],
+  "hit_dist_err": 4.842877388000488e-08,
+  "pass": true,
+  "boxA_faces": [
+   {
+    "base": 1130,
+    "shape": 7,
+    "n_local_z": 1.0,
+    "t": 0.04999992623925209
+   },
+   {
+    "base": 1139,
+    "shape": 7,
+    "n_local_z": 0.9999999403953552,
+    "t": 0.05000004172325134
+   },
+   {
+    "base": 1148,
+    "shape": 7,
+    "n_local_z": 0.9999999403953552,
+    "t": 0.05000004172325134
+   },
+   {
+    "base": 1157,
+    "shape": 7,
+    "n_local_z": 0.9999999403953552,
+    "t": 0.04999998211860657
+   },
+   {
+    "base": 1166,
+    "shape": 7,
+    "n_local_z": 1.0,
+    "t": 0.050000011920928955
+   },
+   {
+    "base": 1175,
+    "shape": 7,
+    "n_local_z": 1.0,
+    "t": 0.04999995231628418
+   }
+  ],
+  "boxA_pass": true
+ },
+ "T_COS": {
+  "max_rel_vs_rho_over_pi_cos_SECOND_arg": 0.0,
+  "max_rel_vs_rho_over_pi_cos_FIRST_arg": 952.4815569928409,
+  "pass_second_argument_carries_cosine": true
+ },
+ "T_SYM_S1": {
+  "uniform": {
+   "median_rel": 4.836383760481182e-08,
+   "p999_rel": 2.7127687939250335e-07,
+   "max_rel": 5.095273537960864e-06
+  },
+  "graze_mirror": {
+   "median_rel": 8.46874515023793e-08,
+   "p999_rel": 3.6131667649943033e-06,
+   "max_rel": 1.2285766508249305e-05
+  }
+ },
+ "T_VIS": {
+  "light_to_panel": {
+   "n": 2097152,
+   "occluded": 0,
+   "light_cos_min": 0.024366248455772302,
+   "light_cos_max": 0.16433755853158205,
+   "light_cos_mean": 0.046982289860838654
+  },
+  "panel_to_boxA": [
+   {
+    "face_base": 1130,
+    "analytic_visible_frac": 1.0,
+    "visible_but_occluded": 0,
+    "visible_but_occluded_max_cos_r": 0.0,
+    "visible_but_occluded_cos_r_weight_share": 0.0,
+    "hidden_but_unoccluded": 0,
+    "hidden_but_unoccluded_max_inside_len_m": 0.0,
+    "cos_s_min": 0.09013126190353088
+   },
+   {
+    "face_base": 1139,
+    "analytic_visible_frac": 0.0,
+    "visible_but_occluded": 0,
+    "visible_but_occluded_max_cos_r": 0.0,
+    "visible_but_occluded_cos_r_weight_share": 0.0,
+    "hidden_but_unoccluded": 31,
+    "hidden_but_unoccluded_max_inside_len_m": 9.327410869583447e-05,
+    "cos_s_min": 0.30055853229913976
+   },
+   {
+    "face_base": 1148,
+    "analytic_visible_frac": 0.3174314498901367,
+    "visible_but_occluded": 0,
+    "visible_but_occluded_max_cos_r": 0.0,
+    "visible_but_occluded_cos_r_weight_share": 0.0,
+    "hidden_but_unoccluded": 176,
+    "hidden_but_unoccluded_max_inside_len_m": 9.955814706265453e-05,
+    "cos_s_min": 0.21214420929453345
+   },
+   {
+    "face_base": 1157,
+    "analytic_visible_frac": 0.0,
+    "visible_but_occluded": 0,
+    "visible_but_occluded_max_cos_r": 0.0,
+    "visible_but_occluded_cos_r_weight_share": 0.0,
+    "hidden_but_unoccluded": 204,
+    "hidden_but_unoccluded_max_inside_len_m": 9.951116212380016e-05,
+    "cos_s_min": 0.09086939028339786
+   },
+   {
+    "face_base": 1166,
+    "analytic_visible_frac": 0.17913246154785156,
+    "visible_but_occluded": 28,
+    "visible_but_occluded_max_cos_r": 0.00014371184369395878,
+    "visible_but_occluded_cos_r_weight_share": 1.7378086527196426e-08,
+    "hidden_but_unoccluded": 185,
+    "hidden_but_unoccluded_max_inside_len_m": 9.929602020286504e-05,
+    "cos_s_min": 0.09379738757512457
+   },
+   {
+    "face_base": 1175,
+    "analytic_visible_frac": 0.1788644790649414,
+    "visible_but_occluded": 455,
+    "visible_but_occluded_max_cos_r": 0.0010042152463842376,
+    "visible_but_occluded_cos_r_weight_share": 2.1180768442392876e-06,
+    "hidden_but_unoccluded": 162,
+    "hidden_but_unoccluded_max_inside_len_m": 9.863482969572844e-05,
+    "cos_s_min": 0.09397417311108516
+   }
+  ],
+  "n_per_face": 2097152,
+  "note2": "visible_but_occluded pairs all have cos_r below 2e-3 (float32 ray grazing the receiver face); bad = such pairs with cos_r > 2e-3",
+  "note": "ray test: origin a + 1e-4 w, maxt = dist - 2e-4; a hidden pair is reported unoccluded only if its path inside box A is shorter than these epsilons",
+  "pass": true
+ }
+}

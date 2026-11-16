@@ -1,0 +1,65 @@
+{
+ "cells": 672,
+ "receiver_points": 19136,
+ "pairs": 12859392,
+ "shifts": {
+  "minus0.30y_critic": {
+   "front": 9093120,
+   "front_static": 8929536,
+   "front_onA": 163584,
+   "old": 4295980,
+   "new": 4681537,
+   "union": 5391278,
+   "both": 3586239,
+   "old_only": 709741,
+   "new_only": 1095298,
+   "fractions_of_front": {
+    "union_static": 0.592896387598536,
+    "union_static_plus_onA": 0.6108862524634009,
+    "both": 0.3943903742609797,
+    "xor": 0.1985060133375563,
+    "xor_plus_onA": 0.21649587820242117,
+    "old_only_plus_onA_(visibility rays strictly needed)": 0.0960423924901464
+   },
+   "ms_at_critic_linear_rate": {
+    "union_plus_onA": 60.83896476190476,
+    "xor_plus_onA": 21.56110904761905,
+    "old_only_plus_onA": 9.564988095238096
+   },
+   "total_over_ECRO_77ms": {
+    "union_plus_onA": 1.7901164254792827,
+    "xor_plus_onA": 1.2800144032158318,
+    "old_only_plus_onA": 1.1242206246134818
+   }
+  },
+  "plus0.15y_WL96A": {
+   "front": 9093120,
+   "front_static": 8929536,
+   "front_onA": 163584,
+   "old": 4295980,
+   "new": 3641944,
+   "union": 4359039,
+   "both": 3578885,
+   "old_only": 717095,
+   "new_only": 63059,
+   "fractions_of_front": {
+    "union_static": 0.4793777053420608,
+    "union_static_plus_onA": 0.4973675702069257,
+    "both": 0.3935816309473536,
+    "xor": 0.08579607439470721,
+    "xor_plus_onA": 0.10378593925957207,
+    "old_only_plus_onA_(visibility rays strictly needed)": 0.09685113580377253
+   },
+   "ms_at_critic_linear_rate": {
+    "union_plus_onA": 49.53349,
+    "xor_plus_onA": 10.336178095238095,
+    "old_only_plus_onA": 9.645531904761905
+   },
+   "total_over_ECRO_77ms": {
+    "union_plus_onA": 1.6432920779220779,
+    "xor_plus_onA": 1.1342360791589363,
+    "old_only_plus_onA": 1.125266648113791
+   }
+  }
+ }
+}

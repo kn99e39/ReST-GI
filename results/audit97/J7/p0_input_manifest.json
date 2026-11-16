@@ -1,0 +1,323 @@
+{
+ "manifest": "WL97 P0 input identity manifest (track J7)",
+ "source": "results/audit97/MAP/dependency_map.json",
+ "source_sha256": "c90f76436c9064b618ac9cc25d401b99c968ebd908defd1c572211150db77370",
+ "note": "sha256_16 = first 16 hex digits of sha256 as computed by phase-1 MAP on LabServer63 (user nd). J7 did not re-hash; files were not moved. matches_record = MAP compared the prefix with the prefix recorded in the cited worklog/result.",
+ "server": "LabServer63, user nd",
+ "artifacts": [
+  {
+   "id": "own_s8601.pt",
+   "path": "~/rest_x92a/results/models/own_s8601.pt",
+   "sha256_16": "739e7eb50b25d329",
+   "produced_by": "WL92A (c40226d), written 2026-11-13T02:15:43Z",
+   "recorded_in": "results/ecro_cf92b/repro.json checkpoints; WL94 pre.json T_CKPT; WL94 worklog l.299",
+   "matches_record": true
+  },
+  {
+   "id": "own_s8602.pt",
+   "path": "~/rest_x92a/results/models/own_s8602.pt",
+   "sha256_16": "cee9a09a289fca8c",
+   "produced_by": "WL92A (c40226d), 02:15:44Z",
+   "recorded_in": "same",
+   "matches_record": true
+  },
+  {
+   "id": "ecro_s8601.pt",
+   "path": "~/rest_ecro86/results/models/ecro_s8601.pt",
+   "sha256_16": "9d332cd61a7118bd",
+   "produced_by": "WL86",
+   "recorded_in": "results/ecro_cf92b/repro.json",
+   "matches_record": true
+  },
+  {
+   "id": "ecro_s8602.pt",
+   "path": "~/rest_ecro86/results/models/ecro_s8602.pt",
+   "sha256_16": "4d993121e41dd0bb",
+   "produced_by": "WL86",
+   "recorded_in": "results/ecro_cf92b/repro.json",
+   "matches_record": true
+  },
+  {
+   "id": "CKF_none.npz",
+   "path": "~/rest_x94/results/fields/CKF_none.npz",
+   "sha256_16": "3a6238a8a42d1db4",
+   "produced_by": "WL94 mat94.fref (e347904), 2 x 4,096 spp, seeds 94301 / 94302, patched pt86a.field_src split=True",
+   "recorded_in": "WL96A worklog l.222",
+   "matches_record": true
+  },
+  {
+   "id": "masks94.npz",
+   "path": "~/rest_x94/results/pre/masks94.npz (copied to rest_x95a, rest_x96a: identical)",
+   "sha256_16": "b9a7d46b1a23d8c4",
+   "produced_by": "WL94 mat94.masks (geometry only)",
+   "recorded_in": "WL96A worklog l.225",
+   "matches_record": true
+  },
+  {
+   "id": "FZ_own_s8601.npz",
+   "path": "~/rest_x94/results/tables/FZ_own_s8601.npz",
+   "sha256_16": "44fade056130ec75",
+   "produced_by": "WL94 mat94.ck_tables own:8601",
+   "recorded_in": "WL96A worklog l.224",
+   "matches_record": true
+  },
+  {
+   "id": "FZ_own_s8602.npz",
+   "path": "~/rest_x94/results/tables/FZ_own_s8602.npz",
+   "sha256_16": "03183dd2e6e013dc",
+   "produced_by": "WL94 mat94.ck_tables own:8602",
+   "recorded_in": "WL96A worklog l.224",
+   "matches_record": true
+  },
+  {
+   "id": "REF_ER_CK_none_CK2_T1_r0.npz",
+   "path": "~/rest_x94/results/renders/ (copy of ~/rest_x93d_ck2/results/renders/)",
+   "sha256_16": "89839c42be19acc9",
+   "produced_by": "WL93D checkerboard addendum rev. 2 (checker93d.py @ d8d092f), 8,192 spp, seed 86100",
+   "recorded_in": "rest_x94/results/pre/reused_refs.txt",
+   "matches_record": true
+  },
+  {
+   "id": "REF_ER_CK_none_CK2_T1_r1.npz",
+   "path": "same",
+   "sha256_16": "85e8176b0a500b9e",
+   "produced_by": "same, seed 86101",
+   "recorded_in": "reused_refs.txt",
+   "matches_record": true
+  },
+  {
+   "id": "REF_ER_CK_none_CK2_T1_r2.npz",
+   "path": "same",
+   "sha256_16": "a701f32b714b7c2f",
+   "produced_by": "same, seed 86102",
+   "recorded_in": "reused_refs.txt",
+   "matches_record": true
+  },
+  {
+   "id": "REF_ER_CK_none_CK2_T1_r3.npz",
+   "path": "same",
+   "sha256_16": "84fe592778563928",
+   "produced_by": "same, seed 86103",
+   "recorded_in": "reused_refs.txt",
+   "matches_record": true
+  },
+  {
+   "id": "T95A.npz",
+   "path": "~/rest_x95a/results/tables/T95A.npz (server only)",
+   "sha256_16": "d009c57b018e9f39",
+   "produced_by": "WL95A a95.main (c152120)",
+   "recorded_in": "WL96A worklog l.223",
+   "matches_record": true
+  },
+  {
+   "id": "T96A.npz",
+   "path": "~/rest_x96a/results/tables/T96A.npz = results/ecro_util96a/T96A.npz",
+   "sha256_16": "8019cb39d03421dd",
+   "produced_by": "WL96A w96a.tails (a1718f7)",
+   "recorded_in": "WL96A worklog",
+   "matches_record": true
+  },
+  {
+   "id": "S1_ops.npz",
+   "path": "~/wl95_calc/S1_ops.npz = results/wl95_calc/S1_ops.npz",
+   "sha256_16": "8654ae794a9a61f0",
+   "produced_by": "WL95 wl95_calc.py (CPU; inputs rest_x92/results/nmf.npz, rest_x94/results/select94.json, rest_ecro86)",
+   "recorded_in": "WL95A worklog T_OPS",
+   "matches_record": true
+  },
+  {
+   "id": "scene_ck2.json",
+   "path": "experiments/ecro_local93d/addendum_checker/scene_ck2.json",
+   "sha256_16": "977ba122ab3232e7",
+   "produced_by": "WL93D addendum rev. 2 (d8d092f)",
+   "recorded_in": "rest_x93d_ck2 chain.status scene=; WL94 pre.json scene_sha256",
+   "matches_record": true
+  },
+  {
+   "id": "WL94D audit.json",
+   "path": "~/rest_x94d/results/audit94d/audit.json",
+   "sha256_16": "1d03d8432892f5ff",
+   "produced_by": "WL94D s94.audit",
+   "recorded_in": "not recorded in WL95A worklog",
+   "matches_record": null
+  },
+  {
+   "id": "mat94 run-time source patch",
+   "path": "pt86.Ctx.trace / pt86a.field_src patched text",
+   "sha256_16": "57b30a3268542c6f / 14f7367ceebdd013",
+   "produced_by": "mat94.install() regex patch",
+   "recorded_in": "pre.json, CKF_none.json, REF json",
+   "matches_record": true
+  }
+ ],
+ "protocol_hashes": {
+  "WL86": {
+   "path": "experiments/ecro86/protocol/ecro86.json",
+   "commit": "7786d09",
+   "sha256_16_lf": "ecca67246ef013d7",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL86-amend1": {
+   "path": "experiments/ecro86/protocol/amendment1.json",
+   "commit": "63972c8",
+   "sha256_16_lf": "032a624e61ef10fd",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL86A": {
+   "path": "experiments/ecro86a/protocol/ecro86a.json",
+   "commit": "46593f0",
+   "sha256_16_lf": "9379c2fe2bc58c6d",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL87": {
+   "path": "experiments/gm1_explicit87/protocol/gm1_explicit87.json",
+   "commit": "60efecb",
+   "sha256_16_lf": "b86f3abf446b932f",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL88": {
+   "path": "experiments/gm1_relation88/protocol/gm1_relation88.json",
+   "commit": "26e13f2",
+   "sha256_16_lf": "0ccb32866be26f2e",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL89-freeze": {
+   "path": "experiments/gm1_relation89/protocol/gm1_relation89.json",
+   "commit": "7515a29",
+   "sha256_16_lf": "f7bb6a69d0007eaf",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL89-amend1": {
+   "path": "experiments/gm1_relation89/protocol/gm1_relation89.json",
+   "commit": "5d6bb5c",
+   "sha256_16_lf": "9a5b460462205d62",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL90": {
+   "path": "experiments/gm1_gap90/protocol/gm1_gap90.json",
+   "commit": "51b93b8",
+   "sha256_16_lf": "19b4135a45a6ee63",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL91": {
+   "path": "experiments/gm1_c3urx1_91/protocol/gm1_c3urx1_91.json",
+   "commit": "7a8544e",
+   "sha256_16_lf": "1cf84cfd521e1794",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL92": {
+   "path": "experiments/ecro_attr92/protocol/ecro_attr92.json",
+   "commit": "5e672ff",
+   "sha256_16_lf": "b558babd40388abf",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL92A": {
+   "path": "experiments/ecro_own92a/protocol/ecro_own92a.json",
+   "commit": "7247d30 (= c40226d)",
+   "sha256_16_lf": "14fae630a7a3b367",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL92B": {
+   "path": "experiments/ecro_cf92b/protocol/ecro_cf92b.json",
+   "commit": "b29d8ff",
+   "sha256_16_lf": "db6c39fc18108c8d",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL93": {
+   "path": "experiments/ecro_stage93/protocol/ecro_stage93.json",
+   "commit": "c30c797",
+   "sha256_16_lf": "68dcf525943082fe",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL93A": {
+   "path": "experiments/ecro_stage93a/protocol/ecro_stage93a.json",
+   "commit": "888ceb6",
+   "sha256_16_lf": "278af654eb89171b",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL93B": {
+   "path": "experiments/ecro_stage93b/protocol/ecro_stage93b.json",
+   "commit": "03fbc84",
+   "sha256_16_lf": "471179e3c4601b32",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL93C": {
+   "path": "experiments/ecro_stage93c/protocol/ecro_stage93c.json",
+   "commit": "cab6e18",
+   "sha256_16_lf": "9b7256739890ebca",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL93D": {
+   "path": "experiments/ecro_local93d/protocol/ecro_local93d.json",
+   "commit": "4f3fc56",
+   "sha256_16_lf": "bb3fd47b03080969",
+   "chain_status_recorded": null,
+   "match": null
+  },
+  "WL94": {
+   "path": "experiments/ecro_mat94/protocol/ecro_mat94.json",
+   "commit": "e347904",
+   "sha256_16_lf": "99e199f3847939e8",
+   "chain_status_recorded": "99e199f3847939e8",
+   "match": true
+  },
+  "WL94A": {
+   "path": "experiments/ecro_mat94r/protocol/ecro_mat94r.json",
+   "commit": "5b7c0c8",
+   "sha256_16_lf": "d0fd618cb4e1cc9e",
+   "chain_status_recorded": "d0fd618cb4e1cc9e",
+   "match": true
+  },
+  "WL94B": {
+   "path": "experiments/ecro_exp94b/protocol/ecro_exp94b.json",
+   "commit": "5c0a6cd",
+   "sha256_16_lf": "6b5b10c78d239337",
+   "chain_status_recorded": "6b5b10c78d239337",
+   "match": true
+  },
+  "WL94C": {
+   "path": "experiments/ecro_q94c/protocol/ecro_q94c.json",
+   "commit": "6d8b254",
+   "sha256_16_lf": "006941ac6cce4741",
+   "chain_status_recorded": "006941ac6cce4741",
+   "match": true
+  },
+  "WL94D": {
+   "path": "experiments/ecro_s94d/protocol/ecro_s94d.json",
+   "commit": "a08c9bf",
+   "sha256_16_lf": "e0a389463e172bc7",
+   "chain_status_recorded": "e0a389463e172bc7",
+   "match": true
+  },
+  "WL95A": {
+   "path": "experiments/ecro_attr95a/protocol/ecro_attr95a.json",
+   "commit": "c152120",
+   "sha256_16_lf": "fb136ad2da79fdca",
+   "chain_status_recorded": "fb136ad2da79fdca",
+   "match": true
+  },
+  "WL96A": {
+   "path": "experiments/ecro_util96a/protocol/ecro_util96a.json",
+   "commit": "a1718f7",
+   "sha256_16_lf": "0a5936504fb8c345",
+   "chain_status_recorded": "0a5936504fb8c345",
+   "match": true
+  }
+ }
+}

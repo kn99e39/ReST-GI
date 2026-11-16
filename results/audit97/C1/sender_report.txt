@@ -1,0 +1,130 @@
+REFERENCE OPERATORS vs M64 S1 (matched norms)
+  zero           flux-L1 1.000  mass 0.000  flux-Fro(R,G,B) 1.000 / 1.000 / 1.000  op-peak 0.000  min 0.00e+00
+  svd8           flux-L1 1.150  mass 0.936  flux-Fro(R,G,B) 0.680 / 0.637 / 0.639  op-peak 0.338  min -3.54e-01
+  svd8_clip0     flux-L1 0.954  mass 1.132  flux-Fro(R,G,B) 0.664 / 0.620 / 0.622  op-peak 0.338  min 0.00e+00
+  svd16          flux-L1 0.891  mass 0.937  flux-Fro(R,G,B) 0.520 / 0.458 / 0.461  op-peak 0.539  min -4.47e-01
+  svd16_clip0    flux-L1 0.683  mass 1.145  flux-Fro(R,G,B) 0.503 / 0.439 / 0.442  op-peak 0.539  min 0.00e+00
+  svd32          flux-L1 0.548  mass 0.988  flux-Fro(R,G,B) 0.320 / 0.226 / 0.235  op-peak 0.791  min -1.07e+00
+  svd32_clip0    flux-L1 0.440  mass 1.096  flux-Fro(R,G,B) 0.311 / 0.220 / 0.228  op-peak 0.791  min 0.00e+00
+  nmf16_fro      flux-L1 0.606  mass 1.029  flux-Fro(R,G,B) 0.545 / 0.487 / 0.490  op-peak 0.516  min 0.00e+00
+  M64 S1 directional albedo  coded max/mean 0.899 / 0.635   true max/mean 0.825 / 0.635
+
+LEARNED S1 OPERATOR vs M64 (same norms)
+  val  own_s8601  flux-L1 0.975  mass 0.840  flux-Fro pooled 0.810 / 0.796 / 0.795  patch-mean 0.810 / 0.796 / 0.795  op-peak 0.207
+  val  D_s8601    flux-L1 0.994  mass 0.886  flux-Fro pooled 0.808 / 0.792 / 0.790  patch-mean 0.808 / 0.792 / 0.790  op-peak 0.212
+  val  T_s8601    flux-L1 1.002  mass 1.033  flux-Fro pooled 0.786 / 0.761 / 0.758  patch-mean 0.786 / 0.761 / 0.758  op-peak 0.275
+  val  R_s8601    flux-L1 0.990  mass 0.889  flux-Fro pooled 0.802 / 0.795 / 0.790  patch-mean 0.802 / 0.795 / 0.790  op-peak 0.210
+  val  P_s8601    flux-L1 0.993  mass 0.899  flux-Fro pooled 0.804 / 0.789 / 0.786  patch-mean 0.804 / 0.789 / 0.786  op-peak 0.216
+  val  own_s8602  flux-L1 0.964  mass 0.821  flux-Fro pooled 0.820 / 0.811 / 0.801  patch-mean 0.820 / 0.811 / 0.801  op-peak 0.213
+  val  D_s8602    flux-L1 0.973  mass 0.864  flux-Fro pooled 0.816 / 0.801 / 0.795  patch-mean 0.816 / 0.801 / 0.795  op-peak 0.220
+  val  T_s8602    flux-L1 0.965  mass 0.974  flux-Fro pooled 0.795 / 0.765 / 0.769  patch-mean 0.795 / 0.765 / 0.769  op-peak 0.267
+  val  R_s8602    flux-L1 0.961  mass 0.856  flux-Fro pooled 0.808 / 0.803 / 0.794  patch-mean 0.808 / 0.803 / 0.794  op-peak 0.212
+  val  P_s8602    flux-L1 0.972  mass 0.873  flux-Fro pooled 0.814 / 0.797 / 0.793  patch-mean 0.814 / 0.797 / 0.793  op-peak 0.222
+  ck2  own_s8601  flux-L1 1.018  mass 0.869  flux-Fro pooled 0.828 / 0.812 / 0.809  patch-mean 0.828 / 0.811 / 0.809  op-peak 0.187
+  ck2  D_s8601    flux-L1 1.019  mass 0.857  flux-Fro pooled 0.825 / 0.819 / 0.811  patch-mean 0.825 / 0.818 / 0.811  op-peak 0.174
+  ck2  T_s8601    flux-L1 1.044  mass 1.064  flux-Fro pooled 0.799 / 0.774 / 0.770  patch-mean 0.799 / 0.774 / 0.769  op-peak 0.257
+  ck2  R_s8601    flux-L1 1.027  mass 0.899  flux-Fro pooled 0.815 / 0.812 / 0.803  patch-mean 0.815 / 0.811 / 0.803  op-peak 0.184
+  ck2  P_s8601    flux-L1 1.035  mass 0.911  flux-Fro pooled 0.819 / 0.810 / 0.802  patch-mean 0.819 / 0.810 / 0.802  op-peak 0.187
+  ck2  own_s8602  flux-L1 0.987  mass 0.835  flux-Fro pooled 0.832 / 0.822 / 0.814  patch-mean 0.832 / 0.822 / 0.813  op-peak 0.200
+  ck2  D_s8602    flux-L1 0.993  mass 0.877  flux-Fro pooled 0.823 / 0.809 / 0.804  patch-mean 0.823 / 0.809 / 0.804  op-peak 0.204
+  ck2  T_s8602    flux-L1 0.987  mass 0.996  flux-Fro pooled 0.800 / 0.771 / 0.771  patch-mean 0.800 / 0.771 / 0.771  op-peak 0.256
+  ck2  R_s8602    flux-L1 0.990  mass 0.890  flux-Fro pooled 0.816 / 0.808 / 0.802  patch-mean 0.816 / 0.808 / 0.801  op-peak 0.207
+  ck2  P_s8602    flux-L1 0.996  mass 0.896  flux-Fro pooled 0.819 / 0.804 / 0.800  patch-mean 0.819 / 0.803 / 0.800  op-peak 0.209
+
+FIELD METRICS Bl vs Bm on the S1 panel: rel L1 (coded / true / none), energy ratio (coded / true / none), peak ratio
+  val  own_s8601  L1 0.878 / 0.865 / 0.912   energy 0.828 / 0.841 / 0.820   peak 0.224
+  val  D_s8601    L1 0.892 / 0.878 / 0.929   energy 0.866 / 0.880 / 0.870   peak 0.234
+  val  T_s8601    L1 0.855 / 0.843 / 0.893   energy 0.992 / 1.015 / 0.990   peak 0.316
+  val  R_s8601    L1 0.886 / 0.871 / 0.913   energy 0.855 / 0.867 / 0.866   peak 0.244
+  val  P_s8601    L1 0.886 / 0.872 / 0.924   energy 0.871 / 0.885 / 0.875   peak 0.238
+  val  own_s8602  L1 0.850 / 0.841 / 0.873   energy 0.932 / 0.934 / 0.915   peak 0.261
+  val  D_s8602    L1 0.874 / 0.863 / 0.901   energy 0.992 / 0.991 / 0.983   peak 0.272
+  val  T_s8602    L1 0.846 / 0.837 / 0.869   energy 1.090 / 1.094 / 1.050   peak 0.327
+  val  R_s8602    L1 0.866 / 0.855 / 0.880   energy 0.963 / 0.965 / 0.970   peak 0.287
+  val  P_s8602    L1 0.870 / 0.859 / 0.897   energy 0.994 / 0.993 / 0.982   peak 0.274
+  ck2  own_s8601  L1 1.075 / 1.041 / 1.037   energy 0.557 / 0.433 / 0.273   peak 0.038
+  ck2  D_s8601    L1 1.212 / 1.134 / 1.082   energy 0.867 / 0.668 / 0.412   peak 0.057
+  ck2  T_s8601    L1 1.544 / 1.320 / 1.084   energy 1.749 / 1.370 / 0.862   peak 0.215
+  ck2  R_s8601    L1 1.340 / 1.189 / 1.080   energy 1.261 / 0.963 / 0.601   peak 0.113
+  ck2  P_s8601    L1 1.294 / 1.189 / 1.106   energy 1.010 / 0.773 / 0.468   peak 0.065
+  ck2  own_s8602  L1 1.221 / 1.118 / 1.017   energy 1.123 / 0.891 / 0.553   peak 0.129
+  ck2  D_s8602    L1 1.587 / 1.368 / 1.128   energy 1.618 / 1.249 / 0.744   peak 0.150
+  ck2  T_s8602    L1 1.484 / 1.297 / 1.048   energy 1.709 / 1.388 / 0.902   peak 0.258
+  ck2  R_s8602    L1 1.573 / 1.391 / 1.153   energy 1.653 / 1.347 / 0.879   peak 0.220
+  ck2  P_s8602    L1 1.629 / 1.395 / 1.141   energy 1.665 / 1.281 / 0.762   peak 0.153
+
+DELIVERY (learned vs M64 S1 sender through the exact receiver): rel L1 [ratio]; coded -> true
+  val  own_s8601   receivers 0.668[0.79]->0.668[0.79]  boxAB 0.494[1.00]->0.494[1.00]  boxA 0.558[0.93]->0.558[0.93]  boxB 0.459[1.03]->0.459[1.03]  panel_face 0.488[0.90]->0.488[0.90]
+  val  D_s8601     receivers 0.668[0.83]->0.668[0.83]  boxAB 0.486[1.04]->0.486[1.04]  boxA 0.570[0.96]->0.570[0.96]  boxB 0.441[1.08]->0.441[1.08]  panel_face 0.480[0.93]->0.480[0.93]
+  val  T_s8601     receivers 0.631[0.98]->0.632[0.98]  boxAB 0.448[1.17]->0.448[1.17]  boxA 0.531[1.10]->0.531[1.10]  boxB 0.405[1.21]->0.405[1.21]  panel_face 0.440[1.13]->0.440[1.13]
+  val  R_s8601     receivers 0.658[0.82]->0.658[0.83]  boxAB 0.484[1.02]->0.484[1.02]  boxA 0.572[0.98]->0.572[0.98]  boxB 0.437[1.05]->0.437[1.05]  panel_face 0.472[0.94]->0.472[0.94]
+  val  P_s8601     receivers 0.661[0.84]->0.661[0.84]  boxAB 0.474[1.04]->0.474[1.04]  boxA 0.565[0.98]->0.565[0.98]  boxB 0.426[1.07]->0.426[1.07]  panel_face 0.472[0.97]->0.472[0.97]
+  val  own_s8602   receivers 0.654[0.92]->0.655[0.92]  boxAB 0.600[1.17]->0.600[1.17]  boxA 0.837[1.50]->0.837[1.50]  boxB 0.474[0.99]->0.474[0.99]  panel_face 0.484[1.05]->0.484[1.05]
+  val  D_s8602     receivers 0.678[0.98]->0.679[0.98]  boxAB 0.652[1.28]->0.652[1.28]  boxA 0.997[1.67]->0.997[1.67]  boxB 0.469[1.07]->0.469[1.07]  panel_face 0.530[1.12]->0.530[1.12]
+  val  T_s8602     receivers 0.677[1.09]->0.677[1.09]  boxAB 0.648[1.38]->0.648[1.38]  boxA 0.968[1.73]->0.968[1.73]  boxB 0.477[1.19]->0.477[1.19]  panel_face 0.476[1.16]->0.476[1.16]
+  val  R_s8602     receivers 0.678[0.95]->0.679[0.95]  boxAB 0.663[1.24]->0.663[1.24]  boxA 0.986[1.62]->0.986[1.62]  boxB 0.491[1.03]->0.491[1.03]  panel_face 0.536[1.06]->0.536[1.06]
+  val  P_s8602     receivers 0.676[0.99]->0.676[0.99]  boxAB 0.648[1.28]->0.648[1.28]  boxA 0.998[1.68]->0.998[1.68]  boxB 0.461[1.07]->0.461[1.07]  panel_face 0.533[1.13]->0.533[1.13]
+  ck2  own_s8601   receivers 0.880[0.38]->0.881[0.38]  boxAB 0.634[0.42]->0.634[0.42]  boxA 0.638[0.41]->0.638[0.41]  boxB 0.242[0.86]->0.242[0.86]  panel_face 0.662[0.34]->0.662[0.34]
+  ck2  D_s8601     receivers 0.899[0.60]->0.901[0.60]  boxAB 0.571[0.69]->0.571[0.69]  boxA 0.570[0.68]->0.570[0.68]  boxB 0.631[1.52]->0.631[1.52]  panel_face 0.550[0.55]->0.550[0.55]
+  ck2  T_s8601     receivers 1.087[1.28]->1.091[1.28]  boxAB 1.052[1.78]->1.052[1.78]  boxA 1.036[1.76]->1.036[1.76]  boxB 2.424[3.42]->2.424[3.42]  panel_face 0.858[1.49]->0.858[1.49]
+  ck2  R_s8601     receivers 0.972[0.89]->0.975[0.89]  boxAB 0.687[1.14]->0.687[1.14]  boxA 0.671[1.12]->0.671[1.12]  boxB 2.072[3.05]->2.072[3.05]  panel_face 0.558[0.92]->0.558[0.92]
+  ck2  P_s8601     receivers 0.943[0.70]->0.945[0.70]  boxAB 0.618[0.83]->0.618[0.83]  boxA 0.614[0.82]->0.614[0.82]  boxB 0.919[1.88]->0.919[1.88]  panel_face 0.562[0.65]->0.562[0.65]
+  ck2  own_s8602   receivers 0.848[0.76]->0.850[0.76]  boxAB 0.783[1.28]->0.783[1.28]  boxA 0.778[1.27]->0.778[1.27]  boxB 1.245[2.25]->1.245[2.25]  panel_face 0.649[1.16]->0.649[1.16]
+  ck2  D_s8602     receivers 1.069[1.09]->1.072[1.09]  boxAB 1.201[1.86]->1.201[1.86]  boxA 1.185[1.84]->1.185[1.84]  boxB 2.624[3.62]->2.624[3.62]  panel_face 0.982[1.62]->0.982[1.62]
+  ck2  T_s8602     receivers 0.995[1.19]->0.999[1.18]  boxAB 1.241[2.09]->1.241[2.09]  boxA 1.221[2.07]->1.221[2.07]  boxB 3.005[4.01]->3.005[4.01]  panel_face 1.064[1.92]->1.064[1.92]
+  ck2  R_s8602     receivers 1.107[1.15]->1.108[1.14]  boxAB 1.297[1.98]->1.297[1.98]  boxA 1.291[1.97]->1.291[1.97]  boxB 1.827[2.83]->1.827[2.83]  panel_face 1.043[1.75]->1.043[1.75]
+  ck2  P_s8602     receivers 1.099[1.13]->1.102[1.13]  boxAB 1.231[1.89]->1.231[1.89]  boxA 1.213[1.87]->1.213[1.87]  boxB 2.784[3.78]->2.784[3.78]  panel_face 0.997[1.63]->0.997[1.63]
+
+SENDER_IMP rule  T <= 0.8 x min(R, P) on val AND ck2 (field rel L1):  coded | true | none
+  s8601 coded val T/min(R,P) 0.964  ck2 1.193  -> SENDER_IMP False
+  s8601 true  val T/min(R,P) 0.968  ck2 1.110  -> SENDER_IMP False
+  s8601 none  val T/min(R,P) 0.978  ck2 1.004  -> SENDER_IMP False
+  s8602 coded val T/min(R,P) 0.977  ck2 0.943  -> SENDER_IMP False
+  s8602 true  val T/min(R,P) 0.978  ck2 0.932  -> SENDER_IMP False
+  s8602 none  val T/min(R,P) 0.988  ck2 0.919  -> SENDER_IMP False
+
+CK2 SINGLE FLIGHT vs physical e2_p (exact receiver): ratio / corr / rel L1 (half-noise); coded then true
+  own_s8601  M64_sender     receivers  coded 1.378 / +0.713 / 0.940 (0.127)   true 1.373 / +0.714 / 0.937 (0.125)  n=1228
+  own_s8601  M64_sender     boxA       coded 1.211 / +0.716 / 0.528 (0.058)   true 1.208 / +0.720 / 0.524 (0.059)  n=54
+  own_s8601  M64_sender     boxAB      coded 1.218 / +0.755 / 0.539 (0.058)   true 1.215 / +0.758 / 0.535 (0.059)  n=108
+  own_s8601  M64_sender     panel_face coded 1.206 / -0.334 / 0.598 (0.069)   true 1.201 / -0.321 / 0.591 (0.070)  n=9
+  own_s8601  learned_sender receivers  coded 0.526 / +0.516 / 0.901 (0.127)   true 0.524 / +0.511 / 0.904 (0.125)  n=1228
+  own_s8601  learned_sender boxA       coded 0.497 / +0.759 / 0.587 (0.058)   true 0.495 / +0.759 / 0.588 (0.059)  n=54
+  own_s8601  learned_sender boxAB      coded 0.506 / +0.795 / 0.596 (0.058)   true 0.504 / +0.795 / 0.597 (0.059)  n=108
+  own_s8601  learned_sender panel_face coded 0.408 / +0.042 / 0.596 (0.069)   true 0.406 / +0.040 / 0.597 (0.070)  n=9
+  D_s8601    learned_sender receivers  coded 0.829 / +0.545 / 1.007 (0.127)   true 0.827 / +0.541 / 1.010 (0.125)  n=1228
+  D_s8601    learned_sender boxA       coded 0.828 / +0.743 / 0.590 (0.058)   true 0.826 / +0.743 / 0.590 (0.059)  n=54
+  D_s8601    learned_sender boxAB      coded 0.844 / +0.781 / 0.607 (0.058)   true 0.842 / +0.781 / 0.607 (0.059)  n=108
+  D_s8601    learned_sender panel_face coded 0.665 / +0.096 / 0.481 (0.069)   true 0.662 / +0.094 / 0.481 (0.070)  n=9
+  T_s8601    learned_sender receivers  coded 1.762 / +0.684 / 1.353 (0.127)   true 1.758 / +0.681 / 1.356 (0.125)  n=1228
+  T_s8601    learned_sender boxA       coded 2.131 / +0.831 / 1.189 (0.058)   true 2.125 / +0.831 / 1.182 (0.059)  n=54
+  T_s8601    learned_sender boxAB      coded 2.165 / +0.856 / 1.227 (0.058)   true 2.160 / +0.856 / 1.221 (0.059)  n=108
+  T_s8601    learned_sender panel_face coded 1.795 / +0.290 / 0.851 (0.069)   true 1.787 / +0.291 / 0.841 (0.070)  n=9
+  R_s8601    learned_sender receivers  coded 1.227 / +0.603 / 1.167 (0.127)   true 1.223 / +0.599 / 1.171 (0.125)  n=1228
+  R_s8601    learned_sender boxA       coded 1.360 / +0.778 / 0.762 (0.058)   true 1.356 / +0.779 / 0.761 (0.059)  n=54
+  R_s8601    learned_sender boxAB      coded 1.394 / +0.810 / 0.799 (0.058)   true 1.390 / +0.810 / 0.797 (0.059)  n=108
+  R_s8601    learned_sender panel_face coded 1.113 / +0.156 / 0.507 (0.069)   true 1.108 / +0.156 / 0.506 (0.070)  n=9
+  P_s8601    learned_sender receivers  coded 0.968 / +0.558 / 1.080 (0.127)   true 0.966 / +0.553 / 1.084 (0.125)  n=1228
+  P_s8601    learned_sender boxA       coded 0.987 / +0.751 / 0.646 (0.058)   true 0.985 / +0.751 / 0.646 (0.059)  n=54
+  P_s8601    learned_sender boxAB      coded 1.008 / +0.788 / 0.667 (0.058)   true 1.005 / +0.788 / 0.668 (0.059)  n=108
+  P_s8601    learned_sender panel_face coded 0.788 / +0.148 / 0.496 (0.069)   true 0.785 / +0.146 / 0.497 (0.070)  n=9
+  own_s8602  learned_sender receivers  coded 1.053 / +0.590 / 1.011 (0.127)   true 1.047 / +0.586 / 1.011 (0.125)  n=1228
+  own_s8602  learned_sender boxA       coded 1.538 / +0.751 / 0.906 (0.058)   true 1.534 / +0.751 / 0.901 (0.059)  n=54
+  own_s8602  learned_sender boxAB      coded 1.560 / +0.788 / 0.929 (0.058)   true 1.556 / +0.789 / 0.923 (0.059)  n=108
+  own_s8602  learned_sender panel_face coded 1.393 / -0.400 / 0.690 (0.069)   true 1.387 / -0.405 / 0.682 (0.070)  n=9
+  D_s8602    learned_sender receivers  coded 1.505 / +0.588 / 1.335 (0.127)   true 1.499 / +0.585 / 1.336 (0.125)  n=1228
+  D_s8602    learned_sender boxA       coded 2.229 / +0.754 / 1.424 (0.058)   true 2.223 / +0.754 / 1.417 (0.059)  n=54
+  D_s8602    learned_sender boxAB      coded 2.266 / +0.790 / 1.463 (0.058)   true 2.260 / +0.791 / 1.455 (0.059)  n=108
+  D_s8602    learned_sender panel_face coded 1.954 / -0.170 / 1.075 (0.069)   true 1.945 / -0.174 / 1.066 (0.070)  n=9
+  T_s8602    learned_sender receivers  coded 1.634 / +0.649 / 1.327 (0.127)   true 1.626 / +0.646 / 1.327 (0.125)  n=1228
+  T_s8602    learned_sender boxA       coded 2.508 / +0.818 / 1.593 (0.058)   true 2.501 / +0.819 / 1.584 (0.059)  n=54
+  T_s8602    learned_sender boxAB      coded 2.548 / +0.843 / 1.637 (0.058)   true 2.542 / +0.844 / 1.628 (0.059)  n=108
+  T_s8602    learned_sender panel_face coded 2.316 / +0.033 / 1.361 (0.069)   true 2.306 / +0.034 / 1.349 (0.070)  n=9
+  R_s8602    learned_sender receivers  coded 1.580 / +0.564 / 1.428 (0.127)   true 1.569 / +0.559 / 1.425 (0.125)  n=1228
+  R_s8602    learned_sender boxA       coded 2.386 / +0.705 / 1.643 (0.058)   true 2.380 / +0.706 / 1.635 (0.059)  n=54
+  R_s8602    learned_sender boxAB      coded 2.411 / +0.748 / 1.669 (0.058)   true 2.405 / +0.749 / 1.662 (0.059)  n=108
+  R_s8602    learned_sender panel_face coded 2.110 / -0.390 / 1.293 (0.069)   true 2.101 / -0.395 / 1.283 (0.070)  n=9
+  P_s8602    learned_sender receivers  coded 1.551 / +0.587 / 1.372 (0.127)   true 1.546 / +0.584 / 1.373 (0.125)  n=1228
+  P_s8602    learned_sender boxA       coded 2.269 / +0.753 / 1.447 (0.058)   true 2.263 / +0.753 / 1.439 (0.059)  n=54
+  P_s8602    learned_sender boxAB      coded 2.308 / +0.790 / 1.487 (0.058)   true 2.302 / +0.790 / 1.480 (0.059)  n=108
+  P_s8602    learned_sender panel_face coded 1.970 / -0.140 / 1.076 (0.069)   true 1.962 / -0.144 / 1.067 (0.070)  n=9

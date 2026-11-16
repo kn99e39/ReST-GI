@@ -1,0 +1,134 @@
+c:\Projects\ReST-GI\experiments\audit97\E2\e2_analyze.py:96: RuntimeWarning: invalid value encountered in divide
+  'chi2_per_patch_mean': float(np.mean(d ** 2 / (se_wt ** 2 + ar_se ** 2))),
+REFERENCE {
+ "total_exitance": {
+  "W_T": 15.131073580647898,
+  "W_94": 15.090250879028853,
+  "W_U": 15.331681140522504
+ },
+ "half_split_noise_n0": {
+  "W_T": 0.05926934169469287,
+  "W_94": 0.058198331105900405,
+  "W_U": 0.049314743463190765
+ },
+ "weights_effect_on_ref": {
+  "W94_vs_WT_rel_l1": 0.006791340123588048,
+  "WU_vs_WT_rel_l1": 0.02951171107306194,
+  "W94_total_ratio": 0.9973020617868611,
+  "WU_total_ratio": 1.0132579858795463
+ },
+ "bin_scatter": {
+  "expected_abs_rel_l1_of_ref_mean_gaussian": 0.06239287822380405,
+  "rel_se_of_total": 0.02739061586029735
+ },
+ "ring_means_rel_to_patch_mean": [
+  1.0488739002686553,
+  0.9700339253931117,
+  1.017986541282918,
+  0.9631056330553148
+ ],
+ "panel_face_share_of_total": 0.7063426860492208
+}
+AREA {
+ "samples_per_patch": 268435456,
+ "total": 15.359830808598385,
+ "rel_se_total": 0.00016251547178572291,
+ "own_half_split_noise": 0.00046103645114957767,
+ "expected_abs_rel_l1_own_noise": 0.0005225794022155165,
+ "CKF_ref_vs_area": {
+  "W_T": {
+   "ratio": 0.9851067872555973,
+   "abs_rel_l1": 0.06715512890262365,
+   "corr": 0.9950369982865818
+  },
+  "W_94": {
+   "ratio": 0.982449030010238,
+   "abs_rel_l1": 0.07120332968699516,
+   "corr": 0.9943993291387646
+  },
+  "W_U": {
+   "ratio": 0.9981673191308772,
+   "abs_rel_l1": 0.06929497839820402,
+   "corr": 0.9941183529908197
+  }
+ },
+ "CKF_ref_vs_area_panel_face": {
+  "ratio": 0.9889456803186789,
+  "abs_rel_l1": 0.06724661975836721,
+  "corr": 0.9795625398598492
+ },
+ "CKF_minus_area_z_total": -0.5519444970099584,
+ "chi2_per_patch_mean": NaN
+}
+DEPLOYED (ratio / abs rel L1 / corr vs CKF W_T | WL95A | array diff)
+M64_s16          1.208 / 0.524 / 0.72 | area 1.190 / 0.507 | WL95A 1.208 / 0.524 | rel L1 between arrays 1.34e-06
+M64_spool        1.156 / 0.483 / 0.74 | area 1.139 / 0.461 | WL95A 1.158 / 0.483 | rel L1 between arrays 4.91e-03
+M64own_spool     1.121 / 0.444 / 0.78 | area 1.104 / 0.422
+q                1.094 / 0.545 / 0.67 | area 1.077 / 0.525 | WL95A 1.077 / 0.534 | rel L1 between arrays 1.69e-02
+X1               0.764 / 0.627 / 0.57 | area 0.752 / 0.634 | WL95A 0.764 / 0.627 | rel L1 between arrays 3.99e-06
+X1c              0.719 / 0.388 / 0.81 | area 0.709 / 0.406 | WL95A 0.719 / 0.388 | rel L1 between arrays 1.87e-06
+Xdir_patchavg    0.863 / 0.475 / 0.74 | area 0.850 / 0.455
+Xpos_binavg      1.264 / 0.909 / 0.40 | area 1.245 / 0.892
+Xproj_both       0.955 / 0.460 / 0.78 | area 0.941 / 0.442
+WL95A pooled arrays recomputed
+A4         1.544 (se 0.035) / 0.546 (se 0.034) / 0.96  per-draw ratio median 1.514 L1 median 0.726 max 1.450
+M64_spool  1.495 (se 0.035) / 0.500 (se 0.034) / 0.96  per-draw ratio median 1.459 L1 median 0.665 max 1.394
+q256       1.422 (se 0.033) / 0.433 (se 0.030) / 0.94  per-draw ratio median 1.382 L1 median 0.657 max 1.296
+X1c        1.037 (se 0.062) / 0.268 (se 0.053) / 0.95  per-draw ratio median 0.935 L1 median 0.600 max 3.778
+X1         1.022 (se 0.049) / 0.111 (se 0.037) / 0.99  per-draw ratio median 0.919 L1 median 0.617 max 2.212
+OWN DRAWS shared2048 {'mean': 4379.404296875, 'min': 4219, 'max': 4518}
+M64_s16        CKF 1.531 (se 0.006) / 0.531 (se 0.006) / 0.976 | area 1.509 (se 0.006) / 0.509 (se 0.006) / 0.983 | 64: 1.595 (se 0.034) / 0.598 (se 0.034) | per-draw ratio med 1.51 p10 1.20 p90 1.90 max 2.90; L1 med 0.71 p90 1.04 max 1.97
+M64_spool      CKF 1.477 (se 0.006) / 0.478 (se 0.006) / 0.973 | area 1.455 (se 0.006) / 0.455 (se 0.006) / 0.981 | 64: 1.537 (se 0.032) / 0.542 (se 0.032) | per-draw ratio med 1.45 p10 1.16 p90 1.83 max 2.81; L1 med 0.67 p90 0.98 max 1.88
+M64own_spool   CKF 1.401 (se 0.005) / 0.402 (se 0.005) / 0.981 | area 1.380 (se 0.005) / 0.380 (se 0.005) / 0.988 | 64: 1.451 (se 0.029) / 0.457 (se 0.029) | per-draw ratio med 1.38 p10 1.12 p90 1.71 max 2.51; L1 med 0.60 p90 0.86 max 1.58
+q              CKF 1.423 (se 0.006) / 0.434 (se 0.006) / 0.948 | area 1.402 (se 0.006) / 0.411 (se 0.006) / 0.964 | 64: 1.483 (se 0.032) / 0.495 (se 0.032) | per-draw ratio med 1.40 p10 1.10 p90 1.78 max 2.72; L1 med 0.68 p90 0.98 max 1.85
+X1             CKF 1.008 (se 0.013) / 0.072 (se 0.010) / 0.995 | area 0.993 (se 0.013) / 0.020 (se 0.008) / 1.000 | 64: 1.051 (se 0.070) / 0.150 (se 0.050) | per-draw ratio med 0.87 p10 0.65 p90 1.42 max 8.18; L1 med 0.57 p90 1.06 max 7.76
+X1c            CKF 1.090 (se 0.012) / 0.321 (se 0.012) / 0.932 | area 1.073 (se 0.012) / 0.284 (se 0.012) / 0.936 | 64: 1.147 (se 0.072) / 0.375 (se 0.065) | per-draw ratio med 0.94 p10 0.71 p90 1.57 max 6.05; L1 med 0.61 p90 1.16 max 5.69
+Xdir_patchavg  CKF 1.049 (se 0.007) / 0.145 (se 0.007) / 0.985 | area 1.034 (se 0.007) / 0.111 (se 0.007) / 0.993 | 64: 1.093 (se 0.040) / 0.161 (se 0.031) | per-draw ratio med 0.97 p10 0.76 p90 1.41 max 4.02; L1 med 0.53 p90 0.91 max 3.52
+Xpos_binavg    CKF 1.425 (se 0.014) / 0.449 (se 0.014) / 0.932 | area 1.404 (se 0.014) / 0.423 (se 0.014) / 0.947 | 64: 1.332 (se 0.082) / 0.365 (se 0.077) | per-draw ratio med 1.21 p10 0.82 p90 2.33 max 5.75; L1 med 0.75 p90 1.85 max 5.00
+Xproj_both     CKF 1.416 (se 0.015) / 0.428 (se 0.015) / 0.950 | area 1.395 (se 0.014) / 0.405 (se 0.014) / 0.965 | 64: 1.495 (se 0.078) / 0.516 (se 0.073) | per-draw ratio med 1.20 p10 0.83 p90 2.36 max 5.43; L1 med 0.67 p90 1.82 max 5.04
+contrasts_vs_area
+   source_points: M64_s16 - M64_spool                                     d_ratio +0.054 (se 0.000)  d_L1 +0.054 (se 0.000)
+   incident_projection: M64_spool - q                                     d_ratio +0.052 (se 0.001)  d_L1 +0.044 (se 0.001)
+   own_M64_object: M64own_spool - M64_spool                               d_ratio -0.075 (se 0.001)  d_L1 -0.075 (se 0.001)
+   table_vs_perray_projection: q - Xproj_both                             d_ratio +0.007 (se 0.013)  d_L1 +0.006 (se 0.013)
+   outgoing_direction (position projected): Xproj_both - Xdir_patchavg    d_ratio +0.361 (se 0.014)  d_L1 +0.294 (se 0.014)
+   outgoing_direction (position exact): Xpos_binavg - X1                  d_ratio +0.411 (se 0.018)  d_L1 +0.402 (se 0.016)
+   position (direction projected): Xproj_both - Xpos_binavg               d_ratio -0.009 (se 0.018)  d_L1 -0.018 (se 0.018)
+   position (direction exact): Xdir_patchavg - X1                         d_ratio +0.041 (se 0.013)  d_L1 +0.090 (se 0.011)
+   centre_vs_patchavg: X1c - Xdir_patchavg                                d_ratio +0.040 (se 0.012)  d_L1 +0.173 (se 0.012)
+   total: M64_s16 - X1                                                    d_ratio +0.516 (se 0.012)  d_L1 +0.488 (se 0.010)
+   q - X1c                                                                d_ratio +0.329 (se 0.011)  d_L1 +0.127 (se 0.012)
+   X1c - X1                                                               d_ratio +0.081 (se 0.016)  d_L1 +0.263 (se 0.015)
+   convergence M64_s16 1:1.509/0.721 2:1.509/0.615 4:1.509/0.554 8:1.509/0.523 16:1.509/0.513 32:1.509/0.510 64:1.509/0.509 128:1.509/0.509 256:1.509/0.509 512:1.509/0.509 1024:1.509/0.509 2048:1.509/0.509
+   convergence q 1:1.402/0.685 2:1.402/0.564 4:1.402/0.486 8:1.402/0.442 16:1.402/0.422 32:1.402/0.416 64:1.402/0.412 128:1.402/0.411 256:1.402/0.411 512:1.402/0.411 1024:1.402/0.411 2048:1.402/0.411
+   convergence X1c 1:1.073/0.747 2:1.073/0.623 4:1.073/0.519 8:1.073/0.434 16:1.073/0.377 32:1.073/0.337 64:1.073/0.306 128:1.073/0.293 256:1.073/0.288 512:1.073/0.284 1024:1.073/0.284 2048:1.073/0.284
+   convergence X1 1:0.993/0.715 2:0.993/0.586 4:0.993/0.475 8:0.993/0.376 16:0.993/0.288 32:0.993/0.219 64:0.993/0.162 128:0.993/0.113 256:0.993/0.085 512:0.993/0.068 1024:0.993/0.041 2048:0.993/0.020
+   deployed percentile (binned ratio, X1 ratio): 0.11083984375 0.30322265625
+OWN DRAWS indep2048 {'mean': 4378.24853515625, 'min': 4286, 'max': 4456}
+M64_s16        CKF 1.526 (se 0.006) / 0.526 (se 0.006) / 0.976 | area 1.503 (se 0.006) / 0.504 (se 0.006) / 0.984 | 64: 1.509 (se 0.031) / 0.510 (se 0.031) | per-draw ratio med 1.51 p10 1.21 p90 1.86 max 2.56; L1 med 0.71 p90 1.02 max 1.69
+M64_spool      CKF 1.472 (se 0.005) / 0.474 (se 0.005) / 0.973 | area 1.451 (se 0.005) / 0.451 (se 0.005) / 0.982 | 64: 1.459 (se 0.030) / 0.461 (se 0.030) | per-draw ratio med 1.45 p10 1.17 p90 1.80 max 2.46; L1 med 0.67 p90 0.96 max 1.64
+M64own_spool   CKF 1.397 (se 0.005) / 0.399 (se 0.005) / 0.981 | area 1.377 (se 0.005) / 0.377 (se 0.005) / 0.988 | 64: 1.383 (se 0.027) / 0.391 (se 0.026) | per-draw ratio med 1.38 p10 1.14 p90 1.68 max 2.25; L1 med 0.60 p90 0.85 max 1.42
+q              CKF 1.417 (se 0.006) / 0.428 (se 0.006) / 0.949 | area 1.396 (se 0.005) / 0.405 (se 0.005) / 0.965 | 64: 1.412 (se 0.029) / 0.429 (se 0.029) | per-draw ratio med 1.40 p10 1.12 p90 1.74 max 2.39; L1 med 0.69 p90 0.97 max 1.59
+X1             CKF 1.011 (se 0.012) / 0.099 (se 0.011) / 0.987 | area 0.996 (se 0.012) / 0.050 (se 0.011) / 0.996 | 64: 0.984 (se 0.068) / 0.099 (se 0.049) | per-draw ratio med 0.88 p10 0.66 p90 1.40 max 6.66; L1 med 0.57 p90 1.04 max 6.14
+X1c            CKF 1.070 (se 0.011) / 0.291 (se 0.011) / 0.942 | area 1.054 (se 0.011) / 0.254 (se 0.011) / 0.946 | 64: 1.100 (se 0.062) / 0.348 (se 0.054) | per-draw ratio med 0.94 p10 0.71 p90 1.51 max 6.69; L1 med 0.60 p90 1.09 max 6.04
+Xdir_patchavg  CKF 1.051 (se 0.007) / 0.145 (se 0.007) / 0.985 | area 1.035 (se 0.007) / 0.111 (se 0.007) / 0.992 | 64: 1.026 (se 0.041) / 0.145 (se 0.032) | per-draw ratio med 0.96 p10 0.76 p90 1.44 max 3.45; L1 med 0.53 p90 0.91 max 2.89
+Xpos_binavg    CKF 1.404 (se 0.014) / 0.428 (se 0.013) / 0.933 | area 1.383 (se 0.014) / 0.402 (se 0.013) / 0.948 | 64: 1.297 (se 0.083) / 0.423 (se 0.078) | per-draw ratio med 1.20 p10 0.83 p90 2.32 max 6.26; L1 med 0.75 p90 1.81 max 5.92
+Xproj_both     CKF 1.406 (se 0.014) / 0.416 (se 0.014) / 0.951 | area 1.385 (se 0.014) / 0.394 (se 0.014) / 0.966 | 64: 1.362 (se 0.078) / 0.437 (se 0.074) | per-draw ratio med 1.19 p10 0.83 p90 2.28 max 5.26; L1 med 0.69 p90 1.74 max 4.57
+contrasts_vs_area
+   source_points: M64_s16 - M64_spool                                     d_ratio +0.053 (se 0.000)  d_L1 +0.052 (se 0.000)
+   incident_projection: M64_spool - q                                     d_ratio +0.054 (se 0.001)  d_L1 +0.046 (se 0.001)
+   own_M64_object: M64own_spool - M64_spool                               d_ratio -0.074 (se 0.001)  d_L1 -0.074 (se 0.001)
+   table_vs_perray_projection: q - Xproj_both                             d_ratio +0.011 (se 0.012)  d_L1 +0.011 (se 0.012)
+   outgoing_direction (position projected): Xproj_both - Xdir_patchavg    d_ratio +0.350 (se 0.014)  d_L1 +0.283 (se 0.014)
+   outgoing_direction (position exact): Xpos_binavg - X1                  d_ratio +0.387 (se 0.017)  d_L1 +0.352 (se 0.017)
+   position (direction projected): Xproj_both - Xpos_binavg               d_ratio +0.002 (se 0.017)  d_L1 -0.008 (se 0.017)
+   position (direction exact): Xdir_patchavg - X1                         d_ratio +0.039 (se 0.013)  d_L1 +0.061 (se 0.013)
+   centre_vs_patchavg: X1c - Xdir_patchavg                                d_ratio +0.019 (se 0.012)  d_L1 +0.143 (se 0.011)
+   total: M64_s16 - X1                                                    d_ratio +0.507 (se 0.012)  d_L1 +0.453 (se 0.012)
+   q - X1c                                                                d_ratio +0.342 (se 0.010)  d_L1 +0.151 (se 0.011)
+   X1c - X1                                                               d_ratio +0.058 (se 0.015)  d_L1 +0.204 (se 0.015)
+   convergence M64_s16 1:1.503/0.722 2:1.503/0.614 4:1.503/0.550 8:1.503/0.519 16:1.503/0.509 32:1.503/0.505 64:1.503/0.504 128:1.503/0.504 256:1.503/0.504 512:1.503/0.504 1024:1.503/0.504 2048:1.503/0.504
+   convergence q 1:1.396/0.685 2:1.396/0.563 4:1.396/0.481 8:1.396/0.438 16:1.396/0.418 32:1.396/0.409 64:1.396/0.406 128:1.396/0.405 256:1.396/0.405 512:1.396/0.405 1024:1.396/0.405 2048:1.396/0.405
+   convergence X1c 1:1.054/0.730 2:1.054/0.605 4:1.054/0.505 8:1.054/0.423 16:1.054/0.359 32:1.054/0.314 64:1.054/0.284 128:1.054/0.270 256:1.054/0.262 512:1.054/0.259 1024:1.054/0.254 2048:1.054/0.254
+   convergence X1 1:0.996/0.712 2:0.996/0.585 4:0.996/0.470 8:0.996/0.371 16:0.996/0.287 32:0.996/0.215 64:0.996/0.161 128:0.996/0.118 256:0.996/0.088 512:0.996/0.061 1024:0.996/0.055 2048:0.996/0.050
+   deployed percentile (binned ratio, X1 ratio): 0.09521484375 0.27490234375

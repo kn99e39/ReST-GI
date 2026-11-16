@@ -1,0 +1,195 @@
+{
+ "weight_ratio_coded_over_true": {
+  "ring0": [
+   0.5,
+   1.5
+  ],
+  "ring1": [
+   0.8333,
+   1.1667
+  ],
+  "ring2": [
+   0.9,
+   1.1
+  ],
+  "ring3": [
+   0.9286,
+   1.0714
+  ]
+ },
+ "weight_sums": [
+  3.141592653589793,
+  3.141592653589793
+ ],
+ "paired_se_max": 6.535684901597104e-05,
+ "WL94_SSR": {
+  "s8601": {
+   "diff": 0.01621578002718432,
+   "share": 0.3432788043281443,
+   "frozen_tol": 0.01672677766262343,
+   "pass_frozen": false,
+   "paired_tol": 0.005,
+   "pass_paired": true,
+   "half_diffs": [
+    0.01603065958119708,
+    0.016039308883786775
+   ]
+  },
+  "s8602": {
+   "diff": 0.02257717996002299,
+   "share": 0.5378243476355228,
+   "frozen_tol": 0.016804672117542455,
+   "pass_frozen": true,
+   "paired_tol": 0.005,
+   "pass_paired": true,
+   "half_diffs": [
+    0.022545222050518312,
+    0.022481126005664858
+   ]
+  }
+ },
+ "WL94_H-A_paired": "SUPPORTED",
+ "WL94_H-A_stored": "INCONCLUSIVE",
+ "WL94D_pairs": {
+  "8601": {
+   "T_vs_P": {
+    "diff": -0.017613041494729358,
+    "frozen": "worse",
+    "paired_floor": "worse",
+    "paired_nofloor": "worse"
+   },
+   "T_vs_R": {
+    "diff": -0.0180723543990165,
+    "frozen": "worse",
+    "paired_floor": "worse",
+    "paired_nofloor": "worse"
+   },
+   "T_vs_D": {
+    "diff": -0.018044078888526105,
+    "frozen": "worse",
+    "paired_floor": "worse",
+    "paired_nofloor": "worse"
+   },
+   "P_vs_D": {
+    "diff": -0.0004310373937967474,
+    "frozen": "tie",
+    "paired_floor": "tie",
+    "paired_nofloor": "worse"
+   },
+   "R_vs_P": {
+    "diff": 0.0004593129042871416,
+    "frozen": "tie",
+    "paired_floor": "tie",
+    "paired_nofloor": "better"
+   },
+   "RENDER_IMP": {
+    "frozen": false,
+    "paired_floor": false,
+    "paired_nofloor": false
+   }
+  },
+  "8602": {
+   "T_vs_P": {
+    "diff": -0.007436967269333419,
+    "frozen": "tie",
+    "paired_floor": "worse",
+    "paired_nofloor": "worse"
+   },
+   "T_vs_R": {
+    "diff": 0.004546227134191144,
+    "frozen": "tie",
+    "paired_floor": "tie",
+    "paired_nofloor": "better"
+   },
+   "T_vs_D": {
+    "diff": -0.007584052688192192,
+    "frozen": "tie",
+    "paired_floor": "worse",
+    "paired_nofloor": "worse"
+   },
+   "P_vs_D": {
+    "diff": -0.00014708541885877224,
+    "frozen": "tie",
+    "paired_floor": "tie",
+    "paired_nofloor": "worse"
+   },
+   "R_vs_P": {
+    "diff": -0.011983194403524564,
+    "frozen": "tie",
+    "paired_floor": "worse",
+    "paired_nofloor": "worse"
+   },
+   "RENDER_IMP": {
+    "frozen": false,
+    "paired_floor": false,
+    "paired_nofloor": false
+   }
+  }
+ },
+ "WL94C_pairs": {
+  "8601": {
+   "D_vs_C": {
+    "diff": 0.040354095503052745,
+    "frozen": "better",
+    "paired_floor": "better",
+    "paired_nofloor": "better"
+   },
+   "E_vs_C": {
+    "diff": -0.0015806667929426782,
+    "frozen": "tie",
+    "paired_floor": "tie",
+    "paired_nofloor": "worse"
+   },
+   "D_vs_E": {
+    "diff": 0.04193476229599542,
+    "frozen": "better",
+    "paired_floor": "better",
+    "paired_nofloor": "better"
+   }
+  },
+  "8602": {
+   "D_vs_C": {
+    "diff": -0.021984401381478183,
+    "frozen": "worse",
+    "paired_floor": "worse",
+    "paired_nofloor": "worse"
+   },
+   "E_vs_C": {
+    "diff": 0.0009516428527862608,
+    "frozen": "tie",
+    "paired_floor": "tie",
+    "paired_nofloor": "better"
+   },
+   "D_vs_E": {
+    "diff": -0.022936044234264444,
+    "frozen": "worse",
+    "paired_floor": "worse",
+    "paired_nofloor": "worse"
+   }
+  }
+ },
+ "WL95A_NDT": {
+  "stored": "UNDETERMINED",
+  "frozen_recomputed": "UNDETERMINED",
+  "paired_floor_0.005": "UNDETERMINED",
+  "paired_nofloor_2se": "UNDETERMINED"
+ },
+ "WL94D_G_PHYS": {
+  "stored": {
+   "pooled_ratio": 0.952912154439625,
+   "corr_exact_vs_label": 0.6412443486401868,
+   "label_reliability_corr_256_vs_64": 0.5248599841746533,
+   "corr_exact_vs_independent_label": 0.4462173629236207
+  },
+  "implied_corr_vs_noisefree_label_from_256": 0.7584016031156687,
+  "implied_corr_vs_noisefree_label_from_64": 0.7188318483132154,
+  "rule_passes_any_X_with_true_corr_above": 0.6207534682425355,
+  "ck2_boxA": {
+   "ratio": 1.2114708566498122,
+   "corr": 0.7161185072908048,
+   "corr_halves": 0.9827265950995286,
+   "rel_l1": 0.5277187081912211,
+   "half_noise_rel_l1": 0.058198331105900405
+  }
+ }
+}

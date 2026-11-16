@@ -1,0 +1,437 @@
+{
+ "n_reps": 8,
+ "spp_per_rep": 2048,
+ "same_lanes_check_max_abs(T2c - T2 of j4_attr)": 2.9802322387695312e-08,
+ "masks": {
+  "ROI_T": {
+   "e2_content (camera 3 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": 0.0034921190988329055,
+     "L1": 0.005899901778811383,
+     "L1_block16": 0.005822592401428937,
+     "rel_l2": 0.008228173032923067
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": 0.0026254191608675007,
+     "L1": 0.005312041256106622,
+     "L1_block16": 0.005212120901965668,
+     "rel_l2": 0.00749328599739118
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 0.0033990434567718686,
+    "Tc - A signed": {
+     "signed": 0.003882288072571733,
+     "se": 6.736332674610383e-05
+    },
+    "Tn - A signed": {
+     "signed": 0.00039016897373882783,
+     "se": 6.772250548059691e-05
+    },
+    "Tc - D signed": {
+     "signed": 0.0021759335933407304,
+     "se": 9.467993803801253e-05
+    },
+    "Tn - D signed": {
+     "signed": -0.0013161855054921751,
+     "se": 9.460270725088518e-05
+    },
+    "D - A signed": {
+     "signed": 0.0017063544792310032,
+     "se": 0.00010298577113649813
+    },
+    "debiased rel_l2: D - A (cross halves)": 0.007361278886253662,
+    "debiased rel_l2: Tc - A": 0.009061458169785892,
+    "debiased rel_l2: Tn - A": 0.00899065357272911,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": 0.006902049940712155,
+    "debiased rel_l2: Tc - D": 0.005279497124903424,
+    "debiased rel_l2: Tn - D": 0.005476198500751403,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": -0.0022139838694016523
+   },
+   "tail (camera 4..6 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": -0.0006735934980360689,
+     "L1": 0.0034807898203647225,
+     "L1_block16": 0.003444695637053072,
+     "rel_l2": 0.004727840120480308
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": 4.1856690782693566e-05,
+     "L1": 0.0013530648843148062,
+     "L1_block16": 0.0013292305070646986,
+     "rel_l2": 0.0015390208965457002
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 0.004470334090962209,
+    "Tc - A signed": {
+     "signed": -0.0012703546219548097,
+     "se": 2.791045256501306e-05
+    },
+    "Tn - A signed": {
+     "signed": -0.0005967611239187406,
+     "se": 2.7899302368692847e-05
+    },
+    "Tc - D signed": {
+     "signed": -0.000895205723404005,
+     "se": 4.202040357115134e-05
+    },
+    "Tn - D signed": {
+     "signed": -0.00022161222536793616,
+     "se": 4.198694616643584e-05
+    },
+    "D - A signed": {
+     "signed": -0.0003751488985508045,
+     "se": 4.923262726949217e-05
+    },
+    "debiased rel_l2: D - A (cross halves)": 0.003705498881093279,
+    "debiased rel_l2: Tc - A": 0.004825417009904419,
+    "debiased rel_l2: Tn - A": 0.004200717084159309,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": 0.003048075817893057,
+    "debiased rel_l2: Tc - D": 0.00336884661050806,
+    "debiased rel_l2: Tn - D": 0.0020389237593378697,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": -0.001849703135080034
+   }
+  },
+  "DIFF": {
+   "e2_content (camera 3 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": 0.0005101641225807024,
+     "L1": 0.0009275887996880714,
+     "L1_block16": 0.0008781690597937118,
+     "rel_l2": 0.001151606043656562
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": 0.0001011042578501171,
+     "L1": 0.00042731677564859235,
+     "L1_block16": 0.0004092296833178061,
+     "rel_l2": 0.0005817860667077215
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 0.0009938417642517735,
+    "Tc - A signed": {
+     "signed": -0.0007424185200938082,
+     "se": 0.0002514489334598855
+    },
+    "Tn - A signed": {
+     "signed": -0.0012525826426745105,
+     "se": 0.00025252197295244877
+    },
+    "Tc - D signed": {
+     "signed": -0.0008770752585680098,
+     "se": 0.0002687160889690571
+    },
+    "Tn - D signed": {
+     "signed": -0.0013872393811487122,
+     "se": 0.00026730899206561803
+    },
+    "D - A signed": {
+     "signed": 0.0001346567384742017,
+     "se": 0.00044927277636059524
+    },
+    "debiased rel_l2: D - A (cross halves)": -0.0013776757746496086,
+    "debiased rel_l2: Tc - A": -0.0014517037906675541,
+    "debiased rel_l2: Tn - A": -0.0006733557845649502,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": -0.0013883374890011405,
+    "debiased rel_l2: Tc - D": -0.002508530965692326,
+    "debiased rel_l2: Tn - D": -0.0022737192487027433,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": -0.002525533298735635
+   },
+   "tail (camera 4..6 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": -0.00025433033839103285,
+     "L1": 0.0013604190066795595,
+     "L1_block16": 0.0013346463219002615,
+     "rel_l2": 0.0015105385060805404
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": -0.00024476347997353504,
+     "L1": 0.0006439406246454574,
+     "L1_block16": 0.0006247064686364128,
+     "rel_l2": 0.000736489672975305
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 0.0013188288516531473,
+    "Tc - A signed": {
+     "signed": -0.0001893796466152954,
+     "se": 0.00012272811921269582
+    },
+    "Tn - A signed": {
+     "signed": 6.495069177573748e-05,
+     "se": 0.000122374380341491
+    },
+    "Tc - D signed": {
+     "signed": -4.260381053872174e-05,
+     "se": 9.571201287066388e-05
+    },
+    "Tn - D signed": {
+     "signed": 0.0002117265278523111,
+     "se": 9.452429307924955e-05
+    },
+    "D - A signed": {
+     "signed": -0.00014677583607657362,
+     "se": 0.00013370737314447409
+    },
+    "debiased rel_l2: D - A (cross halves)": -0.00042086027475231037,
+    "debiased rel_l2: Tc - A": -0.0011091826395883719,
+    "debiased rel_l2: Tn - A": -0.0016545159410946148,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": -0.001763494363737015,
+    "debiased rel_l2: Tc - D": 0.0021551574439994093,
+    "debiased rel_l2: Tn - D": 0.0018514665764675124,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": 0.001705947900382422
+   }
+  },
+  "WHOLE": {
+   "e2_content (camera 3 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": 0.0008363821554014644,
+     "L1": 0.0017036108010448,
+     "L1_block16": 0.0016455410861247934,
+     "rel_l2": 0.003160023746859376
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": 0.0006450733409995342,
+     "L1": 0.0014253500619681402,
+     "L1_block16": 0.0013892413389898308,
+     "rel_l2": 0.00281420308862547
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 0.0014373625348832616,
+    "Tc - A signed": {
+     "signed": 0.000832396716027056,
+     "se": 2.7641184932416814e-05
+    },
+    "Tn - A signed": {
+     "signed": -3.98543937440835e-06,
+     "se": 2.74028756894679e-05
+    },
+    "Tc - D signed": {
+     "signed": 0.00048421557686297034,
+     "se": 1.9639402380398816e-05
+    },
+    "Tn - D signed": {
+     "signed": -0.000352166578538494,
+     "se": 1.9551450906537155e-05
+    },
+    "D - A signed": {
+     "signed": 0.00034818113916408567,
+     "se": 1.9011822511298116e-05
+    },
+    "debiased rel_l2: D - A (cross halves)": 0.002559242818362832,
+    "debiased rel_l2: Tc - A": 0.003479561158156349,
+    "debiased rel_l2: Tn - A": 0.003465423999534038,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": 0.002659341712823184,
+    "debiased rel_l2: Tc - D": 0.002226584910711233,
+    "debiased rel_l2: Tn - D": 0.0021971139232287045,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": -0.0003060414208254982
+   },
+   "tail (camera 4..6 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": -0.00011956750505669127,
+     "L1": 0.0013008969392043618,
+     "L1_block16": 0.0012684835435516463,
+     "rel_l2": 0.0019285818323602705
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": 0.0001589949194721683,
+     "L1": 0.0006171932022547271,
+     "L1_block16": 0.0005990095552202872,
+     "rel_l2": 0.0008884498115190203
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 0.0017117490518536633,
+    "Tc - A signed": {
+     "signed": 3.761192913543807e-05,
+     "se": 6.804051951164991e-06
+    },
+    "Tn - A signed": {
+     "signed": 0.00015717943419212932,
+     "se": 6.779416341022776e-06
+    },
+    "Tc - D signed": {
+     "signed": -0.0001035112113697904,
+     "se": 1.3133879589751049e-05
+    },
+    "Tn - D signed": {
+     "signed": 1.6056293686900865e-05,
+     "se": 1.3023745008438774e-05
+    },
+    "D - A signed": {
+     "signed": 0.00014112314050522846,
+     "se": 1.1162466532938244e-05
+    },
+    "debiased rel_l2: D - A (cross halves)": 0.0015861999417747027,
+    "debiased rel_l2: Tc - A": 0.001984616147719971,
+    "debiased rel_l2: Tn - A": 0.0018560189047967253,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": 0.0013545003766440658,
+    "debiased rel_l2: Tc - D": 0.0013385506397971525,
+    "debiased rel_l2: Tn - D": 0.0009502686812394547,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": -0.0007139455533336982
+   }
+  },
+  "PANEL": {
+   "e2_content (camera 3 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": 0.002809462792244783,
+     "L1": 0.004765907940840761,
+     "L1_block16": 0.004705239645804754,
+     "rel_l2": 0.007487976342536145
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": 0.002128010507822539,
+     "L1": 0.004058568867729023,
+     "L1_block16": 0.003984520804975429,
+     "rel_l2": 0.0066747807476611465
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 0.0033936840862156103,
+    "Tc - A signed": {
+     "signed": 0.0028088450136137507,
+     "se": 4.0881660734706806e-05
+    },
+    "Tn - A signed": {
+     "signed": -6.177786310326128e-07,
+     "se": 4.091996820133543e-05
+    },
+    "Tc - D signed": {
+     "signed": 0.0018129002204249327,
+     "se": 6.956200720116581e-05
+    },
+    "Tn - D signed": {
+     "signed": -0.0009965625718198505,
+     "se": 6.94296195333993e-05
+    },
+    "D - A signed": {
+     "signed": 0.000995944793188818,
+     "se": 7.947540628824629e-05
+    },
+    "debiased rel_l2: D - A (cross halves)": 0.0066206257563719405,
+    "debiased rel_l2: Tc - A": 0.008227980761256783,
+    "debiased rel_l2: Tn - A": 0.008231601309865163,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": 0.00630192467666011,
+    "debiased rel_l2: Tc - D": 0.004883705728068523,
+    "debiased rel_l2: Tn - D": 0.004887441538245774,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": -0.0020362651894400676
+   },
+   "tail (camera 4..6 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": -0.0008768035439941326,
+     "L1": 0.003354423559324683,
+     "L1_block16": 0.0033202271140196863,
+     "rel_l2": 0.004549959513983564
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": 0.0005463225203800847,
+     "L1": 0.001606394584547113,
+     "L1_block16": 0.0015848268131810066,
+     "rel_l2": 0.00206378882005887
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 0.004054985485188519,
+    "Tc - A signed": {
+     "signed": -0.0007861662927056508,
+     "se": 1.874940278404256e-05
+    },
+    "Tn - A signed": {
+     "signed": 9.063725128848176e-05,
+     "se": 1.876535437373533e-05
+    },
+    "Tc - D signed": {
+     "signed": -0.0007718394015932336,
+     "se": 3.312502312235116e-05
+    },
+    "Tn - D signed": {
+     "signed": 0.0001049641424008989,
+     "se": 3.322145075482264e-05
+    },
+    "D - A signed": {
+     "signed": -1.4326891112417144e-05,
+     "se": 3.925718225664082e-05
+    },
+    "debiased rel_l2: D - A (cross halves)": 0.003420632445017288,
+    "debiased rel_l2: Tc - A": 0.00440736004105982,
+    "debiased rel_l2: Tn - A": 0.0042107948244753815,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": 0.0028687602146623627,
+    "debiased rel_l2: Tc - D": 0.003072917972343897,
+    "debiased rel_l2: Tn - D": 0.00225584880433794,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": -0.0017556147860668576
+   }
+  },
+  "BOXA_PIX": {
+   "e2_content (camera 3 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": 1.3447183953296032e-05,
+     "L1": 8.305373934234592e-05,
+     "L1_block16": 8.026325154188144e-05,
+     "rel_l2": 0.00011109613120515862
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": -8.166673042984547e-05,
+     "L1": 9.38149059766238e-05,
+     "L1_block16": 9.183987640622477e-05,
+     "rel_l2": 9.095473207033705e-05
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 6.379331534547345e-05,
+    "Tc - A signed": {
+     "signed": 0.00022706784705916008,
+     "se": 6.856652524518764e-06
+    },
+    "Tn - A signed": {
+     "signed": 0.00021362066310586403,
+     "se": 6.826792622349694e-06
+    },
+    "Tc - D signed": {
+     "signed": -2.3627997369554806e-06,
+     "se": 5.938570417572304e-06
+    },
+    "Tn - D signed": {
+     "signed": -1.5809983690251512e-05,
+     "se": 5.926160151623028e-06
+    },
+    "D - A signed": {
+     "signed": 0.00022943064679611556,
+     "se": 7.722875121037203e-06
+    },
+    "debiased rel_l2: D - A (cross halves)": 0.00036671026595084914,
+    "debiased rel_l2: Tc - A": 0.000353398911203388,
+    "debiased rel_l2: Tn - A": 0.00034117944790734115,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": 0.0003386002167612514,
+    "debiased rel_l2: Tc - D": -1.607512783538673e-05,
+    "debiased rel_l2: Tn - D": -0.00010242445988196119,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": -0.00010663763934371597
+   },
+   "tail (camera 4..6 events)": {
+    "Tc - Tn (two independent table references, paired camera paths)": {
+     "signed": 0.00023216523871311508,
+     "L1": 0.00024038836603301934,
+     "L1_block16": 0.00023770726702753206,
+     "rel_l2": 0.0002465098818320537
+    },
+    "audit table noise of the 4-half mean, 0.5 (n01 - n23)": {
+     "signed": 2.1458261261339393e-05,
+     "L1": 5.1984490494954476e-05,
+     "L1_block16": 5.004209937329856e-05,
+     "rel_l2": 5.3868601331948564e-05
+    },
+    "implied CKF table noise rel_l2 = sqrt(|Tc-Tn|^2 - noise_n^2)": 0.00024055206428420575,
+    "Tc - A signed": {
+     "signed": 0.0005710263592125081,
+     "se": 7.416885681971907e-06
+    },
+    "Tn - A signed": {
+     "signed": 0.00033886112049939305,
+     "se": 7.507070575586797e-06
+    },
+    "Tc - D signed": {
+     "signed": 0.00021906660850422478,
+     "se": 8.171919031211227e-06
+    },
+    "Tn - D signed": {
+     "signed": -1.30986302088903e-05,
+     "se": 8.175298033183951e-06
+    },
+    "D - A signed": {
+     "signed": 0.00035195975070828335,
+     "se": 1.1673197076900062e-05
+    },
+    "debiased rel_l2: D - A (cross halves)": 0.0004075369998654583,
+    "debiased rel_l2: Tc - A": 0.0005429200889941687,
+    "debiased rel_l2: Tn - A": 0.00046597751839906967,
+    "table-noise-free rel_l2 common to both tables vs truth: <Tc - A, Tn - A>": 0.00047583151914047124,
+    "debiased rel_l2: Tc - D": 0.00019128065160091062,
+    "debiased rel_l2: Tn - D": -0.00011878096164271676,
+    "systematic table-vs-D rel_l2: <Tc - D, Tn - D>": -0.0001352527830464746
+   }
+  }
+ }
+}

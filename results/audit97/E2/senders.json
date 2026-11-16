@@ -1,0 +1,74 @@
+{
+ "light_visibility_fraction_on_panel": {
+  "s16": 1.0,
+  "pool": 1.0
+ },
+ "s16_vs_production": {
+  "max_abs": 2.1456228967764446e-05,
+  "rel_l1": 1.157507030907849e-06,
+  "sum_mine": 277.6780535854181,
+  "sum_prod": 277.6777321714908
+ },
+ "ops95a_sha256": "d4d02e5a2f423ce97749ad73287bc2c35f7907f60c03d1941a626778b90b0c70",
+ "mq_ext_regen_s": 2.8210971355438232,
+ "A4_vs_mq_ext_regen": {
+  "max_abs": 1.7217768615296336e-06,
+  "rel_l1": 1.7440126886607524e-08
+ },
+ "m64_own_s": 7.167605876922607,
+ "A4_vs_m64_own": {
+  "flux_rel_l1": 0.01944747590264222,
+  "mass_ratio": 1.0014102232752922,
+  "own_split_half_flux_rel_l1": 0.016040852071235623,
+  "ring0_rows_flux_rel_l1": 0.07000434006576024,
+  "ring0_rows_mass_ratio": 1.0147903755948815
+ },
+ "q_table_s": 10.645362377166748,
+ "q_split_half_flux_rel_l1": 0.03071217391808294,
+ "fields": {
+  "M64_s16_vs_q": {
+   "flux_rel_l1": 0.24552072036666533,
+   "energy": 0.959665194610917
+  },
+  "M64_spool_vs_q": {
+   "flux_rel_l1": 0.22872844063783757,
+   "energy": 0.9309656459277618
+  },
+  "M64own_spool_vs_q": {
+   "flux_rel_l1": 0.27267455292979703,
+   "energy": 0.8684567465774325
+  },
+  "M64_s16_vs_M64_spool": {
+   "flux_rel_l1": 0.05714599288398456,
+   "energy": 1.0308277204520844
+  }
+ },
+ "vs_wl95a_senders": {
+  "sha256": "5d365d19d6dffadcc223603b42bbbe2b3b399d26f7dcf78c570db68dcd51cbb6",
+  "A4_table_max_abs_diff": 0.0007110265707979124,
+  "A4_table_rel_l1": 1.1573978826184483e-06,
+  "q256_vs_my_q": {
+   "flux_rel_l1": 0.04281486325863393,
+   "energy": 0.9897546765414444
+  },
+  "M64_spool_vs_mine": {
+   "flux_rel_l1": 0.012224671984510594,
+   "energy": 1.0029055345151419
+  }
+ },
+ "incident": {
+  "s16_energy_by_ring": [
+   0.9999999999999998,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "spool_energy_by_ring": [
+   1.0,
+   0.0,
+   0.0,
+   0.0
+  ]
+ },
+ "total_s": 20.964889526367188
+}
