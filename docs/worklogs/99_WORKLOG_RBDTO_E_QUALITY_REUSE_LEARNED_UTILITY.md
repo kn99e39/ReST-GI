@@ -71,3 +71,48 @@ Protocol `rbdto99_v1`, workloads `workloads99.json` (7 candidates: A1 groove S1 
 - reference halves 16384 spp, T0 / T1 extended ×2 up to 65536 when the per-pixel noise rule (≤ 0.025 relative on ROI_self) fails;
 - admission Q1 (Sd ≥ 0.20 of body-pixel radiance), Q3 (spatial edge width ≥ 2 px and contrast ≥ 0.30 in the sharpest 10 % of the self region; angular 25 %-change angle ≥ 2 pixel pitches by exact-direction probes), Q4 (co-moved invariance, certificates), Q5 (T1 vs frozen-T0 exit field ≥ 0.30), Q6 (intrusion detected and ≥ 0.10 effect);
 - Stage 1 gates: U0(τ = 0.05) ≥ 1.25 on an admitted sharp workload (G1a), and learning-specific headroom U0 / U_pre ≥ 1.25 at ≤ 64 MB per body or a preparation-cost route (G1b); otherwise STOPPED_NO_LEARNABLE_HEADROOM.
+
+## Stage 0 execution log (2026-11-16, LabServer63, `~/rest_x99/`)
+
+**Focused tests** (`tests99.json`, evidence run): all pass.
+- T1 null-body tags are exactly 0.
+- T2 tag partition is exact.
+- T3 oracle_self vs cam differ at float re-association level only.
+- T4 certificate: T0 / T1 pass and the intruder fails.
+- T5 probe / pixel Sd ratio median 1.008.
+- T6 co-motion with the same seed differs by 1.4e-4 relative, against 0.10 between independent seeds.
+
+**Execution fix (commit `720c135`).**
+- At 10:43 UTC the renders were found running at about 31 % GPU. Each 16-spp launch spent about 1 s in Python kernel tracing, against about 40 ms of GPU work.
+- Fix: per-launch scatter into persistent float64 GPU buffers, and 128 spp per launch.
+- Effect: 1024 spp at 384² went from 80.8 s to 3.9 s; GPU about 75–100 % during renders.
+- The estimator is unchanged. Only the per-launch seed partition differs.
+- References completed before the fix (15 files, b = 16) are reused alongside new ones.
+
+**Round 1 (7 candidates): NOT_QUALIFIED_WITHIN_FIRST_CANDIDATES.**
+- Admitted: A5 (groove S1, oblique light, held-out illumination) and C (null; S2 + S3 + SX + ES exactly 0).
+- Not admitted:
+  - A1 (retro groove S1): Q3 T1 edge width 1.67 px < 2, and Q4 co-moved difference 0.0217 > 0.02. The Q4 limit uses only the T0 reference noise (T0 was extended to 65536 spp per half, the co-moved reference stayed at 16384), so this rule under-counts the comparison noise. That is a protocol-design weakness; it is recorded here and was not changed.
+  - A2 (grazing): Q_ref T1 0.063 > 0.025 even at 65536 per half, and Q3.
+  - B1 (S2): Q3 T1 contrast 0.28.
+  - A3 (corner): Q3 contrast 0.19–0.26.
+  - A4 (channel): Q3 edge width 1.84–1.92 px.
+- Diagnostic (`diag_q3.py`, not a gate): only 7–22 % of the sharp-ROI pixels lie within 2 px of a body silhouette, and interior-only statistics are nearly identical. The Q3 failures are therefore not a silhouette artefact. They have three causes:
+  - noise-limited T1 edges (A1, A2): noise / signal gradient 0.37–0.52;
+  - details at or below the pixel scale (A4): noise ratio 0.04–0.07;
+  - smooth self-reflection with little detail (A3, B1 T1).
+
+**Round 2 (4 more candidates, 11 of 16; commit `4c47c54`; rules unchanged): still not qualified.**
+- A6: groove S1, fov 12°, smaller T1 motion.
+- B2: S2, same changes.
+- A8: channel, fov 10°.
+- A9: corner with two bars, fov 12°.
+- All four fail only Q3: contrast 0.13–0.25, or T1 edges 1.70–1.97 px.
+- A6's Q4 passes (0.008); its Q6 passes as well (intrusion detected, effect 0.15).
+
+**Round 3 (4 more candidates, 15 of 16; commit `88c1dca`).**
+- Modelled on the admitted A5 design (oblique light, bar shadow carried by the self-reflection): A10 groove S1 mirrored, B3 groove S2, A11 channel, A12 corner.
+- Started at 12:47 UTC and stalled from 12:57.
+- Cause: the WL21A public render (`render.py`, another session's batch) took 11.3 of the 12 GB of GPU memory from 12:54. Dr.Jit reported memory exhaustion and made no GPU progress for 75 min.
+- The agent stopped its own chain at 14:12. Completed references are kept for resumption.
+- Pending: the user's decision on scheduling or machine.
