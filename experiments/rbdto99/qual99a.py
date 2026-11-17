@@ -45,7 +45,7 @@ def ref(name, cfg, half, spp, res, store):
         return dict(np.load(path))
     set_ctx(cfg)
     seed = (990001 if half == 'A' else 990501) + int(hashlib.sha256(name.encode()).hexdigest()[:6], 16) % 400 + (0 if res == 384 else 7000 + res)
-    b = max(1, int(38_000_000 // (res * res)))                      # ~38 M lanes per launch (GPU otherwise idle)
+    b = max(1, int(24_000_000 // (res * res)))                      # ~24 M lanes per launch (38 M exhausted GPU memory at 384 px, 05:23 stall)
     acc, Tm = ctx.render(cfg['camera'], res, spp, seed=seed, b=b)
     r = pt99.pack(acc, spp)
     out = {k: (v.reshape(res, res, 3) if v.ndim == 2 else v.reshape(res, res)).astype(np.float32) for k, v in r.items()}
