@@ -4,7 +4,7 @@
 set -u
 W=$HOME/rest_wl102; R=$W/results/wl102; X=$HOME/TransGI-Reproduction-data/scenes/living-room-3/scene_transgi.xml
 EPY=$HOME/NeuralShaderDemo/external/8dna26/.venv/bin/python
-while tmux has-session -t chain102 2>/dev/null; do sleep 20; done
+while tmux has-session -t =chain102 2>/dev/null; do sleep 20; done   # = exact name (a prefix match found chain102b itself)
 grep -q "CHAIN COMPLETE" $R/chain.log || { echo "chain102 did not complete; not starting"; exit 1; }
 step() {
   local n=$1; shift

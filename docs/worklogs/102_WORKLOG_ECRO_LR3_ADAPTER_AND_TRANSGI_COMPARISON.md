@@ -139,3 +139,21 @@ ECRO and TransGI prediction images will be added after the stage-3 chain. That c
   - The physical area weights inside `model.apply` (global term) keep the true patch area. This is more conservative than D1, which floored both.
   - Patches, tables, network, loss, schedule, data and seed are unchanged. The original run stays on record as run 1.
 - **Execution.** `chain102b.sh` starts after the TransGI steps of `chain102.sh`, GPU-exclusive: `model_a2/`, `eval_a2/`.
+
+## 2026-11-17 — TransGI on LabServer69 and an idle-GPU gap
+
+- **TransGI steps of `chain102.sh`,** GPU-exclusive, LabServer69 RTX 3090:
+
+  | Step | Wall time |
+  |---|---|
+  | Data generation, val (1,048,576 samples) | 65 s |
+  | Data generation, train (40,960,000 samples, 8 shards) | 2,340 s |
+  | Training (LeakyReLU, 200k iterations, GPU-resident data) | 417 s (2.03 ms / iteration, peak 10.6 GB) |
+  | Fast-frame evaluation | 10 s |
+  | Benchmark (200 frames) | 7 s |
+
+  - Training: final val L1 0.00622, relative 0.194; reload identical.
+  - Evaluation, static V0 vs Ref-65 (LabServer69), TransGI's own evaluator: GI LDR RMSE 0.0775, L1 0.0423, SSIM 0.825; flicker 0.0033.
+- **Idle GPU, 10:58–12:04 UTC (process fault, no effect on any result).**
+  - `chain102b.sh` waited on `tmux has-session -t chain102`. That prefix-matched its own session `chain102b`, so it never started.
+  - Fixed with an exact-name target (`=chain102`). ECRO run 2 (Amendment 2) started at 12:04 UTC.
