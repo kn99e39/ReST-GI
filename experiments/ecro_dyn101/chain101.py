@@ -64,5 +64,6 @@ for s in ['1.5', '2.0', '3.0']:
     run(Sd / f'V_SSS_TOUR_A_sel_s{s}.json', 'run_a101.py', 'V_SSS_TOUR', 'A_sel', Sd / f'V_SSS_TOUR_A_sel_s{s}', f'--scale={s}')
     run(Sd / f'V_SSS_TOUR_B_sel_s{s}.json', 'run_b101.py', 'V_SSS_TOUR', 'B_sel', Sd / f'V_SSS_TOUR_B_sel_s{s}', f'--scale={s}')
     run(Sd / f'V_SSS_TOUR_B_full_s{s}.json', 'run_b101.py', 'V_SSS_TOUR', 'B_full', Sd / f'V_SSS_TOUR_B_full_s{s}', f'--scale={s}')
+run(O / 'analysis101.json', 'analyze101.py', O, O / 'eval101')
 (O / 'chain.status').write_text('DONE\n')
 LOG.write('CHAIN DONE\n')

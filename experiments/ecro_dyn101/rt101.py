@@ -24,16 +24,17 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent
 EXP = HERE.parent
 REPO = EXP.parent
-MI39 = REPO / 'external' / 'mi39_dyn101'
+MI39 = Path(os.environ.get('DYN101_MI_DIR') or (REPO / 'external' / 'mi39_dyn101'))   # Amendment 1: LabServer69 uses Mitsuba 3.8.0 / Dr.Jit 1.3.1
 sys.path.insert(0, str(MI39))
 import mitsuba as mi  # noqa: E402
 mi.set_variant('cuda_ad_rgb')
 import drjit as dr  # noqa: E402
-assert dr.__version__.startswith('1.5') and mi.__version__ == '3.9.1', (dr.__version__, mi.__version__)
+assert mi.__version__ == os.environ.get('DYN101_MI_VERSION', '3.9.1') and int(dr.__version__.split('.')[0]) >= 1, (dr.__version__, mi.__version__)
+assert hasattr(dr, 'freeze')
 dr.eq = lambda a, b: a == b          # shim for the unchanged frozen sources
 dr.neq = lambda a, b: a != b
 _load_dict = mi.load_dict
-mi.load_dict = lambda d, **kw: _load_dict(d, optimize=False, **kw)   # 3.6+ merges same-BSDF meshes; keep 3.5.1 shapes / ids
+mi.load_dict = (lambda d, **kw: _load_dict(d, optimize=False, **kw)) if 'optimize' in (_load_dict.__doc__ or '') else _load_dict   # 3.6+ merges same-BSDF meshes; keep 3.5.1 shapes / ids
 for d in ('ecro_material100', 'ecro86'):
     sys.path.insert(0, str(EXP / d))
 import numpy as np  # noqa: E402

@@ -5,10 +5,12 @@
   "trigger": "User instruction (2026-11-17): run the batch on LabServer69 instead of the local PC. The local chain had produced no valid evidence (its only output, SEL A_sel r1, ran under another project's GPU load and is quarantined).",
   "changes": [
     "Execution machine: LabServer69 (RTX 3090 24 GB, driver 550.54.15, CentOS 8.4, glibc 2.28) for every evidence step, references included.",
-    "Arm A interpreter: ~/NeuralShaderDemo/external/8dna26/.venv (Mitsuba 3.5.1, Dr.Jit 0.4.6, torch 2.3.1+cu121); arm B: same venv + Mitsuba 3.9.1 / Dr.Jit 1.5.0 manylinux_2_28 wheels installed with --target into <workspace>/external/mi39_dyn101. Both arms share torch 2.3.1 on this machine.",
+    "Arm A interpreter: ~/NeuralShaderDemo/external/8dna26/.venv (Mitsuba 3.5.1, Dr.Jit 0.4.6, torch 2.3.1+cu121). Arm B: same venv + Mitsuba 3.8.0 / Dr.Jit 1.3.1 (manylinux wheels, --target <workspace>/external/mi_3.8.0, selected by DYN101_MI_DIR / DYN101_MI_VERSION). Mitsuba 3.9.1 / Dr.Jit 1.5.0 (used for PC development) cannot run on this server: its OptiX code uses an intrinsic (optix.ptx.copysign.f32) that the driver 550.54.15 OptiX compiler rejects; 3.7.0, 3.7.1 and 3.8.0 pass a freeze + ray-tracing test, the newest working one is used. Dr.Jit >= 1.3 needs libatomic.so.1, absent on the host: a copy from the user's conda gcc-11 toolchain is placed in <workspace>/external/mi39_libs and added to LD_LIBRARY_PATH for the chain (no system change). Both arms share torch 2.3.1 on this machine.",
     "chain101.py reads the interpreter from DYN101_PY.",
     "References: all tour states including state 0 are rendered on LabServer69 (the WL100 REF_0 reuse is disabled) so that no reference rendered on the PC is paired with server renders.",
-    "Development numbers in the worklog (RTX 5080 PC) remain labelled development / non-evidence and are not compared with server evidence as measurements of the same machine."
+    "Development numbers in the worklog (RTX 5080 PC) remain labelled development / non-evidence and are not compared with server evidence as measurements of the same machine.",
+    "Server SEL smoke (selection workload, non-evidence) passed every correctness check with 3.8.0 before the chain: selective = full, revisits equal, cross-stack hit mismatch 1 / 650,240, table rel L1 2.9e-7, source identical, same-seed frame mean rel <= 6.7e-6, replay = eager.",
+    "The analysis (analyze101.py) also runs on the server as the last chain step."
   ],
   "unchanged": "Workloads, arms, seeds, tolerances, metrics, frame definitions, timing statistics, contention rule, checkpoints, frozen sources."
 }
