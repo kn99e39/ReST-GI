@@ -1,0 +1,79 @@
+{
+  "status": "complete",
+  "epochs_completed": 30,
+  "checkpoint_global_step": 245760,
+  "checkpoint": "/home/nd/rest_8dna_ck21b/results/8dna_ck2_epoch30_4096spp/checkpoint.ckpt",
+  "checkpoint_sha256": "d107c982ce9546774acf2c0d575c0f151c482a50af1f6f6a1b92e15c7fafd077",
+  "spp_completed": 4096,
+  "resolution": [
+    512,
+    512
+  ],
+  "source_render_directory": "/home/nd/rest_8dna_ck21b/results/epoch30_4096spp_tiles_c8",
+  "source_render_metadata_sha256": "1990eccc1d571c8bb5f34897c439487f1d0fde2d88a9798d4e34150dac1e57b4",
+  "execution": {
+    "mode": "parallel_tiles_v1",
+    "asset": "ck2",
+    "method": "neural",
+    "rep": 0,
+    "resolution": 512,
+    "tile_size": 128,
+    "chunk": 8,
+    "vcall": false,
+    "checkpoint_sha256": "d107c982ce9546774acf2c0d575c0f151c482a50af1f6f6a1b92e15c7fafd077",
+    "scene_source_sha256": "db686ec6603fc64754fe4fdd71fd684d4d7dda4080d96dbca24b6891eb92b659",
+    "seed_schedule": "method base + 100000*rep + 1000000*tile_index + completed_spp",
+    "reconstruction": "Filter-radius overlap rendered around each tile, then interior crop"
+  },
+  "worker_admission": {
+    "requested_cpu_workers": 32,
+    "worker_gpu_mib": 1364,
+    "free_gpu_mib": 4784,
+    "worker_budget_mib": 1637,
+    "reserve_mib": 768,
+    "selected_workers": 2
+  },
+  "display": "exposure1, Reinhard x/(1+x), gamma2.2",
+  "files": {
+    "8dna_ck2_epoch30_4096spp.png": "f2a09685edbc99328a52ba847e486d35c8d91a1cf5f00c0ddd98ac9c7c0a25c3",
+    "8dna_ck2_epoch30_4096spp.npy": "82c0eb31a3fcf8981aebb218ab8a77f7ff2f88223df62576aafbcf9f84403d6c",
+    "8dna_ck2_epoch30_4096spp.exr": "4c93317aa91633cc5321c01ec379bcb6a3b802bcf6fef7b3e70465e43203c4a8",
+    "ck2_references_and_candidates_epoch30_matched4096spp.png": "8a009f2f5484ba87cb825c4428307e8aa28823512076be14101a3c26805220d1"
+  },
+  "metrics_descriptive_only": {
+    "rest_gi": {
+      "frame": 0.01999194142622901,
+      "reflection": 0.0759055733446899
+    },
+    "8dna": {
+      "frame": 0.07113487243989487,
+      "reflection": 0.2255557781750999
+    }
+  },
+  "rest_gi_spp": 4096,
+  "rest_gi_replicate": "r0",
+  "rest_gi_render_metadata": {
+    "variant": "bx38",
+    "src": "results/tables/CK_bx38_CK2_T1.npz:B_own_s8601_C0",
+    "seed": 86600,
+    "spp": 4096,
+    "timing": {
+      "trace_s": 4.436959138140082,
+      "eval_s": 5.91063073836267,
+      "gpu_ms": 0.0,
+      "launches": 128,
+      "wall_s": 10.348381901159883,
+      "spp": 4096
+    }
+  },
+  "rest_gi_composition": "Stored high-spp reference LOW + single 4096-spp learned H; inherited baseline contract.",
+  "source_hashes": {
+    "/home/nd/rest_x93d_ck2/results/renders/CK_bx38_own_s8601_C0_CK2_T1_r0.npz": "157d8052b7d6681475b89d9f0d4ae491121eeb5ca5dd9b3b7b45fad00909aedf",
+    "/home/nd/rest_x93d_ck2/results/renders/CK_bx38_own_s8601_C0_CK2_T1_r0.json": "3009dbaa5b72a9e59d85ce9862653cf0270977d28d0c39fd66b5900e730fdc90",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r0.npz": "2f4496a79cb67bb4bb067a4e7f60a5ec17018e64d970381e5e68388c50a2e413",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r1.npz": "077128bf5a27e3d1a1041cc45605c403baa29192ec05f6f2cbbb01a01fb4c0e2",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r2.npz": "aa2d0e1a244c5708acf74e0aab541117ccfec3d46f75b20cd7ba073396e10a53",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r3.npz": "2fba528d9595b217d4a2c584527609fa0ba1dd4c8ae8a04b905224b2606ee290"
+  },
+  "original_render_manifest_sha256": "852684eeac0f7affc9965a18867a899a789c52a476c96678da88f0d1568b32f2"
+}

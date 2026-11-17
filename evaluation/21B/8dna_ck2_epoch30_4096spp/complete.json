@@ -1,0 +1,42 @@
+{
+  "status": "complete",
+  "epochs_completed": 30,
+  "checkpoint_global_step": 245760,
+  "checkpoint": "/home/nd/rest_8dna_ck21b/results/8dna_ck2_epoch30_4096spp/checkpoint.ckpt",
+  "checkpoint_sha256": "d107c982ce9546774acf2c0d575c0f151c482a50af1f6f6a1b92e15c7fafd077",
+  "spp_completed": 4096,
+  "resolution": [
+    512,
+    512
+  ],
+  "source_render_directory": "/home/nd/rest_8dna_ck21b/results/epoch30_4096spp_tiles_c8",
+  "source_render_metadata_sha256": "1990eccc1d571c8bb5f34897c439487f1d0fde2d88a9798d4e34150dac1e57b4",
+  "execution": {
+    "mode": "parallel_tiles_v1",
+    "asset": "ck2",
+    "method": "neural",
+    "rep": 0,
+    "resolution": 512,
+    "tile_size": 128,
+    "chunk": 8,
+    "vcall": false,
+    "checkpoint_sha256": "d107c982ce9546774acf2c0d575c0f151c482a50af1f6f6a1b92e15c7fafd077",
+    "scene_source_sha256": "db686ec6603fc64754fe4fdd71fd684d4d7dda4080d96dbca24b6891eb92b659",
+    "seed_schedule": "method base + 100000*rep + 1000000*tile_index + completed_spp",
+    "reconstruction": "Filter-radius overlap rendered around each tile, then interior crop"
+  },
+  "worker_admission": {
+    "requested_cpu_workers": 32,
+    "worker_gpu_mib": 1364,
+    "free_gpu_mib": 4784,
+    "worker_budget_mib": 1637,
+    "reserve_mib": 768,
+    "selected_workers": 2
+  },
+  "display": "exposure1, Reinhard x/(1+x), gamma2.2",
+  "files": {
+    "8dna_ck2_epoch30_4096spp.png": "f2a09685edbc99328a52ba847e486d35c8d91a1cf5f00c0ddd98ac9c7c0a25c3",
+    "8dna_ck2_epoch30_4096spp.npy": "82c0eb31a3fcf8981aebb218ab8a77f7ff2f88223df62576aafbcf9f84403d6c",
+    "8dna_ck2_epoch30_4096spp.exr": "4c93317aa91633cc5321c01ec379bcb6a3b802bcf6fef7b3e70465e43203c4a8"
+  }
+}

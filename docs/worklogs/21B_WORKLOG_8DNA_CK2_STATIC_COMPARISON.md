@@ -589,3 +589,63 @@ syntax, PowerShell parsing, the fixed ECRO checkpoint load, preview finiteness
 and image appearance, 8DNA progress and ECRO waiting state were checked.
 The complete ECRO inference path is deliberately not run before 8DNA finishes.
 The public Fabric/training queue that the owner stopped remains stopped.
+
+## Final 4096-spp images completed and collected (2026-11-17)
+
+Both detached jobs completed normally, in the requested order. The 8DNA
+render/export chain exited zero at **14:56:24 KST**; ECRO exited zero at
+**14:57:10 KST**. The local collectors completed SHA256-verified downloads at
+14:56:34 and 14:57:17 KST respectively. Neither job was still rendering at
+the 15:05 KST server check. GPU memory held by other projects is not evidence
+that either of these completed rendering jobs remains active.
+
+The 8DNA source metadata confirms all 16 tiles completed **4096 spp** with
+the fixed 30-epoch checkpoint and global step 245760. The final 64-to-4096
+stage took 4656.28 s; cumulative worker wall including the initial 64-spp
+stage was 4765.02 s, with approximately two CPU cores used on average.
+Calibration and the preserved discarded chunk-4 attempt are additional
+execution costs. The selected chunk-8 run used the two admitted workers and
+completed without a recovery or sample-cache substitution.
+
+ECRO used the frozen WL100 near checkpoint, unchanged learned parameters,
+and original CK2 renderer/material features as declared. It computed current
+state/source/response and its own LOW plus learned H. Preparation took
+0.733 s, the summed 32 readout blocks took 26.525 s, and the recorded total
+through raw-image export was 28.160 s (plotting is outside that timer).
+These contended implementation walls have different native transport/depth
+contracts and do not establish a quality-matched speed advantage.
+
+Descriptive relative HDR L1 versus the stored four-by-8192-spp reference:
+
+| Candidate / actual composition | Full frame | Fixed reflection ROI |
+|---|---:|---:|
+| Final 30-epoch 8DNA, native readout, 4096 spp | 0.071135 | 0.225556 |
+| WL100 near ECRO, own LOW + learned H, 4096 spp | 0.028415 | 0.056558 |
+| Historical C0 s8601, stored reference LOW + 4096-spp learned H | 0.019992 | 0.075906 |
+
+The last row retains its inherited reference-LOW composition and is not
+the independently rendered WL100 result. The new ECRO checkpoint is evaluated
+across the disclosed material-distribution change; 8DNA's collapsed native
+asset transport differs from the six-event reference. Single-readout noise
+is included in these errors. No model-only error, seed-robustness, dynamic
+recovery, training-quality ranking or superiority verdict follows.
+
+Both integrated PNGs were opened and visually inspected: frame and fixed
+reflection crops, common HDR error scale, checkpoint/SPP labels and material
+scope notes are present. The final 8DNA retains visibly stronger grain in
+the reflected region. ECRO retains a smooth residual against the reference.
+All downloaded file hashes passed; HDR arrays are finite with shape
+512-by-512-by-3; response shape is 1270-by-64-by-3. Recomputing the ECRO full
+image from the saved e1/e2/hl channels matches its delivered NPY exactly.
+The 8DNA raw metadata hash and original completion-manifest hash match the
+comparison manifest, which in turn matches ECRO's recorded predecessor hash.
+
+Reviewer outputs and exact-byte provenance are retained in
+`evaluation/21B/8dna_ck2_epoch30_4096spp/` and
+`evaluation/21B/ecro_ck2_wl100_near_4096spp/`. Requested PNG/JSON copies are
+under `eval_comparison/8DNA/` and `eval_comparison/ECRO/`. The combined latest
+comparison is `eval_comparison/ECRO/ck2_8dna_epoch30_ecro_wl100_matched4096spp.png`.
+`evaluation/21B/manifest_epoch30_ecro_complete.json` inventories this final
+export. The user's standing instruction to commit this agent's 8DNA work
+and artifacts is applied to this completed export only; WL101's concurrent
+worklog modification is left untouched.

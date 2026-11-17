@@ -1,0 +1,108 @@
+{
+  "status": "complete",
+  "8dna_epochs": 30,
+  "8dna_global_step": 245760,
+  "candidate_spp": 4096,
+  "resolution": [
+    512,
+    512
+  ],
+  "completion_KST": {
+    "8dna": "2026-11-17 14:56:24",
+    "ecro": "2026-11-17 14:57:10"
+  },
+  "files": {
+    "eval_comparison/8DNA/8dna_ck2_epoch30_4096spp.json": {
+      "sha256": "c02ce0be10682b8a138a75ca1630374f02e561f376f8f78209f3128b69e609f6",
+      "bytes": 3551
+    },
+    "eval_comparison/8DNA/8dna_ck2_epoch30_4096spp.png": {
+      "sha256": "f2a09685edbc99328a52ba847e486d35c8d91a1cf5f00c0ddd98ac9c7c0a25c3",
+      "bytes": 375337
+    },
+    "eval_comparison/8DNA/ck2_references_and_candidates_epoch30_matched4096spp.png": {
+      "sha256": "8a009f2f5484ba87cb825c4428307e8aa28823512076be14101a3c26805220d1",
+      "bytes": 1770196
+    },
+    "eval_comparison/ECRO/.gitattributes": {
+      "sha256": "0e2137d39940f7ce673d9d09462e0a1f66d34a5b46d34c07abe9cce077b9c73a",
+      "bytes": 80
+    },
+    "eval_comparison/ECRO/ck2_8dna_epoch30_ecro_wl100_matched4096spp.png": {
+      "sha256": "d417374ac07a0c85d395ba781188f43b61dfb258d162f33cee847a7657b75070",
+      "bytes": 1800627
+    },
+    "eval_comparison/ECRO/ecro_ck2_wl100_near_4096spp.json": {
+      "sha256": "1bc55a813ca7ad5d627f14aa8a4c1c287694ca8e7044fa0d27717ad030cc260c",
+      "bytes": 11115
+    },
+    "eval_comparison/ECRO/ecro_ck2_wl100_near_4096spp.png": {
+      "sha256": "a33078749f92bb6298defa07e5831a534579943d0e64d02aac4b7907c775bed2",
+      "bytes": 200663
+    },
+    "evaluation/21B/8dna_ck2_epoch30_4096spp/8dna_ck2_epoch30_4096spp.exr": {
+      "sha256": "4c93317aa91633cc5321c01ec379bcb6a3b802bcf6fef7b3e70465e43203c4a8",
+      "bytes": 3035933
+    },
+    "evaluation/21B/8dna_ck2_epoch30_4096spp/8dna_ck2_epoch30_4096spp.npy": {
+      "sha256": "82c0eb31a3fcf8981aebb218ab8a77f7ff2f88223df62576aafbcf9f84403d6c",
+      "bytes": 3145856
+    },
+    "evaluation/21B/8dna_ck2_epoch30_4096spp/8dna_ck2_epoch30_4096spp.png": {
+      "sha256": "f2a09685edbc99328a52ba847e486d35c8d91a1cf5f00c0ddd98ac9c7c0a25c3",
+      "bytes": 375337
+    },
+    "evaluation/21B/8dna_ck2_epoch30_4096spp/ck2_references_and_candidates_epoch30_matched4096spp.png": {
+      "sha256": "8a009f2f5484ba87cb825c4428307e8aa28823512076be14101a3c26805220d1",
+      "bytes": 1770196
+    },
+    "evaluation/21B/8dna_ck2_epoch30_4096spp/complete.json": {
+      "sha256": "852684eeac0f7affc9965a18867a899a789c52a476c96678da88f0d1568b32f2",
+      "bytes": 1671
+    },
+    "evaluation/21B/8dna_ck2_epoch30_4096spp/epoch30_4096_c8.log": {
+      "sha256": "1f364c6c140226488a24771068d99d9232c000337f9b2d662ecd952dd1c86873",
+      "bytes": 338928
+    },
+    "evaluation/21B/8dna_ck2_epoch30_4096spp/matched4096_complete.json": {
+      "sha256": "c02ce0be10682b8a138a75ca1630374f02e561f376f8f78209f3128b69e609f6",
+      "bytes": 3551
+    },
+    "evaluation/21B/8dna_ck2_epoch30_4096spp/source_render.json": {
+      "sha256": "1990eccc1d571c8bb5f34897c439487f1d0fde2d88a9798d4e34150dac1e57b4",
+      "bytes": 5602
+    },
+    "evaluation/21B/ecro_ck2_wl100_near_4096spp/channels.npz": {
+      "sha256": "153795524df961214f81a7a2077553cc559ed699907f87b16a7bec8670778841",
+      "bytes": 7128635
+    },
+    "evaluation/21B/ecro_ck2_wl100_near_4096spp/ck2_8dna_epoch30_ecro_wl100_matched4096spp.png": {
+      "sha256": "d417374ac07a0c85d395ba781188f43b61dfb258d162f33cee847a7657b75070",
+      "bytes": 1800627
+    },
+    "evaluation/21B/ecro_ck2_wl100_near_4096spp/complete.json": {
+      "sha256": "1bc55a813ca7ad5d627f14aa8a4c1c287694ca8e7044fa0d27717ad030cc260c",
+      "bytes": 11115
+    },
+    "evaluation/21B/ecro_ck2_wl100_near_4096spp/ecro_ck2_wl100_near_4096spp.exr": {
+      "sha256": "38e89cdb2c0313ff453028609df59307e487c3496a08ddf0d90046f141619b54",
+      "bytes": 2835808
+    },
+    "evaluation/21B/ecro_ck2_wl100_near_4096spp/ecro_ck2_wl100_near_4096spp.npy": {
+      "sha256": "f5465cacd53bd99898a95a899febd95469e444c185a256e85318b3e8d6d6e2a0",
+      "bytes": 3145856
+    },
+    "evaluation/21B/ecro_ck2_wl100_near_4096spp/ecro_ck2_wl100_near_4096spp.png": {
+      "sha256": "a33078749f92bb6298defa07e5831a534579943d0e64d02aac4b7907c775bed2",
+      "bytes": 200663
+    },
+    "evaluation/21B/ecro_ck2_wl100_near_4096spp/ecro_followup.log": {
+      "sha256": "92fa53193fbd17219bb1bcfbbf48575a75552f93c839981c865cf1be02766760",
+      "bytes": 513
+    },
+    "evaluation/21B/ecro_ck2_wl100_near_4096spp/response.npy": {
+      "sha256": "48cfc70fcefaba1dcc6f03da0591a10d236a9faa9c10f9c93f1fc432ed83dd2a",
+      "bytes": 975488
+    }
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "key": "ck2_neural_r0_512",
+  "arguments": {
+    "upstream": "/home/nd/NeuralShaderDemo/external/8dna26",
+    "out": "/home/nd/rest_8dna_ck21b/results/epoch30_4096spp_tiles_c8",
+    "asset": "ck2",
+    "method": "neural",
+    "spp": 4096,
+    "rep": 0,
+    "res": 512,
+    "chunk": 8,
+    "vcall": 0,
+    "workers": 2,
+    "tile_size": 128,
+    "task_timeout": 120.0,
+    "cpu_threads": 2,
+    "checkpoint": "/home/nd/rest_8dna_ck21b/results/8dna_ck2_epoch30_4096spp/checkpoint.ckpt",
+    "scene_bridge": "/home/nd/rest_8dna_ck21b/scripts/bridge.py",
+    "gpu_reserve_mib": 768,
+    "auto_workers": true,
+    "tile_directory": "/home/nd/rest_8dna_ck21b/results/epoch30_4096spp_tiles_c8/ck2_neural_r0_512_tiles"
+  },
+  "execution": {
+    "mode": "parallel_tiles_v1",
+    "asset": "ck2",
+    "method": "neural",
+    "rep": 0,
+    "resolution": 512,
+    "tile_size": 128,
+    "chunk": 8,
+    "vcall": false,
+    "checkpoint_sha256": "d107c982ce9546774acf2c0d575c0f151c482a50af1f6f6a1b92e15c7fafd077",
+    "scene_source_sha256": "db686ec6603fc64754fe4fdd71fd684d4d7dda4080d96dbca24b6891eb92b659",
+    "seed_schedule": "method base + 100000*rep + 1000000*tile_index + completed_spp",
+    "reconstruction": "Filter-radius overlap rendered around each tile, then interior crop"
+  },
+  "execution_identity": "cc186329e4fb95afd06b6732e8c5eb5522a56099615342322c665af4093403a5",
+  "completed_spp": 4096,
+  "chunks": [
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 1,
+      "spp": 4096,
+      "wall_s": 665.4432372320443,
+      "cpu_seconds": 685.9399999999999,
+      "peak_torch_bytes": 588326912
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 0,
+      "spp": 4096,
+      "wall_s": 774.7957131434232,
+      "cpu_seconds": 795.18,
+      "peak_torch_bytes": 655012864
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 2,
+      "spp": 4096,
+      "wall_s": 650.8266905322671,
+      "cpu_seconds": 1352.76,
+      "peak_torch_bytes": 588326912
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 3,
+      "spp": 4096,
+      "wall_s": 715.3777575474232,
+      "cpu_seconds": 1525.9,
+      "peak_torch_bytes": 655012864
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 4,
+      "spp": 4096,
+      "wall_s": 721.0821956414729,
+      "cpu_seconds": 2087.9300000000003,
+      "peak_torch_bytes": 776731648
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 5,
+      "spp": 4096,
+      "wall_s": 812.0882620364428,
+      "cpu_seconds": 2354.06,
+      "peak_torch_bytes": 781487616
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 6,
+      "spp": 4096,
+      "wall_s": 678.7953480388969,
+      "cpu_seconds": 2778.66,
+      "peak_torch_bytes": 785818624
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 7,
+      "spp": 4096,
+      "wall_s": 611.2394531965256,
+      "cpu_seconds": 2978.52,
+      "peak_torch_bytes": 781487616
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 8,
+      "spp": 4096,
+      "wall_s": 471.01909694448113,
+      "cpu_seconds": 3259.63,
+      "peak_torch_bytes": 785818624
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 9,
+      "spp": 4096,
+      "wall_s": 449.2963200993836,
+      "cpu_seconds": 3438.04,
+      "peak_torch_bytes": 810477056
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 10,
+      "spp": 4096,
+      "wall_s": 417.56224608793855,
+      "cpu_seconds": 3685.91,
+      "peak_torch_bytes": 785818624
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 11,
+      "spp": 4096,
+      "wall_s": 436.68534921482205,
+      "cpu_seconds": 3881.56,
+      "peak_torch_bytes": 810477056
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 12,
+      "spp": 4096,
+      "wall_s": 446.7807383965701,
+      "cpu_seconds": 4142.05,
+      "peak_torch_bytes": 791540736
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 13,
+      "spp": 4096,
+      "wall_s": 446.3995814099908,
+      "cpu_seconds": 4337.200000000001,
+      "peak_torch_bytes": 915204096
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 14,
+      "spp": 4096,
+      "wall_s": 401.89770572446287,
+      "cpu_seconds": 4553.9,
+      "peak_torch_bytes": 791540736
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 15,
+      "spp": 4096,
+      "wall_s": 404.4203183595091,
+      "cpu_seconds": 4749.54,
+      "peak_torch_bytes": 915204096
+    }
+  ],
+  "checkpoint_sha256": "d107c982ce9546774acf2c0d575c0f151c482a50af1f6f6a1b92e15c7fafd077",
+  "scene_source_sha256": "db686ec6603fc64754fe4fdd71fd684d4d7dda4080d96dbca24b6891eb92b659",
+  "requested_workers": 32,
+  "jit_flags": {
+    "LoopRecord": false,
+    "VCallRecord": false
+  },
+  "worker_admission": {
+    "requested_cpu_workers": 32,
+    "worker_gpu_mib": 1364,
+    "free_gpu_mib": 4784,
+    "worker_budget_mib": 1637,
+    "reserve_mib": 768,
+    "selected_workers": 2
+  },
+  "timed_wall_s": 4656.280726276338,
+  "end_to_end_wall_s": 4663.351965554059,
+  "worker_cpu_seconds": 9303.439999999999,
+  "average_cpu_cores": 1.9980410396113881,
+  "last_checkpoint_sha256": "4c93317aa91633cc5321c01ec379bcb6a3b802bcf6fef7b3e70465e43203c4a8",
+  "status": "complete",
+  "cumulative_worker_wall_s": 4765.0155005045235,
+  "timing_scope": "tiled worker startup, rendering and export; calibration separate",
+  "render_wall_s_at128": null
+}

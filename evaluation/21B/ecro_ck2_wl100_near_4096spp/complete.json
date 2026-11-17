@@ -1,0 +1,391 @@
+{
+  "status": "complete",
+  "spp": 4096,
+  "resolution": [
+    512,
+    512
+  ],
+  "checkpoint_sha256": "b3550787e08c8a4d41c975eb485be459591d84cf14a7c010a36984d10ac62e5a",
+  "learned_parameters_unchanged": true,
+  "training_material_buffer_sha256": "9d91b73517fd6181cd9ee5c3571d221f065ca651f9a9c2351b964b59ffe23b2f",
+  "evaluation_material_buffer_sha256": "b69515a91b5f476f9638472729b2d38e453a5935ab78cecf3be48c7d8ac0a609",
+  "reference_used_at_inference": false,
+  "composition": "own physical e1 + e2 + learned hl",
+  "protocol": {
+    "status": "frozen_before_ECRO_execution",
+    "purpose": "user-requested descriptive static comparison, no training or lifecycle advantage claim",
+    "checkpoint": "WL100 near, fixed final 24000 steps, seed10001",
+    "checkpoint_sha256": "b3550787e08c8a4d41c975eb485be459591d84cf14a7c010a36984d10ac62e5a",
+    "spp": 4096,
+    "batch_spp": 8,
+    "seed_blocks": "211300+i, i=0..31; 128 spp/block, native PCG per-launch schedule",
+    "resolution": [
+      512,
+      512
+    ],
+    "composition": "own physical e1+e2+learned hl; no reference at inference",
+    "scene": {
+      "tag": "CK2",
+      "targets": [
+        "A"
+      ],
+      "light_set": "LCK2",
+      "camera": {
+        "origin": [
+          0.3,
+          -1.6,
+          1.3
+        ],
+        "target": [
+          -1.3,
+          0.45,
+          1.0
+        ],
+        "fov_deg": 32.0,
+        "res": 512
+      },
+      "geom": {
+        "A": {
+          "c": [
+            -1.08,
+            0.6,
+            1.0
+          ],
+          "h": [
+            0.2,
+            0.45,
+            0.45
+          ],
+          "yaw": 0.15
+        },
+        "B": {
+          "c": [
+            1.4,
+            1.5,
+            0.5
+          ],
+          "h": [
+            0.3,
+            0.25,
+            0.5
+          ],
+          "yaw": 0.0
+        }
+      },
+      "lights": [
+        {
+          "pos": [
+            -1.45,
+            -0.6,
+            1.7
+          ],
+          "rgb": [
+            30.0,
+            30.0,
+            30.0
+          ]
+        }
+      ]
+    },
+    "evaluation_source_sha256": {
+      "ecro86/model86.py": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+      "ecro86/pt86.py": "912e68acd314d79ef0cc270784d99f79ed8024caf856527a127f31e6ccd6c983",
+      "ecro86/ecro86.py": "0ef09a86939745edeac490f5bac9f7112ecc7b9c63c315bc10f30cc93289f428",
+      "ecro86/scene86.py": "b75a2d9cbae1f738429e16fa32095a1c3cdf346bff5f5e55d5576ad14ce39e69",
+      "ecro86/data/mats86.npz": "d3c5be854d80665b11f476eff0333a0232828293d31b28a6069f4dbd81371b3f",
+      "ecro_local93d/addendum_checker/checker93d.py": "c720dcd0d9fad5fa6df4ae127884ac4c50788fb15405f83e4348aebff887f9ea",
+      "ecro_local93d/addendum_checker/scene_ck2.json": "977ba122ab3232e7d428155c0963cff2f7764ce56704274832ee12d37b09de75",
+      "fnto_compiled83/closure83_dr.py": "3eee59095fc77fdb7a965d1a14a124230efa40fda05a2c4744e260b64c904614"
+    },
+    "material_scope": "Original CK2 S1 ER state table plus checker 0.3/0.8. WL100 near training used alpha0.01/F0=1 panel; evaluating original CK2 is material-distribution transfer. Learned parameters unchanged; material feature buffer supplied by current renderer.",
+    "reference_scope": "stored 4x8192 spp six surface-event ER reference, descriptive; native 8DNA collapsed asset differs",
+    "queue_gate": "8DNA epoch30/globalstep245760/4096spp matched4096_complete.json with expected checkpoint sha",
+    "adoption": false,
+    "followup_source_sha256": "bb393f30a0da42732cdf4a3e4ffc9b05abf1eb60e5ce306be3904c410c56ee5c"
+  },
+  "preparation_seconds": 0.7334759142249823,
+  "batch_timings": [
+    {
+      "trace_s": 0.5401766579598188,
+      "eval_s": 1.031888673081994,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 1.5721642076969147,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.534719992429018,
+      "eval_s": 0.28379667922854424,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.818614149466157,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5302197113633156,
+      "eval_s": 0.2707069758325815,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8010273985564709,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5337332021445036,
+      "eval_s": 0.27000848948955536,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8038379866629839,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5310289897024632,
+      "eval_s": 0.27224124409258366,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.803367355838418,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5322350449860096,
+      "eval_s": 0.269002428278327,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8013394828885794,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5338129773736,
+      "eval_s": 0.2710294593125582,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.804942300543189,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5277299582958221,
+      "eval_s": 0.269107474014163,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.7969370540231466,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5344067700207233,
+      "eval_s": 0.27105837501585484,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8055631518363953,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5298361070454121,
+      "eval_s": 0.26918482407927513,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.7991361916065216,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5323533713817596,
+      "eval_s": 0.27132299914956093,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8037848882377148,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5297243557870388,
+      "eval_s": 0.27018652856349945,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8000100888311863,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5295514073222876,
+      "eval_s": 0.26937106996774673,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.799017321318388,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.533405888825655,
+      "eval_s": 0.2711309101432562,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8046413902193308,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5320869851857424,
+      "eval_s": 0.2700892575085163,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8022814467549324,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5462445262819529,
+      "eval_s": 0.2708912007510662,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8172359429299831,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5384593904018402,
+      "eval_s": 0.27185364067554474,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8104134406894445,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5397973507642746,
+      "eval_s": 0.2708750516176224,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8107788935303688,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5366038642823696,
+      "eval_s": 0.27325369603931904,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8099557012319565,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5364483073353767,
+      "eval_s": 0.27225253731012344,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8087974600493908,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5371222868561745,
+      "eval_s": 0.2728332281112671,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8100570291280746,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5358928386121988,
+      "eval_s": 0.27177131548523903,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8077604565769434,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5358737017959356,
+      "eval_s": 0.27347547747194767,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8094514515250921,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5318651311099529,
+      "eval_s": 0.2684850674122572,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8004464469850063,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5359319541603327,
+      "eval_s": 0.2686792388558388,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8047118838876486,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5366575066000223,
+      "eval_s": 0.2682237960398197,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8049816079437733,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5327829215675592,
+      "eval_s": 0.2713278513401747,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8042098414152861,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5304244682192802,
+      "eval_s": 0.2690558284521103,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.7995788510888815,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5307906195521355,
+      "eval_s": 0.2702044192701578,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8010921087116003,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5331320278346539,
+      "eval_s": 0.2691275477409363,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8023613356053829,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5338900592178106,
+      "eval_s": 0.26987254060804844,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8038614001125097,
+      "spp": 128
+    },
+    {
+      "trace_s": 0.5342718623578548,
+      "eval_s": 0.2680392246693373,
+      "gpu_ms": 0.0,
+      "launches": 16,
+      "wall_s": 0.8024103604257107,
+      "spp": 128
+    }
+  ],
+  "total_wall_s": 28.159987026825547,
+  "8dna_completion_manifest_sha256": "c02ce0be10682b8a138a75ca1630374f02e561f376f8f78209f3128b69e609f6",
+  "metrics_descriptive_only": {
+    "8dna": {
+      "frame": 0.07113487243989487,
+      "reflection": 0.2255557781750999
+    },
+    "ecro_wl100_near": {
+      "frame": 0.028414860373051253,
+      "reflection": 0.05655781316266178
+    }
+  },
+  "reference_source_hashes": {
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r0.npz": "2f4496a79cb67bb4bb067a4e7f60a5ec17018e64d970381e5e68388c50a2e413",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r1.npz": "077128bf5a27e3d1a1041cc45605c403baa29192ec05f6f2cbbb01a01fb4c0e2",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r2.npz": "aa2d0e1a244c5708acf74e0aab541117ccfec3d46f75b20cd7ba073396e10a53",
+    "/home/nd/rest_x93d_ck2/results/renders/REF_ER_CK_bx38_CK2_T1_r3.npz": "2fba528d9595b217d4a2c584527609fa0ba1dd4c8ae8a04b905224b2606ee290"
+  },
+  "files": {
+    "response.npy": "48cfc70fcefaba1dcc6f03da0591a10d236a9faa9c10f9c93f1fc432ed83dd2a",
+    "ecro_ck2_wl100_near_4096spp.npy": "f5465cacd53bd99898a95a899febd95469e444c185a256e85318b3e8d6d6e2a0",
+    "ecro_ck2_wl100_near_4096spp.exr": "38e89cdb2c0313ff453028609df59307e487c3496a08ddf0d90046f141619b54",
+    "ck2_8dna_epoch30_ecro_wl100_matched4096spp.png": "d417374ac07a0c85d395ba781188f43b61dfb258d162f33cee847a7657b75070",
+    "channels.npz": "153795524df961214f81a7a2077553cc559ed699907f87b16a7bec8670778841",
+    "ecro_ck2_wl100_near_4096spp.png": "a33078749f92bb6298defa07e5831a534579943d0e64d02aac4b7907c775bed2"
+  }
+}
