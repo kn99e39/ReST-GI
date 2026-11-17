@@ -1,8 +1,8 @@
 """WL101 quality, frozen stack: physical references and arm-A predictions at the first-pass tour states.
   python qual_a101.py ref  <V_SSS_TOUR|V_NEAR_TOUR> <out_dir>
   python qual_a101.py pred <V_SSS_TOUR|V_NEAR_TOUR> <out_dir>
-References: pt100 'cam' (6 events), 512^2, halves of 4096 spp (seeds 101100 / 101101 + 10 x state); state 0 reuses WL100 REF_0 halves
-(identical geometry and light). Predictions: arm A lifecycle reached through the tour (warm + first pass), 4096 spp, b = 32,
+References: pt100 'cam' (6 events), 512^2, halves of 4096 spp (seeds 101100 / 101101 + 10 x state); Amendment 1: every state,
+including state 0, is rendered on the execution machine (no WL100 reuse). Predictions: arm A lifecycle reached through the tour (warm + first pass), 4096 spp, b = 32,
 seed 101500 + 10 x state. Every output carries its configuration and hashes.
 """
 import json, os, shutil, sys, time
@@ -25,7 +25,7 @@ if mode == 'ref':
             fn = os.path.join(out, f'REF_{sid}_{h}.npz')
             if os.path.exists(fn):
                 continue
-            if sid == 0:
+            if sid == 0 and os.environ.get('DYN101_REUSE_WL100_REF') == '1':     # Amendment 1: off (WL100 refs were rendered on the PC)
                 src = K.ROOT100 / case / 'renders' / f'REF_0_{h}.npz'
                 meta = json.loads((K.ROOT100 / case / 'renders' / f'REF_0_{h}.json').read_text())
                 assert meta['config']['geom'] == g and meta['config']['lights'][0] == L and meta['spp'] == SPP

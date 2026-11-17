@@ -5,7 +5,7 @@ import os, subprocess, sys, time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-PY = str(HERE.parent.parent / 'external' / '8dna26' / '.venv-cu128' / 'Scripts' / 'python.exe')
+PY = os.environ.get('DYN101_PY') or str(HERE.parent.parent / 'external' / '8dna26' / '.venv-cu128' / 'Scripts' / 'python.exe')   # Amendment 1: server venv via env
 O = Path(sys.argv[1]).resolve()
 (O / 'timing').mkdir(parents=True, exist_ok=True); (O / 'quality').mkdir(parents=True, exist_ok=True); (O / 'scaling').mkdir(parents=True, exist_ok=True)
 LOG = open(O / 'chain.log', 'a', buffering=1)
