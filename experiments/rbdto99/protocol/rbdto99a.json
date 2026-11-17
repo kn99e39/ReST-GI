@@ -1,0 +1,38 @@
+{
+ "protocol": "rbdto99a_v2",
+ "batch": "WL99A - Workload qualification protocol review and amendment for the RB-DTO-E investigation",
+ "relation_to_WL99": "WL99 (rbdto99_v1) results, verdict STOPPED_WORKLOAD_UNQUALIFIED, protocol files and reference outputs are preserved unchanged. v2 is a separately versioned qualification protocol. Stage 1-3 rules of v1 are inherited unchanged except where noted.",
+ "status": "FROZEN before any v2 value is computed on any candidate and before any diagnostic higher-resolution render (the v2 metric was validated only on synthetic images, tests99a.py)",
+ "diagnosis": {
+  "D1_reproduce": "recompute the WL99 Q3 (edge width, contrast) from the stored 384 references with the WL99 code; must equal qual99.json",
+  "D2_resolution": "matched scene / camera / transport references at 768 px (8192 spp per half, two halves) for T0 and T1 of all 15 WL99 candidates; WL99 Q3 and Q3 v2 at 384 and 768; for candidates whose Q3v2 C changes by > 0.20 between 384 and 768, T0 also at 1536 (4096 spp per half)",
+  "D3_noise": "WL99 Q3 edge width recomputed on single halves vs the half mean (spp halved) and, where both exist, at 16384 vs 65536 per half; the noise / signal gradient ratio (diag_q3)",
+  "D4_definition": "WL99 Q3 and Q3 v2 on synthetic images of known structure (tests99a.py: smooth ramp, lambda_c sinusoid, sub-pixel step, noise only, silhouette), incl. the WL99 metric's response to a physically sharp step at 384 and 768",
+  "D5_localisation": "maps of |Sd_T1 - Sd_stale| (where the higher-order transport change lies) and of the v2 high-pass residual, per candidate",
+  "classification": "per candidate, the WL99 Q3 failure is attributed to A (insufficient structure: v2 C < c_min with a converged, reliable estimate), B (under-resolved: v2 C not converged 384 -> 768, or WL99 edge width ~constant in px across resolutions), C (noise: WL99 width changes with spp / halves while v2 C is reliable), D (definition: WL99 rejects although v2 structure + resolved + reliable pass)"
+ },
+ "Q3_v2": {
+  "implementation": "q3v2.py (measure)",
+  "lambda_c_m": 0.02,
+  "lambda_c_rationale": "the coarsest spatial cell of the frozen WL99 Stage 1 precomputed comparator ladder (TwinP h_x = 0.02 m): the scale a coarse precomputed representation averages away",
+  "c_min": 0.05,
+  "c_min_rationale": "WL99 Stage 1 tier tau1 = 0.05 (relative RMSE): structure whose removal costs less than the tier cannot discriminate sharp transport",
+  "C_definition": "sqrt(max(0, sum_ROI H(A) H(B)) / sum_ROI A B), H = S - G_s(S) with s = lambda_c / sqrt(12) / footprint (mask-normalised Gaussian); A, B independent reference halves (luminance of Sd); ROI = WL99 ROI_self eroded by 3 px (scaled with resolution) away from non-body pixels",
+  "structure": "C >= 0.05 at T0 and at T1",
+  "resolved": "lambda_c >= 4 px at the evaluation resolution r and |C_r - C_2r| / C_2r <= 0.20; r = smallest of {384, 768} satisfying this",
+  "reliable": "block-bootstrap SE(C) <= 0.25 C (32 px blocks at 384, scaled)",
+  "angular": "WL99 exact-direction angular criterion kept unchanged",
+  "footprint": "median over ROI pixels of d * (2 tan(fov / 2) / r) / sqrt(cos theta) (d hit distance, theta angle between the view ray and the surface normal)"
+ },
+ "other_gates": "Q_ref, Q1, Q4, Q5, Q6 exactly as rbdto99_v1, measured at 384 as in WL99. Implementation change: the co-moved reference (Q4) is rendered at the same spp per half as the T0 reference it is compared with (WL99 compared a 16384-spp co-moved reference with a 65536-spp T0 under a limit that counts only T0 noise); thresholds unchanged.",
+ "candidate_sets": {
+  "development": "the 15 WL99 candidates (all inspected during WL99): eligibility re-evaluated under v2 (and v1 values reproduced)",
+  "independent_heldout": "8 candidates from gen_indep99a.py (seed 990901), generated and frozen before any render; never inspected before their qualification run"
+ },
+ "required_set_v2": "development: >= 1 admitted A (S1) and >= 1 admitted B (S2); C null (WL99 C_box, re-checked); independent: >= 1 admitted A on a non-groove geometry (held-out geometry) and >= 1 further admitted A or B (held-out illumination / pose); Q6 intrusion as in WL99 (A1, A6 or A10)",
+ "stop": {
+  "STOPPED_PROTOCOL_UNREPAIRABLE": "v2 cannot be defined without outcome-dependent thresholds, or references cannot support it (reliable fails for the candidates under the spp budget)",
+  "STOPPED_WORKLOAD_UNQUALIFIED": "required_set_v2 not met (no new candidates beyond the 8 independent ones are generated in this batch)",
+  "downstream": "if required_set_v2 is met, Stage 1-3 of rbdto99_v1 run on the admitted workloads with their v2 evaluation resolution, under their original gates (G1a, G1b) and stop conditions"
+ }
+}
