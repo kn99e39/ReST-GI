@@ -157,3 +157,33 @@ ECRO and TransGI prediction images will be added after the stage-3 chain. That c
 - **Idle GPU, 10:58–12:04 UTC (process fault, no effect on any result).**
   - `chain102b.sh` waited on `tmux has-session -t chain102`. That prefix-matched its own session `chain102b`, so it never started.
   - Fixed with an exact-name target (`=chain102`). ECRO run 2 (Amendment 2) started at 12:04 UTC.
+
+## 2026-11-17 — ECRO run 2 (Amendment 2) also collapsed; seed diagnostic refutes the attribution; Amendment 2 withdrawn
+
+- **Run 2.** Area input floored, seed 10201: the same zero-output plateau from step ≈ 1,000 (losses [0.686, 0.102, 0.358]), pre-clip gradient norm 0.
+  - The losses equal run 1's to ~1e-9 because both predictors are ≈ 0, which makes the loss the zero-predictor value.
+  - Stopped by the agent at step 4,000 after the owner chose a seed diagnostic. Log: `ecro_train_a2.log`, `chain_b.log`.
+- **Seed diagnostic** (`seeddiag102.sh` → `diag102.py`, post hoc, not evidence):
+  - Setup: 1,500 steps each, same recipe, seeds 10201 / 10202 / 10203.
+  - The first launch ran 5 jobs at once; 5 of the 9 hit CUDA OOM and were rerun 3 at once.
+  - Cell values: pred/target at step 1,500; for recovered runs, val whole rel L1 in parentheses.
+
+  | Variant | 10201 | 10202 | 10203 | Recovered |
+  |---|---|---|---|---|
+  | D0 original | 0.000 | 0.800 (0.280) | 0.807 (0.295) | 2/3 |
+  | D1 area floored in input and apply | 0.815 (0.278) | 0.000 | 0.000 | 1/3 |
+  | D3 area floored in input only (= run 2) | 0.000 | 0.000 | 0.000 | 0/3 |
+
+- **Reading.** Every run drops to pred/target ≈ 1e-3 during the warm-up (steps 200–500). Whether it climbs back is seed-dependent, and the area floor does not help.
+  - **The earlier attribution to the sliver log-area input (single-seed D0 vs D1) is refuted.** It was seed chance.
+  - The collapse is an instability of ECRO's training dynamics on this dataset, not a scene-adapter input defect.
+  - The pre-registered seed 10201 falls on the collapsing side in the original configuration.
+- **Amendment 2 is withdrawn.** Its basis was the refuted attribution. Run 2 stays on record as a collapsed, stopped run.
+
+## 2026-11-17 — Amendment 3 (post hoc, approved by the research owner): seed substitution
+
+- **Decision** (user): the original configuration (no area floor), seed **10202**, a full 24,000-step run, labelled a post-hoc seed substitution.
+  - Seed 10202 recovered in the 1,500-step diagnostic.
+  - This departs from WL100's "no restart after poor fidelity, one seed" contract. It is disclosed, not hidden.
+- **What stays on record and is reported:** run 1 (pre-registered seed 10201, collapsed) and the diagnostic recovery rate (original configuration 2 of 3 at 1,500 steps).
+- **Execution.** `chain102c.sh` (`WL102_SEED=10202`), GPU-exclusive, started 13:06 UTC: `model_s10202/`, `eval_s10202/`.

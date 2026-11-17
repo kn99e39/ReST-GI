@@ -20,6 +20,8 @@ TR = {'seed': 10201, 'steps': 24000, 'lr': 1e-3, 'lr_final': 1e-5, 'warmup': 500
 # Amendment 2 (post hoc, owner-approved 2026-11-17): the generator's area INPUT is floored at 1/16 of a 25 cm cell; the physical
 # area weights of the global term keep the true patch area. AREA_FLOOR = 0 reproduces the original (collapsed) run.
 AREA_FLOOR = float(os.environ.get('WL102_AREA_FLOOR', '0'))
+# Amendment 3 (post hoc, owner-approved 2026-11-17): seed substitution after the seed-10201 collapse; default = the frozen seed
+TR['seed'] = int(os.environ.get('WL102_SEED', TR['seed']))
 
 
 def geostate(root):
