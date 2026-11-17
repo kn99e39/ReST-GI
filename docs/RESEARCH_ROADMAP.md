@@ -4,6 +4,16 @@
 
 ## Current frontier
 
+**ECRO on Bitterli Living Room 3 + TransGI comparison (human brief, 2026-11-17; WL102, LabServer69; branch `ecro_lr3_adapter`):** AUTHORISED, stages 1–3 only. Scope:
+- scene-adapter extensions of ECRO v0 for triangle-mesh scenes (mesh patches, two-sided surfaces, W×H camera, area-light NEE / source encoding, physical Mitsuba-BSDF dispatch with encoder feature rows);
+- validation gates;
+- a static comparison with an independent TransGI reproduction on Living Room 3: Ref-65 final, Ref-7 (= 6 events) auxiliary, truncation error measured separately.
+
+Not authorised:
+- ECRO depth or representation changes, tuning, edits (stage 4), superiority claims beyond the static scene.
+
+Any fix needing an architecture change ends the batch as STOPPED_ARCHITECTURE_EXPANSION_REQUIRED. Plan `plans/wl102_ecro_lr3_transgi/PLAN.md`; no result yet.
+
 **ECRO dynamic relation-update cost (human brief, 2026-11-17; WL101, LabServer69 RTX 3090):**
 - **Original cost.** The historical ~80 ms per edit, and the ~100 ms edit → 512² × 1 spp frame measured here, were implementation overhead: per-call Python / Dr.Jit re-tracing, numpy table rebuilds and host round trips. GPU work was < 0.2 ms for geometry, relation and source.
 - **Optimized runtime.** The runtime keeps the representation, the WL100 checkpoints and the estimator. It adds GPU-resident incremental relation state, DLPack hand-off and `dr.freeze` kernel replay on Mitsuba 3.8 / Dr.Jit 1.3.

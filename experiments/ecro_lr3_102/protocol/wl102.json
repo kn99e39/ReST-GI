@@ -1,0 +1,80 @@
+{
+  "name": "ecro_lr3_transgi_102_v1",
+  "date": "2026-11-17",
+  "authorization": "User (research owner), 2026-11-17: target Bitterli Living Room 3; first classify ECRO's blockers as input/scene-adapter vs architecture; minimal compatibility extensions that preserve ECRO's representation, transport semantics and training contract are allowed; anything needing a core architecture change, a new representation or a large scene-specific redesign is not implemented and is reported STOPPED_ARCHITECTURE_EXPANSION_REQUIRED; the ECRO-room TransGI comparison is only an auxiliary control; no performance optimisation or result-improving tuning. Batch class: regular WL102 (owner decision). Approved scope: stages 1-3 (pre-registration, adapter implementation and validation, static comparison). Stage 4 (dynamic rigid edit) is NOT authorised.",
+  "class": "WL102 regular: ECRO scene-adapter extension to triangle-mesh scenes + external comparison against an independent TransGI reproduction on one Bitterli scene, static only",
+  "base_commit": "724a38e",
+  "branch": "ecro_lr3_adapter",
+  "host": "LabServer69 (RTX 3090 24 GB, driver 550.54.15, 16 threads); every timed quantity of both methods on this host, GPU-exclusive",
+
+  "classification_prefreeze": {
+    "source": "read-only code audit of the WL101 deployment (~/rest_dyn101) and 724a38e, 2026-11-17; summarised in the plan",
+    "verdict": "ADAPTER-LEVEL for a static, 6-event evaluation; no architecture-level blocker found",
+    "adapter_items": ["triangle-mesh patch layout and lookup", "two-sided surfaces", "W x H camera with a to-world matrix", "mesh area emitter in next-event estimation and in the source encoding", "physical material dispatch for Mitsuba BSDFs (textured diffuse, roughplastic, roughconductor) with 69-float encoder feature rows (WL100 precedent: physical routine owns the material, the row is an encoder feature only)", "per-scene training data on the fixed LR3 geometry"],
+    "architecture_stop_triggers": "finer direction bins, an exact first gather, a different table, deeper learned events, a new encoder input, a changed loss or network -> STOPPED_ARCHITECTURE_EXPANSION_REQUIRED (reported, not implemented)"
+  },
+
+  "scene": {
+    "source": "TransGI reproduction conversion of Bitterli living-room-3 (scene_transgi.xml; glass removed, sphere light converted to a 64x128 equal-area mesh), identical file for every reference and both methods",
+    "objects": 25, "vertices": 310562, "triangles": 507424,
+    "camera": "authored V0, 640 x 360, Mitsuba perspective fov 50 (x axis), pixel centre + uniform jitter",
+    "emitter": "the scene's single mesh area light (as converted); no other emitter",
+    "edits": "none (static)"
+  },
+
+  "references": {
+    "renderer": "Mitsuba 3.6.4 cuda_ad_rgb path integrator, LabServer69 (Ref-65 may be re-used from the TransGI reproduction only if it was rendered from the byte-identical scene file and film; otherwise re-rendered here)",
+    "Ref-65": {"role": "final physical GI fidelity reference for both methods", "max_depth": 65, "spp": 65536, "halves": 2},
+    "Ref-7": {"role": "auxiliary: ECRO representation accuracy; 6 scattering events = Mitsuba max_depth 7 (ECRO event convention)", "max_depth": 7, "spp": 65536, "halves": 2},
+    "DI": "path max_depth 2 (camera -> surface -> light), common random numbers with the FULL renders as in the TransGI reproduction; GI_d = FULL_d - DI",
+    "noise": "half-difference RMSE of each reference reported separately",
+    "truncation_error": "Ref-7 vs Ref-65 (GI and FULL) measured and reported"
+  },
+
+  "arms": {
+    "TransGI": {
+      "implementation": "TransGI reproduction repo, recommended configuration: probe arm D_vis, hidden activation LeakyReLU (its Batch 09), fast frame (Mitsuba 3.9.1 / Dr.Jit 1.5.0)",
+      "owned_learned_state": "per-vertex latents (d = 7) + scene MLP, trained on LR3 (40.96M Eq. 8 samples, 200k iterations)",
+      "transport_semantics": "GI = neural transfer x probe light, probes path-traced at full depth (max_depth 65); not changed",
+      "frame": "640 x 360, 4 spp, after 128 warm-up probe frames",
+      "lifecycle_timed": ["data generation", "training", "probe warm-up", "per-frame time"]
+    },
+    "ECRO": {
+      "implementation": "ECRO v0 architecture unchanged (experiments/ecro86/model86.py, 735,664 parameters); WL100 objective and recipe; new adapter folder experiments/ecro_lr3_102 imports the original modules",
+      "owned_learned_state": "generator weights, one fresh model trained on the LR3 dataset (fixed geometry)",
+      "transport_semantics": "events 1-2 path-traced at render time with physical materials (LOW), events 3-6 from the learned table read at the second hit; D = 6 fixed, not increased",
+      "training_data": "WL100 split sizes verbatim with the geometry fixed to LR3: train 128 items x 4 point lights x 64 spp per field; val 16 x 4 x 2 halves x 128 spp; single white point lights sampled uniformly in LR3 free space (>= 0.15 m from any surface), test light positions excluded within 0.3 m",
+      "evaluation_light": "the scene's mesh area light: a held-out source class (WL86 LSPOT precedent); plus 2 held-out point lights as in-distribution control",
+      "training": "WL100: seed 10201, 24,000 steps, Adam 1e-3 -> 1e-5 cosine, warm-up 500, clip 10, final step, no selection",
+      "frame": "640 x 360 at 4 spp (operating point) and at 1,024 spp (converged LOW, isolates table error from LOW noise)",
+      "lifecycle_timed": ["data generation", "training", "state rays + patch tables", "source encoding + generator pass", "per-frame time"]
+    }
+  },
+
+  "gates": {
+    "A1_mesh_path_equivalence": "The adapter's mesh code path, given the ECRO room triangulated with scene86's own patch partition (triangle -> scene86 patch), reproduces pt86 on WL86 E1_T0: state-ray hit patch / bin identical on >= 99.9 % of rays (differences only on patch-boundary ties), source s within float32 tolerance (max rel 1e-4 where s > 1e-6 of max), and a 256-spp ER render within 2x the half-difference noise. Fail -> fix the adapter (execution amendment), never the rule.",
+    "A2_physical_path_vs_mitsuba": "The ECRO tracer with the physical material dispatcher at D = 6 on LR3 vs Mitsuba Ref-7, same camera: GI and FULL mean within 3 % and image RMSE <= 1.5 x the combined half-difference noise at matched spp. Fail with an adapter defect -> fix (amendment); fail for a reason that needs an architecture change -> STOPPED_ARCHITECTURE_EXPANSION_REQUIRED.",
+    "A3_patch_layout": "Report N, patch area / size distribution, normal spread within patches and patches per object; N must be < 32,768 (int16 hit ids) and the run must fit 24 GB; otherwise STOPPED_ARCHITECTURE_EXPANSION_REQUIRED (the patch rule itself is not tuned to pass).",
+    "B_training_sanity": "finite losses, final validation field error reported against WL100's values; no rule, poor fidelity is a result"
+  },
+
+  "patch_rule": "Per object, triangles are binned by a world-aligned 25 cm grid (centroid) and a 6-way dominant-normal class (sign of the largest normal component); each (object, cell, class) group with area > 0 is one patch; patch frame: n = area-weighted mean normal, t = projection of the world axis least aligned with n, b = n x t; point sampling area-weighted over the patch's triangles; objects with a two-sided BSDF whose mesh is not closed (edge manifold test) get a second patch set for the back side (frame -n). Fixed before any LR3 result; not tuned.",
+
+  "material_rows": "69-float encoder feature rows, deterministic from the Mitsuba BSDF parameters (no fit): Lambert slots = patch-mean diffuse reflectance (textures averaged over the patch); roughplastic adds one outer lobe with alpha = Beckmann alpha, f0 = specular reflectance at normal incidence from its IOR; roughconductor one outer lobe with alpha and per-channel normal-incidence Fresnel from eta / k; unused slots as WL100 lambert(). The rows are inputs to the encoder only; the physical dispatcher evaluates the Mitsuba BSDF.",
+
+  "metrics": {
+    "images": "GI (ECRO: e2 + hl; TransGI: its GI) and GI + reference DI, vs Ref-65 (final) and vs Ref-7 (auxiliary); also ECRO e1 + e2 + hl vs Ref-65 FULL",
+    "values": "TransGI conventions: LDR = clip(x,0,1)^(1/2.2) RMSE / L1 / SSIM; HDR RMSE, rel-MSE, bias; plus ReST-GI conventions: linear HDR PSNR, relative RMSE / L1",
+    "regions": "full frame; diffuse / glossy masks; LR3 named-object masks (rug, cushions, wall niches, sofa, floor)",
+    "ecro_decomposition": "representation error = ECRO(1,024 spp) vs Ref-7; truncation error = Ref-7 vs Ref-65; total = ECRO vs Ref-65; ECRO higher-order alone: hl vs (Ref-7 GI - e2 reference component) where available",
+    "cost": "per method: one-time (data, training, preparation) and per-frame times, peak GPU memory, model / table / state sizes"
+  },
+
+  "reporting": {
+    "comparability": "WL67 classes; this is physically aligned for quality (same scene, materials, light, camera, reference) and for timing (same host), with the declared depth / transport differences",
+    "no_claims": "no superiority claim beyond the measured static scene; no Neural Full Recompute or edit claim (no edit is run); TransGI numbers come only from the actual run on LabServer69",
+    "trade_off": "quality-cost table on Ref-65 with ECRO error split into representation and truncation parts"
+  },
+
+  "not_authorised": ["ECRO bounce depth increase", "representation, bins, network, loss or schedule changes", "performance optimisation or tuning of either method", "dynamic edits (stage 4)", "TransGI transport changes", "living-document claims beyond the recorded authorisation"]
+}
