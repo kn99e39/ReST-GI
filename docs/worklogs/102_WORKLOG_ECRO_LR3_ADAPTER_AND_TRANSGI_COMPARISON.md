@@ -96,3 +96,17 @@ Code: `experiments/ecro_lr3_102/{mesh102.py, pt102.py, gate_a1.py, gate_a2.py}`.
   2. A planar face lying on a cell plane (the ECRO room's walls at x = ±2, floor z = 0) had its normal-axis coordinate jitter across that plane in float32, so its key lookup failed for about half the hits. The lookup now retries the neighbouring cell along the face's dominant-normal axis.
   3. Gate A1's test sphere mesh had inward winding, so it was treated as the inside of a closed mesh.
 - **LR3 A2 numbers are identical before and after fix 2.** LR3's walls do not lie on cell planes.
+
+## 2026-11-17 — Reviewer images (references and gate A2)
+
+`evaluation/102/` holds the files listed below; sources and SHA-256 hashes are in `manifest.json`. Tone map: LDR = clip(x, 0, 1)^(1/2.2). Difference maps show the mean over RGB of |LDR a − LDR b|, magma colour scale 0–0.3.
+- `references_overview.png` (contact sheet)
+- `ref65_{full,gi,di}.png`
+- `ref7_{full,gi}.png`
+- `truncation_gi_absdiff_ldr.png`
+- `physD6_{gi,full}_2x1024spp.png`
+- `physD6_vs_ref7_gi_absdiff_ldr.png`
+
+Visible in the truncation map (descriptive): the error left by stopping at 6 events concentrates in the wall niches, along the upper walls and in the niche shelves. These receive light mostly through long paths between albedo-≈1 paint surfaces. The gate-A2 difference map is noise only.
+
+ECRO and TransGI prediction images will be added after the stage-3 chain. That chain started at 08:32 UTC: ECRO dataset 371 s, then training.

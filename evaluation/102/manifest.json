@@ -1,0 +1,26 @@
+{
+ "figures": {
+  "physD6_full_2x1024spp.png": "ba2ce71f36fcc76a9b79d2add6c50383e34540904121022f28e1d1ea4b40ad94",
+  "physD6_gi_2x1024spp.png": "a678270ce1bd5dec2153f00a76b8e1f32fefb18ed9e76980a171a619fa70b6cb",
+  "physD6_vs_ref7_gi_absdiff_ldr.png": "ce8813de1f09009185332379b73512f53efa5b108d5daa1d088c4d85e52c4ba2",
+  "ref65_di.png": "914e64eb9d46e143b976b60f5b4d4f1683a0b642b696ba593a887e263edb0daf",
+  "ref65_full.png": "0c0f0c7057495f22a1308dfeee1ee10dcba8d2652c84bb4b89ab2f56ebf5ad97",
+  "ref65_gi.png": "120c1f4832d091bc47e9bb1d7c934f7bff02dc3219449877cdcda5faa38dbf92",
+  "ref7_full.png": "0bb8c69546dc755606caf7d22b8721857bfd72b004bdcfe9b44627fd4dfb0dc4",
+  "ref7_gi.png": "903db4c599898f881be208351897d6ca607ea871e1905fcf154d73847f5197cc",
+  "references_overview.png": "cd8d2a84c15a24b74fcf00b163a2320943650045e8549a4811db3122218752ac",
+  "truncation_gi_absdiff_ldr.png": "0e0ad4a0ea3a85b18bf6e1c8c1dc94d81b8bbcef6005d7f8797b13305f1d03a0"
+ },
+ "sources": {
+  "/home/nd/TransGI-Reproduction-data/runs/living_room_3/reference/static_V0.npz": "6262525144298f284558d790a253554a25c93827d1ca53a96961411715fcbf98",
+  "/home/nd/TransGI-Reproduction-data/runs/living_room_3/reference/static_V0_d7.npz": "904a3d9104c1f73db4823063116c8eba44755da629d46ab43f90549a6c4944ac",
+  "gate_a2/a2_gi.npy": "96a59aad35599b087def602177187933370ed43c53981d7d0b176b27a27f404d",
+  "gate_a2/a2_full.npy": "8cfaec7cc63c0c10b93e5f48315e10af64de4c6c348900b6ca16415728dcdb02"
+ },
+ "tone_map": "LDR = clip(x,0,1)^(1/2.2); difference maps = mean over RGB of |LDR a - LDR b|, magma 0-0.3",
+ "references": {
+  "Ref-65": "Mitsuba 3.6.4 cuda path max_depth 65, 2 x 65,536 spp, LabServer69 2026-11-17",
+  "Ref-7": "max_depth 7 (6 events), same seeds and film",
+  "DI": "max_depth 2, common random numbers"
+ }
+}
