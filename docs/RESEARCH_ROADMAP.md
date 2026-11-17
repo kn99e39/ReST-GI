@@ -1,8 +1,16 @@
 # Research Roadmap — Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-11-16. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
+**Current as of:** 2026-11-17. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
 
 ## Current frontier
+
+**ECRO dynamic relation-update cost (human brief, 2026-11-17; WL101, LabServer69 RTX 3090):**
+- **Original cost.** The historical ~80 ms per edit, and the ~100 ms edit → 512² × 1 spp frame measured here, were implementation overhead: per-call Python / Dr.Jit re-tracing, numpy table rebuilds and host round trips. GPU work was < 0.2 ms for geometry, relation and source.
+- **Optimized runtime.** The runtime keeps the representation, the WL100 checkpoints and the estimator. It adds GPU-resident incremental relation state, DLPack hand-off and `dr.freeze` kernel replay on Mitsuba 3.8 / Dr.Jit 1.3.
+- **Correctness.** It reproduces the frozen lifecycle exactly within every predeclared tolerance (tables ≤ 2.9e-7, same-seed frames ≤ 1.2e-5). The stale control is worse in 14 of 16 states.
+- **Latency (N = 1,270).** Edit → 512² × 1 spp frame takes 11.0–15.7 ms, against 84–102 ms before. The full-rebuild variant is under 15 ms (SSS 12.6 ms, near 11.0 ms); 10 ms is not reached.
+- **Scaling.** The per-edit full generator pass (global receptive field) grows about linearly with patch count. The SSS frame exceeds 20 ms at N ≥ 5,080 (52 ms at N = 11,430), so general real-time capability is **not** established.
+- **Prerequisite status.** This partly satisfies the deferred stress-test prerequisite below, for this workload scale only. No representation change, successor or stress-test batch is authorised by it. Details: [WL101](worklogs/101_WORKLOG_ECRO_DYNAMIC_RELATION_UPDATE_COST.md).
 
 **Bounded material-training request completed (human, 2026-11-16; WL100):** Two separate pre-RB-DTO-E ECRO OWN models completed 24,000 steps each on new near-mirror and physically modelled SSS datasets; held-out reference/prediction/error-map, ROI, higher-order and noise-control figures are available. The learned architecture is unchanged; physical material response and LOW remain explicit. SSS sphere ROI discrepancy is 1.47-2.08% versus the finite-depth reference; near raw ROI discrepancy (8.3-20.1%) is almost the reference sampling noise, so converged near fidelity remains unqualified. This is bounded material-coverage evidence, not adoption, whole-neural local SSS, dynamic/economic evidence or an RB-DTO-E successor decision. Full scope and limits: [WL100](worklogs/100_WORKLOG_ECRO_NEAR_MIRROR_AND_SSS_TRAINING.md).
 

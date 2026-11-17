@@ -1,0 +1,10 @@
+<!doctype html><meta charset="utf-8"><title>WL101 ECRO dynamic update</title>
+<style>body{font-family:sans-serif;max-width:1400px;margin:auto;padding:16px}img{max-width:100%;border:1px solid #ccc}</style>
+<h1>WL101 &mdash; ECRO dynamic relation-update cost</h1>
+<p>LabServer69, RTX 3090. Arm A = frozen production lifecycle; B_sel = optimized runtime (selective relation update); B_full = optimized runtime with full state rebuild; B_eager = B without kernel replay. Worklog: docs/worklogs/101_WORKLOG_ECRO_DYNAMIC_RELATION_UPDATE_COST.md</p>
+<h2>Dynamic-frame breakdown (512&sup2; &times; 1 spp)</h2><img src="timing_breakdown.png">
+<h2>Per-event latency</h2><img src="latency_per_event.png">
+<h2>Scaling with patch count (timing only)</h2><img src="scaling.png">
+<h2>Quality: near-mirror tour (B_sel = A; STALE control)</h2><img src="quality_near.png">
+<h2>Quality: SSS tour</h2><img src="quality_sss.png">
+<p>Data: <a href="analysis101.json">analysis101.json</a>, <a href="manifest101.json">manifest101.json</a></p>
