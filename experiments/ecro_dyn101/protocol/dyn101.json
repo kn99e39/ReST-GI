@@ -1,0 +1,124 @@
+{
+  "name": "ecro_dyn101_v1",
+  "date": "2026-11-17",
+  "worklog": "WL101 (regular number: independent dynamic-update cost question on the existing ECRO; not a closure of WL100 or of the concurrent RB-DTO-E WL99/99A work; owner may reclassify)",
+  "authorization": "User brief 2026-11-17 'Prioritize ECRO dynamic-scene viability': reproduce the dynamic-update baseline, attribute its cost, implement one bounded optimization of the spatial-relation update / scheduling / execution organisation, validate correctness and quality, report end-to-end latency against 20 / 15 / 10 ms. Local execution preferred by the user.",
+  "frozen_before_evidence": "This file is written after DEVELOPMENT profiling and the arm-B implementation on the selection case only (SEL). No validation sequence, reference image or validation timing was run before this file was committed.",
+  "preserved": [
+    "model86 ECRO v0 architecture and WL100 checkpoints (near, sss), unchanged",
+    "physical LOW (events 1-2) / learned higher-order (events >= 3) ownership",
+    "pt86 / pt100 / closure83_dr / scene86 / model86 / common100 source files byte-identical (hashes recorded)",
+    "no retraining, no capacity / material / target / threshold change"
+  ],
+  "checkpoints": {
+    "near": "results/ecro_material100/near/model.pt",
+    "sss": "results/ecro_material100/sss/model.pt"
+  },
+  "arms": {
+    "A_sel": "frozen production lifecycle on Mitsuba 3.5.1 / Dr.Jit 0.4.6 (venv external/8dna26/.venv-cu128): pt86.Ctx.set_geom -> ecro86.update_state (selective) -> pt86.Ctx.source -> ecro86.respond (GeoState + factors + apply + host copy) -> pt86.fl -> pt86.Ctx.render(mode ecro, b = spp)",
+    "A_full": "as A_sel with ecro86.build_state (all state rays) instead of the selective update = same-checkpoint internal full transport-state rebuild in the frozen stack (comparator C)",
+    "B_sel": "optimized runtime rt101.RT on Mitsuba 3.9.1 / Dr.Jit 1.5.0 (external/mi39_dyn101, --target install) + same torch: incremental box tables, GPU-resident state, GPU dirty test with the frozen rule, re-trace of dirty rays only, GPU source reduction, generator on resident tensors, DLPack table hand-off, dr.freeze replay of every Dr.Jit program; same estimator / RNG streams as A (0.4.6 PCG32 seeding replicated)",
+    "B_full": "as B_sel with a full state rebuild every edit (comparator C in the optimized stack)",
+    "B_eager": "as B_sel with FREEZE=0 (same code, re-traced every call): attribution control for the replay mechanism only",
+    "B_stale": "quality control only: after an edit LOW is current, but the relation state, factors and table B are NOT updated (previous state's table). Fast-but-stale control; never a timing arm"
+  },
+  "frame": {
+    "primary": {
+      "res": 512,
+      "spp": 1
+    },
+    "secondary": [
+      {
+        "res": 512,
+        "spp": 4
+      },
+      {
+        "res": 1024,
+        "spp": 1
+      }
+    ],
+    "definition": "dynamic frame = geometry edit + every update the new state needs (geometry, relation, source, generator / apply, hand-off) + one LOW + lookup frame whose per-pixel e1 / e2 / hl buffers are complete on the GPU. Arm A additionally copies the frame to the host as float64 (its production render() does); that copy is part of arm A's measured frame and is reported; arm B's frame stays resident (a display consumer reads GPU memory). No asynchronous overlap: every part is bracketed by a full device synchronisation, so no unfinished work is hidden.",
+    "static_frame": "frame only, no edit, same state (steady-state render cost)"
+  },
+  "workloads": {
+    "light": "fixed per case: light 0 of WL100 test configuration 0 (geometry-only edits), except SEL which uses each configuration's own light 0",
+    "SEL": {
+      "role": "selection / development (used to choose and debug the optimization)",
+      "case": "sss",
+      "sequence": "test configs 1,0 alternating, own lights",
+      "events": 24
+    },
+    "V_SSS_TOUR": {
+      "role": "validation (never used for selection)",
+      "case": "sss",
+      "sequence": "test configs 0,2,3,4,5,6,7,1 repeated 3 times (24 edits after the start state); both boxes translate and rotate",
+      "events": 24
+    },
+    "V_NEAR_TOUR": {
+      "role": "validation",
+      "case": "near",
+      "sequence": "test configs 0..7 repeated 3 times",
+      "events": 24
+    },
+    "V_SSS_ANIM": {
+      "role": "validation: sustained per-frame motion",
+      "case": "sss",
+      "sequence": "both boxes linearly interpolated (centre and yaw) between test config 2 and test config 1 in 16 steps, ping-pong, 48 frames",
+      "events": 48
+    }
+  },
+  "dynamic_case_coverage": "rigid motion (all); occlusion / disocclusion of the light and of cross-object segments (box shadows and box-sphere / box-wall / box-floor state rays change: measured by dirty and changed ray counts); changing cross-object relations (both boxes move relative to the SSS sphere and near-mirror panel); repeated transitions (tours x3, ping-pong animation, return-to-state state digests).",
+  "higher_order_change_qualification": "A validation transition counts as a material higher-order illumination change if, between consecutive reference states, sum |h_ref(T) - h_ref(T_prev)| / sum h_ref(T) over the material ROI (SSS sphere / near-mirror panel pixels) is >= 0.05 and the same quantity computed from independent reference halves (noise) is <= 0.5 x that value. Reported for every tour transition; the batch needs at least one qualifying transition, else the quality part is reported as not demonstrating a material higher-order change.",
+  "timing": {
+    "warmup_events": 4,
+    "sync": "dr.sync_thread() + torch.cuda.synchronize() before and after every part; total timer independent of the part timers",
+    "gpu_time": "Dr.Jit kernel_history execution_time per part; torch parts by CUDA events (span) and, in a separate component run, by the torch profiler (kernel sum)",
+    "statistics": "median, p90, p99 (n is small: p99 ~ max, max reported), IQR per part and total; two independent processes per arm and workload, run in alternating order A,B,A,B",
+    "contention": "nvidia-smi utilisation and compute apps sampled before and after each process; a process with foreign GPU load (>5 % utilisation before start) is rerun",
+    "targets_ms": {
+      "competitive": 20,
+      "preferred": 15,
+      "aspirational": 10
+    }
+  },
+  "scaling": {
+    "role": "timing only, quality not evaluated (the checkpoint was trained on N = 1,270)",
+    "case": "sss",
+    "refine_rule": "experiments/gm1_relation88/econ88.refine rule (stationary grids x s, box faces round(3 s), sphere round(8 s) x round(4 s)) re-implemented by monkeypatching scene86 before any context is built",
+    "s": [
+      1.0,
+      1.5,
+      2.0,
+      3.0
+    ],
+    "sequence": "V_SSS_TOUR (24 timed edits after 4 warm); arms A_sel, B_sel, B_full",
+    "frame": "primary"
+  },
+  "correctness": {
+    "same_stack_state": "selective state == full rebuild EXACTLY (hit and bin arrays) after every validation edit, in both stacks; return-to-state digest equals the first visit",
+    "cross_stack_state": "B vs A state-ray hit / bin mismatch fraction <= 1e-4 (cross-version OptiX / float ties; SEL dev showed 1 of 650,240); every mismatch count reported",
+    "cross_stack_source": "max relative difference <= 1e-5",
+    "cross_stack_table": "relative L1 of B vs A table <= 1e-4 and max relative <= 1e-2",
+    "same_seed_frame": "per component (e1, e2, hl) mean |B - A| / mean |A| <= 1e-4 at 512^2 x 1 spp and x 4 spp, same seeds (a different estimator / RNG stream gives 3e-2 .. 1.1 on SEL dev; same estimator 2e-8 .. 8e-6)",
+    "replay": "frozen-replay output equals the eager re-trace of the same program (B_eager) within the cross-stack tolerances; recordings count reported",
+    "stale": "B_stale tables differ from B_sel at every edit with dirty rays (proves the update is not skipped)",
+    "tolerance_basis": "Set on SEL development observations only, before any validation run; they separate float / tie-level differences from any estimator change by >= 2 orders of magnitude"
+  },
+  "quality": {
+    "references": "physical 6-event path tracing (pt100 'cam', frozen stack) at 512^2, 2 x 4096 spp halves, seeds 101100 + 10 x state / 101101 + 10 x state; WL100's REF_0 halves are reused for SSS / near state 0 (same geometry and light).",
+    "predictions": "A_sel, B_sel, B_stale tables at every validation tour state reached in the first tour pass; 512^2 x 4096 spp LOW + lookup, b = 32 launches, seed 101500 + 10 x state (same seed for A and B)",
+    "metrics": "full-frame and ROI relative RMSE of total vs reference; reference half noise; higher-order E_H = sum |hl - h_ref| / sum tot_ref on (a) all pixels, (b) ROI, (c) higher-order change region (|h_ref(T) - h_ref(T_prev)| > 3 sigma of the half difference); same for B_stale; A vs B image difference",
+    "no_new_thresholds": "image metrics are descriptive; the quality-preservation verdict is the correctness block (B reproduces A's tables and per-sample estimator), the stale control shows the update matters"
+  },
+  "stop_conditions": [
+    "any correctness tolerance fails on a validation sequence -> report, do not tune",
+    "optimization needs a representation or ownership change -> stop",
+    "timing excludes required work -> invalid"
+  ],
+  "seeds": {
+    "frame_timing": "9000 + event",
+    "same_seed_check": "7000 + state",
+    "hq_prediction": "101500 + 10 x state",
+    "references": "101100 / 101101 + 10 x state"
+  }
+}
