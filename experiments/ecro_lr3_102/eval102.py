@@ -39,7 +39,7 @@ L = P.SceneLights(64)
 for rep in range(3):                                            # first call compiles; report the last
     sync(); t0 = time.perf_counter(); s = ctx.source(L); sync(); T['source_s'] = time.perf_counter() - t0
     with torch.no_grad():
-        sync(); t0 = time.perf_counter(); f = model.factors(gs); sync(); T['factors_s'] = time.perf_counter() - t0
+        sync(); t0 = time.perf_counter(); f = model.factors(TRN.input_state(gs)); sync(); T['factors_s'] = time.perf_counter() - t0
         st = torch.as_tensor(s, device=dev)[None]
         sync(); t0 = time.perf_counter(); B = model.apply(f, gs, st)[0]; sync(); T['apply_s'] = time.perf_counter() - t0
 Bn = B.detach().cpu().numpy().astype(np.float32)
@@ -62,6 +62,6 @@ for h, seed in enumerate((6001, 6002)):
 test = [TRN.Item(f) for f in sorted((Path(data) / 'test').glob('g*.npz'))]
 ctrl = TRN.evaluate(model, gs, test) if test else None
 val = TRN.evaluate(model, gs, [TRN.Item(f) for f in sorted((Path(data) / 'val').glob('g*.npz'))])
-json.dump({'smoke': SMOKE, 'timing': T, 'controls_point_lights_test': ctrl, 'validation': val, 'N': ctx.N, 'res': [W, H],
+json.dump({'smoke': SMOKE, 'area_input_floor': TRN.AREA_FLOOR, 'timing': T, 'controls_point_lights_test': ctrl, 'validation': val, 'N': ctx.N, 'res': [W, H],
            'table_bytes': int(Bn.nbytes), 'peak_mib': torch.cuda.max_memory_allocated() / 2 ** 20}, open(os.path.join(out, 'eval.json'), 'w'), indent=1)
 print('EVAL_COMPLETE', json.dumps(T)[:400], ctrl, flush=True)

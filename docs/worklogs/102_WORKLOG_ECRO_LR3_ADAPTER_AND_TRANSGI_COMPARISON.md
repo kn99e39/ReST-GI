@@ -110,3 +110,32 @@ Code: `experiments/ecro_lr3_102/{mesh102.py, pt102.py, gate_a1.py, gate_a2.py}`.
 Visible in the truncation map (descriptive): the error left by stopping at 6 events concentrates in the wall niches, along the upper walls and in the niche shelves. These receive light mostly through long paths between albedo-≈1 paint surfaces. The gate-A2 difference map is noise only.
 
 ECRO and TransGI prediction images will be added after the stage-3 chain. That chain started at 08:32 UTC: ECRO dataset 371 s, then training.
+
+## 2026-11-17 — ECRO training run 1: collapse to a zero output (result preserved)
+
+- **Run.** `chain102.sh`, LabServer69, GPU-exclusive. Dataset 371 s (128 train + 16 val + 1 test items); training 24,000 steps in 3,140 s wall (0.13 s / step, peak 4.2 GB).
+- **Collapse.** The losses plateau from step ≈ 1,000 at [0.686, 0.102, 0.359]. That is the loss of a zero predictor on these items: 0.638 / 0.091 / 0.319 on 8 items, computed on CPU.
+  - Final validation relative L1: whole 1.000, single 1.000, global 1.000.
+  - The pre-clip gradient norm reaches 0. **The generator output collapsed to zero** at the final step, and that final step is the checkpoint the protocol uses.
+- **Post-hoc diagnostic** (`diag102.py`, 1,500 steps each, same recipe and seed, one input changed each; not evidence):
+
+  | Variant | Change | Step 1,500 pred / target | Val rel L1 (whole / single / global) |
+  |---|---|---|---|
+  | D0 | none | 0.000 (gradient 0) | 1.000 / 1.000 / 1.000 |
+  | D1 | generator area input floored at 1/16 cell (0.0039 m²) | 0.815 | 0.278 / 0.244 / 0.411 |
+  | D2 | lights with s.max() above the ECRO-room scale removed (16 of 512) | 0.000 (gradient 0) | 1.000 / 1.000 / 1.000 |
+
+  All three nearly collapse during the warm-up (pred / target ≈ 1e-3 at steps 200–500). Only D1 recovers.
+- **Attribution.**
+  - The log-area input of the generator spans log(area) + 3 ∈ [−15.8, 0.27] on LR3, where p10 is −4.3; every ECRO-room patch sits at ≈ 0.23. The low end comes from the cell-boundary slivers of the Amendment-1 patch regions, down to 6.8e-9 m².
+  - Near-surface lights are not the cause.
+  - This is an input-scale defect of the scene adapter, not an architecture limit. One seed.
+- The collapsed checkpoint and its evaluation are kept: `model/`, `eval/`, `ecro_train.log`.
+
+## 2026-11-17 — Amendment 2 (post hoc, approved by the research owner): generator area input floored, retraining
+
+- **Decision** (user, after the result above): floor the generator's area input and retrain. Labelled post hoc.
+- **Change.** Only the area INPUT to `model.factors` (log-area feature) is floored at 0.0625 / 16 m² (`WL102_AREA_FLOOR`; `train102.input_state`).
+  - The physical area weights inside `model.apply` (global term) keep the true patch area. This is more conservative than D1, which floored both.
+  - Patches, tables, network, loss, schedule, data and seed are unchanged. The original run stays on record as run 1.
+- **Execution.** `chain102b.sh` starts after the TransGI steps of `chain102.sh`, GPU-exclusive: `model_a2/`, `eval_a2/`.
