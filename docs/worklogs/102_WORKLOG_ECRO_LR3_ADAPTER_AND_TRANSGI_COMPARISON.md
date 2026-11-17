@@ -187,3 +187,72 @@ ECRO and TransGI prediction images will be added after the stage-3 chain. That c
   - This departs from WL100's "no restart after poor fidelity, one seed" contract. It is disclosed, not hidden.
 - **What stays on record and is reported:** run 1 (pre-registered seed 10201, collapsed) and the diagnostic recovery rate (original configuration 2 of 3 at 1,500 steps).
 - **Execution.** `chain102c.sh` (`WL102_SEED=10202`), GPU-exclusive, started 13:06 UTC: `model_s10202/`, `eval_s10202/`.
+
+## 2026-11-17 — Results (ECRO run 3 = Amendment 3 seed 10202; TransGI; scoring)
+
+### ECRO training and evaluation
+- **Run 3.** Original configuration, seed 10202. 24,000 steps in 3,135 s (GPU-exclusive), peak 4.2 GB.
+  - Final validation relative L1 (point lights): whole 0.122, single 0.175, global 0.150.
+  - Held-out control point lights: whole 0.055.
+  - For reference, the pre-registered seed 10201 run 1 collapsed to rel L1 1.000 (above).
+- **Evaluation light.** The scene's mesh area light, a source class never seen in training. Source encoding 166 ms; generator factors 26 ms; application 2.7 ms; table 6.2 MB.
+
+### Quality (static V0, 640×360; `results/metrics_s10202.json`, `metrics102.py`)
+GI vs **Ref-65** (final reference):
+
+| Estimate | LDR RMSE / L1 / SSIM | HDR RMSE | Bias | Linear PSNR |
+|---|---|---|---|---|
+| **TransGI**, 4 spp | **0.0775 / 0.0423 / 0.825** | 0.0812 | −0.9 % | 21.1 dB |
+| ECRO, 4 spp (its LOW e2 is path-traced) | 0.1703 / 0.1415 / 0.191 | 0.2680 | −28.1 % | 10.8 dB |
+| ECRO, converged LOW (2 × 512 spp) | 0.1017 / 0.0870 / 0.862 | 0.1366 | −28.2 % | 16.6 dB |
+| Physical 6 events, 2 × 1,024 spp (= ECRO with an exact table) | 0.0975 / 0.0822 / 0.835 | 0.1314 | −26.8 % | 17.0 dB |
+| Ref-7 itself (truncation alone) | 0.0963 / 0.0819 / 0.964 | 0.1303 | −26.8 % | 17.0 dB |
+
+GI vs **Ref-7** (auxiliary; ECRO's representation accuracy):
+- ECRO converged: LDR RMSE **0.0151**, SSIM 0.896, bias −1.9 %. The physical 6-event estimator gives 0.0140 / 0.867 / 0.0 %.
+- TransGI: 0.1139 (+35 % bias against the truncated reference, as expected).
+
+GI + reference DI vs Ref-65 FULL (LDR RMSE / SSIM): TransGI 0.0736 / 0.864; ECRO 4 spp 0.1478 / 0.248; ECRO converged 0.0947 / 0.896. ECRO's own e1 + e2 + hl gives the same values.
+
+**ECRO error decomposition** (LDR RMSE vs Ref-65 0.1017):
+- **Truncation** (Ref-7 vs Ref-65): 0.0963. It dominates.
+- **Representation** (converged ECRO vs Ref-7): 0.0151, at the level of the physical estimator's own noise (0.0140 at 2 × 1,024 spp).
+- **The learned higher order alone,** hl vs the physical events 3–6 (h): relative L1 0.060, LDR RMSE 0.018.
+- At the 4 spp operating point, LOW noise (path-traced e2) adds most of the remaining error (0.170).
+
+**Regions** (GI LDR RMSE vs Ref-65; TransGI / ECRO converged / truncation alone):
+
+| Region | TransGI | ECRO converged | Truncation alone |
+|---|---|---|---|
+| Walls | 0.027 | 0.113 | 0.108 |
+| Paint / niches | 0.135 | 0.121 | 0.117 |
+| Sofa | 0.068 | 0.094 | 0.082 |
+| Floor | 0.102 | 0.071 | 0.067 |
+| Rug | 0.051 | 0.034 | 0.033 |
+| Cushions | 0.128 | 0.088 | 0.078 |
+
+- **TransGI's error is local:** niches, cushion chroma, under-sofa contact, picture. These are its probe-light and formulation limits, seen in the TransGI reproduction's own controls.
+- **ECRO's error is a global darkening** that follows the truncation map (`comparison_overview.png`).
+
+### Cost (LabServer69, RTX 3090, each step GPU-exclusive)
+
+| | TransGI | ECRO |
+|---|---|---|
+| Data generation | 2,405 s (val 65 + train 2,340; 40.96M Eq. 8 samples) | 371 s (state rays + rows + 128 × 4 + 16 × 4 × 2 + 1 × 2 × 2 field renders) |
+| Training | 417 s (200k iterations, 2.03 ms / iteration, GPU-resident data, 10.6 GB peak) | 3,135 s (24k steps, 0.13 s / step, 4.2 GB); +3,140 s collapsed run 1, +run 2 and diagnostics |
+| Per light change | probe update inside the frame | 195 ms (source 166 + generator 26 + apply 2.7) |
+| Frame 640×360 | **7.99 ms** at 1 spp (fast frame, its Batch-08 benchmark) | **27.3 ms at 1 spp, 27.7 ms at 4 spp** (pt path, unoptimised; `ecro_frame_timing_spp.json`, post-hoc spp-matched supplement) |
+| Learned state | 2.17M latent floats (8.7 MB) + 45k MLP parameters | 735,664 parameters (2.9 MB) + table 6.2 MB + state rays ≈ 12 MB |
+
+- **ECRO frame time is implementation-bound:** it is the same at 1 and 4 spp (Python and host accumulation).
+- WL101's optimised runtime (11–16 ms edit → frame at N = 1,270) was not ported, because performance optimisation is not authorised in this batch. ECRO's frame time here is therefore an upper bound for ECRO, not a method limit.
+
+### Reading (no superiority claim beyond this static scene and light)
+1. **Adapter.** ECRO runs on a 507k-triangle Bitterli scene through scene-adapter extensions only (gates A1–A3 pass); no architecture change was needed.
+2. **Representation.** On Ref-7, ECRO's learned 6-event GI under a never-seen area light is as accurate as its physical 6-event estimator. Its representation error is at noise level (0.015 vs 0.014).
+3. **Truncation.** On Ref-65, ECRO is bounded by its fixed 6-event depth. In this albedo-≈1 room, truncation alone (0.096) exceeds TransGI's total error (0.0775). ECRO converged is 0.102; at 4 spp, 0.170.
+4. **Training stability.** The pre-registered seed 10201 collapsed. A 3-seed, 1,500-step diagnostic recovers 2 of 3 in the original configuration. Run 3 uses a disclosed post-hoc seed substitution.
+5. **Not tested here:** an increase of ECRO's depth (not authorised); the optimised ECRO runtime; dynamic edits (stage 4, not authorised).
+
+### Status
+WL102 stages 1–3 complete. **Stage 4 (rigid edit) is not started; it needs a separate decision.** Comparability (WL67 classes): physically aligned for quality and for timing (same host). The declared depth and transport differences (TransGI full depth via probes; ECRO D = 6) are part of the result.

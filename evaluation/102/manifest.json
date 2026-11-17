@@ -9,7 +9,16 @@
   "ref7_full.png": "0bb8c69546dc755606caf7d22b8721857bfd72b004bdcfe9b44627fd4dfb0dc4",
   "ref7_gi.png": "903db4c599898f881be208351897d6ca607ea871e1905fcf154d73847f5197cc",
   "references_overview.png": "cd8d2a84c15a24b74fcf00b163a2320943650045e8549a4811db3122218752ac",
-  "truncation_gi_absdiff_ldr.png": "0e0ad4a0ea3a85b18bf6e1c8c1dc94d81b8bbcef6005d7f8797b13305f1d03a0"
+  "truncation_gi_absdiff_ldr.png": "0e0ad4a0ea3a85b18bf6e1c8c1dc94d81b8bbcef6005d7f8797b13305f1d03a0",
+  "comparison_overview.png": "37af4af065e47cf3047f535642fe81a79f807f09dbb711321118dca65f12beba",
+  "ecro_gi_4spp.png": "e2205a7030b6f1f67e3a360a8e71eddbea4277ee0fedffd165f3c5826cb7c8ac",
+  "ecro_gi_converged.png": "dc84196dc5b06bd492bd5274695e795f6151dce463d259de4887478872922ade",
+  "ecro_higher_order_vs_physical.png": "83abe36c4968cb752ae83b1472c4bc2774ffbccab536080ecb6a597a2df149ca",
+  "err_ecro_4spp_vs_ref65.png": "72ef6895cb03ba9298dbca7e547f8e757df58560d02c275c88668408173884a1",
+  "err_ecro_conv_vs_ref65.png": "ca1265bf687f4a523a582b494b7f99e4dd0f96a1f67cd2167a86170598f911c6",
+  "err_ecro_conv_vs_ref7.png": "249b967d369adb16314e542c08f35f63366efff58c2feac41c0a07c24937c525",
+  "err_transgi_vs_ref65.png": "87a7bffea63c3ffefab33c73623122b6ebe33af3faf68997fe917cbcba97b281",
+  "transgi_gi_4spp.png": "563c1b3dd7f9b479910ec347f5aeda159b7db08f338a7dc69247d33a3c881552"
  },
  "sources": {
   "/home/nd/TransGI-Reproduction-data/runs/living_room_3/reference/static_V0.npz": "6262525144298f284558d790a253554a25c93827d1ca53a96961411715fcbf98",
@@ -22,5 +31,10 @@
   "Ref-65": "Mitsuba 3.6.4 cuda path max_depth 65, 2 x 65,536 spp, LabServer69 2026-11-17",
   "Ref-7": "max_depth 7 (6 events), same seeds and film",
   "DI": "max_depth 2, common random numbers"
+ },
+ "comparison_sources": {
+  "transgi_gi": "TransGI-Reproduction-data/runs/living_room_3/eval/wl102_leaky/static_V0.npy (LabServer69, TransGI fast frame, 4 spp)",
+  "ecro": "rest_wl102/results/wl102/eval_s10202/ (Amendment 3, seed 10202): ecro_spp4.npz, ecro_spp512_h{0,1}.npz, phys_d6_spp1024_h{0,1}.npz",
+  "script": "experiments/ecro_lr3_102/figs102.py"
  }
 }
