@@ -1,6 +1,7 @@
+param([int]$Epochs=18)
 $ErrorActionPreference='Stop'
 $project=Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
-$stem='8dna_ck2_epoch18_4096spp'
+$stem=('8dna_ck2_epoch{0:00}_4096spp' -f $Epochs)
 $destination=Join-Path $project "evaluation\21B\$stem"
 $comparison=Join-Path $project 'eval_comparison\8DNA'
 $remote="/home/nd/rest_8dna_ck21b/results/$stem"
@@ -20,9 +21,9 @@ while([DateTime]::UtcNow -lt $deadline) {
   & $scp "LabServer63:$remote/matched4096_complete.json" (Join-Path $destination 'matched4096_complete.json')
   if($LASTEXITCODE -ne 0) { Start-Sleep -Seconds 45; continue }
   $record=Get-Content -LiteralPath (Join-Path $destination 'matched4096_complete.json') -Raw | ConvertFrom-Json
-  if($record.status -ne 'complete' -or $record.spp_completed -ne 4096 -or $record.epochs_completed -ne 18 -or $record.checkpoint_global_step -ne 147456) { throw 'Unexpected render identity' }
+  if($record.status -ne 'complete' -or $record.spp_completed -ne 4096 -or $record.epochs_completed -ne $Epochs -or $record.checkpoint_global_step -ne ($Epochs*8192)) { throw 'Unexpected render identity' }
   if($record.rest_gi_spp -ne 4096 -or $record.rest_gi_replicate -ne 'r0') { throw 'Unexpected ReST-GI sampling condition' }
-  $files=@("$stem.png","$stem.npy","$stem.exr",'ck2_references_and_candidates_epoch18_matched4096spp.png')
+  $files=@("$stem.png","$stem.npy","$stem.exr",('ck2_references_and_candidates_epoch{0:00}_matched4096spp.png' -f $Epochs))
   foreach($name in $files) {
     $incoming=Join-Path $destination "$name.incoming"
     & $scp "LabServer63:$remote/$name" $incoming

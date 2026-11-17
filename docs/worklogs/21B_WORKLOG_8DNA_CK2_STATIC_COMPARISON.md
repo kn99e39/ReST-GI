@@ -507,3 +507,85 @@ original bytes and provenance. At this check the server's public Fabric
 renderer occupied about 11.3/12 GiB of GPU memory. The completed final-model
 preview is available locally, and a 4096-spp render of the 30-epoch model
 requires a subsequent rendering run.
+
+## Final-model 4096-spp tiled render and sequential ECRO follow-up (2026-11-17)
+
+The owner requested the final 30-epoch CK2 image after the Fabric execution
+work, followed by **ECRO on the same scene at 4096 spp**, and explicitly chose
+the **WL100 near-mirror-trained model** when distinguishing it from the older
+ECRO C0 s8601 already included in the historical comparison. This is a static
+readout/export follow-up of WL21B, not another architecture, training run or
+dynamic recovery comparison. No lifecycle/speed superiority is inferred.
+
+The released native 8DNA integrator and trained parameters remain unchanged.
+The WL21A tiled runner now accepts a scene bridge and explicit checkpoint,
+with source/checkpoint hashes in its execution identity. The fixed anchor is
+the final checkpoint SHA256 `d107c982ce9546774acf2c0d575c0f151c482a50af1f6f6a1b92e15c7fafd077`,
+global step 245760. CK2 camera, frozen ER materials, light and 512-square
+resolution are preserved. Tile interiors are 128 square with filter-radius
+halo; each final pixel receives exactly 4096 samples. The seed schedule and
+batch grouping are recorded, and changing the grouping uses a separate cache.
+
+An initial chunk-4 attempt produced its complete 64-spp checkpoint and about
+4 percent of the 4096-spp sample budget. It was explicitly terminated by this
+agent at its coordinator (exit 143), preserving partial tile caches, because
+small Python/Torch/Dr.Jit calls made the readout slow under contention. This
+is an execution attempt, not an image/model-selection result. Its log and
+status are preserved in `evaluation/21B/epoch30_4096_launch/`.
+
+Bounded center-tile resource probes on this checkpoint measured steady calls
+of 1.601 s at 16 spp (2364 MiB/process), and 2.158 s at 32 spp (4294 MiB).
+64 spp failed with CUDA OOM while another project held about 7.1 GiB. Probe
+samples are excluded from the delivered image. Chunk 8 measured 1364 MiB;
+20 percent per-process memory headroom plus a 768 MiB reserve admitted **two**
+workers from the 32 logical-CPU ceiling. Other projects were not stopped.
+The machine has 16 physical cores / 32 logical CPUs; worker admission is
+limited here by independent GPU contexts rather than CPU availability.
+
+The new cache is `~/rest_8dna_ck21b/results/epoch30_4096spp_tiles_c8/`.
+Its 64-spp full-frame assembly passed finite/shape checks and was opened:
+checker geometry and reflection are visible, with substantial expected
+low-spp noise. The **4096-spp run is ongoing**, launched in a detached server
+process (launcher PID 4124051, current workers 4126666/4126667 at the check).
+Do not interpret the preview as the final image. Final export is gated on
+complete per-tile counts and the expected checkpoint, followed by the existing
+reference / historical ECRO C0 / 8DNA / error-map figure. The original C0
+figure retains its explicitly labelled reference-LOW + learned-H convention.
+
+For the additional ECRO readout, `ecro_followup.json` freezes the selected
+WL100 near final checkpoint (24000 steps, seed10001), SHA256
+`b3550787e08c8a4d41c975eb485be459591d84cf14a7c010a36984d10ac62e5a`,
+the original CK2 scene and the server's frozen renderer/model source hashes.
+The model source is byte-identical after LF normalization to the WL100
+implementation; CPU strict state loading passes with 735664 learned
+parameters and an 8-by-69 material buffer. **Nothing is trained or refitted.**
+The original CK2 S1 material features are supplied to the encoder, instead of
+silently replacing the scene's panel with WL100's alpha .01 / F0 1 material.
+This is material-distribution transfer of that checkpoint, not an in-training
+material evaluation; both the figure and metadata disclose it. Learned
+parameter equality is checked before and after replacing the feature buffer.
+
+`queue_ecro_after_epoch30.sh` is detached on LabServer63 (PID 4129816 at
+launch), currently `waiting_for_8dna_epoch30_4096`. It starts ECRO inference
+only after the completed 8DNA 30-epoch/4096-spp manifest exists; the inference
+script rechecks the final 8DNA identity and all frozen input hashes. ECRO
+builds current geometry state and direct source, evaluates its own response,
+then renders **its own physical e1 + e2 + learned hl** at 4096 spp, batch 8,
+32 distinct 128-spp seed blocks. Reference data is read only during plotting.
+There is no reference-LOW substitution in this additional ECRO result.
+
+That second figure contains REF, 8DNA, WL100 ECRO and both shared-scale HDR
+error maps, with full-frame and fixed reflection crops. The stored reference
+is still four 8192-spp six-event ER renders; 8DNA's native collapsed-asset
+transport is a different depth contract, so measurements are descriptive.
+Output is planned under `evaluation/21B/ecro_ck2_wl100_near_4096spp/` and
+`eval_comparison/ECRO/`; 8DNA exports remain under `eval_comparison/8DNA/`.
+Independent hidden Windows collectors wait for each completion manifest and
+verify every downloaded SHA256. Server computation continues without the
+SSH session; local collection requires this Windows machine to remain awake.
+
+At this checkpoint both **final images remain pending**. Python and shell
+syntax, PowerShell parsing, the fixed ECRO checkpoint load, preview finiteness
+and image appearance, 8DNA progress and ECRO waiting state were checked.
+The complete ECRO inference path is deliberately not run before 8DNA finishes.
+The public Fabric/training queue that the owner stopped remains stopped.

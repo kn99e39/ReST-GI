@@ -21,6 +21,9 @@ def main():
     p.add_argument('--tile-size',type=int,default=0)
     p.add_argument('--task-timeout',type=float,default=120)
     p.add_argument('--cpu-threads',type=int,default=2)
+    p.add_argument('--checkpoint',help='Checkpoint for the tiled execution path')
+    p.add_argument('--scene-bridge',help='Python bridge exposing make_scene(res, max_depth)')
+    p.add_argument('--gpu-reserve-mib',type=int,default=512)
     a=p.parse_args()
     a.auto_workers = a.workers == 'auto'
     try:
@@ -29,9 +32,13 @@ def main():
         p.error("workers must be a positive integer or 'auto'")
     if a.workers < 1 or a.tile_size < 0 or a.task_timeout <= 0 or a.cpu_threads < 1:
         p.error('workers/timeout/cpu-threads must be positive and tile-size nonnegative')
+    if a.gpu_reserve_mib < 0:
+        p.error('gpu-reserve-mib must be nonnegative')
     if a.auto_workers or a.workers > 1 or a.tile_size > 0:
         from parallel_render import run
         return run(a)
+    if a.checkpoint or a.scene_bridge:
+        p.error('Custom scene/checkpoint inputs require --tile-size or --workers auto')
     start=time.perf_counter(); root=Path(a.upstream).resolve(); out=Path(a.out).resolve()
     out.mkdir(parents=True,exist_ok=True); os.chdir(root/'demo'); sys.path.insert(0,str(root))
     import numpy as np

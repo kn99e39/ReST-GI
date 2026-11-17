@@ -1,0 +1,92 @@
+{
+  "status": "frozen_before_ECRO_execution",
+  "purpose": "user-requested descriptive static comparison, no training or lifecycle advantage claim",
+  "checkpoint": "WL100 near, fixed final 24000 steps, seed10001",
+  "checkpoint_sha256": "b3550787e08c8a4d41c975eb485be459591d84cf14a7c010a36984d10ac62e5a",
+  "spp": 4096,
+  "batch_spp": 8,
+  "seed_blocks": "211300+i, i=0..31; 128 spp/block, native PCG per-launch schedule",
+  "resolution": [
+    512,
+    512
+  ],
+  "composition": "own physical e1+e2+learned hl; no reference at inference",
+  "scene": {
+    "tag": "CK2",
+    "targets": [
+      "A"
+    ],
+    "light_set": "LCK2",
+    "camera": {
+      "origin": [
+        0.3,
+        -1.6,
+        1.3
+      ],
+      "target": [
+        -1.3,
+        0.45,
+        1.0
+      ],
+      "fov_deg": 32.0,
+      "res": 512
+    },
+    "geom": {
+      "A": {
+        "c": [
+          -1.08,
+          0.6,
+          1.0
+        ],
+        "h": [
+          0.2,
+          0.45,
+          0.45
+        ],
+        "yaw": 0.15
+      },
+      "B": {
+        "c": [
+          1.4,
+          1.5,
+          0.5
+        ],
+        "h": [
+          0.3,
+          0.25,
+          0.5
+        ],
+        "yaw": 0.0
+      }
+    },
+    "lights": [
+      {
+        "pos": [
+          -1.45,
+          -0.6,
+          1.7
+        ],
+        "rgb": [
+          30.0,
+          30.0,
+          30.0
+        ]
+      }
+    ]
+  },
+  "evaluation_source_sha256": {
+    "ecro86/model86.py": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+    "ecro86/pt86.py": "912e68acd314d79ef0cc270784d99f79ed8024caf856527a127f31e6ccd6c983",
+    "ecro86/ecro86.py": "0ef09a86939745edeac490f5bac9f7112ecc7b9c63c315bc10f30cc93289f428",
+    "ecro86/scene86.py": "b75a2d9cbae1f738429e16fa32095a1c3cdf346bff5f5e55d5576ad14ce39e69",
+    "ecro86/data/mats86.npz": "d3c5be854d80665b11f476eff0333a0232828293d31b28a6069f4dbd81371b3f",
+    "ecro_local93d/addendum_checker/checker93d.py": "c720dcd0d9fad5fa6df4ae127884ac4c50788fb15405f83e4348aebff887f9ea",
+    "ecro_local93d/addendum_checker/scene_ck2.json": "977ba122ab3232e7d428155c0963cff2f7764ce56704274832ee12d37b09de75",
+    "fnto_compiled83/closure83_dr.py": "3eee59095fc77fdb7a965d1a14a124230efa40fda05a2c4744e260b64c904614"
+  },
+  "material_scope": "Original CK2 S1 ER state table plus checker 0.3/0.8. WL100 near training used alpha0.01/F0=1 panel; evaluating original CK2 is material-distribution transfer. Learned parameters unchanged; material feature buffer supplied by current renderer.",
+  "reference_scope": "stored 4x8192 spp six surface-event ER reference, descriptive; native 8DNA collapsed asset differs",
+  "queue_gate": "8DNA epoch30/globalstep245760/4096spp matched4096_complete.json with expected checkpoint sha",
+  "adoption": false,
+  "followup_source_sha256": "bb393f30a0da42732cdf4a3e4ffc9b05abf1eb60e5ce306be3904c410c56ee5c"
+}

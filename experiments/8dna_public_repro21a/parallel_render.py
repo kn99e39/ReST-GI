@@ -15,6 +15,7 @@ import traceback
 from pathlib import Path
 
 from render import atomic_json, sha
+from scene_setup import checkpoint_path, scene_definition, scene_source_path
 
 
 def select_worker_count(args, output):
@@ -25,7 +26,10 @@ def select_worker_count(args, output):
     command = [sys.executable, str(Path(__file__).with_name('diagnose_fabric.py')),
                '--upstream', args.upstream, '--out', str(profile), '--vcall', str(args.vcall),
                '--res', str(args.res), '--spp', str(args.chunk),
+               '--asset', args.asset, '--checkpoint', str(checkpoint_path(args)),
                '--crop', str(offset), str(offset), str(size), str(size)]
+    if args.scene_bridge:
+        command.extend(['--scene-bridge', args.scene_bridge])
     profile.mkdir(exist_ok=True)
     with open(profile/'run.log', 'w') as log:
         process = subprocess.Popen(command, stdout=log, stderr=subprocess.STDOUT, start_new_session=True)
@@ -44,11 +48,11 @@ def select_worker_count(args, output):
                 '--format=csv,noheader,nounits'], text=True).splitlines()[0])
     # Chosen headroom covers allocator differences between tiles.
     estimate = math.ceil(result['gpu_process_mib'] * 1.2)
-    admitted = min(args.workers, max(0, (free-512)//estimate))
+    admitted = min(args.workers, max(0, (free-args.gpu_reserve_mib)//estimate))
     if admitted < 1:
         raise RuntimeError('Insufficient free VRAM for one calibrated worker')
     record = {'requested_cpu_workers': args.workers, 'worker_gpu_mib': result['gpu_process_mib'],
-              'free_gpu_mib': free, 'worker_budget_mib': estimate, 'reserve_mib':512,
+              'free_gpu_mib': free, 'worker_budget_mib': estimate, 'reserve_mib':args.gpu_reserve_mib,
               'selected_workers': admitted}
     atomic_json(output/'worker_admission.json', record)
     print(json.dumps({'event':'worker_admission', **record}),flush=True)
@@ -92,11 +96,11 @@ def worker_main(args, tasks, events, rank, identity):
         torch.set_num_threads(args.cpu_threads)
         dr.set_flag(dr.JitFlag.LoopRecord, False)
         dr.set_flag(dr.JitFlag.VCallRecord, bool(args.vcall))
-        definition = importlib.import_module('scenes.' + args.asset).scene1(args.res)
+        definition = scene_definition(args)
         scene = mi.load_dict(definition)
         integrator = scene.integrator() if args.method == 'pt' else mi.load_dict({
             'type': 'neuralpath', 'max_depth': 10, 'rr_depth': 5, 'device': 0,
-            'model_type': '8dna', 'asset_instance0': str(root / 'checkpoints' / (args.asset + '.ckpt'))})
+            'model_type': '8dna', 'asset_instance0': str(checkpoint_path(args))})
         border = int(math.ceil(scene.sensors()[0].film().rfilter().radius()))
         events.put({'event': 'ready', 'worker': rank, 'pid': os.getpid()})
         while True:
@@ -139,6 +143,7 @@ def worker_main(args, tasks, events, rank, identity):
                 dr.eval(image)
                 torch.cuda.synchronize()
                 pixels = np.array(image, dtype=np.float64)[y-top:y-top+height, x-left:x-left+width]
+                del image
                 if pixels.shape != total.shape or not np.isfinite(pixels).all():
                     raise ValueError('Invalid tile image')
                 total += pixels * count
@@ -213,8 +218,8 @@ def run(args):
     config = {'mode': 'parallel_tiles_v1', 'asset': args.asset, 'method': args.method,
               'rep': args.rep, 'resolution': args.res, 'tile_size': args.tile_size,
               'chunk': args.chunk, 'vcall': bool(args.vcall),
-              'checkpoint_sha256': sha(root/'checkpoints'/f'{args.asset}.ckpt'),
-              'scene_source_sha256': sha(root/'scenes'/args.asset/'__init__.py'),
+              'checkpoint_sha256': sha(checkpoint_path(args)),
+              'scene_source_sha256': sha(scene_source_path(args)),
               'seed_schedule': 'method base + 100000*rep + 1000000*tile_index + completed_spp',
               'reconstruction': 'Filter-radius overlap rendered around each tile, then interior crop'}
     identity = hashlib.sha256(json.dumps(config, sort_keys=True).encode()).hexdigest()
@@ -229,8 +234,8 @@ def run(args):
         return
     requested_workers = args.workers
     if args.auto_workers:
-        if args.asset != 'fabric' or args.method != 'neural':
-            raise ValueError('Automatic memory calibration currently targets Fabric neural rendering')
+        if args.method != 'neural':
+            raise ValueError('Automatic memory calibration currently targets neural rendering')
         args.workers = select_worker_count(args, output)
     metadata = {'key': key, 'arguments': vars(args).copy(), 'execution': config,
                 'execution_identity': identity, 'completed_spp': 0, 'chunks': [],

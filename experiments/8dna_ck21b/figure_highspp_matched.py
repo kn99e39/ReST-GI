@@ -2,20 +2,22 @@
 import hashlib
 import json
 import math
+import sys
 from pathlib import Path
 import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 base=Path.home()/'rest_8dna_ck21b'
-stem='8dna_ck2_epoch18_4096spp'
+epochs=int(sys.argv[1]) if len(sys.argv)>1 else 18
+stem=f'8dna_ck2_epoch{epochs:02d}_4096spp'
 out=base/'results'/stem
 marker=out/'matched4096_complete.json'
 if marker.exists():
     print('Matched comparison already complete'); raise SystemExit(0)
 record=json.loads((out/'complete.json').read_text())
 assert record['status']=='complete' and record['spp_completed']==4096
-assert record['epochs_completed']==18 and record['checkpoint_global_step']==147456
+assert record['epochs_completed']==epochs and record['checkpoint_global_step']==epochs*8192
 sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 neural_path=out/(stem+'.npy')
 assert sha(neural_path)==record['files'][neural_path.name]
@@ -46,7 +48,7 @@ maximum=max(float(e.max()) for e in errors)
 fig,axs=plt.subplots(2,5,figsize=(18,8.2),squeeze=False)
 titles=['CK2 REF-ER\n4 x 8192 spp; 6 events',
     'ReST-GI ECRO C0, s8601\n4096 spp, r0; REF LOW + learned H',
-    '8DNA (18/30 epochs, INTERMEDIATE)\n4096 spp total; no denoising',
+    f'8DNA ({epochs}/30 epochs)\n4096 spp total; no denoising',
     '|ReST-GI - REF|','|8DNA - REF|']
 for row in range(2):
     cut=(slice(None),slice(None)) if row==0 else crop
@@ -62,8 +64,8 @@ for row in range(2):
 fig.subplots_adjust(left=.015,right=.91,top=.87,bottom=.14,wspace=.08,hspace=.2)
 cax=fig.add_axes([.93,.20,.012,.56]); fig.colorbar(mapped,cax=cax,label='sqrt(mean RGB |HDR difference|), shared scale')
 fig.suptitle('CK2 checkerboard interreflection: references and candidates (4096 spp)',fontsize=15)
-fig.text(.02,.065,'8DNA: 4096 spp total. ReST-GI learned H: 4096 spp, plus stored high-spp REF LOW. Display: x/(1+x), gamma 2.2, exposure 1.\nReST-GI: frozen C0 s8601 r0 (seed 86600). 8DNA: fixed 18/30-epoch learned asset. No denoising.\nOriginal frozen ER materials/camera/light. Native asset full transport differs from the six-event target; descriptive static comparison.',fontsize=9)
-filename='ck2_references_and_candidates_epoch18_matched4096spp.png'
+fig.text(.02,.065,f'8DNA: 4096 spp total. ReST-GI learned H: 4096 spp, plus stored high-spp REF LOW. Display: x/(1+x), gamma 2.2, exposure 1.\nReST-GI: frozen C0 s8601 r0 (seed 86600). 8DNA: fixed {epochs}/30-epoch learned asset. No denoising.\nOriginal frozen ER materials/camera/light. Native asset full transport differs from the six-event target; descriptive static comparison.',fontsize=9)
+filename=f'ck2_references_and_candidates_epoch{epochs:02d}_matched4096spp.png'
 fig.savefig(out/filename,dpi=140); plt.close(fig)
 files={name:record['files'][name] for name in [stem+'.png',stem+'.npy',stem+'.exr']}
 files[filename]=sha(out/filename)

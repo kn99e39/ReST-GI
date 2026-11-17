@@ -1,0 +1,36 @@
+{"phase": "import_start", "seconds": 9.857676923274994e-05}
+{"phase": "scene_load_start", "seconds": 2.3463679030537605, "vcall": 0, "res": 512, "spp": 64}
+{"phase": "asset_load_start", "seconds": 2.664307491853833}
+{"phase": "render_start", "seconds": 3.761167172342539, "repeat": 0}
+Traceback (most recent call last):
+  File "/home/nd/rest_8dna_public21a/scripts/diagnose_fabric.py", line 62, in <module>
+    image = mi.render(scene, integrator=integrator, spp=args.spp, seed=901000+repeat)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522, in render
+    return dr.custom(_RenderOp, scene, sensor, params, integrator,
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776, in custom
+    output = inst.eval(**{ k: _dr.detach(v) for k, v in kwargs.items() })
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377, in eval
+    return self.integrator.render(
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 170, in sample
+    ds, emit_weight, asset_value_emit, asset_pdf_emit = asset_model.eval_asset(
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 299, in eval_asset
+    xo_,_,weight_xo_ = self.sample_xo(channel_,sample2_1.torch()[mask],cond_)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 105, in sample_xo
+    xo,vpdf_xo = self.flow_xo.sample(channel, sample2*2-1, cond)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115, in decorate_context
+    return func(*args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/normflow.py", line 94, in sample
+    params_phi = self.mlp_phi(torch.cat([cond,self.encode_z(z)],-1))
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/nn/modules/container.py", line 217, in forward
+    input = module(input)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541, in _call_impl
+    return forward_call(*args, **kwargs)
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/nn/modules/linear.py", line 116, in forward
+    return F.linear(input, self.weight, self.bias)
+torch.cuda.OutOfMemoryError: CUDA out of memory. Tried to allocate 1.16 GiB. GPU 
