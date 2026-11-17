@@ -30,17 +30,25 @@ def wait_idle(need_s=int(os.environ.get('DYN101_IDLE_S', '60'))):
         time.sleep(5); waited += 5
 
 
-def run(out, *args):
+class ChainFailed(Exception):
+    pass
+
+
+def run(out, *args, gate=True):
+    """gate=True for timing steps (GPU alone); quality renders are not timing evidence and run without the gate."""
     if Path(out).exists():
         LOG.write(f'SKIP {out}\n'); return
-    wait_idle()
+    Path(out).parent.mkdir(parents=True, exist_ok=True)
+    if gate:
+        wait_idle()
     t0 = time.time()
     LOG.write(f'START {time.strftime("%Y-%m-%d %H:%M:%S")} {" ".join(map(str, args))}\n')
     with open(str(out) + '.log', 'w') as f:
         r = subprocess.run([PY, '-u', *map(str, args)], cwd=str(HERE), stdout=f, stderr=subprocess.STDOUT)
     LOG.write(f'END rc={r.returncode} {time.time() - t0:.1f}s {out}\n')
     if r.returncode != 0 or not Path(out).exists():
-        LOG.write(f'FAILED {out}\n'); (O / 'chain.status').write_text(f'FAILED {out}\n'); sys.exit(1)
+        LOG.write(f'FAILED {out}\n'); (O / 'chain.status').write_text(f'FAILED {out}\n')
+        raise ChainFailed(str(out))
 
 
 T = O / 'timing'
@@ -53,12 +61,27 @@ for wl in ['SEL', 'V_SSS_TOUR', 'V_NEAR_TOUR', 'V_SSS_ANIM']:
     run(T / f'{wl}_B_full_r1.json', 'run_b101.py', wl, 'B_full', T / f'{wl}_B_full_r1')
     run(T / f'{wl}_B_eager_r1.json', 'run_b101.py', wl, 'B_eager', T / f'{wl}_B_eager_r1')
 Qd = O / 'quality'
-for wl in ['V_SSS_TOUR', 'V_NEAR_TOUR']:
+import threading  # noqa: E402
+errs = []
+
+
+def quality(wl):
+    """Quality renders of one scene (sequential inside the scene); the two scenes run concurrently (no timing is taken here)."""
     case = 'sss' if 'SSS' in wl else 'near'
     d = Qd / case
-    run(d / 'MAP_1.npz', 'qual_a101.py', 'ref', wl, d)
-    run(d / 'PRED_A_1.json', 'qual_a101.py', 'pred', wl, d)
-    run(d / 'PRED_B_1.json', 'qual_b101.py', wl, d)
+    try:
+        run(d / 'MAP_1.npz', 'qual_a101.py', 'ref', wl, d, gate=False)
+        run(d / 'PRED_A_1.json', 'qual_a101.py', 'pred', wl, d, gate=False)
+        run(d / 'PRED_B_1.json', 'qual_b101.py', wl, d, gate=False)
+    except ChainFailed as e:
+        errs.append(str(e))
+
+
+th = [threading.Thread(target=quality, args=(wl,)) for wl in ['V_SSS_TOUR', 'V_NEAR_TOUR']]
+[t.start() for t in th]
+[t.join() for t in th]
+if errs:
+    sys.exit(1)
 Sd = O / 'scaling'
 for s in ['1.5', '2.0', '3.0']:
     run(Sd / f'V_SSS_TOUR_A_sel_s{s}.json', 'run_a101.py', 'V_SSS_TOUR', 'A_sel', Sd / f'V_SSS_TOUR_A_sel_s{s}', f'--scale={s}')
