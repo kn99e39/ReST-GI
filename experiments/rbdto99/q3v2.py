@@ -29,13 +29,12 @@ C_MIN = 0.05
 
 
 def gblur(x, s):
-    """Separable Gaussian blur (sigma s px), reflect padding."""
+    """Separable Gaussian blur (sigma s px), mirror padding, truncated at 3 sigma (scipy.ndimage; WL99A execution: replaces a numpy
+    apply_along_axis version of the same filter before any v2 value entered the evidence summary)."""
     if s <= 0:
         return x.copy()
-    r = int(np.ceil(3 * s))
-    k = np.exp(-0.5 * (np.arange(-r, r + 1) / s) ** 2); k /= k.sum()
-    y = np.apply_along_axis(lambda v: np.convolve(np.pad(v, r, mode='reflect'), k, 'valid'), 0, x)
-    return np.apply_along_axis(lambda v: np.convolve(np.pad(v, r, mode='reflect'), k, 'valid'), 1, y)
+    from scipy.ndimage import gaussian_filter
+    return gaussian_filter(np.asarray(x, np.float64), s, mode='mirror', truncate=3.0)
 
 
 def mblur(x, m, s):

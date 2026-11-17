@@ -45,13 +45,20 @@ def ref(name, cfg, half, spp, res, store):
         return dict(np.load(path))
     set_ctx(cfg)
     seed = (990001 if half == 'A' else 990501) + int(hashlib.sha256(name.encode()).hexdigest()[:6], 16) % 400 + (0 if res == 384 else 7000 + res)
-    b = max(1, int(19_000_000 // (res * res)))
+    b = max(1, int(38_000_000 // (res * res)))                      # ~38 M lanes per launch (GPU otherwise idle)
     acc, Tm = ctx.render(cfg['camera'], res, spp, seed=seed, b=b)
     r = pt99.pack(acc, spp)
     out = {k: (v.reshape(res, res, 3) if v.ndim == 2 else v.reshape(res, res)).astype(np.float32) for k, v in r.items()}
-    np.savez_compressed(path, **out)
+    np.savez(path, **out)
     status(f'REF {name} {half} spp={spp} res={res} wall={Tm["wall_s"]:.1f}s gpu_ms={Tm["gpu_ms"]:.0f}')
     return out
+
+
+JOBS = {}
+
+
+def ref_path(name, half, spp, res, store):
+    return os.path.join(store, 'refs', f'{name}_{half}_{spp}.npz') if res == 384 else os.path.join(OUT, 'refs', f'{name}_{half}_{spp}_r{res}.npz')
 
 
 def pair(name, cfg, spp, res, store):
@@ -89,10 +96,28 @@ def v1_q3(R, sharp):
 
 
 def analyse(name, cfg, A, B, R, res):
+    """v2 (cheap) now; the WL99 v1 Q3 statistics (expensive window quantiles) are computed after all renders by v1_pass()."""
     body, roi, sharp = masks_res(R, res)
     f = footprint(cfg, res, roi)
-    return {'v1': v1_q3(R, sharp), 'v2': q3v2.measure(A, B, roi, R['mb'], f, res), 'footprint_mm': 1e3 * f,
-            'v1_halfA': v1_q3(A, sharp), 'v1_halfB': v1_q3(B, sharp)}
+    return {'v2': q3v2.measure(A, B, roi, R['mb'], f, res), 'footprint_mm': 1e3 * f}
+
+
+def _v1_job(args):
+    pa, pb = args
+    A = dict(np.load(pa)); B = dict(np.load(pb))
+    R = {k: (A[k].astype(np.float64) + B[k]) / 2 for k in A}
+    sharp = wl99.masks(R)[2]
+    return {'v1': v1_q3(R, sharp), 'v1_halfA': v1_q3(A, sharp), 'v1_halfB': v1_q3(B, sharp)}
+
+
+def v1_pass(R_, jobs):
+    """WL99 v1 Q3 on every analysed (candidate, state, resolution) in parallel CPU processes."""
+    from multiprocessing import Pool
+    keys = list(jobs)
+    with Pool(min(24, len(keys))) as pool:
+        res = pool.map(_v1_job, [jobs[k] for k in keys])
+    for (wid, key), r in zip(keys, res):
+        R_['candidates'][wid][key].update(r)
 
 
 def cand_list():
@@ -132,11 +157,14 @@ def main():
             a768 = pair(f'{wid}_{st}', cf[st], SPP(8192), 768, OUT)
             c[f'{st}_384'] = analyse(wid, cf[st], *a384, 384)
             c[f'{st}_768'] = analyse(wid, cf[st], *a768, 768)
+            JOBS[(wid, f'{st}_384')] = (ref_path(f'{wid}_{st}', 'A', spp, 384, store), ref_path(f'{wid}_{st}', 'B', spp, 384, store))
+            JOBS[(wid, f'{st}_768')] = (ref_path(f'{wid}_{st}', 'A', SPP(8192), 768, OUT), ref_path(f'{wid}_{st}', 'B', SPP(8192), 768, OUT))
             C3, C7 = c[f'{st}_384']['v2']['C'], c[f'{st}_768']['v2']['C']
             c[f'{st}_conv_384_768'] = abs(C3 - C7) / max(C7, 1e-12)
             if c[f'{st}_conv_384_768'] > 0.20 and st == 'T0':
                 a1536 = pair(f'{wid}_{st}', cf[st], SPP(4096), 1536, OUT)
                 c[f'{st}_1536'] = analyse(wid, cf[st], *a1536, 1536)
+                JOBS[(wid, f'{st}_1536')] = (ref_path(f'{wid}_{st}', 'A', SPP(4096), 1536, OUT), ref_path(f'{wid}_{st}', 'B', SPP(4096), 1536, OUT))
                 c[f'{st}_conv_768_1536'] = abs(C7 - c[f'{st}_1536']['v2']['C']) / max(c[f'{st}_1536']['v2']['C'], 1e-12)
             save()
         status(f'Q3 {wid} done')
@@ -151,6 +179,8 @@ def main():
             lim = max(3 * wl99.rel_noise(A0['Sd'], B0['Sd'], m0[1]), 0.02)
             R_['candidates'][w['id']]['Q4_matched'] = {'spp': spp, 'rel_diff': d, 'limit': lim, 'pass': bool(d <= lim)}
             save()
+    status('V1_PASS start')
+    v1_pass(R_, JOBS)
     finalize(R_)
     save(); status('END ' + R_['verdict'])
 
