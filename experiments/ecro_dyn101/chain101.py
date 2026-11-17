@@ -11,9 +11,29 @@ O = Path(sys.argv[1]).resolve()
 LOG = open(O / 'chain.log', 'a', buffering=1)
 
 
+def gpu_util():
+    try:
+        r = subprocess.run(['nvidia-smi', '--query-gpu=utilization.gpu', '--format=csv,noheader,nounits'], capture_output=True, text=True, timeout=20)
+        return int(r.stdout.strip().splitlines()[0])
+    except Exception:  # noqa: BLE001
+        return 100
+
+
+def wait_idle(need_s=60):
+    """Protocol contention rule: start a step only after the GPU has stayed below 5 % utilisation for need_s seconds."""
+    quiet, waited = 0, 0
+    while quiet < need_s:
+        u = gpu_util()
+        quiet = quiet + 5 if u < 5 else 0
+        if waited % 600 == 0 and u >= 5:
+            LOG.write(f'WAIT gpu {u}% {time.strftime("%H:%M:%S")}\n')
+        time.sleep(5); waited += 5
+
+
 def run(out, *args):
     if Path(out).exists():
         LOG.write(f'SKIP {out}\n'); return
+    wait_idle()
     t0 = time.time()
     LOG.write(f'START {time.strftime("%Y-%m-%d %H:%M:%S")} {" ".join(map(str, args))}\n')
     with open(str(out) + '.log', 'w') as f:
