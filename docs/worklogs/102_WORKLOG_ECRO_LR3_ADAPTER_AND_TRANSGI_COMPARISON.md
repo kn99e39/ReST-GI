@@ -60,3 +60,39 @@
    - per-patch source totals;
    - field f2 / fh at 256 spp;
    - a D = 6 camera render at 256 spp.
+
+## 2026-11-17 — References on LabServer69 (no ECRO result yet)
+
+| | GI mean (R, G, B) | GI noise RMSE | full spp × halves |
+|---|---|---|---|
+| Ref-65 (max_depth 65) | 0.5445, 0.3494, 0.2799 | 0.00392 | 65,536 × 2 |
+| Ref-7 (max_depth 7 = 6 events) | 0.3632, 0.2684, 0.2276 | 0.00298 | 65,536 × 2 |
+
+- **Truncation error.** Ref-7 vs Ref-65, GI mean −33.3 % / −23.2 % / −18.7 %; GI LDR RMSE 0.0963. LR3's albedo-≈1 white paint keeps long paths important.
+  - This exceeds the TransGI paper's total LR3 error (LDR RMSE 0.058) and the TransGI reproduction's LeakyReLU result on LabServer63 (0.077, for orientation only).
+  - It bounds what a 6-event ECRO can reach on Ref-65 whatever its representation accuracy.
+- **Ref-7 vs Ref-65 DI.** The DI of the two references agrees to 6.7e-6, so they share the same DI (common random numbers).
+- **Host check of the TransGI reference (LabServer63 copy vs LabServer69).**
+  - GI agrees within noise (RMSE 0.00069 vs noise 0.0039).
+  - FULL and DI differ by ≈ 5× their noise (DI 0.0030 vs 0.0006); the errors are common to FULL and DI and cancel in GI.
+  - This is consistent with WL55's LabServer63 film-accumulation finding. It concerns the TransGI reproduction's GI+DI metrics at the 0.3 % level, not its GI metrics.
+
+## 2026-11-17 — Gates A1–A3 (adapter validation) and execution fixes
+
+Code: `experiments/ecro_lr3_102/{mesh102.py, pt102.py, gate_a1.py, gate_a2.py}`. Results: `gate_a1.json`, `gate_a2.json` (copied next to the code; raw arrays on LabServer69 `~/rest_wl102/results/wl102/`).
+
+- **A2: PASS.** LR3, physical tracer at D = 6 with the scene's area light and Mitsuba BSDFs, 2 × 1,024 spp, vs Ref-7.
+  - GI mean difference ≤ 0.008 % per channel; RMSE / combined noise 1.002.
+  - FULL: ≤ 0.007 %, 1.005. DI: ≤ 0.003 %, 1.09.
+  - This validates the mesh geometry, camera, area-light NEE, two-sided handling, material dispatch and the event convention against Mitsuba itself.
+- **A1: PASS.** ECRO room E1_T0, all-Lambert, its point lights; mesh path vs pt86 on the 1,088 shell patches whose regions coincide. Mesh-vs-pt86 RMSE / pt86 seed-to-seed RMSE:
+  - openness 0.70 (means 0.1891 / 0.1890);
+  - source totals 0.98;
+  - field (2..5 events, 256 spp) 1.03 (0.929 / 0.930);
+  - D = 6 render (512², 256 spp) 0.99 (1.768 / 1.768).
+- **A3: PASS** (Amendment 1 numbers above): N = 8,051 < 32,768.
+- **Execution fixes before passing.** All are adapter or test-fixture defects found by A1; none changes a rule or threshold, and no LR3 ECRO result existed.
+  1. The polygon clipping dropped vertices lying exactly on a cutting plane from the upper piece, losing area on cell-aligned diagonals. Fixed so that such a vertex belongs to both sides; a unit check conserves area exactly.
+  2. A planar face lying on a cell plane (the ECRO room's walls at x = ±2, floor z = 0) had its normal-axis coordinate jitter across that plane in float32, so its key lookup failed for about half the hits. The lookup now retries the neighbouring cell along the face's dominant-normal axis.
+  3. Gate A1's test sphere mesh had inward winding, so it was treated as the inside of a closed mesh.
+- **LR3 A2 numbers are identical before and after fix 2.** LR3's walls do not lie on cell planes.

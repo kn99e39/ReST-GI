@@ -49,11 +49,18 @@ def _clip(poly, axis, val):
     for i in range(k):
         p, q = poly[i], poly[(i + 1) % k]
         dp, dq = p[axis] - val, q[axis] - val
-        (lo if dp <= 0 else hi).append(p)
+        if dp <= 0:
+            lo.append(p)
+        if dp >= 0:                                   # a vertex on the plane belongs to both sides
+            hi.append(p)
         if (dp < 0 < dq) or (dq < 0 < dp):
             x = p + (q - p) * (dp / (dp - dq))
             lo.append(x); hi.append(x)
-    f = lambda l: np.array(l) if len(l) >= 3 else None
+    def f(l):
+        if len(l) < 3:
+            return None
+        P = np.array(l)
+        return P if 0.5 * np.linalg.norm(np.cross(P[1] - P[0], P[2:] - P[0]).sum(0)) > 0 else None
     return f(lo), f(hi)
 
 
