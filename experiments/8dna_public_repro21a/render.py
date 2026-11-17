@@ -16,7 +16,22 @@ def main():
     p.add_argument('--asset',required=True); p.add_argument('--method',choices=['neural','pt'],required=True)
     p.add_argument('--spp',type=int,required=True); p.add_argument('--rep',type=int,default=0)
     p.add_argument('--res',type=int,default=800); p.add_argument('--chunk',type=int,default=4)
-    p.add_argument('--vcall',type=int,default=0); a=p.parse_args()
+    p.add_argument('--vcall',type=int,default=0)
+    p.add_argument('--workers',default='1',help="Process count, or 'auto' to use CPU/VRAM measurements")
+    p.add_argument('--tile-size',type=int,default=0)
+    p.add_argument('--task-timeout',type=float,default=120)
+    p.add_argument('--cpu-threads',type=int,default=2)
+    a=p.parse_args()
+    a.auto_workers = a.workers == 'auto'
+    try:
+        a.workers = len(os.sched_getaffinity(0)) if a.auto_workers else int(a.workers)
+    except ValueError:
+        p.error("workers must be a positive integer or 'auto'")
+    if a.workers < 1 or a.tile_size < 0 or a.task_timeout <= 0 or a.cpu_threads < 1:
+        p.error('workers/timeout/cpu-threads must be positive and tile-size nonnegative')
+    if a.auto_workers or a.workers > 1 or a.tile_size > 0:
+        from parallel_render import run
+        return run(a)
     start=time.perf_counter(); root=Path(a.upstream).resolve(); out=Path(a.out).resolve()
     out.mkdir(parents=True,exist_ok=True); os.chdir(root/'demo'); sys.path.insert(0,str(root))
     import numpy as np

@@ -1,0 +1,51 @@
+{
+  "key": "fabric_neural_r0_256",
+  "arguments": {
+    "upstream": "/home/nd/NeuralShaderDemo/external/8dna26",
+    "out": "/home/nd/rest_8dna_public21a/results/fabric_execution_probe/parallel4",
+    "asset": "fabric",
+    "method": "neural",
+    "spp": 32,
+    "rep": 0,
+    "res": 256,
+    "chunk": 4,
+    "vcall": 0,
+    "workers": 1,
+    "tile_size": 64,
+    "task_timeout": 60.0,
+    "cpu_threads": 2,
+    "auto_workers": false,
+    "tile_directory": "/home/nd/rest_8dna_public21a/results/fabric_execution_probe/parallel4/fabric_neural_r0_256_tiles"
+  },
+  "execution": {
+    "mode": "parallel_tiles_v1",
+    "asset": "fabric",
+    "method": "neural",
+    "rep": 0,
+    "resolution": 256,
+    "tile_size": 64,
+    "chunk": 4,
+    "vcall": false,
+    "checkpoint_sha256": "84c887cf8e40f4ccdcc8b4e8b5d7a06ef5fba56cae0a094c62edf997f118f40e",
+    "scene_source_sha256": "a536aeb015764d61edeaa7fd22ebc1a048c3bf6d78cf772fff7b5de8260d265a",
+    "seed_schedule": "method base + 100000*rep + 1000000*tile_index + completed_spp",
+    "reconstruction": "Filter-radius overlap rendered around each tile, then interior crop"
+  },
+  "execution_identity": "678eb180869d666bb226507014ce058cf1ef2302d1792ef7f27b134edd87e7b9",
+  "completed_spp": 32,
+  "chunks": [],
+  "checkpoint_sha256": "84c887cf8e40f4ccdcc8b4e8b5d7a06ef5fba56cae0a094c62edf997f118f40e",
+  "scene_source_sha256": "a536aeb015764d61edeaa7fd22ebc1a048c3bf6d78cf772fff7b5de8260d265a",
+  "requested_workers": 1,
+  "jit_flags": {
+    "LoopRecord": false,
+    "VCallRecord": false
+  },
+  "cache_only_completion": true,
+  "timed_wall_s": 0.5124705582857132,
+  "end_to_end_wall_s": 0.5278812255710363,
+  "worker_cpu_seconds": 0.0,
+  "average_cpu_cores": 0.0,
+  "last_checkpoint_sha256": "66b2eea183dd4c926d0941a37bf893c5ac004461c8b97c2ba7ac0aa299e4491b",
+  "status": "complete"
+}

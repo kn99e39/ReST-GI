@@ -174,3 +174,99 @@ The active public evaluation is stopped. Its interruption is a user stop.
 The process record and original Fabric log are preserved under
 `evaluation/21A/execution_evidence/`. The completed CK2 30-epoch fit and
 previously collected images remain available at their recorded locations.
+
+## User-authorized Fabric parallel execution follow-up (2026-11-17)
+
+The user requested preventing the one-core Fabric execution and questioned
+limiting parallelism to two workers on the 32-logical-CPU server. This
+execution follow-up changes batching, process scheduling, observability and
+recovery. It uses the same released Fabric scene1, weights and native CUDA
+neuralpath integrator. The stopped public evaluation queue stays stopped.
+Small probes and one bounded Fabric completion validate the implementation.
+
+### Attribution and batching probe
+
+Independent 32-square 1-spp probes completed in both virtual-call modes.
+VCallRecord=false took 1.33 seconds in the render call after loading;
+VCallRecord=true took 6.89 seconds. The notebook's false mode remains in use.
+The 800-square, 4-spp full-frame probe exceeded its 75-second limit. Repeated
+faulthandler snapshots locate the Python caller at upstream
+`models/integrator.py:134`, `scene.ray_intersect`. This narrows the observed
+large-wavefront stall to that native call. The internal C++ hotspot remains
+unresolved. A 128-square crop of the identical 800-square camera completed
+the 4-spp render call in 0.91 seconds, with peak PyTorch allocation 293710336
+bytes. Batching by camera crop therefore provides a measured execution fix.
+
+### Implemented execution path
+
+`render.py --workers N --tile-size S` dispatches to `parallel_render.py`.
+The legacy default invocation retains its existing entry path. Spawned
+processes each hold one native CUDA scene/model and render independent tiles.
+Crop sensors retain the full image dimensions/camera. Filter-radius overlap
+is rendered and discarded around tile interiors before assembly. Explicit
+per-tile seed ranges make scheduling independent of random streams.
+
+Per-tile float64 sums and first-128 sums are written atomically every 32 spp
+and at the requested target. Configuration identity, dimensions, counts and
+finite values are checked on resume. The coordinator reports progress every
+five seconds with worker PIDs, CPU use, pixel-sample progress and ETA. Workers
+that make no progress within the chosen timeout are terminated with their
+process groups. The next invocation can use committed tile caches. Parent
+death also terminates the GPU workers. Torch compiler worker proliferation is
+limited through TORCHINDUCTOR_COMPILE_THREADS=1 per render worker.
+
+`--workers auto` requests the number of CPUs in the current affinity mask,
+32 here (16 physical cores with SMT). It calibrates a representative center
+tile and measures process GPU memory. The implementation chooses a 20%
+per-worker memory margin and a shared 512-MiB reserve. These are scheduler
+headroom choices. During the full-frame validation, calibration measured
+2434 MiB per worker and 7984 MiB free, selecting two simultaneous workers.
+Thus this implementation does not demonstrate 32 simultaneous GPU-resident
+workers. Other project's GPU allocation varied from about 3.6 to 6.2 GiB
+during the probes and was left running.
+
+The one-command entry is
+`bash ~/rest_8dna_public21a/scripts/launch_fabric_parallel.sh [spp] [workers]`.
+Its defaults are 800-square, 128 spp, 128-square tiles and automatic worker
+selection. It writes its own execution outputs under `results/fabric_parallel_v1/`.
+The original public queue was not resumed by this change.
+
+### Measured validation
+
+On the same 256-square, 32-spp, 64-square-tile workload, one process took
+30.069 seconds and two took 20.621 seconds, a 1.458x end-to-end speedup.
+Recorded average CPU use was 1.088 versus 2.110 logical cores. Serial and
+parallel images are bit-identical. A 16-to-32-spp continuation that changes
+from one to two processes is also bit-identical to the uninterrupted result.
+Camera-ray differences between full/cropped sensors are <=1.20e-7.
+A constant-illumination test has zero seam difference after tile assembly.
+
+The four-worker expansion probe encountered slow initialization in two
+workers while the other two committed all 16 tiles. The first coordinator
+then treated delayed worker shutdown as failure. The revised coordinator
+releases unused workers once all tiles are committed. The completed tile
+cache was recovered into a bit-identical image in 0.512 seconds. This cached
+recovery time is not a four-worker rendering speed measurement.
+
+A deliberate 0.5-second no-progress timeout produced the expected failed
+status and ended the test workers. GPU process checks afterwards showed only
+the unrelated project workload. All local HDR arrays are finite. Source
+syntax and the legacy/parallel timing interpretation were checked. The
+analysis helper now recognizes tile metadata and avoids summing concurrent
+tile durations as a full-frame rendering time. Unavailable or differently
+scoped timing measurements are labelled in its report.
+
+The actual 800-square Fabric frame completed all 128 spp. Its initial 4-spp
+stage took 16.603 seconds in workers; extending 4 to 128 took 208.525 seconds
+in workers, 214.973 seconds including that invocation's calibration. This
+is a resumed render, so 208.525 seconds alone excludes the initial 4-spp
+stage. GPU use reached 90% in the live check and 73% in the saved CSV sample.
+The image was opened locally; fabric geometry/shading and the assembled frame
+are visible, with residual Monte Carlo grain. This execution qualification
+does not add a reconstruction-quality verdict against a converged reference.
+
+The complete logs, stacks, configuration, numerical checks, native HDRs and
+review PNG are under `evaluation/21A/fabric_parallel/`, inventoried in its
+SHA256 manifest. The selected measurements are summarized in
+`execution_summary.json`. The old stopped-run evidence is preserved in the
+previous section and its execution_evidence directory.

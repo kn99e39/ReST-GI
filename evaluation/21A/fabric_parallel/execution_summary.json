@@ -1,0 +1,41 @@
+{
+  "full_frame_resolution": [
+    800,
+    800
+  ],
+  "completed_spp": 128,
+  "initial_4spp_worker_wall_seconds": 16.603379039093852,
+  "extension_4_to_128_worker_wall_seconds": 208.52548894286156,
+  "extension_end_to_end_seconds": 214.9733581300825,
+  "worker_admission": {
+    "requested_cpu_workers": 32,
+    "worker_gpu_mib": 2434,
+    "free_gpu_mib": 7984,
+    "worker_budget_mib": 2921,
+    "reserve_mib": 512,
+    "selected_workers": 2
+  },
+  "average_cpu_cores": 2.1035314906965232,
+  "validation": {
+    "camera_ray_max_abs": 1.1920928955078125e-07,
+    "constant_scene_seam_max_abs": 0.0,
+    "serial_parallel_max_abs": 0.0,
+    "wall_seconds": [
+      30.069430474191904,
+      20.621445709839463
+    ],
+    "speedup": 1.4581630646703088,
+    "average_cpu_cores": [
+      1.0881480368146321,
+      2.109938638141896
+    ],
+    "resume_max_abs": 0.0
+  },
+  "four_worker_probe": "Initialization delay caused failure after all tiles had been committed. Revised coordinator recovered the complete image from cache.",
+  "no_progress_watchdog": {
+    "status": "failed",
+    "error": "Worker 0 made no progress for 0.5 seconds",
+    "completed_tiles": 0
+  },
+  "preview_display": "clip(max(HDR,0)^(1/2.2),0,1)"
+}

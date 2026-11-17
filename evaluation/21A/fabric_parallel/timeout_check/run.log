@@ -1,0 +1,48 @@
+Timeout (0:00:00.500000)!
+Thread 0x00007b1b7173d740 (most recent call first):
+  File "<frozen importlib._bootstrap>", line 241 in _call_with_frames_removed
+  File "<frozen importlib._bootstrap_external>", line 1176 in create_module
+  File "<frozen importlib._bootstrap>", line 571 in module_from_spec
+  File "<frozen importlib._bootstrap>", line 674 in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1006 in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 1027 in _find_and_load
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/__init__.py", line 239 in <module>
+  File "<frozen importlib._bootstrap>", line 241 in _call_with_frames_removed
+  File "<frozen importlib._bootstrap_external>", line 883 in exec_module
+  File "<frozen importlib._bootstrap>", line 688 in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1006 in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 1027 in _find_and_load
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 84 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+Timeout (0:00:00.500000)!
+Thread 0x000072eaab991740 (most recent call first):
+  File "<frozen importlib._bootstrap>", line 241 in _call_with_frames_removed
+  File "<frozen importlib._bootstrap_external>", line 1176 in create_module
+  File "<frozen importlib._bootstrap>", line 571 in module_from_spec
+  File "<frozen importlib._bootstrap>", line 674 in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1006 in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 1027 in _find_and_load
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/__init__.py", line 239 in <module>
+  File "<frozen importlib._bootstrap>", line 241 in _call_with_frames_removed
+  File "<frozen importlib._bootstrap_external>", line 883 in exec_module
+  File "<frozen importlib._bootstrap>", line 688 in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 1006 in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 1027 in _find_and_load
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 84 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+Traceback (most recent call last):
+  File "/home/nd/rest_8dna_public21a/scripts/render.py", line 87, in <module>
+    if __name__=='__main__': main()
+  File "/home/nd/rest_8dna_public21a/scripts/render.py", line 34, in main
+    return run(a)
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 295, in run
+    raise TimeoutError(f'Worker {rank} made no progress for {args.task_timeout} seconds')
+TimeoutError: Worker 0 made no progress for 0.5 seconds

@@ -1,0 +1,315 @@
+{
+  "scope": "Bounded Fabric renderer execution diagnostics, tiled multiprocessing and 128spp completion",
+  "files": [
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/fabric_neural_r0_800.json",
+      "sha256": "05818e1a742700ee3b978a5b99a3216d335d4de3832251e5af7585c1c9ac11ce",
+      "bytes": 11877
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/fabric_neural_r0_800.progress.json",
+      "sha256": "5f7bba3400eb45af6159786098046c562ebb1c70a63ace4c1399e70a3c0111b1",
+      "bytes": 115
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/fabric_neural_r0_800_s128.exr",
+      "sha256": "53e59799c0fa13ef46c9c2640159274f056c8d310fc0e992dc03771bbf831b2d",
+      "bytes": 7575233
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/fabric_neural_r0_800_s128.npy",
+      "sha256": "5f59a09c0cf42c0125f809f7c1266aee0864d71b801c6d336138eb49dfd36d0f",
+      "bytes": 7680128
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/fabric_neural_r0_800_s128.png",
+      "sha256": "bca6004870575e9c1357f6bb45ef5a70b1d64e87bbec7758e79cf38311a996bc",
+      "bytes": 1365054
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/fabric_neural_r0_800_s4.exr",
+      "sha256": "95076bcf437c4921c2805ac6700504be35b1bb1995b6076a557f1109a8d5ea17",
+      "bytes": 7680757
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/fabric_neural_r0_800_s4.npy",
+      "sha256": "a3fc93525add6b31450f4f04092c212112a1f8887dcf2a224181f5b5a326ddf3",
+      "bytes": 7680128
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/run.log",
+      "sha256": "37c997b90be5ea799bd9b91e2e539d146a88e90977e9f7f1d5e8148eae5d25d9",
+      "bytes": 10870
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/run_s128.log",
+      "sha256": "9afaedf04058f613a8ccce6920667cdce5e7d09b5e0c68d24df910becddb0867",
+      "bytes": 49427
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/worker_admission.json",
+      "sha256": "d4c1d2114bf8d08f41550813f522c02aae209ed3cc0bff624fa1fd0cb9c8b1b6",
+      "bytes": 160
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/worker_memory_probe/image.npy",
+      "sha256": "2b2f4e88c1b0369df802241f52822f83dc8fe199972cc48d8a2d5e43eb936321",
+      "bytes": 202928
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/worker_memory_probe/phase.json",
+      "sha256": "cf1f756c880935cf0ccd1d19d9712e6d27603298d331d2fa95817c67fe628708",
+      "bytes": 190
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/auto800/worker_memory_probe/run.log",
+      "sha256": "04aa7a965ea4519b18544e6d4ed0bc47302a00cfd22f4e761bf42314fc9ea8f8",
+      "bytes": 490
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/batch_full/exit_code.txt",
+      "sha256": "ca2ebdf97d7469496b1f4b78958f9dc8447efdcb623953fee7b6996b762f6fff",
+      "bytes": 4
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/batch_full/phase.json",
+      "sha256": "2a1dc67eee237e8df17093b85b92ecc49ee81709447538bb15c8c31304c55b14",
+      "bytes": 62
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/batch_full/run.log",
+      "sha256": "d37f3bcb1b12dfa6a3f60ba4a98d06bb239f82495e67ea6feddaab6014b0512f",
+      "bytes": 6504
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/batch_tile/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/batch_tile/image.npy",
+      "sha256": "914e2a1cb856b77c5d354569c4a6620ffc4190f6d959f8a2e68a5c541734324a",
+      "bytes": 196736
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/batch_tile/phase.json",
+      "sha256": "de838c375d6f82914ad9f0fcfadd86af62183975b39d26b4dd6df13998488cf9",
+      "bytes": 164
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/batch_tile/run.log",
+      "sha256": "8fa393a4135bf839ed86c0249dcbfb401f56f4a8b2f75c08017d6ce17877b6e5",
+      "bytes": 465
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/execution_summary.json",
+      "sha256": "ac50d23ecf8fe29ac9fcaf2dcf38408e5e6cb2cd82ff48014282ff82053ace06",
+      "bytes": 1219
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/gpu_during_128.csv",
+      "sha256": "4b46620ba8f526418e6f13dfd126de79242e37ffb99e33166590f543c6cb9e70",
+      "bytes": 151
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/gpu_processes_during_128.csv",
+      "sha256": "850e64c4332088983398da6519435aefe5a579e6273465c1a9c3fa76b4abc68a",
+      "bytes": 81
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel1/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel1/fabric_neural_r0_256.json",
+      "sha256": "451bf7802b2ccad6916508ffbcf3fe19a657a8661e1e17ae9fb26abd3e952c57",
+      "bytes": 4893
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel1/fabric_neural_r0_256.progress.json",
+      "sha256": "834681bfcc084e88d8320ac533efc8d9b6a9b589c3102cba576f860519b3a422",
+      "bytes": 114
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel1/fabric_neural_r0_256_s32.exr",
+      "sha256": "66b2eea183dd4c926d0941a37bf893c5ac004461c8b97c2ba7ac0aa299e4491b",
+      "bytes": 786917
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel1/fabric_neural_r0_256_s32.npy",
+      "sha256": "7757c6a02b4fa3acc77b6ff33232a51a2cfbf046efc99d896bb6e7594d383dca",
+      "bytes": 786560
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel1/run.log",
+      "sha256": "e6520d4caacca740c85c488779bcb7c9bdd460e04f6bcd4f0bdc3ca9e1e65312",
+      "bytes": 5292
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel2/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel2/fabric_neural_r0_256.json",
+      "sha256": "2022aa2f3a2a753ed35c0bc39f8928f86f0271aba40a3467922f6062f6a3776e",
+      "bytes": 4918
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel2/fabric_neural_r0_256.progress.json",
+      "sha256": "78d825a64b78c69bd24d6df4c83431d24628bc83b9ef19e0be799dad20b3d754",
+      "bytes": 114
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel2/fabric_neural_r0_256_s32.exr",
+      "sha256": "66b2eea183dd4c926d0941a37bf893c5ac004461c8b97c2ba7ac0aa299e4491b",
+      "bytes": 786917
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel2/fabric_neural_r0_256_s32.npy",
+      "sha256": "7757c6a02b4fa3acc77b6ff33232a51a2cfbf046efc99d896bb6e7594d383dca",
+      "bytes": 786560
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel2/run.log",
+      "sha256": "348f18f090773d17ecb314ea6f958cfefdfe50937f88a9110615db7332430500",
+      "bytes": 4694
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel4/fabric_neural_r0_256.json",
+      "sha256": "befa47ab28a7f27c9f1c706aaecf5f9391f9b6efb145634a842807c3ac733569",
+      "bytes": 1828
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel4/fabric_neural_r0_256.progress.json",
+      "sha256": "f00af74a6bdeff7223387554aa825c672830841e06956619eae7eeddb4b6fbf0",
+      "bytes": 114
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel4/fabric_neural_r0_256_s32.exr",
+      "sha256": "66b2eea183dd4c926d0941a37bf893c5ac004461c8b97c2ba7ac0aa299e4491b",
+      "bytes": 786917
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel4/fabric_neural_r0_256_s32.npy",
+      "sha256": "7757c6a02b4fa3acc77b6ff33232a51a2cfbf046efc99d896bb6e7594d383dca",
+      "bytes": 786560
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel4/run.log",
+      "sha256": "a404cc86203c003843719f022efbde0a740fff29a165763735ae21452097928f",
+      "bytes": 6498
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/parallel4/run_cache_recovery.log",
+      "sha256": "f29214496d5c020f335d4a5c22ee8576e44f555da52ba98481f2e9faeb3d0fb5",
+      "bytes": 83
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/resume/fabric_neural_r0_256.json",
+      "sha256": "63f78a3915dee5bbb45662cb458db0a45008847244846dc1619522cc3968c007",
+      "bytes": 4914
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/resume/fabric_neural_r0_256.progress.json",
+      "sha256": "841096f966198f9f2fcf6148fcbae62bdc60bf94aaf0f69885a5e556809de034",
+      "bytes": 114
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/resume/fabric_neural_r0_256_s16.exr",
+      "sha256": "0fd6847c3aba8c22daed9e4f74cb811d9542450971b81a042089c0c2f6902144",
+      "bytes": 786917
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/resume/fabric_neural_r0_256_s16.npy",
+      "sha256": "6924bfd0d89b524e58d824953ed8d0669814336de9ee47bc90c5bff98c2f8b79",
+      "bytes": 786560
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/resume/fabric_neural_r0_256_s32.exr",
+      "sha256": "66b2eea183dd4c926d0941a37bf893c5ac004461c8b97c2ba7ac0aa299e4491b",
+      "bytes": 786917
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/resume/fabric_neural_r0_256_s32.npy",
+      "sha256": "7757c6a02b4fa3acc77b6ff33232a51a2cfbf046efc99d896bb6e7594d383dca",
+      "bytes": 786560
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/resume/run_s16.log",
+      "sha256": "7c97abf0252e2f5da5ff621f231da7192ca8d9128d563875c115ebece83c80e3",
+      "bytes": 4205
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/resume/run_s32.log",
+      "sha256": "bc0c92535670539a2b3f961abe6685ab3cfaba8044cd0aa780929882dae61778",
+      "bytes": 4306
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/timeout_check/exit_code.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+      "bytes": 2
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/timeout_check/fabric_neural_r0_32.progress.json",
+      "sha256": "aa4ce5e137343506b829327109881b44304ea777bf24abbc6660e2f134f6ea28",
+      "bytes": 105
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/timeout_check/run.log",
+      "sha256": "f6272b73f7df13368d78432b8738035e0087f3807b4932e28abd720388a137f2",
+      "bytes": 3792
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/validation.json",
+      "sha256": "c9a0ede327e499ddd78f707e1635b57ae98ba41e2b80a033b0b7af23f60f2b5f",
+      "bytes": 329
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/validation.log",
+      "sha256": "bf069c795cda239d96e02359ab32c4eeeb81ea1ec3f07acf5da0d36b84fc26a9",
+      "bytes": 568
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/vcall0/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/vcall0/image.npy",
+      "sha256": "c0a051fe110b3a3dfea5f5a590cc4ee466e69ce783d9d1da744e98efe994b7e8",
+      "bytes": 12416
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/vcall0/phase.json",
+      "sha256": "abc4275fb647e974baf6a19fc69496d604aaad10969d7cc570f16c4630593f04",
+      "bytes": 161
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/vcall0/run.log",
+      "sha256": "308fa93edb48218cd2f5c955f97fd163252b1b5af8b480eee7284f8dc47da2f5",
+      "bytes": 463
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/vcall1/exit_code.txt",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/vcall1/image.npy",
+      "sha256": "40f1519ab61ee68692a14152a3dbfff33609c6a8a90062b4947461baa30a8f20",
+      "bytes": 12416
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/vcall1/phase.json",
+      "sha256": "29bd702c1f2447d99759df9d57d79aa5f849ae4e140e2ce769ac5f97691f28c6",
+      "bytes": 162
+    },
+    {
+      "path": "evaluation/21A/fabric_parallel/vcall1/run.log",
+      "sha256": "e4078866b10a5d701f19b6718070d11c317a05d7d09bb16309bb5642c4708553",
+      "bytes": 464
+    }
+  ]
+}

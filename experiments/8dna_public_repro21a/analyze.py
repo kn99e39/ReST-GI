@@ -7,6 +7,11 @@ def display(x): return np.clip(np.maximum(x,0)**(1/2.2),0,1)
 def mse(x,y): return float(np.mean((x-y)**2))
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
 
+def render_time_128(metadata):
+    if metadata.get('execution', {}).get('mode') == 'parallel_tiles_v1':
+        return metadata.get('render_wall_s_at128')
+    return sum(chunk['wall_s'] for chunk in metadata['chunks'][:128//metadata['arguments']['chunk']])
+
 def main():
     p=argparse.ArgumentParser(); p.add_argument('--base',required=True); p.add_argument('--export',action='store_true'); a=p.parse_args()
     base=Path(a.base); results=base/'results'; protocol=json.loads((base/'scripts'/'protocol.json').read_text())
@@ -24,16 +29,22 @@ def main():
                     images[(method,rep)]=(z['sum']/m['completed_spp'],z['first128']/128)
                 entry[f'{method}_r{rep}_spp']=m['completed_spp']
                 if m['completed_spp']>=128:
-                    entry[f'{method}_r{rep}_128spp_render_s']=sum(c['wall_s'] for c in m['chunks'][:128//m['arguments']['chunk']])
+                    entry[f'{method}_r{rep}_128spp_render_s']=render_time_128(m)
+                    entry[f'{method}_r{rep}_execution']=m.get('execution', {}).get('mode', 'native_wavefront')
+                    entry[f'{method}_r{rep}_timing_scope']=m.get('timing_scope', 'native render after warmup')
         if len(images)==4:
             n0,n1=images[('neural',0)][0],images[('neural',1)][0]
             r0,r1=images[('pt',0)][0],images[('pt',1)][0]
             n=(n0+n1)/2; r=(r0+r1)/2
             noise=(mse(n0,n1)+mse(r0,r1))/4
             entry.update(linear_100mse=100*mse(n,r),linear_100noise_floor=100*noise,linear_100cross_mse=100*float(np.mean((n0-r0)*(n1-r1))),display_100mse=100*mse(display(n),display(r)),paper_table1_100mse=protocol['paper_table1_100mse'][asset],linear_ratio_to_paper=mse(n,r)*100/protocol['paper_table1_100mse'][asset],display_ratio_to_paper=mse(display(n),display(r))*100/protocol['paper_table1_100mse'][asset])
-            nsec=np.mean([entry[f'neural_r{i}_128spp_render_s'] for i in [0,1]])
-            rsec=np.mean([entry[f'pt_r{i}_128spp_render_s'] for i in [0,1]])
-            entry.update(neural_128spp_mean_s=float(nsec),pt_128spp_mean_s=float(rsec),pt_over_neural_speedup=float(rsec/nsec),paper_pt_over_neural_speedup=protocol['paper_table2_minutes_pt'][asset]/protocol['paper_table2_minutes_neural'][asset])
+            times=[entry[f'{method}_r{i}_128spp_render_s'] for method in ['neural','pt'] for i in [0,1]]
+            scopes={entry[f'{method}_r{i}_timing_scope'] for method in ['neural','pt'] for i in [0,1]}
+            if all(value is not None for value in times) and len(scopes)==1:
+                nsec=np.mean(times[:2]); rsec=np.mean(times[2:])
+                entry.update(neural_128spp_mean_s=float(nsec),pt_128spp_mean_s=float(rsec),pt_over_neural_speedup=float(rsec/nsec),paper_pt_over_neural_speedup=protocol['paper_table2_minutes_pt'][asset]/protocol['paper_table2_minutes_neural'][asset])
+            else:
+                entry['timing_limit']='128-spp wall time unavailable or execution timing scopes differ'
             for method in ['neural','pt']:
                 # Independent equal-spp differences have expected MSE = 2*variance.
                 entry[f'{method}_100variance128_independent_pair']=50*mse(images[(method,0)][1],images[(method,1)][1])

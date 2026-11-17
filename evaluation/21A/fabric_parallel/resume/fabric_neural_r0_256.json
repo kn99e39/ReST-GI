@@ -1,0 +1,192 @@
+{
+  "key": "fabric_neural_r0_256",
+  "arguments": {
+    "upstream": "/home/nd/NeuralShaderDemo/external/8dna26",
+    "out": "/home/nd/rest_8dna_public21a/results/fabric_execution_probe/resume",
+    "asset": "fabric",
+    "method": "neural",
+    "spp": 32,
+    "rep": 0,
+    "res": 256,
+    "chunk": 4,
+    "vcall": 0,
+    "workers": 2,
+    "tile_size": 64,
+    "task_timeout": 60.0,
+    "cpu_threads": 2,
+    "tile_directory": "/home/nd/rest_8dna_public21a/results/fabric_execution_probe/resume/fabric_neural_r0_256_tiles"
+  },
+  "execution": {
+    "mode": "parallel_tiles_v1",
+    "asset": "fabric",
+    "method": "neural",
+    "rep": 0,
+    "resolution": 256,
+    "tile_size": 64,
+    "chunk": 4,
+    "vcall": false,
+    "checkpoint_sha256": "84c887cf8e40f4ccdcc8b4e8b5d7a06ef5fba56cae0a094c62edf997f118f40e",
+    "scene_source_sha256": "a536aeb015764d61edeaa7fd22ebc1a048c3bf6d78cf772fff7b5de8260d265a",
+    "seed_schedule": "method base + 100000*rep + 1000000*tile_index + completed_spp",
+    "reconstruction": "Filter-radius overlap rendered around each tile, then interior crop"
+  },
+  "execution_identity": "678eb180869d666bb226507014ce058cf1ef2302d1792ef7f27b134edd87e7b9",
+  "completed_spp": 32,
+  "chunks": [
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 1,
+      "spp": 32,
+      "wall_s": 1.1666282638907433,
+      "cpu_seconds": 7.13,
+      "peak_torch_bytes": 86794752
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 0,
+      "spp": 32,
+      "wall_s": 1.387612832710147,
+      "cpu_seconds": 7.7700000000000005,
+      "peak_torch_bytes": 19843584
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 2,
+      "spp": 32,
+      "wall_s": 0.7941967118531466,
+      "cpu_seconds": 8.05,
+      "peak_torch_bytes": 88194048
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 3,
+      "spp": 32,
+      "wall_s": 1.008587596938014,
+      "cpu_seconds": 8.97,
+      "peak_torch_bytes": 21672960
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 4,
+      "spp": 32,
+      "wall_s": 0.8068807125091553,
+      "cpu_seconds": 8.97,
+      "peak_torch_bytes": 88194048
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 5,
+      "spp": 32,
+      "wall_s": 0.8916556797921658,
+      "cpu_seconds": 10.01,
+      "peak_torch_bytes": 90262528
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 6,
+      "spp": 32,
+      "wall_s": 0.7153632380068302,
+      "cpu_seconds": 9.790000000000001,
+      "peak_torch_bytes": 93519360
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 7,
+      "spp": 32,
+      "wall_s": 0.8382110558450222,
+      "cpu_seconds": 11.0,
+      "peak_torch_bytes": 90262528
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 8,
+      "spp": 32,
+      "wall_s": 0.8154230080544949,
+      "cpu_seconds": 10.76,
+      "peak_torch_bytes": 93519360
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 9,
+      "spp": 32,
+      "wall_s": 0.8828870393335819,
+      "cpu_seconds": 12.03,
+      "peak_torch_bytes": 93281792
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 10,
+      "spp": 32,
+      "wall_s": 0.8250322546809912,
+      "cpu_seconds": 11.71,
+      "peak_torch_bytes": 93519360
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 11,
+      "spp": 32,
+      "wall_s": 0.8641610499471426,
+      "cpu_seconds": 13.09,
+      "peak_torch_bytes": 93281792
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 12,
+      "spp": 32,
+      "wall_s": 0.8118058443069458,
+      "cpu_seconds": 12.610000000000001,
+      "peak_torch_bytes": 93519360
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 13,
+      "spp": 32,
+      "wall_s": 0.9011379946023226,
+      "cpu_seconds": 14.16,
+      "peak_torch_bytes": 93281792
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 14,
+      "spp": 32,
+      "wall_s": 0.8662448339164257,
+      "cpu_seconds": 13.64,
+      "peak_torch_bytes": 93519360
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 15,
+      "spp": 32,
+      "wall_s": 0.8039248250424862,
+      "cpu_seconds": 15.06,
+      "peak_torch_bytes": 93281792
+    }
+  ],
+  "checkpoint_sha256": "84c887cf8e40f4ccdcc8b4e8b5d7a06ef5fba56cae0a094c62edf997f118f40e",
+  "scene_source_sha256": "a536aeb015764d61edeaa7fd22ebc1a048c3bf6d78cf772fff7b5de8260d265a",
+  "jit_flags": {
+    "LoopRecord": false,
+    "VCallRecord": false
+  },
+  "timed_wall_s": 13.394773036241531,
+  "worker_cpu_seconds": 28.700000000000003,
+  "average_cpu_cores": 2.1426251876034197,
+  "last_checkpoint_sha256": "66b2eea183dd4c926d0941a37bf893c5ac004461c8b97c2ba7ac0aa299e4491b",
+  "status": "complete"
+}

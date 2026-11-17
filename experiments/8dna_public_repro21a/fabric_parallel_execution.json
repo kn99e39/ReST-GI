@@ -1,0 +1,16 @@
+{
+  "execution": "fabric_parallel_tiles_v1",
+  "authorization": "User requested preventing single-core Fabric rendering and asked for use of the server's 32 CPU threads.",
+  "classification": "WL21A execution follow-up. Existing evidence and the original protocol are preserved.",
+  "upstream": "Released Fabric scene1, native 8DNA model and weights, CUDA neuralpath integrator, depth10, rr5",
+  "implementation": "Spawned processes, each with one native CUDA scene/model, rendering camera crops with reconstruction-filter overlap. The coordinator assembles tile interiors.",
+  "entry": "render.py --workers auto --tile-size 128, or launch_fabric_parallel.sh",
+  "automatic_workers": "Use the process CPU affinity count as the requested maximum. Calibrate a representative center tile. Admit workers according to measured free VRAM and per-process GPU memory.",
+  "chosen_headroom": {"worker_memory_multiplier": 1.2, "gpu_reserve_mib": 512},
+  "headroom_role": "Execution choices used by automatic mode. Explicit numeric --workers enables separately monitored scaling probes.",
+  "random_streams": "Native method seedbase + 100000*rep + 1000000*tile_index + completed_spp. Fixed tile/chunk/rep configuration gives identical serial and parallel sample streams and supports spp extension.",
+  "cache": "Per-tile float64 sum and first128 sum, atomically saved every32spp and at the requested target. Configuration identity checked on resume.",
+  "monitoring": "Per-batch progress, coordinator reports every5s with ETA and CPU usage. A worker without progress for task-timeout is terminated with its process group, retaining committed tile caches.",
+  "performance_scope": "Tiled execution has its own metadata and output directory. Report startup/calibration and rendering wall times explicitly.",
+  "full_queue": "The previously stopped public-asset queue stays stopped. Bounded execution probes and one Fabric 128spp completion validate this change."
+}

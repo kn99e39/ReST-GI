@@ -1,0 +1,392 @@
+{"event": "worker_admission", "requested_cpu_workers": 32, "worker_gpu_mib": 2434, "free_gpu_mib": 7984, "worker_budget_mib": 2921, "reserve_mib": 512, "selected_workers": 2}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 0, "total_tiles": 49, "pixel_samples": 2560000, "target_pixel_samples": 81920000, "elapsed_seconds": 1.0354654639959335, "worker_cpu_seconds": 2.22, "average_cpu_cores": 2.14396334517316, "estimated_remaining_seconds": null, "worker_pids": [4092888, 4092889]}
+{"event": "ready", "worker": 0, "pid": 4092888}
+{"event": "started", "worker": 0, "tile": 0}
+{"event": "ready", "worker": 1, "pid": 4092889}
+{"event": "started", "worker": 1, "tile": 1}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 0, "total_tiles": 49, "pixel_samples": 3149824, "target_pixel_samples": 81920000, "elapsed_seconds": 6.219153022393584, "worker_cpu_seconds": 17.27, "average_cpu_cores": 2.776905462498693, "estimated_remaining_seconds": 830.559248428132, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 0, "total_tiles": 49, "pixel_samples": 5115904, "target_pixel_samples": 81920000, "elapsed_seconds": 11.303600028157234, "worker_cpu_seconds": 28.03, "average_cpu_cores": 2.47974096130236, "estimated_remaining_seconds": 339.6695578973979, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 0, "spp": 128, "wall_s": 8.842607643455267, "cpu_seconds": 16.1, "peak_torch_bytes": 48411648}
+{"event": "started", "worker": 0, "tile": 2}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 1, "total_tiles": 49, "pixel_samples": 6754304, "target_pixel_samples": 81920000, "elapsed_seconds": 16.61250644363463, "worker_cpu_seconds": 39.17, "average_cpu_cores": 2.357862140364055, "estimated_remaining_seconds": 297.7110407686905, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 1, "spp": 128, "wall_s": 14.417461335659027, "cpu_seconds": 21.62, "peak_torch_bytes": 163585024}
+{"event": "started", "worker": 1, "tile": 3}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 2, "total_tiles": 49, "pixel_samples": 7999488, "target_pixel_samples": 81920000, "elapsed_seconds": 21.86583282239735, "worker_cpu_seconds": 50.17, "average_cpu_cores": 2.2944472505346543, "estimated_remaining_seconds": 297.1481061338893, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 2, "total_tiles": 49, "pixel_samples": 9179136, "target_pixel_samples": 81920000, "elapsed_seconds": 26.870195508003235, "worker_cpu_seconds": 60.519999999999996, "average_cpu_cores": 2.252309626179468, "estimated_remaining_seconds": 295.2894814521222, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 2, "spp": 128, "wall_s": 15.608653945848346, "cpu_seconds": 32.35, "peak_torch_bytes": 327205376}
+{"event": "started", "worker": 0, "tile": 4}
+Timeout (0:00:30)!
+Thread 0x00007ea5eb9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007ea78b9fe740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/normflow.py", line 105 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/utils/_contextlib.py", line 115 in decorate_context
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 127 in sample_wo
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 218 in sample_asset
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 191 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+Timeout (0:00:30)!
+Thread 0x00007af07f9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007af21f7e0740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 355 in unmask
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 304 in eval_asset
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 170 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 3, "total_tiles": 49, "pixel_samples": 11341824, "target_pixel_samples": 81920000, "elapsed_seconds": 31.99138950742781, "worker_cpu_seconds": 71.37, "average_cpu_cores": 2.2309127893125495, "estimated_remaining_seconds": 257.1099032660861, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 3, "spp": 128, "wall_s": 13.242689801380038, "cpu_seconds": 35.51, "peak_torch_bytes": 329355776}
+{"event": "started", "worker": 1, "tile": 5}
+{"event": "tile_complete", "worker": 1, "tile": 5, "spp": 128, "wall_s": 4.394174767658114, "cpu_seconds": 40.39, "peak_torch_bytes": 329355776}
+{"event": "started", "worker": 1, "tile": 6}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 5, "total_tiles": 49, "pixel_samples": 14700544, "target_pixel_samples": 81920000, "elapsed_seconds": 37.10387588106096, "worker_cpu_seconds": 82.56, "average_cpu_cores": 2.2251044679173626, "estimated_remaining_seconds": 205.43579861136686, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 4, "spp": 128, "wall_s": 8.678937574848533, "cpu_seconds": 41.66, "peak_torch_bytes": 327205376}
+{"event": "started", "worker": 0, "tile": 7}
+{"event": "tile_complete", "worker": 1, "tile": 6, "spp": 128, "wall_s": 3.7658677864819765, "cpu_seconds": 44.68, "peak_torch_bytes": 329355776}
+{"event": "started", "worker": 1, "tile": 8}
+{"event": "tile_complete", "worker": 0, "tile": 7, "spp": 128, "wall_s": 4.614556979387999, "cpu_seconds": 46.89, "peak_torch_bytes": 327205376}
+{"event": "started", "worker": 0, "tile": 9}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 8, "total_tiles": 49, "pixel_samples": 17813504, "target_pixel_samples": 81920000, "elapsed_seconds": 42.1768194437027, "worker_cpu_seconds": 93.92, "average_cpu_cores": 2.22681561195869, "estimated_remaining_seconds": 177.25816356428328, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 8, "total_tiles": 49, "pixel_samples": 20041728, "target_pixel_samples": 81920000, "elapsed_seconds": 47.287843119353056, "worker_cpu_seconds": 104.75, "average_cpu_cores": 2.2151570697697975, "estimated_remaining_seconds": 167.3799076860512, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 8, "spp": 128, "wall_s": 8.915983650833368, "cpu_seconds": 54.2, "peak_torch_bytes": 329355776}
+{"event": "started", "worker": 1, "tile": 10}
+{"event": "tile_complete", "worker": 0, "tile": 9, "spp": 128, "wall_s": 9.40605573169887, "cpu_seconds": 56.870000000000005, "peak_torch_bytes": 330318848}
+{"event": "started", "worker": 0, "tile": 11}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 10, "total_tiles": 49, "pixel_samples": 22204416, "target_pixel_samples": 81920000, "elapsed_seconds": 52.42278062738478, "worker_cpu_seconds": 115.78, "average_cpu_cores": 2.2085818152789565, "estimated_remaining_seconds": 159.35607146927495, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 10, "total_tiles": 49, "pixel_samples": 24301568, "target_pixel_samples": 81920000, "elapsed_seconds": 57.588619550690055, "worker_cpu_seconds": 126.64, "average_cpu_cores": 2.1990455924808243, "estimated_remaining_seconds": 152.61852132998436, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 10, "spp": 128, "wall_s": 9.611795399338007, "cpu_seconds": 64.38, "peak_torch_bytes": 332119040}
+{"event": "started", "worker": 1, "tile": 12}
+Timeout (0:00:30)!
+Thread 0x00007ea5eb9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007ea78b9fe740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 118 in _var_promote
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 1620 in op_lt
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 2099 in isfinite
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/ad/integrators/common.py", line 1326 in mis_weight
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 177 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+Timeout (0:00:30)!
+Thread 0x00007af07f9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007af21f7e0740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 160 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+{"event": "tile_complete", "worker": 0, "tile": 11, "spp": 128, "wall_s": 10.053704280406237, "cpu_seconds": 67.58, "peak_torch_bytes": 330318848}
+{"event": "started", "worker": 0, "tile": 13}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 12, "total_tiles": 49, "pixel_samples": 27447296, "target_pixel_samples": 81920000, "elapsed_seconds": 62.64178293198347, "worker_cpu_seconds": 137.67000000000002, "average_cpu_cores": 2.1977343804131864, "estimated_remaining_seconds": 137.10880039704546, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 12, "spp": 128, "wall_s": 4.175090841948986, "cpu_seconds": 69.08, "peak_torch_bytes": 332119040}
+{"event": "started", "worker": 1, "tile": 14}
+{"event": "tile_complete", "worker": 0, "tile": 13, "spp": 128, "wall_s": 4.009907767176628, "cpu_seconds": 71.97, "peak_torch_bytes": 330318848}
+{"event": "started", "worker": 0, "tile": 15}
+{"event": "tile_complete", "worker": 1, "tile": 14, "spp": 128, "wall_s": 4.203783227130771, "cpu_seconds": 73.8, "peak_torch_bytes": 332119040}
+{"event": "started", "worker": 1, "tile": 16}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 15, "total_tiles": 49, "pixel_samples": 30576640, "target_pixel_samples": 81920000, "elapsed_seconds": 67.7503046747297, "worker_cpu_seconds": 148.95, "average_cpu_cores": 2.198514098425259, "estimated_remaining_seconds": 124.15936682715451, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 15, "total_tiles": 49, "pixel_samples": 32739328, "target_pixel_samples": 81920000, "elapsed_seconds": 72.85609086789191, "worker_cpu_seconds": 159.68, "average_cpu_cores": 2.19171792087423, "estimated_remaining_seconds": 118.7273456909308, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 15, "spp": 128, "wall_s": 9.49474230967462, "cpu_seconds": 82.01, "peak_torch_bytes": 330318848}
+{"event": "started", "worker": 0, "tile": 17}
+{"event": "tile_complete", "worker": 1, "tile": 16, "spp": 128, "wall_s": 9.867979729548097, "cpu_seconds": 84.28, "peak_torch_bytes": 335128576}
+{"event": "started", "worker": 1, "tile": 18}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 17, "total_tiles": 49, "pixel_samples": 34836480, "target_pixel_samples": 81920000, "elapsed_seconds": 77.95887924730778, "worker_cpu_seconds": 170.66, "average_cpu_cores": 2.1891027891591137, "estimated_remaining_seconds": 113.72300976494961, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 17, "total_tiles": 49, "pixel_samples": 36933632, "target_pixel_samples": 81920000, "elapsed_seconds": 83.0809411201626, "worker_cpu_seconds": 181.51, "average_cpu_cores": 2.1847369270585935, "estimated_remaining_seconds": 108.73188469050832, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 17, "spp": 128, "wall_s": 9.23553423024714, "cpu_seconds": 91.91000000000001, "peak_torch_bytes": 330825216}
+{"event": "started", "worker": 0, "tile": 19}
+{"event": "tile_complete", "worker": 1, "tile": 18, "spp": 128, "wall_s": 10.21457064896822, "cpu_seconds": 95.19999999999999, "peak_torch_bytes": 335128576}
+{"event": "started", "worker": 1, "tile": 20}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 19, "total_tiles": 49, "pixel_samples": 39997440, "target_pixel_samples": 81920000, "elapsed_seconds": 88.09807776473463, "worker_cpu_seconds": 192.54000000000002, "average_cpu_cores": 2.1855187409897514, "estimated_remaining_seconds": 98.65249736565195, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 19, "spp": 128, "wall_s": 4.341914815828204, "cpu_seconds": 96.81, "peak_torch_bytes": 330825216}
+{"event": "started", "worker": 0, "tile": 21}
+Timeout (0:00:30)!
+Thread 0x00007ea5eb9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007ea78b9fe740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 245 in sample_asset
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 191 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+Timeout (0:00:30)!
+Thread 0x00007af07f9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007af21f7e0740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 182 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+{"event": "tile_complete", "worker": 1, "tile": 20, "spp": 128, "wall_s": 3.710163814947009, "cpu_seconds": 99.44, "peak_torch_bytes": 335128576}
+{"event": "started", "worker": 1, "tile": 22}
+{"event": "tile_complete", "worker": 0, "tile": 21, "spp": 128, "wall_s": 4.27240283973515, "cpu_seconds": 101.67, "peak_torch_bytes": 330825216}
+{"event": "started", "worker": 0, "tile": 23}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 22, "total_tiles": 49, "pixel_samples": 43274240, "target_pixel_samples": 81920000, "elapsed_seconds": 93.18611721135676, "worker_cpu_seconds": 204.07, "average_cpu_cores": 2.1899184782766077, "estimated_remaining_seconds": 88.45181246369728, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 22, "total_tiles": 49, "pixel_samples": 45305856, "target_pixel_samples": 81920000, "elapsed_seconds": 98.32993465103209, "worker_cpu_seconds": 214.94, "average_cpu_cores": 2.1859060596634285, "estimated_remaining_seconds": 84.22492198596932, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 22, "spp": 128, "wall_s": 9.634950639680028, "cpu_seconds": 109.76, "peak_torch_bytes": 335128576}
+{"event": "started", "worker": 1, "tile": 24}
+{"event": "tile_complete", "worker": 0, "tile": 23, "spp": 128, "wall_s": 10.254248954355717, "cpu_seconds": 112.6, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 25}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 24, "total_tiles": 49, "pixel_samples": 47403008, "target_pixel_samples": 81920000, "elapsed_seconds": 103.47973459772766, "worker_cpu_seconds": 225.95999999999998, "average_cpu_cores": 2.1836159599597766, "estimated_remaining_seconds": 79.65141792610989, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 24, "total_tiles": 49, "pixel_samples": 49434624, "target_pixel_samples": 81920000, "elapsed_seconds": 108.49189431034029, "worker_cpu_seconds": 236.59, "average_cpu_cores": 2.1807159097364086, "estimated_remaining_seconds": 75.18780267173268, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 24, "spp": 128, "wall_s": 9.311929874122143, "cpu_seconds": 119.78, "peak_torch_bytes": 335128576}
+{"event": "started", "worker": 1, "tile": 26}
+{"event": "tile_complete", "worker": 0, "tile": 25, "spp": 128, "wall_s": 10.197985079139471, "cpu_seconds": 123.4, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 27}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 26, "total_tiles": 49, "pixel_samples": 51761152, "target_pixel_samples": 81920000, "elapsed_seconds": 113.58565766364336, "worker_cpu_seconds": 247.57, "average_cpu_cores": 2.1795885597908766, "estimated_remaining_seconds": 69.62464180631086, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 26, "spp": 128, "wall_s": 6.990923432633281, "cpu_seconds": 127.45, "peak_torch_bytes": 335128576}
+{"event": "started", "worker": 1, "tile": 28}
+{"event": "tile_complete", "worker": 0, "tile": 27, "spp": 128, "wall_s": 3.864127019420266, "cpu_seconds": 127.76, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 29}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 28, "total_tiles": 49, "pixel_samples": 54464512, "target_pixel_samples": 81920000, "elapsed_seconds": 118.61816779524088, "worker_cpu_seconds": 258.78999999999996, "average_cpu_cores": 2.1817062665031566, "estimated_remaining_seconds": 62.744442766058995, "worker_pids": [4092888, 4092889]}
+Timeout (0:00:30)!
+Thread 0x00007ea5eb9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007ea78b9fe740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 355 in unmask
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 335 in eval_asset
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 170 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+Timeout (0:00:30)!
+Thread 0x00007af07f9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007af21f7e0740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 355 in unmask
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 225 in sample_asset
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 191 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+{"event": "tile_complete", "worker": 1, "tile": 28, "spp": 128, "wall_s": 4.497859738767147, "cpu_seconds": 132.57, "peak_torch_bytes": 335128576}
+{"event": "started", "worker": 1, "tile": 30}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 29, "total_tiles": 49, "pixel_samples": 57217024, "target_pixel_samples": 81920000, "elapsed_seconds": 123.65968669950962, "worker_cpu_seconds": 269.63, "average_cpu_cores": 2.180419562724553, "estimated_remaining_seconds": 55.889656061506486, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 29, "spp": 128, "wall_s": 9.620039615780115, "cpu_seconds": 137.88, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 31}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 30, "total_tiles": 49, "pixel_samples": 59248640, "target_pixel_samples": 81920000, "elapsed_seconds": 128.74973194859922, "worker_cpu_seconds": 280.45, "average_cpu_cores": 2.178256962212272, "estimated_remaining_seconds": 51.490590053142824, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 30, "spp": 128, "wall_s": 10.486887734383345, "cpu_seconds": 143.73, "peak_torch_bytes": 337364992}
+{"event": "started", "worker": 1, "tile": 32}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 31, "total_tiles": 49, "pixel_samples": 61345792, "target_pixel_samples": 81920000, "elapsed_seconds": 133.7979065850377, "worker_cpu_seconds": 291.22, "average_cpu_cores": 2.1765661917506147, "estimated_remaining_seconds": 46.82740278544066, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 31, "spp": 128, "wall_s": 9.125277323648334, "cpu_seconds": 147.58, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 33}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 32, "total_tiles": 49, "pixel_samples": 63639552, "target_pixel_samples": 81920000, "elapsed_seconds": 138.92314694821835, "worker_cpu_seconds": 302.19, "average_cpu_cores": 2.1752314616990147, "estimated_remaining_seconds": 41.57819238397924, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 32, "spp": 128, "wall_s": 9.391098983585835, "cpu_seconds": 153.72000000000003, "peak_torch_bytes": 337364992}
+{"event": "started", "worker": 1, "tile": 34}
+{"event": "tile_complete", "worker": 0, "tile": 33, "spp": 128, "wall_s": 7.656141186133027, "cpu_seconds": 156.0, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 35}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 34, "total_tiles": 49, "pixel_samples": 66015232, "target_pixel_samples": 81920000, "elapsed_seconds": 144.0057040322572, "worker_cpu_seconds": 313.43, "average_cpu_cores": 2.1765110077153045, "estimated_remaining_seconds": 36.09438089060513, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 34, "spp": 128, "wall_s": 4.0772008914500475, "cpu_seconds": 158.36, "peak_torch_bytes": 337364992}
+{"event": "started", "worker": 1, "tile": 36}
+{"event": "tile_complete", "worker": 0, "tile": 35, "spp": 128, "wall_s": 4.164807723835111, "cpu_seconds": 160.73999999999998, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 37}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 36, "total_tiles": 49, "pixel_samples": 69259264, "target_pixel_samples": 81920000, "elapsed_seconds": 149.15290231630206, "worker_cpu_seconds": 324.75, "average_cpu_cores": 2.1772958819890533, "estimated_remaining_seconds": 28.31193939202221, "worker_pids": [4092888, 4092889]}
+Timeout (0:00:30)!
+Thread 0x00007ea5eb9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007ea78b9fe740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/mlps.py", line 35 in fetch_2d
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/mlps.py", line 154 in forward
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1541 in _call_impl
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/torch/nn/modules/module.py", line 1532 in _wrapped_call_impl
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 66 in encode_cond
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 211 in sample_asset
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 191 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+Timeout (0:00:30)!
+Thread 0x00007af07f9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007af21f7e0740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/eight_dna.py", line 218 in sample_asset
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 191 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+{"event": "tile_complete", "worker": 1, "tile": 36, "spp": 128, "wall_s": 8.757560212165117, "cpu_seconds": 167.67, "peak_torch_bytes": 337364992}
+{"event": "started", "worker": 1, "tile": 38}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 37, "total_tiles": 49, "pixel_samples": 71618560, "target_pixel_samples": 81920000, "elapsed_seconds": 154.22543014772236, "worker_cpu_seconds": 335.55, "average_cpu_cores": 2.175711227899308, "estimated_remaining_seconds": 23.005750701157872, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 37, "spp": 128, "wall_s": 8.749961825087667, "cpu_seconds": 170.16, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 39}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 38, "total_tiles": 49, "pixel_samples": 73912320, "target_pixel_samples": 81920000, "elapsed_seconds": 159.3107401560992, "worker_cpu_seconds": 346.40999999999997, "average_cpu_cores": 2.174429669089311, "estimated_remaining_seconds": 17.879018197771178, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 38, "total_tiles": 49, "pixel_samples": 75616256, "target_pixel_samples": 81920000, "elapsed_seconds": 164.32724387198687, "worker_cpu_seconds": 356.98, "average_cpu_cores": 2.172372587701235, "estimated_remaining_seconds": 14.17916731997016, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 38, "spp": 128, "wall_s": 10.249721731990576, "cpu_seconds": 178.55, "peak_torch_bytes": 337364992}
+{"event": "started", "worker": 1, "tile": 40}
+{"event": "tile_complete", "worker": 0, "tile": 39, "spp": 128, "wall_s": 11.695042606443167, "cpu_seconds": 182.51000000000002, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 41}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 40, "total_tiles": 49, "pixel_samples": 77041664, "target_pixel_samples": 81920000, "elapsed_seconds": 169.3548256866634, "worker_cpu_seconds": 367.71000000000004, "average_cpu_cores": 2.171240166963586, "estimated_remaining_seconds": 11.09225678579059, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 40, "total_tiles": 49, "pixel_samples": 78155776, "target_pixel_samples": 81920000, "elapsed_seconds": 174.4824427627027, "worker_cpu_seconds": 378.65999999999997, "average_cpu_cores": 2.17018969934402, "estimated_remaining_seconds": 8.688197057809047, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 0, "tile": 41, "spp": 128, "wall_s": 8.276613879948854, "cpu_seconds": 191.45000000000002, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 42}
+{"event": "tile_complete", "worker": 1, "tile": 40, "spp": 128, "wall_s": 12.543578200042248, "cpu_seconds": 191.94, "peak_torch_bytes": 337364992}
+{"event": "started", "worker": 1, "tile": 43}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 42, "total_tiles": 49, "pixel_samples": 79138816, "target_pixel_samples": 81920000, "elapsed_seconds": 179.53975440748036, "worker_cpu_seconds": 389.71000000000004, "average_cpu_cores": 2.170605620388234, "estimated_remaining_seconds": 6.520512047640092, "worker_pids": [4092888, 4092889]}
+Timeout (0:00:30)!
+Thread 0x00007ea5eb9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007ea78b9fe740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 134 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+Timeout (0:00:30)!
+Thread 0x00007af07f9ff6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 320 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/queues.py", line 231 in _feed
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 953 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x00007af21f7e0740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 173 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/parallel_render.py", line 134 in worker_main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 108 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/process.py", line 314 in _bootstrap
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 129 in _main
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/spawn.py", line 116 in spawn_main
+  File "<string>", line 1 in <module>
+{"event": "tile_complete", "worker": 1, "tile": 43, "spp": 128, "wall_s": 6.620307836681604, "cpu_seconds": 199.18, "peak_torch_bytes": 337364992}
+{"event": "started", "worker": 1, "tile": 44}
+{"event": "tile_complete", "worker": 0, "tile": 42, "spp": 128, "wall_s": 7.675703592598438, "cpu_seconds": 199.79, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 45}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 44, "total_tiles": 49, "pixel_samples": 79826944, "target_pixel_samples": 81920000, "elapsed_seconds": 184.55553137883544, "worker_cpu_seconds": 400.64, "average_cpu_cores": 2.170837129652917, "estimated_remaining_seconds": 4.999357322656112, "worker_pids": [4092888, 4092889]}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 44, "total_tiles": 49, "pixel_samples": 80531456, "target_pixel_samples": 81920000, "elapsed_seconds": 189.73652740381658, "worker_cpu_seconds": 411.75, "average_cpu_cores": 2.170114556401002, "estimated_remaining_seconds": 3.378896973623336, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 44, "spp": 128, "wall_s": 7.080513371154666, "cpu_seconds": 206.89, "peak_torch_bytes": 337364992}
+{"event": "started", "worker": 1, "tile": 46}
+{"event": "tile_complete", "worker": 0, "tile": 45, "spp": 128, "wall_s": 7.9509852938354015, "cpu_seconds": 208.4, "peak_torch_bytes": 335023104}
+{"event": "started", "worker": 0, "tile": 47}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 46, "total_tiles": 49, "pixel_samples": 81252352, "target_pixel_samples": 81920000, "elapsed_seconds": 194.9149737432599, "worker_cpu_seconds": 423.17999999999995, "average_cpu_cores": 2.1711005156402634, "estimated_remaining_seconds": 1.6537133416693401, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 46, "spp": 128, "wall_s": 6.83155376650393, "cpu_seconds": 214.41000000000003, "peak_torch_bytes": 337364992}
+{"event": "started", "worker": 1, "tile": 48}
+{"event": "tile_complete", "worker": 0, "tile": 47, "spp": 128, "wall_s": 7.651380216702819, "cpu_seconds": 216.79, "peak_torch_bytes": 335023104}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 48, "total_tiles": 49, "pixel_samples": 81842176, "target_pixel_samples": 81920000, "elapsed_seconds": 200.08921150304377, "worker_cpu_seconds": 434.44000000000005, "average_cpu_cores": 2.1712315058695273, "estimated_remaining_seconds": 0.19640912474466996, "worker_pids": [4092888, 4092889]}
+{"event": "tile_complete", "worker": 1, "tile": 48, "spp": 128, "wall_s": 6.532299378886819, "cpu_seconds": 221.56, "peak_torch_bytes": 337364992}
+{"event": "complete", "key": "fabric_neural_r0_800", "wall_s": 208.52548894286156}

@@ -1,0 +1,65 @@
+{"phase": "import_start", "seconds": 0.00011085346341133118}
+{"phase": "scene_load_start", "seconds": 2.3380676843225956, "vcall": 0, "res": 800, "spp": 4}
+{"phase": "asset_load_start", "seconds": 2.8820197917521}
+{"phase": "render_start", "seconds": 4.026865592226386}
+jit_flush_malloc_cache(): Dr.Jit exhausted the available memory and had to flush its allocation cache to free up additional memory. This is an expensive operation and will have a negative effect on performance. You may want to change your computation so that it uses less memory. This warning will only be displayed once.
+Timeout (0:00:15)!
+Thread 0x000072f7941fd6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/selectors.py", line 416 in select
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/connection.py", line 931 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/concurrent/futures/process.py", line 385 in wait_result_broken_or_wakeup
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/concurrent/futures/process.py", line 320 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x000072f79d9fa740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 134 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/diagnose_fabric.py", line 53 in <module>
+Timeout (0:00:15)!
+Thread 0x000072f7941fd6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/selectors.py", line 416 in select
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/connection.py", line 931 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/concurrent/futures/process.py", line 385 in wait_result_broken_or_wakeup
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/concurrent/futures/process.py", line 320 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x000072f79d9fa740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 134 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/diagnose_fabric.py", line 53 in <module>
+Timeout (0:00:15)!
+Thread 0x000072f7941fd6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/selectors.py", line 416 in select
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/connection.py", line 931 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/concurrent/futures/process.py", line 385 in wait_result_broken_or_wakeup
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/concurrent/futures/process.py", line 320 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x000072f79d9fa740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 134 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/diagnose_fabric.py", line 53 in <module>
+Timeout (0:00:15)!
+Thread 0x000072f7941fd6c0 (most recent call first):
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/selectors.py", line 416 in select
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/multiprocessing/connection.py", line 931 in wait
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/concurrent/futures/process.py", line 385 in wait_result_broken_or_wakeup
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/concurrent/futures/process.py", line 320 in run
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 1016 in _bootstrap_inner
+  File "/home/nd/.local/share/uv/python/cpython-3.10-linux-x86_64-gnu/lib/python3.10/threading.py", line 973 in _bootstrap
+
+Thread 0x000072f79d9fa740 (most recent call first):
+  File "/home/nd/NeuralShaderDemo/external/8dna26/models/integrator.py", line 134 in sample
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 377 in eval
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/drjit/router.py", line 5776 in custom
+  File "/home/nd/NeuralShaderDemo/external/8dna26/.venv/lib/python3.10/site-packages/mitsuba/python/util.py", line 522 in render
+  File "/home/nd/rest_8dna_public21a/scripts/diagnose_fabric.py", line 53 in <module>

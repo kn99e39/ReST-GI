@@ -1,0 +1,192 @@
+{
+  "key": "fabric_neural_r0_256",
+  "arguments": {
+    "upstream": "/home/nd/NeuralShaderDemo/external/8dna26",
+    "out": "/home/nd/rest_8dna_public21a/results/fabric_execution_probe/parallel2",
+    "asset": "fabric",
+    "method": "neural",
+    "spp": 32,
+    "rep": 0,
+    "res": 256,
+    "chunk": 4,
+    "vcall": 0,
+    "workers": 2,
+    "tile_size": 64,
+    "task_timeout": 60.0,
+    "cpu_threads": 2,
+    "tile_directory": "/home/nd/rest_8dna_public21a/results/fabric_execution_probe/parallel2/fabric_neural_r0_256_tiles"
+  },
+  "execution": {
+    "mode": "parallel_tiles_v1",
+    "asset": "fabric",
+    "method": "neural",
+    "rep": 0,
+    "resolution": 256,
+    "tile_size": 64,
+    "chunk": 4,
+    "vcall": false,
+    "checkpoint_sha256": "84c887cf8e40f4ccdcc8b4e8b5d7a06ef5fba56cae0a094c62edf997f118f40e",
+    "scene_source_sha256": "a536aeb015764d61edeaa7fd22ebc1a048c3bf6d78cf772fff7b5de8260d265a",
+    "seed_schedule": "method base + 100000*rep + 1000000*tile_index + completed_spp",
+    "reconstruction": "Filter-radius overlap rendered around each tile, then interior crop"
+  },
+  "execution_identity": "678eb180869d666bb226507014ce058cf1ef2302d1792ef7f27b134edd87e7b9",
+  "completed_spp": 32,
+  "chunks": [
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 0,
+      "spp": 32,
+      "wall_s": 2.019689369946718,
+      "cpu_seconds": 8.209999999999999,
+      "peak_torch_bytes": 21806080
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 1,
+      "spp": 32,
+      "wall_s": 2.3411819096654654,
+      "cpu_seconds": 8.690000000000001,
+      "peak_torch_bytes": 89142784
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 2,
+      "spp": 32,
+      "wall_s": 1.6530910525470972,
+      "cpu_seconds": 10.129999999999999,
+      "peak_torch_bytes": 87778304
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 3,
+      "spp": 32,
+      "wall_s": 1.8077385406941175,
+      "cpu_seconds": 10.71,
+      "peak_torch_bytes": 89142784
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 4,
+      "spp": 32,
+      "wall_s": 1.7172576356679201,
+      "cpu_seconds": 12.02,
+      "peak_torch_bytes": 87778304
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 5,
+      "spp": 32,
+      "wall_s": 1.6981240846216679,
+      "cpu_seconds": 12.59,
+      "peak_torch_bytes": 92444160
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 6,
+      "spp": 32,
+      "wall_s": 1.464853249490261,
+      "cpu_seconds": 13.66,
+      "peak_torch_bytes": 94207488
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 7,
+      "spp": 32,
+      "wall_s": 1.7745657805353403,
+      "cpu_seconds": 14.530000000000001,
+      "peak_torch_bytes": 92444160
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 8,
+      "spp": 32,
+      "wall_s": 1.7776271402835846,
+      "cpu_seconds": 15.69,
+      "peak_torch_bytes": 94207488
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 9,
+      "spp": 32,
+      "wall_s": 1.6918142475187778,
+      "cpu_seconds": 16.37,
+      "peak_torch_bytes": 94950912
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 10,
+      "spp": 32,
+      "wall_s": 1.6261476501822472,
+      "cpu_seconds": 17.47,
+      "peak_torch_bytes": 94207488
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 11,
+      "spp": 32,
+      "wall_s": 1.6709977872669697,
+      "cpu_seconds": 18.24,
+      "peak_torch_bytes": 94950912
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 12,
+      "spp": 32,
+      "wall_s": 1.6393923703581095,
+      "cpu_seconds": 19.3,
+      "peak_torch_bytes": 94207488
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 13,
+      "spp": 32,
+      "wall_s": 1.84038289450109,
+      "cpu_seconds": 20.27,
+      "peak_torch_bytes": 94950912
+    },
+    {
+      "event": "tile_complete",
+      "worker": 1,
+      "tile": 14,
+      "spp": 32,
+      "wall_s": 1.726085651665926,
+      "cpu_seconds": 21.27,
+      "peak_torch_bytes": 94207488
+    },
+    {
+      "event": "tile_complete",
+      "worker": 0,
+      "tile": 15,
+      "spp": 32,
+      "wall_s": 1.703945878893137,
+      "cpu_seconds": 22.24,
+      "peak_torch_bytes": 94950912
+    }
+  ],
+  "checkpoint_sha256": "84c887cf8e40f4ccdcc8b4e8b5d7a06ef5fba56cae0a094c62edf997f118f40e",
+  "scene_source_sha256": "a536aeb015764d61edeaa7fd22ebc1a048c3bf6d78cf772fff7b5de8260d265a",
+  "jit_flags": {
+    "LoopRecord": false,
+    "VCallRecord": false
+  },
+  "timed_wall_s": 20.621445709839463,
+  "worker_cpu_seconds": 43.51,
+  "average_cpu_cores": 2.109938638141896,
+  "last_checkpoint_sha256": "66b2eea183dd4c926d0941a37bf893c5ac004461c8b97c2ba7ac0aa299e4491b",
+  "status": "complete"
+}

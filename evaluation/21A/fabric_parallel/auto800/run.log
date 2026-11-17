@@ -1,0 +1,105 @@
+{"event": "worker_admission", "requested_cpu_workers": 32, "worker_gpu_mib": 2434, "free_gpu_mib": 8272, "worker_budget_mib": 2921, "reserve_mib": 512, "selected_workers": 2}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 0, "total_tiles": 49, "pixel_samples": 0, "target_pixel_samples": 2560000, "elapsed_seconds": 1.0057075452059507, "worker_cpu_seconds": 2.22, "average_cpu_cores": 2.207401158102462, "estimated_remaining_seconds": null, "worker_pids": [4091166, 4091167]}
+{"event": "ready", "worker": 0, "pid": 4091166}
+{"event": "started", "worker": 0, "tile": 0}
+{"event": "ready", "worker": 1, "pid": 4091167}
+{"event": "started", "worker": 1, "tile": 1}
+{"event": "tile_complete", "worker": 1, "tile": 1, "spp": 4, "wall_s": 0.7026182282716036, "cpu_seconds": 6.91, "peak_torch_bytes": 134942720}
+{"event": "started", "worker": 1, "tile": 2}
+{"event": "tile_complete", "worker": 0, "tile": 0, "spp": 4, "wall_s": 0.9049763828516006, "cpu_seconds": 7.33, "peak_torch_bytes": 29086208}
+{"event": "started", "worker": 0, "tile": 3}
+{"event": "tile_complete", "worker": 1, "tile": 2, "spp": 4, "wall_s": 0.4027205090969801, "cpu_seconds": 7.37, "peak_torch_bytes": 310676480}
+{"event": "started", "worker": 1, "tile": 4}
+{"event": "tile_complete", "worker": 0, "tile": 3, "spp": 4, "wall_s": 0.36135646887123585, "cpu_seconds": 7.7700000000000005, "peak_torch_bytes": 302882304}
+{"event": "started", "worker": 0, "tile": 5}
+{"event": "tile_complete", "worker": 0, "tile": 5, "spp": 4, "wall_s": 0.22680619731545448, "cpu_seconds": 8.05, "peak_torch_bytes": 302882304}
+{"event": "started", "worker": 0, "tile": 6}
+{"event": "tile_complete", "worker": 1, "tile": 4, "spp": 4, "wall_s": 0.3338048793375492, "cpu_seconds": 7.7, "peak_torch_bytes": 310676480}
+{"event": "started", "worker": 1, "tile": 7}
+{"event": "tile_complete", "worker": 0, "tile": 6, "spp": 4, "wall_s": 0.20135117508471012, "cpu_seconds": 8.32, "peak_torch_bytes": 302882304}
+{"event": "started", "worker": 0, "tile": 8}
+{"event": "tile_complete", "worker": 1, "tile": 7, "spp": 4, "wall_s": 0.20564212277531624, "cpu_seconds": 7.93, "peak_torch_bytes": 310676480}
+{"event": "started", "worker": 1, "tile": 9}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 8, "total_tiles": 49, "pixel_samples": 540672, "target_pixel_samples": 2560000, "elapsed_seconds": 6.134544279426336, "worker_cpu_seconds": 17.11, "average_cpu_cores": 2.789123237301014, "estimated_remaining_seconds": 22.91159340725139, "worker_pids": [4091166, 4091167]}
+{"event": "tile_complete", "worker": 0, "tile": 8, "spp": 4, "wall_s": 0.3673066720366478, "cpu_seconds": 8.77, "peak_torch_bytes": 302882304}
+{"event": "started", "worker": 0, "tile": 10}
+{"event": "tile_complete", "worker": 1, "tile": 9, "spp": 4, "wall_s": 0.32848344556987286, "cpu_seconds": 8.36, "peak_torch_bytes": 316987392}
+{"event": "started", "worker": 1, "tile": 11}
+{"event": "tile_complete", "worker": 0, "tile": 10, "spp": 4, "wall_s": 0.4124979227781296, "cpu_seconds": 9.209999999999999, "peak_torch_bytes": 315567616}
+{"event": "started", "worker": 0, "tile": 12}
+{"event": "tile_complete", "worker": 1, "tile": 11, "spp": 4, "wall_s": 0.41701335832476616, "cpu_seconds": 8.85, "peak_torch_bytes": 316987392}
+{"event": "started", "worker": 1, "tile": 13}
+{"event": "tile_complete", "worker": 0, "tile": 12, "spp": 4, "wall_s": 0.21288486197590828, "cpu_seconds": 9.44, "peak_torch_bytes": 315567616}
+{"event": "started", "worker": 0, "tile": 14}
+{"event": "tile_complete", "worker": 1, "tile": 13, "spp": 4, "wall_s": 0.22587026841938496, "cpu_seconds": 9.13, "peak_torch_bytes": 316987392}
+{"event": "started", "worker": 1, "tile": 15}
+{"event": "tile_complete", "worker": 0, "tile": 14, "spp": 4, "wall_s": 0.27356604114174843, "cpu_seconds": 9.729999999999999, "peak_torch_bytes": 315567616}
+{"event": "started", "worker": 0, "tile": 16}
+{"event": "tile_complete", "worker": 1, "tile": 15, "spp": 4, "wall_s": 0.394698241725564, "cpu_seconds": 9.57, "peak_torch_bytes": 316987392}
+{"event": "started", "worker": 1, "tile": 17}
+{"event": "tile_complete", "worker": 0, "tile": 16, "spp": 4, "wall_s": 0.44622393511235714, "cpu_seconds": 10.23, "peak_torch_bytes": 316590592}
+{"event": "started", "worker": 0, "tile": 18}
+{"event": "tile_complete", "worker": 1, "tile": 17, "spp": 4, "wall_s": 0.3707634564489126, "cpu_seconds": 9.959999999999999, "peak_torch_bytes": 317417984}
+{"event": "started", "worker": 1, "tile": 19}
+{"event": "tile_complete", "worker": 1, "tile": 19, "spp": 4, "wall_s": 0.1979396641254425, "cpu_seconds": 10.18, "peak_torch_bytes": 317417984}
+{"event": "started", "worker": 1, "tile": 20}
+{"event": "tile_complete", "worker": 0, "tile": 18, "spp": 4, "wall_s": 0.3564057406038046, "cpu_seconds": 10.610000000000001, "peak_torch_bytes": 316590592}
+{"event": "started", "worker": 0, "tile": 21}
+{"event": "tile_complete", "worker": 1, "tile": 20, "spp": 4, "wall_s": 0.20803559012711048, "cpu_seconds": 10.399999999999999, "peak_torch_bytes": 317417984}
+{"event": "started", "worker": 1, "tile": 22}
+{"event": "tile_complete", "worker": 0, "tile": 21, "spp": 4, "wall_s": 0.21062308363616467, "cpu_seconds": 10.9, "peak_torch_bytes": 316590592}
+{"event": "started", "worker": 0, "tile": 23}
+{"event": "tile_complete", "worker": 1, "tile": 22, "spp": 4, "wall_s": 0.3942742682993412, "cpu_seconds": 10.82, "peak_torch_bytes": 317417984}
+{"event": "started", "worker": 1, "tile": 24}
+{"event": "tile_complete", "worker": 0, "tile": 23, "spp": 4, "wall_s": 0.3780496399849653, "cpu_seconds": 11.34, "peak_torch_bytes": 316590592}
+{"event": "started", "worker": 0, "tile": 25}
+{"event": "tile_complete", "worker": 1, "tile": 24, "spp": 4, "wall_s": 0.40098077058792114, "cpu_seconds": 11.370000000000001, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 26}
+{"event": "tile_complete", "worker": 0, "tile": 25, "spp": 4, "wall_s": 0.41578786075115204, "cpu_seconds": 11.94, "peak_torch_bytes": 316590592}
+{"event": "started", "worker": 0, "tile": 27}
+{"event": "tile_complete", "worker": 0, "tile": 27, "spp": 4, "wall_s": 0.22123103961348534, "cpu_seconds": 12.24, "peak_torch_bytes": 316590592}
+{"event": "started", "worker": 0, "tile": 28}
+{"event": "tile_complete", "worker": 1, "tile": 26, "spp": 4, "wall_s": 0.32549907825887203, "cpu_seconds": 11.69, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 29}
+{"event": "tile_complete", "worker": 0, "tile": 28, "spp": 4, "wall_s": 0.2860925476998091, "cpu_seconds": 12.58, "peak_torch_bytes": 316590592}
+{"event": "started", "worker": 0, "tile": 30}
+{"event": "tile_complete", "worker": 1, "tile": 29, "spp": 4, "wall_s": 0.33675809390842915, "cpu_seconds": 12.09, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 31}
+{"event": "tile_complete", "worker": 0, "tile": 30, "spp": 4, "wall_s": 0.44328929483890533, "cpu_seconds": 13.08, "peak_torch_bytes": 319687168}
+{"event": "started", "worker": 0, "tile": 32}
+{"event": "tile_complete", "worker": 1, "tile": 31, "spp": 4, "wall_s": 0.3675800748169422, "cpu_seconds": 12.5, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 33}
+{"event": "tile_complete", "worker": 0, "tile": 32, "spp": 4, "wall_s": 0.3534450829029083, "cpu_seconds": 13.61, "peak_torch_bytes": 319687168}
+{"event": "started", "worker": 0, "tile": 34}
+{"event": "tile_complete", "worker": 1, "tile": 33, "spp": 4, "wall_s": 0.368618780747056, "cpu_seconds": 12.97, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 35}
+{"event": "tile_complete", "worker": 1, "tile": 35, "spp": 4, "wall_s": 0.19117852486670017, "cpu_seconds": 13.32, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 36}
+{"event": "tile_complete", "worker": 0, "tile": 34, "spp": 4, "wall_s": 0.26102088764309883, "cpu_seconds": 13.93, "peak_torch_bytes": 319687168}
+{"event": "started", "worker": 0, "tile": 37}
+{"event": "tile_complete", "worker": 1, "tile": 36, "spp": 4, "wall_s": 0.34275522641837597, "cpu_seconds": 13.8, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 38}
+{"event": "tile_complete", "worker": 0, "tile": 37, "spp": 4, "wall_s": 0.3798052500933409, "cpu_seconds": 14.35, "peak_torch_bytes": 319687168}
+{"event": "started", "worker": 0, "tile": 39}
+{"event": "tile_complete", "worker": 1, "tile": 38, "spp": 4, "wall_s": 0.3382789120078087, "cpu_seconds": 14.17, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 40}
+{"status": "rendering", "key": "fabric_neural_r0_800", "workers": 2, "completed_tiles": 39, "total_tiles": 49, "pixel_samples": 2375680, "target_pixel_samples": 2560000, "elapsed_seconds": 11.181592304259539, "worker_cpu_seconds": 29.11, "average_cpu_cores": 2.6033859228538296, "estimated_remaining_seconds": 0.867537333951171, "worker_pids": [4091166, 4091167]}
+{"event": "tile_complete", "worker": 0, "tile": 39, "spp": 4, "wall_s": 0.36281994357705116, "cpu_seconds": 14.78, "peak_torch_bytes": 319687168}
+{"event": "started", "worker": 0, "tile": 41}
+{"event": "tile_complete", "worker": 1, "tile": 40, "spp": 4, "wall_s": 0.32277167961001396, "cpu_seconds": 14.55, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 42}
+{"event": "tile_complete", "worker": 0, "tile": 41, "spp": 4, "wall_s": 0.22532483376562595, "cpu_seconds": 15.03, "peak_torch_bytes": 319687168}
+{"event": "started", "worker": 0, "tile": 43}
+{"event": "tile_complete", "worker": 1, "tile": 42, "spp": 4, "wall_s": 0.1781119629740715, "cpu_seconds": 14.77, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 44}
+{"event": "tile_complete", "worker": 0, "tile": 43, "spp": 4, "wall_s": 0.20447370782494545, "cpu_seconds": 15.34, "peak_torch_bytes": 319687168}
+{"event": "started", "worker": 0, "tile": 45}
+{"event": "tile_complete", "worker": 1, "tile": 44, "spp": 4, "wall_s": 0.17249984480440617, "cpu_seconds": 14.99, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 46}
+{"event": "tile_complete", "worker": 0, "tile": 45, "spp": 4, "wall_s": 0.21104136854410172, "cpu_seconds": 15.670000000000002, "peak_torch_bytes": 319687168}
+{"event": "started", "worker": 0, "tile": 47}
+{"event": "tile_complete", "worker": 1, "tile": 46, "spp": 4, "wall_s": 0.18394230492413044, "cpu_seconds": 15.21, "peak_torch_bytes": 329050624}
+{"event": "started", "worker": 1, "tile": 48}
+{"event": "tile_complete", "worker": 0, "tile": 47, "spp": 4, "wall_s": 0.21636866219341755, "cpu_seconds": 15.96, "peak_torch_bytes": 319687168}
+{"event": "tile_complete", "worker": 1, "tile": 48, "spp": 4, "wall_s": 0.18056784011423588, "cpu_seconds": 15.41, "peak_torch_bytes": 329050624}
+{"event": "complete", "key": "fabric_neural_r0_800", "wall_s": 16.603379039093852}
