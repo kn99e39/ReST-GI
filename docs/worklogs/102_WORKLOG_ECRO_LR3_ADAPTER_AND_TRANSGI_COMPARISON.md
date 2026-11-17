@@ -256,3 +256,83 @@ GI + reference DI vs Ref-65 FULL (LDR RMSE / SSIM): TransGI 0.0736 / 0.864; ECRO
 
 ### Status
 WL102 stages 1–3 complete. **Stage 4 (rigid edit) is not started; it needs a separate decision.** Comparability (WL67 classes): physically aligned for quality and for timing (same host). The declared depth and transport differences (TransGI full depth via probes; ECRO D = 6) are part of the result.
+
+## Final report (stages 1–3, static Living Room 3)
+
+### Question and answer
+- **Question.** Can ECRO v0 run on a real triangle-mesh scene, Bitterli *Living Room 3*, through scene-adapter extensions only? How do its static GI quality on a full-depth physical reference, and its lifecycle cost, compare with an independent TransGI reproduction on the same scene, camera, reference and GPU?
+- **Answer.**
+  - **Yes, adapter-level only.** Gates A1–A3 pass; no architecture expansion was needed.
+  - **On the final reference Ref-65, TransGI is more accurate:** GI LDR RMSE 0.0775 vs ECRO converged 0.102, and ECRO 0.170 at its 4 spp operating point.
+  - **ECRO's learned representation is as accurate as its own physical 6-event estimator** (0.015 vs 0.014 on Ref-7) under an area light it never saw. Its fixed D = 6 truncation alone costs 0.096 on Ref-65.
+
+### Implementation fact
+- **Unchanged ECRO.**
+  - The ECRO v0 network (`model86.py`, 735,664 parameters) and the 4 × 16 bin table.
+  - The WL100 objective and schedule; D = 6 (events 1–2 path-traced, events 3–6 learned).
+  - The source-independence contract.
+  - The original modules are imported; no historical file is edited.
+- **Added (`experiments/ecro_lr3_102/`).**
+  - A mesh patch layout: exact 25 cm cell regions per object and dominant-normal class; N = 8,051, of which 3,742 are back-side patches.
+  - Position-based patch lookup with two-sided handling; area-weighted patch sampling.
+  - A physical material dispatcher: the scene's own Mitsuba BSDFs, with deterministic 69-float encoder rows (WL100 precedent).
+  - Area-light NEE and source encoding; a W×H camera from the scene's sensor.
+  - Per-scene data: the fixed geometry × free-space point lights, WL100 split sizes.
+- **TransGI** (separate repository): its recommended configuration (D_vis probes, LeakyReLU, fast frame), its own datagen and training, run on LabServer69.
+
+### Observation
+GI vs Ref-65 (static V0, 640×360; LDR = clip(x,0,1)^(1/2.2)):
+
+| Estimate | LDR RMSE | LDR L1 | SSIM | HDR bias | vs Ref-7 LDR RMSE |
+|---|---|---|---|---|---|
+| TransGI, 4 spp | **0.0775** | **0.0423** | 0.825 | −0.9 % | 0.114 |
+| ECRO, 4 spp | 0.170 | 0.142 | 0.191 | −28.1 % | 0.123 |
+| ECRO, converged LOW (2 × 512 spp) | 0.102 | 0.087 | 0.862 | −28.2 % | **0.015** |
+| Physical 6 events (= ECRO with an exact table) | 0.098 | 0.082 | 0.835 | −26.8 % | 0.014 |
+| Ref-7 (truncation only) | 0.096 | 0.082 | 0.964 | −26.8 % | — |
+
+- **Error character** (regions table above; `evaluation/102/comparison_overview.png`).
+  - TransGI's error is local: niches, cushion chroma, contact under the sofa. Walls are at 0.027.
+  - ECRO's error is a global darkening that tracks the truncation map in every region (within 0.01 of truncation alone).
+- **ECRO's learned higher order alone** (hl vs physical events 3–6): relative L1 0.060.
+- **Cost on LabServer69, each step GPU-exclusive:**
+  - Data generation: TransGI 2,405 s vs ECRO 371 s.
+  - Training: TransGI 417 s vs ECRO 3,135 s.
+  - Light change: ECRO 195 ms (source 166 ms, generator 26 ms, apply 2.7 ms).
+  - Frame: TransGI 7.99 ms at 1 spp; ECRO 27.3 ms at 1 spp and 27.7 ms at 4 spp. ECRO ran the unoptimised pt path; the WL101 runtime was not ported.
+
+### Interpretation
+- **Representation.** On this scene and light the ECRO table carries the 6-event transport essentially exactly. The remaining Ref-7 error is the physical estimator's own noise level. Generalisation from point-light training to the area light holds here.
+- **Truncation.** Fixed D = 6 is the binding limit on Ref-65 in an albedo-≈1 room: 33 / 23 / 19 % of the GI mean lies beyond 6 events. TransGI's probes carry full-depth light, so its total error is below ECRO's truncation alone.
+- **Operating point.** ECRO's path-traced e2 is noisy at 4 spp (SSIM 0.19). Its quality depends on LOW sampling, which TransGI's frame does not have.
+- **Cost.** ECRO's frame time here is implementation-bound (identical at 1 and 4 spp). It is an upper bound, not a method limit.
+
+### Deviations and process faults (disclosed)
+- **Amendment 1** (pre-result). Exact cell regions instead of centroid binning; the A1 gate was operationalised before it was run.
+- **Training collapse.**
+  - The pre-registered seed 10201 collapsed to a zero output (run 1, kept).
+  - The area-input attribution was refuted by a 3-seed diagnostic: the original configuration recovers in 2 of 3 seeds at 1,500 steps. Amendment 2 was withdrawn; run 2 is kept.
+  - **Amendment 3** (owner-approved, post hoc): seed substitution to 10202. This departs from WL100's no-restart rule.
+- **Process faults** (no effect on results). Two idle-GPU gaps (≈ 30 and 66 min) from agent watcher bugs; one OOM in the seed diagnostic, rerun.
+
+### Unresolved
+- Seed sensitivity of the trained result beyond one completed run, and the cause of the warm-up near-collapse. Both untested.
+- ECRO with an optimised runtime on meshes (not authorised in stages 1–3).
+- One scene, one view, one light, static only.
+
+### Verdict (scope above)
+- **ECRO scene-adapter compatibility with a Bitterli mesh scene:** SUPPORTED (gates A1–A3; no architecture expansion).
+- **ECRO representation accuracy at its own depth (Ref-7):** SUPPORTED, at physical-estimator noise level.
+- **Static GI fidelity on Ref-65 relative to TransGI:** not reached. ECRO 0.102 converged and 0.170 at 4 spp vs TransGI 0.0775; the binding cause is the fixed 6-event depth.
+- **Training reliability:** NOT SUPPORTED as pre-registered (seed 10201 collapsed); 2 of 3 seeds recover.
+- No superiority or Full Recompute claim follows; no edit was run.
+
+### Reproducibility
+- Code: branch `ecro_lr3_adapter` (`experiments/ecro_lr3_102/`: `mesh102.py`, `pt102.py`, `gen102.py`, `train102.py`, `eval102.py`, `metrics102.py`, `masks102.py`, `figs102.py`, `diag102.py`, `chain102*.sh`).
+- Results:
+  - `experiments/ecro_lr3_102/results/`: metrics, training and evaluation JSONs, diagnostics, chain logs.
+  - `evaluation/102/`: 19 figures + `manifest.json`.
+  - Raw arrays on LabServer69 `~/rest_wl102/results/wl102/` and `~/TransGI-Reproduction-data/runs/living_room_3/`.
+
+### Next
+**Stage 4 (dynamic rigid edit on LR3) was approved by the owner on 2026-11-17** after this report's numbers. It is pre-registered in a separate amendment before any edit result.
