@@ -19,7 +19,7 @@ def gpu_util():
         return 100
 
 
-def wait_idle(need_s=60):
+def wait_idle(need_s=int(os.environ.get('DYN101_IDLE_S', '60'))):
     """Protocol contention rule: start a step only after the GPU has stayed below 5 % utilisation for need_s seconds."""
     quiet, waited = 0, 0
     while quiet < need_s:
