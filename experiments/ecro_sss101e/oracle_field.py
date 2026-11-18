@@ -73,7 +73,7 @@ class ExposedOracle:
         assert abs(np.sum((1-self.floor_fraction)*self.geom.PAREA[self.geom.PSID==0])-
                    4*self.box_half[0]*self.box_half[1])<1e-12
 
-    def probes(self, spp, seed, launch):
+    def probes(self, spp, seed, launch, diagnostic=None):
         dr,mi,R,rt=self.dr,self.mi,self.R,self.rt
         n=self.ns*spp
         sd=dr.opaque(mi.UInt64,seed*1000003+launch)
@@ -120,11 +120,29 @@ class ExposedOracle:
         near_tie=(dr.minimum(dr.minimum(dr.minimum(u0,1-u0),dr.minimum(u1,1-u1)),
                     dr.minimum(dr.minimum(u2,1-u2),dr.minimum(u3,1-u3)))<=8e-6)
         near_tie |= dr.abs(dr.dot(w,normal)-1e-6)<=8e-6
-        tie=candidate&attached&(~address_match|~native_front)&near_tie
+        # A finite-precision planar sample that rounds onto its closed outline
+        # can be missed by triangle traversal; this is a numerical edge tie.
+        area_edge=dr.minimum(dr.minimum(u0,1-u0),dr.minimum(u1,1-u1))
+        rounded_miss=~hits.is_valid()&(sid!=6)&(area_edge<=4*np.finfo(np.float32).eps)
+        tie=candidate&((attached&(~address_match|~native_front)&near_tie)|rounded_miss)
         invalid=candidate&~tie&(~attached|~address_match|~native_front)
         valid=candidate&attached&address_match&native_front
         state={"valid":valid,"buried":buried,"back":back,"tie":tie,"invalid":invalid,
                "negative_ring_zero":valid&(sid==6)&(local.z<0),"point_error":dr.select(valid,point_delta,0.)}
+        if diagnostic is not None:
+            bad_indices=dr.compress(invalid)
+            dr.eval(bad_indices)
+            if dr.width(bad_indices)>0:
+                values={"slot":slots,"expected_pid":pid,"expected_sid":sid,"expected_bin":bn,
+                        "actual_pid":actual_pid,"actual_bin":actual_bin,"actual_sid":rt.shape_id(hits),
+                        "point_error_m":point_delta,"normal_dot":dr.dot(hits.n,normal),
+                        "native_valid":hits.is_valid(),"native_front":native_front,
+                        "analytic_front_cos":dr.dot(w,normal),"is_near_tie":near_tie,
+                        "u0":u0,"u1":u1,"u2":u2,"u3":u3,
+                        "requested_x":p.x,"requested_y":p.y,"requested_z":p.z,
+                        "attached_x":hits.p.x,"attached_y":hits.p.y,"attached_z":hits.p.z}
+                diagnostic.append({"launch":launch,**{k:np.asarray(dr.gather(type(v),v,bad_indices)).tolist()
+                                                     for k,v in values.items()}})
         return slots,mi.Ray3f(p+w*0.002,-w),hits,rng,sd,state
 
     def trace(self,ray,hits,rng,sd,valid,mode):

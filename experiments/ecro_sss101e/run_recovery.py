@@ -20,7 +20,7 @@ PROTOCOL=HERE/"protocol/recovery.json"
 P=json.loads(PROTOCOL.read_text())
 
 
-def main(root,out,commit,preflight):
+def main(root,out,commit,preflight,diagnose):
     reference=root/A["references"]["path_in_wl101"]
     sources=validate_inputs(root,reference)
     wait_for_gpu()
@@ -77,6 +77,16 @@ def main(root,out,commit,preflight):
     run["B_theta"]=save("B_theta.npz",B=learned)
     oracle,build_s=timing(lambda: ExposedOracle(R,rt))
     print(f"Attached native shape views in {build_s:.2f}s",flush=True)
+    if diagnose:
+        details=[]
+        batch=P["batch_spp"]
+        started=time.perf_counter()
+        for launch in range(P["spp_per_slot_replica"]//batch):
+            oracle.probes(batch,P["seeds"][0],launch,diagnostic=details)
+        run["membership_only"]={"seed":P["seeds"][0],"seconds":time.perf_counter()-started,"details":details}
+        write_json(out/"run_manifest.json",run)
+        print(run["membership_only"],flush=True)
+        return
     address=readout_preflight(rt,R,cam)
     seed=P["qualification_seed"]
     print("Checking matched suffix ownership",flush=True)
@@ -162,5 +172,6 @@ if __name__=="__main__":
     p.add_argument("output",type=Path)
     p.add_argument("commit")
     p.add_argument("--preflight",action="store_true")
+    p.add_argument("--diagnose",action="store_true")
     a=p.parse_args()
-    main(a.wl101.resolve(),a.output.resolve(),a.commit,a.preflight)
+    main(a.wl101.resolve(),a.output.resolve(),a.commit,a.preflight,a.diagnose)
