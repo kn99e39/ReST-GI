@@ -88,10 +88,10 @@ def main():
                 L = PT.Lights([{'pos': pos, 'rgb': [INTENSITY] * 3}])
                 s.append(ctx.source(L))
                 seed = c['seed'] * 1000 + i * 10 + j
-                a, b, _ = ctx.field_components(L, c['spp'], seed)
+                a, b, _ = ctx.field_components(L, c['spp'], seed, b=C.BATCH['field'])
                 f2.append(a); fh.append(b)
                 if c['halves'] == 2:
-                    a, b, _ = ctx.field_components(L, c['spp'], seed + 500000)
+                    a, b, _ = ctx.field_components(L, c['spp'], seed + 500000, b=C.BATCH['field'])
                     f2b.append(a); fhb.append(b)
             d = {'lights': json.dumps(ls), 's': np.stack(s), 'f2': np.stack(f2), 'fh': np.stack(fh)}
             if f2b:

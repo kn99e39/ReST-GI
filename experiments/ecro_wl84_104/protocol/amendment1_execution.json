@@ -1,0 +1,10 @@
+{
+ "id": "WL104 execution amendment 1",
+ "date": "2026-11-18",
+ "trigger": "Owner observed slow progress and low resource use. The first evidence chain (freeze 8a91ee2) ran at about 0 % GPU utilisation: Dr.Jit 0.4.6 re-traces Python on every launch, so 64-spp launches were CPU-bound, and reference halves slowed from 99 s to 216 s.",
+ "evidence_state": "The chain was stopped during the references of the first image (4 of 10 halves written). No reference, dataset, model or metric was inspected. The partial directory is preserved as results/ecro_wl84_104/evidence_aborted_b64/ and is not used.",
+ "benchmark": "experiments/ecro_wl84_104/bench104.py and an inline follow-up (logged in the worklog). Per 4096 spp, reference wall time was 10.3 s at 64 spp per launch and 2.9 s at 1024 for layered, and 32.4 s and 3.7 s for learned-ER. The tracer at 1024 spp took 221 s at 8 per launch and 7.0 s at 256. At 4096 spp the tracer took 8.2 s at 512 per launch and 43 s at 1024, when VRAM was full. A 64-spp field took 2.65 s at 16 per launch and 0.87 s at 64.",
+ "change": "Samples per launch only: references 2048 (was 64), ECRO tracer components and ECRO converged frames 512 (was 8), dataset fields 64 (was 16), ECRO 64-spp frames 64 (was 8). common104.BATCH.",
+ "unchanged": "Estimators, spp, seed bases, gates, thresholds, datasets sizes, training recipe, analysis. Per-launch RNG streams differ because the launch layout changes (statistically equivalent).",
+ "rerun": "The evidence chain restarts from the beginning in a fresh directory."
+}
