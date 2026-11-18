@@ -33,3 +33,15 @@ Self-tests check the weighted estimators, fallbacks, the nested reconstruction o
 5. **Memory.** A shape-order bug in table upload was fixed, and the arm group size was lowered for GPU memory.
 
 In the development launch, 1.6% of accepted segments end on a back face, almost all of them the panel's back seen from the left wall. These are excluded from V and G by definition.
+
+## Amendment 1 — construction membership numerics (owner-approved, 2026-11-18)
+
+The frozen primary run (commit `2f9f5754e5c9e9a770cbf35dafee5f419e241a78`, output `results/ecro_sss101g/primary/`) stopped at Stage 1 in construction replica 0 (seed 10203101). Membership counted 328,376,813 valid, 2,814,099 buried, 1,731,204 back, 763 tie and **1 invalid**. The stop came after Stage 0 consistency and before any evaluation stream, so no held-out radiance existed. A read-only geometry replay located the sample at launch 57, slot 77555 (Box B patch 1211, bin 51). Its area coordinate is u1 = 5.96e-7, 5 float32 epsilons from the patch edge. The native attachment query hit no surface at all. WL101E's inherited rule counts planar edge misses as ties only within 4 epsilons.
+
+The research owner approved Amendment 1 under explicit restrictions ([amendment](../../experiments/ecro_sss101g/protocol/amendment1.json)):
+
+- **Reclassification.** A WL101G subclass reclassifies a sample that the unchanged WL101E sampler marks invalid. Three conditions must all hold: the native query returned no hit (so there is no wrong-surface hit), the shape is planar, and the area coordinate lies within WL101E's existing 8e-6 tie window.
+- **Accounting.** Such samples are ties. They are excluded from numerator and denominator and receive no radiance. The tie-rate gate is unchanged.
+- **Stop rules.** Any other invalid sample still stops the run. I read "the same kind of miss recurs" as a systematic recurrence and set that, before the rerun, as more than 1e-6 amended ties per eligible proposal in any replica (the incident rate was 3e-9). Either case stops the run with no further tolerance.
+
+On the failing launch, the amended classifier moves exactly that one sample from invalid to tie and leaves the valid, buried and back counts unchanged (`amendment1_verification.log`). The complete primary reruns from Stage 0 in `results/ecro_sss101g/primary_a1/` with identical seeds, spp, views, thresholds and analysis. The failed output, its log and the replay (`primary_membership_replay.log`) are preserved. The code before the amendment is `2f9f575`; the code after is the Amendment 1 commit.

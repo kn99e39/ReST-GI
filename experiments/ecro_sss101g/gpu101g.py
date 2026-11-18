@@ -10,6 +10,30 @@ from query_readout import LUMA, QueryReadout
 ROOM = {"x": (-2.0, 2.0), "y": (-2.0, 2.0), "z": (0.0, 3.0)}
 
 
+def amended_oracle(base_cls, window):
+    """WL101G Amendment 1: reclassify planar native misses inside the existing coordinate tie window.
+
+    The WL101E ExposedOracle classification runs unchanged first. A proposal it marks invalid becomes
+    a numerical tie only if the native attachment query returned no hit at all (so no wrong-surface
+    hit), the requested shape is planar, and min(u0, 1-u0, u1, 1-u1) <= window. u0, u1 are
+    regenerated from the identical PCG32 stream.
+    """
+    class AmendedOracle(base_cls):
+        def probes(self, spp, seed, launch, diagnostic=None):
+            dr, mi, R = self.dr, self.mi, self.R
+            slots, ray, hits, rng, sd, info = super().probes(spp, seed, launch, diagnostic)
+            replay = mi.PCG32(size=self.ns * spp, initstate=sd, initseq=mi.UInt64(0))
+            u0, u1 = replay.next_float32(), replay.next_float32()
+            sid = dr.gather(R.U, self.ids, slots // 64)
+            edge = dr.minimum(dr.minimum(u0, 1 - u0), dr.minimum(u1, 1 - u1))
+            amended = info["invalid"] & ~hits.is_valid() & (sid != 6) & (edge <= window)
+            info["tie"] = info["tie"] | amended
+            info["invalid"] = info["invalid"] & ~amended
+            info["amended_tie"] = amended
+            return slots, ray, hits, rng, sd, info
+    return AmendedOracle
+
+
 def room_exit(o, w, dr, mi, R):
     """Exit face of the room box along o + t w, and whether the exit point is within 1e-3 m of an edge."""
     big = R.F(1e30)
@@ -38,6 +62,7 @@ def construct(reader, oracle, cfg, seed, monitor, launches=None):
     totals = {k: 0 for k in ("valid", "buried", "back", "tie", "invalid")}
     segments = {k: 0 for k in ("front", "back_receiver", "opening", "seam", "tangency", "unexplained")}
     max_coord, n_launch = 0., (spp // batch if launches is None else launches)
+    amended_ties = 0
     scene = oracle.scene
     for i in range(n_launch):
         slots, ray, hits, rng, sd, info = oracle.probes(batch, seed, i)
@@ -45,6 +70,7 @@ def construct(reader, oracle, cfg, seed, monitor, launches=None):
         assert not bool(dr.any(count != info["valid"])[0])
         for key in totals:
             totals[key] += int(dr.count(info[key])[0])
+        amended_ties += int(dr.count(info["amended_tie"])[0]) if "amended_tie" in info else 0
         ids = dr.compress(info["valid"])
         grab = lambda x: dr.gather(type(x), x, ids)
         hit, r, requested = grab(hits), grab(ray), dr.gather(R.U, slots, ids)
@@ -85,7 +111,8 @@ def construct(reader, oracle, cfg, seed, monitor, launches=None):
     assert int(round(packet["n"].sum())) == totals["valid"]
     assert sum(segments.values()) == totals["valid"]
     meta = {"seed": seed, "launches": n_launch, "proposals_per_slot": batch * n_launch,
-            "membership": totals, "segments": segments, "coordinate_excursion": max_coord}
+            "membership": totals, "segments": segments, "coordinate_excursion": max_coord,
+            "amendment1_ties": amended_ties}
     return packet, meta
 
 

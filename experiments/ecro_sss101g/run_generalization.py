@@ -32,6 +32,7 @@ import selftest101g  # noqa: E402
 import tables101g as T  # noqa: E402
 
 PROTOCOL = HERE / "protocol/generalization.json"
+AMENDMENT1 = HERE / "protocol/amendment1.json"
 P = json.loads(PROTOCOL.read_text())
 G = P["gates"]
 CI = P["camera_independent_construction"]
@@ -66,11 +67,12 @@ def validate_construction(packet, meta, stats):
     eligible = sum(m.values()) - m["buried"] - m["back"]
     assert m["invalid"] == 0, ("Construction membership", m)
     assert m["tie"] <= G["uniform_audit_tie_fraction"] * eligible, ("Construction ties", m)
+    assert meta["amendment1_ties"] <= 1e-6 * eligible, ("Amendment 1 recurrence stop", meta["amendment1_ties"], m)
     assert meta["coordinate_excursion"] <= G["address_coordinate_tolerance"]
     assert seg["unexplained"] == 0, ("Containment", seg)
     assert seg["seam"] <= 2e-5 * m["valid"], ("Seam leaks", seg)
     assert seg["tangency"] <= 2e-5 * m["valid"], ("Tangency misses", seg)
-    return {"tie_fraction_of_eligible": m["tie"] / eligible, "seam_fraction": seg["seam"] / m["valid"],
+    return {"tie_fraction_of_eligible": m["tie"] / eligible, "amendment1_fraction_of_eligible": meta["amendment1_ties"] / eligible, "seam_fraction": seg["seam"] / m["valid"],
             "tangency_fraction": seg["tangency"] / m["valid"], "back_receiver_fraction": seg["back_receiver"] / m["valid"]}
 
 
@@ -112,7 +114,8 @@ def run(root, out, commit, smoke):
     reader0, learned, base_unused, wl101e, prior, history, reference, manifest = F101.inputs(root)
     R, rt = reader0.R, reader0.rt
     out.mkdir(parents=True, exist_ok=False)
-    run = {**manifest, "commit": commit, "protocol_sha256": sha(PROTOCOL), "smoke_mode": smoke,
+    run = {**manifest, "commit": commit, "protocol_sha256": sha(PROTOCOL), "amendment1_sha256": sha(AMENDMENT1),
+           "smoke_mode": smoke,
            "stages": {}, "files": {}, "gpu_memory_observations_mib": [], "selftest": None}
     e_base, fdir, wl101f, uniform, uniform_native, uniform_stats, ftables = load_baselines(root, wl101e)
     run["baseline_manifests"] = {"wl101e": sha(e_base / "run_manifest.json"), "wl101f": sha(fdir / "run_manifest.json")}
@@ -183,7 +186,7 @@ def run(root, out, commit, smoke):
     run["stages"]["0"] = {"passed": True}
 
     # ---------------------------------------------------------------- stage 1
-    oracle = ExposedOracle(R, rt)
+    oracle = GG.amended_oracle(ExposedOracle, json.loads(AMENDMENT1.read_text())["window"])(R, rt)
     cfg = {**CI, "gates": G}
     det_seed = 10203001
     first, m1 = GG.construct(readers["V0"], oracle, cfg, det_seed, None, launches=1)
