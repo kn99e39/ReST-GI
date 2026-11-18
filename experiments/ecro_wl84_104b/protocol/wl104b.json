@@ -1,0 +1,121 @@
+{
+ "id": "WL104B",
+ "title": "Learned-ER material-fidelity error attribution on the WL84 scenes (events, angular response, pipeline stages, image correspondence); diagnostic only",
+ "authorization": "User brief 2026-11-18 (bounded diagnostic ER error attribution). Machine: local RTX 5080 (owner answer), parallel worker processes. Branch ecro_wl84_scene.",
+ "class": "Suffix of WL104 (AGENTS.md: dependent evidence-gap follow-up attributing the material error measured by WL104 / WL104A; no mechanism, no training). No WL104B exists on any branch at freeze time.",
+ "frozen_sources": {
+  "materials": "materials83.npz (layered descriptors), fit_<set>_L_ER_s8301.npz (ER_L, compiler seed 8301), fit_<set>_ER_cert_metric_12000_generic.npz (ER_DF, WL83 direct fit); copied from LabServer63 for WL104 (hashes in the WL104 protocol)",
+  "state_sha256": {
+   "ER_L": "WL84 audit84.json ER_L (as WL104)",
+   "ER_DF": "WL84 audit84.json ER_DF"
+  },
+  "wl83_response_data": "eval83_<set>.npz (WL83 high-precision layered eval set: 8 theta x 2 phi x 1024 mixture directions per material, halves), fit82_<set>.npz (WL83 fit targets), lanes83_<set>.npz (WL83 per-lane el1 / ealb / eshape), copied read-only from LabServer63 into results/ecro_wl84_104b/inputs63 (server sha256 spot-checked)",
+  "code": "closure82 (+ closure83 robust-refraction patch, as WL83 evaluated), closure83_dr (runtime), layered81 / data81.ref_eval (physical walks), eval82.group_metrics (WL82 / WL83 metrics), render83 plugins cmp83 / lay81, pt102 tracer, WL104 scene: all imported unchanged"
+ },
+ "event_contract": "One tracer (pt102 'cam', D = 6, next-event estimation at every vertex, the scene BSDF as the only material dispatcher) for all arms: E1 = NEE at camera hit 1, E2 = at hit 2, HIGH = hits 3..6, TOTAL = E1 + E2 + HIGH. Only the BSDF differs between arms (lay81 / cmp83 ER_L / cmp83 ER_DF). The response contract is eval(wi, wo) = f cos(theta_o), wi on the camera side, in the shading frame, in every evaluator.",
+ "arms": {
+  "LAY": "physical layered as rendered in WL84 / WL104 (render81.Lay81 plugin; layered81 default walk depth 64; PASS_SEED per launch)",
+  "LAY1024": "DIAGNOSTIC: the same layered plugin code with walk depth 1024 (experiment-local subclass h104b.Lay104b), i.e. the WL83 fitting / evaluation reference definition (data81.ref_eval max_depth 1024); added before freeze after the pipeline smoke showed the in-scene layered E1 4 % below ref_eval for hard_1",
+  "ER_L": "learned compiler output (the WL84 learned-ER material)",
+  "ER_DF": "same ER closure family, WL83 per-material direct fit (fitting-procedure reference: separates compiler generalisation from the family / fit)"
+ },
+ "rois": {
+  "source": "Centre-ray first hits of the WL104 mesh scene and the WL104 layered full-depth reference (LAY65 halves, existing) for the highlight; fixed before any WL104B arm comparison",
+  "objects": "sphere or cube",
+  "sphere": "sphere",
+  "cube": "cube",
+  "highlight_core": "objects with luminance(WL104 LAY65 mean) >= 3 x its object median (the WL84 / WL104 highlight mask)",
+  "highlight_ring": "sphere pixels within 6 px (8-neighbour dilation) of the sphere part of highlight_core, excluding the core (the WL104A highlight-ring residual region)",
+  "grazing": "objects with render81 |n . d| <= 0.25 (WL84)",
+  "full": "full frame",
+  "primary": [
+   "objects",
+   "highlight_core",
+   "highlight_ring"
+  ]
+ },
+ "metrics": {
+  "event_energy": "signed ROI energy difference of each event (X - LAY), Rec.709 luminance, relative to the LAY TOTAL ROI energy; exact additivity TOTAL = E1 + E2 + HIGH; delete-one jackknife over replicates, t_{R-1} 95 %",
+  "event_spatial": "stable mean squares (cross-replicate U-statistics) of each event difference and of each pair (cross terms): MS(TOTAL) = sum_e MS(e) + sum_{e != f} C(e, f) exactly; shares of MS(TOTAL); stable relative RMS of each event vs the LAY TOTAL RMS; descriptive relative L1 of each event vs that event's own LAY magnitude with its half-split noise floor (never added)",
+  "response_wl83_set": "per material and probe direction (8 theta x 2 phi of the WL83 eval set): el1, ealb (energy), eshape (shape: albedo-weighted total variation of the normalized responses), signed luminance albedo ratio a_X / a_LAY, with the WL83 half-difference noise",
+  "response_grids": "per material, theta_i in {5, 20, 35, 50, 60, 70, 80, 86} deg, phi_i in {0, 90} deg: (a) polar grid around the mirror direction (radius 15 deg, 0.25 deg rings, 96 azimuths, exact ring-segment solid angles): cone energy, peak value and its offset from the mirror direction, energy centroid offset, RMS radius about the centroid; (b) hemisphere grid 1 x 2 deg: atlas, total variation of normalized luminance distributions, grid albedo; LAY as two halves; ER deterministic",
+  "correspondence": "centre-ray predicted E1 difference dE1 = (eval_X - eval_LAY)(wi_px, wo_px) I / d^2 (visible object pixels) and its split into an energy part (a_X(wi) / a_LAY(wi) - 1) eval_LAY I / d^2 and a shape part (the remainder), per-pixel albedos by mixture Monte Carlo with common directions; compared with the rendered E1 difference (replicate means) on objects eroded by 1 px: Pearson r, OLS slope (rendered on predicted), ROI energy ratio; and on the primary ROIs"
+ },
+ "contracts": {
+  "C0": "ER_L and ER_DF compiled-state sha256 equal the WL84 audit",
+  "C1": "event semantics: one tracer for all arms (construction) + render contract: tracer E1 at centre rays equals the closure prediction (ER: max |diff| / max <= 1e-5 over visible object pixels) and the layered prediction within noise (LAY: |z| <= 4 for the object-integrated E1 over the passes)",
+  "C2": "tracer TOTAL (D = 6) vs Mitsuba max_depth 7: LAY and ER_L vs WL104 LAY7 / ER7, ER_DF vs new 2 x 16384-spp Mitsuba ER_DF depth 7: object and full mean ratios within 1 %, object rel L1 <= 1.5 x the half-noise expectation",
+  "C3": "Dr.Jit runtime vs torch closure on the WL83 eval directions of the material: max |diff| / max <= 1e-5; ER reciprocity (declared by construction) max relative <= 1e-4",
+  "C4": "precision targets (below)",
+  "C5": "(a) WL83 per-lane el1 / ealb / eshape of ER_L and ER_DF reproduced to <= 1e-4 absolute; (b) WL84 object material error (ER_L vs LAY TOTAL, 6 events) within 0.005 of WL104 (0.035 / 0.027 / 0.030)",
+  "S_target": "WL83 fit targets of the material vs a new 8192-walk layered estimate at 4096 of its pairs: energy ratio within 3 SE of 1 and relative L1 <= 1.25 x hypot(target-halves expectation, new-halves expectation) -> targets unbiased within their noise"
+ },
+ "sampling": {
+  "R": 32,
+  "spp": 4096,
+  "image_seeds": "1049000 + 10000 i + r (shared by the three arms)",
+  "grid_walks": 1024,
+  "grid_dth_deg": 1.0,
+  "grid_dph_deg": 2.0,
+  "polar_walks": 4096,
+  "polar_rmax_deg": 15.0,
+  "polar_dr_deg": 0.25,
+  "polar_naz": 96,
+  "probe_theta_deg": [
+   5,
+   20,
+   35,
+   50,
+   60,
+   70,
+   80,
+   86
+  ],
+  "probe_phi_deg": [
+   0,
+   90
+  ],
+  "target_pairs": 4096,
+  "target_walks": 8192,
+  "pixel_walks": 16384,
+  "albedo_samples": 1024,
+  "albedo_walks": 32,
+  "lay_centre_passes": 64,
+  "mitsuba_spp_half": 16384,
+  "evalset_walks_d64": 2048,
+  "stopping": "Fixed budget, no extension. A precision target missed by the data is reported as unresolved for that quantity.",
+  "precision_targets": "image event energy 95 % half-width <= 0.25 % of LAY TOTAL; stable relative RMS half-width <= 0.5 %; response albedo-ratio noise <= 0.2 %"
+ },
+ "comparisons": {
+  "ER_X_vs_LAY1024": "ER response error attribution against the data-consistent physical reference (primary for events, fit-vs-learned and correspondence)",
+  "ER_X_vs_LAY": "the WL84 / WL104 in-scene reference semantics (C5b, the WL104A LOW-dominance check)",
+  "LAY_vs_LAY1024": "the in-scene reference's own walk truncation"
+ },
+ "walk_depth_controls": "WL83 eval set with depth-64 walks (2048 per pair) vs the WL83 depth-1024 reference; centre-ray depth-64 vs depth-1024 predictions; C1 checks each in-scene layered plugin against the reference of its own walk depth",
+ "classification_rules": {
+  "PHYSICAL_REFERENCE_LIMITATION_SUPPORTED": "in at least one image: |LAY - LAY1024| object TOTAL energy lower bound > 1 % of LAY1024 TOTAL, or object TOTAL stable relative RMS lower bound > 2 %, or the centre-ray E1 walk-depth ratio differs from 1 by > 1 % with |z| > 4",
+  "RENDERING_CONTRACT_ERROR_SUPPORTED": "any failure of C1, C2 or C3",
+  "dominant_event": "per image and primary ROI: the event with the largest |signed energy| share of the TOTAL energy difference and, separately, the largest share of MS(TOTAL) (cross terms reported, never folded)",
+  "LOW_dominance_WL104A": "LOW share = MS(E1 + E2 difference) / MS(TOTAL difference) on objects; supported if its jackknife lower bound >= 0.5 in at least 2 of 3 images; E1 vs E2 split reported",
+  "response_class": "per probe: energy-significant if |a_X / a_LAY - 1| >= 0.01 and > 3 x its noise; shape-significant if eshape - noise_eshape >= 0.02; class energy / shape / both / none; per material the counts over the 16 probes",
+  "correspondence_established": "per image, objects eroded: r >= 0.8 and slope within [0.8, 1.25]; otherwise documented lack of correspondence",
+  "pipeline_stage": "earliest stage: S_target (targets) -> ER_DF (family + fitting) -> ER_L (compiler) -> C3 (runtime) -> C1 (render). FIT_OR_TRAINING_LIMITATION_SUPPORTED if ER_DF < 0.75 x ER_L for both the mean el1 over the 16 WL83-set probes and the object stable RMS of the TOTAL difference in at least 2 of 3 materials (the frozen family can do clearly better than the learned compiler). REPRESENTATION_LIMITATION_SUPPORTED (qualified: for the frozen direct-fit procedure, not a capacity proof) if ER_DF >= 0.75 x ER_L for both in at least 2 of 3 materials, targets are unbiased and all contracts pass. MIXED_CAUSES_SUPPORTED if the materials or the event / response classes split between these. INCONCLUSIVE otherwise or on unresolved precision.",
+  "note": "A training-target limitation is reported if S_target fails. These are evidence classes, not authorisation."
+ },
+ "display": "One signed / absolute scale per figure family of WL104B (max |value|), sign(x) log(1 + |x|/m0) / log(1 + M/m0), m0 = M / 1000, real-unit colorbars; response atlases on a per-material shared scale with the same mapping",
+ "artifacts": {
+  "code": "experiments/ecro_wl84_104b/",
+  "raw": "results/ecro_wl84_104b/",
+  "reviewer": "evaluation/104B/",
+  "worklog": "docs/worklogs/104B_WORKLOG_LEARNED_ER_ERROR_ATTRIBUTION.md"
+ },
+ "not_authorised": [
+  "retraining or fine-tuning ER",
+  "capacity, loss, data or schedule changes",
+  "material-parameter changes",
+  "physical reference changes",
+  "normalisation corrections or runtime heuristics",
+  "ECRO or denoiser changes",
+  "a correction batch"
+ ]
+}
