@@ -1,0 +1,18 @@
+{
+ "id": "WL104",
+ "display": {
+  "error_scale_max_linear_hdr_luminance": 6.255652418243884,
+  "mapping": "sign(x) log(1 + |x| / m0) / log(1 + M / m0), m0 = M / 1000; one scale for every error / difference map of WL104",
+  "display_exposure": 0.9986776098219068,
+  "tone": "(e x / (1 + e x))^(1/2.2), display only"
+ },
+ "files": {
+  "decomposition_maps.png": "aa4b2b3d797f7ebaab011b60205a42c5b2561ad04a24dbc8e3321b576ba10aa7",
+  "error_bars.png": "90ed1e6bcdb5030df1d8f5f913ab36240fa4e83855c5b27742e1268414d6e10c",
+  "error_maps_test83_hard_1_L1.png": "2ecb0645d6022c8814b127bb8d8c42ac874131acfe5f50f3c839b0a5d5d7e63d",
+  "error_maps_test83_iid_0_L2.png": "6fdac12966fda64206444be1d1456e306d58cae87c6f3642e43d7845522887f6",
+  "error_maps_test83_iid_1_L2.png": "a8a1db40623175d1b06728d452ee09aa00e2950c57f538f1b20fb9e303d4490d",
+  "training_validation.png": "3792a9bcf1fa2274d159c4ac95c3dcb13ccebd9ef9f5a1ce2757483beab6aad7",
+  "metrics.json": "68c5824db0e723776598ed5c2ab7be8d58bdbf0ae0030f7e0ef10ce4a5a20521"
+ }
+}
