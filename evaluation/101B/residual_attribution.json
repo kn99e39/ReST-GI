@@ -1,0 +1,229 @@
+{
+  "labels": "Post-hoc diagnostic using executed outputs; never feeds reconstruction or the frozen gates.",
+  "ref_pair_sha256": [
+    "797f22a8f52a288f09250e805b4334008253766f806d6df197f8ef0e40449377",
+    "8145d022e682fc8ba7ec1c08248ee4e483d85b1d7b1c70eb6143c9081d343105"
+  ],
+  "ecro_pair_sha256": [
+    "45f22af097adfff383b9fb2ca0c0076cf890dfb449434270de2211eca20f8ddc",
+    "6dea86858f0ac8a80793673ecdec30908426debc0bebb91f658ae539195e88c0"
+  ],
+  "steady_frame_by_spp": {
+    "1": {
+      "frame_sha256": {
+        "static_1spp_r0_f23.npz": "67f0b66ce3840f5697eb90f34a6806a09972b117c389d743848182e872de906a",
+        "static_1spp_r1_f23.npz": "b01d861061893fa1ea81d9fa833274beb9d37bbc09b6da5d23715d7e0bddbb8d",
+        "static_1spp_r2_f23.npz": "b1acf748f87ca82b92067212c1a35aac54c93455dbfbe90558f092adc034d54f",
+        "static_1spp_r3_f23.npz": "9e3300d1e4be4df03251cf78ccaf1912ee6cfa388d681c53ccc0a15b6b8e4ccb"
+      },
+      "pipeline_added_error_against_converged_ecro": {
+        "full": {
+          "interreplicate_variance": 0.0011152966148850953,
+          "stable_mse_cross_debiased": 0.002308285887341964,
+          "reference_mean_mse": 0.00013747847871226258,
+          "stochastic_relative_rms": 0.0061553157844994955,
+          "stable_relative_rms": 0.008855232012960837,
+          "reference_mean_relative_noise": 0.002161088265555853
+        },
+        "sphere": {
+          "interreplicate_variance": 0.0008085422502564309,
+          "stable_mse_cross_debiased": 0.004040852315967751,
+          "reference_mean_mse": 0.00010475641052198362,
+          "stochastic_relative_rms": 0.022535000378422966,
+          "stable_relative_rms": 0.05037820617116139,
+          "reference_mean_relative_noise": 0.008111413005151051
+        },
+        "sphere_interior": {
+          "interreplicate_variance": 0.0005340893178054382,
+          "stable_mse_cross_debiased": -1.3704179149374876e-06,
+          "reference_mean_mse": 9.532648543908959e-05,
+          "stochastic_relative_rms": 0.0216027667489229,
+          "stable_relative_rms": null,
+          "reference_mean_relative_noise": 0.009126604298789143
+        },
+        "sphere_boundary": {
+          "interreplicate_variance": 0.003968900967381118,
+          "stable_mse_cross_debiased": 0.05058753607518343,
+          "reference_mean_mse": 0.00021334313856825247,
+          "stochastic_relative_rms": 0.02425256644607801,
+          "stable_relative_rms": 0.08658533377631565,
+          "reference_mean_relative_noise": 0.005622920093037917
+        },
+        "floor": {
+          "interreplicate_variance": 0.0006112604027199534,
+          "stable_mse_cross_debiased": 0.0006707421609991151,
+          "reference_mean_mse": 9.234307607080312e-05,
+          "stochastic_relative_rms": 0.012788840323067359,
+          "stable_relative_rms": 0.013396638433822885,
+          "reference_mean_relative_noise": 0.0049707303233504285
+        },
+        "contact_shadow": {
+          "interreplicate_variance": 0.0004786226800151294,
+          "stable_mse_cross_debiased": 0.00018908042329298015,
+          "reference_mean_mse": 6.342418502047428e-05,
+          "stochastic_relative_rms": 0.025015813592551967,
+          "stable_relative_rms": 0.01572321227956631,
+          "reference_mean_relative_noise": 0.0091063731563948
+        }
+      },
+      "physical_comparison": {
+        "full": {
+          "interreplicate_variance": 0.0011152966148850953,
+          "stable_mse_cross_debiased": 0.0026129429374930416,
+          "reference_mean_mse": 0.00024264073204803712,
+          "stochastic_relative_rms": 0.006149201829418035,
+          "stable_relative_rms": 0.009412143034832496,
+          "reference_mean_relative_noise": 0.0028681734377951165
+        },
+        "sphere": {
+          "interreplicate_variance": 0.0008085422502564309,
+          "stable_mse_cross_debiased": 0.004396563048645517,
+          "reference_mean_mse": 0.00016958786415357394,
+          "stochastic_relative_rms": 0.022514964051709035,
+          "stable_relative_rms": 0.05250208505686011,
+          "reference_mean_relative_noise": 0.010311391676042508
+        },
+        "sphere_interior": {
+          "interreplicate_variance": 0.0005340893178054382,
+          "stable_mse_cross_debiased": 3.855837417862079e-05,
+          "reference_mean_mse": 0.00015553635745551116,
+          "stochastic_relative_rms": 0.021593794193880893,
+          "stable_relative_rms": 0.005802048685941322,
+          "reference_mean_relative_noise": 0.011653006103095309
+        },
+        "sphere_boundary": {
+          "interreplicate_variance": 0.003968900967381118,
+          "stable_mse_cross_debiased": 0.05457951405311665,
+          "reference_mean_mse": 0.000331392663560804,
+          "stochastic_relative_rms": 0.024208609099535268,
+          "stable_relative_rms": 0.08977378559020555,
+          "reference_mean_relative_noise": 0.006995296893272188
+        },
+        "floor": {
+          "interreplicate_variance": 0.0006112604027199534,
+          "stable_mse_cross_debiased": 0.0009267444544544018,
+          "reference_mean_mse": 0.0001610197853114308,
+          "stochastic_relative_rms": 0.012783920155566345,
+          "stable_relative_rms": 0.01574094914639598,
+          "reference_mean_relative_noise": 0.006561309732879425
+        },
+        "contact_shadow": {
+          "interreplicate_variance": 0.0004786226800151294,
+          "stable_mse_cross_debiased": 0.0005842673012171199,
+          "reference_mean_mse": 0.00012033036704660492,
+          "stochastic_relative_rms": 0.025149052355711844,
+          "stable_relative_rms": 0.02778630372915532,
+          "reference_mean_relative_noise": 0.012609928050768989
+        }
+      }
+    },
+    "4": {
+      "frame_sha256": {
+        "static_4spp_r0_f23.npz": "723a855ae33f8600100707424dac936c1ef43e0c3a9d872e55a5a865b3bb6293",
+        "static_4spp_r1_f23.npz": "4f49e63673eed3b4e42f2933cbf4a59f983ab5c73c5a2566168b83ddc4d73066",
+        "static_4spp_r2_f23.npz": "1ac9513fe0ac93147af8f9d615734d3092fb430391c6e582cc67fae48402c0f9",
+        "static_4spp_r3_f23.npz": "032f7401bb3da1037cd41b3dc6105a93a25edef4eae6b4c56d25dff9e6e58653"
+      },
+      "pipeline_added_error_against_converged_ecro": {
+        "full": {
+          "interreplicate_variance": 0.00048236837770703926,
+          "stable_mse_cross_debiased": 0.0011716050069552604,
+          "reference_mean_mse": 0.00013747847871226258,
+          "stochastic_relative_rms": 0.0040480378161991395,
+          "stable_relative_rms": 0.006308785416579545,
+          "reference_mean_relative_noise": 0.002161088265555853
+        },
+        "sphere": {
+          "interreplicate_variance": 0.00040721684712254324,
+          "stable_mse_cross_debiased": 0.002112135180454798,
+          "reference_mean_mse": 0.00010475641052198362,
+          "stochastic_relative_rms": 0.01599260014072643,
+          "stable_relative_rms": 0.03642227469508328,
+          "reference_mean_relative_noise": 0.008111413005151051
+        },
+        "sphere_interior": {
+          "interreplicate_variance": 0.00023685705065228975,
+          "stable_mse_cross_debiased": 5.519332352401729e-07,
+          "reference_mean_mse": 9.532648543908959e-05,
+          "stochastic_relative_rms": 0.014386183286819013,
+          "stable_relative_rms": 0.0006944575498294642,
+          "reference_mean_relative_noise": 0.009126604298789143
+        },
+        "sphere_boundary": {
+          "interreplicate_variance": 0.0023689305115174074,
+          "stable_mse_cross_debiased": 0.02642727170564533,
+          "reference_mean_mse": 0.00021334313856825247,
+          "stochastic_relative_rms": 0.01873694287439211,
+          "stable_relative_rms": 0.0625818989215809,
+          "reference_mean_relative_noise": 0.005622920093037917
+        },
+        "floor": {
+          "interreplicate_variance": 0.00024494375947292955,
+          "stable_mse_cross_debiased": 0.0003248199827572226,
+          "reference_mean_mse": 9.234307607080312e-05,
+          "stochastic_relative_rms": 0.008095640660087647,
+          "stable_relative_rms": 0.009322650493763435,
+          "reference_mean_relative_noise": 0.0049707303233504285
+        },
+        "contact_shadow": {
+          "interreplicate_variance": 0.0002022546222613691,
+          "stable_mse_cross_debiased": 3.4369508064864786e-05,
+          "reference_mean_mse": 6.342418502047428e-05,
+          "stochastic_relative_rms": 0.01626174785071887,
+          "stable_relative_rms": 0.0067035469123200575,
+          "reference_mean_relative_noise": 0.0091063731563948
+        }
+      },
+      "physical_comparison": {
+        "full": {
+          "interreplicate_variance": 0.00048236837770703926,
+          "stable_mse_cross_debiased": 0.0014469037427334974,
+          "reference_mean_mse": 0.00024264073204803712,
+          "stochastic_relative_rms": 0.004044016979211602,
+          "stable_relative_rms": 0.007003955461375825,
+          "reference_mean_relative_noise": 0.0028681734377951165
+        },
+        "sphere": {
+          "interreplicate_variance": 0.00040721684712254324,
+          "stable_mse_cross_debiased": 0.002412957097319373,
+          "reference_mean_mse": 0.00016958786415357394,
+          "stochastic_relative_rms": 0.01597838079499561,
+          "stable_relative_rms": 0.038895082639012785,
+          "reference_mean_relative_noise": 0.010311391676042508
+        },
+        "sphere_interior": {
+          "interreplicate_variance": 0.00023685705065228975,
+          "stable_mse_cross_debiased": 4.021908219833877e-05,
+          "reference_mean_mse": 0.00015553635745551116,
+          "stochastic_relative_rms": 0.014380208088230536,
+          "stable_relative_rms": 0.005925678566501133,
+          "reference_mean_relative_noise": 0.011653006103095309
+        },
+        "sphere_boundary": {
+          "interreplicate_variance": 0.0023689305115174074,
+          "stable_mse_cross_debiased": 0.029735322366197976,
+          "reference_mean_mse": 0.000331392663560804,
+          "stochastic_relative_rms": 0.01870298249774857,
+          "stable_relative_rms": 0.0662629905246901,
+          "reference_mean_relative_noise": 0.006995296893272188
+        },
+        "floor": {
+          "interreplicate_variance": 0.00024494375947292955,
+          "stable_mse_cross_debiased": 0.0005614144243756941,
+          "reference_mean_mse": 0.0001610197853114308,
+          "stochastic_relative_rms": 0.008092526076820561,
+          "stable_relative_rms": 0.012251596955828333,
+          "reference_mean_relative_noise": 0.006561309732879425
+        },
+        "contact_shadow": {
+          "interreplicate_variance": 0.0002022546222613691,
+          "stable_mse_cross_debiased": 0.0004045868824543017,
+          "reference_mean_mse": 0.00012033036704660492,
+          "stochastic_relative_rms": 0.016348360871016265,
+          "stable_relative_rms": 0.023122292291275787,
+          "reference_mean_relative_noise": 0.012609928050768989
+        }
+      }
+    }
+  }
+}

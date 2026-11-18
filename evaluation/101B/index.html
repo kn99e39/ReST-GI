@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WL101B · ECRO low-SPP reconstruction</title>
+<style>
+body {max-width:1100px;margin:40px auto;padding:0 20px;color:#20232a;font:16px/1.5 system-ui,sans-serif}
+figure {margin:20px 0 32px}
+img {display:block;width:100%;height:auto}
+figcaption {margin-top:8px;color:#4a5059}
+a {color:#005481}
+</style>
+</head>
+<body>
+<h1>WL101B · ECRO low-SPP reconstruction</h1>
+<p>SVGF reduces grain on the sphere and floor. The reconstructed 512² geometry edits take 15.87 ms at 1 spp and 24.30 ms at 4 spp. Both settings fail the prespecified sphere-boundary fidelity criterion.</p>
+<p><a href="metrics.json">Metrics and acceptance checks</a> · <a href="timing.json">Raw timing events</a> · <a href="run_manifest.json">Run manifest</a> · <a href="manifest101b.json">Reviewer file hashes</a> · <a href="../../docs/worklogs/101B_WORKLOG_ECRO_LOW_SPP_RECONSTRUCTION.md">Worklog</a></p>
+<h2>Static camera</h2>
+<figure><a href="static_1spp.png"><img src="static_1spp.png" alt="Physical reference and raw and reconstructed 1-spp frames at reset and after 24 frames"></a><figcaption>1 spp. The first reconstruction removes fine grain and leaves broad mottling.</figcaption></figure>
+<figure><a href="static_4spp.png"><img src="static_4spp.png" alt="Physical reference and raw and reconstructed 4-spp frames at reset and after 24 frames" loading="lazy"></a><figcaption>4 spp. All stills and animations use the same HDR display transfer.</figcaption></figure>
+<h2>Geometry edits and camera motion</h2>
+<figure><a href="tour_1spp.gif"><img src="tour_1spp.gif" alt="Eight original WL101 geometry states with physical reference, raw 1 spp and reconstructed 1 spp"></a><figcaption>WL101 tour. The reconstruction resets on each geometry edit. <a href="tour_4spp.gif">4-spp tour</a></figcaption></figure>
+<p><a href="camera_1spp.gif">1-spp camera motion</a> · <a href="camera_4spp.gif">4-spp camera motion</a> · <a href="quality.png">Quality summary</a></p>
+<h2>Remaining error</h2>
+<figure><a href="residual_attribution.png"><img src="residual_attribution.png" alt="Signed error maps separating the added dark silhouette ring from the prior ECRO contact residual" loading="lazy"></a><figcaption>Post-hoc comparison with converged ECRO and physical controls. <a href="residual_attribution.json">Residual metrics</a></figcaption></figure>
+</body>
+</html>
