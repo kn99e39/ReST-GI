@@ -90,3 +90,21 @@ WL101H's candidate for the sphere/floor contact keeps native rays wherever the n
 4. **Slot-level reproduction.** Require exact slot totals, and bound subcell-border flips caused by float address rounding (about 1e-7 of samples).
 
 **D4.** The native grazing visibility deviation measured by D4 (relative 8e-4 in about 100 well-supported slots) needs an owner decision: keep it as a native confounder, or define a threshold from image-level materiality.
+
+## 7. Contract v2 (WL101I) — implemented and frozen, verdict NOT QUALIFIED; still a proposal
+
+v2 ([protocol](../../experiments/ecro_sss101i/protocol/contract_v2.json), [record](../worklogs/101I_WORKLOG_CONSTRUCTION_QUALIFICATION_CONTRACT_V2.md)) made four changes, keeping v1's numerical thresholds and recording their derivation:
+
+- S3 became measure accounting with model-consistency tests;
+- S4 became per-class measured bias versus a conservative bound, judged PASS, FAIL or UNRESOLVED;
+- S5 compares slot totals;
+- junctions are classified by the requested point.
+
+**What v2 achieved.** It removed v1's false stops. F6 is detected in S2, and an expanded singular exclusion is detected in S4 in 63 of 64 cells. No S4 cell fails.
+
+**Still open, for owner design decisions:**
+
+1. **Back-threshold band in membership.** The register has no band for direction-coordinate thresholds. One back-threshold tie appeared at final scale and stopped S1.
+2. **Junction bounds.** Using Poisson upper bounds on observed counts makes about 3.7k U slots UNRESOLVED, although the measured U bias is ≤ 9.2e-6.
+3. **Native silhouette visibility.** A measured deviation of about 0.1% in G/V (p99 relative 9.1e-4) is mostly unresolved cell by cell. It needs a decision: part of the declared measure, or a correction target.
+4. **Control predicates.** The positive control and discrimination predicates should state their purpose ("no contaminated cell passes"; "native F6 detected") without coupling to unrelated gates.

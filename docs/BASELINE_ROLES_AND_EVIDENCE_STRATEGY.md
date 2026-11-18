@@ -61,6 +61,13 @@ Label the semantics of every reference and table, and never compare a table buil
 
 The revised construction-qualification gates are not yet validated (WL101H: NOT QUALIFIED, gate design). [Record](worklogs/101H_WORKLOG_ECRO_SSS_CONTACT_SEMANTICS_QUALIFICATION.md).
 
+Contract v2 (WL101I) removed v1's false stops but is also **NOT QUALIFIED**. Three findings remain open:
+- The membership register misses direction-threshold ties.
+- Conservative junction bounds leave cells unresolved.
+- Native visibility at occluder silhouettes, which depends on Mitsuba's surface offset, biases visibility-weighted tables by about 0.1% (p99 relative). This is measurable but not resolved cell by cell.
+
+[Record](worklogs/101I_WORKLOG_CONSTRUCTION_QUALIFICATION_CONTRACT_V2.md).
+
 ## Controlled comparisons and metrics
 
 - Predeclare geometry, materials, illumination, cameras, splits, coordinate/correspondence conventions, target semantics, seeds, precision, training/checkpoint rules and acceptance thresholds in the owning protocol. Keep held-out edits out of fitting and selection.
