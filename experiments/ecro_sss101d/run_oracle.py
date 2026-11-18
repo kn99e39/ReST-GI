@@ -150,7 +150,48 @@ def support_camera(rt,R,cam,suspect,out):
     return rows
 
 
-def main(root,out,commit,development,audit_support):
+def classify_first_hit(rt,R,spp,seed):
+    """Replay only the original probe's four RNG draws and the first hit."""
+    ns=rt.N*64
+    count=ns*spp
+    rng=R.mi.PCG32(size=count,initstate=R.dr.opaque(R.mi.UInt64,seed*1000003),initseq=R.mi.UInt64(0))
+    slot=R.dr.arange(R.U,count)%ns
+    requested_pid,requested_bin=slot//64,slot%64
+    p,nn,(tx,ty,tz)=rt.patch_point(requested_pid,rng.next_float32(),rng.next_float32())
+    local=rt.dir_in_bin(requested_bin,rng.next_float32(),rng.next_float32())
+    world=tx*local.x+ty*local.y+tz*local.z
+    front=R.dr.dot(world,nn)>1e-3
+    ray=R.mi.Ray3f(p+world*2e-3,-world)
+    hit=rt.scene.ray_intersect(ray,front)
+    actual_sid=rt.shape_id(hit)
+    actual_pid,actual_bin=rt.patch_bin(hit,actual_sid,-ray.d)
+    accepted=front & hit.is_valid() & (R.dr.norm(hit.p-p)<1e-3)
+    back=hit.to_local(-ray.d).z<=1e-6
+    values=[slot,actual_sid,actual_pid,actual_bin,accepted,back,R.dr.norm(hit.p-p)]
+    R.dr.eval(values)
+    R.sync()
+    idx,arr_sid,arr_pid,arr_bin,valid,back,dist=[np.asarray(item) for item in values]
+    requested_pid,requested_bin=idx//64,idx%64
+    requested_sid=rt.inc.G.PSID[requested_pid]
+    wrong_address=valid & ((requested_pid!=arr_pid)|(requested_bin!=arr_bin))
+    groups={
+        "different_shape":wrong_address&(requested_sid!=arr_sid),
+        "same_shape_different_patch":wrong_address&(requested_sid==arr_sid)&(requested_pid!=arr_pid),
+        "same_patch_different_bin":wrong_address&(requested_pid==arr_pid)&(requested_bin!=arr_bin)
+    }
+    assert np.array_equal(wrong_address,np.logical_or.reduce(list(groups.values())))
+    accumulate=lambda mask:np.bincount(idx[mask].astype(np.int64),minlength=ns).reshape(rt.N,64)
+    matrix=np.zeros((9,9),np.int64)
+    cross=groups["different_shape"]
+    np.add.at(matrix,(requested_sid[cross],arr_sid[cross]),1)
+    return {"valid":accumulate(valid),"wrong":accumulate(wrong_address),
+            "backface_accepted":accumulate(valid&back),"cross_shape_matrix":matrix,
+            "max_distance_by_kind_m":np.array([np.max(dist[m],initial=0.) for m in groups.values()]),
+            "sample_count_by_kind":np.array([m.sum() for m in groups.values()]),
+            **{k:accumulate(mask) for k,mask in groups.items()}}
+
+
+def main(root,out,commit,development,audit_support,inspect_membership):
     archive = root/A["references"]["path_in_wl101"]
     sources = validate_inputs(root,archive)
     wait_for_gpu()
@@ -194,6 +235,28 @@ def main(root,out,commit,development,audit_support):
         return {"file":name,"sha256":sha(p),"bytes":p.stat().st_size}
 
     run["learned"]=save("B_theta.npz",B=learned)
+    if inspect_membership is not None:
+        previous=json.loads((inspect_membership/"progress.json").read_text())
+        assert previous["scene_sha256"]==run["scene_sha256"]
+        info=previous["preflight"]
+        original_probe=inspect_membership/info["probe_packet"]["file"]
+        assert sha(original_probe)==info["probe_packet"]["sha256"]
+        stamp=time.perf_counter()
+        routing=classify_first_hit(rt,R,info["audit_spp"],info["audit_seed"])
+        with np.load(original_probe) as saved:
+            assert np.array_equal(routing["valid"],saved["valid_count"])
+            assert np.array_equal(routing["wrong"],saved["misrouted_count"])
+        run["membership_replay"]={**save("first_hit_membership.npz",**routing),
+            "seed":info["audit_seed"],"spp":info["audit_spp"],
+            "seconds":time.perf_counter()-stamp,
+            "source_probe_sha256":info["probe_packet"]["sha256"],
+            "categories":["different_shape","same_shape_different_patch","same_patch_different_bin"],
+            "category_counts":routing["sample_count_by_kind"].tolist(),
+            "cross_shape_matrix":routing["cross_shape_matrix"].tolist(),
+            "backface_accepted":int(routing["backface_accepted"].sum())}
+        write_json(out/"run_manifest.json",run)
+        print("MEMBERSHIP",run["membership_replay"],flush=True)
+        return
     if audit_support is not None:
         preflight=json.loads((audit_support/"progress.json").read_text())
         assert preflight["scene_sha256"]==run["scene_sha256"]
@@ -293,5 +356,6 @@ if __name__=="__main__":
     parser.add_argument("commit")
     parser.add_argument("--preflight",action="store_true")
     parser.add_argument("--audit-support",type=Path)
+    parser.add_argument("--inspect-membership",type=Path)
     a=parser.parse_args()
-    main(a.wl101.resolve(),a.output.resolve(),a.commit,a.preflight,a.audit_support)
+    main(a.wl101.resolve(),a.output.resolve(),a.commit,a.preflight,a.audit_support,a.inspect_membership)
