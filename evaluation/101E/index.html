@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WL101E · Physical HIGH Oracle</title>
+<style>
+body {max-width:1150px;margin:40px auto;padding:0 20px;color:#20232a;font:16px/1.5 system-ui,sans-serif}
+figure {margin:16px 0 32px} img {display:block;width:100%;height:auto}
+figcaption {margin-top:8px;color:#49515a} a {color:#005481}
+.table-wrap {overflow-x:auto} table {border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums}
+th,td {padding:10px;border-bottom:1px solid #d9dee4;text-align:left} td {white-space:nowrap}
+</style>
+</head>
+<body>
+<h1>WL101E · Physical HIGH Oracle</h1>
+<p><strong>The sphere–floor hotspot persists.</strong> The physical table leaves essentially all of the near-floor excess and 95.5% of the near-minus-flank excess. Under the frozen rule the verdict is mixed across the two endpoints, dominated by representation/readout.</p>
+<p><a href="metrics.json">Regional metrics</a> · <a href="run_manifest.json">Run configuration and hashes</a> · <a href="manifest101e.json">Evidence index</a> · <a href="../../docs/worklogs/101E_WORKLOG_ECRO_SSS_PHYSICAL_ORACLE_RECOVERY.md">Worklog</a></p>
+<div class="table-wrap">
+<table>
+<thead><tr><th scope="col">Endpoint</th><th scope="col">Learned − physical</th><th scope="col">Learned − Oracle</th><th scope="col">Oracle − physical</th></tr></thead>
+<tbody>
+<tr><th scope="row">Near floor</th><td>+0.07000 [0.06932, 0.07067]</td><td>−0.00016 [−0.00160, +0.00129]</td><td>+0.07015 [0.06871, 0.07159]</td></tr>
+<tr><th scope="row">Near minus flank</th><td>+0.06554 [0.06466, 0.06641]</td><td>+0.00294 [0.00200, 0.00387]</td><td>+0.06260 [0.06169, 0.06351]</td></tr>
+</tbody>
+</table>
+</div>
+<p>Signed linear HDR luminance with approximate 95% intervals. Four independent physical tables were evaluated on two matched 4,096-spp streams. The same 576 physically empty slots had zero readout weight on both streams.</p>
+<h2>Sphere–floor contact</h2>
+<figure><a href="contact_crops.png"><img src="contact_crops.png" alt="Aligned HIGH crop and residuals showing the same bright lobes under the sphere for learned and Oracle tables"></a><figcaption>The crops use the same exposure. The blue–red scale is shared by all signed residuals.</figcaption></figure>
+<h2>Floor intensity by distance from contact</h2>
+<figure><a href="intensity_profile.png"><img src="intensity_profile.png" alt="Foreground-floor profiles with virtually overlapping learned and Oracle residuals in the near-floor band" loading="lazy"></a><figcaption>The highlighted intervals are the original WL101C near and flank ranges. The residual bands combine table and paired camera/reference uncertainty.</figcaption></figure>
+<h2>Full frame</h2>
+<figure><a href="full_comparison.png"><img src="full_comparison.png" alt="Full-frame physical, learned and Oracle HIGH images with aligned signed residuals" loading="lazy"></a><figcaption>Relative RGB HDR RMSE drops from 2.26% to 2.06% across the full frame and stays at about 32.3% on the near-floor mask.</figcaption></figure>
+</body>
+</html>
