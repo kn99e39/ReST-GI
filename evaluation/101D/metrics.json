@@ -1,0 +1,396 @@
+{
+  "verdict": "INCONCLUSIVE",
+  "stop_stage": "0 \u2014 physical slot membership",
+  "attribution": null,
+  "stop": "Camera reads a geometrically misrouted WL100 supervision slot.",
+  "membership": {
+    "file": "first_hit_membership.npz",
+    "sha256": "a86a857267ff644be9620a7527794e38d15c897c64dbbd165edd984f05efba0d",
+    "bytes": 20102,
+    "seed": 10190901,
+    "spp": 32,
+    "seconds": 0.3576351422816515,
+    "source_probe_sha256": "4abaafe0e445eb839a819336813894cb70e7f97c88a10e7799d32ce936e16ca4",
+    "categories": [
+      "different_shape",
+      "same_shape_different_patch",
+      "same_patch_different_bin"
+    ],
+    "category_counts": [
+      9063,
+      5,
+      5
+    ],
+    "cross_shape_matrix": [
+      [
+        0,
+        0,
+        37,
+        40,
+        30,
+        0,
+        42,
+        0,
+        2362
+      ],
+      [
+        0,
+        0,
+        33,
+        34,
+        28,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        33,
+        34,
+        0,
+        32,
+        29,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        25,
+        32,
+        17,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        30,
+        44,
+        25,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        41,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        6115,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "backface_accepted": 9053
+  },
+  "preflight": {
+    "valid_lookup_values": 10761,
+    "addressing_max_absolute": 1.0949346851418795e-07,
+    "linearity_max_absolute": 2.384185791015625e-07,
+    "zero_and_low_invariance": true,
+    "audit_spp": 32,
+    "audit_seed": 10190901,
+    "matched_probe_event_max_absolute": 0.0,
+    "slots_with_zero_count": 0,
+    "slots_with_misrouting": 1295,
+    "misrouted_samples": 9073,
+    "probe_packet": {
+      "file": "probe_preflight.npz",
+      "sha256": "4abaafe0e445eb839a819336813894cb70e7f97c88a10e7799d32ce936e16ca4",
+      "bytes": 2012919
+    }
+  },
+  "accepted_samples": 2592482,
+  "nominal_samples": 2600960,
+  "misrouted_sample_fraction": 0.0034997350029816986,
+  "worst_slot": {
+    "patch": 206,
+    "bin": 54,
+    "shape": "Floor",
+    "patch_center_xyz_m": [
+      1.625,
+      1.125,
+      0.0
+    ],
+    "wrong": 26,
+    "accepted": 32
+  },
+  "by_expected_shape": {
+    "Floor": {
+      "accepted": 523583,
+      "wrong": 2513,
+      "marked_slots": 405
+    },
+    "Ceiling": {
+      "accepted": 523682,
+      "wrong": 100,
+      "marked_slots": 96
+    },
+    "Back wall": {
+      "accepted": 392696,
+      "wrong": 129,
+      "marked_slots": 127
+    },
+    "Left wall": {
+      "accepted": 392731,
+      "wrong": 75,
+      "marked_slots": 74
+    },
+    "Right wall": {
+      "accepted": 392777,
+      "wrong": 99,
+      "marked_slots": 93
+    },
+    "Panel": {
+      "accepted": 85907,
+      "wrong": 0,
+      "marked_slots": 0
+    },
+    "Sphere": {
+      "accepted": 60153,
+      "wrong": 41,
+      "marked_slots": 40
+    },
+    "Box A": {
+      "accepted": 110493,
+      "wrong": 0,
+      "marked_slots": 0
+    },
+    "Box B": {
+      "accepted": 110460,
+      "wrong": 6116,
+      "marked_slots": 460
+    }
+  },
+  "camera_support": [
+    {
+      "seed": 101100,
+      "spp": 4096,
+      "regions": {
+        "full": {
+          "pixels": 262144,
+          "nonzero_pixels": 237150,
+          "mean_unit_weight_rgb": [
+            0.010532558815761293,
+            0.01016860484480231,
+            0.00997205561323469
+          ],
+          "mean_unit_weight_rgb_pooled": 0.01022440642459943,
+          "max_unit_weight": 0.5363266468048096
+        },
+        "sphere": {
+          "pixels": 49660,
+          "nonzero_pixels": 49637,
+          "mean_unit_weight_rgb": [
+            0.006165430958136027,
+            0.004246906642990682,
+            0.003211795499777271
+          ],
+          "mean_unit_weight_rgb_pooled": 0.0045413777003013266,
+          "max_unit_weight": 0.5363266468048096
+        },
+        "sphere_interior": {
+          "pixels": 45692,
+          "nonzero_pixels": 45684,
+          "mean_unit_weight_rgb": [
+            0.004360684291456359,
+            0.0025302090671944326,
+            0.0016109266875749012
+          ],
+          "mean_unit_weight_rgb_pooled": 0.002833940015408564,
+          "max_unit_weight": 0.17646706104278564
+        },
+        "sphere_boundary": {
+          "pixels": 3968,
+          "nonzero_pixels": 3953,
+          "mean_unit_weight_rgb": [
+            0.02694730714108143,
+            0.024014886893313835,
+            0.021645993525772907
+          ],
+          "mean_unit_weight_rgb_pooled": 0.024202729186722727,
+          "max_unit_weight": 0.5363266468048096
+        },
+        "floor": {
+          "pixels": 72657,
+          "nonzero_pixels": 53543,
+          "mean_unit_weight_rgb": [
+            0.012048780376659036,
+            0.012047154139192783,
+            0.01204565666458808
+          ],
+          "mean_unit_weight_rgb_pooled": 0.012047197060146633,
+          "max_unit_weight": 0.3562708795070648
+        },
+        "contact_shadow": {
+          "pixels": 38071,
+          "nonzero_pixels": 26184,
+          "mean_unit_weight_rgb": [
+            0.017470934411448442,
+            0.017468082593183606,
+            0.017465372269142253
+          ],
+          "mean_unit_weight_rgb_pooled": 0.017468129757924767,
+          "max_unit_weight": 0.3562708795070648
+        },
+        "near": {
+          "pixels": 1318,
+          "nonzero_pixels": 1318,
+          "mean_unit_weight_rgb": [
+            0.0849216428510449,
+            0.0848567256836817,
+            0.08479245616142865
+          ],
+          "mean_unit_weight_rgb_pooled": 0.08485694156538509,
+          "max_unit_weight": 0.3562708795070648
+        },
+        "flank": {
+          "pixels": 6042,
+          "nonzero_pixels": 6024,
+          "mean_unit_weight_rgb": [
+            0.03829577914068721,
+            0.03829577914068721,
+            0.03829577914068721
+          ],
+          "mean_unit_weight_rgb_pooled": 0.03829577914068721,
+          "max_unit_weight": 0.07949218899011612
+        }
+      }
+    },
+    {
+      "seed": 101101,
+      "spp": 4096,
+      "regions": {
+        "full": {
+          "pixels": 262144,
+          "nonzero_pixels": 237118,
+          "mean_unit_weight_rgb": [
+            0.010534094034563384,
+            0.010169874749683058,
+            0.00997344866438614
+          ],
+          "mean_unit_weight_rgb_pooled": 0.010225805816210859,
+          "max_unit_weight": 0.5293334722518921
+        },
+        "sphere": {
+          "pixels": 49660,
+          "nonzero_pixels": 49623,
+          "mean_unit_weight_rgb": [
+            0.006168862034636192,
+            0.004249008401434445,
+            0.003214568670163115
+          ],
+          "mean_unit_weight_rgb_pooled": 0.004544146368744584,
+          "max_unit_weight": 0.5293334722518921
+        },
+        "sphere_interior": {
+          "pixels": 45692,
+          "nonzero_pixels": 45684,
+          "mean_unit_weight_rgb": [
+            0.004362399958285999,
+            0.0025306764435933174,
+            0.001612256676456673
+          ],
+          "mean_unit_weight_rgb_pooled": 0.002835111026111996,
+          "max_unit_weight": 0.17748844623565674
+        },
+        "sphere_boundary": {
+          "pixels": 3968,
+          "nonzero_pixels": 3939,
+          "mean_unit_weight_rgb": [
+            0.02697049136744694,
+            0.024035808758711873,
+            0.021665385105756548
+          ],
+          "mean_unit_weight_rgb_pooled": 0.02422389507730512,
+          "max_unit_weight": 0.5293334722518921
+        },
+        "floor": {
+          "pixels": 72657,
+          "nonzero_pixels": 53511,
+          "mean_unit_weight_rgb": [
+            0.012042192199061955,
+            0.012040523498972769,
+            0.012039008457744896
+          ],
+          "mean_unit_weight_rgb_pooled": 0.012040574718593206,
+          "max_unit_weight": 0.35119763016700745
+        },
+        "contact_shadow": {
+          "pixels": 38071,
+          "nonzero_pixels": 26206,
+          "mean_unit_weight_rgb": [
+            0.01746704481519649,
+            0.017464057495624973,
+            0.01746128570688675
+          ],
+          "mean_unit_weight_rgb_pooled": 0.01746412933923607,
+          "max_unit_weight": 0.35119763016700745
+        },
+        "near": {
+          "pixels": 1318,
+          "nonzero_pixels": 1318,
+          "mean_unit_weight_rgb": [
+            0.08486382273762107,
+            0.08479407360446561,
+            0.0847270957693141
+          ],
+          "mean_unit_weight_rgb_pooled": 0.08479499737046693,
+          "max_unit_weight": 0.35119763016700745
+        },
+        "flank": {
+          "pixels": 6042,
+          "nonzero_pixels": 6027,
+          "mean_unit_weight_rgb": [
+            0.03831955884084772,
+            0.03831955884084772,
+            0.03831955884084772
+          ],
+          "mean_unit_weight_rgb_pooled": 0.03831955884084772,
+          "max_unit_weight": 0.08016357570886612
+        }
+      }
+    }
+  ]
+}
