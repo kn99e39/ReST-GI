@@ -51,6 +51,12 @@ Findings, over 64 seeds per spp at 1, 4 and 16 spp:
 
 The split-stream stage decomposition failed its equivalence gate and is not interpreted. No reconstructor architecture is selected and no successor is authorised. [WL103](worklogs/103_WORKLOG_ECRO_SSS_LOW_HIGH_NOISE_ATTRIBUTION.md).
 
+**ECRO on the WL84 scene with a learned-ER LOW (human request, 2026-11-18; WL104, local RTX 5080, branch `ecro_wl84_scene`):**
+- **Setup.** The unchanged ECRO v0, with the WL102 mesh adapter and the WL100 recipe, was trained once per WL84 material (3 models). The learned-ER closure (WL84 ER_L) is the LOW material, and D = 6. All gates pass, including tessellation and the physical-path check.
+- **Converged accuracy.** Against layered full-depth path tracing, ECRO's object error is 3.1–4.1% relative L1. It is led by the learned-ER material's own error (2.7–3.5%). ECRO's representation error above noise is about 0.7–2.2%, largest on the hard material; depth truncation is negligible.
+- **Equal sample count.** At 64 spp, ECRO has a lower object error than full-depth learned-ER path tracing (0.068–0.086 vs 0.089–0.102). This is a variance effect, not a converged-fidelity advantage.
+- **Not settled.** Costs are not qualified, and nothing is adopted. [WL104](worklogs/104_WORKLOG_ECRO_WL84_SCENE_LEARNED_ER.md).
+
 **Bounded material-training request completed (human, 2026-11-16; WL100):** Two separate pre-RB-DTO-E ECRO OWN models completed 24,000 steps each on new near-mirror and physically modelled SSS datasets; held-out reference/prediction/error-map, ROI, higher-order and noise-control figures are available. The learned architecture is unchanged; physical material response and LOW remain explicit. SSS sphere ROI discrepancy is 1.47-2.08% versus the finite-depth reference; near raw ROI discrepancy (8.3-20.1%) is almost the reference sampling noise, so converged near fidelity remains unqualified. This is bounded material-coverage evidence, not adoption, whole-neural local SSS, dynamic/economic evidence or an RB-DTO-E successor decision. Full scope and limits: [WL100](worklogs/100_WORKLOG_ECRO_NEAR_MIRROR_AND_SSS_TRAINING.md).
 
 
