@@ -21,3 +21,9 @@ The five copied WL101 cfg0 arrays match their server SHA-256 values. The publish
 The fixed center-ray masks contain 262,144 full-frame pixels, 49,660 sphere pixels, 45,692 interior pixels, 3,968 inner-boundary pixels, 72,657 floor pixels and 38,071 floor contact/shadow pixels. The partition and subset checks passed. Synthetic known-input tests validated component variance and covariance, finite-replicate bias correction, the inverse-SPP slope and the HDR display transfer.
 
 Against the WL101 average reference, the archived independent arm-B prediction's sphere-relative RMSE is 1.858% full, 1.487% LOW and 3.651% HIGH. The corresponding reference-mean noise estimates are 1.031%, 0.868% and 1.910%. The unpaired LOW discrepancy includes independent prediction and reference sampling. These archived values alone cannot resolve systematic LOW or quantify the 32-spp artifact.
+
+### Execution status
+
+Automatic approval review rejected deployment of the experiment scripts and launch on LabServer69 because it required explicit authorization for the code transfer and persistent remote artifacts. The rejected launch did not send code or start GPU work. The original WL101 inputs were read and copied into the isolated local worktree. The local analysis also passed an end-to-end synthetic check for the full seed ladder, verdict logic and six figure outputs.
+
+The new render sweep, matched 4096-spp replays, latency measurements and artifact verdict are pending approval. The gate on the archived data passed. There is no WL101A sampling fraction or systematic component attribution from the archived data alone.
