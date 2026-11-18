@@ -289,17 +289,25 @@ def main(root,out,commit,development,audit_support,inspect_membership):
     print("PREFLIGHT",run["preflight"],flush=True)
     if development:
         return
+    audited_bad=probe["misrouted_count"]>0
+    if audited_bad.any():
+        run["support_camera_test"]=support_camera(rt,R,cam,audited_bad,out)
+        if any(row["nonzero_pixels"]>0 for row in run["support_camera_test"]):
+            run["stop"]="Camera reads a geometrically misrouted WL100 supervision slot."
+            write_json(out/"run_manifest.json",run)
+            print(run["stop"],flush=True)
+            return
     arrays=[]
     assert sorted(set(P["oracle_seeds"]))==P["oracle_seeds"]
     assert set(P["oracle_seeds"]).isdisjoint(A["references"]["seed_by_half"])
-    audited_bad=probe["misrouted_count"]>0
+    unsupported=np.zeros_like(audited_bad)
     for replica,seed in enumerate(P["oracle_seeds"]):
         wait_for_gpu()
         now=time.perf_counter()
         packet,_=field(rt,R,P["oracle_spp_per_replica"],seed,P["oracle_launch_spp"])
         elapsed=time.perf_counter()-now
         arrays.append(packet["B"])
-        audited_bad |= packet["valid_count"]==0
+        unsupported |= packet["valid_count"]==0
         run["oracle_tables"].append({**save(f"oracle_{replica}.npz",**packet),"seed":seed,
             "spp_per_slot":P["oracle_spp_per_replica"],"launch_spp":P["oracle_launch_spp"],
             "seconds":elapsed,"foreign_gpu_pids_after":foreign_gpu(),"table_sha256":array_hash(packet["B"]),
@@ -312,10 +320,10 @@ def main(root,out,commit,development,audit_support,inspect_membership):
 
     seeds=A["references"]["seed_by_half"]
     run["support_camera_test"]=[]
-    if audited_bad.any():
-        run["support_camera_test"]=support_camera(rt,R,cam,audited_bad,out)
+    if unsupported.any():
+        run["support_camera_test"]=support_camera(rt,R,cam,unsupported,out)
         if any(row["nonzero_pixels"]>0 for row in run["support_camera_test"]):
-            run["stop"]="Camera reads an unsupported or geometrically misrouted Oracle slot."
+            run["stop"]="Camera reads an unsupported Oracle slot."
             write_json(out/"run_manifest.json",run)
             print(run["stop"],flush=True)
             return
