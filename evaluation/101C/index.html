@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>WL101C · Raw ECRO SSS contact replication</title>
+<style>
+body {max-width:1200px;margin:40px auto;padding:0 20px;color:#20232a;font:16px/1.5 system-ui,sans-serif}
+figure {margin:20px 0 32px}
+img {display:block;width:100%;height:auto}
+figcaption {margin-top:8px;color:#49515a}
+a {color:#005481}
+</style>
+</head>
+<body>
+<h1>WL101C · Raw ECRO SSS contact replication</h1>
+<p>Eight independent 4,096-spp renders reproduce the bright HIGH residual next to the sphere's floor contact. The near floor is 26.49% brighter than the physical reference in mean linear luminance. The HIGH component is 32.32% brighter. The LOW difference lies within measured uncertainty.</p>
+<p><a href="metrics.json">Metrics and uncertainty</a> · <a href="run_manifest.json">Run manifest</a> · <a href="manifest101c.json">File hashes</a> · <a href="../../docs/worklogs/101C_WORKLOG_ECRO_SSS_CONTACT_REPLICATION.md">Worklog</a></p>
+<h2>Contact region</h2>
+<figure><a href="contact_crops.png"><img src="contact_crops.png" alt="Shared-exposure crops and signed component residuals around the sphere-floor contact"></a><figcaption>Original physical LOW, original ECRO HIGH, and full render. Each signed map uses the same linear HDR luminance range.</figcaption></figure>
+<figure><a href="independent_seeds.png"><img src="independent_seeds.png" alt="The same bright contact pattern in every independent raw HIGH readout" loading="lazy"></a><figcaption>All eight independent 4,096-spp HIGH residuals.</figcaption></figure>
+<h2>Spatial intensity</h2>
+<figure><a href="floor_intensity_profile.png"><img src="floor_intensity_profile.png" alt="Radial brightness profile of the physical and ECRO floor, with HIGH providing the contact excess" loading="lazy"></a><figcaption>Mean foreground floor intensity and 95% signed-difference intervals. <a href="regions.png">Frozen floor regions</a></figcaption></figure>
+<p><a href="full_comparison.png">Full-image reference, raw render, and signed residual comparisons</a></p>
+</body>
+</html>

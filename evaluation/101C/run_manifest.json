@@ -1,0 +1,192 @@
+{
+  "commit": "7cd154ffb81d99587e47838da47a0072dbad07ba",
+  "protocol_sha256": "24c451ab47034cbad0f67d934a2632fd669706f46cabcc0d23e35a9714645f24",
+  "scene_sha256": "a18c76efd49245dfb3f50d6d215e50d1b70e87854bac943126b60b09a50b71cb",
+  "checkpoint_sha256": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+  "configs_sha256": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+  "table_sha256": "d7e40954304bfc2b03f679af0ef6a39876f21ffc21d3a07fe3dfc3de7bd18543",
+  "table_bit_identical_to_archive": true,
+  "archived_inputs_sha256": {
+    "REF_0_0.npz": "797f22a8f52a288f09250e805b4334008253766f806d6df197f8ef0e40449377",
+    "REF_0_1.npz": "8145d022e682fc8ba7ec1c08248ee4e483d85b1d7b1c70eb6143c9081d343105",
+    "PRED_A_0.npz": "87f020840044880a681bf6ebefb5ec60f3ca134b4ce3d6adef89aa4cc0adce4b",
+    "PRED_B_0.npz": "fb43bb808a48f8ad5293603d4b4404c7275d2d2e6e5d085ec2778b4635eb143a",
+    "MAP_0.npz": "8c269050c351027ceae4a06cc63ca3a401ba64c37d341a90c345830089393fbc"
+  },
+  "source_sha256": {
+    "experiments/ecro_dyn101/rt101.py": "417fd6c041603b6760aa72179bb383ac44ca1e3d031715f8b76fe0bb419eedf6",
+    "experiments/ecro_dyn101/seq101.py": "b85e9a0f4b79a5c589f57d3d0a4fbd1b99f0375030955183e339bacffe4784bf",
+    "experiments/ecro_dyn101/protocol/dyn101.json": "91f225db1e6f3f2739ddc2e149694fe86e76e2a418cefb1ecb3433c5963453fa",
+    "experiments/ecro_material100/protocol.json": "f00c6e78780aa55693dcef5f6db72a0f2792c8ab366c6197a3a3a87c3b8443dc",
+    "results/ecro_material100/configs.json": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+    "results/ecro_material100/sss/model.pt": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+    "experiments/ecro86/pt86.py": "e2a1a2f33f62aff3e91ce779278d04f23fd93450228a7eabe449f1ec91c28a31",
+    "experiments/ecro86/ecro86.py": "3900bc2af6b23c7394dcbccd663ad6f34220d2a1ccb51339ec19faafe1f00042",
+    "experiments/ecro86/model86.py": "9cb89be656cf581897dc127fb01c1ec38292d3be9c0204ad92bb6ae51cf3eead",
+    "experiments/ecro86/scene86.py": "e9116629b94c88244783f69c2f06207f40030212ec00b22183181f21cb252d0b",
+    "experiments/ecro_material100/pt100.py": "0e96ea6f59ea08dcd695407cdc5db14ac80300937cb8bd2647c58cbd26f37715",
+    "experiments/ecro_material100/common100.py": "5157927ca5ce54d61a9c486624d817571b01cac1a541f48535a02a1f15a96d4e",
+    "experiments/fnto_compiled83/closure83_dr.py": "0132f3d94a372a289a2aa0ccc29c170389a6583f6a0a814b82dfec2c29a7f292"
+  },
+  "geometry": {
+    "A": {
+      "c": [
+        -0.09993281706766949,
+        0.3278292493197649,
+        0.75
+      ],
+      "h": [
+        0.22,
+        0.35,
+        0.5
+      ],
+      "yaw": 0.3635107155885427
+    },
+    "B": {
+      "c": [
+        1.5236285335112942,
+        1.0627971190791698,
+        0.35
+      ],
+      "h": [
+        0.15,
+        0.18,
+        0.35
+      ],
+      "yaw": 0.2917575507983794
+    }
+  },
+  "light": [
+    {
+      "pos": [
+        1.0040083056304767,
+        1.3611482634942025,
+        1.2944466772916012
+      ],
+      "rgb": [
+        27.634931507169394,
+        27.634931507169394,
+        27.634931507169394
+      ]
+    }
+  ],
+  "camera": {
+    "origin": [
+      0.9,
+      -2.4,
+      1.05
+    ],
+    "target": [
+      0.9,
+      0.4,
+      0.55
+    ],
+    "fov_deg": 32,
+    "res": 512
+  },
+  "render_path": "rt101.render_hq -> original RT._frame_prog -> original pt100.Ctx.trace (ecro)",
+  "postprocessing": "None; pack original per-event sums and compose linear HDR.",
+  "environment": {
+    "gpu": "NVIDIA GeForce RTX 3080 Ti",
+    "driver": "595.71.05",
+    "optix": "/home/nd/nvlibs/optix595/libnvoptix.so.595.71.05",
+    "optix_sha256": "69be01c2e2794dbf775b9664a9c641c2db49efe5383a7a56b5f29aaa0de07fc4",
+    "os": "Linux-6.8.0-134-generic-x86_64-with-glibc2.39",
+    "python": "3.10.21",
+    "mitsuba": "3.8.0",
+    "drjit": "1.3.1",
+    "torch": "2.3.1+cu121",
+    "numpy": "1.26.4"
+  },
+  "frames": [
+    {
+      "file": "raw_4096_seed10181001.npz",
+      "sha256": "f5979a68ad040f4a7fbddf254e0c3aadc369ae7a598bbdd1fd942abe7cb3299b",
+      "bytes": 12086821,
+      "seed": 10181001,
+      "spp": 4096,
+      "launch_spp": 32,
+      "seconds": 10.606155142188072,
+      "recomposition_rel_l1": 2.3196155516712747e-08,
+      "foreign_gpu_pids_after": []
+    },
+    {
+      "file": "raw_4096_seed10181002.npz",
+      "sha256": "7953dccd20ee753cdbfad0f7ea19e85c336f529771d070d78bde3b51bc9ef113",
+      "bytes": 12087050,
+      "seed": 10181002,
+      "spp": 4096,
+      "launch_spp": 32,
+      "seconds": 10.584499053657055,
+      "recomposition_rel_l1": 2.3353477817938547e-08,
+      "foreign_gpu_pids_after": []
+    },
+    {
+      "file": "raw_4096_seed10181003.npz",
+      "sha256": "43ddb0fd377c6fc90199275afaad78a3cf9033fde9c91d6c2572501a834f1233",
+      "bytes": 12087541,
+      "seed": 10181003,
+      "spp": 4096,
+      "launch_spp": 32,
+      "seconds": 10.580783130601048,
+      "recomposition_rel_l1": 2.330669555056942e-08,
+      "foreign_gpu_pids_after": []
+    },
+    {
+      "file": "raw_4096_seed10181004.npz",
+      "sha256": "3f575af8f900653d9328e0ba243a63ad5ed35c90933f5850bec81b528b22f0e3",
+      "bytes": 12087104,
+      "seed": 10181004,
+      "spp": 4096,
+      "launch_spp": 32,
+      "seconds": 10.570445485413074,
+      "recomposition_rel_l1": 2.333837907625859e-08,
+      "foreign_gpu_pids_after": []
+    },
+    {
+      "file": "raw_4096_seed10181005.npz",
+      "sha256": "f05c6c0125f9349a29097910b69b32bda79e779b5701ec5fcbabae5a97dfc1cc",
+      "bytes": 12087417,
+      "seed": 10181005,
+      "spp": 4096,
+      "launch_spp": 32,
+      "seconds": 10.575258791446686,
+      "recomposition_rel_l1": 2.324280280590837e-08,
+      "foreign_gpu_pids_after": []
+    },
+    {
+      "file": "raw_4096_seed10181006.npz",
+      "sha256": "4c62ffa6ecbffc46b87016f3ceda81b8d9a9bc1619101705b7f25cc66bebca3c",
+      "bytes": 12087274,
+      "seed": 10181006,
+      "spp": 4096,
+      "launch_spp": 32,
+      "seconds": 10.569185681641102,
+      "recomposition_rel_l1": 2.3214785865621347e-08,
+      "foreign_gpu_pids_after": []
+    },
+    {
+      "file": "raw_4096_seed10181007.npz",
+      "sha256": "0ea08eb45c44553d683b5324038c9b415120048eba37e532e2f5733f4f5781d0",
+      "bytes": 12086757,
+      "seed": 10181007,
+      "spp": 4096,
+      "launch_spp": 32,
+      "seconds": 10.580499218776822,
+      "recomposition_rel_l1": 2.326410605176113e-08,
+      "foreign_gpu_pids_after": []
+    },
+    {
+      "file": "raw_4096_seed10181008.npz",
+      "sha256": "81b11b1ba85027e7f4321d8e2564b29d5e176f9a2027dd8a6ea594e37a9113b5",
+      "bytes": 12086978,
+      "seed": 10181008,
+      "spp": 4096,
+      "launch_spp": 32,
+      "seconds": 10.569495927542448,
+      "recomposition_rel_l1": 2.335206965820782e-08,
+      "foreign_gpu_pids_after": []
+    }
+  ],
+  "table_preserved_after_rendering": true
+}
