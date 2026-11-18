@@ -1,0 +1,68 @@
+{
+  "batch": "WL101I",
+  "class": "Suffix follow-up of WL101H: recovery and qualification of the physical-oracle construction contract (contract v2). No ECRO, learned, LOW/HIGH, event-contract or candidate-semantics change.",
+  "branch": "ecro_lr3_adapter",
+  "question": "Does the v2 construction contract provide sufficient, independently reproducible evidence to qualify the contact-valid physical-oracle estimator for a new camera-independent U/G projection comparison?",
+  "preserved": "WL101G stopped (D); WL101H verdict NOT QUALIFIED and its candidate semantics (semantics101h.py, h_min 2.1241822779460237e-07 m) unchanged; native semantics and references; all frozen protocols and results.",
+  "development_seeds": "WL101H seeds 10203101-4 and 10204101-5 (mechanism investigation only; dev101i.py).",
+  "development_findings": {
+    "D4": "Ray-level replay (seed 10204101, 40 flagged slots, 112 flips of 163,840): visibility flips are occluder-silhouette grazes. Panel free edges (y = -0.3 / 0.9, z = 0.3) 67, sphere silhouette 17, Box A 13, open-face edge 5, others. The native offset m along the source normal shifts the crossing in the occluder plane by about m tan(theta); the left wall sees the panel's free edges at 0.5 m. Native visibility deviates from its offset->0 limit in a band of width proportional to m.",
+    "D3": "Two WL101H events: (i) a sphere cap sample at z = 9.3e-8 m already classified singular (excluded) but labelled miss_other (label assigned before exclusion; no column effect); (ii) a Box B side-face sample at z = 1.67e-7 m whose horizontally offset origin sits on the floor plane band and misses the floor (junction float band, included, vis 0).",
+    "S5_subcell": "WL101G vs WL101H native seed 10203101: 119 moved samples, 118 across the directional azimuth border d = 0.5, 1 across a spatial border. Within one process the two kernel compositions agree exactly (0 moves); 160 samples in the moved slots lie within 1e-5 of a subcell border, 129 of them in d; float32 d differs from a float64 recomputation by up to 1.33e-6 (atan2), 59 of them on opposite sides of 0.5. Mechanism: sampled azimuth fractions within the float32 atan2 error of the sub-bin midline are assigned by compilation-dependent rounding."
+  },
+  "thresholds": {
+    "theta_abs": 7.0e-4,
+    "theta_rel": 2.5e-4,
+    "T_floor": 1e-3,
+    "derivation": "Prefix path throughput to the event-2 query is <= 1 per channel (energy-conserving BSDFs and SSS walk), so a per-slot table bias field b changes any pixel's HIGH by at most max|b| and any region mean by at most max|b|; relative bias likewise propagates at most max|b/T|. theta_abs = 5% of the WL101F near-contact band 0.01403; theta_rel = 10% of the WL101G additive relative-RMSE non-degradation margin 0.0025. View independent; identical numerical values to WL101H v1 (no relaxation).",
+    "family_z": "Two-sided Bonferroni over all (cell, table) decisions: U, V, G per slot and S_G per (slot, s) (7 x 81,280), alpha 0.05."
+  },
+  "S1": "Unchanged from v1: invalid == 0 and support_conflict == 0 for every replica (metric membership band b_m).",
+  "S2": "Unchanged from v1: classes ring == 0 and inside_box == 0. inside_box now also contains any origin behind a room plane whose requested point is outside the registered junction band (unregistered junction).",
+  "S3": {
+    "purpose": "Support identity: every excluded measure is registered with a model and observed counts agree with it. No free threshold.",
+    "continuous": "Candidate singular set: floor disk r_s = sqrt(4 R h_min - 4 h_min^2) around the tangency (inside one spatial subcell of floor patch 155) and sphere cap of height 2 h_min spread over the 8 bottom patches (subcells s = 0, 1); per-(slot, s) fractions analytic.",
+    "lattice": "Tie and boundary-miss upper fraction per slot: 6.4e-5 (address tie band) + 2 b_m (1/l1 + 1/l2) for planar patches.",
+    "tests": "(a) observed singular count summed over registered cells vs Poisson(expected): two-sided p >= 0.05; (b) zero singular samples in cells with no registered measure; (c) per slot P(X >= observed tie + boundary miss | Poisson(upper expectation)) >= 0.05 / active slots. All per replica.",
+    "observed_vs_measure": "Observed frequencies are reported with their counts; a single observed event is never used as an area estimate."
+  },
+  "S4": {
+    "purpose": "Per-class estimator-bias accounting for U, V, G (slot) and S_G (slot, s), luminance, against the continuous-physics target on the candidate's registered support.",
+    "classes": {
+      "singular": "Excluded continuous measure f (S3). Floor disk: conditional radiance by continuity from the WL101H candidate replay (mean L over 0.6-2 mm; model allowance = range of L over 0.6-12 mm + z x max replay SE). Sphere cap: continuity with the cell itself, allowance = max within-cell (s,t) deviation (cells with >= 16 samples). b = f/(1-f) (L_ex - T); B = f/(1-f) (|L_ex - T| + allowance).",
+      "band": "Tie + boundary-miss exclusion. Measured: observed fraction f_obs x (L_shell - T); bound: max(f_upper, f_obs) x (|L_shell - T| + z SE_shell). L_shell = mean over included samples with any subcell coordinate within 0.02 of a cell border, weighted as the table (U: all, V: visible, G: cos x visible). No shell samples -> bound infinite (UNRESOLVED).",
+      "junction": "Included samples whose requested point lies within b_m of an adjacent junction plane or Box B. Bound only: fraction = max(analytic junction band b_m / patch extent for patches touching a junction, Poisson 95% upper bound of the observed count / weight) x (|L_j - T| + |T| + z SE_j).",
+      "silhouette": "V and G only. Paired visibility at offsets m/10 and m/100 on the same samples. Measured bias of the native-offset table relative to the offset->0 limit under the linear band model: b = -(T(m/10) - T(m)) / 0.9; SE from per-sample contributions dw_i (L_i - T); model allowance |(T(m/100) - T(m/10)) - 0.1 (T(m/10) - T(m))| / 0.9; B = |b| + z SE + allowance."
+    },
+    "decision": "Per (cell, table): PASS if B <= theta; FAIL if |b| - z SE > theta (b and SE summed over measured classes); UNRESOLVED otherwise. theta = min(theta_abs, theta_rel max(|T|, T_floor)). Inactive cells (zero weight) are not decided.",
+    "pooling": "Bias is a property of the estimator's expectation; accounting uses the pooled sums of the four final replicas."
+  },
+  "S5": {
+    "regression": "v2 native construction (WL101G Amendment-1 oracle) at WL101G seeds 10203101-3 vs the stored WL101G primary_a2 packets: slot totals of n and v identical; slot totals of c, g, L, vL, gL within 1e-6 relative; every S_G (slot, s) change <= theta. Moved-sample counts and spatial-border moves reported.",
+    "instrument": "Candidate camera independence (V0 vs H1 reader: integer columns identical, real <= 1e-5); split query vs full trace at all six cameras (WL101F smoke thresholds) and LOW invariance, re-measured in this batch; planar cos normalization within 5 SE."
+  },
+  "diagnostics": "Labels are assigned after the exclusion class. D1 labels, D2 back-receiver attribution, D3 recorded events split into semantic (inside_box, support conflict) and label-only (miss_other with or without junction), D4 silhouette sensitivity reported per slot. Diagnostics never stop.",
+  "discrimination_and_controls": {
+    "native": "The same v2 gates on native semantics at the final seeds must fail S2 (F6 ring) while native S1 passes.",
+    "positive_control": "Candidate semantics with h_min overridden to 1.0e-4 m (singular disk r_s ~ 1.26 cm, about the F6 ring size) at seed 10205201: S3 must be consistent with its own registered measure and every S_G cell of the contact subcell must FAIL S4.",
+    "unit_tests": "tests101i.py: singular geometry, S3 consistency/unregistered/band excess, S4 silhouette FAIL/PASS/UNRESOLVED and exact recovery, S4 singular positive control, S5 moved-sample accounting."
+  },
+  "singular_reconciliation": "The candidate's singular set has nonzero continuous measure (floor disk ~1.07e-6 m^2, sphere cap ~1.07e-6 m^2). Its radiance is not zero (continuity estimate ~0.17); excluded samples are removed from numerator and denominator, never counted as zero. Tables estimate means over the support minus this set; their deviation from full-support means is the S4 singular term.",
+  "verdict": {
+    "NOT_QUALIFIED": "Any of: candidate S1, S2, S3, S5 regression, camera independence, six-camera consistency, cos normalization fails; discrimination fails; positive control not detected or inconsistent; any semantic D3 event.",
+    "PARTIALLY_QUALIFIED": "All global gates pass but some S4 cells FAIL or are UNRESOLVED; those cells are explicit support restrictions for a comparison.",
+    "QUALIFIED": "All global gates pass and every active S4 cell passes."
+  },
+  "seeds": {"final": [10205101, 10205102, 10205103, 10205104], "rate": 10205105, "positive_control": 10205201,
+            "regression": [10203101, 10203102, 10203103], "independence": 10205001, "smoke_start": 10205300},
+  "final_seeds": [10205101, 10205102, 10205103, 10205104],
+  "proposals_per_slot": 4096,
+  "launch_proposals": 32,
+  "independence_seed": 10205001,
+  "smoke_seed_start": 10205300,
+  "address_coordinate_tolerance": 0.00003,
+  "b_m_m": 3.814697265625e-06,
+  "smoke_gates": {"smoke_event_relative_l1": 0.00001, "smoke_event_max_absolute": 0.000015, "address_coordinate_tolerance": 0.00003,
+                  "address_reconstruction_metres": 0.000008, "address_reconstruction_direction": 0.00005},
+  "stop": "Stop if a previously unknown material semantic defect appears, the candidate support cannot be defined consistently, a threshold lacks independent justification, a gate cannot separate contamination from benign events, or qualification requires an event-contract/ECRO change. No threshold change after any final-seed result; no WL101G resumption or projection primary; no candidate promotion."
+}
