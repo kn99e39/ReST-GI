@@ -17,6 +17,11 @@ import model86 as M  # noqa: E402
 torch.set_num_threads(4)
 DEV = torch.device('cuda')
 TR = {'seed': 10201, 'steps': 24000, 'lr': 1e-3, 'lr_final': 1e-5, 'warmup': 500, 'clip': 10.0}
+# Amendment 2 (post hoc, owner-approved 2026-11-17): the generator's area INPUT is floored at 1/16 of a 25 cm cell; the physical
+# area weights of the global term keep the true patch area. AREA_FLOOR = 0 reproduces the original (collapsed) run.
+AREA_FLOOR = float(os.environ.get('WL102_AREA_FLOOR', '0'))
+# Amendment 3 (post hoc, owner-approved 2026-11-17): seed substitution after the seed-10201 collapse; default = the frozen seed
+TR['seed'] = int(os.environ.get('WL102_SEED', TR['seed']))
 
 
 def geostate(root):
@@ -24,6 +29,16 @@ def geostate(root):
     g = type('G', (), {})()
     g.N = len(z['pc']); g.PC, g.PN, g.PT, g.PAREA, g.PMAT = z['pc'], z['pn'], z['pt'], z['parea'], z['pmat']
     return M.GeoState(g, z['hit'], z['dbin'], DEV), torch.as_tensor(z['rows'], device=DEV)
+
+
+def input_state(gs):
+    """GeoState seen by the generator (factors): same tables, area input floored (Amendment 2); apply() keeps the true gs."""
+    if AREA_FLOOR <= 0:
+        return gs
+    gi = type('GI', (), {})()
+    gi.__dict__.update(gs.__dict__)
+    gi.area = torch.clamp(gs.area, min=AREA_FLOOR)
+    return gi
 
 
 class Item:
@@ -40,7 +55,7 @@ class Item:
 @torch.no_grad()
 def evaluate(model, gs, items):
     errors = np.zeros(3); truth = np.zeros(3)
-    f = model.factors(gs)
+    f = model.factors(input_state(gs))
     for it in items:
         s, t2, th = it.tensors()
         a = model.apply(f, gs, s, use_global=False); b = model.apply(f, gs, s, use_single=False)
@@ -53,7 +68,7 @@ def main(root, out, steps=None):
     root, out = Path(root), Path(out); out.mkdir(parents=True, exist_ok=True)
     steps = int(steps or TR['steps'])
     torch.manual_seed(TR['seed']); np.random.seed(TR['seed'])
-    gs, rows = geostate(root)
+    gs, rows = geostate(root); gin = input_state(gs)
     train = [Item(f) for f in sorted((root / 'train').glob('g*.npz'))]
     val = [Item(f) for f in sorted((root / 'val').glob('g*.npz'))]
     model = M.ECRO().to(DEV); model.mat_states = rows
@@ -69,7 +84,7 @@ def main(root, out, steps=None):
             TR['lr_final'] + .5 * (TR['lr'] - TR['lr_final']) * (1 + math.cos(math.pi * (step - TR['warmup']) / max(steps - TR['warmup'], 1)))
         for gr in opt.param_groups:
             gr['lr'] = lr
-        s, t2, th = item.tensors(); f = model.factors(gs)
+        s, t2, th = item.tensors(); f = model.factors(gin)
         a = model.apply(f, gs, s, use_global=False); b = model.apply(f, gs, s, use_single=False)
         t = t2 + th; den = t.mean(2, keepdim=True) + .05 * t.mean(dim=(1, 2, 3), keepdim=True)
         losses = [(((a + b - t) / den) ** 2).mean(), (((a - t2) / den) ** 2).mean(), (((b - th) / den) ** 2).mean()]
@@ -85,7 +100,7 @@ def main(root, out, steps=None):
     torch.cuda.synchronize(); train_s = time.perf_counter() - t0
     ck = out / 'model.pt'; torch.save(model.state_dict(), ck)
     res = {'seed': TR['seed'], 'steps': steps, 'params': count, 'train_s': train_s, 'train_items': len(train), 'val_items': len(val),
-           'N': gs.N, 'log': log, 'validation': evaluate(model, gs, val), 'recipe': TR, 'objective': 'WL92A OWN (1,1,1)',
+           'N': gs.N, 'area_input_floor': AREA_FLOOR, 'log': log, 'validation': evaluate(model, gs, val), 'recipe': TR, 'objective': 'WL92A OWN (1,1,1)',
            'architecture_changed': False, 'model86_sha256': hashlib.sha256((HERE.parent / 'ecro86' / 'model86.py').read_bytes()).hexdigest(),
            'checkpoint_sha256': hashlib.sha256(ck.read_bytes()).hexdigest(), 'torch': torch.__version__,
            'gpu': torch.cuda.get_device_name(0), 'peak_mib': torch.cuda.max_memory_allocated() / 2 ** 20}

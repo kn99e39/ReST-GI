@@ -12,7 +12,15 @@
 Not authorised:
 - ECRO depth or representation changes, tuning, edits (stage 4), superiority claims beyond the static scene.
 
-Any fix needing an architecture change ends the batch as STOPPED_ARCHITECTURE_EXPANSION_REQUIRED. Plan `plans/wl102_ecro_lr3_transgi/PLAN.md`; no result yet.
+Any fix needing an architecture change ends the batch as STOPPED_ARCHITECTURE_EXPANSION_REQUIRED. Plan `plans/wl102_ecro_lr3_transgi/PLAN.md`.
+
+**WL102 result (stages 1–3, 2026-11-17).**
+- **Adapter-level only.** Gates A1–A3 pass; no architecture expansion was required.
+- **Representation.** Under the scene's never-seen area light, ECRO's learned 6-event GI matches its physical 6-event estimator on Ref-7: GI LDR RMSE 0.015 vs 0.014.
+- **Truncation.** On Ref-65 the fixed D = 6 truncation dominates. Truncation alone gives 0.096; ECRO converged 0.102, at 4 spp 0.170. TransGI (independent reproduction) gives 0.0775.
+- **Cost.** ECRO training 3,135 s vs TransGI 417 s. Frame: ECRO 27 ms on the unoptimised pt path vs TransGI 8 ms.
+- **Training stability.** The pre-registered seed collapsed to a zero output; the original configuration recovers in 2 of 3 seeds; a post-hoc seed substitution was owner-approved.
+- **Not authorised:** stage 4 (edits), a depth increase, adoption. Details: [WL102](worklogs/102_WORKLOG_ECRO_LR3_ADAPTER_AND_TRANSGI_COMPARISON.md).
 
 **ECRO dynamic relation-update cost (human brief, 2026-11-17; WL101, LabServer69 RTX 3090):**
 - **Original cost.** The historical ~80 ms per edit, and the ~100 ms edit → 512² × 1 spp frame measured here, were implementation overhead: per-call Python / Dr.Jit re-tracing, numpy table rebuilds and host round trips. GPU work was < 0.2 ms for geometry, relation and source.
