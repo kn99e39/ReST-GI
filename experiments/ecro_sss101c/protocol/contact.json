@@ -1,0 +1,37 @@
+{
+  "id": "WL101C",
+  "branch": "ecro_lr3_adapter",
+  "scene": "WL101A SSS cfg0, exact geometry, light, camera and map from the archived run. Sphere floor contact at (0.9, 0.4, 0) m.",
+  "spp": 4096,
+  "launch_spp": 32,
+  "seeds": [10181001, 10181002, 10181003, 10181004, 10181005, 10181006, 10181007, 10181008],
+  "raw": "Original WL101 B_sel lifecycle through the identical warm tour prefix and first cfg0 visit, followed by original render_hq() only. E1+E2=LOW, HL=learned HIGH, full=LOW+HIGH.",
+  "stack": "Existing WL101A LabServer63, RTX 3080 Ti, driver and OptiX 595.71.05, Mitsuba 3.8.0, Dr.Jit 1.3.1, Torch 2.3.1+cu121.",
+  "table_sha256": "d7e40954304bfc2b03f679af0ef6a39876f21ffc21d3a07fe3dfc3de7bd18543",
+  "scene_sha256": "a18c76efd49245dfb3f50d6d215e50d1b70e87854bac943126b60b09a50b71cb",
+  "scope": "Reuse archived WL101A cfg0 raw and two matched-seed results (reference seeds 101100/101101) as historical controls; exclude from new independent-seed inference. Original WL101 physical reference 2 × 4096 spp, finite E1–E6. Physical LOW=E1+E2, HIGH=E3–E6.",
+  "regions": {
+    "historical": "Copy WL101A full, sphere, sphere boundary/interior, floor and contact/shadow from the hashed cfg0 center-ray gbuffer.",
+    "foreground": "Visible floor center-ray world coordinate y <= 0.4 m, the camera-facing half of the plane around the contact.",
+    "near_radius_m": 0.18,
+    "flank_radius_m": [0.26, 0.40],
+    "front_radial_edges_m": [0, 0.10, 0.14, 0.18, 0.22, 0.26, 0.30, 0.35, 0.40, 0.50],
+    "near": "Foreground floor r < 0.18 m, r is planar distance from support point. 0.45 sphere radii.",
+    "flank": "Foreground floor 0.26 <= r < 0.40 m. 0.65–1 sphere radii, separated from near to characterize excess concentration.",
+    "crop_xyxy": [168, 377, 344, 457]
+  },
+  "intensity": {
+    "luminance_rgb": [0.2126, 0.7152, 0.0722],
+    "concentration": "Near mean minus flank mean of luminance. Excess is the difference of these contrasts for ECRO and physical reference. Additionally record near/flank mean-radiance ratio by arm.",
+    "local_max": "Maximum 5×5 equal-weight mean within near ROI; window average includes only masked floor pixels, at least 10 taps; center must be in near. Record image and world location. Also report P95 of near pixels. Signed residual local maxima are descriptive and never used for verdict."
+  },
+  "statistics": {
+    "error": "Linear-HDR RGB absolute and relative RMSE, signed mean RGB and relative L1. Radiance means and profiles use fixed Rec.709 luminance weights. Reference mean is the average of two halves. Reference noise proxy is their half difference; new per-seed sample variance uses ddof=1.",
+    "stable_mse": "Split fresh seeds in listed order into 4+4 and subtract a distinct physical reference half from each group mean. Stable MSE from their RGB cross product over ROI. For full, report LOW, HIGH, and the two LOW-HIGH cross terms. Keep signed estimates, including negative noise-floor values.",
+    "scalar_ci": "Independent whole-render samples: use Welch t intervals for prediction mean minus physical mean, preserving within-render correlations of channels, components and ROIs by taking contrasts before the test. Report 95% two-sided intervals for scalar intensity and spatial profile. Pixelwise differences do not create extra renderer replicates.",
+    "verdict": "Persistent HIGH if full near bias and full near-minus-flank excess are positive, and HIGH-LOW and HIGH+LOW are positive at both endpoints. Those six tests use one-sided Welch bounds with family alpha 0.05 (Bonferroni per-test alpha 0.05/6). All eight fresh seeds must have positive HIGH near bias and contrast against both reference halves. For persistent LOW swap components and apply the same condition. If unresolved or not independently sign-consistent, classify INCONCLUSIVE, including any pattern compatible with sampling noise. No claim of equivalence follows from a failed test.",
+    "uncertainty_scope": "Single scene and fixed learned table, conditional physical renderer. Only the two independent archived physical halves support reference uncertainty."
+  },
+  "display": "Import frozen WL101A tone transfer and signed ±0.09056394701202716 linear-HDR luminance range. Use these for every comparison and crop. Maximum-color saturation is display only. No clipping in evaluated HDR.",
+  "stop": "Fail on input, stack, identity, or recomposition mismatch; no new reference or SPP escalation from this protocol."
+}
