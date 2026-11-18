@@ -1,0 +1,8 @@
+{
+  "id": "WL101A execution amendment 1 startup correction",
+  "native_optix_soname": "libnvoptix.so.595.71.05",
+  "native_optix_sha256": "69be01c2e2794dbf775b9664a9c641c2db49efe5383a7a56b5f29aaa0de07fc4",
+  "process_library_path_prefix": "$HOME/nvlibs/optix595",
+  "reason": "LabServer63's system OptiX resolves to 570.195.03 while its NVIDIA driver is 595.71.05. Scene construction crashed before rendering. The existing driver-matched per-user library passed the analytic sphere-intersection probe with the original Mitsuba and Dr.Jit versions.",
+  "impact": "Process environment only. Run uses fresh output and log paths. Frozen scientific inputs and per-ROI compatibility gates are identical."
+}

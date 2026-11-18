@@ -1,0 +1,13 @@
+{
+  "id": "WL101A execution amendment 1",
+  "approval": "User instruction on 2026-11-18: 63번에서 하렴",
+  "active_stack_overrides": {
+    "host": "LabServer63",
+    "gpu": "NVIDIA GeForce RTX 3080 Ti",
+    "driver": "595.71.05"
+  },
+  "preserved": "The primary frozen protocol governs the renderer, SPP, seeds, checkpoint, reference, masks, analysis and visual scales. The existing arm-B Mitsuba 3.8.0 / Dr.Jit 1.3.1 distribution and original source bytes are staged in an isolated LabServer63 run directory. Use its existing Python/Torch 2.3.1+cu121 environment and native driver libraries.",
+  "comparability_gate": "The reference remains the original LabServer69 six-event custom physical path tracer. Before launching the sweep, the fresh LabServer63 4096-spp optimized prediction must reproduce archived LabServer69 arm B with its own seed, and the LabServer63 custom E1 and E2 must agree with each physical reference half using that half's seed. Apply the unchanged relative L1 gates in every frozen ROI. The test uses the actual custom saved-image accumulation, independent of native Mitsuba film accumulation.",
+  "timing": "Use only LabServer63 synchronized timings for the new SPP ladder. No comparison of numerical timings against LabServer69.",
+  "paths": {"server_workspace": "~/rest_sss101a", "archived_inputs": "wl101/results/ecro_dyn101/evidence/quality/sss", "raw": "results/ecro_sss101a"}
+}
