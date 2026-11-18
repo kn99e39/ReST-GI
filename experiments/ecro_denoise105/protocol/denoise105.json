@@ -1,0 +1,74 @@
+{
+  "batch": "WL105",
+  "track": "Denoising Track (branch Denoise_Reconstructor)",
+  "class": "Regular batch: first reconstructor architecture hypothesis (coupled LOW/HIGH vs combined RGB). Next free number across all branches (WL103 on this branch, WL104 on ecro_wl84_scene).",
+  "hypothesis": "At comparable reconstruction cost and identical noisy ECRO inputs, a coupled LOW/HIGH reconstructor reduces stochastic error more than a qualified combined-RGB reconstructor without introducing systematic bias or damaging geometric/radiometric boundaries.",
+  "frozen": "WL100 SSS checkpoint and learned table (WL101F input validation: scene, checkpoint 2d9cb580..., table d7e40954..., renderer sources, LabServer63 WL101 stack Mitsuba 3.8.0 / Dr.Jit 1.3.1 / Torch 2.3.1, OptiX 595.71.05). HIGH generation/lookup, LOW estimator, camera sampling, geometry, materials, light and physical references unchanged. The contact-region HIGH bias is owned by the main track: not diagnosed, compensated or optimized here.",
+  "execution_host": "LabServer63 (the RTX 5080 workstation checkout is on another branch with an unpushed WL104A freeze and is not touched).",
+  "target": "Expected output of the FROZEN ECRO renderer (E1 + E2 + HL), estimated by high-spp renders of the same renderer: 4096 spp for training/validation views; two independent 8192-spp halves per evaluation view (target Monte Carlo uncertainty from their half difference). The physical reference (archived WL101 six-event halves, V0 only) is used only for independent error accounting.",
+  "spp": [
+    4,
+    16,
+    32
+  ],
+  "train_reps": 4,
+  "eval_reps": 8,
+  "n_train_views": 40,
+  "n_val_views": 8,
+  "min_valid_fraction": 0.9,
+  "target_spp_train": 4096,
+  "target_spp_eval": 8192,
+  "seeds": {
+    "replay": [
+      101100,
+      101101
+    ],
+    "determinism": 10500001,
+    "cameras": 10500002,
+    "train_noisy": 10510000,
+    "val_noisy": 10560000,
+    "eval_noisy": 10530000,
+    "train_target": 10520000,
+    "val_target": 10525000,
+    "eval_target": 10540000,
+    "training": 10550001
+  },
+  "views": "Evaluation: V0 (WL101A-C) and WL101G held-out H1-H5 (never read by any table/model/reconstructor). Training 40 and validation 8 random room views (cameras105.random_cameras), rejected if within 0.75 m and 15 degrees of an evaluation view, accepted if >= 90% of 2x2-subpixel rays hit geometry.",
+  "inputs": {
+    "radiance": "Per-pixel component means E1, E2, HL of the ORIGINAL frame program at the given spp (one launch, seed x 1000003). LOW = E1 + E2, HIGH = HL, TOTAL = LOW + HIGH. Network features use log1p(radiance); kernels are applied to linear radiance.",
+    "aux": "Geometry only, 8 x 8 fixed subpixel grid: coverage fraction of each of the 9 shapes, coverage-weighted mean camera-facing normal, mean hit distance / 5, plus log2(spp) / 5. Coverage-aware guides replace WL101B's single centre-ray guide (its silhouette-ring mechanism)."
+  },
+  "arms": {
+    "R0": "Raw ECRO TOTAL, no reconstruction.",
+    "R1": "Qualified combined-RGB baseline: U-Net (encoder widths 32/64/96/128, three stride-2 levels, 2 convs per level) on log1p(TOTAL) + aux predicting one 15 x 15 softmax kernel per pixel, applied to linear TOTAL.",
+    "R2": "Coupled LOW/HIGH candidate: the same U-Net on log1p(LOW), log1p(HIGH) + aux predicting two 15 x 15 softmax kernels, applied to linear LOW and HIGH and summed into one full-radiance output. Trained on the summed output only, so LOW/HIGH errors are optimized jointly, not assumed independent.",
+    "R3": "Ablation (separation without coupling): two independent U-Nets with widths scaled by 1/sqrt(2) (parameter-matched to R1), one on log1p(LOW) + aux, one on log1p(HIGH) + aux, each predicting its own kernel and trained on its own component target; outputs summed.",
+    "WL101B": "Historical joint-RGB SVGF negative control: referenced only, not rerun (boundary-band defect)."
+  },
+  "rejected_alternatives": "Direct radiance prediction (hallucination/bias risk without a local-mean-preserving output); explicit per-pixel covariance inputs (a 4-spp frame exposes only component sums, so a per-pixel covariance estimate is statistically unusable); temporal or multi-frame models (out of scope).",
+  "training": "One model per arm for all three spp (spp as input feature). Loss: relative MSE mean((y_hat - y)^2 / (sg(y_hat)^2 + 0.01)) per channel (mean-seeking). Adam lr 2e-4, cosine decay to 1e-5, 20,000 iterations, batch 16 random 128 x 128 crops (random view, spp, replicate), seed 10550001. Identical data, budget and schedule for every arm. No checkpoint selection: the final weights are evaluated. Validation views are logged only.",
+  "rois": {
+    "contact_excluded": "Floor pixels (centre-ray shape 0) within 0.25 m horizontally of the support point (0.9, 0.4): excluded from the primary criterion, reported separately.",
+    "primary": "All valid pixels minus contact_excluded.",
+    "sss_interior": "Pixels with full sphere coverage (64/64 subpixels), eroded by 2 pixels.",
+    "silhouette": "Sphere coverage strictly between 0 and 1.",
+    "material_boundary": "Mixed-coverage pixels (no shape at 100%) without sphere coverage, outside contact_excluded.",
+    "control": "Pixels fully covered by the back wall (shape 2), eroded by 4 pixels.",
+    "highlight": "Not supported in this diffuse/SSS fixture; reported as not applicable."
+  },
+  "metrics": "Relative HDR RGB RMSE and L1 against the evaluation target, per (view, spp, replicate, ROI); signed mean luminance residual relative to the ROI target mean; across-replicate output variance; gradient-magnitude ratio |grad y_hat| / |grad y| on silhouette and material_boundary (adjacent pairs touching the ROI); target half-difference noise; V0 error against the physical reference (secondary, contact excluded).",
+  "statistics": "Paired differences per (view, replicate) on identical inputs. 95% intervals by two-level bootstrap (resample views, then replicates within views), 10,000 draws, seed 10599001.",
+  "decision": {
+    "R1_qualification": "R1 must reduce primary relative RMSE versus R0 at every spp, keep silhouette gradient ratio within [0.8, 1.2] and silhouette / material_boundary / primary |signed residual| <= 1% of the ROI target mean at every spp. Otherwise STOP: no valid RGB baseline.",
+    "quality": "Per spp: relative reduction D = (E_R1 - E_R2) / E_R1 of primary relative RMSE (mean over views and replicates); material if D >= 0.05 and the 95% interval lower bound > 0.",
+    "safety": "R2 at every spp: |signed residual| <= 1% of ROI mean in primary, sss_interior, silhouette, material_boundary, control; silhouette and material_boundary relative RMSE <= 1.05 x R1; silhouette gradient ratio within [0.8, 1.2].",
+    "cost": "Report reconstruction latency (512 x 512, fused Triton kernel application for every arm, median of 50 synchronized runs after 10 warm-ups), memory and parameters. Cost-matched comparison: for R2 at spp s, R1 is evaluated at s* where ECRO frame time (linear fit of the measured frozen frame times at 4/16/32 spp) plus R1 latency equals frame(s) plus R2 latency; R1 error at s* is interpolated log-log in spp from its measured per-view errors at 4/16/32 (extrapolated along the 16-32 slope if s* > 32). D_cost = (E_R1(s*) - E_R2(s)) / E_R1(s*), material if >= 0.05 with the 95% interval lower bound > 0.",
+    "verdict": "SUPPORTED if both D and D_cost are material at all three spp and safety passes. PARTIALLY SUPPORTED if both are material at one or two spp with safety passing there. QUALITY-ONLY (not supported at matched cost) if D is material somewhere but D_cost is material nowhere. NOT SUPPORTED if D is not material at any spp or safety fails. INCONCLUSIVE if an interval straddles 0 while |D| >= 0.05 at a majority of spp. R3 attributes separation vs coupling and never decides the verdict.",
+    "target_trust": "Target half-difference RMS in the primary ROI must be <= 10% of R1's primary RMSE at every spp; otherwise STOP (targets not trustworthy)."
+  },
+  "gates": {
+    "replay_relative_l1": 0.0005
+  },
+  "stop": "Stop on frozen renderer/checkpoint equivalence failure, untrustworthy targets, seed leakage, any need to change transport semantics, improvement dominated by the excluded contact region, no qualified RGB baseline, or uninterpretable comparisons. No sample-count, threshold, ROI or architecture change after evaluation outputs are inspected; no temporal reconstruction or ECRO change.",
+  "implementation_note": "Pre-freeze code-path smoke (offset seeds +5,000,000, 200 iterations, numbers not interpreted) measured unfold-based kernel application at ~6.6 ms per kernel; a fused Triton application (kpn_triton105.py, equal to the unfold reference within 1.2e-6 relative) is used for inference in every arm. Training keeps the autograd unfold path. The initial latency rule (R2 <= 1.10 x R1) was replaced before any evaluation by the cost-matched comparison above, because the coupled design intrinsically applies two kernels."
+}
