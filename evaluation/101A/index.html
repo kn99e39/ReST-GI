@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WL101A · ECRO SSS low-SPP attribution</title>
+<style>
+ body { max-width: 1060px; margin: 42px auto; padding: 0 20px; color: #20232a; font: 16px/1.5 system-ui, sans-serif; }
+ h1 { line-height: 1.15; } figure { margin: 18px 0 30px; } img { display: block; width: 100%; height: auto; }
+ figcaption { margin-top: 0.4rem; color: #4a5059; } a { color: #005481; }
+ .comparison { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 14px; }
+</style>
+</head>
+<body>
+<h1>WL101A · ECRO SSS low-SPP attribution</h1>
+<p>At 32 spp, stochastic sampling accounts for 98.85% of the MSE budget on both the sphere and floor. The frozen LOW-only dominance rule is inconclusive. The isolated LOW share is 49.90% on the sphere and 60.59% on the floor. The matched high-SPP residual lies in HIGH, especially around contact and boundaries.</p>
+<p><a href="metrics.json">Metrics</a> · <a href="run_manifest.json">Run manifest</a> · <a href="manifest101a.json">Reviewer file hashes</a> · <a href="../../docs/worklogs/101A_WORKLOG_ECRO_SSS_LOW_SPP_ARTIFACT_ATTRIBUTION.md">Worklog</a></p>
+<section class="comparison" aria-label="Physical reference beside the 32-spp ECRO render">
+ <figure><a href="panels/reference.png"><img src="panels/reference.png" alt="Smooth sphere and floor under the six-event physical reference"></a><figcaption>Physical reference, two independent 4,096-spp halves</figcaption></figure>
+ <figure><a href="panels/ecro_32spp.png"><img src="panels/ecro_32spp.png" alt="Visible grain on sphere and floor in the 32-spp ECRO render"></a><figcaption>WL101 renderer, 32 spp, seed 10163200</figcaption></figure>
+</section>
+<h2>Convergence</h2>
+<figure><a href="progression.png"><img src="progression.png" alt="ECRO render progression from one sample per pixel through the paired high-spp average" loading="lazy"></a><figcaption>Same HDR display transfer for every render. <a href="sphere_crops.png">Sphere crops</a></figcaption></figure>
+<figure><a href="variance_convergence.png"><img src="variance_convergence.png" alt="Measured decline in inter-seed variance for full, LOW, and HIGH across sphere, floor, and contact regions" loading="lazy"></a><figcaption>Variance and frozen 95% bootstrap intervals at every SPP.</figcaption></figure>
+<h2>Component attribution</h2>
+<figure><a href="attribution.png"><img src="attribution.png" alt="32-spp LOW and HIGH, stochastic LOW deviation, matched residuals, and reference noise" loading="lazy"></a><figcaption>Fixed absolute and signed display limits. <a href="contact_shadow_crops.png">Contact and shadow crops</a> · <a href="regions.png">ROI masks</a></figcaption></figure>
+<p><a href="panels/low_32spp.png">LOW</a> · <a href="panels/high_32spp.png">HIGH</a> · <a href="panels/low_stochastic_32spp.png">LOW stochastic deviation</a> · <a href="panels/converged_full_signed.png">Full paired residual</a> · <a href="panels/converged_low_signed.png">LOW paired residual</a> · <a href="panels/converged_high_signed.png">HIGH paired residual</a></p>
+</body>
+</html>
