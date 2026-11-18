@@ -1,0 +1,151 @@
+{
+  "id": "WL101H",
+  "track": "Denoising Track, diagnostic batch DN-1 (LOW/HIGH noise attribution). No denoiser, no reconstruction, no training.",
+  "classification": "Suffix of WL101 per the AGENTS.md numbering policy: a dependent evidence-gap follow-up of WL101A (32-spp attribution INCONCLUSIVE, recommended evaluating the full readout under LOW-HIGH correlation and the persistent HIGH error separately), WL101B and WL101C on the same fixture, checkpoint and estimator, introducing no mechanism. The research owner may reclassify; files would be renamed, not renumbered silently.",
+  "branch": {"name": "Denoise_Reconstructor", "created_from": "ecro_lr3_adapter", "base_commit": "c0daf390aeba0e96e5894fcaed29f624ce584bba"},
+  "machine": {
+    "host": "local workstation (user instruction: local machine, not LabServer63)",
+    "gpu": "NVIDIA GeForce RTX 5080 16 GB, driver 596.49, Windows 11; GPU shared with the desktop display (timings descriptive only)",
+    "python": "external/8dna26/.venv-cu128/Scripts/python.exe (Python 3.11.9, torch 2.8.0+cu128, NumPy 1.26.4)",
+    "renderer_stack": "Mitsuba 3.9.1 / Dr.Jit 1.5.0 from external/mi39_dyn101 (the stack rt101 was written for), cuda_ad_rgb, FREEZE=1",
+    "stack_note": "WL101A-C ran Mitsuba 3.8.0 / Dr.Jit 1.3.1 on LabServer63. Cross-stack equivalence is an admission gate (G2, G3), not assumed."
+  },
+  "scene": {
+    "fixture": "WL100 SSS test config 0, light set 0 (= WL101A/WL101C cfg0), fixed geometry, light, material and camera",
+    "camera": "WL100 sss dataset camera, 512 x 512",
+    "construction": "Fresh rt101.RT(cfg0) -> source() -> respond() (WL101 initialisation / arm C path). WL101 showed selective-lifecycle and fresh tables identical; G1 checks the table against the archived WL100 table_0.",
+    "checkpoint": "results/ecro_material100/sss/model.pt"
+  },
+  "frozen_inputs_sha256": {
+    "experiments/ecro_dyn101/rt101.py": "417fd6c041603b6760aa72179bb383ac44ca1e3d031715f8b76fe0bb419eedf6",
+    "experiments/ecro86/pt86.py": "912e68acd314d79ef0cc270784d99f79ed8024caf856527a127f31e6ccd6c983",
+    "experiments/ecro86/ecro86.py": "0ef09a86939745edeac490f5bac9f7112ecc7b9c63c315bc10f30cc93289f428",
+    "experiments/ecro86/model86.py": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+    "experiments/ecro86/scene86.py": "b75a2d9cbae1f738429e16fa32095a1c3cdf346bff5f5e55d5576ad14ce39e69",
+    "experiments/ecro_material100/pt100.py": "c8b201da8db13274940af7038d0a4b95cfb3313277a5bd87ec03bc956a5046a0",
+    "experiments/ecro_material100/common100.py": "1c1098dbd54efa49bdc206228cf85cff8a2abbfbb69910691a3aa70fda8b2a33",
+    "experiments/fnto_compiled83/closure83_dr.py": "3eee59095fc77fdb7a965d1a14a124230efa40fda05a2c4744e260b64c904614",
+    "experiments/ecro_material100/protocol.json": "f00c6e78780aa55693dcef5f6db72a0f2792c8ab366c6197a3a3a87c3b8443dc",
+    "results/ecro_material100/configs.json": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+    "results/ecro_material100/sss/model.pt": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+    "results/ecro_material100/sss/renders/REF_0_0.npz": "248e3ed6a0f9f233c396822d20688f4a721ff0e6038bcb7655427ea0569def49",
+    "results/ecro_material100/sss/renders/REF_0_1.npz": "6371e6becd897d5eaec2f2f64e54e31d804ca6e67ae64f791ab278bbf451455a",
+    "results/ecro_material100/sss/renders/PRED_0.npz": "4a516340288660860f4d943c25260405ed0333e405c0ca6bee7ebd53e3e5255b",
+    "results/ecro_material100/sss/renders/table_0.npz": "58f756f50c4f42606404af6c0cdc5ac2fecf29d9957961487e30990284470462",
+    "results/ecro_material100/sss/renders/map_0.npz": "a8fa21837dcd012c87c4fa1e12b19584fb27a72d068a69a2ce923a38ef919aa9"
+  },
+  "references": {
+    "physical": "WL100 six-optical-domain-event physical reference, two independent halves REF_0_0 / REF_0_1, seeds 100901 / 100902, 4096 spp each, frozen WL100 runtime (Mitsuba 3.5.1). Events: e1, e2 (= physical LOW) and h = E3..E6 (= physical HIGH target of the learned table). Same fixture and definition as the WL101 halves used by WL101A/C (seeds 101100/101101, not stored locally); this batch uses the WL100 halves, so its bias numbers are an independent re-estimate, not a replay of WL101C.",
+    "component_compatibility": "ECRO LOW = E1 + E2 uses the identical estimator as the reference's first two events (same RNG consumption for k = 1, 2), so LOW bias against e1 + e2 and HIGH bias against h are semantically aligned. The six-event truncation and WL100's limited native-volpath qualification bound physical interpretation; nothing here certifies absolute SSS accuracy.",
+    "historical_prediction": "PRED_0, seed 100903, 4096 spp, frozen WL100 runtime, keys e1 e2 hl"
+  },
+  "signal_path": {
+    "LOW": "E1 + E2. E1: NEE (+ SSS entry-to-first-exit walk NEE at the sphere) at the first camera hit. E2: same at the second hit plus the ballistic through-sphere term generated at the first hit.",
+    "HIGH": "HL = throughput * B[patch(second hit), bin(-dir)] read at the second hit (pt100.trace, mode ecro, k = 2), before the k = 2 SSS walk.",
+    "composed": "Raw ECRO radiance = (E1 + E2 + HL) / spp, the WL101 / WL101B consumer contract (float32 on the device).",
+    "stochastic_stages": {
+      "J": "pixel subpixel jitter (2 draws)",
+      "P": "first-event transport: k = 1 SSS walk (distance / direction draws) and k = 1 closure sample or SSS exit (3 draws). Determines the second hit, throughput and thus HL and E2's prefix.",
+      "S": "k = 2 SSS walk (only after the HL lookup) -> affects E2 only"
+    },
+    "high_state": "B = model(state rays, source encoding): state-ray and source-point offsets are a fixed table_seed 86001 draw shared by every patch, no runtime RNG. G1 tests repeated generation for bitwise identity (including the GPU float64 index_add_ source reduction).",
+    "rng": "Normal arm: one PCG32 stream per sample lane (Dr.Jit 0.4.6 seeding replica), seed * 1000003 (+ launch for render_hq), draws consumed J -> P -> S in order."
+  },
+  "arms": {
+    "J_normal": {
+      "renderer": "rt101.RT.frame (frozen, unchanged)",
+      "spp": [1, 4, 16],
+      "replicates": 64,
+      "seed_formula": "10183000 + 100 * spp + r, r in 0..63",
+      "outputs": "9 native channels (per-pixel sums) float32 + contract-composed RGB float32"
+    },
+    "PF_split": {
+      "renderer": "render_h.SplitRT.split_frame (diagnostic copy of _frame_prog; RNG wiring J / P / S streams, distinct stream selectors 1<<40, 2<<40, 3<<40; statements and per-stage draw order unchanged)",
+      "spp": [1, 4, 16],
+      "replicates": 64,
+      "triples": "A = (J, P, S), B = (J, P, S'), C = (J, P', S'')",
+      "seed_formula": "base = 10185000 + 1000 * i_spp + 10 * r (i_spp 0, 1, 2 for 1, 4, 16 spp); J = base, P = base + 1, S = base + 2, S' = base + 3, P' = base + 4, S'' = base + 5",
+      "role": "Conditional stage diagnostic. Valid only if G6 and G7 pass. Never replaces the normal arm."
+    },
+    "HQ_normal": {
+      "renderer": "rt101.render_hq (frozen, launches of 32 spp, seed * 1000003 + launch)",
+      "spp": 4096,
+      "seeds": [10189001, 10189002, 10189003, 10189004, 10189005, 10189006, 10189007, 10189008],
+      "split_for_stable_bias": "group 1 = first four seeds, group 2 = last four"
+    },
+    "replays": {
+      "prediction": {"seed": 100903, "spp": 4096, "compare": "PRED_0 e1 e2 hl"},
+      "paired_low": {"seeds": [100901, 100902], "spp": 4096, "compare": "REF_0_0 / REF_0_1 e1 e2 (same rays and first two events)"}
+    },
+    "Q_quadrature": {
+      "role": "Conditional sensitivity of the deterministic HIGH state to its frozen quadrature draw. Not a runtime noise source in the normal arm (its effect there is a fixed, seed-independent offset). Includes the generator's response to offsets it was not trained with, so it is an upper-side indication, not a clean quadrature error.",
+      "source_offset_redraws": {"factor": "u_src (2 x PSRC offsets), state rays fixed", "rng_seeds": [10189201, 10189202, 10189203, 10189204]},
+      "state_offset_redraws": {"factor": "u_state (4 x K offsets), source offsets fixed; full state rebuild", "rng_seeds": [10189301, 10189302, 10189303, 10189304]},
+      "draw": "numpy default_rng(seed).random(shape, float32), the same call form as pt86.Ctx",
+      "readout": "Common random numbers: render_hq HL at 1024 spp, seed 10189401, for the original and each redrawn table; Delta HL is exactly the readout of Delta B on identical paths",
+      "restore": "Original offsets restored and the table re-checked bitwise against the original before any later stage"
+    },
+    "timing": {
+      "what": "Synchronized wall per frame for rt.frame + 9-channel readback, readback alone, contract composition, split_frame + readback; 4 warm-up then 32 measured frames per spp",
+      "scope": "Descriptive instrumentation overhead on a desktop GPU; no latency claim"
+    },
+    "dynamic_check": "NOT RUN. Locally stored references cover WL100 test configs 0-2, which differ in both geometry and light (no single-factor edit pair); the qualified WL101 tour references are on the servers and execution is local by user instruction. Decided before evidence."
+  },
+  "rois": {
+    "source": "Geometry only. WL100 cfg0 center-ray gbuffer map_0.npz (shape ids identical to an own center-ray trace, checked in development) and an 8 x 8 fixed-subpixel first-hit id buffer from the same scene. Decided before any noise statistic was computed; the archived physical reference mean was viewed only to place the control region.",
+    "primary": ["sss_interior", "silhouette", "near", "control"],
+    "secondary": ["full", "sphere", "sphere_boundary", "floor", "contact_shadow", "flank"],
+    "definitions": {
+      "sss_interior": "WL101A sphere_interior (sphere eroded by 4 px, 8-neighbour) and full 8 x 8 sphere coverage",
+      "silhouette": "Pixels with sphere coverage strictly between 0 and 1 in the 8 x 8 subpixel id buffer (mixed coverage, both sides of the sphere outline)",
+      "near": "WL101C near: visible front-half floor (center-ray y <= 0.4 m) within 0.18 m planar distance of the support point (0.9, 0.4, 0) — the contact / indirect-illumination region with the reproduced HIGH overbrightness",
+      "control": "Back wall (sid 2), pure 8 x 8 coverage, >= 0.3 m from every room edge, >= 0.5 m from the sphere surface, >= 0.3 m from both boxes, not in contact_shadow: directly lit diffuse wall away from contact and silhouettes",
+      "WL101A_WL101C": "full, sphere, sphere_boundary, floor, contact_shadow, flank exactly as WL101A common.masks and WL101C make_regions"
+    },
+    "control": {"sid": 2, "room_edge_margin_m": 0.3, "min_sphere_distance_m": 0.5, "min_box_distance_m": 0.3},
+    "subpixel_grid": 8,
+    "expected_counts": {"full": 262144, "sphere": 49660, "sphere_interior": 45692, "sphere_boundary": 3968, "floor": 72657, "contact_shadow": 38071, "near": 1318, "flank": 6042, "sss_interior": 45692, "silhouette": 870, "control": 86118}
+  },
+  "gates": {
+    "G0_inputs": "Every frozen input SHA-256 matches; versions recorded.",
+    "G1_high_state": "Table vs archived table_0 B: relative L1 <= 1e-4. Three repeated source+respond evaluations bitwise identical. Table bitwise unchanged after all frames.",
+    "G2_prediction_replay": "Seed 100903 at 4096 spp vs PRED_0: relative L1 <= 1e-4 for full, LOW, HIGH, E1, E2 in full frame and every primary ROI.",
+    "G3_paired_low": "Seeds 100901 / 100902 at 4096 spp: E1, E2 and LOW vs REF_0_h e1, e2: relative L1 <= 1e-4 in full frame and every primary ROI.",
+    "G4_determinism": "Normal arm: replicate 0 of every spp re-rendered bitwise identical. Split arm: triple 0 member A re-rendered bitwise identical.",
+    "G5_recomposition": "Per J frame: contract-composed RGB vs float64 (E1 + E2 + HL) / spp relative L1 <= 1e-6. Variance identity V_T = V_L + V_H + 2 C_LH with V_T computed from the contract-composed image: |residual| <= 1e-5 * V_T in every ROI and spp.",
+    "G6_split_structure": "Every PF triple: E1 and HL of A and B bitwise identical (they depend on J and P only); all values finite and >= 0.",
+    "G7_split_equivalence": "PF member-A vs J normal, per primary ROI x spp x component (T, L, H): (a) ROI-mean variance ratio, |log ratio| / SE <= z(0.05/36) using bootstrap SEs of both arms; (b) ROI-mean RGB mean difference, |diff| / SE <= z(0.05/36). Any failure: PF stage results are reported as INVALID and excluded from interpretation; normal-arm results stand.",
+    "G8_tests": "tests_h.py passes (synthetic known-moment, pick-freeze, stable-bias, bootstrap-coverage and mask tests).",
+    "failure": "G0-G6 or G8 failure stops the evidence run; no threshold relaxation. A G2/G3 failure caused by the cross-stack difference is reported as a blocker, not amended away."
+  },
+  "analysis": {
+    "convention": "Linear HDR RGB, no clamping, tonemapping or outlier removal. ROI aggregate = mean over ROI pixels and the three channels of the per-element moment.",
+    "components": "E1, E2, L = E1 + E2, H = HL, T = contract-composed (J arm) or E1 + E2 + HL in float64 (PF arm).",
+    "joint_moments": "Per ROI and spp: ddof=1 inter-seed variances V_E1, V_E2, V_L, V_H, V_T; covariances C_LH, C_E1E2, C_E1H, C_E2H; correlation rho_LH = C_LH / sqrt(V_L V_H) (ROI-aggregated moments); per-component ROI means. Signed shares s_L = V_L / V_T, s_H = V_H / V_T, s_C = 2 C_LH / V_T (sum 1, s_C may be negative). Relative variance = V / mean(ref_T^2) over the ROI (WL101A normalisation).",
+    "spp_scaling": "log V vs log spp least-squares slope per component (L, H, T, and |2 C_LH| reported signed separately) with bootstrap SE; spp-scaled n * V.",
+    "stage_decomposition": "PF arm per ROI and spp: stage matrices J, P, S for (E1, E2, H, T) and L by linearity; stage shares of V_T; C_LH split by stage (S stage exactly 0 by construction).",
+    "bias": "HQ arm vs the two physical halves: stable squared bias matrix over (L, H, T) by the two-pairing cross product (group means of seeds 1-4 and 5-8 against distinct halves); b2_T = b2_L + b2_H + 2 b_LH. Signed ROI-mean bias (RGB and Rec.709 luminance) with Welch interval (8 HQ seeds vs 2 halves, per WL101C). Reference-mean noise = mean (R1 - R2)^2 / 4. HQ ensemble-mean noise = V_T(HQ) / 8. Stable bias significance is judged against its spatial-block bootstrap SE (16 x 16 blocks within the ROI, 2000 draws).",
+    "mse_budget": "At each spp: MSE_T(n) = V_T(n) + b2_T. Bias share = b2_T / MSE_T(n).",
+    "uncertainty": "Replicate bootstrap, 2000 draws, seed 10189999 (J arm and PF triples resampled independently per spp); normal 95% intervals point +- 1.96 SE (tests_h.py coverage check). Bias: spatial-block bootstrap as above.",
+    "temporal": "Static fixed-camera raw frames carry no state between frames, so frame-to-frame instability equals the inter-seed variance; reported as such, not separately sampled."
+  },
+  "verdict_rules": {
+    "per_roi_and_spp": [
+      "BIAS-DOMINANT if the lower 95% bound of b2_T / MSE_T(n) > 0.5.",
+      "Otherwise, sampling attribution from the J arm: LOW-DOMINANT if lower95(s_L) > 0.5; HIGH-DOMINANT if lower95(s_H) > 0.5; COVARIANCE-DOMINATED if lower95(s_C) > 0.5 or upper95(s_C) < -0.5.",
+      "Otherwise MIXED if at least two of s_L, s_H, |s_C| have lower 95% bounds (for s_C: of its sign-consistent magnitude) above 0.2.",
+      "Otherwise INCONCLUSIVE.",
+      "Secondary flags: 'bias resolved' if lower95(b2_T) > 0 by its block SE; 'covariance resolved' if the s_C interval excludes 0."
+    ],
+    "stage_rule": "PF arm, if valid: JITTER-, PREFIX- or SUFFIX-DOMINANT if the lower 95% bound of that stage's share of V_T > 0.5; else MIXED-STAGE if two stages have lower bounds > 0.2; else INCONCLUSIVE.",
+    "overall": "REGION-DEPENDENT if primary ROIs receive different classes at the same spp; otherwise the common class. Report each spp separately.",
+    "scope": "Classifications describe candidate noise responsibilities for this fixture, checkpoint and camera. They do not establish denoiser utility or select LOW-only, HIGH-only or joint reconstruction."
+  },
+  "display": {
+    "exposure": 0.1938553403045695,
+    "transfer": "WL101A: (e x / (1 + e x))^(1/2.2) on linear HDR, display only",
+    "signed_cap": 0.09056394701202716,
+    "maps": "Variance maps: RGB-mean per-pixel variance, square-root display on one absolute scale shared by all variance maps of the batch, real-unit colorbar; signed covariance and bias maps diverging around 0 with one shared cap; no per-image normalisation."
+  },
+  "artifacts": {"raw": "results/ecro_noise101h/", "reviewer": "evaluation/101H/", "worklog": "docs/worklogs/101H_WORKLOG_ECRO_SSS_LOW_HIGH_NOISE_ATTRIBUTION.md"}
+}
