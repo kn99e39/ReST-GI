@@ -1,0 +1,24 @@
+{
+  "id": "WL101H",
+  "display_scales": {
+    "stochastic_family_max_linear_hdr": 3.66987925658288,
+    "residual_family_max_linear_hdr": 0.263310983980773,
+    "mapping": "display = sign(x) * sqrt(|x| / M); covariance and stage-variance maps shown as signed root sign(v) sqrt(|v|) in radiance units",
+    "colorbar_ticks": "real linear-HDR units"
+  },
+  "files": {
+    "bias_maps.png": "9ed3721aa360f020d31c9e92252227609301695131696dc511b1332b9a483078",
+    "crop_contact.png": "4903dbf41e352c1dec71e6e873391d4831ce578b2430554a2c32eb996005e53e",
+    "crop_silhouette.png": "92dd887b591a87b652d68033637d4e08410a2cd89058749beca26ab4bad951fd",
+    "mse_budget.png": "60ca6b151845d2c53de5f2ae9acb5da8269dd5f9c73bfe7d70ffa9da84c5b5eb",
+    "raw_components.png": "1221a10a098f101f5457cd0e66d1394a3fd8bc9251fa25744f973f62f705403a",
+    "roi_masks.png": "dfffe04fa063821c906e67c896c666f1511e0d46b90908af606bb473c2df6cc1",
+    "spp_scaling.png": "a19cad44a5c35f3b8fabef6b8852c3388a1a3db97b482f3ee98af58c97cc0002",
+    "stage_maps.png": "b9b8ba6356d2cca42bc884fc2a7a7d1726c681266813f3f4524948d3ea8a032d",
+    "stage_shares.png": "c5bf01195a4c9db308af915196f47bdfecda6cc2e04540e8577ef11440d88da6",
+    "variance_maps.png": "0299a49adef71e118004fb2e94e75ce5a70dd093a116871db12cb9f666c810f6",
+    "metrics.json": "7e359fc1d624fd52527adee7dbeaad9d77709b44ace268377730bd0eed00c205"
+  },
+  "raw_manifest_sha256": "50ab6c2785ac19dc54dc7fb251a46dce59515a615c773c43a6eac48c6de7e78b",
+  "source_raw": "C:\\Projects\\ReST-GI\\results\\ecro_noise101h\\evidence"
+}

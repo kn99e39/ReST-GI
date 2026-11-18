@@ -38,6 +38,19 @@ Any fix needing an architecture change ends the batch as STOPPED_ARCHITECTURE_EX
 
 **ECRO SSS cross-view camera-independent projection (WL101G, stopped 2026-11-18):** The batch was meant to test whether a camera-independent étendue projection, optionally with spatial refinement, keeps WL101F's contact gain across five held-out views and several image regions. The owner stopped it at a construction validation gate before any evaluation stream ran, after two approved execution amendments. The stops were rare (about 1e-9) numerical events at geometric contacts and room edges, combined with classifier and scale-qualification defects in the batch's own validation code. None of them reflects on the projection being tested. **Verdict D (evidence insufficient). Nothing about cross-view fidelity or the need for spatial resolution was measured.** The WL101F question stays open. Any retry needs a new owner decision, with full-scale geometry-only requalification of the construction gates before freezing. The owner has requested a separate audit of the amendment causes. [WL101G](worklogs/101G_WORKLOG_ECRO_SSS_CROSS_VIEW_PROJECTION.md).
 
+**Denoising Track DN-1 — ECRO SSS LOW/HIGH noise attribution (human brief, 2026-11-18; WL103, local RTX 5080, branch `Denoise_Reconstructor`):** This is a diagnostic profiling batch only: no denoiser, reconstruction or training. All admission gates pass on the unchanged WL101 renderer:
+- cross-stack replay ≤ 2.4e-5;
+- HIGH table deterministic and bitwise reproducible;
+- recomposition exact.
+
+Findings, over 64 seeds per spp at 1, 4 and 16 spp:
+- **Readout noise only.** HIGH has no runtime noise source of its own; its variance is readout noise from the sampled first event.
+- **Shared-sample covariance.** That shared sample makes Cov(LOW,HIGH) = Cov(E2,HIGH) a resolved positive 23–41% of TOTAL variance (ρ 0.36–0.79).
+- **Region-dependent attribution.** The silhouette is LOW-dominant (s_L 0.60). The SSS interior, near contact and control wall are MIXED.
+- **Contact bias.** The +32% contact HIGH overbrightness reproduces independently. Its share of contact MSE grows from 6% to 48% between 1 and 16 spp.
+
+The split-stream stage decomposition failed its equivalence gate and is not interpreted. No reconstructor architecture is selected and no successor is authorised. [WL103](worklogs/103_WORKLOG_ECRO_SSS_LOW_HIGH_NOISE_ATTRIBUTION.md).
+
 **Bounded material-training request completed (human, 2026-11-16; WL100):** Two separate pre-RB-DTO-E ECRO OWN models completed 24,000 steps each on new near-mirror and physically modelled SSS datasets; held-out reference/prediction/error-map, ROI, higher-order and noise-control figures are available. The learned architecture is unchanged; physical material response and LOW remain explicit. SSS sphere ROI discrepancy is 1.47-2.08% versus the finite-depth reference; near raw ROI discrepancy (8.3-20.1%) is almost the reference sampling noise, so converged near fidelity remains unqualified. This is bounded material-coverage evidence, not adoption, whole-neural local SSS, dynamic/economic evidence or an RB-DTO-E successor decision. Full scope and limits: [WL100](worklogs/100_WORKLOG_ECRO_NEAR_MIRROR_AND_SSS_TRAINING.md).
 
 

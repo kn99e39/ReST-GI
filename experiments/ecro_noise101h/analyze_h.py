@@ -395,7 +395,7 @@ fig.suptitle(f'WL101H raw linear-HDR components, fixed WL101A exposure {EX:.4f} 
 fig.tight_layout(); fig.savefig(OUT / 'raw_components.png', dpi=80); plt.close(fig)
 
 # F2 per-component variance maps
-fig, ax = plt.subplots(3, 4, figsize=(15, 11))
+fig, ax = plt.subplots(3, 4, figsize=(16, 11), constrained_layout=True)
 for i, s in enumerate(SPPS):
     im = show_pos(ax[i, 0], mp(JMAP[s]['V_L']) ** 0.5, M_DEV, f'{s} spp: std LOW')
     show_pos(ax[i, 1], mp(JMAP[s]['V_H']) ** 0.5, M_DEV, f'{s} spp: std HIGH')
@@ -407,7 +407,7 @@ fig.suptitle('Inter-seed variance maps, 64 independent seeds per spp (normal arm
 fig.savefig(OUT / 'variance_maps.png', dpi=75); plt.close(fig)
 
 # F3 stage maps
-fig, ax = plt.subplots(3, 4, figsize=(15, 11))
+fig, ax = plt.subplots(3, 4, figsize=(16, 11), constrained_layout=True)
 for i, s in enumerate(SPPS):
     for j, (a, n) in enumerate((('T_J', 'jitter stage J'), ('T_P', 'first-event stage P'), ('T_S', 'k=2 walk stage S'), ('T_tot', 'total'))):
         im = show_sig(ax[i, j], sroot(mp(PFMAP[s][a])), M_DEV, f'{s} spp TOTAL variance: {n}')
@@ -416,7 +416,7 @@ fig.suptitle('Pick-freeze stage decomposition of TOTAL variance (split diagnosti
 fig.savefig(OUT / 'stage_maps.png', dpi=75); plt.close(fig)
 
 # F4 bias / residual maps
-fig, ax = plt.subplots(1, 4, figsize=(17, 4.6))
+fig, ax = plt.subplots(1, 4, figsize=(18, 4.8), constrained_layout=True)
 for j, (a, n) in enumerate((('L', 'LOW bias (ECRO - physical E1+E2)'), ('H', 'HIGH bias (learned - physical E3-E6)'), ('T', 'TOTAL bias'))):
     im = show_sig(ax[j], mp(BMAP[a]), M_RES, n)
 im2 = show_pos(ax[3], mp(BMAP['ref_noise']), M_RES, 'physical reference-mean noise (std of 2-half mean)')
@@ -426,7 +426,7 @@ fig.savefig(OUT / 'bias_maps.png', dpi=75); plt.close(fig)
 
 # F5 crops
 for crop, name in ((SIL, 'silhouette'), (CON, 'contact')):
-    fig, ax = plt.subplots(2, 5, figsize=(17, 6.8))
+    fig, ax = plt.subplots(2, 5, figsize=(18, 5.6), constrained_layout=True)
     for i, s in enumerate((1, 16)):
         ax[i, 0].imshow(tone(img(JMAP[s]['rep0_T']))[crop]); ax[i, 0].set_title(f'{s} spp TOTAL (rep 0)', fontsize=8)
         im = show_pos(ax[i, 1], (mp(JMAP[s]['V_L']) ** 0.5)[crop], M_DEV, f'{s} spp std LOW')
@@ -505,8 +505,8 @@ fig.tight_layout(); fig.savefig(OUT / 'roi_masks.png', dpi=90); plt.close(fig)
 files = sorted(p.name for p in OUT.glob('*.png'))
 CH.write_json(OUT / 'evaluation_manifest.json', {'id': P['id'], 'display_scales': SCALES, 'files': {f: CH.sha(OUT / f) for f in files + ['metrics.json']},
                                                  'raw_manifest_sha256': CH.sha(RAW / 'manifest.json'), 'source_raw': str(RAW)})
-html = ['<!doctype html><meta charset="utf-8"><title>WL101H noise attribution</title><body style="font-family:sans-serif;background:#fcfcfb">',
-        '<h1>WL101H — ECRO SSS LOW/HIGH noise attribution (raw, no reconstruction)</h1>',
+html = ['<!doctype html><meta charset="utf-8"><title>WL103 noise attribution</title><body style="font-family:sans-serif;background:#fcfcfb">',
+        '<h1>WL103 — ECRO SSS LOW/HIGH noise attribution (raw, no reconstruction; frozen experiment id WL101H)</h1>',
         f'<p>Display scales: stochastic family max {M_DEV:.4g}, residual family max {M_RES:.4g} (linear HDR), sqrt mapping. Numbers: metrics.json.</p>']
 for f in files:
     html.append(f'<h3>{f}</h3><img src="{f}" style="max-width:100%">')
