@@ -57,6 +57,13 @@ The split-stream stage decomposition failed its equivalence gate and is not inte
 - **Equal sample count.** At 64 spp, ECRO has a lower object error than full-depth learned-ER path tracing (0.068–0.086 vs 0.089–0.102). This is a variance effect, not a converged-fidelity advantage.
 - **Not settled.** Costs are not qualified, and nothing is adopted. [WL104](worklogs/104_WORKLOG_ECRO_WL84_SCENE_LEARNED_ER.md).
 
+**ECRO v0 HIGH fidelity vs its learned-ER source (human brief, 2026-11-18; WL104A, local RTX 5080, branch `ecro_wl84_scene`): NOT SUPPORTED, closure C.**
+- **Measurement.** With paired 32 × 4,096-spp replicates and all gates passing, ECRO's HIGH departs significantly from learned-ER HIGH in two places:
+  - sphere-lower energy: −1.28 % of TOTAL (iid_1) and −2.14 % (hard_1);
+  - hard_1 sphere_lower / floor_near distribution: 3.2 % / 2.4 % RMS.
+- **Attribution.** The exact field read through the 991-patch × 64-bin table already gives most of the hard_1 spatial error and object deficit (projection). The generator adds a smooth sphere-lower deficit of about 1.15 % in two images (learned approximation).
+- **Defects.** No implementation defect was found, and no correction was made. A change to the projection or layout, or to training or capacity, is an owner decision. [WL104A](worklogs/104A_WORKLOG_ECRO_HIGH_FIDELITY_VS_LEARNED_ER.md).
+
 **Bounded material-training request completed (human, 2026-11-16; WL100):** Two separate pre-RB-DTO-E ECRO OWN models completed 24,000 steps each on new near-mirror and physically modelled SSS datasets; held-out reference/prediction/error-map, ROI, higher-order and noise-control figures are available. The learned architecture is unchanged; physical material response and LOW remain explicit. SSS sphere ROI discrepancy is 1.47-2.08% versus the finite-depth reference; near raw ROI discrepancy (8.3-20.1%) is almost the reference sampling noise, so converged near fidelity remains unqualified. This is bounded material-coverage evidence, not adoption, whole-neural local SSS, dynamic/economic evidence or an RB-DTO-E successor decision. Full scope and limits: [WL100](worklogs/100_WORKLOG_ECRO_NEAR_MIRROR_AND_SSS_TRAINING.md).
 
 
