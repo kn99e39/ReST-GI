@@ -45,3 +45,17 @@ The research owner approved Amendment 1 under explicit restrictions ([amendment]
 - **Stop rules.** Any other invalid sample still stops the run. I read "the same kind of miss recurs" as a systematic recurrence and set that, before the rerun, as more than 1e-6 amended ties per eligible proposal in any replica (the incident rate was 3e-9). Either case stops the run with no further tolerance.
 
 On the failing launch, the amended classifier moves exactly that one sample from invalid to tie and leaves the valid, buried and back counts unchanged (`amendment1_verification.log`). The complete primary reruns from Stage 0 in `results/ecro_sss101g/primary_a1/` with identical seeds, spp, views, thresholds and analysis. The failed output, its log and the replay (`primary_membership_replay.log`) are preserved. The code before the amendment is `2f9f575`; the code after is the Amendment 1 commit.
+
+## Amendment 2 — containment classifier origin (owner-approved, 2026-11-18)
+
+The Amendment 1 rerun (commit `0d6f60a6d07818d006e2d33479f29220fcf8df71`, output `primary_a1/`) passed Stage 0 and the construction membership gate. It then stopped on containment in replica 0: 540 seam grazes, 1,315 tangency misses and **2 unexplained misses** among 3.29e8 accepted segments. Again no evaluation stream had run.
+
+Read-only geometry replays established three facts:
+
+- **Location.** Both rays start at a grazing angle on Box B patch 1188.
+- **The right wall has no slit.** Axis-aligned probes hit it at every offset down to y = −2.
+- **The rays are genuine escapes.** Re-traced from their actual spawned origin, they cross x = 2 at 7 µm and 42 µm *outside* the wall's front edge, through the right-wall/open-face corner. Aiming 1 mm inside the edge hits the wall.
+
+The defect was mine. The classifier computed the analytic room exit from the surface point, while the visibility ray starts at `spawn_ray`'s offset origin about 0.2 mm away. At this incidence that offset moves the wall crossing about 1 mm. Evaluated on the traced ray, replica 0 has zero unexplained misses: seam grazes drop from 540 to 18 and opening escapes rise by 524.
+
+The owner approved this one-line instrument fix ([amendment 2](../../experiments/ecro_sss101g/protocol/amendment2.json)). Every tolerance and gate is unchanged. Because V and G count only front-facing hits, no table value can change; only the labels on misses do. The full primary reruns from Stage 0 in `primary_a2/`. `primary/` and `primary_a1/`, with their logs and every replay (`primary_a1_containment_replay.log`, `primary_a1_wall_edge_probe.log`, `primary_a1_ray_retrace.log`, `primary_a1_containment_spawn_origin_check.log`), are preserved.

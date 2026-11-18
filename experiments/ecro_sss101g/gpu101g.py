@@ -80,10 +80,12 @@ def construct(reader, oracle, cfg, seed, monitor, launches=None):
         assert bool(dr.all(slot == requested)[0]), "Re-addressed proposal left its requested slot"
         w = -r.d
         cosx = hit.to_local(w).z
-        y = scene.ray_intersect(hit.spawn_ray(w))
+        spawned = hit.spawn_ray(w)
+        y = scene.ray_intersect(spawned)
         hit_y = y.is_valid()
         front = hit_y & (y.to_local(-w).z > 1e-6)
-        opening, seam = room_exit(hit.p, w, dr, mi, R)
+        # Amendment 2: classify a miss on the ray that was actually traced (spawned origin).
+        opening, seam = room_exit(spawned.o, w, dr, mi, R)
         miss = ~hit_y
         # Sphere samples within 1 mm of the floor tangency whose spawned ray starts below the floor plane.
         tangent = (dr.gather(R.U, oracle.ids, q.pid) == 6) & (hit.p.z < 1e-3) & (w.z < 0)

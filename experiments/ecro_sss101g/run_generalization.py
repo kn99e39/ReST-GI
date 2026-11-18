@@ -33,6 +33,7 @@ import tables101g as T  # noqa: E402
 
 PROTOCOL = HERE / "protocol/generalization.json"
 AMENDMENT1 = HERE / "protocol/amendment1.json"
+AMENDMENT2 = HERE / "protocol/amendment2.json"
 P = json.loads(PROTOCOL.read_text())
 G = P["gates"]
 CI = P["camera_independent_construction"]
@@ -115,6 +116,7 @@ def run(root, out, commit, smoke):
     R, rt = reader0.R, reader0.rt
     out.mkdir(parents=True, exist_ok=False)
     run = {**manifest, "commit": commit, "protocol_sha256": sha(PROTOCOL), "amendment1_sha256": sha(AMENDMENT1),
+           "amendment2_sha256": sha(AMENDMENT2),
            "smoke_mode": smoke,
            "stages": {}, "files": {}, "gpu_memory_observations_mib": [], "selftest": None}
     e_base, fdir, wl101f, uniform, uniform_native, uniform_stats, ftables = load_baselines(root, wl101e)
