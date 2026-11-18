@@ -276,6 +276,7 @@ def main(raw, out, ref_dir, analysis_commit):
     manifest = json.loads((raw / "run_manifest.json").read_text())
     assert manifest["protocol_sha256"] == sha(PROTOCOL)
     assert manifest["execution_amendment_sha256"] == sha(EXECUTION)
+    assert manifest["startup_correction_sha256"] == sha(PROTOCOL.with_name("execution63_optix.json"))
     assert manifest["gates"]["table_bit_identical"]
     for name, expected in P["references"]["sha256"].items():
         assert sha(ref_dir / name) == expected
@@ -328,6 +329,8 @@ def main(raw, out, ref_dir, analysis_commit):
         "render_manifest_sha256": sha(raw / "run_manifest.json"), "render_gates": manifest["gates"],
         "render_environment": manifest["environment"],
         "execution_amendment_sha256": sha(EXECUTION),
+        "startup_correction_sha256": manifest["startup_correction_sha256"],
+        "active_optix_library": manifest["active_optix_library"],
         "analysis_environment": {"python": platform.python_version(), "numpy": np.__version__,
                                  "matplotlib": matplotlib.__version__},
         "timing": timing, "convergence": trends, "rois": regions,

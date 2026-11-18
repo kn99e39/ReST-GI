@@ -112,6 +112,12 @@ def main(wl101, out, commit):
     assert events[seq.WARM] == (P["geometry"], P["light"], 0)
     model = runtime.load_model(case)
     rt = runtime.RT(start[0], case, model, start[1])
+    startup_correction = PROTOCOL.with_name("execution63_optix.json")
+    optix = json.loads(startup_correction.read_text())
+    library = next(Path(row.split()[-1]) for row in Path("/proc/self/maps").read_text().splitlines()
+                   if "/libnvoptix.so." in row)
+    assert library.name == optix["native_optix_soname"] and sha(library) == optix["native_optix_sha256"]
+    print(f"Original WL101 renderer initialized with {library}", flush=True)
     for geometry, light, state_id in events[:seq.WARM + 1]:
         moved, old_geometry = rt.set_geom(geometry)
         rt.update_state(old_geometry, moved)
@@ -162,6 +168,9 @@ def main(wl101, out, commit):
         "reference_root": str(ref_dir), "archived_arrays_sha256": P["references"]["sha256"],
         "response_sha256": hashlib.sha256(table_before.tobytes()).hexdigest(),
         "execution_amendment_sha256": sha(EXECUTION),
+        "startup_correction_sha256": sha(startup_correction),
+        "active_optix_library": str(library),
+        "active_optix_sha256": optix["native_optix_sha256"],
         "frames": [], "matched": [], "gates": evidence,
     }
     np.savez(out / "state.npz", table=table_before, source=source.cpu().numpy())
