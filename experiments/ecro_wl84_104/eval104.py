@@ -64,8 +64,8 @@ def frames(spp, seeds, name, b):
 
 NF4, NF64, SC = (4, 2, 64) if C.SMOKE else (20, 8, 1024)
 w4 = frames(4, [104500 + 1000 * ii + q for q in range(NF4)], 'ecro_spp4', 4)
-w64 = frames(64, [104520 + 1000 * ii + q for q in range(NF64)], 'ecro_spp64', 8)
-wc = frames(SC, [104540 + 1000 * ii + q for q in range(2)], 'ecro_spp1024_halves', 8)
+w64 = frames(64, [104520 + 1000 * ii + q for q in range(NF64)], 'ecro_spp64', 64)
+wc = frames(SC, [104540 + 1000 * ii + q for q in range(2)], 'ecro_spp1024_halves', C.BATCH['tracer'])
 T['frame_4spp_wall_s'] = {'median_warm': float(np.median(w4[2:])), 'all': w4}
 T['frame_64spp_wall_s'] = {'median_warm': float(np.median(w64[1:])), 'all': w64}
 T['frame_1024spp_wall_s'] = wc

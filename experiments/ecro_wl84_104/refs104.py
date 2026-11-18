@@ -37,7 +37,7 @@ for ai, (arm, (kind, depth)) in enumerate(ARMS.items()):
             continue
         sc = RT.scene(tag, kind, light=light, with_sensor=False)
         seed = 104600 + 1000 * ii + 10 * ai + half
-        m, acc, acc2, T = RT.render_ref(sc, SPP[arm], seed, depth)
+        m, acc, acc2, T = RT.render_ref(sc, SPP[arm], seed, depth, batch=C.BATCH['ref'])
         n = SPP[arm]
         var = (acc2 / n - (acc / n) ** 2) * n / (n - 1)
         np.savez(fn + '.tmp.npz', mean=m.astype(np.float32), var=var.reshape(C.RES, C.RES, 3).astype(np.float32), seed=seed, spp=n, depth=depth)
@@ -49,7 +49,7 @@ for q in range(8):
     if os.path.exists(fn):
         continue
     sc = RT.scene(tag, 'er', light=light, with_sensor=False)
-    m, acc, acc2, T = RT.render_ref(sc, 64, 104900 + 100 * ii + q, 65)
+    m, acc, acc2, T = RT.render_ref(sc, 64, 104900 + 100 * ii + q, 65, batch=64)
     np.savez(fn + '.tmp.npz', mean=m.astype(np.float32)); os.replace(fn + '.tmp.npz', fn)
     timing[f'ER65_64_r{q}'] = T
 ctx = RT.Ctx(RT.scene(tag, 'er'))
@@ -59,7 +59,7 @@ for half in (0, 1):
     if os.path.exists(fn):
         continue
     t0 = time.perf_counter()
-    acc, T = ctx.render(Lp, 64 if C.SMOKE else 4096, 104800 + 10 * ii + half, 'cam', b=8)
+    acc, T = ctx.render(Lp, 64 if C.SMOKE else 4096, 104800 + 10 * ii + half, 'cam', b=C.BATCH['tracer'])
     np.savez(fn + '.tmp.npz', **RT.P.pack(acc, C.RES, C.RES, 64 if C.SMOKE else 4096)); os.replace(fn + '.tmp.npz', fn)
     timing[f'PTC_h{half}'] = {**T, 'wall_total_s': time.perf_counter() - t0}
     print('REF', image, 'PTC', half, flush=True)

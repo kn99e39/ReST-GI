@@ -19,6 +19,9 @@ EXP = HERE.parent
 REPO = EXP.parent
 for d in ('ecro_lr3_102', 'ecro86', 'fnto_compiled83', 'fnto_compiled82', 'fnto_compiled81', 'fnto_compiled84'):
     sys.path.insert(0, str(EXP / d))
+# Execution amendment 1 (2026-11-18, before any evidence was inspected): samples per launch. Dr.Jit 0.4.6 re-traces Python on every
+# launch, so small launches were CPU-bound (GPU ~0 %); only the batching / RNG layout changes, not spp, estimators or seed bases.
+BATCH = {'ref': 2048, 'tracer': 512, 'field': 64}
 SMOKE = os.environ.get('WL104_SMOKE') == '1'        # pipeline smoke only (tiny counts, never evidence)
 PROTOCOL_PATH = HERE / 'protocol' / 'wl104.json'
 P = json.loads(PROTOCOL_PATH.read_text(encoding='utf-8')) if PROTOCOL_PATH.exists() else None

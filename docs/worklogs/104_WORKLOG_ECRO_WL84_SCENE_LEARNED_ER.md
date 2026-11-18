@@ -61,4 +61,30 @@ The [protocol](../../experiments/ecro_wl84_104/protocol/wl104.json) freezes inpu
   - **Defect.** WL102 drew lights in the scene bounding box. Here that box reaches y = 3 m behind the one-sided back wall, because the floor extends that far. Lights behind the wall produce all-zero field targets, so the loss divides 0 by 0 and every model stopped at step 1 on a non-finite loss.
   - **Correction.** Lights are drawn in front of the wall, in [-3, 3] × [-3, 1.5] × [0, 3] m. Generation also stops if any light gives an all-zero target.
   - **Rerun.** The rerun completed every stage. No model collapsed. G3 passed even at smoke counts. G2 is not meaningful at smoke counts, because its noise expectation assumes 2 × 16,384 spp.
-- **Display.** The worklog-wide error maximum is dominated by 4-spp fireflies, so square-root display hid the converged errors. The maps therefore use a logarithmic display, sign(x)·log(1+|x|/m0)/log(1+M/m0) with m0 = M/1000. It keeps one absolute shared scale with real-unit colorbars.
+- **Display (pre-freeze).** The worklog-wide error maximum is dominated by 4-spp fireflies, so square-root display hid the converged errors. The maps therefore use a logarithmic display, sign(x)·log(1+|x|/m0)/log(1+M/m0) with m0 = M/1000. It keeps one absolute shared scale with real-unit colorbars.
+
+### Execution amendment 1 — launch batching, before any evidence was inspected
+
+The owner noticed slow progress and low resource use in the first evidence chain (freeze `8a91ee2`). nvidia-smi showed about 0 % GPU utilisation. The cause is Dr.Jit 0.4.6, which re-traces the Python program on every launch: with 64 samples per launch, reference rendering was CPU-bound, and successive 32,768-spp halves slowed from 99 s to 216 s. The chain was stopped during the first image's references, with 4 of 10 halves written. Nothing was inspected. The partial directory is kept as `results/ecro_wl84_104/evidence_aborted_b64/` and is not used.
+
+Benchmark wall times by samples per launch:
+
+| Workload | Small batch | Larger batch |
+|---|---|---|
+| Layered reference, 4,096 spp | 10.3 s (64) | 2.9 s (1,024) |
+| Learned-ER reference, 4,096 spp | 32.4 s (64) | 3.7 s (1,024) |
+| Layered reference, 8,192 spp | 3.9 s (2,048) | 3.8 s (4,096) |
+| ECRO tracer, 1,024 spp | 221 s (8) | 7.0 s (256) |
+| ECRO tracer, 4,096 spp | 8.2 s (512) | 43 s (1,024, VRAM full) |
+| Dataset field, 64 spp | 2.65 s (16) | 0.87 s (64) |
+
+New samples per launch:
+
+| Workload | Before | After |
+|---|---:|---:|
+| References | 64 | 2,048 |
+| ECRO tracer components and converged ECRO frames | 8 | 512 |
+| Dataset fields | 16 | 64 |
+| ECRO 64-spp frames | 8 | 64 |
+
+Only the launch layout, and with it the per-launch RNG streams, changes. Estimators, spp, seed bases, gates, dataset sizes, the training recipe and the analysis are unchanged. The chain restarts from the beginning. [Amendment](../../experiments/ecro_wl84_104/protocol/amendment1_execution.json)
