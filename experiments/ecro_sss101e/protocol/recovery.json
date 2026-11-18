@@ -1,0 +1,27 @@
+{
+  "batch": "WL101E",
+  "scene": "Exact WL101C/D SSS cfg0 on ecro_lr3_adapter",
+  "field": "B_star is the conditional mean RGB outgoing radiance of physical E2–E5, with uniform area and uniform solid angle on the physically exposed preimage of each unchanged patch/bin lookup. First hit is pinned to the requested native shape, at the requested surface point. The remainder uses the unmodified pt100 trace on the complete original scene.",
+  "support": "Physical front wi.z > 1e-6. Floor under the coplanar Box B footprint and its opposing underside lack an open free-space side and have zero exposed support there. Sphere/floor tangency itself has zero area; surrounding positive-gap points remain eligible. Numerical patch/bin boundary ties are counted separately. No rerouting, denominator-only backfaces, fallback values or learned inputs.",
+  "bin_zero": "The camera quantizer clamps negative patch-frame z to ring zero. For the curved sphere use z in [-1,0.25) at ring zero and condition on the actual surface front. Other bins use the original quarter-width z intervals. Planar patches use the original nonnegative hemisphere.",
+  "normalization": "Each eligible sample contributes both RGB radiance and one count to its own verified address. Divide by accepted count, without cosine, area, solid angle or source scaling. Zero-count slots remain explicitly flagged and may participate in the camera experiment only if their unit marker is identically absent on every evaluation stream.",
+  "seeds": [10201001,10201002,10201003,10201004],
+  "spp_per_slot_replica": 1024,
+  "batch_spp": 32,
+  "qualification_seed": 10200901,
+  "qualification_spp": 16,
+  "camera_spp": 4096,
+  "camera_launch_spp": 32,
+  "camera_seeds": [101100,101101],
+  "reference": "Original WL101A matched physical six-event halves. Reuse corresponding archived WL101A learned readouts only after verifying hashes and exact B_theta. Oracle field seeds are independent.",
+  "gates": {
+    "shape_point_and_address": "No non-tie native attachment or address mismatch. Numerical rounding ties must be within declared 8e-6 address coordinates of a boundary, at most 0.005% of eligible proposals, and reported. Native point attachment distance <= 4e-6 m.",
+    "physical_support": "Analytic coplanar predicate audited against independent convex polygon areas for every floor patch. No camera weight on empty slots. Membership acceptance is independent of sampled radiance.",
+    "suffix": "Probe E2 and E3–E5 equal the five-event camera-mode suffix from the same pinned surface, ray and RNG to 1e-6 absolute. Independent original unpinned camera-mode suffix on unambiguously exposed control rays also agrees within 1e-3 relative L1.",
+    "low_and_readout": "Original address-coded table test, zero and linearity. Matched LOW relative L1 versus archived learned <=1e-7 and physical <=1e-4.",
+    "precision": "Approximate conservative 95% crossed intervals combine four independent table means and two paired camera/reference streams in quadrature with Welch degrees of freedom. Half widths for both contributions must be <=25% of historical WL101C bias/contrast magnitude respectively. Stop on failure.",
+    "attribution": "T=learned minus physical; G=learned minus Oracle (generated-table-side); R=Oracle minus physical (representation/readout-side). Signed decomposition and fractions. If T reliably positive at both endpoints and only G is resolved positive at both, generated-table-side; only R positive at both, representation/readout-side; both resolved at either endpoint or different resolved owners by endpoint, mixed; otherwise inconclusive. Opposite sign indicates compensation."
+  },
+  "masked_data": "Original WL101C ROIs and profiles. Preserve per-slot proposal and accepted counts, per-slot unbiased RGB sample variances and all independent Oracle tables and two grouped halves. Save all eight matched readings with LOW, HIGH and full, plus the original B_theta.",
+  "display": "Original WL101C exposure and signed HDR luminance cap. No evaluation clipping."
+}
