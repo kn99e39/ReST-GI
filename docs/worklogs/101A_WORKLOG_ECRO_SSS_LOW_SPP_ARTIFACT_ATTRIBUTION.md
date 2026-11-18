@@ -27,3 +27,9 @@ Against the WL101 average reference, the archived independent arm-B prediction's
 Automatic approval review rejected deployment of the experiment scripts and launch on LabServer69 because it required explicit authorization for the code transfer and persistent remote artifacts. The rejected launch did not send code or start GPU work. The original WL101 inputs were read and copied into the isolated local worktree. The local analysis also passed an end-to-end synthetic check for the full seed ladder, verdict logic and six figure outputs.
 
 The new render sweep, matched 4096-spp replays, latency measurements and artifact verdict are pending approval. The gate on the archived data passed. There is no WL101A sampling fraction or systematic component attribution from the archived data alone.
+
+### Execution amendment 1 — LabServer63
+
+The user selected LabServer63 for execution. It has an RTX 3080 Ti 12 GiB and driver 595.71.05. The server has the same Python 3.10.21, Torch 2.3.1+cu121 and NumPy 1.26.4 environment. The original WL101 source, checkpoint, configuration, archived reference arrays and exact Mitsuba 3.8.0 / Dr.Jit 1.3.1 distribution are staged in a separate run directory. This change supersedes the LabServer69 launch status above.
+
+The cross-machine admission gate precedes the seed ladder. It checks fresh arm-B replay against the saved arm-B image at the original seed, plus fresh physical LOW against each saved reference half with its paired seed. Gates apply to each ROI. This checks the exact custom ray tracer and accumulation that the study uses. WL53's historic LabServer63 native CUDA film defect concerned a different renderer path and motivates this explicit control. Timings are reported only for the chosen GPU.

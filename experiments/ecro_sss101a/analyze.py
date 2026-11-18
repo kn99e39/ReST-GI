@@ -9,48 +9,12 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from common import P, PROTOCOL, RES, components, image, sample_seed, sha, write_json
+from common import EXECUTION, P, PROTOCOL, RES, components, image, masks, sample_seed, sha, write_json
 
 
 LABELS = ("full", "low", "high", "e1", "e2")
 DRAW_COUNT = 4000
 BLOCK = 16
-
-
-def masks(path):
-    with np.load(path) as gbuffer:
-        valid = gbuffer["ok"]
-        sid = gbuffer["sid"]
-        pos = gbuffer["p"]
-    assert valid.shape == sid.shape == (RES, RES) and pos.shape == (RES, RES, 3)
-    assert np.isfinite(pos[valid]).all()
-    geom = P["sphere"]
-    sphere = valid & (sid == geom["sphere_sid"])
-    floor = valid & (sid == geom["floor_sid"])
-    radius = geom["radius"]
-    center = np.asarray(geom["center"])
-    assert np.max(np.abs(pos[floor, 2])) < 1e-5
-    assert np.max(np.abs(np.linalg.norm(pos[sphere] - center, axis=-1) - radius)) < 1e-5
-
-    pad = np.pad(sphere, 4, constant_values=False)
-    interior = np.logical_and.reduce([pad[y:y + RES, x:x + RES]
-                                      for y in range(9) for x in range(9)])
-    boundary = sphere & ~interior
-    light = P["light"][0]["pos"]
-    to_light = light - pos
-    to_center = center - pos
-    t = np.sum(to_center * to_light, axis=-1) / np.sum(to_light ** 2, axis=-1)
-    closest = to_center - t[..., None] * to_light
-    shadow = (t > 0) & (t < 1) & (np.sum(closest ** 2, axis=-1) <= radius ** 2)
-    contact = np.sum(to_center[..., :2] ** 2, axis=-1) <= radius ** 2
-    result = {"full": np.ones_like(valid), "sphere": sphere, "sphere_interior": interior,
-              "sphere_boundary": boundary, "floor": floor, "contact_shadow": floor & (shadow | contact)}
-    assert not np.any(sphere & floor)
-    assert not np.any(interior & boundary)
-    assert np.array_equal(interior | boundary, sphere)
-    assert not np.any(result["contact_shadow"] & ~floor)
-    assert all(mask.dtype == bool and np.any(mask) for mask in result.values())
-    return result
 
 
 def average(value):
@@ -311,6 +275,7 @@ def figures(out, regions, previews, ref, conv, noise32, ref_noise, roi_masks):
 def main(raw, out, ref_dir, analysis_commit):
     manifest = json.loads((raw / "run_manifest.json").read_text())
     assert manifest["protocol_sha256"] == sha(PROTOCOL)
+    assert manifest["execution_amendment_sha256"] == sha(EXECUTION)
     assert manifest["gates"]["table_bit_identical"]
     for name, expected in P["references"]["sha256"].items():
         assert sha(ref_dir / name) == expected
@@ -362,6 +327,7 @@ def main(raw, out, ref_dir, analysis_commit):
         "analysis_commit": analysis_commit, "protocol_sha256": sha(PROTOCOL),
         "render_manifest_sha256": sha(raw / "run_manifest.json"), "render_gates": manifest["gates"],
         "render_environment": manifest["environment"],
+        "execution_amendment_sha256": sha(EXECUTION),
         "analysis_environment": {"python": platform.python_version(), "numpy": np.__version__,
                                  "matplotlib": matplotlib.__version__},
         "timing": timing, "convergence": trends, "rois": regions,

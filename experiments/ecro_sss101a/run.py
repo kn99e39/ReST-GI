@@ -1,5 +1,7 @@
 """Run WL101A using the original optimized WL101 renderer and archived arrays."""
 import argparse
+import hashlib
+import json
 import os
 from pathlib import Path
 import platform
@@ -9,8 +11,8 @@ import time
 
 import numpy as np
 
-from common import (EVENTS, P, PROTOCOL, RES, components, fingerprint, image,
-                    rel_l1, sample_seed, sha, write_json)
+from common import (EVENTS, EXECUTION, EXECUTION_CONFIG, P, PROTOCOL, RES,
+                    components, fingerprint, image, masks, rel_l1, sample_seed, sha, write_json)
 
 
 def gpu_query(query, fields):
@@ -48,8 +50,6 @@ def validate_inputs(wl101, ref_dir):
     reference = P["references"]
     for name, digest in reference["sha256"].items():
         assert sha(ref_dir / name) == digest, name
-    import json
-
     for half, seed in enumerate(reference["seed_by_half"]):
         meta = json.loads((ref_dir / f"REF_0_{half}.json").read_text())
         assert meta["geom"] == P["geometry"] and meta["light"] == P["light"]
@@ -71,7 +71,9 @@ def validate_inputs(wl101, ref_dir):
     return hashes
 
 
-def compare(a, b):
+def compare(a, b, mask=None):
+    if mask is not None:
+        a, b = a[mask], b[mask]
     c_a, c_b = components(a), components(b)
     return {key: rel_l1(c_a[..., i], c_b[..., i])
             for i, key in enumerate(("full", "low", "high", "e1", "e2"))}
@@ -89,7 +91,7 @@ def main(wl101, out, commit):
     assert max(evidence["historical_A_B"].values()) <= threshold, evidence
 
     gpu = [field.strip() for field in gpu_query("gpu", "name,driver_version").split(",")]
-    stack = P["stack"]
+    stack = {**P["stack"], **EXECUTION_CONFIG["active_stack_overrides"]}
     assert gpu == [stack["gpu"], stack["driver"]], gpu
     wait_for_gpu()
     sys.path.insert(0, str(wl101 / "experiments" / "ecro_dyn101"))
@@ -158,7 +160,8 @@ def main(wl101, out, commit):
         "protocol_sha256": sha(PROTOCOL), "configs_sha256": P["configs_sha256"],
         "checkpoint_sha256": P["checkpoint_sha256"], "original_files_sha256": source_hashes,
         "reference_root": str(ref_dir), "archived_arrays_sha256": P["references"]["sha256"],
-        "response_sha256": __import__("hashlib").sha256(table_before.tobytes()).hexdigest(),
+        "response_sha256": hashlib.sha256(table_before.tobytes()).hexdigest(),
+        "execution_amendment_sha256": sha(EXECUTION),
         "frames": [], "matched": [], "gates": evidence,
     }
     np.savez(out / "state.npz", table=table_before, source=source.cpu().numpy())
@@ -173,20 +176,27 @@ def main(wl101, out, commit):
 
     reference = P["references"]
     high_spp = reference["spp_per_half"]
+    roi_masks = masks(ref_dir / "MAP_0.npz")
     result, stamp = render(high_spp, reference["historical_prediction_seed"])
-    evidence["fresh_B_replay"] = compare(as_events(result), photos_b)
-    assert max(evidence["fresh_B_replay"].values()) <= threshold, evidence
+    replay_events = as_events(result)
+    evidence["fresh_B_replay"] = {tag: compare(replay_events, photos_b, mask) for tag, mask in roi_masks.items()}
+    assert max(v for region in evidence["fresh_B_replay"].values() for v in region.values()) <= threshold, evidence
     metadata["historical_replay"] = {**stamp, **write_frame("replay_B_4096.npz", result)}
     print("Archived A/B and fresh B full and component checks passed", flush=True)
 
     for half, seed in enumerate(reference["seed_by_half"]):
         result, stamp = render(high_spp, seed)
-        comparison = compare(as_events(result), image(ref_dir / f"REF_0_{half}.npz", "h"))
-        checks = {key: comparison[key] for key in ("e1", "e2", "low")}
-        assert max(checks.values()) <= P["gates"]["paired_low_event_rel_l1"], checks
+        reference_events = image(ref_dir / f"REF_0_{half}.npz", "h")
+        predictions = as_events(result)
+        checks = {}
+        for tag, mask in roi_masks.items():
+            comparison = compare(predictions, reference_events, mask)
+            checks[tag] = {key: comparison[key] for key in ("e1", "e2", "low")}
+        assert max(v for region in checks.values() for v in region.values()) <= P["gates"]["paired_low_event_rel_l1"], checks
         metadata["matched"].append({**stamp, **write_frame(f"paired_{half}_4096.npz", result),
                                     "half": half, "paired_low_rel_l1": checks})
         print(f"Matched reference half {half}: {checks}", flush=True)
+        write_json(out / "run_progress.json", metadata)
 
     sweep = P["sweep"]
     seeds = [sample_seed(spp, rep) for spp in sweep["spp"] for rep in range(sweep["replicates"])]
