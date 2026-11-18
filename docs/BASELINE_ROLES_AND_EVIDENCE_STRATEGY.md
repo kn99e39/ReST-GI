@@ -49,6 +49,18 @@ Cycles BSSRDF vertex semantics cannot supervise a single vertex-independent recu
 
 Compare compatible area/port integrals and visibility masks. Point-sampled oblique boundary images require pixel convergence; partially visible ports and cameras starting inside a medium need separate validity handling. Resolve near-contact structure on both K and C. Include scattered and ballistic camera contributions exactly once. Diagnostic continuous oracles and fine-cell solutions are controls, not substitutes for an independent physical reference. [Spatial controls](worklogs/54_WORKLOG_EXPLICIT_C_SPATIAL_FIDELITY.md), [readout attribution](worklogs/55_WORKLOG_SPATIAL_INTRINSIC_K_INTERFACE.md), [amended masks](worklogs/56_WORKLOG_EXACT_SELECTIVE_K_RECOMPUTE.md).
 
+**Tangent-contact semantics of the WL100/101 physical tracer (measured in WL101H, 2026-11-18).** The native six-event tracer (`pt100`) takes its ray origins from Mitsuba's surface offset. Within about 1.17 cm of the SSS cfg0 sphere/floor tangency, that offset places the floor's origins inside the sphere. The NEE then counts the sphere's exit as an entry and books unattenuated light (2,190 times the physical ballistic transmission), and the continuation terminates. This contaminates the reference and every physical-oracle table built with the same tracer, including higher-order paths that touch the ring.
+
+Two semantics are therefore distinguished:
+- **Native semantics** are the historical baseline.
+- **Contact-valid semantics** keep native rays unless the offset reaches the other solid. They are a separate regime.
+
+Label the semantics of every reference and table, and never compare a table built under one semantics with a reference built under the other. The measured effect is:
+- *Material at the contact table slot:* uniform table −3.6%, and the slot's U−G difference changes sign.
+- *Below the materiality thresholds at V0 image level:* near reference −0.12%, the 10–14 cm lobe unchanged.
+
+The revised construction-qualification gates are not yet validated (WL101H: NOT QUALIFIED, gate design). [Record](worklogs/101H_WORKLOG_ECRO_SSS_CONTACT_SEMANTICS_QUALIFICATION.md).
+
 ## Controlled comparisons and metrics
 
 - Predeclare geometry, materials, illumination, cameras, splits, coordinate/correspondence conventions, target semantics, seeds, precision, training/checkpoint rules and acceptance thresholds in the owning protocol. Keep held-out edits out of fitting and selection.
