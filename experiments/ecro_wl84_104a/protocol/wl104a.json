@@ -1,0 +1,119 @@
+{
+ "id": "WL104A",
+ "title": "ECRO v0 HIGH-transport fidelity against its frozen learned-ER source on the WL84 scenes (qualification + conditional correction)",
+ "authorization": "User brief 2026-11-18 (sharp interreflection energy magnitude error, WL104 follow-up). Machine: local RTX 5080 (owner answer). Branch ecro_wl84_scene (WL104 line).",
+ "class": "Suffix of WL104 (AGENTS.md: dependent evidence-gap follow-up resolving WL104's unresolved HIGH-only comparison; a correction, if any, only under the unchanged architecture contract). No WL104A exists on any branch at freeze time.",
+ "baseline": {
+  "wl104_commits": {
+   "freeze": "8a91ee24d8139f40669bbd8a0df7e960adfd7ee7",
+   "amendment1": "9e1c05c5a69be1628ed7c0828982fd3c50a58426",
+   "report": "1a8c66d142df6a52587bce9792322f25336b7d72"
+  },
+  "checkpoints_sha256": {
+   "test83_hard_1": "8810c9a180d0138ad45c612414c58a22f191047a7587707b0168ec0087a3ecc6",
+   "test83_iid_0": "44b878bcfe06ea2f65a729bf63d9e8f03c260eabd1854f42066ab1cf5345cc17",
+   "test83_iid_1": "4fbb6a5b2cf3fb5495d7b923c13f34c408f211c23dc70e477f61e437623554d4"
+  },
+  "frozen": "WL104 models, datasets, learned-ER states, layered descriptors, scene meshes, camera, lights, patch layout (N = 991), D = 6, WL104 references and metrics; nothing is retrained or overwritten. WL104 raw stays in results/ecro_wl84_104/evidence; WL104A writes results/ecro_wl84_104a and evaluation/104A."
+ },
+ "event_contract": {
+  "ECRO_HIGH": "hl = throughput * B[patch(hit 2), bin(-dir)]: B = learned outgoing radiance of 2..5 scattering events at the probe (training target f2 + fh) = camera events 3..6",
+  "LearnedER_HIGH": "h of the pt102 'cam' tracer at D = 6 with the learned-ER closure: next-event estimation at camera hits 3..6 = events 3..6 (WL104 G3: total equals Mitsuba max_depth 7)",
+  "Layered_HIGH": "h of the same tracer with the layered lay81 BSDF (PASS_SEED per launch as render84.render_g)",
+  "Field_HIGH (diagnostic)": "hl read from the field table F = f2 + fh of the evaluation light estimated by pt102.field_components (the training-target quantity), two independent estimates A and B of 16,384 spp each",
+  "LOW": "e1 + e2 of the same tracer (identical estimator in 'ecro' and 'cam' mode)",
+  "pairing": "ECRO, Field-A, Field-B and LearnedER arms of one replicate share the seed (identical camera rays and first-event samples); Layered arms use independent seeds"
+ },
+ "rois": {
+  "source": "Centre-ray first hit of the WL104 mesh scene; geometry only, fixed before any WL104A arm comparison",
+  "objects": "sphere or cube (= WL104 obj, 9,887 px)",
+  "sphere": "sphere",
+  "cube": "cube",
+  "sphere_lower": "sphere pixels whose shading normal has z < 0 (faces the floor: floor-to-sphere interreflection receiver)",
+  "floor_near": "floor pixels within 0.60 m horizontally of the sphere axis or within 0.25 m of the cube footprint (object-to-floor interreflection receiver, includes the contact regions)",
+  "full": "full frame",
+  "primary": [
+   "objects",
+   "sphere_lower",
+   "floor_near"
+  ],
+  "secondary": [
+   "sphere",
+   "cube",
+   "full"
+  ],
+  "parameters": {
+   "sphere_lower_nz_max": 0.0,
+   "floor_near": {
+    "sphere_axis_m": 0.6,
+    "cube_footprint_m": 0.25
+   }
+  },
+  "development_counts": {
+   "objects": 9887,
+   "sphere": 4997,
+   "cube": 4890,
+   "sphere_lower": 1715,
+   "floor_near": 5710,
+   "full": 65536
+  }
+ },
+ "metrics": {
+  "energy_bias": "b_T = sum_r sum_ROI lum(X_HIGH - Y_HIGH) / sum_r sum_ROI lum(Y_TOTAL) (signed, relative to the compared reference's TOTAL = e1 + e2 + HIGH); also b_H relative to Y_HIGH. Rec.709 luminance, linear HDR. Delete-one jackknife over replicates, t_{R-1} 95 % interval",
+  "spatial_error": "stable mean square S of the RGB HIGH difference field from distinct replicate pairs (stats104a.stable_ms_jk; unbiased for the squared expected difference), reported as relative RMS sqrt(S) / RMS(Y_TOTAL replicate mean) over the ROI, with the jackknife interval mapped through the monotone sqrt; Field arms use the A x B form (independent tables)",
+  "descriptive": "relative L1 of replicate-mean images over the ROI, with the half-split noise floor (relative L1 between the means of the two replicate halves of the difference field, divided by 2); signed and absolute maps",
+  "not_additive": "Relative L1 values of different comparisons are never added or subtracted in quadrature"
+ },
+ "comparisons": {
+  "P1_primary": "ECRO_HIGH vs LearnedER_HIGH (representation fidelity)",
+  "S1_material": "LearnedER_HIGH vs Layered_HIGH, and LearnedER_TOTAL vs Layered_TOTAL (inherited material fidelity; reported separately, no verdict)",
+  "D1_diagnostic": "Field_HIGH vs LearnedER_HIGH (patch / bin projection of the exact field)",
+  "D2_diagnostic": "ECRO_HIGH vs Field_HIGH (learned approximation of the field)",
+  "C1_LOW_control": "ECRO LOW vs LearnedER LOW (paired)",
+  "C2_truncation": "WL104 ER65 vs ER7 and LAY65 vs LAY7 (WL104 halves), ROI energy relative to TOTAL",
+  "C3_tracer_totals": "tracer TOTAL (learned-ER, layered) vs Mitsuba ER7 / LAY7 of WL104"
+ },
+ "thresholds": {
+  "tau_E": 0.01,
+  "tau_S": 0.02,
+  "justification": "WL104's hard_1 object luminance ratio differed by 1.4 points between ECRO (0.988) and learned-ER path tracing (1.002), both against the layered reference: tau_E = 1 % of ROI TOTAL is below that effect, so it can resolve it. The learned-ER material itself departs from the layered BSDF by 2.7-3.5 % object rel L1 and up to 3.4 % in mean (WL104). An ECRO-specific HIGH error of >= 1 % energy or >= 2 % RMS of the ROI TOTAL is a practically significant fraction of the inherited material error.",
+  "precision_targets": "95 % interval half-width <= tau_E / 4 = 0.25 % for b_T and <= tau_S / 4 = 0.5 % for the relative RMS, in every image x primary ROI"
+ },
+ "verdict_rule": {
+  "unit": "every image x primary ROI, comparison P1",
+  "NOT_SUPPORTED": "in at least one unit the lower bound of |b_T| > tau_E or the lower bound of the relative RMS > tau_S",
+  "SUPPORTED": "in every unit the upper bound of |b_T| < tau_E and the upper bound of the relative RMS < tau_S",
+  "INCONCLUSIVE": "otherwise, or any gate failure",
+  "diagnosis_if_not_supported": "In each failing unit apply the same significance test to D1 (projection contribution) and D2 (learned-approximation contribution); both may hold. An implementation or estimator defect is supported only by a failing control (C1, C3) or a failing structural test; otherwise no correction is implemented (closure C: owner decision).",
+  "correction": "One candidate only if a localized implementation / estimator defect is established, kept separately from the baseline, evaluated by the same rules with new seeds."
+ },
+ "gates": {
+  "A0_baseline": "checkpoint sha256 as above; regenerated learned tables bitwise equal to WL104 eval tables; ECRO 4-spp replay of WL104 seed 104500 + 1000 i with 4 spp per launch within 1e-6 absolute of the stored WL104 frame",
+  "A1_low_pairing": "in every replicate and image: |sum ECRO LOW - sum LearnedER LOW| / sum LearnedER LOW <= 1e-6 over the full frame and max per-pixel |difference| <= 1e-4",
+  "A2_tracer_totals": "tracer TOTAL replicate means vs WL104 Mitsuba ER7 (learned-ER) and LAY7 (layered) means: object and full mean ratios within 1 % and object rel L1 <= 1.5 x 0.5 x hypot(noise rel L1 of the two compared sets, from their halves)",
+  "failure": "Any gate failure stops the evidence interpretation (verdict INCONCLUSIVE); thresholds are never relaxed."
+ },
+ "sampling": {
+  "replicate": "4,096 spp per replicate and arm (512 per launch)",
+  "pilot": "8 replicates per image, seeds 1070000 + 10000 i + r (ECRO and LearnedER arms only); the pilot report contains interval half-widths only (no point estimates are read before the evidence run)",
+  "R_rule": "Projected half-width = pilot half-width x sqrt(8 / R). R = the smallest of 32, 64, 128, 256 that meets both precision targets in every image x primary ROI; otherwise 256 (budget cap). A target missed by the final data is reported as unresolved for that unit.",
+  "evidence_seeds": "paired arms 1050000 + 10000 i + r; layered 1060000 + 10000 i + r; field tables A / B 1080000 + 10 i + {0, 1}, 16,384 spp each (64 per launch)",
+  "budget": "measured: ECRO 0.47 s, LearnedER tracer 1.5 s, layered tracer 4.0 s per 4,096 spp; field 1 s per 1,024 spp -> R = 256 costs about 35 min per image"
+ },
+ "analysis_display": "Same family display as WL104 (one absolute scale per WL104A figure family, sign(x) log(1 + |x|/m0) / log(1 + M/m0), m0 = M / 1000, real-unit colorbars); HIGH component, signed and absolute difference maps, crops of sphere_lower and floor_near",
+ "artifacts": {
+  "code": "experiments/ecro_wl84_104a/",
+  "raw": "results/ecro_wl84_104a/",
+  "reviewer": "evaluation/104A/",
+  "worklog": "docs/worklogs/104A_WORKLOG_ECRO_HIGH_FIDELITY_VS_LEARNED_ER.md"
+ },
+ "not_authorised": [
+  "retraining, capacity, loss or schedule changes",
+  "learned-ER or layered material changes",
+  "patch / bin resolution changes",
+  "new architecture mechanisms",
+  "denoising",
+  "merging branches",
+  "dynamic scenes"
+ ]
+}
