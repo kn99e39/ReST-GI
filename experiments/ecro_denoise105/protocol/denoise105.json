@@ -25,12 +25,12 @@
     ],
     "determinism": 10500001,
     "cameras": 10500002,
-    "train_noisy": 10510000,
-    "val_noisy": 10560000,
-    "eval_noisy": 10530000,
-    "train_target": 10520000,
-    "val_target": 10525000,
-    "eval_target": 10540000,
+    "train_noisy": 11000000,
+    "val_noisy": 11100000,
+    "eval_noisy": 11200000,
+    "train_target": 11300000,
+    "val_target": 11400000,
+    "eval_target": 11500000,
     "training": 10550001
   },
   "views": "Evaluation: V0 (WL101A-C) and WL101G held-out H1-H5 (never read by any table/model/reconstructor). Training 40 and validation 8 random room views (cameras105.random_cameras), rejected if within 0.75 m and 15 degrees of an evaluation view, accepted if >= 90% of 2x2-subpixel rays hit geometry.",
@@ -70,5 +70,6 @@
     "replay_relative_l1": 0.0005
   },
   "stop": "Stop on frozen renderer/checkpoint equivalence failure, untrustworthy targets, seed leakage, any need to change transport semantics, improvement dominated by the excluded contact region, no qualified RGB baseline, or uninterpretable comparisons. No sample-count, threshold, ROI or architecture change after evaluation outputs are inspected; no temporal reconstruction or ECRO change.",
-  "implementation_note": "Pre-freeze code-path smoke (offset seeds +5,000,000, 200 iterations, numbers not interpreted) measured unfold-based kernel application at ~6.6 ms per kernel; a fused Triton application (kpn_triton105.py, equal to the unfold reference within 1.2e-6 relative) is used for inference in every arm. Training keeps the autograd unfold path. The initial latency rule (R2 <= 1.10 x R1) was replaced before any evaluation by the cost-matched comparison above, because the coupled design intrinsically applies two kernels."
+  "implementation_note": "Pre-freeze code-path smoke (offset seeds +5,000,000, 200 iterations, numbers not interpreted) measured unfold-based kernel application at ~6.6 ms per kernel; a fused Triton application (kpn_triton105.py, equal to the unfold reference within 1.2e-6 relative) is used for inference in every arm. Training keeps the autograd unfold path. The initial latency rule (R2 <= 1.10 x R1) was replaced before any evaluation by the cost-matched comparison above, because the coupled design intrinsically applies two kernels.",
+  "amendment1": "Owner-approved 2026-11-18: the frozen run (commit 42f386c) stopped at its own seed-disjointness gate G4 before generating any training or evaluation data (train-noisy 10510000 + 1000 v with 40 views reached 10549303, overlapping train-target 10520000, eval-noisy 10530000 and eval-target 10540000; only the G1 archived replay had run). The six seed families are re-based 100,000 apart; camera, determinism, training and bootstrap seeds and everything else are unchanged. The failed log is kept; the chain reruns in a fresh output directory."
 }

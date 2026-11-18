@@ -67,3 +67,26 @@ R1, R2 and R3 are trained identically: 20,000 iterations, batch 16, 128² crops,
 - **Per-camera frames.** WL101's `frame()` and `render_hq()` cache their frozen program by (res, spp) and capture the first camera. The data generator therefore calls the original `_frame_prog` per camera, with `render_hq`'s launch and seed convention.
 - **Kernel application.** The smoke run measured unfold-based kernel application at about 6.6 ms per kernel: R1 11.6 ms, R2 18.2 ms. A fused Triton application, equal to the unfold reference within 1.2e-6 and used for inference in every arm, lowers this to R1 6.6 ms and R2 8.2 ms.
 - **Cost rule.** Because the coupled design intrinsically applies two kernels, the initial rule (R2 latency ≤ 1.10 × R1) was replaced by the cost-matched comparison above. This happened before any evaluation output existed.
+
+## Amendment 1 — seed renumbering (owner-approved, 2026-11-18)
+
+The frozen chain (commit `42f386c`) stopped at its own seed-disjointness gate G4 before any training or evaluation data existed. Only the G1 archived-replay gate had run.
+
+The frozen seed bases were badly chosen. With 40 views, train-noisy seeds (10510000 + 1000·v + 100·i + r) reach 10549303. That range overlaps the train-target (10520000), eval-noisy (10530000) and eval-target (10540000) families.
+
+The owner approved re-basing the six families 100,000 apart:
+
+| Family | New base |
+|---|---|
+| train-noisy | 11000000 |
+| val-noisy | 11100000 |
+| eval-noisy | 11200000 |
+| train-target | 11300000 |
+| val-target | 11400000 |
+| eval-target | 11500000 |
+
+All 785 seeds are unique under the same rule (independent check). Nothing else changes:
+- camera, determinism, training and bootstrap seeds;
+- views, spp, models, thresholds and analysis.
+
+The failed log is kept as `results/ecro_denoise105/failed_g4/`. The chain reruns from the start in a fresh output directory.
