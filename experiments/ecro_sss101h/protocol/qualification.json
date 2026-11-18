@@ -1,0 +1,159 @@
+{
+  "batch": "WL101H",
+  "class": "Suffix follow-up of WL101G (dependent evidence gap: estimator/reference semantics after the independent forensic audit). No learned mechanism, ECRO, LOW, B_theta or event-contract change.",
+  "branch": "ecro_lr3_adapter",
+  "question": "Have we established a physically and numerically qualified estimator/reference contract for a new camera-independent projection comparison, or precisely identified why such a comparison remains invalid?",
+  "preserved": "WL101G stays stopped (verdict D); no Amendment 3, no WL101G or replacement primary. The forensic audit (docs/audits/wl101g_forensic_audit) and all historical protocols, worklogs, logs, seeds and results are read only. The native estimator and native reference remain the immutable historical baseline.",
+  "conditions": {
+    "N": "Historical native estimator and native reference: unchanged pt100.Ctx.trace/direct with Mitsuba spawn_ray/spawn_ray_to and the SSS exit ep + 1e-4 ew.",
+    "C": "Candidate estimator and its matched reference: the same tracer with contact-valid origins (semantics101h), used for both the construction suffix and the camera physical reference. Never compared with an N reference as if identical.",
+    "X": "Independent analytic / geometric checks: float64 sphere chord attenuation, analytic point- and origin-in-solid tests, radiance continuity across the native ring boundary."
+  },
+  "stage_A_replay": {
+    "status": "Completed before this freeze as a read-only reproduction (development evidence, no evaluation data).",
+    "result_path": "results/ecro_sss101h/replay_native",
+    "finding": "Replica-0 WL101G samples of floor patch 155 reproduce the stored packet (counts identical, L sums within 2.7e-8). All 1,745 samples with r < r*(p) = sqrt(2 R m(p)) (median 1.158 cm) have NEE, continuation and visibility origins inside the sphere (0% outside the ring); NEE first hit is the sphere exit, de = 0, through = f I / d^2 exactly (physical exp(-sigma chord) = 4.57e-4), E3+ = 0, visibility back_receiver(sphere). Ring mean L 1.485 vs 0.314 in the rest of subcell 3. Outside the ring native de equals the float64 chord within 1.8e-4 m. The designed radial grid shows the step at 11.5 -> 12 mm (L 1.485 -> 0.192). spawn_ray_to returns a unit direction in this Mitsuba build, so pt100.direct's residual maxt is metric (audit Q6 does not apply)."
+  },
+  "candidate": {
+    "definition": "Contact-valid native origins (semantics101h docstring). Register entry 1: the analytic free distance g from the hit point p along the native offset side u to the other solid of the sphere/floor contact. If the native offset m < g/2 the native ray is kept bit for bit; otherwise the origin is the gap midpoint p + u g/2 (spawn_ray keeps the direction; spawn_ray_to re-aims at the same target with the same relative shadow epsilon). The SSS exit step is min(1e-4, g/2) to the floor plane. If g/2 < h_min the event is singular: NEE is skipped and the path ends.",
+    "h_min_m": 2.1241822779460237e-07,
+    "h_min_derivation": "Q1 stress (results/ecro_sss101h/stress): with the candidate installed at h_min = 0, the largest half-gap at which any check fails (free-space origin, NEE entry sense and chord within 1e-3, continuation and visibility front hits, SSS exit floor hit) is 5.31e-8 m; declared rule h_min = 4 x that value. Native fails up to 6.3e-5 (floor) / 7.0e-5 m (cap).",
+    "singular_support": "Construction samples whose NEE or visibility spawn is singular are removed from the support of every measure (numerator and denominator of Un, V, G and refinements) and counted per (slot, s, t). Geometrically: floor points with r < about sqrt(4 R h_min) = 0.58 mm and sphere cap points with height < about 2 h_min. Rationale: no float32-representable free-space origin exists there; the tangent point itself has zero measure.",
+    "bit_identity_claim": "Outside register entry 1 the candidate ray equals the native ray; any table difference outside the contact neighbourhood must be at float-reduction level."
+  },
+  "membership": {
+    "b_m_m": 3.814697265625e-06,
+    "derivation": "float32 error model: 16 ulp32(3.0 m) (point formation, box yaw rotation, triangle edge test, x2 safety). Q1b (results/ecro_sss101h/stress_edges): attachment misses occur only at insets <= 1e-7 m from true face edges, accepted (<= b_m / 2).",
+    "rule_stage_F": "metric_oracle: an attachment miss on a planar patch is a boundary miss (excluded, counted per slot) iff its metric distance to the patch boundary is <= b_m; any other non-valid, non-buried, non-back, non-tie proposal is invalid. A valid point inside another solid by more than b_m is a support conflict.",
+    "rule_stage_D": "WL101G Amendment-1 oracle, so that native stage-D construction reproduces the stored WL101G packets."
+  },
+  "register": [
+    {
+      "id": 1,
+      "feature": "sphere/floor tangent contact",
+      "native_degeneracy": "finite area: floor ring r <= ~1.17 cm (origins inside sphere, F6); sphere cap h <= ~1.7e-4 m (visibility origin below floor, F5); SSS exit below floor for exits within ~1e-4 m",
+      "candidate": "contact-valid origins; singular neighbourhood excluded with per-slot accounting",
+      "class": "ring (native), cap (native), singular (candidate)"
+    },
+    {
+      "id": 2,
+      "feature": "Box B/floor convex edges and coplanar overlap",
+      "native_degeneracy": "none of finite area; float-lattice samples on the junction",
+      "candidate": "unchanged",
+      "class": "junction (diagnostic, S4-bounded)"
+    },
+    {
+      "id": 3,
+      "feature": "room 90-degree junctions",
+      "native_degeneracy": "float-lattice samples on the junction",
+      "candidate": "unchanged",
+      "class": "junction"
+    },
+    {
+      "id": 4,
+      "feature": "open-face edges, grazing visibility",
+      "native_degeneracy": "visibility depends on the native offset in bands of width ~ m/|cos|",
+      "candidate": "unchanged",
+      "class": "ledger L1 via D4 offset sensitivity"
+    },
+    {
+      "id": 5,
+      "feature": "convex box and panel edges",
+      "native_degeneracy": "attachment misses within the float band",
+      "candidate": "unchanged",
+      "class": "boundary_miss (metric band b_m)"
+    },
+    {
+      "id": 6,
+      "feature": "panel back side",
+      "native_degeneracy": "none (excluded receiver by definition)",
+      "candidate": "unchanged",
+      "class": "label back_panel"
+    },
+    {
+      "id": 7,
+      "feature": "sphere azimuth seam and poles",
+      "native_degeneracy": "address ties",
+      "candidate": "unchanged",
+      "class": "tie"
+    },
+    {
+      "id": 8,
+      "feature": "SSS exit continuation near the floor",
+      "native_degeneracy": "exit origin below the floor plane",
+      "candidate": "exit step min(1e-4, g/2); singular ends the path",
+      "class": "camera/suffix semantics (no construction class)"
+    }
+  ],
+  "construction": {
+    "proposals_per_slot": 4096,
+    "launch_proposals": 32,
+    "independence_seed": 10204001,
+    "stage_D_seeds": [
+      10203101,
+      10203102,
+      10203103,
+      10203104
+    ],
+    "intended_frozen_seeds": [
+      10204101,
+      10204102,
+      10204103,
+      10204104
+    ],
+    "rate_seed": 10204105
+  },
+  "camera": {
+    "V0_seeds": [
+      101100,
+      101101
+    ],
+    "spp": 4096,
+    "smoke_seed_start": 10204300,
+    "views_for_image_evaluation": "V0 only (archived streams already used in WL101E/F development). Held-out WL101G views and streams are not read by any table, so they remain available to a future comparison.",
+    "arms": "U_E (WL101E), Un/V/G/S_G built under N and under C at the stage-D seeds, all read in both an N camera pass (N reference) and a C camera pass (C reference)."
+  },
+  "regions": {
+    "V0": "Frozen WL101C/E/F masks from MAP_0 (near, flank, contact_shadow, sphere, sphere_interior, sphere_boundary, floor, full) and front radial bands 0-0.50 m (including 0.10-0.14 m).",
+    "far_control": "Non-contact control: valid MAP_0 pixels whose center-ray world point is at least 1.0 m from the support point (0.9, 0.4, 0)."
+  },
+  "materiality": {
+    "table": "A table difference at a slot or (slot, s) is material if |delta luminance| > max(3 x replica SE of the paired difference, 7.0e-4).",
+    "image_endpoint": "A signed-luminance difference (near, flank, contrast, any region or radial band) is material if its 95% interval excludes zero and |delta| > 7.0e-4 (5% of the WL101F near band; 6.26e-4 for contrast).",
+    "image_rmse": "A change of noise-corrected converged relative RMSE is material if > 0.0025.",
+    "questions": {
+      "contact_slot": "Is the C - N difference of U, V and G at floor patch 155 (all bins, spatial subcell 3) material?",
+      "U_G_comparison": "Is the C - N change of (U - G) material at slot 155, and at the image endpoints near, contrast, contact_shadow, sphere and sphere_boundary (each condition against its own reference)?",
+      "lobes": "Is the C - N change of the 0.10-0.14 m band residual material, for the reference itself and for U against its own reference?"
+    }
+  },
+  "gates_stage_F": {
+    "ownership": "Semantic gates S1-S5 may stop / disqualify. Diagnostics D1-D4 never stop and are always reported.",
+    "S1_support_identity": "invalid == 0 and support_conflict == 0 for every intended and rate seed.",
+    "S2_origin_validity": "Classes ring == 0 and inside_box == 0 (no included sample with a native/candidate origin inside a solid). Junction-class origins (on/behind a room plane, or inside a box within b_m of its surface) are registered and S4-bounded.",
+    "S3_excluded_measure": "For every slot: (tie + boundary_miss)/proposals <= 1e-3; for every (slot, s): singular/accepted <= 1e-3.",
+    "S4_radiance_effect": "Per-slot bias bound = measure x measured radiance deviation. Ldev(slot) = 2 x max over (s,t) with >= 16 included samples of |mean L(s,t) - mean L(slot)| (luminance). (a) tie and boundary-miss exclusion: analytic band measure f_band = 6.4e-5 (address tie band, 4 coordinates x 2 x 8e-6) + 2 b_m (1/l1 + 1/l2) for planar patches (sphere: 6.4e-5), bound f_band x Ldev. (b) candidate singular exclusion: measured fraction singular/(included + singular) per slot x Ldev. (c) junction-class visibility: (k_junction / sum v) x |mean L_junction - G|. A slot passes if the sum of (a)-(c) is <= 7.0e-4 luminance AND <= 2.5e-4 x max(|G|, 1e-3).",
+    "S5_instrument": "Candidate split consistency (query vs full six-event trace) at all six view cameras with the WL101F smoke thresholds; LOW invariance; planar cos normalization within 5 SE per ring; camera independence (integer columns identical, real <= 1e-5); stage-D native reproduction of WL101G packets (integer columns identical, real <= 1e-6 relative).",
+    "D1": "visibility labels by mechanism (front, back_panel, back_sphere, back_other, miss_opening, miss_junction, miss_other)",
+    "D2": "back_receiver attribution by receiver shape",
+    "D3": "packets of unregistered events (inside_box, miss_other, support conflict); must be empty for QUALIFIED",
+    "D4": "offset sensitivity: G with one tenth of the used offset; ledger L1 item. A slot is flagged if |mean(G_small - G)| > 7.0e-4 or > 2.5e-4 |G| and > 3 SE over the four intended replicas.",
+    "discrimination_check": "The same gates run on N at the intended seeds must flag F6 in S2 (ring > 0) while its junction/label events do not stop. If N passes S2, the revised gate cannot distinguish semantic contamination and the batch stops."
+  },
+  "verdict": {
+    "QUALIFIED": "Candidate passes S1-S5 on the four intended seeds and the rate seed, D3 is empty, the discrimination check holds, and no slot is flagged by D4 or by junction/exclusion bounds.",
+    "PARTIALLY_QUALIFIED": "Candidate passes S1-S5 and D3 is empty, but listed slots are flagged by a ledger item; a comparison is qualified only on the support excluding them.",
+    "NOT_QUALIFIED": "Any candidate semantic gate fails, D3 is non-empty, the candidate estimator/reference consistency fails, or the discrimination check fails."
+  },
+  "gates": {
+    "smoke_event_relative_l1": 1e-05,
+    "smoke_event_max_absolute": 1.5e-05,
+    "address_coordinate_tolerance": 3e-05,
+    "address_reconstruction_metres": 8e-06,
+    "address_reconstruction_direction": 5e-05,
+    "matched_rgb_relative_l1": 0.0005,
+    "low_relative_l1": 0.0001
+  },
+  "stop": "Stop and report if: F6 cannot be reproduced (not the case: stage A); event semantics cannot be specified consistently; estimator and reference cannot be matched; a correction needs an ECRO or event-contract change; a new representation class or research question is needed; or the revised gate cannot distinguish semantic contamination from harmless diagnostics. No threshold change after any stage-D or stage-F result; no WL101G primary or replacement primary.",
+  "scope": "Single SSS cfg0 scene and light, physical-oracle tables only."
+}
