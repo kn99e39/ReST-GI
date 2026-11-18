@@ -1,0 +1,186 @@
+{
+  "batch": "WL101G",
+  "class": "Suffix follow-up of WL101F (dependent evidence gap: cross-view and cross-region retention of the WL101F projection gain). No new learned mechanism.",
+  "branch": "ecro_lr3_adapter",
+  "question": "Can the SSS fidelity improvement observed in WL101F be maintained by a camera-independent representation across multiple viewpoints and regions, and does doing so require additional spatial resolution?",
+  "baselines": {
+    "wl101e_manifest_sha256": "0fb45d7b9ac46c204c393299a77180c74d9f043f44100361980afe0f5427c0c9",
+    "wl101f_manifest_sha256": "ae7e5f61b511fcc4833ce16e8e54454473be2739c7801ca5394b5f22cc6f0629",
+    "wl101f_manifest_file": "results/ecro_sss101f/primary/run_manifest.json",
+    "wl101f_protocol_sha256": "03d538a9905f880d7e050a77aab75066f95fd6d5bedd618677d2e0281b106b23",
+    "inputs": "Identical WL101F input validation (run_attribution.inputs): scene, checkpoint, learned table, renderer sources, stack, OptiX library. WL101E uniform tables U_E[0..3] and WL101F tables P/Q/S/A/SA[0..3] are read by SHA-256 and never rewritten."
+  },
+  "views": {
+    "resolution_and_fov": "Every view uses the V0 resolution (512) and field of view (32 deg) and the unchanged pinhole generator R.PT.gen_rays.",
+    "V0": "Original WL101A-F camera, origin [0.9,-2.4,1.05], target [0.9,0.4,0.55]. Construction view of the WL101F P/S diagnostics; its held-out quantities are the non-target regions.",
+    "held_out_rule": "origin = T + (d sin(az), -d cos(az), d tan(el)), T = [0.9, 0.4, 0.35]; az measured from the V0 viewing axis (-y side) toward +x. Fixed from geometry only (inside the room, sphere and contact in frame, no box between camera and sphere) before any held-out radiance.",
+    "held_out": [
+      {
+        "id": "H1",
+        "azimuth_deg": -45,
+        "horizontal_m": 2.2,
+        "elevation_deg": 18,
+        "role": "front-left, low, shadow side"
+      },
+      {
+        "id": "H2",
+        "azimuth_deg": 35,
+        "horizontal_m": 1.75,
+        "elevation_deg": 20,
+        "role": "front-right, low, shadow side"
+      },
+      {
+        "id": "H3",
+        "azimuth_deg": 165,
+        "horizontal_m": 1.45,
+        "elevation_deg": 22,
+        "role": "back-right, low, lit side"
+      },
+      {
+        "id": "H4",
+        "azimuth_deg": -150,
+        "horizontal_m": 1.6,
+        "elevation_deg": 22,
+        "role": "back-left, low, lit side"
+      },
+      {
+        "id": "H5",
+        "azimuth_deg": 0,
+        "horizontal_m": 1.6,
+        "elevation_deg": 50,
+        "role": "front, high; near floor is expected to be hidden by the sphere overhang, so this view tests silhouette and the other regions"
+      }
+    ]
+  },
+  "regions": {
+    "historical": "WL101A masks() on each view's own center-ray gbuffer (rt.gbuffer(cam, 512)): full, sphere, sphere_interior, sphere_boundary (silhouette band, 4-pixel erosion), floor, contact_shadow (geometric contact or sphere-occluded point-light segment). View-independent world definitions.",
+    "V0_primary": "Frozen WL101C near (front-half floor y <= 0.4, r < 0.18 m; 1,318 px) and flank (front-half, 0.26 <= r < 0.40 m; 6,042 px) and front radial bands, computed from the archived MAP_0. A fresh V0 gbuffer must reproduce MAP_0 (ok and sid identical, position within 1e-5 m).",
+    "held_out_primary": "near_all = visible floor r < 0.18 m and flank_all = visible floor 0.26 <= r < 0.40 m (all azimuths; the WL101C front-half restriction is camera-specific). near_all/flank_all are also reported at V0. Radial bands use the WL101C edges over all visible floor.",
+    "contact_valid_view": "Contact endpoints enter the verdict at a view only if near has >= 200 pixels and flank >= 1,000 pixels. Otherwise they are reported as not applicable."
+  },
+  "camera_independent_construction": {
+    "sampler": "WL101E ExposedOracle proposals unchanged (uniform patch area x uniform cosine/azimuth in the lookup preimage, geometry-only native attachment, membership and front gates), and the unchanged pinned five-event suffix (E2-E5) per accepted proposal. No camera, pixel, ROI, physical reference image or learned table enters any construction.",
+    "proposals_per_slot": 4096,
+    "launch_proposals": 32,
+    "replica_seeds": [
+      10203101,
+      10203102,
+      10203103,
+      10203104
+    ],
+    "segment_test": "For each accepted proposal (x, w) trace one full-scene ray hit.spawn_ray(w). The segment is visible if it hits a surface whose local front faces x (to_local(-w).z > 1e-6). Misses must leave the room through the open y = -2 face (x in [-2,2], z in [0,3], tolerance 1e-3 m). Misses whose room-box exit point lies within 1e-3 m of a room edge are seam grazes (gate <= 2e-5 of accepted). Sphere samples within 1 mm of the floor tangency with downward w whose spawned ray misses are tangency misses (gate <= 2e-5 of accepted). Seam, tangency and back-facing-receiver segments are excluded from V and G. Any other miss is a containment failure (gate 0). Pre-freeze development finding (one 32-proposal launch, seed 10203101): 15 tangency misses (origin z <= 1.6e-4 m), 1 opening/ceiling corner graze at 2e-4 m, and 1.6% back-facing receivers, almost all the panel's back face seen from the left wall, floor, back wall and ceiling. A second development launch found 8 seam grazes and 26 tangency misses in 5.13e6 accepted proposals, so the seam gate first drafted at 1e-6 was set to 2e-5 with the tangency gate before freezing.",
+    "measures": {
+      "Un": "uniform area x solid angle over accepted proposals (the WL101E estimator at 4x the samples; control)",
+      "V": "uniform area x solid angle restricted to visible segments (decomposition control)",
+      "G": "PRIMARY CANDIDATE. Etendue (projected solid angle) measure cos(theta_x) dA dw restricted to visible surface-to-surface segments; cos is the physical local cosine at x. Equivalently the density with which a uniform-area Lambertian receiver population over all exposed surfaces queries the cell. Table value = sum(cos*vis*L)/sum(cos*vis) per RGB channel."
+    },
+    "refinements": {
+      "S_G": "fixed WL101F 2x2 spatial subdivision of the equal-area patch coordinates, original directional bin, measure G; empty subcell -> parent G",
+      "A_G": "fixed WL101F 2x2 cosine/azimuth subdivision within the bin, measure G; secondary",
+      "SA_G": "both; secondary",
+      "S_U": "2x2 spatial under Un (refinement without the measure change); control",
+      "S_Gad": "Budget-limited adaptive spatial refinement: the 8,128 slots (10%) with the largest cross-validated G-measure between-subcell energy E_k = sum_s etendue_ks * (Lhalf_a_ks - Lhalf_a_k)(Lhalf_b_ks - Lhalf_b_k) (luminance; halves = pooled replicas {0,1} and {2,3}; etendue from all four replicas, slot measure patch area x preimage solid angle / proposals) carry their four S_G subcells; all others keep G. One selection from construction samples only, shared by all replicas. Compact table + per-slot offset index."
+    },
+    "fallbacks": "Un empty slot -> 0 (WL101E convention; the 576 buried slots carry zero camera weight). V and G with zero visible weight -> Un of the same replica. Refinement subcells -> their parent. Native support is recorded per entry and per camera query.",
+    "validation": {
+      "membership": "WL101E gates: zero invalid, ties <= 5e-5 of eligible proposals, address excursion <= 8e-6, every accepted proposal re-addresses to its requested slot.",
+      "containment": "zero misses outside the opening",
+      "cos_normalization": "Planar slots: pooled mean physical cos of accepted proposals in ring k equals (2k+1)/8 within 5 analytic standard errors (sd 0.25/sqrt(12) per sample) for k = 0..3.",
+      "uniform_identity": "Un replica means against the WL101E U_E replicas (same estimator, independent seeds): per-slot, per-channel z = (Un - U_E)/sqrt(var_Un/n_Un + var_UE/n_UE) over slots with n >= 32 in both. Robust to heavy-tailed path samples: median |z| within 0.6745 x [0.85, 1.15] and fraction |z| > 6 <= 0.5%.",
+      "camera_independence": "One 32-proposal launch at seed 10203001 constructed three times: twice through the V0 reader and once through the H1 reader. Integer-valued sums (n, v) and membership/segment counts must be identical, and real-valued sums must agree to <= 1e-5 relative (float32 atomic scatter-add order is nondeterministic; the same-reader repeat measures that floor). Pre-freeze development finding: the originally planned bitwise test failed for this reduction-order reason.",
+      "synthetic": "selftest.py: weighted estimators, fallbacks, nested marginals and the adaptive compact index reproduce a known field exactly; cross-product RMSE recovers a known bias under independent noise.",
+      "lookup": "Per view at 64^2 x 1 spp: S, A, SA and adaptive tables filled with the parent value reproduce the coarse readout within 1e-6 absolute (development run: 4.7e-8, float32 kernel-fusion rounding); GPU subcell indices equal an independent float64 recomputation except declared ties within 1e-5 of a subcell border; the adaptive compact index equals the numpy layout exactly."
+    }
+  },
+  "camera_conditioned_controls": {
+    "F": "WL101F P, Q, S, A, SA tables (V0 near+flank equal regional mass) read unchanged; diagnostic upper bound at V0 near/flank, evaluated everywhere for transfer.",
+    "per_view": "P_v and S_v for every view v: WL101F projection procedure (throughput weighted, parent U_E[i], S parent P_v) with full-frame equal pixel weight on view v, independent prefix seeds 10203200 + 10*view_index + replica and suffix seeds 10203300 + 10*view_index + replica, 64 spp per pixel per replica in 32-spp launches, 4 replicas. Own-view value = camera-conditioned upper bound for that view; other views = cross-view transfer. Never a candidate.",
+    "view_index": {
+      "V0": 0,
+      "H1": 1,
+      "H2": 2,
+      "H3": 3,
+      "H4": 4,
+      "H5": 5
+    }
+  },
+  "evaluation": {
+    "order": "All construction tables are built, hashed and written to the manifest before any evaluation stream is traced.",
+    "streams": "Two independent 4,096-spp camera streams per view in 32-spp launches. V0 uses archived seeds 101100 / 101101 and the archived physical references REF_0_j (h). Held-out views use seeds 10203400 + 2*view_index + j (j = 0, 1).",
+    "physical_reference_held_out": "Exact-continuation physical suffix at the recorded event-2 query (WL101F Gate A instrument) times prefix throughput = original six-event HIGH (E3-E6) of the same stream. Reference and every table readout share the stream prefix (paired).",
+    "arms": "learned (B_theta through the original prefix), U_E, P_F, Q_F, S_F, A_F, SA_F, Un, V, G, S_G, A_G, SA_G, S_U, S_Gad, and P_v, S_v for all six views; four replicas for every table arm.",
+    "per_query_records": "luminance HIGH query weight per pixel, per queried shape id (9 shapes), and per arm on native entries"
+  },
+  "metrics": {
+    "endpoints": "Signed linear-luminance residual (arm - reference) mean over near, and near-minus-flank contrast; plus every region and radial band. Crossed Welch 95% intervals over 4 table replicas x 2 paired streams (WL101E interval()).",
+    "rmse_raw": "WL101F definition: relative RGB HDR RMSE of the replica-and-stream mean image against the mean reference.",
+    "rmse_converged": "Noise-corrected bias: sqrt(mean over pixels/channels and ordered replica pairs i != i' of (X_i0 - ref_0)(X_i'1 - ref_1)) / sqrt(mean(ref_0 * ref_1)); signed sqrt for a negative estimate. Delete-one-replica jackknife SE. Single-table variant uses i = i'. Single-table arms (learned) use the stream cross product only.",
+    "cross_view": "Per arm: pass count, max |near| and |contrast| across contact-valid views, and the spread across views.",
+    "support": "Native transport-weight fraction per region and arm; queried-shape decomposition of HIGH transport weight per region.",
+    "uncertainty": "Table field SE and paired camera SE from the interval; G replica half-difference RMS relative to table RMS.",
+    "cost": "Table bytes; isolated synchronized lookup timing per 1e6 queries on one recorded V0 launch (coarse gather; address computation + S gather; adaptive index + gather), 30 repetitions after 3 warm-ups; construction stage times."
+  },
+  "decision": {
+    "bands": "Absolute contact bands copied from the WL101F manifest material_equivalence_band: |near| <= 0.014030314160293007 and |near - flank| <= 0.012520100923265649 (20% of the WL101E V0 U excesses).",
+    "contact_pass": "At a contact-valid view, both endpoint 95% intervals lie inside the bands.",
+    "region_non_degradation": "At every view, for sphere_boundary, sphere, contact_shadow, floor and full: rmse_converged(arm) <= 1.10 * rmse_converged(U_E) + 0.0025.",
+    "coverage_gate": "Decision arms (G, S_G, S_Gad) native transport weight >= 0.995 in every region of every view; otherwise the arm is coverage-limited.",
+    "precision_gate": "Decision arms and U_E: endpoint half-widths <= WL101F precision_limits 0.010522735620219754 (near) and 0.009390075692449236 (contrast) at every contact-valid view; otherwise precision-limited.",
+    "arm_sufficient": "contact_pass at every contact-valid view AND region_non_degradation at every view, with coverage and precision gates passed.",
+    "material_improvement": "Reduction |U_E| - |X| at an endpoint whose lower 95% bound exceeds 10% of |U_E excess| at that view, evaluated where the U_E excess interval excludes zero.",
+    "verdict": "A if G is sufficient. Else B if S_G or S_Gad is sufficient (record which and its table size). Else D if any decision arm failed a coverage or precision gate or a consistency gate stopped the batch. Else C.",
+    "descriptive_only": "WL101F P/S, per-view P_v/S_v, A_G, SA_G, S_U, Un and V never decide the verdict; they attribute camera-conditioned fitting advantage, resolution advantage, measure effect and coverage/fallback.",
+    "band_values": {
+      "near": 0.014030314160293007,
+      "contrast": 0.012520100923265649
+    },
+    "precision_values": {
+      "near": 0.010522735620219754,
+      "contrast": 0.009390075692449236
+    }
+  },
+  "gates": {
+    "smoke_event_relative_l1": 1e-05,
+    "smoke_event_max_absolute": 1.5e-05,
+    "address_coordinate_tolerance": 3e-05,
+    "address_reconstruction_metres": 8e-06,
+    "address_reconstruction_direction": 5e-05,
+    "uniform_audit_tie_fraction": 5e-05,
+    "matched_rgb_relative_l1": 0.0005,
+    "matched_roi_max_absolute": 0.0002,
+    "low_relative_l1": 0.0001,
+    "wl101ef_readout_replay_relative_l1": 1e-06,
+    "gbuffer_position_m": 1e-05,
+    "note": "Pre-freeze development smoke: at H3 the WL101F direction-reconstruction tolerance 8e-6 was exceeded (1.56e-5; position 3.1e-7) because rebuilding a unit vector from (cos theta, phi) in float32 amplifies rounding by 1/sin(theta) near the pole. Direction tolerance 5e-5 (~0.003 deg, ~1e-4 of a bin) and coordinate excursion 3e-5 of a cell are set before any held-out radiance; position tolerance unchanged."
+  },
+  "smoke_seeds_start": 10203500,
+  "benchmark_seed": 10203600,
+  "stop": "Stop on input identity, event/query consistency, LOW invariance, lookup consistency, construction membership/containment/normalization/identity, camera-independence or leakage failures. No threshold, view, region, measure, subdivision or budget changes after any held-out readout. No retraining, LOW change, denoising, contact heuristic, scene/material/reference change or deployment.",
+  "scope": "Single SSS cfg0 scene, frozen geometry and light. Physical-Oracle tables only: a table's quality is not a property of the learned ECRO operator, its source independence or its geometry-edit reuse.",
+  "evaluation_seeds": {
+    "V0": [
+      101100,
+      101101
+    ],
+    "H1": [
+      10203402,
+      10203403
+    ],
+    "H2": [
+      10203404,
+      10203405
+    ],
+    "H3": [
+      10203406,
+      10203407
+    ],
+    "H4": [
+      10203408,
+      10203409
+    ],
+    "H5": [
+      10203410,
+      10203411
+    ]
+  }
+}
