@@ -1,0 +1,56 @@
+stage verify_parent
+PASS parent hashes, exact interval accounting, independent halves, and frozen gate replay
+stage reference_increase
+REFERENCE {'band_shape': 0.01839441761892845, 'grazing_shape': 0.015980176468201542, 'albedo': 0.0007523118832729331} -> {'band_shape': 0.009510378972785937, 'grazing_shape': 0.015980176468201542, 'albedo': 0.0005438304250382133} passed True
+stage independent_response
+response A band eshape [0.09741, 0.04277, 0.11425, 0.05354, 0.06027, 0.08128, 0.08446, 0.1105, 0.11373]
+response B band eshape [0.09522, 0.04231, 0.11492, 0.05263, 0.06058, 0.07044, 0.07438, 0.10979, 0.11404]
+response C band eshape [0.06831, 0.0407, 0.11308, 0.03738, 0.05975, 0.06819, 0.05567, 0.10162, 0.09332]
+response D band eshape [0.06604, 0.04091, 0.11288, 0.03954, 0.06001, 0.04825, 0.06307, 0.10051, 0.09729]
+response ER_DF band eshape [0.09751, 0.04233, 0.11473, 0.05354, 0.06027, 0.08131, 0.08446, 0.1112, 0.11376]
+response ER_L band eshape [0.10417, 0.04664, 0.11269, 0.07494, 0.07609, 0.08954, 0.11199, 0.11268, 0.11232]
+stage scene_evaluation
+scene test83_iid_1_L2 replicate 0
+scene test83_iid_1_L2 replicate 1
+scene test83_iid_1_L2 replicate 2
+scene test83_iid_1_L2 replicate 3
+scene test83_iid_1_L2 replicate 4
+scene test83_iid_1_L2 replicate 5
+scene test83_iid_1_L2 replicate 6
+scene test83_iid_1_L2 replicate 7
+scene test83_iid_1_L2 replicate 8
+scene test83_iid_1_L2 replicate 9
+scene test83_iid_1_L2 replicate 10
+scene test83_iid_1_L2 replicate 11
+scene test83_iid_0_L2 replicate 0
+scene test83_iid_0_L2 replicate 1
+scene test83_iid_0_L2 replicate 2
+scene test83_iid_0_L2 replicate 3
+scene test83_iid_0_L2 replicate 4
+scene test83_iid_0_L2 replicate 5
+scene test83_iid_0_L2 replicate 6
+scene test83_iid_0_L2 replicate 7
+scene test83_iid_0_L2 replicate 8
+scene test83_iid_0_L2 replicate 9
+scene test83_iid_0_L2 replicate 10
+scene test83_iid_0_L2 replicate 11
+scene test83_hard_1_L1 replicate 0
+scene test83_hard_1_L1 replicate 1
+scene test83_hard_1_L1 replicate 2
+scene test83_hard_1_L1 replicate 3
+scene test83_hard_1_L1 replicate 4
+scene test83_hard_1_L1 replicate 5
+scene test83_hard_1_L1 replicate 6
+scene test83_hard_1_L1 replicate 7
+scene test83_hard_1_L1 replicate 8
+scene test83_hard_1_L1 replicate 9
+scene test83_hard_1_L1 replicate 10
+scene test83_hard_1_L1 replicate 11
+scene test83_iid_191_L1 replicate 0
+scene test83_iid_191_L1 replicate 1
+scene test83_iid_191_L1 replicate 2
+scene test83_iid_191_L1 replicate 3
+scene test83_iid_191_L1 replicate 4
+scene test83_iid_191_L1 replicate 5
+scene test83_iid_191_L1 replicate 6
+scene test83_iid_191_L1 replicate 7

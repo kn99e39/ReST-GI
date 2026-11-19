@@ -117,3 +117,52 @@ All nine materials had lower in-band `eshape` in C and D than in A. For both ref
 For A versus C, the median in-band peak relative absolute error decreased from 13.59% to 4.09% in development and from 14.21% to 5.38% held out. In the same order, median normalized core/shoulder/tail mass errors for C were 0.0055/0.0074/0.0129 and 0.0032/0.0146/0.0189, compared with A's 0.0134/0.0207/0.0380 and 0.0050/0.0230/0.0339. The peak grid was independent of fitting and kept its original walks. The corresponding raw files give peak offsets, per-probe `el1`, `ealb` and `eshape`, both reference halves, and signed region energy.
 
 C regressed the development median shape at 50° by 0.00297 and improved it at 70° by 0.00153. Held-out median gains were 0.00469 at 50° and 0.00622 at 70°. The C held-out median grazing shape error increased by 0.00582, with a maximum per-material increase of 0.01496 inside the frozen 0.02 limit. Relative to A, B worsened aggregate albedo error by 0.00850 for `block_161`, exceeding the 0.008 regression limit. Applying the shape objective to the redistributed data (D versus C) worsened aggregate albedo on two held-out block materials by as much as 0.03297. The data factor includes the lost flank support as well as the new target band and directional proposal.
+
+### Measurement · Rendered scenes and stop
+
+Three development scenes completed the frozen 12 × 1,024 spp budget for the layered reference and all six closure arms. Target and historical states used the same seeds and six-event tracer. The table reports object TOTAL relative RMS in percent. The `iid_0_L2` row is descriptive because the separate scene precision gate failed.
+
+| Scene | A | B | C | D | ER_DF | ER_L | Scene precision |
+|---|---:|---:|---:|---:|---:|---:|---|
+| `iid_1_L2` | 4.14 | 4.11 | 9.24 | 8.76 | 4.13 | 3.90 | Pass |
+| `iid_0_L2` | 2.51 | 2.52 | 2.60 | 2.63 | 2.49 | 3.16 | Fail |
+| `hard_1_L1` | 3.05 | 3.40 | 3.19 | 3.61 | 3.00 | 2.68 | Pass |
+
+In `iid_0_L2` every closure arm exceeded the frozen 0.0025 signed-energy confidence half-width in three measurements, for 18 violations. Half-width ranges across arms were 0.002603–0.002929 for highlight-ring TOTAL, 0.002619–0.002799 for grazing HIGH, and 0.003137–0.003395 for grazing TOTAL. The worst was ER_L grazing TOTAL. The object TOTAL RMS precision criterion itself passed on all completed cases, with maximum half-width 0.001083 versus 0.005. [Scene metrics](../../evaluation/104D/amendment1/scenes.json), [explicit stop and failures](../../evaluation/104D/amendment1/status.json).
+
+In the precision-qualified `iid_1_L2`, the paired object TOTAL RMS increase was **5.10 percentage points** for C versus A (95% CI 5.02–5.18) and **4.62 points** for D versus A (4.54–4.69). In C, the object signed E1/E2/HIGH/TOTAL errors were −2.395%/+2.694%/approximately 0%/+0.299% of reference TOTAL. A had −1.995%/−0.487%/−0.212%/−2.693%. The E2 excess on and around the cube is visible in the signed error map. A smaller signed TOTAL bias can coincide with greater spatial error because the signed event sums cancel. C's grazing TOTAL signed bias improved from −3.74% to −2.03%, and its highlight-ring TOTAL bias moved from −5.59% to −6.07%. In `hard_1_L1`, D's paired object RMS increase of 0.563 points (0.538–0.588) exceeded the frozen 0.5-point regression margin. [`iid_1_L2` event maps](../../evaluation/104D/amendment1/event_errors_test83_iid_1_L2.png), [`hard_1_L1` event maps](../../evaluation/104D/amendment1/event_errors_test83_hard_1_L1.png).
+
+The original orchestration evaluates the precision conjunction at the end of the sweep. Monitoring detected the finalized `iid_0_L2` failure while the first held-out scene was running, after all three development cases had finished. The owner's explicit stop was applied at detection. Eight complete replicate files from `iid_191_L1` were preserved as incomplete-case buffers. A separate closeout checked the archive integrity of all 44 completed replicate files, recorded the prior running status, and listed the five unreached cases. It computed no held-out scene scores and ran no new rendering or sampling. The three complete cases took 1,450.8 s summed across the seven arms (262.1, 487.5 and 701.1 s per case). This is measured scene rendering wall time, separate from response evaluation and the prior fit cost.
+
+### Observation
+
+The single increase brought the independent angular reference into its frozen precision envelope. The larger in-band angular gains followed the redistribution factor, especially on the held-out materials. The objective factor had a much smaller median gain, with energy regressions on some block materials. The available scene evidence includes an adverse, precision-qualified spatial regression for both redistributed arms.
+
+### Interpretation
+
+The same certified family can improve some layered angular profiles at fixed capacity and under the existing physical contracts. These controlled angular changes apply to the whole fixed-budget redistribution, which also thinned the flanking support. In-band angular gains alone did not carry through to rendered fidelity in `iid_1_L2`. Separate cancellation of signed transport errors and the observed spatial RMS regression explain why looking at signed TOTAL alone would give a different impression. The scene precision failure prevents qualification of the full factorial comparison.
+
+### Unresolved Question
+
+Independent rendered fidelity on the six held-out scenes and the full rendered main and interaction effects remain unresolved. The degree to which lobe-profile mismatch reflects ER capacity remains open.
+
+### Architecture Verdict
+
+**INCONCLUSIVE · SCENE_PRECISION_UNQUALIFIED.** The independent reference and physical contracts passed, and the original training convergence remains valid. The original scene-precision requirement failed. The available scene measurements document adverse changes on specific completed cases. They do not establish an end-to-end coverage, objective, interaction or capacity verdict.
+
+### Reproducibility
+
+- **Inputs and outputs.** The original primary path is `~/rest_wl104d/results/ecro_wl84_104d/primary/`. The amendment path is `~/rest_wl104d/results/ecro_wl84_104d/amendment1/` and includes both added raw halves with lane-level sequence IDs, the combined reference, physical metrics, compiled states, all preserved scene buffers and closeout status. The audited fit states still resolve to the original primary archive. [Amendment provenance](../../evaluation/104D/amendment1/provenance.json), [review hashes](../../evaluation/104D/amendment1/review_manifest.json).
+- **Streams.** Original response `initstate=104460` and half-open sequence interval `[0, 735870976)`. Additional `initstate=10441901`, `pair0=1000000`, half-open interval `[12288000000, 12363497472)`, round 0 and layered walk depth 1024. Half-level ranges are reproducible from the stored lane-level starts. The old and new intervals are disjoint, and the two halves within each target lane use separate ranges.
+- **Execution.** Archive `amendment1.tar` SHA-256 `3be52d865c72434010b20f9e309b606d6b3b5714da45231e7f5cf266625d73ef` on top of the unmodified parent deployment. Environment was LabServer63, RTX 3080 Ti, NVIDIA 595.71.05, Python 3.10.21, Torch 2.3.1+cu121, Mitsuba 3.5.1 and Dr.Jit 0.4.6. The administrative closeout and review scripts were used after the stop to verify and present stored evidence. [Execution log](../../evaluation/104D/amendment1/execution.log).
+
+```bash
+# Archived command for the single execution
+cd ~/rest_wl104d
+source ~/rest_compiled84/env.sh
+export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+base=results/ecro_wl84_104d
+"$PY" -B experiments/ecro_wl84_104d/amendment1/run104d_a1.py \
+  "$base/primary" ~/rest_compiled83/results "$base/amendment1" \
+  --commit c46015c99d6729a3354efd7184342c0748934e32
+```
