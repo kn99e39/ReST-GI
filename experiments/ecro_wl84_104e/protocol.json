@@ -1,0 +1,36 @@
+{
+  "id": "WL104E",
+  "branch": "ecro_lr3_adapter",
+  "class": "Dependent WL104D evidence-gap follow-up using fixed closures and causal stage interventions.",
+  "base": "8a490c4",
+  "host": "Local RTX 5080. LabServer63 supplies frozen files only.",
+  "parent": "WL104D Amendment 1, commit c46015c99d6729a3354efd7184342c0748934e32 plus its closed evidence and provenance",
+  "cases": ["test83_iid_1_L2", "test83_hard_1_L1"],
+  "primary_case": "test83_iid_1_L2",
+  "budget": {
+    "replicates": 12, "spp_each": 1024, "launch_spp": 512,
+    "seeds": {"test83_iid_1_L2": 1044900, "test83_hard_1_L1": 1046900},
+    "diagnostic_spp_each": 2, "focused_identity_spp_each": 4,
+    "rule": "Same camera/PCG inputs per replicate and the frozen LAY1024 PASS_SEED formula. Each primary replicate uses one shared trace for each of the three native first-continuation choices. Trace C prefix through hit 2 and A/L through hit 6. Diagnostic runs replay the first two lanes per pixel of launch 0 at depth 2 and do not affect image estimates."
+  },
+  "operators": {
+    "S1": "At sphere/cube only, native A/C/L sampler and its paired throughput at camera hit 1. Lambert surfaces are unchanged. Layered BSDF returns an augmented-path weight and a validity sentinel. Point-light next-event evaluation has no BSDF-PDF MIS, so no marginal layered directional PDF is required.",
+    "N2": "At sphere/cube only, evaluate A/C/L at hit 2 toward the existing point light on the same geometric path and visibility. The A/C/L terminal evaluations share a first-hit path where S1 is held fixed.",
+    "intervention_arms": {"AA": ["A","A"], "AC": ["A","C"], "CA": ["C","A"], "CC": ["C","C"], "LC": ["L","C"], "CL": ["C","L"], "LL": ["L","L"]},
+    "unaffected_events": "Use the identical archived C E1 for all hybrids. E2 uses S1 and N2. HIGH uses S1 followed by frozen C at every later continuation and hit-3..6 NEE. C-prefix HIGH is reused from archived C. A/C/L full baselines and ER_DF are archived references. No learned ECRO HIGH is queried in this physical cam-mode diagnosis.",
+    "direction_diagnostics": "Use separate two-spp prefix readout at original launch-0 seed per replicate on realized A/C paths. Record camera first and light-facing second shape, angle at each ER hit, radius to mirror of outgoing direction, paired S1 throughput and pathwise difference of the propagated A and C N2 response on the same path. Conditional N2 differences are causal under the given S1. Angle-bin and route descriptions of S1 mix differing path populations."
+  },
+  "gates": {
+    "archived_metric_abs": 0.000002,
+    "identity_relative_l1": 0.00002,
+    "sample_weight_relative_peak": 0.00002,
+    "precision_energy_half_width": 0.0025,
+    "precision_rms_half_width": 0.005,
+    "metric_contract": "Parent masks, six-event tracer, RP=12, parent leave-one-out stable RGB RMS normalized by reference TOTAL RMS, and signed Rec709 ROI energies normalized by reference TOTAL. Precision uses the original object/highlight/grazing gates for signed energies and object TOTAL stable RMS, plus the same RMS bound on object E2. Sphere and cube are prespecified descriptive subtotals. Apply the gate after each completed case; preserve before stopping.",
+    "decision": {
+      "reproduction": "Verify exact saved inputs and reproduce A/C RMS and signed E2 against the frozen JSON. Independent fresh E2 identity checks require AA, CC and LL to replay their corresponding native archived E2 to the per-replicate image relative L1 gate.",
+      "attribution": "On primary objects, the E2 map difference CC−AA decomposes into S=CA−AA, N=AC−AA, I=CC−CA−AC+AA. Use cross-replicate inner-product projection onto CC−AA. A term dominates when the 95% lower bound of its share is greater than 0.5. Multiple effects or insufficient precision receive the ambiguous label. The native S1 result estimates sampling and paired weight together.",
+      "recovery": "An oracle intervention supports scene recovery only if it reduces CC's object stable RMS in both E2 and TOTAL by >=0.005 absolute or half the CC excess over the physical all-A comparator, whichever is larger, and the paired lower bound is positive for both. Require no >0.005 object RMS regression to CC on the companion. Report objective E2 and total outcomes independently."
+    }
+  }
+}
