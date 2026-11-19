@@ -165,7 +165,7 @@ def input_hashes(H, sets):
             raise ValueError(f"WL104 input SHA mismatch for {relative}")
         inputs[path.name] = path
     for label, path in (("sphere", H.C.SPHERE_PLY), ("quad", H.C.QUAD_PLY)):
-        if H.C.sha(path) != wl104[f"{label}_ply_sha256"]:
+        if H.C.sha(path) != wl104["scene"][f"{label}_ply_sha256"]:
             raise ValueError(f"WL104 mesh SHA mismatch for {label}")
         inputs[path.name] = path
     return {key: H.C.sha(path) for key, path in inputs.items()}
