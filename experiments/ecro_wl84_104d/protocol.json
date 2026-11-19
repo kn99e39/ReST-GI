@@ -1,0 +1,66 @@
+{
+  "id": "WL104D",
+  "branch": "ecro_lr3_adapter",
+  "base_commit": "660cf98d6ae7535726aed61d4f65cf569d296988",
+  "host": "LabServer63",
+  "arms": {"A": ["original", "metric"], "B": ["original", "shape_energy"], "C": ["covered", "metric"], "D": ["covered", "shape_energy"]},
+  "population": {
+    "development": [["test83_iid", 1, 2], ["test83_iid", 0, 2], ["test83_hard", 1, 1]],
+    "held_out_draws_per_set": 2,
+    "held_out_sets": ["test83_iid", "test83_block", "test83_hard"],
+    "held_out_selection": "PCG64 without replacement from WL83 descriptors, excluding all WL83 named render probes iid 0/1 and hard 0/1. Draw before loading response values or historical fits. Held out to this study, previously in WL83's population-level evaluations.",
+    "held_out_view": {"origin": [0.45, -3.0, 1.35], "target": [0,0,0.3], "fov": 40.0},
+    "held_out_light": "Alternate unchanged WL84 L1 and L2 by held-out material order. All held-out scenes use the held-out camera."
+  },
+  "seeds": {"material_draw": 104410, "coverage_directions": 104420, "fit_walks": 104430, "reciprocal_walks": 104440, "evaluation_directions": 104450, "evaluation_walks": 104460, "peak_walks": 104470, "init": 104480, "images": 1044900},
+  "training_data": {
+    "groups": 64, "lanes_per_group": 64, "walks_per_lane": 1024, "replacement_groups": 16,
+    "replacement_rule": "Replace eight groups nearest each side of the hole (8 immediately below 55 and 8 immediately above 65, excluding >=80). Keep all remaining original lanes bitwise. Sample one direction per crossing of four equal-theta strata [55,65] and four 90-degree azimuth strata, via seeded uniform theta and phi within each cell.",
+    "proposal": "Changed groups: 32 draws from the original WL83 proposal, 16 uniform solid-angle draws inside 3 degrees of mirror, 16 uniform solid-angle draws in the 3–12 degree annulus. Balance-heuristic q = .50 qWL83 + .25 qcore + .25 qshoulder. Keep the WL83 VNDF-reject semantics (zero contribution). All admitted training directions are the same layered eval at depth 1024 with 1024 walks per direction pair.",
+    "qualification": {
+      "minimum_stratum_effective_samples": 8,
+      "effective_support": "Per material and each of four polar strata, separately in core and shoulder, Kish ESS over positive importance-weighted reference luminance contributions. All 16 incident cells must occur, with >=16 active draws in each target region per group.",
+      "maximum_reference_half_relative_difference": 0.08,
+      "reference_half_test": "For each polar stratum and core/shoulder, relative difference of independent walk-half weighted energy. Normalized by the average.",
+      "reciprocity_pair_count_per_group": 4,
+      "reciprocity_walks": 8192,
+      "reciprocity_absolute_margin": 0.02,
+      "reciprocity_rule": "Per material, each sweep's four fixed lanes per group (two core, two shoulder) reevaluated forward and swapped with fresh independent 8192 walks each. Check weighted integrated f after dividing out the outgoing cosine, separately for core and shoulder. |relative deviation| <= 0.02 + 4 times half-difference SE proxy."
+    }
+  },
+  "optimization": {
+    "objective": "WL82 group_terms exactly. Metric = el1 + ealb. Shape-energy = eshape + ealb, replacing pointwise relative L1 by albedo-normalized angular L1 with the original directional albedo penalty at the same weight. Equal incidence-group weight.",
+    "optimizer": "WL82 Adam betas/defaults with 0.03 to 0.0003 cosine and warmup 50. Same steps and initialized logits per matched arm.",
+    "steps": 12000, "warmup": 50, "log_interval": 1000, "restart_noise": 0.5,
+    "initializations": "Identical generic and fixed N(0,0.5) perturbation in every arm. For each material and arm pick the final start with the lower training loss under that arm's objective. Both seeds and both last-2000-step slopes are retained.",
+    "convergence_abs": 0.005,
+    "convergence_rule": "For every material and both starts in every arm, final versus step 10000 own-objective absolute change <=0.005. Otherwise stop optimization attribution. No adaptive extension.",
+    "historical_note": "WL82's shape-only ER used the unbounded mode. Its historical median eshape 0.032 vs 0.037 (unbounded metric) is a diagnostic, not a certified energy-retaining improvement."
+  },
+  "response": {
+    "angles_deg": [5, 20, 35, 50, 57.5, 60, 62.5, 70, 80, 86],
+    "azimuths_deg": [22.5, 112.5], "lanes": 1024, "walks": 4096,
+    "peak_grid": "Exact mirror plus rings at 0.25-degree intervals through 4 degrees, 16 evenly spaced azimuths per ring, own walk stream. Peak height/position are descriptive.",
+    "peak_walks": 4096,
+    "reference_precision": "Each material: mean half-split eshape noise <=0.015 in band and <=0.025 at grazing. Mean half-split ealb noise <=0.008 across probes. Apply same margins to all materials before scene evaluation. Report peak and region half differences.",
+    "max_band_shape_noise": 0.015, "max_grazing_shape_noise": 0.025, "max_albedo_noise": 0.008,
+    "primary": "Per-material mean eshape over [57.5,60,62.5] x both azimuths. Analyze development and held-out cohorts separately. Gains must replicate across the two independent reference walk halves.",
+    "region_errors": "Relative signed core, shoulder and tail energy, plus normalized shape mass difference for radius [0,3), [3,12), [12,180]. Peak is the separate dense grid. Seeded independent directions and walks, no fit pairs reused."
+  },
+  "physical": {"torch_dr_peak_relative": 0.00001, "reciprocity_peak_relative": 0.0001, "passivity_tolerance": 0.000001, "parameter_count": 64, "state_floats": 69},
+  "scene": {
+    "replicates": 12, "spp_per_replicate": 1024, "launch_spp": 512,
+    "precision_energy_half_width": 0.0025, "precision_rms_half_width": 0.005,
+    "roi": "WL104B objects, sphere, cube, highlight core (reference luminance >= 3x object median), six-pixel sphere ring, grazing view cosine <=0.25, full frame. Development core masks frozen from WL104's archived LAY65. Held-out masks use a separate layered rendering seed. Primary stage uses depth-1024 layered BSDF for all comparisons, same pt102 camera tracer and six NEE events. Signed errors normalized by reference TOTAL of the same ROI.",
+    "primary": "Object stable RGB TOTAL relative RMS with a paired delete-one 95% interval on the gain. Stage D runs whenever validity gates pass regardless of measured response gain."
+  },
+  "decision": {
+    "shape_gain_absolute": 0.01, "shape_gain_relative": 0.10,
+    "scene_gain_absolute": 0.003,
+    "regress_albedo": 0.008, "regress_overall_el1": 0.01, "regress_grazing_eshape": 0.02,
+    "regress_scene_rms": 0.005, "regress_scene_signed_bias": 0.01,
+    "margin_basis": "WL104B mean shape errors about .06–.12 and worst per-probe shape half noise .015. Require a 0.01 and 10% shape improvement in both pooled cohorts and both reference halves. Object RMS ~.025–.041, preserving .005 precision and using .003 as practical gain. Energy regresses at most 1pp of reference TOTAL, half-width target .25pp. All deltas are absolute error increases unless stated.",
+    "success": "For a factor contrast, each cohort must clear median response gain and median scene gain. A majority of cases in each cohort must have a positive response contrast on both halves and a positive scene gain 95% lower bound. Every material/scene must pass regression margins against the comparator. Also require benefit against frozen ER_DF for the selected intervention with the same rule.",
+    "labels": "Compare C-A and B-A for isolated coverage/objective, and D-A for combined. If only D-A succeeds, INTERACTION_SUPPORTED additionally requires positive paired factorial interaction in both cohorts (median >0 in both response and scene) and material D-vs-B and D-vs-C improvements. If both isolated effects succeed, name the primary only if both cohort response and scene gains favor it; otherwise INCONCLUSIVE for attribution. A qualified set with no successful intervention is NO_SUPPORTED_IMPROVEMENT. Failed data/reference/physical/convergence admission is INCONCLUSIVE; mark DATA_UNQUALIFIED if coverage fails."
+  }
+}
