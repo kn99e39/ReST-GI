@@ -223,3 +223,31 @@ consistent with the operator-test threshold for extreme-point pixels, and leave 
 - Server: `LabServer63:~/rest_sss101a/results/ecro_denoise106/` (tests.log, qualify/, synth/, review/).
 - Wrapper `run106.sh` = `run105.sh` with the output directory renamed.
 - Evaluation: `evaluation/106/` with `manifest106.json`.
+
+## Closure (owner decision, 2026-11-19)
+
+The research owner chose to close WL106 with the frozen **INCONCLUSIVE** verdict.
+
+- SG2 is not amended. R4 is not trained. The stopped evaluation (Part E targets, R4 training, comparison) is not
+  resumed.
+- Every positive and negative finding above is preserved as recorded, including:
+  - the mixing-term attribution;
+  - the material-boundary correction by the constraint;
+  - the silhouette increase under the constraint on validation views;
+  - the SG2 pre-registration inconsistency;
+  - the identifiability probes.
+- The prepared but unrun scripts (`train106.py`, `target106.py`, `eval106.py`, `analyze106.py`) remain in the
+  repository as unexecuted code. They carry no evidence.
+
+**Next scientific question (owner direction; not an implementation authorisation).** The next batch will
+investigate whether the remaining grazing-rim reconstruction error originates from:
+
+- insufficient input information; or
+- limitations of the current nonnegative spatial-kernel operator.
+
+Constraints on that batch:
+
+- It must not assume that new input channels are necessary.
+- It must first determine whether the existing coverage, normal, depth and noisy component information can
+  represent the required radiance variation.
+- No successor architecture is implemented until the owner approves its separate contract.
