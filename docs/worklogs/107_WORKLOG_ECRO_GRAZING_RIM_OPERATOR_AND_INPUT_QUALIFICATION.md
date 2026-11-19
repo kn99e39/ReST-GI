@@ -273,3 +273,17 @@ different rounding orders. The original failed assessment and the completed O2 i
 artifacts are retained. Approval was requested for an evaluation-only arithmetic check that
 verifies the stored composition exactly and compares the two covariance calculations using the
 same precision. No real-scene verdict is assigned at this execution stop.
+
+## Amendment 1 — same-precision variance consistency check (2026-11-20 KST)
+
+The owner explicitly approved the evaluation-only correction and retry. The scientific design,
+metric formulas, decision thresholds, fit schedule, sample counts and frozen artifacts are
+unchanged. The revised assertion independently checks exact LOW + HIGH composition in the saved
+dtype and covariance closure on the components summed in float64. Both consistency checks retain
+their respective exact equality and numerical tolerance. The regression test uses the eight
+component pairs from the observed failure and verifies rejection of a perturbed TOTAL.
+
+The retry uses the frozen 708 capture files, assessment means, R0–R3 inputs and saved O2 outputs
+from the first execution. It starts a new raw assessment path, preserves the failed attempt, and
+runs within the remaining 60-minute evaluation allowance. No capture, O2 fitting or O2 inference
+will be repeated under this amendment.

@@ -57,6 +57,29 @@ class RealContracts(unittest.TestCase):
         evaluated = np.einsum("rgcpt,pgt->rpc", x, w)
         np.testing.assert_allclose(np.square(fitted).sum(1), evaluated.var(0, ddof=1).mean(-1) * 8)
 
+    def test_variance_check_distinguishes_roundoff_from_composition(self):
+        from real107 import luma, variance_components
+        from oracle107 import empirical_parts
+        low = [[15.565797, 15.544671, 15.528677], [15.567665, 15.547737, 15.533305],
+               [15.5663185, 15.546453, 15.530813], [15.567047, 15.544995, 15.529252],
+               [15.549951, 15.531599, 15.517065], [15.580654, 15.563723, 15.550202],
+               [15.561088, 15.544073, 15.5306015], [15.565063, 15.54156, 15.526003]]
+        high = [[.997481, .9559686, .92776746], [1.0068092, .9623786, .9318276],
+                [1.0013227, .9582906, .9287806], [.9953201, .95242494, .9232255],
+                [1.0003884, .9583996, .92975783], [.9966406, .9554455, .9272064],
+                [.99926066, .9570166, .9283791], [.99227965, .9536151, .9271259]]
+        # These 8 independent predictions share one bright V0 pixel.
+        parts = np.asarray((low, high), dtype=np.float32).transpose(1, 0, 2)[..., None, None]
+        out = parts.sum(axis=1).astype(np.float64)
+        previous_total = empirical_parts(luma(parts[:, 0]), luma(parts[:, 1]))[-1]
+        self.assertFalse(np.allclose(previous_total, luma(out).var(axis=0, ddof=1), rtol=1e-4, atol=1e-10))
+        restored = variance_components(out, parts)
+        np.testing.assert_allclose(np.sum(restored[:3], axis=0), restored[-1], rtol=1e-12)
+        invalid = out.copy()
+        invalid[0, 0, 0, 0] += 1e-4
+        with self.assertRaises(AssertionError):
+            variance_components(invalid, parts)
+
     def test_matched_predictor(self):
         import torch
         from predict107 import SignedDiagnostic, M, apply_signed, signed_weights

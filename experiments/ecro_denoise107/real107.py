@@ -45,14 +45,23 @@ def profile_masks(aux, masks):
             **{k: m for k, m in {**profile, **strata}.items() if m.sum() >= 20}}
 
 
+def variance_components(out, parts):
+    """Verify the runtime sum and then measure covariance in a common dtype."""
+    rounded_total = parts.sum(axis=1, dtype=parts.dtype)
+    assert np.array_equal(rounded_total, out), "Stored TOTAL differs from runtime LOW + HIGH"
+    variances = empirical_parts(luma(parts[:, 0]), luma(parts[:, 1]))
+    promoted_total = luma(parts.sum(axis=1, dtype=np.float64))
+    assert np.allclose(variances[-1], promoted_total.var(axis=0, ddof=1), rtol=1e-4, atol=1e-10)
+    return variances
+
+
 def metric_rows(out, parts, target, masks):
     from analyze105 import grad_ratio
 
     lt = luma(target)
     lm = luma(out)
     rgb_var = out.var(axis=0, ddof=1)
-    vl, vh, ch, vt = empirical_parts(luma(parts[:, 0]), luma(parts[:, 1]))
-    assert np.allclose(vt, lm.var(axis=0, ddof=1), rtol=1e-4, atol=1e-10)
+    vl, vh, ch, vt = variance_components(out, parts)
     d = lm - lt
     mean_hdr = out.mean(0)
     rows = {}
