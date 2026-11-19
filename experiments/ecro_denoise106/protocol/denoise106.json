@@ -1,0 +1,70 @@
+{
+  "batch": "WL106",
+  "track": "Denoising Track (branch Denoise_Reconstructor, existing development line; no new branch or worktree)",
+  "class": "Regular batch: new reconstruction mechanism (coverage-moment-constrained kernel application) addressing the WL105 boundary failure. Next free number across all branches (WL105 on this branch; WL104/104A/104B on ecro_wl84_scene).",
+  "hypothesis": "Systematic silhouette bias in the current ECRO reconstructors is caused substantially by geometry-inconsistent spatial radiance mixing, and can be reduced by constraining the reconstruction operator using the existing subpixel geometry information.",
+  "frozen_baseline": "WL105 (commit a3c4069): protocol denoise105.json + Amendment 1, data results/ecro_denoise105/data (run_manifest sha256 recorded by eval_manifest), checkpoints R1 cfa468c7..., R2 3e420609..., R3 d51b6919..., evaluation outputs results/ecro_denoise105/eval. WL105 code, data, checkpoints and worklog are not modified. ECRO, LOW/HIGH estimation, the HIGH table, camera sampling and the renderer are unchanged; the contact-region bias is not addressed.",
+  "execution_host": "LabServer63 (WL101 stack: Mitsuba 3.8.0, Dr.Jit 1.3.1, Torch 2.3.1+cu121, Triton 2.3.1, RTX 3080 Ti).",
+  "part_A": {
+    "purpose": "Qualify the WL105 failure on frozen inputs/checkpoints before any mechanism is trained.",
+    "checks": "Weights sha256 equal to the WL105 eval manifest; data manifest sha256 equal; every eval/val noisy input, target and aux file hash equal to run_manifest; recomputed R1-R3 outputs equal the stored WL105 evaluation outputs.",
+    "semantics_inspection": "Code facts recorded in the worklog: pixel sampling of the frame program (pt86.gen_rays: uniform jitter in [j, j+1) x [i, i+1)), the 8 x 8 midpoint guide grid on the same pixel square (render105.aux_buffers), the kernel application (reflect padding, softmax over 225 taps, tap order = unfold order).",
+    "decomposition": "Per arm, view, spp, replicate: y - T = (sum_q w_q T_q - T) [mixing term] + sum_q w_q (x_q - T_q) [weight-noise term], per ROI (WL105 definitions) and per sphere-coverage bin on the silhouette; coverage moment sum_q w_q c_q - c_p of every kernel (L1 and the signed sphere channel per bin).",
+    "diagnostic_on_validation_views_only": "The coverage-moment constraint applied to the frozen R3 logits on the 8 WL105 validation views (never on evaluation views) predicts the mechanism's effect without training."
+  },
+  "part_B_synthetic": {
+    "scenes": "128 x 128: disk, disk over empty, edge at 17 degrees, three-surface corner (gated generic configurations); edge at 0 degrees with sub-grid offset, thin strip 0.6 px, wide strip 2.5 px (report-only identifiability probes).",
+    "fields": "Per-surface constants (A 3.0 / B 0.75 / C 1.5 and inverted contrast), smooth intra-surface variation, rim darkening of A within 6 px of its boundary.",
+    "targets": "T8: guide-consistent (8 x 8 midpoint grid, isolates support/application); Tex: 32 x 32 grid (expected value of uniform pixel sampling).",
+    "kernels": "K1 box, K2 Gaussian sigma 2.5 px, K3 random logits N(0, 2^2) fixed seed (noise-independent: expected output computed exactly); K4 frozen R3 LOW network on 64 Monte-Carlo noisy realisations (out of distribution, report only).",
+    "operators": "U unconstrained (WL105) vs C constrained (tilt106).",
+    "metrics": "Constant-field error; band (pixels covered by >= 2 of A/B/C/empty) signed energy bias and max |relative bias|; near-boundary full-coverage pixels (within 7 px) signed energy and max; per-coverage-bin signed bias (bins >= 20 pixels); coverage-moment mismatch L1.",
+    "gate": {
+      "SG1": "Constant field reproduced by both operators within 1e-5 absolute.",
+      "SG2": "Guide-consistent truth T8, piecewise-constant fields, K1-K3: constrained max |relative bias| over band and near-boundary full pixels <= 1e-3 in every scene (operator correctness: support + application).",
+      "SG3": "Exact-area truth Tex, piecewise-constant fields, K1-K3, gated scenes: constrained |band signed energy| <= 1% and |near-full signed energy| <= 1%, and constrained |band signed energy| <= unconstrained, in every case.",
+      "rule": "Synthetic gate passes iff SG1, SG2 and SG3 pass and the operator tests (tests106.py) pass. Smooth/rim fields, report-only scenes and K4 are identifiability evidence, not gate criteria. A failed gate stops the batch before R4 training (no other mechanism is started)."
+    }
+  },
+  "part_C_mechanism": {
+    "selected": "Coverage-moment-constrained kernel application (tilt106): each predicted 15 x 15 softmax kernel is replaced by its minimum-KL modification satisfying sum_q w_q c_q = c_p over the 10 coverage channels (9 existing 8 x 8 shape coverages + implied miss fraction), with the exact support restriction implied by non-negativity (neighbours holding a surface absent from p get zero weight) and an exponential tilt on pixels covered by >= 2 surfaces (Newton, ITERS 8, EPS 1e-6, step cap 16, steps 1/0.5/0.25/0.125/0, one final differentiable Newton step = implicit derivative).",
+    "why_it_targets_the_hypothesis": "For per-surface-constant radiance inside the window it makes the expected output exactly the pixel's own coverage-weighted surface mixture (first-order unbiased across surfaces), using only the existing guide. It cannot correct intra-surface radiance variation between neighbours and the pixel (second order), guide quantization (8 x 8 midpoint vs exact area), weights correlated with noise, or surfaces sharing one shape id (box faces).",
+    "preserved": "Target, training data, R3 LOW/HIGH separation and per-component loss, objective, optimiser and schedule, kernel size, network widths and parameter count (1,055,624; identical state_dict and initialisation), inputs and guides. No parameter or heuristic is added; constants are fixed operator constants, not tuned on any outcome.",
+    "rejected_alternatives": "Bilateral coverage-similarity weighting (heuristic bandwidth, no unbiasedness guarantee); hard same-dominant-shape masking (removes all neighbours of partial pixels: no denoising there, still biased); normal-moment constraints (would also constrain curved-surface interiors; outside the shape-coverage semantics of the ROIs); per-surface radiance channels or per-hit identity (new rendering contract: owner decision, not implemented); larger kernels or capacity (not allowed)."
+  },
+  "R4": {
+    "definition": "model106.R4: WL105 R3 with both kernels constrained (training: reference path tilt106.constrain_logits + unfold application; inference: fused Triton path kpn_triton106, equal within 1.2e-6 relative).",
+    "training": "Identical to WL105 R3: train105 recipe (40 training views, 4 replicates x 3 spp, relative MSE per component, Adam 2e-4 cosine to 1e-5, 20,000 iterations, batch 16 random 128 x 128 crops, seed 10550001, same batch sequence). Final weights evaluated; validation views logged only. No evaluation view is read in training or selection.",
+    "unchanged": "R3 code and checkpoint; R1/R2/R3 are re-run for context and must reproduce the stored WL105 outputs."
+  },
+  "part_E_targets": {
+    "estimand": "Expected output of the frozen ECRO renderer (E1 + E2 + HL) per evaluation view: the WL105 estimand. The physical reference is not used.",
+    "estimator": "Mean of n independent 8192-spp halves: the 2 WL105 halves (seeds 11500000 + 10 v + h) plus n_new new halves at seeds 11600000 + 100 v + h (h < 64; disjoint from every WL105 seed and launch stream, checked by the G4 rule). Per-pixel target noise = sample standard deviation across halves / sqrt(n); ROI relative target noise = sqrt(mean(noise^2) / mean(Y^2)).",
+    "pilot": "The WL105 halves are the pilot: two-half relative noise 0.306% (primary), 0.405% (silhouette), 0.334% (material boundary) => single-half sigma 0.433% / 0.572% / 0.472%.",
+    "precision_goal": "Primary target noise <= 10% of the smallest primary relative RMSE among R3 and R4 at every spp; same rule in silhouette and material_boundary. Planned against R3 at 32 spp (0.83%): n >= 27.2; budget n = 48 (46 new) gives 0.0625% expected (7.5% of 0.83%), leaving margin for R4 down to 0.63%.",
+    "budget": "46 new halves x 6 views = 276 x 8192 spp (about 2.5-3 GPU-hours, LabServer63); no further rendering. If the realised precision rule fails for any arm/ROI/spp that enters a decision, that decision is INCONCLUSIVE (threshold not relaxed).",
+    "renderer_replay": "G1: archived 4096-spp V0 replay (seeds 101100/101101) must reproduce within relative L1 5e-4 before new targets are used (C0)."
+  },
+  "rois": "WL105 definitions (analyze105.rois): primary, sss_interior, silhouette (0 < sphere coverage < 1), material_boundary, control, contact_excluded. Coverage bins on the silhouette: sphere coverage edges [0, 1/64, 1/8, 1/4, 3/8, 1/2, 5/8, 3/4, 7/8, 63/64, 1] (bins with >= 20 pixels).",
+  "metrics": "As WL105 (relative RMSE, signed luminance residual relative to the ROI target mean, gradient ratio, output variance) against the qualified target; plus per-coverage-bin signed bias, coverage-moment mismatch, mixing / weight-noise decomposition, target-noise debiased RMSE (secondary).",
+  "statistics": "Paired per (view, replicate) on identical inputs. Pooled 95% intervals by two-level bootstrap (views, then replicates within views), 10,000 draws, seed 10699001; per-view intervals by bootstrap over replicates.",
+  "decision": {
+    "B1_bias_reduction": "Per spp: Rb = 1 - |bias_R4| / |bias_R3| of the pooled silhouette signed bias; material if Rb >= 0.5 with the 95% interval lower bound > 0.",
+    "S1_safety": "Per spp: R4 |signed bias| <= 1% of the ROI mean in silhouette and material_boundary (pooled point estimate; the primary safety target); primary, sss_interior, control |bias| <= 1%; silhouette gradient ratio within [0.8, 1.2].",
+    "N1_primary_non_regression": "Per spp: E_R4 / E_R3 of pooled primary relative RMSE <= 1.02 (point) with the 95% upper bound <= 1.05; silhouette and material_boundary RMSE ratio <= 1.05 (point).",
+    "T1_target_trust": "Part E precision goal met for every arm/ROI entering a decision.",
+    "C7_cost": "Budget (declared, reported separately; does not change the scientific verdict): R4 latency median <= 1.5 x R3 latency (512 x 512, fused, 50 runs after 10 warm-ups, uncontended) and peak extra memory <= 1.5 x R3.",
+    "verdict": "SUPPORTED: synthetic gate passed, T1, and B1, S1, N1 hold at every spp. INPUT_REPRESENTATION_INSUFFICIENT: synthetic gate failed on guide information (SG3 quantization) or, after training, S1 silhouette/material_boundary fails at some spp while the R4 mixing term alone exceeds 1% there (the constrained operator cannot express the needed correction with the existing guide). NOT SUPPORTED: B1 not material at a majority of spp, or N1 fails at any spp, or S1 fails at some spp with the R4 weight-noise term dominating the residual (|weight-noise| > |mixing|). INCONCLUSIVE: T1 fails, or an interval straddles its threshold at a majority of spp. R1/R2 are context only."
+  },
+  "controls": {
+    "C0": "Renderer replay (G1) before new targets.",
+    "C1": "Identical input hashes (Part A check; eval106 re-checks every noisy input hash before and after inference).",
+    "C2": "LOW + HIGH = TOTAL contract (tests and frame composition).",
+    "C3": "Synthetic constant field (SG1, tests106).",
+    "C4": "Synthetic mixed coverage (SG2/SG3).",
+    "C5": "Qualified evaluation target (Part E).",
+    "C6": "Held-out real scene: WL105 evaluation views V0, H1-H5, 8 replicates x 4/16/32 spp, identical noisy inputs for every arm.",
+    "C7": "Latency and memory (decision C7_cost)."
+  },
+  "stop": "Stop on frozen-input/checkpoint mismatch, renderer replay failure, seed leakage, a failed synthetic gate (before training), any need to change ECRO/transport semantics or add rendering channels (owner decision), or uninterpretable comparisons. No threshold, ROI, sample-count, operator-constant or architecture change after evaluation outputs are inspected. No temporal history, no contact-region work, no post-hoc energy compensation, no automatic adoption of R4."
+}
