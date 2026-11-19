@@ -1,0 +1,35 @@
+{
+  "id": "WL104F",
+  "branch": "ecro_lr3_adapter",
+  "base": "2efd8f8a9ce2651463eff6d0307f1634a3f48bb4",
+  "host": "Local RTX 5080",
+  "cases": ["test83_iid_1_L2", "test83_hard_1_L1"],
+  "primary": "test83_iid_1_L2",
+  "held_out": {"image": "test83_iid_159_L2", "index": 4, "selection": "First case in the frozen independent WL104D held-out order with no scene render ever started in Amendment 1. Use the frozen held-out camera and WL84 L2."},
+  "budget": {"spp": 1024, "batch": 512, "replicates": 12, "seed_base": {"test83_iid_1_L2": 1044900, "test83_hard_1_L1": 1046900, "test83_iid_159_L2": 1048900}, "focused_spp": 4},
+  "part_a": {
+    "contract": "Let F=f*cos(theta_o). At S1 only the material-local target F varies independently of the actual proposal p. Draw the native A or C direction, honor the native rejection atom and use F_A/p or F_C/p. Both support the identical upper-hemisphere domain, by their positive Lambert proposal component and identical numerical support cuts. Keep WL104E terminal C, paths, camera, masks and paired seeds. A/A and C/C E2 must match the archived AC/CC hybrids. E1 uses the original full-native A/C archived direct contribution; it involves F and no sampled ER proposal. Compare to archived native layered reference. Isolate the E2 estimator; report full native E1/E2/HIGH/TOTAL separately.",
+    "operator_audit": {
+      "theta_deg": [5, 20, 50, 60, 80, 86], "phi_deg": [22.5, 112.5], "seeds": 1046001,
+      "blocks": 8, "samples_per_proposal_per_block": 16384,
+      "proposals": "Independent uniform random numbers for native A, native C and analytic cosine sampling. Check positivity for all accepted/output probes, measured rejected atom plus integrated directional PDF mass using their equal mixture, and exact cosine integral and first moments from each native sampler. Compare target RGB albedos F_A and F_C across proposals. Reuse archived stochastic layered walk reference for physical response error.",
+      "integration_abs_tolerance": 0.006, "sigma_multiplier": 4, "f_expectation_rel_tolerance": 0.015
+    },
+    "identity_relative_l1": 0.00002,
+    "scene": "Cross-replicate stable RGB MS/RMS on objects, cube, sphere and original ROIs. Signed energy reference TOTAL denominator. Differences in E2 under same F and p changes must have object signed-energy intervals within ±0.0025 and stable object spatial RMS upper bound <0.01 to assert practical equivalence on the primary. Fixed-p F swap must reproduce at least 75% of native C−A stable spatial change by projection under both proposals, and its stable spatial signal lower bound must exceed every fixed-F proposal change upper bound. Gate on reference precision and original 0.0025 signed/0.005 object RMS half-widths. Companion is a small-effect check. Estimate proposal-dependent variance from within-replicate fluctuations after removing their per-pixel mean."
+  },
+  "parts_bc": {
+    "conditional": "Launch only if Part A supports response-dominant regression and PDF audits pass. No alternate correction.",
+    "data": "Exactly the original WL104D frozen 64×64 training lanes per material, for the two primary and the one preselected held-out scene. Preserve sample masks, PDFs, directions and target values. Use no augmented quota or held-out response values in fitting.",
+    "control": "Reoptimize the original WL82 metric, equal-weight incidence groups of el1+ealb. A and C fixed initial states, unchanged certified decoder and matched budget. Select one terminal state per material by its own training objective. This control is an optimization diagnostic and receives independent response evaluation only.",
+    "correction": "Same certified 64-parameter family and original material-local samples. Replace the metric with the mean over incidence groups of importance-integrated RGB squared error in F=f*cos(theta_o), normalized by that same group's integrated squared physical target. This is a material-local angular proxy for reduction of squared spatial radiance error. Exact use/q weights and no adjustable energy/shape weighting. Preserve energy through the independent ealb and scene-bias gates. Select the lower training loss between terminal A-start and C-start in each material; a single correction recipe and checkpoint set.",
+    "optimizer": {"name": "Adam", "steps": 12000, "learning_rate": 0.006, "learning_rate_end": 0.00006, "warmup": 50, "log_interval": 1000, "convergence_abs": 0.002, "control_material_training_headroom_rel": 0.05},
+    "capacity_rule": "A resolved improvement at unchanged capacity demonstrates headroom on those measured metrics. The matched original-objective control distinguishes tested optimizer headroom from objective mismatch. A failed finite fit is not a lower bound on family error."
+  },
+  "part_d": {
+    "reference": "Reuse WL104D Amendment 1 independent layered angular reference, including original 55–65 missing train band. Render held-out layered reference on the frozen camera with the configured seeds. Derive the held-out mask from a separate, fixed reference-only 2048-spp seed at seed base+990. Preserve precision limits.",
+    "metrics": "Per-probe el1/ealb/eshape, separate peak and radial region statistics, reciprocal and passive certification, Dr.Jit timing, original scene signed event errors and stable RGB RMS with matched reference. Include physical A/C/ER_DF comparators. The correction is rendered natively at every hit.",
+    "gates": {"energy_half_width": 0.0025, "rms_half_width": 0.005, "object_e1_e2_regression": 0.005, "object_total_regression": 0.005, "signed_roi_regression": 0.01, "mean_ealb_regression": 0.008, "grazing_shape_regression": 0.02, "primary_gain": 0.005, "held_out_gain": 0.003},
+    "decision": "Require positive paired 95% lower bounds and practical TOTAL improvement versus both A and ER_DF on primary and held-out, without energy/shape/scene regression on other required regions and scenes. Report E1/E2/TOTAL and historical comparisons separately. CORRECT on qualified success. If a demonstrated contract violation would require an unapproved class change, REPLACE-REQUIRED. Retain as scoped baseline when response cause is qualified but this single correction fails with available capacity evidence; INCONCLUSIVE when required gates leave the architectural interpretation unresolved."
+  }
+}
