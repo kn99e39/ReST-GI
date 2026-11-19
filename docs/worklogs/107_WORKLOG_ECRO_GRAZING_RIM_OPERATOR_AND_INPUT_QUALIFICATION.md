@@ -240,3 +240,12 @@ job runs through the frozen gates.
   from the frozen source, with the reference and compute stops in force.
 - The remote root is `~/rest_sss101a/results/ecro_denoise107/`. `pipeline.state`,
   `pipeline.log`, `chain107.sh` and the stage logs track execution.
+
+**Resumed C0/C1 verification.** GPU execution began at 17:17 KST. All four reconstruction arms
+replayed bitwise on the 144 frozen held-out inputs, with input immutability and repeat checks
+passing. The frozen ECRO 4096-spp renderer replay matched all six archived component comparisons
+exactly. The seed and launch-stream disjointness check passed. R3 measured 10.848 ms median and
+11.147 ms p95 reconstruction, 427 MiB extra peak memory and 1,055,624 parameters on the RTX
+3080 Ti. The replay JSON SHA-256 is
+`75147fd7bc7189d81e037f53f37cb8a12fa394641407c52ee939f30dfc205863`.
+All 384 covariance draws were captured. Independent fit and assessment reference capture continues.
