@@ -213,7 +213,8 @@ def cross_scene(parent, case, row, descriptor, states, out, smoke):
         for proposal in "AC":
             packet.update(ctx.evaluate_cross(seed+i, proposal, light, b["spp"], b["batch"]))
         path = parent / "primary" / case / f"r{i:03d}.npz"
-        sha_ok(path, saved["output_sha256"][f"{case}/{path.name}"])
+        hashes = {key.replace("\\", "/"): digest for key, digest in saved["output_sha256"].items()}
+        sha_ok(path, hashes[f"{case}/{path.name}"])
         with np.load(path) as old:
             same = {"AA": l1_ratio(packet["AA"], old["AC"]), "CC": l1_ratio(packet["CC"], old["CC"])}
         np.savez(out / f"r{i:03d}.npz", **packet)
