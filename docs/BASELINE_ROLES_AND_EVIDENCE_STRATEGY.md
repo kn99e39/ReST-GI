@@ -70,6 +70,8 @@ Contract v2 (WL101I) removed v1's false stops but is also **NOT QUALIFIED**. Thr
 
 ## Controlled comparisons and metrics
 
+For a fixed-data comparison of fitting objectives, audit training support in the angular neighborhoods that enter the improvement gate. For reciprocal scattering, inspect incident and outgoing directions jointly and account for direction exchange. A fit can interpolate into a missing neighborhood through shared parameters, so a failed intervention there leaves the contributions of sample coverage, objective and representation unresolved. [ER angular-support audit](worklogs/104C_WORKLOG_CERTIFIED_ER_ANGULAR_OBJECTIVE.md).
+
 - Predeclare geometry, materials, illumination, cameras, splits, coordinate/correspondence conventions, target semantics, seeds, precision, training/checkpoint rules and acceptance thresholds in the owning protocol. Keep held-out edits out of fitting and selection.
 - Isolate the declared mechanism. For Surface-Owned comparisons change the ownership boundary and necessary composition only; for persistent-state F/S use the same architecture and rule checkpoint. Report capacity confounds rather than hiding them.
 - Evaluate unseen spatial and directional incident fields and all-boundary sender outputs. Zero/linearity/nonnegativity/passivity/cache tests are necessary but do not establish angular, deformation or coupled fidelity.
