@@ -1,5 +1,6 @@
 """Reproduce all WL105 frames, with an immutable paired input to each inference."""
 import sys
+import time
 from pathlib import Path
 
 import numpy as np
@@ -50,8 +51,31 @@ def verify(baseline, anchor, output):
                             maxima[arm] = max(maxima[arm], ratio)
             print("replayed", view, flush=True)
     assert max(maxima.values()) <= 1e-6, maxima
+    representative = baseline / "data/eval/V0"
+    with np.load(representative / "aux.npz") as a:
+        aux = torch.from_numpy(D_aux({k: a[k] for k in a.files}, 4))[None].cuda()
+    with np.load(representative / "noisy_spp4_r0.npz") as n:
+        comp = torch.from_numpy(n["comp"])[None].cuda()
+    r3 = nets["R3"]
+    with torch.no_grad():
+        for _ in range(10):
+            r3(comp, aux)
+        torch.cuda.synchronize()
+        torch.cuda.reset_peak_memory_stats()
+        initial = torch.cuda.memory_allocated()
+        ms = []
+        for _ in range(50):
+            torch.cuda.synchronize()
+            start = time.perf_counter()
+            r3(comp, aux)
+            torch.cuda.synchronize()
+            ms.append(1000 * (time.perf_counter() - start))
+    o0_cost = {"latency_ms_median": float(np.median(ms)), "latency_ms_p95": float(np.quantile(ms, 0.95)),
+               "peak_extra_mib": (torch.cuda.max_memory_allocated() - initial) / 2**20,
+               "params": model.n_params(r3)}
     write(output, {"files_verified": count, "views": VIEWS, "relative_l1_max": maxima,
                    "input_immutable": True, "repeat_bitwise": True, "archived_cost": manifest["cost"],
+                   "measured_O0_cost": o0_cost,
                    "anchor_sha256": sha(anchor), "device": torch.cuda.get_device_name(0)})
 
 

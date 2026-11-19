@@ -92,3 +92,53 @@ def empirical_parts(low, high):
     vt = ((l + h) ** 2).sum(axis=0) / n
     assert np.allclose(vl + vh + twice_cov, vt, rtol=1e-6, atol=1e-10)
     return vl, vh, twice_cov, vt
+
+
+def min_adaptive_variance(lo, hi):
+    """Exact minimum sample variance over every set of values in the intervals.
+
+    Pick a common center c, then clamp c to each interval. The squared residual
+    sum is convex in c. At its minimum, c also equals the mean of the clamps.
+    """
+    a, b = lo.min(axis=0), hi.max(axis=0)
+    for _ in range(48):
+        mid = (a + b) / 2
+        left = np.clip(mid, lo, hi).mean(axis=0) > mid
+        a, b = np.where(left, mid, a), np.where(left, b, mid)
+    return np.clip((a + b) / 2, lo, hi).var(axis=0, ddof=1)
+
+
+def solve_factor_torch(factor, residual, device, steps=640):
+    """Solve min ||Aw + b||² with two 225-tap simplices, in CUDA batches."""
+    import torch
+
+    a = torch.as_tensor(factor, dtype=torch.float32, device=device)
+    b = torch.as_tensor(residual, dtype=torch.float32, device=device)
+    trans = a.transpose(1, 2)
+    L = (2 * (a * a).sum((1, 2))).clamp_min(1e-24)
+    w = torch.zeros((len(a), 2, 225), dtype=a.dtype, device=device)
+    w[:, :, 112] = 1
+    z = w.clone()
+    t = 1.0
+
+    for _ in range(steps):
+        dz = (2 * (trans @ (a @ z.flatten(1).unsqueeze(2) + b.unsqueeze(2)))).reshape_as(z)
+        v = z - dz / L[:, None, None]
+        u = torch.sort(v, descending=True).values
+        k = torch.arange(1, 226, dtype=a.dtype, device=device)
+        shift = (u.cumsum(-1) - 1) / k
+        count = (u > shift).sum(-1, keepdim=True)
+        nw = (v - shift.gather(-1, count - 1)).clamp_min(0)
+        t_new = (1 + np.sqrt(1 + 4 * t * t)) / 2
+        z = nw + ((t - 1) / t_new) * (nw - w)
+        w, t = nw, t_new
+    w = w.cpu().numpy().astype(np.float64)
+    assert np.min(w) >= 0 and np.max(np.abs(w.sum(axis=-1) - 1)) < 1e-4
+    w /= w.sum(axis=-1, keepdims=True)
+    fw = w.reshape(len(w), -1)
+    e = np.einsum("nrc,nc->nr", factor, fw, dtype=np.float64) + residual
+    value = np.square(e).sum(axis=-1)
+    grad = 2 * np.einsum("nrc,nr->nc", factor, e, dtype=np.float64).reshape(w.shape)
+    gap = ((grad * w).sum(axis=-1) - grad.min(axis=-1)).sum(axis=-1)
+    assert np.isfinite(value).all() and np.min(gap) >= -1e-10
+    return w, value, np.maximum(0, value - gap), gap
