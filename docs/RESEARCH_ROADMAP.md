@@ -1,10 +1,10 @@
 # Research Roadmap — Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-11-18. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners. Individual batches, their results, verdicts and amendments are recorded only in [docs/worklogs/](worklogs/).
+**Current as of:** 2026-11-20. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners. Individual batches, their results, verdicts and amendments are recorded only in [docs/worklogs/](worklogs/).
 
 ## Current frontier
 
-The approved research milestone is **GM1** (below), with ECRO as the learned-global-transport implementation base and the learned ER closure as the local-scattering baseline. No experiment batch is currently authorised. Every further batch needs its own human decision.
+The approved research milestone is **GM1** (below), with ECRO as the learned-global-transport implementation base and the learned ER closure as the local-scattering baseline. The dedicated Certified ER fidelity investigation is closed. Every further batch needs its own human decision.
 
 ### Deferred validation — not a milestone or authorised batch
 

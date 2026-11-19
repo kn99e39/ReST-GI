@@ -1,0 +1,17 @@
+{
+  "method": "Dr.Jit whos_str allocator report after a cost-only replay of the frozen run",
+  "elapsed_seconds": 25.7190000000046,
+  "allocator": [
+    "- host              : 0 B/0 B used (peak: 0 B).",
+    "- host-async        : 0 B/0 B used (peak: 0 B).",
+    "- host-pinned       : 0 B/9.77 MiB used (peak: 9.77 MiB).",
+    "- device            : 47.38 KiB/943.7 MiB used (peak: 943.7 MiB)."
+  ],
+  "raw_log_sha256": "84658c960cb17a8062ba6638732cfddaac2243627b5749dc4aa115e13322c8de",
+  "profiles_compared": 24,
+  "max_relative_l1_across_scene_E2_fields": 1.062039484277835e-08,
+  "bit_identical": {
+    "operator_audit.json": true,
+    "decision.json": true
+  }
+}
