@@ -64,6 +64,14 @@ The split-stream stage decomposition failed its equivalence gate and is not inte
 - **Attribution.** The exact field read through the 991-patch × 64-bin table already gives most of the hard_1 spatial error and object deficit (projection). The generator adds a smooth sphere-lower deficit of about 1.15 % in two images (learned approximation).
 - **Defects.** No implementation defect was found, and no correction was made. A change to the projection or layout, or to training or capacity, is an owner decision. [WL104A](worklogs/104A_WORKLOG_ECRO_HIGH_FIDELITY_VS_LEARNED_ER.md).
 
+**Learned-ER material error attribution (human brief, 2026-11-18; WL104B, local RTX 5080, branch `ecro_wl84_scene`, diagnostic only):**
+- **Checks.** All pipeline contracts hold: state hashes, compiled runtime, render contract, event sums, WL83 / WL84 reproduction and unbiased fit targets. The in-scene layered reference is not walk-depth limited.
+- **Where the error sits.** The WL84 learned-ER vs layered error is LOW-dominated, with E1 at 59–93 % of the object error mean square and E2 / HIGH at grazing.
+- **What kind of error.** It is a lobe-profile (shape) error; the albedo error is secondary. Centre-ray response differences predict the rendered E1 error (r ≥ 0.95).
+- **Earliest stage.** The per-material direct fit shows the same error as the learned compiler.
+- **Classification.** REPRESENTATION_LIMITATION_SUPPORTED, qualified for the frozen fitting procedure.
+- **Not settled.** Family vs fitting objective is unresolved, and no correction is authorised. [WL104B](worklogs/104B_WORKLOG_LEARNED_ER_ERROR_ATTRIBUTION.md).
+
 **Bounded material-training request completed (human, 2026-11-16; WL100):** Two separate pre-RB-DTO-E ECRO OWN models completed 24,000 steps each on new near-mirror and physically modelled SSS datasets; held-out reference/prediction/error-map, ROI, higher-order and noise-control figures are available. The learned architecture is unchanged; physical material response and LOW remain explicit. SSS sphere ROI discrepancy is 1.47-2.08% versus the finite-depth reference; near raw ROI discrepancy (8.3-20.1%) is almost the reference sampling noise, so converged near fidelity remains unqualified. This is bounded material-coverage evidence, not adoption, whole-neural local SSS, dynamic/economic evidence or an RB-DTO-E successor decision. Full scope and limits: [WL100](worklogs/100_WORKLOG_ECRO_NEAR_MIRROR_AND_SSS_TRAINING.md).
 
 
