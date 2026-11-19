@@ -1,0 +1,25 @@
+{
+  "id": "WL104C",
+  "branch": "ecro_lr3_adapter",
+  "base_commit": "add00a667aaaaec4b9a0b84f0517df914e0138a7",
+  "host": "LabServer63",
+  "question": "Can the existing certified ER family improve independent angular and rendered fidelity through an objective change alone?",
+  "contract": "Use the frozen WL83 per-material ER_DF states, WL104B mesh scene, layered reference and six-event tracer. The benchmark compares a fitted local closure against a physical path-traced reference.",
+  "baseline": {
+    "response": "Recompute all 16 WL83 lanes of the three WL104B materials. Use the original lane limit of 0.0001 absolute for el1, ealb and eshape, the runtime agreement limit of 0.00001 relative to peak, and reciprocity limit of 0.0001 relative to peak.",
+    "scenes": "Replay WL104B paired replicate 0 at full 4096 spp, original batch size and seeds, for ER_DF and LAY1024 on all three WL104B scenes. Compare to the archived replicate for the same arm and seed.",
+    "scene_rgb_relative_l1_max": 0.01,
+    "scene_energy_difference_max": 0.0025,
+    "scene_margin_basis": "The RGB error uses each event's own integrated absolute magnitude. For signed object energy the difference between replay and archive is normalized by the archived reference TOTAL. Use the WL104B event precision target of 0.25 percentage points for deterministic same-seed reproduction across hardware.",
+    "replicate": 0
+  },
+  "coverage": {
+    "sets": ["test83_iid", "test83_block", "test83_hard"],
+    "required_incident_band_deg": [55.0, 65.0],
+    "near_mirror_radius_deg": 5.0,
+    "grazing_min_deg": 80.0,
+    "rule": "Zero positive-weight training pairs with both polar angles in [55, 65] and outgoing direction within 5 degrees of the mirror is sufficient to fail. This neighborhood includes the failed 60-degree core and is invariant under reciprocal exchange. Report the exclusion band, grazing groups and actual hit counts from the complete frozen fit sets. Passing this structural check alone would not establish data sufficiency.",
+    "on_failure": "Stop before implementing or fitting the objective comparison. Report DATA_UNQUALIFIED for admission and INCONCLUSIVE for the architecture verdict."
+  },
+  "ordering": ["response and scene baseline reproduction", "angular support admission", "objective intervention only if admitted"]
+}
