@@ -1,0 +1,219 @@
+{
+  "synthetic_cases": {
+    "4": {
+      "constant": {
+        "cases": 8,
+        "witness_cases": 8,
+        "no_witness_cases": [],
+        "median_best_feasible_variance_ratio": 0.03214801152337844
+      },
+      "smooth": {
+        "cases": 8,
+        "witness_cases": 8,
+        "no_witness_cases": [],
+        "median_best_feasible_variance_ratio": 0.031025430798226818
+      },
+      "rim": {
+        "cases": 48,
+        "witness_cases": 46,
+        "no_witness_cases": [
+          "0.125_dark_rim_1_flat",
+          "0.125_dark_rim_1_wavy"
+        ],
+        "median_best_feasible_variance_ratio": 0.03491317954980798
+      }
+    },
+    "16": {
+      "constant": {
+        "cases": 8,
+        "witness_cases": 8,
+        "no_witness_cases": [],
+        "median_best_feasible_variance_ratio": 0.0308884599450386
+      },
+      "smooth": {
+        "cases": 8,
+        "witness_cases": 8,
+        "no_witness_cases": [],
+        "median_best_feasible_variance_ratio": 0.03161189458115725
+      },
+      "rim": {
+        "cases": 48,
+        "witness_cases": 48,
+        "no_witness_cases": [],
+        "median_best_feasible_variance_ratio": 0.03564051968582034
+      }
+    },
+    "32": {
+      "constant": {
+        "cases": 8,
+        "witness_cases": 8,
+        "no_witness_cases": [],
+        "median_best_feasible_variance_ratio": 0.03080963533581374
+      },
+      "smooth": {
+        "cases": 8,
+        "witness_cases": 8,
+        "no_witness_cases": [],
+        "median_best_feasible_variance_ratio": 0.031407595152983206
+      },
+      "rim": {
+        "cases": 48,
+        "witness_cases": 48,
+        "no_witness_cases": [],
+        "median_best_feasible_variance_ratio": 0.060857110000255524
+      }
+    }
+  },
+  "counterexamples": {
+    "adaptive_extremum": {
+      "target": 1.0,
+      "center_draws": [
+        0.95,
+        1.05
+      ],
+      "neighbor_min": 1.95,
+      "variance_floor_at_one_percent_bias": 0.001600000000000003,
+      "raw_variance": 0.0025000000000000005,
+      "ratio_floor": 0.640000000000001,
+      "maximum_feasible_reduction": 0.359999999999999
+    },
+    "equal_guide_pair": {
+      "coverage": [
+        0.5,
+        0.5
+      ],
+      "foreground_mean_cosine": [
+        0.5,
+        0.5
+      ],
+      "foreground_mean_squared_cosine": [
+        0.25,
+        0.34
+      ],
+      "targets": [
+        1.0,
+        1.05
+      ],
+      "view": {
+        "4": {
+          "prob_common_given_B": 0.7724761962890625,
+          "observation_overlap": 0.7724761962890625,
+          "existing_at_common_atom": 1.0217908764559533,
+          "existing_worlds": [
+            {
+              "signed_bias": 0.021790876455953345,
+              "variance": 0.0,
+              "mse": 0.00047484229671862185
+            },
+            {
+              "signed_bias": -0.020753215672336518,
+              "variance": 0.00013985922936042325,
+              "mse": 0.0006147015260790489
+            }
+          ],
+          "existing Bayes MSE": 0.0005447719113988354,
+          "privileged Bayes MSE": 0.0,
+          "raw Bayes MSE": 0.004687500000000001
+        },
+        "16": {
+          "prob_common_given_B": 0.3560741304517928,
+          "observation_overlap": 0.3560741304517928,
+          "existing_at_common_atom": 1.0131288593468397,
+          "existing_worlds": [
+            {
+              "signed_bias": 0.013128859346839716,
+              "variance": 0.0,
+              "mse": 0.00017236694774910058
+            },
+            {
+              "signed_bias": -0.012503675568418776,
+              "variance": 0.00031170907184378626,
+              "mse": 0.00048407601959288933
+            }
+          ],
+          "existing Bayes MSE": 0.0003282214836709949,
+          "privileged Bayes MSE": 0.0,
+          "raw Bayes MSE": 0.0011718750000000002
+        },
+        "32": {
+          "prob_common_given_B": 0.12678878637700036,
+          "observation_overlap": 0.12678878637700036,
+          "existing_at_common_atom": 1.005626111473148,
+          "existing_worlds": [
+            {
+              "signed_bias": 0.0056261114731479545,
+              "variance": 0.0,
+              "mse": 3.1653130308287046e-05
+            },
+            {
+              "signed_bias": -0.0053582014029980515,
+              "variance": 0.00021799931304082134,
+              "mse": 0.0002496524433491075
+            }
+          ],
+          "existing Bayes MSE": 0.00014065278682869726,
+          "privileged Bayes MSE": 0.0,
+          "raw Bayes MSE": 0.0005859375000000001
+        }
+      },
+      "scope": "Positive-probability identical full input at finite spp; distributions differ unconditionally."
+    }
+  },
+  "historical_control": {
+    "sha256": "e9aff972435d490d04c67c2db5bc0549cc227e79eaddbc01cab252603e72acea",
+    "gate": {
+      "SG1_constant_exact": true,
+      "SG2_guide_consistent_exact": false,
+      "SG3_exact_area_generic": true,
+      "pass": false
+    }
+  },
+  "max_synthetic_reference_error": 0.00031807499558011987,
+  "archived_reference": {
+    "archive_pilot": true,
+    "pooled_reference_rgb_rms_se": {
+      "primary": 0.003062521437793735,
+      "silhouette": 0.00405703643305282,
+      "material_boundary": 0.0033409773060558757
+    },
+    "pooled_archived_or_recomputed_R3_rmse": {
+      "4": {
+        "primary": 0.01501762149692669,
+        "silhouette": 0.0769195018797609,
+        "material_boundary": 0.07376234190320706
+      },
+      "16": {
+        "primary": 0.009866054002795187,
+        "silhouette": 0.0588504747565792,
+        "material_boundary": 0.05412859953561618
+      },
+      "32": {
+        "primary": 0.008348288575048334,
+        "silhouette": 0.049367494663809776,
+        "material_boundary": 0.0457580202892777
+      }
+    },
+    "reference_noise_over_R3_rmse": {
+      "4": {
+        "primary": 0.20392852745825765,
+        "silhouette": 0.05274392493329848,
+        "material_boundary": 0.0452938073799229
+      },
+      "16": {
+        "primary": 0.31040996095562434,
+        "silhouette": 0.0689380408541099,
+        "material_boundary": 0.061722958560151545
+      },
+      "32": {
+        "primary": 0.3668442232515907,
+        "silhouette": 0.08218031846017385,
+        "material_boundary": 0.07301402650146457
+      }
+    },
+    "max_view_stratum_signed_relative_se": 0.0014461109286671504,
+    "preliminary_pass": false,
+    "rgb_se_limit_fraction_of_RMSE": 0.1,
+    "signed_stratum_se_limit": 0.0025,
+    "archive_anchor_sha256": "cc313c3a8f92e5632a4cdc5f0c22d4923749a2495a2aeeca1f932e3a763eb5c4"
+  }
+}
