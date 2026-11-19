@@ -1,0 +1,264 @@
+{
+ "commit": "68f803d82a3a289261437e344ebafe7135777c73",
+ "base_commit": "660cf98d6ae7535726aed61d4f65cf569d296988",
+ "code_and_configuration_sha256": {
+  "experiments/ecro86/model86.py": "9cb89be656cf581897dc127fb01c1ec38292d3be9c0204ad92bb6ae51cf3eead",
+  "experiments/ecro86/pt86.py": "e2a1a2f33f62aff3e91ce779278d04f23fd93450228a7eabe449f1ec91c28a31",
+  "experiments/ecro86/scene86.py": "e9116629b94c88244783f69c2f06207f40030212ec00b22183181f21cb252d0b",
+  "experiments/ecro_lr3_102/mesh102.py": "2c24097e9a2022edbceb3e8c5cacfb315603c65aabcf9633e2f1ffbda2a91a2c",
+  "experiments/ecro_lr3_102/pt102.py": "020f7d6e9e615f8989f2d99250df3e2f500f525f94da2bcccc34b4451c795cb4",
+  "experiments/ecro_lr3_102/train102.py": "a09aa24213eb08437327dd47fbb86cff51cc740f7bed9260c5aeb8e5ec715c2f",
+  "experiments/ecro_wl84_104/common104.py": "b8dd0a563d00543f284d014f4bc9b23af6163d89587f554051762b59eb9af9cc",
+  "experiments/ecro_wl84_104/rt104.py": "eb20562aee55a0cf894f6b7a70399c5727f30b6a4fb42e0a1bd180a59b5e2fe5",
+  "experiments/ecro_wl84_104a/h104a.py": "e1e82fd12fa4250caa471504991885d3beea723ae413504b957a974db9f4d5a8",
+  "experiments/ecro_wl84_104a/stats104a.py": "a5e09c9b589281db6feeb5a8bc833f61d01fbd24a3b06eef122e99014e827761",
+  "experiments/ecro_wl84_104b/h104b.py": "7f68ff8c7498d3823a19770b78df953796ca3915243384b5e253349707c5e334",
+  "experiments/ecro_wl84_104b/stats104b.py": "b5f84b0e0706cb88d251bd22321573f4da7e9a84c662c32643eaa78bd81bd58b",
+  "experiments/ecro_wl84_104d/common104d.py": "79cde05f9490d5348cc05b925c146d8e8f2b489a33bdc389f73d7647c4ffa703",
+  "experiments/ecro_wl84_104d/data104d.py": "4d2455101fc4dbef857e21856e8f1341a56fe40dab2f3c9d3c74d4505d38d877",
+  "experiments/ecro_wl84_104d/decision104d.py": "b1480a17fa88946c2da0c4796e89b837c4aa3ff09d43489059f0be0b692f738c",
+  "experiments/ecro_wl84_104d/fit104d.py": "c020ee20dae84de6c6bc88c41c502ec01fc5a877f7c761ef1879aaeff9deab69",
+  "experiments/ecro_wl84_104d/response104d.py": "f3f471692f390fcd9ec1fd90293288544ff04b741ccfa9576de6536201cc3195",
+  "experiments/ecro_wl84_104d/run104d.py": "346dab0fc28fff3917b0b746a65d226f0085253e2b59b301e4517e041f0191a5",
+  "experiments/ecro_wl84_104d/scenes104d.py": "f72262cc15f124c5fb55d0a4e32f7fc1461de771345e3005135d0c92865b0046",
+  "experiments/ecro_wl84_104d/tests104d.py": "d3b0b10fa4a98ca0a7014c1bbddaba89a966321f718ef4704e733a42ae63225f",
+  "experiments/fnto_closure80d/closure80d_dr.py": "d659e2b8eac653e5fe75e65b42d9ee559820c59796361cdaffe724aca2de8d22",
+  "experiments/fnto_compiled80c/closure80c.py": "edb3f34877651412387d81a4cbd33c8756e090f86364e280f1f5d534e70a548e",
+  "experiments/fnto_compiled80c/data80c.py": "9ebdf30a9d273b9ce04ad12783d8fe30dbbcc5d0c8b50cdeaff346fde3a95728",
+  "experiments/fnto_compiled80c/eval80c.py": "57031a8218fc694ec88f6e73847df5956aa8bc3f340f0607fcae0331c66245c7",
+  "experiments/fnto_compiled80c/ref80c.py": "582ca9c0fb378d4ce8fb95b95f2b79c039a95c5d25923bcec6664ab6a8a18ade",
+  "experiments/fnto_compiled80c/train80c.py": "0c479b15e1db3c5b8705fbfb03e316910d3c98e57e342ddbed26b562e6825ea7",
+  "experiments/fnto_compiled81/closure81.py": "d21dff2aa351e1aa9ed5a6385f53650123ebf69e2fb5388b754750e25e1a2831",
+  "experiments/fnto_compiled81/closure81_dr.py": "b468112d456f9ca342eea5e2fb567c8c679076ea43f37dcb423fb6dacab2f20b",
+  "experiments/fnto_compiled81/data81.py": "24d442b29b0ff1e8509695758cea5275ab96c482a56e64afe4f5c0c0df484865",
+  "experiments/fnto_compiled81/energy81.py": "4528f2e0f2dccf9b655c84818633c8de1e9e3295a82490c069ff91d68ed2564d",
+  "experiments/fnto_compiled81/eval81.py": "6a341fa020afeb0ac2cb374bab7df3f5d3ac34fdfefafb7aab89aba647660ba3",
+  "experiments/fnto_compiled81/fit81.py": "24d3486317745055e9debbd76e4503d1469cebd15a872c28e546bd15470d5811",
+  "experiments/fnto_compiled81/layered81.py": "f0d96ff30552dbb2b1d2ecea864b2b5da234492d4cddbd8181739f26525affb9",
+  "experiments/fnto_compiled81/render81.py": "3b9a0874ba29918a1375528a23215b984774505305ec633de3e30d9badb7392f",
+  "experiments/fnto_compiled82/closure82.py": "6c90ddcdeb09081a51ee8a9cdfde1b82ebbd5507a12ab06bfd018bcfbf52a4a3",
+  "experiments/fnto_compiled82/eval82.py": "75b243a8d1145ff6257e268bbe9cc716a66af7b538b7710ffb3bc34e0f262c2b",
+  "experiments/fnto_compiled82/fit82.py": "d6df9f9743726d49fa67032c8188c885c98f63bf3c1f9fe2c42086fc531c62c7",
+  "experiments/fnto_compiled83/closure83.py": "044265053be4841b11b139de52e6b4d44dd93cb4803b68472f2764e9edd7a056",
+  "experiments/fnto_compiled83/closure83_dr.py": "0132f3d94a372a289a2aa0ccc29c170389a6583f6a0a814b82dfec2c29a7f292",
+  "experiments/fnto_compiled83/render83.py": "1df11e1d7c2278e126c68d808ac5913b5e91b6e8149e1f19e962c7f530e0a166",
+  "experiments/fnto_compiled84/render84.py": "e161d31a35c1ad304b9f94252e9d063753f02991cc5d9af39f304e2c6aa40b8d",
+  "experiments/ecro_wl84_104d/protocol.json": "ddf5f37da7a391d3db33e3244095b1ade4a6cf25157e95dc069030333cee2f45",
+  "experiments/fnto_compiled82/protocol/compiled82.json": "7f4c70809a820ba9a69fd9d4a91cec287d118c967eda904a3a576801de89f3c8",
+  "experiments/fnto_compiled81/protocol/compiled81.json": "8d83ec6abfddde90fdd30ab35f58079377752937d543520f859a7d5290757684",
+  "experiments/ecro_wl84_104/protocol/wl104.json": "160fbfbe78466dcc658060b10e105aae3260d3acfb6c7c27227bd8c25801bdf7",
+  "experiments/ecro_wl84_104b/protocol/wl104b.json": "7b6e08fb41fe27cc0076842a6d6904e74f05bca25158c4c79ee988275cfc23e4"
+ },
+ "source_sha256": {
+  "data/fit82_test83_block.npz": "770be45d83c03dec3fa2a503dcb732d7442388c5d3bdf16c0e20761f7f8a3876",
+  "data/fit82_test83_hard.npz": "c4f0108cf6c81c877727042b263412ac67bbd1a53d665fc68e2f14e3741a8513",
+  "data/fit82_test83_iid.npz": "e0cf2a04a2ffcb1807f72d63fa5d884ad51d7b14f1f903cb8d196e7e07b79af6",
+  "data/materials83.npz": "c34743b866b2039f78423cf8c1e37f73132754ed03224b4634444d58bf9145c6",
+  "fit/fit_test83_block_ER_cert_metric_12000_generic.npz": "a671a08b4dae1db8fa489487be924b2b8b80db2a62cf03fcfdd7b0eb8f65b5a0",
+  "fit/fit_test83_block_L_ER_s8301.npz": "8f538e0f0756c7fe85bd4cfa51bc0b5b951492a081c7d1d91b2ea285615e2813",
+  "fit/fit_test83_hard_ER_cert_metric_12000_generic.npz": "f3e31ddc3a1f798997ee3c462dda40bf8b13707d06dce252cbc461a922f0684f",
+  "fit/fit_test83_hard_L_ER_s8301.npz": "79cd5d938beb46685852363ca1f817ed15e0b54f6de2878aeddd6f1536ddaef1",
+  "fit/fit_test83_iid_ER_cert_metric_12000_generic.npz": "2268e978ba9fe2e618ee74fc761d7328b5c0f10d93a8664dd32ac28ac02de8ab",
+  "fit/fit_test83_iid_L_ER_s8301.npz": "631e393bde4965a751858a8036a5c78d2dd87c71f4d5598803d01adc764f1c55"
+ },
+ "scene_inputs_sha256": {
+  "results/ecro_wl84_104/scene/uv_sphere_128x256.ply": "c9df90af1ed19c9fedc4d68e504cf4ad2d3919dc5f0808e3242f159c7583e529",
+  "results/ecro_wl84_104/scene/quad.ply": "63c7a207184ebb571a5eb5bce9b5e9f7847972c31320271ced742e3c80976b5f",
+  "results/ecro_wl84_104/evidence/refs/test83_iid_1_L2/LAY65_h0.npz": "18093d997634585691d65a70b3abce3df5e2fb6a91f70df92f0b82b951dece19",
+  "results/ecro_wl84_104/evidence/refs/test83_iid_1_L2/LAY65_h1.npz": "8d6347f7b1cc1f70971fee9d8021535df782c75cace2fffce7a48480d628a77d",
+  "results/ecro_wl84_104/evidence/refs/test83_iid_0_L2/LAY65_h0.npz": "e2bf7686a8d496873447b1f62e79dfa4e5a7f6df6ef164c1c310ea3c95e630ac",
+  "results/ecro_wl84_104/evidence/refs/test83_iid_0_L2/LAY65_h1.npz": "536120cf378e834bc2ab8a9d64052d41ca6ce5cb4d390661a03942742da97bfa",
+  "results/ecro_wl84_104/evidence/refs/test83_hard_1_L1/LAY65_h0.npz": "e5efd987bd5399789a59aba74aaf6d4b9acf532dcdf6f5174ac9506773c140b1",
+  "results/ecro_wl84_104/evidence/refs/test83_hard_1_L1/LAY65_h1.npz": "a2cc108a5575c22a9638022e0d943dfb73505b8d26914e4b0c131fc0808393a0"
+ },
+ "output_sha256": {
+  "baseline_replay/preflight.json": "1b0020a704f2b39a55290e9519f2fe8af7cabf9f60615d0829d25118222fd6a0",
+  "baseline_replay/test83_hard_1_L1_replay.npz": "da44608d8d45b4e9c1f3b42fd53a9772a1cae4503fb0854dc65764e2c468be31",
+  "baseline_replay/test83_iid_0_L2_replay.npz": "6d7c67c5eb42a850f01ec0b271c91e30d027ba64488da0645eab6b7d1d2d9d97",
+  "baseline_replay/test83_iid_1_L2_replay.npz": "07667ec0e5c6c771257456967bc843852c9f8c9eb6f98a709ae3e31da822d3e7",
+  "coverage.json": "fea5cc064d9ae160aa906354544cc3b8e2a66dcb0f369c367b168e64e39689a8",
+  "descriptors.npy": "89728c72b46e8a4b1b45af8e3fdf79d0667971929b41a61766c18a800025164a",
+  "fit.json": "d8aa7ac1080e2ecfee27a136761a2be97844dded690cf98563b79d5de5df7bd4",
+  "fit_states.npz": "ccd49624930bb7d028dccdfea957b8b66750da98d8955343cff6e6914f3826dd",
+  "independent_response.npz": "8031148bd91d4f2b0f3fc5ffbf02c6de5552e41bf73c9a093082dbfaa1edd07c",
+  "materials.json": "6c180dcaa2dabf458b77d42e6c5e0cf3ebe905187fa32e857d0ab00f4b720b90",
+  "response.json": "ec4b7cb00fe705c43b9a6f6d38da75c802eb57c3867ac1b86c9c28c4148d6b72",
+  "status.json": "0e29246c12a62e05cec90f283961693ad330f5ade259151e87b80de0d6ba9db6",
+  "train_covered.npz": "98d9cda73c4575436db55df920c43959bedb0d223655cd10953a290cd55ed5a2",
+  "train_original.npz": "13035b009c9695af06bb4f88c548015403d62e5dd86977aabf2e53fcfbffc149"
+ },
+ "environment": {
+  "host": "63",
+  "platform": "Linux-6.8.0-134-generic-x86_64-with-glibc2.39",
+  "python": "3.10.21",
+  "numpy": "1.26.4",
+  "torch": "2.3.1+cu121",
+  "cuda": "12.1",
+  "mitsuba": "3.5.1",
+  "drjit": "0.4.6",
+  "variant": "cuda_ad_rgb",
+  "gpu": "NVIDIA GeForce RTX 3080 Ti, 12288 MiB, 595.71.05"
+ },
+ "protocol": {
+  "id": "WL104D",
+  "branch": "ecro_lr3_adapter",
+  "base_commit": "660cf98d6ae7535726aed61d4f65cf569d296988",
+  "host": "LabServer63",
+  "arms": {
+   "A": [
+    "original",
+    "metric"
+   ],
+   "B": [
+    "original",
+    "shape_energy"
+   ],
+   "C": [
+    "covered",
+    "metric"
+   ],
+   "D": [
+    "covered",
+    "shape_energy"
+   ]
+  },
+  "population": {
+   "development": [
+    [
+     "test83_iid",
+     1,
+     2
+    ],
+    [
+     "test83_iid",
+     0,
+     2
+    ],
+    [
+     "test83_hard",
+     1,
+     1
+    ]
+   ],
+   "held_out_draws_per_set": 2,
+   "held_out_sets": [
+    "test83_iid",
+    "test83_block",
+    "test83_hard"
+   ],
+   "held_out_selection": "PCG64 without replacement from WL83 descriptors, excluding all WL83 named render probes iid 0/1 and hard 0/1. Draw before loading response values or historical fits. Held out to this study, previously in WL83's population-level evaluations.",
+   "held_out_view": {
+    "origin": [
+     0.45,
+     -3.0,
+     1.35
+    ],
+    "target": [
+     0,
+     0,
+     0.3
+    ],
+    "fov": 40.0
+   },
+   "held_out_light": "Alternate unchanged WL84 L1 and L2 by held-out material order. All held-out scenes use the held-out camera."
+  },
+  "seeds": {
+   "material_draw": 104410,
+   "coverage_directions": 104420,
+   "fit_walks": 104430,
+   "reciprocal_walks": 104440,
+   "evaluation_directions": 104450,
+   "evaluation_walks": 104460,
+   "peak_walks": 104470,
+   "init": 104480,
+   "images": 1044900
+  },
+  "training_data": {
+   "groups": 64,
+   "lanes_per_group": 64,
+   "walks_per_lane": 1024,
+   "replacement_groups": 16,
+   "replacement_rule": "Replace eight groups nearest each side of the hole (8 immediately below 55 and 8 immediately above 65, excluding >=80). Keep all remaining original lanes bitwise. Sample one direction per crossing of four equal-theta strata [55,65] and four 90-degree azimuth strata, via seeded uniform theta and phi within each cell.",
+   "proposal": "Changed groups: 32 draws from the original WL83 proposal, 16 uniform solid-angle draws inside 3 degrees of mirror, 16 uniform solid-angle draws in the 3\u201312 degree annulus. Balance-heuristic q = .50 qWL83 + .25 qcore + .25 qshoulder. Keep the WL83 VNDF-reject semantics (zero contribution). All admitted training directions are the same layered eval at depth 1024 with 1024 walks per direction pair.",
+   "qualification": {
+    "minimum_stratum_effective_samples": 8,
+    "effective_support": "Per material and each of four polar strata, separately in core and shoulder, Kish ESS over positive importance-weighted reference luminance contributions. All 16 incident cells must occur, with >=16 active draws in each target region per group.",
+    "maximum_reference_half_relative_difference": 0.08,
+    "reference_half_test": "For each polar stratum and core/shoulder, relative difference of independent walk-half weighted energy. Normalized by the average.",
+    "reciprocity_pair_count_per_group": 4,
+    "reciprocity_walks": 8192,
+    "reciprocity_absolute_margin": 0.02,
+    "reciprocity_rule": "Per material, each sweep's four fixed lanes per group (two core, two shoulder) reevaluated forward and swapped with fresh independent 8192 walks each. Check weighted integrated f after dividing out the outgoing cosine, separately for core and shoulder. |relative deviation| <= 0.02 + 4 times half-difference SE proxy."
+   }
+  },
+  "optimization": {
+   "objective": "WL82 group_terms exactly. Metric = el1 + ealb. Shape-energy = eshape + ealb, replacing pointwise relative L1 by albedo-normalized angular L1 with the original directional albedo penalty at the same weight. Equal incidence-group weight.",
+   "optimizer": "WL82 Adam betas/defaults with 0.03 to 0.0003 cosine and warmup 50. Same steps and initialized logits per matched arm.",
+   "steps": 12000,
+   "warmup": 50,
+   "log_interval": 1000,
+   "restart_noise": 0.5,
+   "initializations": "Identical generic and fixed N(0,0.5) perturbation in every arm. For each material and arm pick the final start with the lower training loss under that arm's objective. Both seeds and both last-2000-step slopes are retained.",
+   "convergence_abs": 0.005,
+   "convergence_rule": "For every material and both starts in every arm, final versus step 10000 own-objective absolute change <=0.005. Otherwise stop optimization attribution. No adaptive extension.",
+   "historical_note": "WL82's shape-only ER used the unbounded mode. Its historical median eshape 0.032 vs 0.037 (unbounded metric) is a diagnostic, not a certified energy-retaining improvement."
+  },
+  "response": {
+   "angles_deg": [
+    5,
+    20,
+    35,
+    50,
+    57.5,
+    60,
+    62.5,
+    70,
+    80,
+    86
+   ],
+   "azimuths_deg": [
+    22.5,
+    112.5
+   ],
+   "lanes": 1024,
+   "walks": 4096,
+   "peak_grid": "Exact mirror plus rings at 0.25-degree intervals through 4 degrees, 16 evenly spaced azimuths per ring, own walk stream. Peak height/position are descriptive.",
+   "peak_walks": 4096,
+   "reference_precision": "Each material: mean half-split eshape noise <=0.015 in band and <=0.025 at grazing. Mean half-split ealb noise <=0.008 across probes. Apply same margins to all materials before scene evaluation. Report peak and region half differences.",
+   "max_band_shape_noise": 0.015,
+   "max_grazing_shape_noise": 0.025,
+   "max_albedo_noise": 0.008,
+   "primary": "Per-material mean eshape over [57.5,60,62.5] x both azimuths. Analyze development and held-out cohorts separately. Gains must replicate across the two independent reference walk halves.",
+   "region_errors": "Relative signed core, shoulder and tail energy, plus normalized shape mass difference for radius [0,3), [3,12), [12,180]. Peak is the separate dense grid. Seeded independent directions and walks, no fit pairs reused."
+  },
+  "physical": {
+   "torch_dr_peak_relative": 1e-05,
+   "reciprocity_peak_relative": 0.0001,
+   "passivity_tolerance": 1e-06,
+   "parameter_count": 64,
+   "state_floats": 69
+  },
+  "scene": {
+   "replicates": 12,
+   "spp_per_replicate": 1024,
+   "launch_spp": 512,
+   "precision_energy_half_width": 0.0025,
+   "precision_rms_half_width": 0.005,
+   "roi": "WL104B objects, sphere, cube, highlight core (reference luminance >= 3x object median), six-pixel sphere ring, grazing view cosine <=0.25, full frame. Development core masks frozen from WL104's archived LAY65. Held-out masks use a separate layered rendering seed. Primary stage uses depth-1024 layered BSDF for all comparisons, same pt102 camera tracer and six NEE events. Signed errors normalized by reference TOTAL of the same ROI.",
+   "primary": "Object stable RGB TOTAL relative RMS with a paired delete-one 95% interval on the gain. Stage D runs whenever validity gates pass regardless of measured response gain."
+  },
+  "decision": {
+   "shape_gain_absolute": 0.01,
+   "shape_gain_relative": 0.1,
+   "scene_gain_absolute": 0.003,
+   "regress_albedo": 0.008,
+   "regress_overall_el1": 0.01,
+   "regress_grazing_eshape": 0.02,
+   "regress_scene_rms": 0.005,
+   "regress_scene_signed_bias": 0.01,
+   "margin_basis": "WL104B mean shape errors about .06\u2013.12 and worst per-probe shape half noise .015. Require a 0.01 and 10% shape improvement in both pooled cohorts and both reference halves. Object RMS ~.025\u2013.041, preserving .005 precision and using .003 as practical gain. Energy regresses at most 1pp of reference TOTAL, half-width target .25pp. All deltas are absolute error increases unless stated.",
+   "success": "For a factor contrast, each cohort must clear median response gain and median scene gain. A majority of cases in each cohort must have a positive response contrast on both halves and a positive scene gain 95% lower bound. Every material/scene must pass regression margins against the comparator. Also require benefit against frozen ER_DF for the selected intervention with the same rule.",
+   "labels": "Compare C-A and B-A for isolated coverage/objective, and D-A for combined. If only D-A succeeds, INTERACTION_SUPPORTED additionally requires positive paired factorial interaction in both cohorts (median >0 in both response and scene) and material D-vs-B and D-vs-C improvements. If both isolated effects succeed, name the primary only if both cohort response and scene gains favor it; otherwise INCONCLUSIVE for attribution. A qualified set with no successful intervention is NO_SUPPORTED_IMPROVEMENT. Failed data/reference/physical/convergence admission is INCONCLUSIVE; mark DATA_UNQUALIFIED if coverage fails."
+  }
+ }
+}
