@@ -1,0 +1,64 @@
+{
+  "id": "WL107_HELDOUT_AMENDMENT_1",
+  "complete_utc": "2026-11-19T15:43:28+00:00",
+  "analysis_commit": "20bc9fced5011e558567bc58adeca3dc366b7305",
+  "analysis_source_sha256": "6deb72a6efdf81bb3ef8b89996f63c05d9e61ce05bc9020c94b907c393d50928",
+  "qualified_protocol_sha256": "0dd810ff7cb4cccf63a5a065b7af59552352fdd6621b89f6e2ef02248e79c5be",
+  "local_raw_root": "results/ecro_denoise107/heldout_amend1",
+  "remote_raw_root": "LabServer63:~/rest_sss101a/results/ecro_denoise107",
+  "remote_evaluator": "experiments/ecro_denoise107/real107_amend1.py",
+  "copied_sources": {
+    "real107.json": "real_amend1/real107.json",
+    "reference107.json": "reference/reference107.json",
+    "capture_manifest.json": "capture/capture_manifest.json",
+    "replay.json": "replay.json",
+    "O2_train.json": "train/train.json",
+    "O2_inference_manifest.json": "O2/manifest.json"
+  },
+  "raw_files_sha256": {
+    "assess_amend1.sh": "209316cc2582ade3e5d3fe20fa2eb7379ff78eade28bbb83f791b639c1b01371",
+    "assess_amend1.state": "c199731d44fc59d42849b66b43b525ca866e33d038a6289f1b9d1dd1039a9a14",
+    "assess_amend1.log": "c740b5b7206e094a7a2c0b070b46b415ac12ce78c3df8321ec7507ce0c46e732",
+    "assess.log": "c6da281023dd9271e2c54b61d8ca462b08dd23dc17c2c6f54565f15a3bea1243",
+    "pipeline.state": "39b78bd24e7fa688e67770afaea234f3a13573ff7d6841ad5f2c30c3eb14df43",
+    "pipeline.log": "4189c05db890c28f887647dec0192ef8432ec08c187af0dc89665c3e6d1827ea",
+    "chain107.sh": "fc592e98f9ebf7ae76663b94203adee5629e6bc9a4682da5d6e3ffd10c655a7e",
+    "train/O2.pt": "60d12537f7156419e75b389651c1efb7e9ac372e121144972561430351599389",
+    "real_amend1/H1_maps.npz": "878ca7401cd4e67246f703317e4bb54ea38e4fe2c6a5e4d39e1c81fef0fbb4f8",
+    "real_amend1/H1_panel.npz": "19187a1932ee76d280214cf7830dbfd0c72e59fe56b78f5c48c383ae739e0283",
+    "real_amend1/H2_maps.npz": "f0236da77354e450239bd4c3457964f606fe58022f663e4c5f5dbef8ac002e81",
+    "real_amend1/H2_panel.npz": "89ea042672ab760af3eae72b02ed95c2aac91f442710dc89557dfd0e30338727",
+    "real_amend1/H3_maps.npz": "a03755a1538428c2949f79a8c7b15b13a6b5b77c5d1b1ba02419aa16f7e069e1",
+    "real_amend1/H3_panel.npz": "3fab6460599bae0177d927e3f76a576bf3bcb49282e19de09ef12ac126b4750e",
+    "real_amend1/H4_maps.npz": "521031e6eaf176e08be6e86101469ddfead3ca9b8d62eca0c499acacf5a6c48b",
+    "real_amend1/H4_panel.npz": "476ad5bccc5969142b4713fcb16860696ea300606e592d8a429249e3d2647f16",
+    "real_amend1/H5_maps.npz": "7944947e30e7880b06fd54fa75e562ed03460a7af80fa73ad13e7e821d78aea8",
+    "real_amend1/H5_panel.npz": "eac47eedeffebf00b62505ffa92db94b3374d10f192c7cfb944ea14660864f5e",
+    "real_amend1/V0_maps.npz": "529b4e7c477557efbe0192527759348536db77647256795da93b2704cc16fe05",
+    "real_amend1/V0_panel.npz": "7f9c2d9fdab2f5e4bdd1e94855ef748504deebb4df943908f98b57d1481aef06"
+  },
+  "reviewer_files_sha256": {
+    "O2_inference_manifest.json": "059110045822fa39f7bc4d81240c40c2101cf91e2ff9d7c89da7f086e064cf30",
+    "O2_train.json": "df249c9bccb8686f83a03a21074169546a497fe6658b7d7e8beab794fd341ac0",
+    "capture_manifest.json": "164ba353bf3aa5265d4cf875ab4b0aa1985252c945643778bd8399616f7195b0",
+    "heldout_coverage_profiles.png": "88a8cd27e0fe0bc2e4070835fe1b960a1eecb896f27c012c8b49aed68532fcec",
+    "heldout_crops_spp16.png": "0ae958d64389ddf284857ec7f5465c51c191e1f1fc1e163dd5afe4e7ccf3af8b",
+    "heldout_crops_spp32.png": "8256e51730f26fea36ac46d1a3bc68cf025be8215ace042984b46707a5c67d83",
+    "heldout_crops_spp4.png": "fa633a7a1a92d011b5b2ea9346c1f5dc4d6e6456d55695f2b2cf7630e6f73b6e",
+    "real107.json": "deb96c7b657bb7dd57519654f11fa9a798dce98a154e4d1998c320fe009afc5e",
+    "reference107.json": "5fc7ee75b44462bbd7e62271d960ae1995f6f61ab628ef2e494285cb60b6c797",
+    "replay.json": "75147fd7bc7189d81e037f53f37cb8a12fa394641407c52ee939f30dfc205863"
+  },
+  "display": {
+    "luminance": [
+      0,
+      2.8
+    ],
+    "signed_luminance_error": [
+      -0.15,
+      0.15
+    ],
+    "units": "linear HDR"
+  },
+  "scope": "Qualified held-out O0, O1 and O2; O1 panel and O2 diagnostic; no O4 candidate."
+}

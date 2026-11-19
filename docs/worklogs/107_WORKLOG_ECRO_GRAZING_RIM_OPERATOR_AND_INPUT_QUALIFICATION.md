@@ -287,3 +287,102 @@ The retry uses the frozen 708 capture files, assessment means, R0–R3 inputs an
 from the first execution. It starts a new raw assessment path, preserves the failed attempt, and
 runs within the remaining 60-minute evaluation allowance. No capture, O2 fitting or O2 inference
 will be repeated under this amendment.
+
+### Amendment 1 result — held-out assessment complete
+
+**Implementation Fact.** The retry ran from 00:34:06 to 00:43:28 KST on November 20, using
+commit `20bc9fced5011e558567bc58adeca3dc366b7305` and the previously captured reference and O2
+predictions. The original failure remains archived. The revised composition and covariance checks
+passed through all 6 views × 3 spp. The retry took 562 s. With 112 s spent before the first stop,
+the two assessments consumed 674 s of the 3,600 s evaluation allowance. The 15 focused local
+checks passed, including reproduction of the old arithmetic assertion and rejection of a perturbed
+TOTAL. All 126 saved O1 conditions had finite nonnegative weights with a maximum simplex mass
+error of `5.38e-8` after saving in float32.
+
+**Measurement.** The final reference precision checks passed for all primary, silhouette and
+material-boundary comparisons at all three spp. Primary target RMS noise divided by the smaller
+arm error was 4.28%, 6.72% and 8.12%. The result below uses the independent 48-block reference,
+the frozen contact exclusion and the preregistered view/replicate aggregation. O0 is the frozen
+R3 checkpoint. O2 is the matched signed-kernel diagnostic trained on the original inputs.
+
+| spp | Primary HDR relative RMSE, raw / R3 / O2 | O2 / R3 primary RMSE, 95% CI | Silhouette signed bias, R3 / O2 | Silhouette RMSE, R3 / O2 | O2 silhouette variance / raw, 95% CI |
+|---|---|---|---|---|---|
+| 4 | 22.457% / 1.470% / 1.712% | 1.165 [1.111, 1.225] | +2.25% / +3.67% | 7.78% / 10.61% | 3.98% [3.31%, 4.56%] |
+| 16 | 11.251% / 0.937% / 1.129% | 1.205 [1.129, 1.302] | +1.93% / +3.33% | 5.96% / 8.75% | 6.50% [5.24%, 7.59%] |
+| 32 | 7.957% / 0.775% / 0.969% | 1.250 [1.171, 1.353] | +1.69% / +2.84% | 5.00% / 7.78% | 8.72% [7.23%, 10.13%] |
+
+O2 passed reference precision, silhouette variance reduction and gradient safety at every spp.
+It failed the signed bias, primary nonregression, boundary nonregression and silhouette bias
+improvement decisions at every spp. R3 retained 2.92% / 4.94% / 6.57% of raw silhouette variance.
+Material boundary RMSE (R3 / O2) was 7.37% / 7.55%, 5.40% / 5.24% and 4.56% / 4.40%.
+SSS interior RMSE was 1.793% / 2.000%, 1.071% / 1.194% and 0.854% / 0.978%.
+
+O1 used 288 preregistered silhouette pixels per view and estimated its covariance from independent
+draws. Its expected bias applies the fixed weights to the independent assessment mean. Its
+output variance and RGB RMSE use the eight original noisy draws. At the already designated
+reviewer setting `lambda = 1`, all 18 view/spp panels passed the frozen 1% signed bias,
+1% coverage-profile RMS bias and 50%-variance-reduction requirements.
+
+| spp | O1 expected signed bias across views | Worst view coverage-profile RMS bias | O1 / raw panel variance | RGB panel RMSE, R3 / O1 |
+|---|---|---|---|---|
+| 4 | −0.045% | 0.167% | 1.74% | 7.85% / 3.70% |
+| 16 | −0.043% | 0.155% | 2.27% | 6.00% / 2.13% |
+| 32 | −0.042% | 0.152% | 2.89% | 5.05% / 1.74% |
+
+Across all seven fixed settings, 125/126 conditions passed. The single miss was V0 at 32 spp
+and `lambda = 0.03125`. Held-out raw variance was 0.858–1.084× the independently scaled
+fit variance on the panels. The optimized fitted objective substantially underestimated the
+held-out risk and the lower certificates were loose. The held-out feasible weights establish
+capacity on the tested panels. The per-draw adaptive luminance relaxation gave a zero error
+bound on all six silhouettes at every spp. This bound supplies no positive lower bound for
+the real adaptive class.
+
+The signed cross term `2 Cov(LOW,HIGH)` accounted for 17.6–18.1% of raw silhouette luminance
+variance and 14.2–15.8% in R3. The share was 15.8–17.6% in O2 and 5.1–7.3% in O1 at
+`lambda = 1` on its panel. Both the fitted risk and the measured total retain this term.
+
+**Observation.** The R3 and O2 over-brightening depended on viewpoint. H3's signed silhouette
+bias was +10.87% / +15.27% at 4 spp and +7.14% / +9.82% at 32 spp (R3 / O2). At 4 spp,
+O2 increased the mean bias in all nine occupied coverage bins and on the first inner ring.
+The shallow-depth stratum and the highest mean-normal-z stratum had larger biases in both
+learned arms. Some views and coverage bins had small or negative signed residuals, and the
+aggregate signed intervals are wide. The artifact records all per-view, coverage, distance,
+normal and depth strata. The fixed O1 weights preserve the expected profile on those tested
+panels despite the learned-arm errors.
+
+The synchronized reconstruction medians were 10.848 ms for R3 and 25.611 ms for O2. Extra
+peak device memory was 427 and 913 MiB, respectively. Both use 1,055,624 parameters. O2's
+diagnostic timings are for its prototype evaluation path. No O4 was triggered, so there is no
+new deployable comparison, end-to-end timing, or cost-matched quality claim.
+
+**Interpretation.** On the measured real panels, the nonnegative operator can satisfy the
+bias–variance contract with reference-informed weights. Relaxing nonnegativity in the tested
+O2 learner produced worse primary and silhouette errors at all three spp. The synthetic O3
+construction provides a separate finite-spp information-ambiguity result under its specified
+law. The real O1 and O2 tests leave the distinction between available-input predictability,
+training distribution, and weight-prediction or optimization limitations unresolved. In
+particular, O1 uses information unavailable to the trained arms.
+
+**Unresolved Question.** The existing input contract's sufficiency for a learned real-scene
+rim correction remains open. The matched privileged-input comparison was performed in the
+controlled synthetic family. A matched richer-descriptor fit on the real views was outside
+the completed assessment. The result supports neither a production guide change nor a new
+operator architecture. The conditional candidate was not entered.
+
+**Architecture Verdict — INCONCLUSIVE for real-scene input attribution, with operator capacity
+demonstrated on the tested panels.** The approved WL107 assessment is complete. The earlier
+local-only and arithmetic stops are preserved above as execution history.
+
+**Reproducibility.** The base deployment was `f8a8554e30ec6df03f5c5674ee34b25912cd1793`.
+Amendment 1 source SHA-256 is `6deb72a6efdf81bb3ef8b89996f63c05d9e61ce05bc9020c94b907c393d50928`.
+On LabServer63, `results/ecro_denoise107/assess_amend1.sh` runs that source as
+`experiments/ecro_denoise107/real107_amend1.py`, with the existing capture, reference, replay
+and O2 paths, writing `real_amend1`. No new seeds or training were used. O2's saved checkpoint
+and the upstream reference/capture manifests match the hashes recorded by the final assessment.
+The remote raw root is `~/rest_sss101a/results/ecro_denoise107/` and the verified local mirror is
+`results/ecro_denoise107/heldout_amend1/`. Reviewer crops use the same linear HDR luminance
+scale [0, 2.8] and signed-error scale [−0.15, +0.15] at all three spp.
+[Held-out metrics](../../evaluation/107/heldout/real107.json) ·
+[Artifact manifest](../../evaluation/107/heldout/manifest107_heldout.json) ·
+[Coverage profiles](../../evaluation/107/heldout/heldout_coverage_profiles.png) ·
+[4 spp crops](../../evaluation/107/heldout/heldout_crops_spp4.png)
