@@ -249,3 +249,27 @@ exactly. The seed and launch-stream disjointness check passed. R3 measured 10.84
 3080 Ti. The replay JSON SHA-256 is
 `75147fd7bc7189d81e037f53f37cb8a12fa394641407c52ee939f30dfc205863`.
 All 384 covariance draws were captured. Independent fit and assessment reference capture continues.
+
+**Reference and diagnostic execution through the arithmetic stop (2026-11-19 KST).** C6 reference
+capture finished with 708 fresh files: 384 covariance draws, 48 fitting reference blocks and 276
+assessment reference blocks. The 48-block assessment means per view passed the preliminary precision
+gate. Relative target RMS standard error on primary / silhouette / material boundary was
+0.06296% / 0.08366% / 0.06694%. Primary noise divided by the recomputed R3 RMSE was
+4.28% / 6.72% / 8.12% at 4 / 16 / 32 spp. The largest signed stratum standard error was 0.0181
+percentage points. The frozen limit is 10% for the RMS ratios and 0.25 percentage points for the
+signed stratum standard error. The candidate-relative target check awaits the full assessment.
+
+The O2 diagnostic used the unchanged 20,000-step schedule and completed in 1,410.6 s. Its last
+validation relative RMSE was 0.01583 / 0.01093 / 0.00977. All 144 held-out O2 inferences completed.
+The trained and inference manifests agree on O2 checkpoint SHA-256
+`60d12537f7156419e75b389651c1efb7e9ac372e121144972561430351599389`.
+
+The real metrics process stopped on its covariance consistency assertion at V0, 16 spp, at
+20:42 KST. The authorized diagnostic retrieval reproduced one O2 pixel whose variance from
+separately promoted components was `8.11208358e-5`, while the variance from the rounded float32
+TOTAL was `8.11303553e-5`. Every saved O2 TOTAL in the affected eight frames exactly equaled
+LOW + HIGH evaluated in the saved float32 dtype. The assertion had compared variances across
+different rounding orders. The original failed assessment and the completed O2 inference
+artifacts are retained. Approval was requested for an evaluation-only arithmetic check that
+verifies the stored composition exactly and compares the two covariance calculations using the
+same precision. No real-scene verdict is assigned at this execution stop.
