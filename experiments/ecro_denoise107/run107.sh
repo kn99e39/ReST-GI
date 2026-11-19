@@ -12,7 +12,7 @@ anchor=evaluation/105/raw_manifest105.json
 python="$HOME/NeuralShaderDemo/external/8dna26/.venv/bin/python"
 commit="${2:?full committed source hash required}"
 mkdir -p "$out"
-case "${1:?capture, train, or assess required}" in
+case "${1:?capture, train, assess, or oracle required}" in
   capture)
     "$python" "$source_dir/replay107.py" "$base" "$anchor" "$out/replay.json"
     "$python" "$source_dir/capture107.py" "$base" wl101 "$out/capture" "$anchor" "$commit" \
@@ -29,8 +29,12 @@ case "${1:?capture, train, or assess required}" in
   assess)
     "$python" "$source_dir/predict107.py" eval "$base/data" "$out/train/O2.pt" \
       "$out/O2" "$out/reference/reference107.json"
-    "$python" "$source_dir/real107.py" "$base" "$out/capture" "$out/reference" "$out/O2" \
-      "$out/replay.json" "$out/real" "$commit"
+    "$python" "$source_dir/real107.py" "$base" "$out/capture" "$out/reference" \
+      "$out/replay.json" "$out/real" "$commit" --diagnostic "$out/O2"
+    ;;
+  oracle)
+    "$python" "$source_dir/real107.py" "$base" "$out/capture" "$out/reference" \
+      "$out/replay.json" "$out/real_oracle" "$commit"
     ;;
   *) exit 2 ;;
 esac

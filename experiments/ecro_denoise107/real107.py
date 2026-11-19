@@ -36,8 +36,13 @@ def profile_masks(aux, masks):
     d = np.where(coverage >= 0.5, d, -d)
     profile = {f"distance_{j}": (d == j) & masks["primary"] for j in range(-7, 8)}
     profile["distance_0"] = silhouette
+    strata = {}
+    for name, guide in (("mean_normal_z", aux["normal"][2]), ("mean_depth", aux["depth"])):
+        cut = np.quantile(guide[silhouette], (1 / 3, 2 / 3))
+        groups = np.searchsorted(cut, guide, side="right")
+        strata.update({f"{name}_{k}": silhouette & (groups == k) for k in range(3)})
     return {**masks, **{f"coverage_{i}": m for i, m in enumerate(bins) if m.sum() >= 20},
-            **{k: m for k, m in profile.items() if m.sum() >= 20}}
+            **{k: m for k, m in {**profile, **strata}.items() if m.sum() >= 20}}
 
 
 def metric_rows(out, parts, target, masks):
@@ -119,7 +124,13 @@ def oracle_panel(view, fit, target, draws, capture, out, matches, deadline):
         bias, var, offset = fit_design(fit_taps, cv, spp)
         o0 = matches["R3"][spp].reshape(len(nz), 3, -1)[..., idx].transpose(0, 2, 1)
         raw = actual[..., 112].sum(axis=1).transpose(0, 2, 1)
-        rec = {"R0": panel_metrics(raw, labels, coverage), "O0": panel_metrics(o0, labels, coverage), "rows": {}}
+        fit_centre = cv[..., 112].sum(axis=1).transpose(0, 2, 1)
+        predicted_raw_var = float((fit_centre @ LUMA).var(axis=0, ddof=1).mean() * (32 / spp))
+        rec = {"R0": panel_metrics(raw, labels, coverage), "O0": panel_metrics(o0, labels, coverage),
+               "covariance_scale_control": {"fit_32_over_spp_raw_luma_var": predicted_raw_var},
+               "rows": {}}
+        rec["covariance_scale_control"]["heldout_over_fit_raw_variance"] = (
+            rec["R0"]["luma_variance"] / predicted_raw_var)
         for lam in LAMBDAS:
             if time.monotonic() > deadline:
                 raise TimeoutError("Frozen WL107 evaluation budget exhausted")
@@ -239,11 +250,12 @@ def main(baseline, capture, reference, diagnostic, replay, output, commit):
     trust = read(reference / "reference107.json")
     assert trust["preliminary_pass"] and read(replay)["repeat_bitwise"]
     cman = read(capture / "capture_manifest.json")
-    oman = read(diagnostic / "manifest.json")
+    oman = read(diagnostic / "manifest.json") if diagnostic is not None else None
     assert cman["complete"]
     assert all(sha(capture / f) == r["sha256"] for f, r in cman["files"].items()
                if "/fit_" in f or "/covariance_" in f)
-    assert all(sha(diagnostic / f) == h for f, h in oman["files"].items())
+    if oman is not None:
+        assert all(sha(diagnostic / f) == h for f, h in oman["files"].items())
     output.mkdir(parents=True, exist_ok=False)
     torch.backends.cudnn.benchmark = False
     torch.backends.cudnn.deterministic = True
@@ -251,7 +263,7 @@ def main(baseline, capture, reference, diagnostic, replay, output, commit):
     net = model.Reconstructor("R3").cuda()
     net.load_state_dict(torch.load(baseline / "models/R3.pt", map_location="cuda"))
     net.eval()
-    rec = {"analysis_commit": commit, "diagnostic_weights_sha256": oman["weights_sha256"],
+    rec = {"analysis_commit": commit, "diagnostic_weights_sha256": oman["weights_sha256"] if oman is not None else None,
            "qualified_reference_manifest": sha(reference / "reference107.json"),
            "capture_manifest": sha(capture / "capture_manifest.json"), "views": {}}
     for view in VIEWS:
@@ -271,8 +283,9 @@ def main(baseline, capture, reference, diagnostic, replay, output, commit):
         for spp in SPPS:
             aux_spp = D_aux(aux, spp)
             noisy = []
-            pred = {"R0": [], "O0": [], "O2": []}
-            parts = {"R0": [], "O0": [], "O2": []}
+            arms = ("R0", "O0", "O2") if diagnostic is not None else ("R0", "O0")
+            pred = {a: [] for a in arms}
+            parts = {a: [] for a in arms}
             for r in range(8):
                 with np.load(folder / f"noisy_spp{spp}_r{r}.npz") as z:
                     nz = z["comp"]
@@ -282,9 +295,10 @@ def main(baseline, capture, reference, diagnostic, replay, output, commit):
                 ro, rp = render_o0(net, nz, aux_spp)
                 pred["O0"].append(ro)
                 parts["O0"].append(rp)
-                with np.load(diagnostic / f"{view}_spp{spp}_r{r}.npz") as z:
-                    pred["O2"].append(z["O2"])
-                    parts["O2"].append(np.stack((z["low"], z["high"])))
+                if diagnostic is not None:
+                    with np.load(diagnostic / f"{view}_spp{spp}_r{r}.npz") as z:
+                        pred["O2"].append(z["O2"])
+                        parts["O2"].append(np.stack((z["low"], z["high"])))
             rows[str(spp)] = {arm: metric_rows(np.stack(pred[arm]).astype(np.float64), np.stack(parts[arm]), y, masks)
                               for arm in pred}
             archive[spp] = np.stack(noisy)
@@ -297,15 +311,17 @@ def main(baseline, capture, reference, diagnostic, replay, output, commit):
         rows["O1"] = oracle_panel(view, fit, target, archive, capture / view, output, matches, deadline)
         np.savez_compressed(output / f"{view}_maps.npz", **rawmaps)
         write(output / "real107.json", rec)
-    rec["pooled"] = architecture_metrics(rec["views"], trust)
+    if diagnostic is not None:
+        rec["pooled"] = architecture_metrics(rec["views"], trust)
     rec["complete"] = True
     write(output / "real107.json", rec)
 
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
-    for name in ("baseline", "capture", "reference", "diagnostic", "replay", "output"):
+    for name in ("baseline", "capture", "reference", "replay", "output"):
         p.add_argument(name, type=Path)
     p.add_argument("commit")
+    p.add_argument("--diagnostic", type=Path)
     a = p.parse_args()
     main(a.baseline, a.capture, a.reference, a.diagnostic, a.replay, a.output, a.commit)

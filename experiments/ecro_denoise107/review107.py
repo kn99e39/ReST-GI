@@ -7,9 +7,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 
-from common107 import LAMBDAS, LUMA, SPPS, VIEWS, read, sha, stencil, take_stencil, write
+from common107 import BINS, LAMBDAS, LUMA, SPPS, VIEWS, read, sha, stencil, take_stencil, write
 from oracle107 import solve_numpy, synthetic_risk
-from synthetic107 import COLS, ROWS, SIZE, SYNTH_SEED, draws, guides, truth
+from synthetic107 import COLS, ROWS, SIZE, SYNTH_SEED, case_name, draws, guides, truth
 
 PALETTE = {"constant": "#366b92", "smooth": "#368767", "rim": "#b74a2d"}
 DISPLAY_CASES = ((0.125, "bright", "rim", 0.25, False), (0.3, "dark", "rim", 3, True),
@@ -76,6 +76,90 @@ def plot_examples(output):
     plt.close(fig)
 
 
+
+def plot_signed_profiles(data, output):
+    fig, axes = plt.subplots(2, 3, figsize=(12, 5.8), layout="constrained", sharex="col", sharey="row")
+    fig.suptitle("Expected synthetic rim profiles and signed residuals at 4 spp", fontsize=15)
+    for case, grid in zip(DISPLAY_CASES, axes.T):
+        record = data["cases"][case_name(case)]
+        target = np.asarray(record["target_luma_by_column"])
+        x = COLS - 32
+        grid[0].plot(x, target, color="#202227", lw=2, label="Target")
+        for key, color in (("0.125", "#368767"), ("1", "#b74a2d")):
+            y = record["spp"]["4"]["oracle"][key]["profile_luma_expectation"]
+            grid[0].plot(x, y, "-o", lw=1, ms=2.5, color=color, label=f"Oracle λ = {key}")
+            grid[1].plot(x, y - target, "-o", lw=1, ms=3, color=color)
+        for ax in grid:
+            ax.axvspan(-.5, .5, color="#a4c3e1", alpha=.27)
+            ax.grid(alpha=.22)
+        offset, contrast, field, width, _ = case
+        name = f"{contrast.capitalize()} foreground, {field}"
+        grid[0].set_title(name + (f" {width:g} px" if width else ""), fontsize=10)
+        grid[1].set_xlabel("Pixel column relative to mixed coverage")
+        grid[1].axhline(0, color="#777777", lw=.75)
+    axes[0, 0].set_ylabel("Linear HDR luminance")
+    axes[1, 0].set_ylabel("Signed luminance residual")
+    axes[0, -1].legend(fontsize=8)
+    fig.savefig(output / "synthetic_rim_profiles.png", dpi=160)
+    plt.close(fig)
+
+
+def plot_real(real, output):
+    result = read(real / "real107.json")
+    assert result["complete"]
+    for spp in SPPS:
+        fig, axes = plt.subplots(len(VIEWS), 5, figsize=(12, 12), layout="constrained")
+        fig.suptitle(f"Held-out grazing-rim crops, {spp} spp", fontsize=15)
+        for j, view in enumerate(VIEWS):
+            with np.load(real / f"{view}_maps.npz") as data:
+                coords = np.argwhere(data["silhouette"])
+                mids = np.unique(coords[:, 0])
+                yy = int(mids[len(mids) // 2])
+                xx = int(coords[coords[:, 0] == yy, 1].min())
+                ysl, xsl = slice(max(0, yy - 14), yy + 15), slice(max(0, xx - 22), xx + 23)
+                ref = (LUMA @ data["target"][:, ysl, xsl].reshape(3, -1))
+                shp = data["target"][:, ysl, xsl].shape[1:]
+                images = {"Target": (ref.reshape(shp), 0, 2.8, "magma")}
+                for key, name in (("O0", "Frozen R3"), ("O2", "O2 diagnostic")):
+                    field = f"{key}_{spp}_mean"
+                    if field not in data:
+                        continue
+                    im = LUMA @ data[field][:, ysl, xsl].reshape(3, -1)
+                    images[name] = (im.reshape(shp), 0, 2.8, "magma")
+                    images[name + " signed error"] = ((im - ref).reshape(shp), -.15, .15, "RdBu_r")
+            for ax in axes[j]:
+                ax.set_xticks([])
+                ax.set_yticks([])
+            axes[j, 0].set_ylabel(view)
+            for col, (label, (im, lo, hi, cm)) in enumerate(images.items()):
+                axes[j, col].imshow(im, vmin=lo, vmax=hi, cmap=cm)
+                if j == 0:
+                    axes[j, col].set_title(label, fontsize=8)
+            for ax in axes[j, len(images):]:
+                ax.set_visible(False)
+        fig.savefig(output / f"heldout_crops_spp{spp}.png", dpi=145)
+        plt.close(fig)
+    fig, axes = plt.subplots(1, 3, figsize=(12, 4.2), layout="constrained", sharey=True)
+    fig.suptitle("Held-out coverage-conditioned residuals on the fixed O1 panel", fontsize=15)
+    xs = .5 * (np.array(BINS[1:]) + np.array(BINS[:-1]))
+    for spp, ax in zip(SPPS, axes):
+        o0, o1 = [], []
+        for view in VIEWS:
+            rec = result["views"][view]["O1"][str(spp)]
+            o0.append(rec["O0"]["coverage_profile"])
+            o1.append(rec["rows"]["1"]["reference_mean"]["coverage_profile"])
+        for values, name, color in ((o0, "Frozen R3", "#343c49"), (o1, "O1 λ = 1", "#b74a2d")):
+            matrix = np.array(values, dtype=float)
+            keep = np.isfinite(matrix).any(axis=0)
+            ax.plot(xs[keep], 100 * np.nanmean(matrix[:, keep], axis=0), "o-", label=name, color=color)
+        ax.axhline(0, color="#777777", lw=.75)
+        ax.set(title=f"{spp} spp", xlabel="Sphere coverage")
+        ax.grid(alpha=.22)
+    axes[0].set_ylabel("Signed luminance residual (%)")
+    axes[-1].legend()
+    fig.savefig(output / "heldout_coverage_profiles.png", dpi=155)
+    plt.close(fig)
+
 def plot_reference(data, output):
     fig, ax = plt.subplots(figsize=(7.5, 4.3), layout="constrained")
     for key, label, color in (("primary", "Primary", "#303d5f"), ("silhouette", "Silhouette", "#b74a2d"),
@@ -108,14 +192,19 @@ def summary(data):
     return out
 
 
-def main(synthetic, reference, output):
+def main(synthetic, reference, output, audit=None, real=None):
     data, pilot = read(synthetic), read(reference)
     assert data["complete"] and len(data["cases"]) == 64
     assert pilot["archive_pilot"]
     output.mkdir(exist_ok=False, parents=True)
     plot_risk(data, output)
     plot_examples(output)
+    plot_signed_profiles(data, output)
     plot_reference(pilot, output)
+    if real is not None:
+        plot_real(real, output)
+    if audit is not None:
+        (output / "archive_audit107.json").write_bytes(audit.read_bytes())
     write(output / "summary107.json", {"synthetic_cases": summary(data),
           "counterexamples": data["counterexamples"], "historical_control": data["WL106_historical_only"],
           "max_synthetic_reference_error": max(v["reference_error_max_abs"] for v in data["cases"].values()),
@@ -126,7 +215,10 @@ def main(synthetic, reference, output):
     write(output / "manifest107.json", {
         "protocol_sha256": data["protocol_sha256"], "synthetic_code_commit": data["code_commit"],
         "sources": {"synthetic": sha(synthetic), "archived_precision": sha(reference)},
-        "evidence_scope": "Analytic synthetic experiment and a precision audit of the archived two-half real targets.",
+        "evidence_scope": ("Analytic synthetic experiment and a precision audit of the archived two-half real targets."
+                           if real is None else "Synthetic, archived precision, and fresh held-out experiments."),
+        "archive_audit_sha256": sha(audit) if audit is not None else None,
+        "real_sha256": sha(real / "real107.json") if real is not None else None,
         "files": {p.name: sha(p) for p in sorted(output.iterdir())}
     })
 
@@ -135,5 +227,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     for field in ("synthetic", "reference", "output"):
         p.add_argument(field, type=Path)
+    p.add_argument("--audit", type=Path)
+    p.add_argument("--real", type=Path)
     a = p.parse_args()
-    main(a.synthetic, a.reference, a.output)
+    main(a.synthetic, a.reference, a.output, a.audit, a.real)
