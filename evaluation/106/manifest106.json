@@ -1,0 +1,20 @@
+{
+ "batch": "WL106",
+ "status": "stopped at the frozen synthetic gate (SG2) before R4 training; Parts A and B evidence only",
+ "source_host": "LabServer63:~/rest_sss101a/results/ecro_denoise106 (qualify/, synth/, review/, tests.log)",
+ "code_commit_preregistration": "10892c0",
+ "files": {
+  "partA_coverage_profile.png": "7b6da399a43a192e12f3f50b85dbb957473d6ff84554e02bc5938bfd2ba25c85",
+  "partA_kernel_moment.png": "e8fbfe556e64f1d32318fa451c0315ae572a8727e286692643f7b6d0abda9c72",
+  "partB_coverage_bins.png": "1475f5a4f3e90efd7b243e42ae79b80faa5bc00f0118f18f54c020bb80c58169",
+  "partB_disk_maps.png": "2b14f91972c23c5d281a554cd425011b9b085725b2110dfc919675556c09b8fa",
+  "qualify106.json": "5c69b49c07d70f43eff2580617635d146485e4b4a1aebb1327a983fbe008bb92",
+  "synthetic106.json": "e9aff972435d490d04c67c2db5bc0549cc227e79eaddbc01cab252603e72acea"
+ },
+ "provenance": {
+  "qualify106.json": "qualify106.py on frozen WL105 data/checkpoints/eval outputs",
+  "synthetic106.json": "synth106.py (gate block computed by synth106.gate)",
+  "partA_*.png, partB_*.png": "report106.py (descriptive figures from the two JSON files)"
+ },
+ "server_tests_log_sha256": "245cdd38e88022bf80812b1f09b2ec167b82e0a0ce203c9c1acf2a54bb303d41"
+}
