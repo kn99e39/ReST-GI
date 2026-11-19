@@ -72,3 +72,48 @@ out=results/ecro_wl84_104d/reproduction
 "$PY" -B experiments/ecro_wl84_104d/run104d.py ~/rest_compiled83/results "$out" --commit "$commit"
 "$PY" -B experiments/ecro_wl84_104d/figures104d.py "$out" reviewer_reproduction
 ```
+
+## Amendment 1 · Owner-approved reference precision extension
+
+The owner approved one continuation on `ecro_lr3_adapter` after the frozen reference-noise stop. This allocation was post hoc to the reference-only failure in `test83_hard_76` and preceded candidate scoring. The original execution, its protocol and its **REFERENCE_UNQUALIFIED** stop remain the historical primary result. Amendment 1 code and sampling allocation were frozen at `c46015c99d6729a3354efd7184342c0748934e32` before generating any new walks. The amendment protocol at execution hashes to `08de92c851a1fa8bfbd11182a3544f0e92a341bf65315fc2fa73051764fde911`. [Amendment 1 protocol](../../experiments/ecro_wl84_104d/amendment1/protocol.json).
+
+### Implementation Fact
+
+The amendment verified the original protocol, executed-code and data hashes, all original result hashes, the replay inputs, and the 72 fitted states and their selected indices. It reproduced the frozen precision calculation exactly. The six target groups are indices 148–153 in the existing direction array, with polar angles 57.5°, 60° and 62.5° at azimuths 22.5° and 112.5°. The original layered evaluator sampled exactly 12,288 new walks per saved direction pair, with an independent seed and disjoint per-walk PCG stream sequences. The two original 2,048-walk half means were retained separately and combined with their respective 6,144-walk additions, weighted 1:3. Each active lane now has two independent 8,192-walk halves.
+
+The nominal increment was 75,497,472 walks. Of these, 74,858,496 contribute to the estimator. The 638,976 draws on 52 rejected, zero-weight proposal lanes were stored with the added samples, and their original combined placeholder values were preserved. The focus checks verified sample and half counts, stream intervals, half reconstruction and the preceding gate result. All reference fields outside the active target lanes, including the entire peak-grid reference and the original PDFs and masks, were checked for bitwise equality. The original states supply A/B/C/D through the parent selection rule. There was no new fit.
+
+### Measurement · Independent reference and physical contracts
+
+| Polar | Azimuth | Original half-split shape noise | Amended half-split shape noise |
+|---:|---:|---:|---:|
+| 57.5° | 22.5° | 0.016917 | 0.008685 |
+| 57.5° | 112.5° | 0.017165 | 0.009209 |
+| 60° | 22.5° | 0.018154 | 0.009211 |
+| 60° | 112.5° | 0.019145 | 0.010002 |
+| 62.5° | 22.5° | 0.017944 | 0.009560 |
+| 62.5° | 112.5° | 0.021042 | 0.010395 |
+| **Material mean** | | **0.0183944** | **0.0095104** |
+
+The original material-mean limit of 0.015 passes, and the original evaluator reproduced the amended precision rows exactly. For `hard_76`, grazing shape noise stayed at 0.0159802 and aggregate albedo noise moved from 0.0007523 to 0.0005438. The reference increase took 2.73 s on LabServer63. Every independent physical check passed across the four intervention arms and two historical comparators (54 compiled material records). The maximum normalized Torch–Dr.Jit residual was `1.05e-6`, maximum normalized reciprocity residual was `2.03e-14`, and the analytic albedo upper bound was at most 0.999999979. The original 64 parameters and 69 compiled floats per material were verified. Per-arm median Dr.Jit evaluation time was 9.95–10.38 ms for 20,480 evaluations, including data transfer. The 447.24 s joint fit cost belongs to the original primary run.
+
+### Measurement · Independent angular fidelity
+
+The table reports medians of paired per-material reductions in `eshape` at 55–65°. Positive values favor the first arm. The development and held-out medians are separate, as in the original decision rule.
+
+| Contrast | Development | Held out |
+|---|---:|---:|
+| C − A, redistribution with metric objective | +0.00208 | +0.01463 |
+| B − A, shape objective with original data | +0.00046 | +0.00081 |
+| D − A, both interventions | +0.00186 | +0.01522 |
+| D − B, redistribution with shape objective | +0.00204 | +0.01220 |
+| D − C, shape objective with redistributed data | +0.00020 | −0.00122 |
+| Average redistribution effect across the two objectives | +0.00174 | +0.01614 |
+| Average objective effect across the two distributions | +0.00012 | +0.00031 |
+| Factorial interaction in gains | +0.00008 | −0.00151 |
+
+All nine materials had lower in-band `eshape` in C and D than in A. For both reference halves, C met the 0.01 absolute minimum on the held-out median (0.01441 and 0.01447), and the development median gain stayed near 0.002. D followed the same split. `iid_1` had gains of 0.02910 in C and 0.03137 in D, while `hard_1` remained a worst case (band `eshape` 0.11425 in A, 0.11308 in C and 0.11288 in D). `hard_76` improved by 0.00888 in C and 0.00999 in D.
+
+For A versus C, the median in-band peak relative absolute error decreased from 13.59% to 4.09% in development and from 14.21% to 5.38% held out. In the same order, median normalized core/shoulder/tail mass errors for C were 0.0055/0.0074/0.0129 and 0.0032/0.0146/0.0189, compared with A's 0.0134/0.0207/0.0380 and 0.0050/0.0230/0.0339. The peak grid was independent of fitting and kept its original walks. The corresponding raw files give peak offsets, per-probe `el1`, `ealb` and `eshape`, both reference halves, and signed region energy.
+
+C regressed the development median shape at 50° by 0.00297 and improved it at 70° by 0.00153. Held-out median gains were 0.00469 at 50° and 0.00622 at 70°. The C held-out median grazing shape error increased by 0.00582, with a maximum per-material increase of 0.01496 inside the frozen 0.02 limit. Relative to A, B worsened aggregate albedo error by 0.00850 for `block_161`, exceeding the 0.008 regression limit. Applying the shape objective to the redistributed data (D versus C) worsened aggregate albedo on two held-out block materials by as much as 0.03297. The data factor includes the lost flank support as well as the new target band and directional proposal.
