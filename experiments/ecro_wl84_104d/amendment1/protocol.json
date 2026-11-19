@@ -1,0 +1,30 @@
+{
+  "id": "WL104D Amendment 1",
+  "branch": "ecro_lr3_adapter",
+  "server": "LabServer63",
+  "authorization": "Owner-approved single precision increase after the original WL104D reference-noise stop and before any candidate response or scene scores.",
+  "parent_commit": "68f803d82a3a289261437e344ebafe7135777c73",
+  "parent_protocol_sha256": "ddf5f37da7a391d3db33e3244095b1ade4a6cf25157e95dc069030333cee2f45",
+  "parent_provenance_sha256": "ad578b2921d027acca42cc4bd57f4ed7649fa889c828a51de88abdd935c13d81",
+  "parent_reference_sha256": "8031148bd91d4f2b0f3fc5ffbf02c6de5552e41bf73c9a093082dbfaa1edd07c",
+  "parent_fit_states_sha256": "ccd49624930bb7d028dccdfea957b8b66750da98d8955343cff6e6914f3826dd",
+  "sampling": {
+    "material": "test83_hard_76",
+    "polar_deg": [57.5, 60.0, 62.5],
+    "azimuth_deg": [22.5, 112.5],
+    "group_indices": [148, 149, 150, 151, 152, 153],
+    "lane_order": "Ascending frozen group, then original directional lane index. Retain the original lane mask and importance weights.",
+    "lanes_per_group": 1024,
+    "parent_walks_per_lane": 4096,
+    "additional_walks_per_lane": 12288,
+    "effective_walks_per_active_lane": 16384,
+    "nominal_additional_walks": 75497472,
+    "walks_per_combined_half": 8192,
+    "mask_policy": "The original evaluator skipped the zero-weight lanes. Execute the full prescribed increment on all 6144 saved direction pairs, storing its two raw halves. Leave the old zero-weight half means at zero in the combined estimator. These extra draws do not affect any score.",
+    "sequence": {"algorithm": "Frozen data81.ref_eval PCG32", "initstate": 10441901, "pair0": 1000000, "round": 0, "max_depth": 1024},
+    "independence": "At each target pair, the additional PCG stream sequences are disjoint from one another and from the original response and peak sequence ranges. The original active-lane ordinal came from flattening the existing use mask. Retain original A and B separately and add only the respective new 6144-walk half to each original 2048-walk half. Use a count-weighted average, 1/4 old plus 3/4 new."
+  },
+  "reference_and_gate": "Apply the existing response104d.terms and record_response gate. Use every original probe, per-material aggregation, and limit, including 0.015 for in-band shape. Candidate scoring starts only after the amended reference passes. Preserve original peak-grid arrays and all other reference values.",
+  "continuation": "Use the verified selected A/B/C/D checkpoints and historical ER_DF and ER_L states from the parent. Apply original physical, response, scene, precision and classify functions verbatim. Report descriptive main effects as the mean of the two matched simple effects and interaction as the difference of simple effects. The original decision rules determine the verdict.",
+  "outputs": "Primary artifacts remain read-only. Write separate amendment1 evidence, protocol, status, provenance, and figures. The reference increase executes once."
+}
