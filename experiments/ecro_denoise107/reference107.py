@@ -62,8 +62,6 @@ def qualify(baseline, output, capture, anchor, replay):
         assert all(sha(capture / f) == r["sha256"] for f, r in cap["files"].items() if "/assessment_" in f)
     anchors = read(anchor)
     raw = anchors["raw_files"]
-    published = read(anchor.parent / "metrics.json")
-    assert sha(anchor.parent / "metrics.json") == anchors["review_files"]["metrics.json"]
     records = {}
     output.mkdir(parents=True, exist_ok=False)
     for view in VIEWS:
@@ -92,6 +90,9 @@ def qualify(baseline, output, capture, anchor, replay):
     rms_se = {r: float(np.mean([v["relative_rgb_rms_se"][r] for v in records.values()
                                 if r in v["relative_rgb_rms_se"]])) for r in DECISION_ROIS}
     if archive_only:
+        published_path = anchor.parent / "metrics.json"
+        assert sha(published_path) == anchors["review_files"]["metrics.json"]
+        published = read(published_path)
         rmse = {str(spp): {r: published["summary"]["R3"][str(spp)][r]["rel_rmse"]
                            for r in DECISION_ROIS} for spp in SPPS}
     else:
