@@ -220,3 +220,23 @@ representation or operator.
 - Complete curves including covariance terms and solver bounds, two-world results, per-view
   target precision and post hoc witnesses are indexed and hashed in the reviewer manifest.
   [Evaluation manifest](../../evaluation/107/manifest107.json)
+
+## Owner approval and held-out execution resumed (2026-11-19)
+
+The owner explicitly approved the LabServer63 transfer, GPU replay and reference/diagnostic
+execution, and retrieval of WL107 results. The earlier stop above describes the evidence
+available before this approval. The real-scene qualification is pending while the resumed
+job runs through the frozen gates.
+
+- Deployed commit `f8a8554` to `LabServer63:~/rest_sss101a/experiments/ecro_denoise107` with
+  `evaluation/105/raw_manifest105.json`. The staged protocol and anchor matched their local
+  SHA-256 digests. The staging-only change restricts the archived WL105 metrics dependency
+  to the local two-half audit. It changes no fresh assessment estimator, inputs, threshold
+  or synthetic evidence.
+- The remote archive preflight verified 983 files, including the frozen checkpoint, input and
+  output identities. This check precedes the actual R0–R3 output replay.
+- The detached chain launched at 17:12 KST and entered the GPU queue after the archive check.
+  It waits for the existing GPU workload to clear. It then runs `capture`, `train` and `assess`
+  from the frozen source, with the reference and compute stops in force.
+- The remote root is `~/rest_sss101a/results/ecro_denoise107/`. `pipeline.state`,
+  `pipeline.log`, `chain107.sh` and the stage logs track execution.
