@@ -1,0 +1,55 @@
+{
+  "id": "WL108",
+  "branch": "Denoise_Reconstructor",
+  "base": "69c8f23557e83d69890eeb98a9858524c536b20d",
+  "hypothesis": "A learned R3-class predictor with original observations can materially reduce grazing-rim bias. A matched additional conditional grazing statistic may provide an independent practical gain.",
+  "frozen": {
+    "wl105_anchor": "cc313c3a8f92e5632a4cdc5f0c22d4923749a2495a2aeeca1f932e3a763eb5c4",
+    "wl107_reference": "5fc7ee75b44462bbd7e62271d960ae1995f6f61ab628ef2e494285cb60b6c797",
+    "wl107_capture": "164ba353bf3aa5265d4cf875ab4b0aa1985252c945643778bd8399616f7195b0",
+    "wl107_replay": "75147fd7bc7189d81e037f53f37cb8a12fa394641407c52ee939f30dfc205863",
+    "wl107_real": "deb96c7b657bb7dd57519654f11fa9a798dce98a154e4d1998c320fe009afc5e"
+  },
+  "arms": {"A0": [0, 0], "A1": [0, 1], "B0": [1, 0], "B1": [1, 1]},
+  "descriptor": "Per pixel, use the original WL105 8x8 midpoint samples, first-hit sphere shape ID 6, and unit geometric hit normal n and unit primary ray d, in world coordinates. Mean of clamp(n dot d,-1,1)^2 over visible sphere hits only, on [0,1]. Zero when there are none. All G0 arms append an identically shaped zero channel after the original 14 guides. Geometry and camera only. Verify exact WL105 sphere hit counts, analytic sphere cosine for matching visible hits, same-camera repeat, variance on mixed pixels and frozen WL107 positive control. Descriptively fit one quadratic pointwise map on train-guide aggregates and measure on validation geometry.",
+  "architecture": "Original R3 UNets, original reflect-padded 15x15 normalized softmax kernel application and input transforms. One added zero-initialized input channel per first convolution, positive descriptor or neutral zero. Copy all original seeded initialized weights and biases exactly. 1,056,038 trainable weights in each arm, +414 over frozen R3.",
+  "training": {
+    "train_seeds": [10550001, 10850002, 10850003],
+    "batch": 16,
+    "crop": 128,
+    "iterations": 20000,
+    "adam_lr": 0.0002,
+    "cosine_final_lr": 0.00001,
+    "L0": "WL105 R3 component relative MSE sum with each prediction's detached squared denominator plus .01.",
+    "L1": "L0 plus 0.25 times TOTAL relative MSE averaged over pixels with 0 < sphere coverage < 1 in each training batch. Zero additional term in an empty mask. Uses per-observation error and the original relative-MSE denominator. Retains the full-frame component objective.",
+    "selection": "Use the final step exactly. Log validation at each 2000 steps; identical four-replicate 40/8 dataset, crop draw policy, and paired Torch initialization and crop RNG. No held-out input or oracle access by the learner."
+  },
+  "evaluation": {
+    "spp": [4, 16, 32],
+    "reps": 8,
+    "boot_seed": 10899001,
+    "boot_draws": 10000,
+    "method": "Equal view, training-seed and draw pooling as applicable. Crossed paired bootstrap resampling 3 training seeds globally, and views with camera-block noisy draws shared across all arms and seeds. Variance uses paired view and training-seed clusters. Preserve all per-draw values. Measure expected-bias square via squared mean residual minus output variance / draws and also report uncorrected bias power.",
+    "masks": "Reuse WL107 decision masks including contact exclusion, coverage edges and unsigned distance construction. Partition primary squared RGB error into shell distance 0, inside distance 1/2/3, remaining full-coverage sphere, and remaining primary pixels. Add view-specific silhouette grazing-descriptor terciles to the WL107 coverage/normal/depth strata.",
+    "incremental": "B1 vs A1: >=15% 4-spp silhouette relative RMSE improvement with paired 95% lower bound >0; >0 at both 16 and 32 spp; primary RMSE <=1.05x matched control each spp; silhouette variance <=1.05x matched control and <=.5x raw each spp; at 4 spp a strict silhouette RMSE gain in a majority of views and at least two of boundary and first/second/third inner shells. Baseline comparison and B0/A0 are recorded even if the gate fails.",
+    "original_input": "Apply the same material gate to A1 over A0 and use frozen R3 as an additional guard: require all-spp primary RMSE <=1.05x R3, positive 4-spp silhouette RMSE improvement with paired CI above zero, and at least 50% reduction in 4-spp pooled absolute silhouette signed bias versus both A0 and R3.",
+    "production": "Report WL107 criteria separately for each arm: signed bias <=1% in all three decision masks, [0.8,1.2] gradient ratio, silhouette variance ratio upper 95% <=.5 against raw, primary RMSE ratio <=1.02 and upper 95% <=1.05 versus R3, boundary ratios <=1.05 versus R3, >=50% absolute silhouette bias reduction with CI lower bound above zero, at each spp. Diagnostic status licenses no adoption.",
+    "reference": "C6 target RMS noise <=10% of the smallest eligible learned-arm or frozen R3 mean RMSE in each decision ROI and spp, independently estimated signed luminance stratum SE <=.25 percentage points. Failed qualification cannot trigger confirmation."
+  },
+  "confirmation": {
+    "trigger": "Original reference qualified and original-input or incremental material gate passes. Repeat original gate comparisons on all confirmation cameras using the same fitted checkpoints, masks, metrics and reference precision limits. No additional architecture.",
+    "camera_rule": "First 3 seeded geometry-only sphere-targeting views with room and height checks, and no WL105 or earlier confirmation camera within both .75 m and 15 degrees, RNG 10871001. Screen these sealed views for >=20 mixed pixels and nonempty decision ROIs only after trigger; if invalid report infeasible. Fixed origins from this algorithm:",
+    "cameras": {
+      "I1": {"origin": [-0.1431981798293417, 1.1959359510912078, 2.114688771256841], "target": [0.9, 0.4, 0.35], "fov_deg": 32},
+      "I2": {"origin": [0.0809324559720046, 1.4207947557014684, 1.4923512277550905], "target": [0.9, 0.4, 0.35], "fov_deg": 32},
+      "I3": {"origin": [-0.7918814149151211, 1.3426032400780916, 1.540253004011975], "target": [0.9, 0.4, 0.35], "fov_deg": 32}
+    },
+    "reference_blocks": 48,
+    "block_spp": 8192,
+    "assessment_seed_base": 11810000,
+    "noisy_seed_base": 11850000,
+    "seed_stride_per_view": 1000
+  },
+  "budget": "LabServer63 RTX 3080 Ti with frozen WL105 renderer and Torch/Triton environment; 30 GPU minutes per training run, 12 runs; within 30 minutes for feature qualification, 45 minutes for each evaluation, up to 2 hours for conditional confirmation rendering. Before training measure synchronized prepared model-only timings with 10 warmups and 50 calls during evaluation; report median and peak extra allocation; report renderer and diagnostic geometry cost separately.",
+  "stop": "On failed frozen identities, invalid or impure descriptor, failed train/test and matching controls, critical composition check, target independence or qualification failure, or exhausted budget, preserve failed evidence. No post-test threshold changes, checkpoint substitution, branch merge, renderer changes, or successor training."
+}
