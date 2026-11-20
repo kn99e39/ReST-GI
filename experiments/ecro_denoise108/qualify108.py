@@ -8,6 +8,7 @@ import numpy as np
 from common108 import P, PROTOCOL, VIEWS, read, sha, write
 from capture107 import admit
 from synthetic107 import counterexamples
+from renderer108 import frozen_runtime
 
 CENTRE = np.array([0.9, 0.4, 0.4])
 RADIUS = 0.4
@@ -72,8 +73,8 @@ def synthetic_control():
     low, high = 0.9, 1.2
     desired = (targets-low)/(high-low)
     coefficients = np.linalg.solve(np.column_stack((np.ones(2), a)), np.log(desired/(1-desired)))
-    observed = low + (high-low)/(1+np.exp(-(coefficients[0]+coefficients[1]*a)))
-    np.testing.assert_allclose(observed, targets, atol=1e-12)
+    observed = low + (high-low)/(1+np.exp(-(coefficients[0]+coefficients[1]*a.astype(np.float64))))
+    np.testing.assert_allclose(observed, targets, rtol=0, atol=1e-12)
     return {"descriptor": a.tolist(), "kernel_predictions": observed.tolist(),
             "neutral_channel_twoworld_mse_floor": float(targets.var())}
 
@@ -104,8 +105,7 @@ def qualify(base, prior, anchor, wl101, out, commit):
     data, ev, files = authenticate(base, prior, anchor)
     import render105 as r
     import torch
-    reader, _, _, _, _, _, _, scene = r.RG.F101.inputs(wl101)
-    R, rt = reader.R, reader.rt
+    R, rt, _, scene = frozen_runtime(r, wl101, radiance=False)
     record = {"commit": commit, "protocol_sha256": sha(PROTOCOL), "synthetic": synthetic,
               "files_verified": files, "checkpoint_sha256": ev["weights_sha256"]["R3"],
               "base_data_sha256": sha(base / "data/run_manifest.json"),

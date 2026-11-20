@@ -26,3 +26,28 @@ TOTAL error on mixed sphere-coverage pixels. A per-observation reconstruction lo
 original full-frame component losses both remain active. No oracle target enters training.
 The four arms use the same 20,000 Adam steps, cosine schedule, crop sequence by seed and final-step
 selection. Held-out evaluation is run only after all twelve models are frozen.
+
+## LabServer69 execution destination (owner direction, 2026-11-20)
+
+The owner directed WL108 to LabServer69 after preregistration. LabServer63's first preflight
+stopped before data qualification because its historical environment was missing the interpreter
+and shared objects. An isolated version-pinned recovery reached the six-test suite. The suite
+caught platform-dependent float32 promotion in the analytic synthetic positive control, before
+qualification and training. Changing that calculation to explicit float64 reproduces the
+predeclared target pair and keeps the same numerical assertion tolerance. The old logs are
+preserved on LabServer63. No WL108 fit or reference render ran there.
+
+LabServer69 uses the native RTX 3090 / 550.54.15 stack with Torch 2.3.1+cu121, Triton 2.3.1,
+Mitsuba 3.8.0, Dr.Jit 1.3.1 and NumPy 1.26.4. An analytic CUDA sphere intersection returned
+the known distance of 2.0 using the native OptiX library. The only local library search addition
+is an experiment-scoped link to the installed libatomic. The frozen WL105/WL107 inputs are
+copied to the WL108 inputs directory, with the full original identity gates applied there.
+The historical scripts are read-only. The WL108 loader admits the requested device by validating
+the original renderer/config/checkpoint bytes and canonical scene. Stage A uses only the scene
+geometry and checks geometry against frozen per-pixel sphere hit counts. Conditional fresh
+radiometric confirmation additionally requires exact archived learned-table identity and paired
+historical renderer replay within the original WL105 tolerance before any new reference frames.
+
+The original protocol file and sealed camera list retain their hashes. The host override and
+synthetic arithmetic fix precede actual qualification or training. Both factors, all thresholds,
+the frozen reference, the seeds and the timing budgets retain their original definitions.

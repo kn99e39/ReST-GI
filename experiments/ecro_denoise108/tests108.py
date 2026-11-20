@@ -14,7 +14,7 @@ class Contracts(unittest.TestCase):
     def test_foreground(self):
         np.testing.assert_array_equal(foreground_statistic(np.array([0., 1., 3.]), np.array([0, 2, 4])),
                                       [0, .5, .75])
-        self.assertEqual(synthetic_control()["kernel_predictions"], [1.0, 1.05])
+        np.testing.assert_allclose(synthetic_control()["kernel_predictions"], [1.0, 1.05], rtol=0, atol=1e-12)
 
     def test_guide_order(self):
         aux = np.broadcast_to(np.arange(14, dtype=np.float32)[:, None, None], (14, 2, 2))
