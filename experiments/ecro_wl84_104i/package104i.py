@@ -180,6 +180,8 @@ def main():
             shutil.copyfile(args.primary / src, args.review / dst)
     for s in SCENES:
         shutil.copyfile(args.primary / "scenes" / s / "analysis.json", args.review / f"scene_{s}.json")
+    if (args.primary.parent / "posthoc/rank.json").exists():
+        shutil.copyfile(args.primary.parent / "posthoc/rank.json", args.review / "posthoc_rank.json")
     raw = {p.relative_to(args.primary).as_posix(): IO.sha(p) for p in sorted(args.primary.rglob("*"))
            if p.is_file() and p.suffix in (".json", ".npz", ".log", ".sh")}
     IO.write(args.review / "manifest.json", {
