@@ -112,13 +112,22 @@ def train(data, initial, arm, steps, emit):
     return tensor.detach().cpu().numpy().reshape(initial.shape), progress
 
 
+def frozen_operator_commit(commit):
+    if subprocess.run(["git", "merge-base", "--is-ancestor", STAGE_A, commit], cwd=REPO).returncode != 0:
+        return False
+    qualification = (HERE / "qualify104g.py").relative_to(REPO).as_posix()
+    settings = (HERE / "protocol.json").relative_to(REPO).as_posix()
+    return subprocess.run(["git", "diff", "--quiet", STAGE_A, commit, "--", qualification, settings],
+                          cwd=REPO).returncode == 0
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("operator", type=Path)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
     operator = read(args.operator)
-    if not operator["passed"] or not operator["commit"].startswith(STAGE_A) or operator["protocol_sha256"] != C.sha(HERE / "protocol.json"):
+    if not operator["passed"] or operator["protocol_sha256"] != C.sha(HERE / "protocol.json") or not frozen_operator_commit(operator["commit"]):
         raise ValueError("Frozen operator qualification is required")
     rows, _, _, starts, base, inputs = archived()
     with np.load(FROZEN_FIT) as z:

@@ -1,0 +1,49 @@
+{
+ "outcome": "NO_DEMONSTRATED_FIDELITY_IMPROVEMENT",
+ "evidence_qualified": true,
+ "contrasts": {
+  "R2-R0": {
+   "angular": false,
+   "scene_pass": {
+    "test83_iid_1_L2": false,
+    "test83_iid_159_L2": false
+   },
+   "all_scene_regressions_passed": false,
+   "opt_converged": true,
+   "passed": false
+  },
+  "R2-R1": {
+   "angular": false,
+   "scene_pass": {
+    "test83_iid_1_L2": false,
+    "test83_iid_159_L2": false
+   },
+   "all_scene_regressions_passed": false,
+   "opt_converged": true,
+   "passed": false
+  },
+  "R1-R0": {
+   "angular": false,
+   "scene_pass": {
+    "test83_iid_1_L2": false,
+    "test83_iid_159_L2": false
+   },
+   "all_scene_regressions_passed": true,
+   "opt_converged": true,
+   "passed": false
+  }
+ },
+ "held_out": "test83_iid_159_L2",
+ "commit": "4a3af34fc949167f6eca8735948b4dbad7213c29",
+ "response_sha256": "8a0b7d644c76cedbe39990a6462ab8f3e4187da8ddd817251605c6736fe8adc2",
+ "seconds": 842.0000000000005,
+ "reference_readiness": {
+  "test83_iid_159_L2": true
+ },
+ "allocator": [
+  "- host              : 0 B/0 B used (peak: 0 B).",
+  "- host-async        : 0 B/0 B used (peak: 0 B).",
+  "- host-pinned       : 0 B/14.59 MiB used (peak: 14.59 MiB).",
+  "- device            : 270.5 KiB/1.35 GiB used (peak: 1.35 GiB)."
+ ]
+}

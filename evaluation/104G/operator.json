@@ -1,0 +1,177 @@
+{
+ "passed": true,
+ "arms": {
+  "A": {
+   "known_cosine": {
+    "mean": [
+     1.0009374639282496,
+     1.0009763197672648,
+     1.0011127591714248,
+     1.3345683324548392
+    ],
+    "error": [
+     0.00093746392824956,
+     0.000976319767264755,
+     0.0011127591714248375,
+     0.0012349991215059308
+    ],
+    "se": [
+     0.0008632012665401315,
+     0.0009919389319727313,
+     0.0009181221773858831,
+     0.001118681890634652
+    ],
+    "abs_4sem_bound": [
+     0.0043902689944100865,
+     0.00494407549515568,
+     0.00478524788096837,
+     0.005709726684044539
+    ],
+    "margin": 0.006,
+    "passed": true
+   },
+   "raw_distribution": {
+    "mean": [
+     0.9395503997802734,
+     -0.050997690704713945,
+     -0.020904322134439993,
+     0.7840797994886106
+    ],
+    "error": [
+     0.00015008764503987582,
+     2.0587852919293215e-05,
+     0.00021377400509013308,
+     -3.344771478674957e-07
+    ],
+    "se": [
+     0.00012128064223337888,
+     0.00020513809824136643,
+     0.000165840789585907,
+     0.00019138160451567522
+    ],
+    "abs_4sem_bound": [
+     0.0006352102139733913,
+     0.0008411402458847589,
+     0.000877137163433761,
+     0.0007658608952105684
+    ],
+    "margin": 0.003,
+    "passed": true
+   },
+   "parity": {
+    "max_relative_pdf": 0.0,
+    "max_block_p999_relative_pdf": 0.0,
+    "max_block_median_relative_pdf": 0.0,
+    "max_relative_peak_weight_residual": 1.3852981825075988e-07,
+    "passed": true
+   },
+   "independent_pdf_integrals": [
+    0.9394003121352336,
+    -0.05101827855763324,
+    -0.021118096139530126,
+    0.7840801339657585
+   ],
+   "passed": true
+  },
+  "C": {
+   "known_cosine": {
+    "mean": [
+     1.0007943893689875,
+     1.0007699811569564,
+     1.0005764651987545,
+     1.3341643273222306
+    ],
+    "error": [
+     0.0007943893689874582,
+     0.0007699811569563675,
+     0.0005764651987545388,
+     0.0008309939888972995
+    ],
+    "se": [
+     0.0008102958263045701,
+     0.0009113517278644813,
+     0.0008390291117881905,
+     0.0010692401585991806
+    ],
+    "abs_4sem_bound": [
+     0.004035572674205738,
+     0.004415388068414293,
+     0.003932581645907301,
+     0.005107954623294022
+    ],
+    "margin": 0.006,
+    "passed": true
+   },
+   "raw_distribution": {
+    "mean": [
+     0.9292583465576172,
+     -0.05165955957889372,
+     -0.02157188762074305,
+     0.7792056334630689
+    ],
+    "error": [
+     2.3582753583828442e-05,
+     5.106581508484975e-07,
+     -3.046094136773328e-05,
+     -0.00025880623359619825
+    ],
+    "se": [
+     0.00017151432960787116,
+     0.0002433055948737238,
+     0.00017952748353260015,
+     0.000205355219927894
+    ],
+    "abs_4sem_bound": [
+     0.0007096400720153131,
+     0.0009737330376457437,
+     0.0007485708754981339,
+     0.0010802271133077742
+    ],
+    "margin": 0.003,
+    "passed": true
+   },
+   "parity": {
+    "max_relative_pdf": 0.0,
+    "max_block_p999_relative_pdf": 0.0,
+    "max_block_median_relative_pdf": 0.0,
+    "max_relative_peak_weight_residual": 1.2791356690242382e-07,
+    "passed": true
+   },
+   "independent_pdf_integrals": [
+    0.9292347638040334,
+    -0.05166007023704457,
+    -0.021541426679375315,
+    0.7794644396966651
+   ],
+   "passed": true
+  }
+ },
+ "config": {
+  "material": "test83_iid_1",
+  "arms": [
+   "A",
+   "C"
+  ],
+  "theta": 5,
+  "phi": 22.5,
+  "mc_seed": 10470011,
+  "mc_blocks": 32,
+  "mc_lanes_per_block": 65536,
+  "sobol_seed": 10470101,
+  "sobol_scrambles": 8,
+  "sobol_power": 18,
+  "known_margin": 0.006,
+  "distribution_margin": 0.003,
+  "sigma": 4,
+  "decision": "At the sole historical failing incidence, require abs(error)+4 SE <= margin for each of four known cosine-weighted integrals from the actual returned proposal PDF, and for each difference between accepted raw direction moments [1,x,y,z] and independent uniform-solid-angle Sobol integration of the reported PDF. Use combined independent standard error. All A/C support, finite nonnegative response and historical WL83 sample-vs-recomputed-PDF and WL104F weight identity checks must pass. Preserve the old audit and its limit. No extra seed runs."
+ },
+ "commit": "05f806f1f77021484d20ad00401fed526e7388f3",
+ "protocol_sha256": "75c33a27b994525112b708155fff84d3ce2bc0bd048eed1722a71b9f30989567",
+ "seconds": 1.2970000000000255,
+ "device_allocator": [
+  "- host              : 0 B/0 B used (peak: 0 B).",
+  "- host-async        : 0 B/0 B used (peak: 0 B).",
+  "- host-pinned       : 0 B/3.376 MiB used (peak: 3.376 MiB).",
+  "- device            : 8.5 KiB/9.64 MiB used (peak: 9.64 MiB)."
+ ]
+}
