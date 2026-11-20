@@ -1,0 +1,107 @@
+{
+  "batch": "WL104I",
+  "title": "ER-v1-GF gauge-fixed parameterization and controlled A/B evaluation",
+  "type": "bounded architecture experiment (candidate only; no adoption)",
+  "classification": "owner-named suffix batch of the WL104 line",
+  "repository": "kn99e39/ReST-GI",
+  "branch": "ecro_lr3_adapter",
+  "parent_commit": "9b1c9e57dd2edeea9552b12e99d38bf956be0f2a",
+  "host": "local RTX 5080 (WL104E-H precedent; inputs local)",
+  "candidate": {
+    "name": "ER-v1-GF",
+    "design": "docs/plans/ER_V1_GF_GAUGE_FIXED_PARAMETERIZATION.md",
+    "code": "experiments/ecro_wl84_104i/gf104i.py",
+    "parameters": 58,
+    "compiled_state_floats": 69,
+    "runtime": "unchanged closure83_dr evaluator / pdf / sampler on the candidate's compiled state",
+    "removed_gauges": ["3 per-channel softmax shifts (absorption slot removed, additive log-ratio coordinates)", "3 per-channel attenuation-scale gauges (Lambert+inner block pinned to 1 - sum outer; knots carry the scale)"],
+    "compiled_boundary": "canonical compiled state has sum lambda = 1 exactly (closure of the original raw-reachable set); response identical to interior original states"
+  },
+  "inputs": {
+    "authentication": "WL104H io104h.inputs (WL104G manifest hashes) for the angular reference, compiled / raw R0 A C states, WL83 fits and materials; results/ecro_wl84_104f/inputs/train_original.npz checked against the WL104D provenance hash used by WL104G; WL104G scene packets and masks as in WL104H",
+    "materials": "the 9 WL104D panel rows (3 development, 6 held out)",
+    "training_data": "results/ecro_wl84_104f/inputs/train_original.npz: original WL83 64 x 64 fit lanes per material (no independent reference value enters training)"
+  },
+  "stage_B_equivalence": {
+    "states": {
+      "historical": "R0 (ER_DF), A, C (WL104D) and ER_L (WL83 compiler) for the 9 materials (36 states)",
+      "starts": "the generic WL82 init and the 3 perturbed training starts per material (36 states)",
+      "synthetic": "seed 104921: 48 random raw states N(0, 3^2) and the constructed boundary states listed in tests104i.py BOUNDARY (block -> 0, outer -> all mass, absorption dominant, knots +-12, eta logit +-12, F0 logits +-12, roughness logits +-12, one dominant inner lobe, one dominant outer lobe)"
+    },
+    "directions": "4,000 test directions (uniform, near-mirror within 2 deg, grazing cos 3e-7..1e-2) plus all 180 x 1024 reference lanes for the 36 historical states",
+    "tolerances": {
+      "float64_response_relative_to_peak": 1e-11,
+      "float64_term_relative_to_peak": 1e-11,
+      "compiled_drjit_relative_to_peak": 2e-6,
+      "angular_metric_abs": 2e-6,
+      "round_trip_raw_abs": 1e-8,
+      "orbit_invariance_abs": 1e-9,
+      "fd_relative": 1e-6,
+      "jvp_relative": 1e-10,
+      "reciprocity_relative": 1e-10,
+      "passivity_bound": "compiled sum lambda <= 1 + 1e-6, knots in [0, 1], eta in [1, 2.5], Lambert proposal probability > 0"
+    },
+    "stop": "any equivalence, validity or orbit-invariance failure stops Stages C-E"
+  },
+  "stage_C_identifiability": {
+    "states": "R0, A, C of the 9 materials in both parameterizations (identical physical responses); repeated at the fitted A1 / B1 states after Stage D",
+    "jacobian": "exact float64 forward mode on all 20 x 1024 reference lanes, rows sqrt(w) / A_p (WL104H)",
+    "exact_null": "sigma / sigma_max < 1e-15 (WL104H structural gauges were <= 1.1e-17; the smallest non-structural direction was 1.6e-14)",
+    "weak": "1e-15 <= sigma / sigma_max < 1e-6 and < 1e-3 reported",
+    "tangent_space": "principal cosines between col(J_original) and col(J_candidate) (rcond 1e-12)",
+    "groups": "candidate: outer_amplitude 9, split 12, roughness 7, anisotropy 7, fresnel 7, attenuation 15, eta 1; original: WL104H groups",
+    "gauge_check": "historical gauge vectors at each original state map to zero candidate change: |D from_original . v| / |v| <= 1e-9, and finite orbit moves leave from_original unchanged",
+    "caveat": "raw-coordinate spectra and conditioning are coordinate dependent; no conditioning claim follows from coordinate count or raw spectra"
+  },
+  "stage_D_training": {
+    "objective": "frozen WL82 metric el1 + ealb per incident group, mean over groups, per material (fit82.group_terms)",
+    "optimizer": "Adam (default betas), float32, 12000 steps, lr 0.03 -> 3e-4 cosine with 50 warm-up (WL82 / WL83 direct-fit optimiser that produced R0), identical for A1 and B1",
+    "starts": "generic WL82 init (reproduction control) and 3 perturbed starts generic + 0.5 N(0,1) in ORIGINAL raw space with seeds 104911, 104912, 104913; B1 starts = from_original(A1 start) exactly (identical physical response)",
+    "primary_seed_set": [104911, 104912, 104913],
+    "selection": "none: every terminal state is evaluated; no rescue fit",
+    "logging": "objective every 100 steps; wall time and peak memory per arm",
+    "optimizer_non_equivalence": "Adam is coordinate dependent; identical hyperparameters on different coordinates are not an equivalent optimiser. Disclosed, not corrected.",
+    "reproduction_control": "A1 generic should approximately reproduce historical R0 (same recipe and data; float non-determinism)"
+  },
+  "stage_E_angular": {
+    "reference": "WL104D Amendment 1 independent layered reference (archived halves)",
+    "metrics": "WL82 el1, ealb, eshape per probe; bands (5-20, 35-50, 55-65, 70, 80-86); mirror core <3, shoulder 3-12, tail >=12 signed energy; development vs held out; across-seed variation; reference half-split noise",
+    "primary": "per cohort, mean el1 over materials x primary seeds x probes; relative increase (B1 - A1) / A1",
+    "ci": "paired bootstrap over (material, seed) units within cohort, 10000 resamples, seed 104931, percentile 95%",
+    "local_regression_flag": "any band with bootstrap lower bound of relative increase > 0.05 is reported as LOCAL_REGRESSION (prominently), without changing the primary label"
+  },
+  "stage_E_scenes": {
+    "scenes": {"test83_iid_1_L2": 1044900, "test83_hard_1_L1": 1046900, "test83_iid_159_L2": 1048900},
+    "spp": {"development": 1024, "held_out": 4096},
+    "replicates": 12,
+    "fixed_proposal": "WL104H pass: archived 512-spp launch layout replayed exactly; E1 at the fixed point-light direction; E2 with the frozen qualified native R0 proposal, same actual pdf, fixed R0 terminal; states A0 (R0), A1 x 3, B1 x 3 evaluated at the same directions; identity of A0 vs archived R0 E1/E2 <= 2e-5 relative L1; R0 Lambert proposal probability > 0 (common support); lane F/p identity <= 2e-6 of peak",
+    "fixed_total": "E1 + fixed E2 + archived R0 HIGH (diagnostic recombination)",
+    "native": "SECONDARY: native renders of A1 x 3 and B1 x 3 (own proposal at every event) with the same seeds; A0 native = archived R0",
+    "metrics": "objects / sphere / cube / highlight / grazing ROI stable RGB RMS (WL104E estimator) and signed energy, events E1, E2, TOTAL",
+    "primary": "per scene and event (E1, fixed E2, fixed TOTAL), objects stable RMS: seed-mean relative increase (B1 - A1) / A1",
+    "ci": "delete-one-replicate jackknife over the 12 paired replicates of the seed-mean difference, t(11) 95%",
+    "extension": "if a primary scene interval contains 0.05 and its half-width exceeds 0.02, add 12 replicates (seeds base + 12..23) of reference and all fixed-proposal arms for that scene only; the margin does not change"
+  },
+  "native_qualification": {
+    "audit": "WL104F operator_case (frozen settings: theta 5/20/50/60/80/86, phi 22.5/112.5, 8 x 16384 per proposal, tolerances 0.006 / 4 sigma / 0.015) with proposals {A: A1 seed k, C: B1 seed k}, k = primary seeds, on materials test83_iid_1, test83_hard_1, test83_iid_159; seeds 1049001 + 100 k + 2 t + p",
+    "requalification": "a failing probe is requalified once, only for the failing proposal(s) (both if the cross-proposal albedo check fails), with the WL104G rule (32 x 65536 MC, 8 Sobol scrambles 2^18, |error| + 4 SE <= 0.006 known / 0.003 distribution) with seeds 1049501 + probe index; the original failure is retained",
+    "variance": "per-pixel E2 variance across replicates of native A1 vs B1 (objects ROI)",
+    "label": "PASS if every probe passes (directly or by requalification); FAIL otherwise; native-proposal conclusions are then unqualified; WL104F's historical exception stays recorded"
+  },
+  "decision_rules": {
+    "response_family_equivalence": "PASS if every Stage B tolerance holds for every state; FAIL otherwise",
+    "exact_gauge_removal": "PASS if the original Jacobian shows exactly 6 exact nulls and the candidate 0 at every R0/A/C state, and the gauge checks hold; FAIL if the candidate shows any exact null or a gauge check fails",
+    "training_fidelity_preservation": "PASS if every primary metric (angular el1 per cohort; scene objects RMS E1, fixed E2, fixed TOTAL per scene) has upper 95% bound of relative increase <= 0.05; FAIL if any lower bound > 0.05; INCONCLUSIVE otherwise",
+    "structural_identifiability_improvement": "PASS if exact nulls are removed (6 -> 0) at every state AND the candidate tangent space equals the original (all principal cosines >= 1 - 1e-9); FAIL if exact nulls remain or the tangent space differs; approximate weak directions reported descriptively (no claim)",
+    "practical_benefit": {
+      "stability": "median over materials of across-seed response spread (RMS pairwise difference of terminal F on reference lanes / mean |F|), ratio B1 / A1: benefit <= 0.8 in both cohorts; regression >= 1.25 in either",
+      "optimization": "median over materials of seed-median final training objective ratio B1 / A1: benefit <= 0.99 with >= 6 of 9 materials lower; regression >= 1.01 with >= 6 of 9 higher",
+      "cost": "fit wall time ratio B1 / A1: benefit <= 0.9; regression >= 1.1",
+      "label": "PASS if at least one benefit and no regression; INCONCLUSIVE if both; FAIL (no demonstrated benefit) otherwise"
+    },
+    "native_proposal_qualification": "see native_qualification.label",
+    "candidate_viability": "SUPPORTED if equivalence, exact gauge removal and fidelity preservation all PASS; NOT SUPPORTED if any of them FAILS; INCONCLUSIVE otherwise. Practical benefit and native qualification are reported separately and do not change viability."
+  },
+  "invariants": ["No change to the original ER code, states, objective, data, references, scenes or thresholds", "No lobe pruning / merging / expansion, extra module, new loss or regularisation", "Candidate isolated in experiments/ecro_wl84_104i; production behaviour unchanged"],
+  "outputs": {"raw": "results/ecro_wl84_104i/{equivalence,ident,fit,angular,scenes,native}", "review": "evaluation/104I/", "worklog": "docs/worklogs/104I_WORKLOG_ER_V1_GF_GAUGE_FIXED_AB.md"}
+}
