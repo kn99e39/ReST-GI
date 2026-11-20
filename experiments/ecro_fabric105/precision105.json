@@ -1,0 +1,11 @@
+{
+  "id": "WL105 render precision",
+  "prior_execution": "0cf45cb",
+  "checkpoint_sha256": "64ad6d25bc8f297cdfbf60dd6d0f95229da76fc1696fe6999ff29ed7c2b91920",
+  "output": "renders_1024",
+  "spp_each": 512,
+  "seeds": [105801, 105802],
+  "field_spp_each": 256,
+  "field_seeds": [105851, 105853],
+  "purpose": "Repeat the two frozen views with more samples, the exact same fitted checkpoint, the unchanged camera/lighting/source samples, and the same physical and learned paths. Keep the earlier 128-spp data separately. Compare absolute image error at native pixels and in fixed 8x8 pixel averages."
+}

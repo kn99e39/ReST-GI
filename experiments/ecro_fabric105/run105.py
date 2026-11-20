@@ -217,8 +217,7 @@ def train(root):
     import_training().main(root,model,P["fit"]["steps"])
 
 
-def render_view(root, out, name, geom, model, gs, factors, camera, angles):
-    r = P["evaluation"]
+def render_view(out, name, geom, model, gs, factors, camera, angles, r):
     scene = load_scene(r["resolution"],**camera)
     ctx = Fabric(scene,geom)
     if tuple(angles) != (0,0):
@@ -256,8 +255,8 @@ def render_view(root, out, name, geom, model, gs, factors, camera, angles):
     ref = a["reference"]
     fallback = float(a["ecro_fallback"].sum()/max(float(a["ecro_lookup"].sum()),1.))
     gap = max(relative_l1(a["ecro_"+k],a["physical_"+k]) for k in ("e0","e1","e2"))
-    field_seed = 105561 if name=="public" else 105569
-    field_ref = [ctx.field(64,field_seed+i) for i in range(2)]
+    field_seed = r.get("field_seeds",[105561,105569])[0 if name=="public" else 1]
+    field_ref = [ctx.field(r.get("field_spp_each",64),field_seed+i) for i in range(2)]
     rf2, rfh = (np.mean([it[j] for it in field_ref],axis=0) for j in range(2))
     save_npz(out/f"{name}.npz",**a,mask=mask,low=low,ecro=ecro,full=full,
              field_ref_f2=rf2,field_ref_fh=rfh,field_f2=f2,field_fh=fh)
@@ -267,6 +266,8 @@ def render_view(root, out, name, geom, model, gs, factors, camera, angles):
         "fabric_l1":{k:relative_l1(v,ref,mask) for k,v in (("ecro",ecro),("low",low),("physical",full))},
         "fabric_signed_energy":{k:signed_energy(v,ref,mask) for k,v in (("ecro",ecro),("low",low),("physical",full))},
         "full_l1":{k:relative_l1(v,ref) for k,v in (("ecro",ecro),("low",low),("physical",full))},
+        "coarse_l1":{k:relative_l1(coarse(v),coarse(ref)) for k,v in (("ecro",ecro),("low",low),("physical",full))},
+        "reference_halves_coarse_l1":relative_l1(coarse(replicas[0]["reference"]),coarse(replicas[1]["reference"])),
         "high_l1_vs_physical":relative_l1(a["ecro_hl"],a["physical_h"],mask),
         "high_signed_energy_vs_physical":signed_energy(a["ecro_hl"],a["physical_h"],mask),
         "high_fraction_physical":float(a["physical_h"][mask].sum()/max(float(full[mask].sum()),1e-20)),
@@ -280,36 +281,49 @@ def render_view(root, out, name, geom, model, gs, factors, camera, angles):
     return quality
 
 
-def evaluate(root):
+def evaluate(root, refinement=False):
     T = import_training()
     torch, M = T.torch,T.M
     g = open_geometry(root)
     gs, rows = T.geostate(root)
     p = root/"fit/model.pt"
+    fit_hash = sha(p)
+    eval_cfg = P["evaluation"].copy()
+    set_name = "renders"
+    precision_sha = None
+    if refinement:
+        config = HERE/"precision105.json"
+        refined = read(config)
+        if fit_hash != refined["checkpoint_sha256"]:
+            raise ValueError("Refinement requires the frozen checkpoint")
+        precision_sha = sha(config)
+        eval_cfg.update(refined)
+        set_name = refined["output"]
     model = M.ECRO().to(T.DEV)
     model.mat_states = rows
     model.load_state_dict(torch.load(p,map_location=T.DEV,weights_only=True))
     model.eval()
     with torch.no_grad():
         factors = model.factors(T.input_state(gs))
-    path = root/"renders"
+    path = root/set_name
     path.mkdir(exist_ok=False)
-    eval_cfg = P["evaluation"]
     started = time.monotonic()
     output = {}
     for view,camera,angles in (("public",{},eval_cfg["default_rotation"]),
                                ("held",eval_cfg["held_camera"],eval_cfg["held_light_rotation"])):
-        output[view] = render_view(root,path,view,g,model,gs,factors,camera,angles)
-    write(path/"summary.json",{"quality":output,"seconds":time.monotonic()-started,"model_sha256":sha(p),
+        output[view] = render_view(path,view,g,model,gs,factors,camera,angles,eval_cfg)
+    write(path/"summary.json",{"quality":output,"seconds":time.monotonic()-started,"model_sha256":fit_hash,
+                               "execution_commit":commit(ROOT),"precision_protocol_sha256":precision_sha,
                                "device_allocator":[line.strip() for line in dr.whos_str().splitlines() if "used (peak:" in line]})
 
 
 def main():
     cli = argparse.ArgumentParser(description=__doc__)
-    cli.add_argument("stage",choices=("preflight","generate","train","evaluate"))
+    cli.add_argument("stage",choices=("preflight","generate","train","evaluate","refine"))
     cli.add_argument("root",type=Path)
     arg = cli.parse_args()
-    {"preflight":preflight,"generate":generate,"train":train,"evaluate":evaluate}[arg.stage](arg.root)
+    {"preflight":preflight,"generate":generate,"train":train,"evaluate":evaluate,
+     "refine":lambda root:evaluate(root,refinement=True)}[arg.stage](arg.root)
 
 
 if __name__=="__main__":
