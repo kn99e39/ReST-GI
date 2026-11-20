@@ -1,0 +1,109 @@
+{
+  "batch": "WL104H",
+  "title": "Certified ER component-level causal ablation",
+  "type": "diagnostic / causal ablation; error localization, not fidelity improvement",
+  "classification": "suffix batch of the WL104 line (dependent evidence-gap follow-up of WL104B-G; no new mechanism, no training)",
+  "repository": "kn99e39/ReST-GI (origin URL kn99e39/NeuralShaderDemo resolves to the same repository)",
+  "branch": "ecro_lr3_adapter",
+  "parent_commit": "bf980122b3395ef45d506323c6cc0658cb9354a5",
+  "host": "local RTX 5080 (WL104E-G precedent: owner directed rendering to the local machine; inputs are local)",
+  "frozen_inputs": {
+    "authentication": "Every input file is checked against the sha256 recorded by the WL104G manifest (evaluation/104G/manifest.json: frozen_WL104F_input_sha256, frozen_WL104G_fit_input_sha256, raw_sha256 relative to results/ecro_wl84_104g/). Any mismatch stops the run.",
+    "angular_reference": "results/ecro_wl84_104d/amendment1/amended_reference.npz (WL104D Amendment 1 independent layered reference: 9 materials x 10 polar x 2 azimuth probes, 1024 directional lanes, two independent walk halves, dense peak grid of 257 directions per probe)",
+    "materials": "evaluation/104D/amendment1/materials.json (3 development + 6 held-out rows)",
+    "compiled_states": "evaluation/104D/amendment1/compiled_states.npz (ER_DF = R0, A, C)",
+    "raw_states": "R0 raw z from results/fnto_compiled83/results/fit/fit_<set>_ER_cert_metric_12000_generic.npz; A and C raw z from evaluation/104D/fit_states.npz. compile(raw) must equal the archived compiled state (atol 2e-6, rtol 1e-5).",
+    "scenes": {
+      "test83_iid_1_L2": {"role": "development (primary)", "seed_base": 1044900, "spp": 1024, "camera": "WL81/WL84 development camera", "inputs": "results/ecro_wl84_104g/scenes/test83_iid_1_L2 (reference, R0 per replicate; masks incl. WL104A interaction ROIs) and results/ecro_wl84_104e/parent/scenes/test83_iid_1_L2 (archived native A, C)"},
+      "test83_hard_1_L1": {"role": "development (companion)", "seed_base": 1046900, "spp": 1024, "camera": "WL81/WL84 development camera", "inputs": "as above"},
+      "test83_iid_159_L2": {"role": "held-out scene evidence (historical WL104D/G definition)", "seed_base": 1048900, "spp": 4096, "camera": "WL104D held-out camera", "inputs": "results/ecro_wl84_104g/scenes/references/test83_iid_159_L2 (reference, R0) and results/ecro_wl84_104g/scenes/test83_iid_159_L2/region_masks.npz"}
+    }
+  },
+  "invariants": [
+    "No learned parameter, compiled state, sampling probability, proposal, geometry, camera, light, mask, reference or threshold is changed.",
+    "No shared renderer / closure file is modified; all instrumentation is experiment-local (experiments/ecro_wl84_104h).",
+    "Counterfactuals are diagnostic evaluations only; none is a correction candidate, none is adopted."
+  ],
+  "decomposition": {
+    "native": "F = O0 + O1 + O2 + S (L + I0 + I1 + I2 + I3), S = s(mu_i) s(mu_o); cosine-weighted response F = f cos(theta_o), wi camera/view side, shading frame",
+    "terms": {
+      "O_k": "lam[c, 1+k] g_k(wi, wo) cos_o, outer GGX lobe k = 0..2 (anisotropic GGX, Schlick F0_k, horizon-safe WL81 form)",
+      "L": "lam[c, 0] cos_o / pi",
+      "I_k": "lam[c, 4+k] g_{3+k}(t(wi), t(wo)) cos_o / eta^2, inner refracted GGX lobe k = 0..3, t(w) = (w_x/eta, w_y/eta, sqrt(max(eta^2-1,0)+w_z^2)/eta)",
+      "U_k": "lam[c, 4+k] g_{3+k}(wi, wo) cos_o (inner lobe without the refracted mapping; used only by ETA_OFF / ETA_ATTEN_OFF)",
+      "s": "s_c(mu) piecewise-linear through 15 knots (3 channels x mu 0, .15, .4, .7, 1), values in [0, 1]"
+    },
+    "parameter_ownership": "64 raw parameters: z[3k], z[3k+1] log-alpha_u / log-alpha_v logits and z[3k+2] F0 logit of GGX lobe k (k 0..2 outer, 3..6 inner); z[21+9c+r] softmax logit of slot r (0 Lambert, 1..3 outer, 4..7 inner, 8 absorption) per channel c; z[48+5c+j] attenuation knot; z[63] eta logit (eta = 1 + 1.5 sigmoid). Sampling probabilities (8 compiled floats) derive from lam and F0 at compile time and belong to the proposal; they are never perturbed. Torch (closure82 + closure83 patch) and Dr.Jit (closure83_dr) share this ownership; differences: float64 vs float32 and evaluation order only.",
+    "identity_tolerances": {"torch_float64_relative_to_peak": 1e-12, "drjit_native_vs_term_sum_relative_to_peak": 2e-6, "torch_vs_drjit_term_relative_to_term_peak": 1e-4, "torch_vs_drjit_note": "float32 runtime vs float64; worst case in development = refracted inner lobes at grazing pairs with eta ~ 1.0002 (float32 cancellation in eta^2 - 1), 2-4e-5 of the term peak", "state_equivalent_relative_to_peak": 2e-6, "scene_image_relative_l1": 2e-5, "scene_lane_relative_to_peak": 2e-6}
+  },
+  "interventions": {
+    "definitions": "experiments/ecro_wl84_104h/comp104h.py INTERVENTIONS (frozen with this protocol)",
+    "group": ["LAMBERT_OFF", "OUTER_OFF", "INNER_OFF", "ATTEN_OFF", "ETA_OFF"],
+    "factor": ["ATTEN_IN_OFF (s(mu_i)->1, DIAGNOSTIC_ONLY, non-reciprocal)", "ATTEN_OUT_OFF (s(mu_o)->1, DIAGNOSTIC_ONLY, non-reciprocal)"],
+    "joint": ["ETA_ATTEN_OFF (eta=1 and S=1)"],
+    "lobe": ["O0_OFF", "O1_OFF", "O2_OFF", "I0_OFF", "I1_OFF", "I2_OFF", "I3_OFF"],
+    "validity": "VALID_FAMILY = lam = 0, knots = 1 or eta = 1 inside the certified ER family (reciprocal, passive by the WL82 certificate); each VALID_FAMILY intervention is cross-checked against the native evaluator with the equivalently modified 69-float state. DIAGNOSTIC_ONLY = breaks reciprocity; albedo-matched variants are all DIAGNOSTIC_ONLY.",
+    "interaction_diagnostics": {
+      "ATTEN_INTERACTION": "Delta(ATTEN_OFF) - Delta(ATTEN_IN_OFF) - Delta(ATTEN_OUT_OFF) = (1-s_i)(1-s_o)(L + sum I) (multiplicative factorization)",
+      "ETA_ATTEN_INTERACTION": "Delta(ETA_ATTEN_OFF) - Delta(ETA_OFF) - Delta(ATTEN_OFF) = (1-S)(sum U - sum I) (shared attenuation of the inner group)",
+      "additive": "Interactions of additive term removals under frozen directions are algebraically zero and are not reported as findings."
+    },
+    "families_for_confounding": {"lambert": ["LAMBERT_OFF"], "outer": ["OUTER_OFF", "O0_OFF", "O1_OFF", "O2_OFF"], "inner": ["INNER_OFF", "I0_OFF", "I1_OFF", "I2_OFF", "I3_OFF"], "attenuation": ["ATTEN_OFF", "ATTEN_IN_OFF", "ATTEN_OUT_OFF"], "eta": ["ETA_OFF", "ETA_ATTEN_OFF"]}
+  },
+  "response_phase": {
+    "lanes": "all 9 materials x 20 probes x 1024 lanes of the amended reference, weights w = use / q (rejected proposal lanes w = 0)",
+    "evaluator": "Dr.Jit runtime terms (float32 compiled state) for the response statistics; Torch float64 for identity and parameter analysis",
+    "probe_inner_product": "<f, g>_p = sum_l w_l sum_c f_lc g_lc / A_p^2, A_p = sum_l w_l sum_c ref_lc (WL82 el1 normaliser), ref = (a + b) / 2",
+    "residual": "r = ref - F_R0; noise-unbiased |r|^2 = <a - F_R0, b - F_R0>; reference noise energy nu = |a - b|^2 / 4",
+    "statistics": {
+      "n2": "|Delta F_X|^2",
+      "cross": "<Delta F_X, r>",
+      "rho": "cross / sqrt(n2 |r|^2) (alignment of the intervention change with the residual; signed: + component in excess where residual is negative)",
+      "error_change": "e_X = (2 cross - n2) / |r|^2 = fraction of residual energy removed by the full-strength intervention (negative = error grows)",
+      "l1": "el1 change per reference half (WL82 metric), sign agreement across halves",
+      "energy": "signed luma energy change per region / reference luma energy",
+      "matched": "albedo-matched F~_X = F_X * a_R0,c / a_X,c per probe and channel (a = sum_l w F); qualified only if a_X,c >= 0.01 a_R0,c for every channel; DIAGNOSTIC_ONLY; shape fraction = |F~_X - F_R0| / |Delta F_X|"
+    },
+    "strata": {"cohort": ["development", "held_out"], "band": {"near_normal": [5, 20], "mid": [35, 50], "band_55_65": [57.5, 60, 62.5], "theta_70": [70], "grazing": [80, 86], "all": "all"}, "region": {"all": "all lanes", "core": "radius < 3 deg from mirror", "shoulder": "3 <= radius < 12", "tail": "radius >= 12"}},
+    "aggregation": "Stratum sums of per-probe normalised quantities (equal weight per probe), ratios of sums.",
+    "uncertainty": "Delete-one-block jackknife over 16 interleaved lane blocks (lane index mod 16) applied simultaneously to every probe; 95% t interval, 15 dof.",
+    "peak_grid": "Per probe: reference peak = max luma of the half mean over 257 dense directions; R0, each term and each intervention evaluated at the same directions; relative peak error and term shares at the reference peak and at the exact mirror direction (descriptive).",
+    "training_support_note": "Probes 57.5/60/62.5 deg lie in the WL81/WL83 training-incidence gap (WL104C) for R0; the independent reference qualified there (WL104D A1 / WL104G). Band results are labelled as training-support-absent for R0, not as reference deficiency.",
+    "c_minus_a": "Delta_CA = F_C - F_A exactly decomposed: outer O_k^C - O_k^A; attenuation (S_C - S_A)(Y_A + Y_C)/2 and content (S_A + S_C)/2 (Y_C - Y_A) for Y in {L, I_k} (two-factor symmetric split, exact). Shares = <part, Delta_CA> / |Delta_CA|^2 (sum 1). Each R0 intervention change is also projected on Delta_CA."
+  },
+  "parameter_phase": {
+    "method": "Exact forward-mode derivatives (torch.func.jacfwd) of the Torch float64 closure at the frozen raw state (R0 per material), on all response lanes; rows weighted sqrt(w_l) / A_p. No optimizer, no step, no new state.",
+    "fd_check": "Central differences h = 1e-4 on every raw coordinate for the 3 development materials; error per column = |FD - AD| / max(|AD column|, 1e-4 max column norm) (floor avoids roundoff-dominated ratios on columns ~1e-7 of the max); pass if max <= 1e-6. Development probe: h 1e-5 gave 9.8e-6 on a column of 6e-7 relative norm (roundoff), h 1e-3 gave 8e-7 (truncation).",
+    "groups": "orthonormal raw-space groups: amplitude (27 logits incl. absorption slot), roughness ((z_u + z_v)/sqrt 2 per lobe, 7), anisotropy ((z_u - z_v)/sqrt 2 per lobe, 7), fresnel (7), attenuation (15), eta (1); per-lobe sub-blocks for amplitude/roughness/anisotropy/fresnel",
+    "projection": "Orthogonal projector onto the group column space from an SVD with relative rcond 1e-10. First-order explainable residual fraction R2_g = <P_g r_a, r_b> / <r_a, r_b> (noise-unbiased cross-half); unique R2_g = R2_all - R2_(all without g).",
+    "rank_report": "singular values in raw units; weak if sigma / sigma_max < 1e-3, null if < 1e-6 (the 3 softmax shift directions are algebraic nulls and are not reported as findings)",
+    "coupling": "principal-angle cosines between group column spaces; |cos| >= 0.99 = locally non-identifiable pair of directions",
+    "uncertainty": "same 16-block lane jackknife (projector recomputed per replicate)",
+    "c_minus_a": "integrated gradients along the straight raw path z_A -> z_C, 32-point Gauss-Legendre; completeness residual reported; group shares projected on Delta_CA",
+    "scope": "local linear (Gauss-Newton tangent-space) analysis only; not a capacity bound"
+  },
+  "scene_phase": {
+    "tracer": "WL104E/F/G camera tracer (pt102 adapter, WL81 camera, one point light, spot cone); archived launch layout (512 spp per launch, seed*1000003 + launch) replayed exactly with sub-chunks via PCG32 initseq offsets",
+    "E1": "every term evaluated at the fixed point-light direction at the first hit on sphere/cube, times light rgb / d^2 and visibility",
+    "E2": "common frozen native R0 proposal at the first hit; every term divided by the same actual R0 pdf; fixed R0 terminal response, visibility and geometry at hit 2; rejected draws contribute zero to every term",
+    "unchanged": "non-ER first hits (native), HIGH (archived R0), proposal, terminal",
+    "images": "per event: R0 terms O0..O2, S L, S I0..I3, (L + sum I), s_o (L + sum I), s_i (L + sum I), S sum U, (L + sum U); A and C: O_k, S_X Y_X and the cross products S_A Y_C, S_C Y_A for Y in L, I0..I3; plus the non-ER native images",
+    "identity": "R0 native image = N + term sum must equal the archived R0 E1 / E2 per replicate (relative L1 <= 2e-5); A / C term sums must equal archived native A / C E1 on the development scenes; lane-level native-eval vs term-sum and w * pdf vs eval residuals <= 2e-6 of peak",
+    "rois": ["objects", "sphere", "cube", "highlight_core", "highlight_ring", "grazing", "sphere_lower"],
+    "statistics": "per event (E1, E2, E1+E2): cross-replicate unbiased inner products (stats104b.ms_loo) of Delta E_X with the absolute residual R = ref - R0, with Delta E_X itself, and with the C - A change (A, C evaluated with the same R0 proposal); rho, error_change and stable RMS change as in the response phase; signed energy change; delete-one-replicate jackknife (12 replicates, 11 dof)",
+    "c_minus_a_check": "projection of the fixed-R0-proposal C - A E2 change on the archived native CC - AA E2 change (proposal independence, WL104F)",
+    "no_total_claim": "E1 + E2 with archived R0 HIGH is a diagnostic response-only counterfactual; no production TOTAL fidelity is inferred"
+  },
+  "labels": {
+    "EVIDENCE_UNQUALIFIED": "reference precision gate fails for the stratum, or |r|^2 jackknife lower bound <= 0 (residual not resolved), or (matched variant) a normalisation is unqualified in any probe of the stratum",
+    "NO_DETECTABLE_COMPONENT_EFFECT": "n2 < 9 nu (change below 3 sigma of reference noise; response phase only) or the 95% interval of the error change includes 0",
+    "DETECTABLE_COMPONENT_EFFECT": "detectable, localisation rule not met",
+    "CONDITIONAL_ERROR_LOCALIZATION": "detectable, |rho| 95% interval entirely beyond 0.5 with fixed sign, and (response) the same holds per material in at least 2 of 3 development or 4 of 6 held-out materials of the cohort, and no intervention of a different family both reaches the same rule and has |cos(Delta F_X, Delta F_Y)| >= 0.9",
+    "CONFOUNDED_OR_NON_IDENTIFIABLE": "localisation rule met but an intervention of a different family with |cos| >= 0.9 also meets it",
+    "within_family": "nested interventions (group vs its lobes) are reported as hierarchical shares <Delta lobe, Delta group> / |Delta group|^2, not as confounding",
+    "scene": "same rules on each scene x event x ROI separately (development and held-out reported separately), detectability = error-change interval excludes 0 and |Delta E|^2 lower bound > 0"
+  },
+  "focused_tests": ["torch decomposition identity", "drjit decomposition identity", "torch vs drjit per term", "state-equivalent interventions (VALID_FAMILY)", "eta = 1 equals arm E", "attenuation interaction algebra", "reciprocity of VALID_FAMILY / non-reciprocity of DIAGNOSTIC_ONLY", "invalid directions and rejected samples", "grazing stability", "eta / attenuation dependency handling", "jacobian finite-difference consistency", "scene: frozen proposal / pdf identity, E1 and E2 counterfactual consistency vs native, deterministic replay, sub-chunk replay of the archived launch layout"],
+  "stops": ["repository or branch differs", "input hash mismatch", "decomposition identity fails", "reference precision fails", "scene replay of the archived R0 fails (proposal or geometry changed)", "analysis would require changing the certified representation"],
+  "outputs": {"raw": "results/ecro_wl84_104h/", "review": "evaluation/104H/", "worklog": "docs/worklogs/104H_WORKLOG_CERTIFIED_ER_COMPONENT_ABLATION.md"}
+}
