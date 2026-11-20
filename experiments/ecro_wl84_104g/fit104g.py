@@ -15,6 +15,7 @@ from common104d import F, REPO, historical_states
 PARENT = REPO / "evaluation/104D"
 FROZEN_FIT = REPO / "results/ecro_wl84_104f/inputs/train_original.npz"
 ANGULAR = REPO / "results/ecro_wl84_104d/amendment1/amended_reference.npz"
+WL83_FITS = REPO / "results/fnto_compiled83/results"
 STAGE_A = "05f806f"
 CFG = read(HERE.parent / "ecro_wl84_104f/protocol.json")["parts_bc"]["optimizer"]
 
@@ -37,11 +38,13 @@ def archived():
     for path, digest in paths.items():
         check_input(path, digest, inputs)
     for name, digest in provenance["parent_source_sha256"].items():
-        if name.startswith(("fit/fit_", "data/materials83.npz")):
+        if name.startswith("fit/fit_"):
+            check_input(WL83_FITS / name, digest, inputs)
+        elif name == "data/materials83.npz":
             check_input(C.W83 / name, digest, inputs)
     with np.load(PARENT / "fit_states.npz") as z:
         starts = np.stack([z[arm] for arm in ("A", "C")])
-    r0 = historical_states(C.W83, rows)["ER_DF"]
+    r0 = historical_states(WL83_FITS, rows)["ER_DF"]
     if starts.shape != (2, len(rows), 64) or r0.shape != (len(rows), 64):
         raise ValueError("Frozen fit layout differs")
     for name, raw in (("A", starts[0]), ("C", starts[1]), ("ER_DF", r0)):
