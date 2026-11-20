@@ -51,3 +51,30 @@ historical renderer replay within the original WL105 tolerance before any new re
 The original protocol file and sealed camera list retain their hashes. The host override and
 synthetic arithmetic fix precede actual qualification or training. Both factors, all thresholds,
 the frozen reference, the seeds and the timing budgets retain their original definitions.
+
+### Stage A result
+
+The direct authenticated LabServer63-to-69 transfer completed. Initial LabServer69 admission
+verified the 983 WL105 files and stopped on the absent original WL101 deployment identity
+sidecar. The sidecar was copied from the frozen snapshot and matched its SHA-256. The previous
+qualification directory and logs were kept under `preflight69_missing_commit/`. The retry used
+the same code and thresholds and qualified before training.
+
+On LabServer69, commit `6b1d8adf0591019d95a68365953cd9f54aec63e7` authenticated the WL105 and
+WL107 sources, reference, original R3 checkpoint
+`d51b69199b99a8608d8bfbd1f17375cd837894350cb33d63d9170be7b29264e1`, and all 54 exact frozen
+sphere-coverage maps. A repeated extraction was exactly identical. The maximum absolute
+difference from the analytic sphere cosine statistic was `7.642e-7`. The two-world synthetic
+inputs with equal frozen guides yielded 0.25 and 0.34 on the new channel and the softmax
+positive control reproduced 1.00 and 1.05. The nine focused checks passed.
+
+A fixed quadratic map of the old pointwise guides fit on training geometry attained validation
+R² 0.835 and absolute RMSE 0.06199 on mixed pixels. This measures predictability under one
+pointwise diagnostic. A neighborhood, camera-specific priors and nonlinear alternatives can
+carry information absent from this statistic. The qualification extraction, including analytic
+cross-check and host readback, had median 4.024 s per camera, range 3.705–4.337 s. Its
+SHA-256 is `628686a630e57733dc31a2b4aeaca6e85fe400c1f7ffe8ee879680d36b2aebc8`.
+
+The detached `chain69.sh` started the first paired training run at 15:05:43 KST. Results are
+under `LabServer69:~/rest_sss101a/results/ecro_denoise108/`. Stage C is chained behind all
+12 completed logged fits. Stage D is conditional on the frozen diagnostic trigger.
