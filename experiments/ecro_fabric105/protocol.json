@@ -1,0 +1,23 @@
+{
+  "id": "WL105",
+  "base": "29faf44",
+  "scope": "Static adaptation and fresh ECRO fitting on the public 8DNA Fabric get_scene asset and camera. Native Mitsuba curves and hair BSDF for intersections and all physical labels. Fixed geometry across all lights.",
+  "patch_cell_m": 0.18,
+  "geometry_seed": 105001,
+  "segment_probes": 262144,
+  "point_pool_per_cell": 256,
+  "native_probe_offset_m": 0.00025,
+  "native_probe_tolerance_m": 0.00015,
+  "min_native_surface_acceptance": 0.8,
+  "held_camera_max_fallback": 0.005,
+  "trace_bounces": 6,
+  "field_bounces": 5,
+  "source_samples_per_patch": 1024,
+  "train": {"groups": 8, "lights_per_group": 4, "spp": 24, "halves": 1, "seed": 105100},
+  "val": {"groups": 2, "lights_per_group": 4, "spp": 48, "halves": 2, "seed": 105200},
+  "fit": {"steps": 12000, "seed": 10501, "area_input_floor": 0.0},
+  "preflight": {"resolution": 128, "spp_each": 96, "seeds": [105301, 105302], "max_signed_energy_error": 0.04, "max_coarse_relative_l1": 0.12},
+  "evaluation": {"resolution": 512, "spp_each": 64, "seeds": [105501, 105502], "default_rotation": [0, 0], "held_light_rotation": [31, 113], "held_camera": {"theta": 70, "phi": -90}},
+  "illumination": "Use the unmodified native HDR environment in the public view, plus one held-out rotation and camera. Training/validation independently rotate that same environment, excluding rotations near either test rotation. Explicit physical source samples use envmap PDFs and native visibility. No camera images in training.",
+  "comparison": "Independent native Mitsuba path tracer at matched six scattering events, with RR disabled within the measured horizon. Also paired decomposed physical HIGH and LOW controls at equal sample count. Static only."
+}
