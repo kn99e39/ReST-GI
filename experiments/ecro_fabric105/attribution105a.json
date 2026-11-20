@@ -1,0 +1,12 @@
+{
+  "id": "WL105A",
+  "base": "2269282",
+  "area_field_spp_per_half": 4096,
+  "area_seeds": {"public": [105911, 105912], "held": [105921, 105922]},
+  "camera_oracle_fit_spp_per_half": 512,
+  "camera_fit_seeds": {"public": [105931, 105932], "held": [105941, 105942]},
+  "camera_oracle": "Per view and half, fit the existing per-cell/bin RGB constants from physical second-hit labels. Use sum throughput squared times unweighted residual radiance divided by sum throughput squared, channel-wise. For unsupported lanes only, fill with the paired independent area oracle. Validate on the saved WL105 camera seeds; all camera-oracle values are privileged diagnostics.",
+  "camera_evaluation": "Reuse the source, dimensions, mask, pair-seed and geometry from the WL105 1024-spp result. Re-render only area and camera oracle tables. Reproduce LOW for all compared paths. Analyze full-resolution, 8x8 coarse and 8x8-residual detail; report signed energy and cross-half mean-square terms.",
+  "light_view_cross": {"resolution": 256, "spp_per_half": 256, "seeds": [105951, 105952], "description": "Cross the two original viewing configurations with the two original environment rotations. Reuse the learned per-light tables, trace physical HIGH and compare pooled luminance."},
+  "scope": "One static attribution on frozen WL105. No training, patch or transport changes. Area-oracle tests replace prediction error while preserving the patch-domain average and readout. Camera-oracle tests address area-to-camera distribution mismatch within the same per-bin constant model."
+}
