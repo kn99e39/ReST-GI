@@ -1,0 +1,119 @@
+{
+ "R0.torch_float64_identity": {
+  "value": 1.6819329770456835e-16,
+  "limit": 1e-12,
+  "passed": true
+ },
+ "R0.drjit_identity": {
+  "value": 7.24649490385269e-08,
+  "limit": 2e-06,
+  "passed": true
+ },
+ "R0.torch_vs_drjit_terms": {
+  "value": 2.054439754643329e-05,
+  "limit": 0.0001,
+  "passed": true
+ },
+ "R0.state_equivalent_interventions": {
+  "value": 1.429462162455526e-07,
+  "limit": 2e-06,
+  "passed": true
+ },
+ "A.torch_float64_identity": {
+  "value": 1.6103207606209772e-16,
+  "limit": 1e-12,
+  "passed": true
+ },
+ "A.drjit_identity": {
+  "value": 6.901077836571366e-08,
+  "limit": 2e-06,
+  "passed": true
+ },
+ "A.torch_vs_drjit_terms": {
+  "value": 1.9262249586615165e-05,
+  "limit": 0.0001,
+  "passed": true
+ },
+ "A.state_equivalent_interventions": {
+  "value": 1.5765945203700853e-07,
+  "limit": 2e-06,
+  "passed": true
+ },
+ "C.torch_float64_identity": {
+  "value": 2.0034565958720352e-16,
+  "limit": 1e-12,
+  "passed": true
+ },
+ "C.drjit_identity": {
+  "value": 8.967522130047435e-08,
+  "limit": 2e-06,
+  "passed": true
+ },
+ "C.torch_vs_drjit_terms": {
+  "value": 3.992687344097455e-05,
+  "limit": 0.0001,
+  "passed": true
+ },
+ "C.state_equivalent_interventions": {
+  "value": 1.0499692955780249e-07,
+  "limit": 2e-06,
+  "passed": true
+ },
+ "eta_off_equals_arm_E": {
+  "value": 1.5190655981828016e-17,
+  "limit": 1e-12,
+  "passed": true
+ },
+ "atten_interaction_algebra": {
+  "value": 2.7830716795317534e-13,
+  "limit": 1e-12,
+  "passed": true
+ },
+ "eta_atten_interaction_algebra": {
+  "value": 2.658432666881982e-13,
+  "limit": 1e-12,
+  "passed": true
+ },
+ "valid_family_reciprocity": {
+  "value": 1.688057348320897e-14,
+  "limit": 1e-10,
+  "passed": true
+ },
+ "diagnostic_only_nonreciprocity_min": 6.784342102582748e-05,
+ "invalid_directions_zero": {
+  "value": 0.0,
+  "limit": 0.0,
+  "passed": true
+ },
+ "grazing_identity_finite": {
+  "value": 9.406870042425558e-08,
+  "limit": 2e-06,
+  "passed": true
+ },
+ "terms_nonnegative": {
+  "value": -0.0,
+  "limit": 0.0,
+  "passed": true
+ },
+ "eta_one_limit_I_equals_U": {
+  "value": 3.0856192063256673e-07,
+  "limit": 2e-06,
+  "passed": true
+ },
+ "jacobian_fd_small": {
+  "value": 1.1498254697505506e-08,
+  "limit": 1e-06,
+  "passed": true
+ },
+ "raw_groups_dims": {
+  "amplitude": 27,
+  "roughness": 7,
+  "anisotropy": 7,
+  "fresnel": 7,
+  "attenuation": 15,
+  "eta": 1
+ },
+ "seconds": 5.625,
+ "failures": [],
+ "commit": "fbdef22b09a8d65810f3e3cfa3ce1878dc66833e"
+}

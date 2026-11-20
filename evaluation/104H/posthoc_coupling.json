@@ -1,0 +1,2058 @@
+{
+ "post_hoc": true,
+ "commit": "fbdef22b09a8d65810f3e3cfa3ce1878dc66833e",
+ "results": {
+  "test83_iid_1": {
+   "knots_s": [
+    [
+     0.330869,
+     0.621198,
+     0.999944,
+     0.999883,
+     0.999947
+    ],
+    [
+     0.361539,
+     0.658866,
+     0.999955,
+     0.999922,
+     0.999957
+    ],
+    [
+     0.329988,
+     0.678432,
+     0.999953,
+     0.999883,
+     0.973987
+    ]
+   ],
+   "knot_sigmoid_slope": [
+    0.22139471769332886,
+    0.23531095683574677,
+    5.638281436404213e-05,
+    0.00011681145406328142,
+    5.256853182800114e-05,
+    0.2308284193277359,
+    0.22476142644882202,
+    4.4820684706792235e-05,
+    7.819518214091659e-05,
+    4.315190017223358e-05,
+    0.2210959792137146,
+    0.21816198527812958,
+    4.7085453843465075e-05,
+    0.00011704982171067968,
+    0.025336112827062607
+   ],
+   "f0": [
+    0.10544,
+    0.905405,
+    0.006762,
+    0.648005,
+    0.953496,
+    0.999826,
+    0.99973
+   ],
+   "f0_sigmoid_slope": [
+    0.094322569668293,
+    0.08564713597297668,
+    0.006716019008308649,
+    0.2280944585800171,
+    0.044341180473566055,
+    0.00017395569011569023,
+    0.00026951913605444133
+   ],
+   "alpha_u": [
+    0.058663,
+    0.059563,
+    0.055491,
+    0.457757,
+    0.472534,
+    0.457048,
+    0.487253
+   ],
+   "alpha_v": [
+    0.059082,
+    0.061007,
+    0.055047,
+    0.464545,
+    0.463608,
+    0.458219,
+    0.483676
+   ],
+   "lam": [
+    [
+     0.033383,
+     0.005816,
+     0.081298,
+     0.796618,
+     1e-05,
+     9.5e-05,
+     0.078769,
+     0.003979
+    ],
+    [
+     0.044538,
+     0.001202,
+     0.083565,
+     0.788064,
+     9e-06,
+     7.8e-05,
+     0.080929,
+     0.001589
+    ],
+    [
+     0.027723,
+     0.524361,
+     0.022518,
+     0.372651,
+     1.1e-05,
+     0.000104,
+     0.003663,
+     0.048935
+    ]
+   ],
+   "eta": 1.0001810540337075,
+   "within_lobe": {
+    "O0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.8911833556053763,
+      "column_norm_relative": 0.13046929678089225
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.5811411417167436,
+      "column_norm_relative": 0.5728843867052348
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.027158452182586546,
+      "column_norm_relative": 0.34853726773766186
+     }
+    },
+    "O1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.9996901059753442,
+      "column_norm_relative": 0.026198475141555082
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.7539443020918646,
+      "column_norm_relative": 0.39014183805252345
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.019487366413992895,
+      "column_norm_relative": 0.2727760449998466
+     }
+    },
+    "O2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.875460637402475,
+      "column_norm_relative": 0.022291904397924524
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.19341354268951277,
+      "column_norm_relative": 1.2106751618375522
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.00797419147808286,
+      "column_norm_relative": 0.70416665157744
+     }
+    },
+    "I0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.11728042137839585,
+      "column_norm_relative": 1.2120177395441592e-06
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.030684007410150777,
+      "column_norm_relative": 2.3272808766997896e-06
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.002677233165682845,
+      "column_norm_relative": 1.6926365775361584e-06
+     }
+    },
+    "I1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.2439221780710714,
+      "column_norm_relative": 2.1025562259904135e-06
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.07833874850319736,
+      "column_norm_relative": 2.9738164636422465e-05
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0069229806567409355,
+      "column_norm_relative": 2.1802147071937794e-05
+     }
+    },
+    "I2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.26453007750983243,
+      "column_norm_relative": 5.960617653245659e-06
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.09526602469511751,
+      "column_norm_relative": 0.023033972456020468
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.004767354830848581,
+      "column_norm_relative": 0.016809189445994587
+     }
+    },
+    "I3": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.25818887545886304,
+      "column_norm_relative": 3.716477344683867e-06
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.09087795814041037,
+      "column_norm_relative": 0.008705807422139422
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.00559495997572067,
+      "column_norm_relative": 0.006449580010404248
+     }
+    }
+   },
+   "attenuation_amplitude_equivalence": [
+    {
+     "channel": 0,
+     "relative_difference": 0.0,
+     "cos": 1.0
+    },
+    {
+     "channel": 1,
+     "relative_difference": 7.445449927275259e-17,
+     "cos": 1.0
+    },
+    {
+     "channel": 2,
+     "relative_difference": 2.0775887584000744e-16,
+     "cos": 0.9999999999999999
+    }
+   ]
+  },
+  "test83_iid_0": {
+   "knots_s": [
+    [
+     0.691598,
+     0.933759,
+     0.998111,
+     0.864422,
+     0.761494
+    ],
+    [
+     0.584208,
+     0.824756,
+     0.980959,
+     0.997789,
+     0.999968
+    ],
+    [
+     0.603266,
+     0.791228,
+     0.930179,
+     0.995485,
+     0.99999
+    ]
+   ],
+   "knot_sigmoid_slope": [
+    0.2132900208234787,
+    0.061853308230638504,
+    0.0018853034125640988,
+    0.1171969398856163,
+    0.18162114918231964,
+    0.2429090142250061,
+    0.14453329145908356,
+    0.018678786233067513,
+    0.0022064424119889736,
+    3.242387538193725e-05,
+    0.23933614790439606,
+    0.16518615186214447,
+    0.06494612991809845,
+    0.004495020490139723,
+    9.894272807287052e-06
+   ],
+   "f0": [
+    0.985751,
+    0.001523,
+    0.078751,
+    0.999575,
+    0.999959,
+    0.999687,
+    0.00708
+   ],
+   "f0_sigmoid_slope": [
+    0.014046166092157364,
+    0.0015211382415145636,
+    0.07254891842603683,
+    0.0004252173821441829,
+    4.1006314859259874e-05,
+    0.00031282645068131387,
+    0.007029735948890448
+   ],
+   "alpha_u": [
+    0.319929,
+    0.19085,
+    0.270044,
+    0.340018,
+    0.361691,
+    0.337092,
+    0.880599
+   ],
+   "alpha_v": [
+    0.32042,
+    0.174239,
+    0.271844,
+    0.34134,
+    0.366845,
+    0.340678,
+    0.938629
+   ],
+   "lam": [
+    [
+     0.000452,
+     0.00238,
+     0.000307,
+     0.825565,
+     0.145462,
+     0.007073,
+     0.015385,
+     0.001485
+    ],
+    [
+     1.9e-05,
+     0.028018,
+     0.104393,
+     0.582105,
+     0.105897,
+     0.041974,
+     0.137373,
+     0.000103
+    ],
+    [
+     0.006011,
+     0.118278,
+     0.304602,
+     0.001766,
+     0.00626,
+     0.549745,
+     0.013301,
+     2e-05
+    ]
+   ],
+   "eta": 1.3036968943489426,
+   "within_lobe": {
+    "O0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.9791702899542589,
+      "column_norm_relative": 0.00554392163218864
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.8056534820734045,
+      "column_norm_relative": 0.38882921358076916
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0052103077624725234,
+      "column_norm_relative": 0.29019298180164405
+     }
+    },
+    "O1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.30787879865337486,
+      "column_norm_relative": 0.0028823530695933674
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.6085147461908333,
+      "column_norm_relative": 0.8087221111301887
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.04067030767712462,
+      "column_norm_relative": 0.39576355926516726
+     }
+    },
+    "O2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.5340873069827492,
+      "column_norm_relative": 0.2835681021223965
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.3880087491794307,
+      "column_norm_relative": 1.2170665146695447
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.043844838388202294,
+      "column_norm_relative": 0.6465626638646391
+     }
+    },
+    "I0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.773031596432834,
+      "column_norm_relative": 0.00010871722816984411
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.5135990723282414,
+      "column_norm_relative": 0.2063381067855813
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0007691000357683395,
+      "column_norm_relative": 0.13964005139844998
+     }
+    },
+    "I1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.35104278254170584,
+      "column_norm_relative": 3.296821932825161e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.13962414538105483,
+      "column_norm_relative": 0.6145570013137425
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.005911255950826581,
+      "column_norm_relative": 0.41235734521162554
+     }
+    },
+    "I2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.7947059886254417,
+      "column_norm_relative": 7.046057205090916e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.5529083055712144,
+      "column_norm_relative": 0.18080264432436674
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.004507238096363877,
+      "column_norm_relative": 0.12280763904575277
+     }
+    },
+    "I3": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.4193819236336402,
+      "column_norm_relative": 4.206213922621802e-06
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.5576752004767563,
+      "column_norm_relative": 4.6476694028559126e-07
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.35027006879698286,
+      "column_norm_relative": 2.338039668744526e-07
+     }
+    }
+   },
+   "attenuation_amplitude_equivalence": [
+    {
+     "channel": 0,
+     "relative_difference": 9.417445853462642e-17,
+     "cos": 0.9999999999999999
+    },
+    {
+     "channel": 1,
+     "relative_difference": 1.0939497945674065e-16,
+     "cos": 1.0
+    },
+    {
+     "channel": 2,
+     "relative_difference": 8.946003498400865e-17,
+     "cos": 1.0
+    }
+   ]
+  },
+  "test83_hard_1": {
+   "knots_s": [
+    [
+     0.693747,
+     0.967308,
+     0.976318,
+     0.988451,
+     0.999996
+    ],
+    [
+     0.830858,
+     0.999995,
+     0.999985,
+     0.987687,
+     0.999994
+    ],
+    [
+     0.653305,
+     0.949078,
+     0.964721,
+     0.987464,
+     0.999994
+    ]
+   ],
+   "knot_sigmoid_slope": [
+    0.2124619483947754,
+    0.031623583287000656,
+    0.023121103644371033,
+    0.011415150947868824,
+    3.933891093765851e-06,
+    0.14053283631801605,
+    5.245181455393322e-06,
+    1.5258556231856346e-05,
+    0.01216133963316679,
+    6.318052328424528e-06,
+    0.2264975905418396,
+    0.04832887649536133,
+    0.034034259617328644,
+    0.012378663755953312,
+    5.602805231319508e-06
+   ],
+   "f0": [
+    5.7e-05,
+    0.999165,
+    0.998014,
+    0.9998,
+    0.999902,
+    0.986224,
+    0.07542
+   ],
+   "f0_sigmoid_slope": [
+    5.6641572882654145e-05,
+    0.0008347207913175225,
+    0.0019820823799818754,
+    0.00019945694657508284,
+    9.833799413172528e-05,
+    0.013586283661425114,
+    0.06973140686750412
+   ],
+   "alpha_u": [
+    0.082449,
+    0.104143,
+    0.104995,
+    0.043063,
+    0.044396,
+    0.043454,
+    0.805694
+   ],
+   "alpha_v": [
+    0.061661,
+    0.111281,
+    0.099308,
+    0.04251,
+    0.04523,
+    0.043218,
+    0.837898
+   ],
+   "lam": [
+    [
+     2.7e-05,
+     0.281839,
+     0.089203,
+     0.052971,
+     0.347741,
+     0.227866,
+     0.000304,
+     2.3e-05
+    ],
+    [
+     0.00139,
+     0.171612,
+     0.011091,
+     0.175572,
+     0.002552,
+     0.637578,
+     0.000159,
+     2.1e-05
+    ],
+    [
+     2.4e-05,
+     0.355437,
+     0.114686,
+     0.002419,
+     0.498099,
+     0.028932,
+     0.00034,
+     2.4e-05
+    ]
+   ],
+   "eta": 2.4993076621549135,
+   "within_lobe": {
+    "O0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.15015109383120748,
+      "column_norm_relative": 7.959273754992906e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.6984283739529988,
+      "column_norm_relative": 1.1927764396883052
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.009386242188171252,
+      "column_norm_relative": 0.6957600771472494
+     }
+    },
+    "O1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.937401040909025,
+      "column_norm_relative": 0.00023132196549241485
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.7957856109762227,
+      "column_norm_relative": 0.4776177679714949
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.05929661601075284,
+      "column_norm_relative": 0.325482045932483
+     }
+    },
+    "O2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.8929850836744538,
+      "column_norm_relative": 0.0007296993220566653
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.8523083935015492,
+      "column_norm_relative": 0.6418263978464435
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.012752651067849228,
+      "column_norm_relative": 0.4370220594502545
+     }
+    },
+    "I0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.29773914149482666,
+      "column_norm_relative": 0.00012576006628705572
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.13859062893470692,
+      "column_norm_relative": 0.7652452308296365
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.007236369799460771,
+      "column_norm_relative": 0.5314607554709694
+     }
+    },
+    "I1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.06870976637713139,
+      "column_norm_relative": 6.781626632335075e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.13996645478058006,
+      "column_norm_relative": 0.8414699245842294
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.014995787061490538,
+      "column_norm_relative": 0.5831131140894557
+     }
+    },
+    "I2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.242241642205261,
+      "column_norm_relative": 6.749940276447724e-06
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.10076429420829909,
+      "column_norm_relative": 0.0005957410842476401
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.00353247893802237,
+      "column_norm_relative": 0.00041355459802796315
+     }
+    },
+    "I3": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.2099594696698997,
+      "column_norm_relative": 7.287829989465606e-08
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.23495973306903295,
+      "column_norm_relative": 1.9179259134635287e-08
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.1556681767161509,
+      "column_norm_relative": 2.738570958837318e-09
+     }
+    }
+   },
+   "attenuation_amplitude_equivalence": [
+    {
+     "channel": 0,
+     "relative_difference": 7.380358228762444e-17,
+     "cos": 0.9999999999999998
+    },
+    {
+     "channel": 1,
+     "relative_difference": 0.0,
+     "cos": 0.9999999999999999
+    },
+    {
+     "channel": 2,
+     "relative_difference": 8.193478118177044e-17,
+     "cos": 0.9999999999999998
+    }
+   ]
+  },
+  "test83_iid_191": {
+   "knots_s": [
+    [
+     0.739686,
+     0.895223,
+     0.999923,
+     0.915414,
+     0.86134
+    ],
+    [
+     0.35732,
+     0.663079,
+     0.971575,
+     0.999779,
+     0.999758
+    ],
+    [
+     0.353688,
+     0.7013,
+     0.999802,
+     0.999729,
+     0.961086
+    ]
+   ],
+   "knot_sigmoid_slope": [
+    0.1925504207611084,
+    0.0937984362244606,
+    7.688407640671358e-05,
+    0.07743103057146072,
+    0.11943349987268448,
+    0.2296423316001892,
+    0.22340528666973114,
+    0.02761739306151867,
+    0.00022090559650678188,
+    0.00024199587642215192,
+    0.22859293222427368,
+    0.20947831869125366,
+    0.00019802700262516737,
+    0.0002708297106437385,
+    0.037399448454380035
+   ],
+   "f0": [
+    0.191704,
+    0.912522,
+    0.002053,
+    0.918267,
+    0.614027,
+    0.997162,
+    0.998863
+   ],
+   "f0_sigmoid_slope": [
+    0.15495382249355316,
+    0.07982514053583145,
+    0.0020485185086727142,
+    0.07505305856466293,
+    0.2369977831840515,
+    0.0028295463416725397,
+    0.0011358443880453706
+   ],
+   "alpha_u": [
+    0.121051,
+    0.131668,
+    0.11867,
+    0.29473,
+    0.12553,
+    0.47159,
+    0.457289
+   ],
+   "alpha_v": [
+    0.088384,
+    0.132775,
+    0.118282,
+    0.292123,
+    0.125252,
+    0.469933,
+    0.460109
+   ],
+   "lam": [
+    [
+     0.044124,
+     0.000477,
+     0.001069,
+     0.775377,
+     0.013748,
+     0.162116,
+     0.000365,
+     0.002515
+    ],
+    [
+     0.041171,
+     0.010074,
+     0.094799,
+     0.805913,
+     8.6e-05,
+     2.9e-05,
+     0.026533,
+     0.021289
+    ],
+    [
+     0.042078,
+     0.007614,
+     0.094,
+     0.820197,
+     0.00013,
+     8.9e-05,
+     0.015098,
+     0.020664
+    ]
+   ],
+   "eta": 1.0004065628876295,
+   "within_lobe": {
+    "O0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.8750285280338157,
+      "column_norm_relative": 0.006087264197221761
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.8397103941696522,
+      "column_norm_relative": 0.018982298345850704
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.17039895263654303,
+      "column_norm_relative": 0.01145959890886253
+     }
+    },
+    "O1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.9994221016621262,
+      "column_norm_relative": 0.02576594596280253
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.7596470884267148,
+      "column_norm_relative": 0.39177564428720674
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0005903774415128541,
+      "column_norm_relative": 0.26932924148603665
+     }
+    },
+    "O2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.937715982943474,
+      "column_norm_relative": 0.007689368291243973
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.02435396584093031,
+      "column_norm_relative": 1.2483652376565277
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0012746677262458804,
+      "column_norm_relative": 0.655965106252557
+     }
+    },
+    "I0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.7630369941899224,
+      "column_norm_relative": 0.0009219458915022796
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.3756638403010819,
+      "column_norm_relative": 0.01120933618091869
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.018714984711465207,
+      "column_norm_relative": 0.007849026054845023
+     }
+    },
+    "I1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.992638479112017,
+      "column_norm_relative": 0.08502264178759585
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.722409060253186,
+      "column_norm_relative": 0.3075940635807075
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.00048642652722066825,
+      "column_norm_relative": 0.20872042053708562
+     }
+    },
+    "I2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.5715817010026851,
+      "column_norm_relative": 5.181627309548504e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.2667438691612779,
+      "column_norm_relative": 0.011793540882024327
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0022563813091899614,
+      "column_norm_relative": 0.008896316315812492
+     }
+    },
+    "I3": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.586989920970217,
+      "column_norm_relative": 2.080039670835071e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.2780839021610136,
+      "column_norm_relative": 0.01218367429072792
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0001264960525607773,
+      "column_norm_relative": 0.009170720087791275
+     }
+    }
+   },
+   "attenuation_amplitude_equivalence": [
+    {
+     "channel": 0,
+     "relative_difference": 4.196890822482554e-17,
+     "cos": 1.0000000000000002
+    },
+    {
+     "channel": 1,
+     "relative_difference": 1.2462765149657183e-16,
+     "cos": 0.9999999999999998
+    },
+    {
+     "channel": 2,
+     "relative_difference": 0.0,
+     "cos": 1.0000000000000002
+    }
+   ]
+  },
+  "test83_iid_159": {
+   "knots_s": [
+    [
+     0.159329,
+     0.418462,
+     0.722356,
+     0.870969,
+     0.999296
+    ],
+    [
+     0.85103,
+     0.99101,
+     0.979824,
+     0.834894,
+     0.744664
+    ],
+    [
+     0.504868,
+     0.797927,
+     0.932519,
+     0.933447,
+     0.981437
+    ]
+   ],
+   "knot_sigmoid_slope": [
+    0.1339430958032608,
+    0.2433515340089798,
+    0.2005576342344284,
+    0.11238209158182144,
+    0.000703673402313143,
+    0.12677769362926483,
+    0.008909696713089943,
+    0.019769208505749702,
+    0.13784576952457428,
+    0.19013942778110504,
+    0.24997630715370178,
+    0.16123920679092407,
+    0.06292724609375,
+    0.06212364509701729,
+    0.01821810193359852
+   ],
+   "f0": [
+    0.005843,
+    0.770845,
+    0.00032,
+    0.971856,
+    0.220153,
+    0.413802,
+    0.791081
+   ],
+   "f0_sigmoid_slope": [
+    0.005809298250824213,
+    0.1766429841518402,
+    0.0003198150952812284,
+    0.027351917698979378,
+    0.17168563604354858,
+    0.24256984889507294,
+    0.16527159512043
+   ],
+   "alpha_u": [
+    0.321697,
+    0.990228,
+    0.484504,
+    0.082194,
+    0.120386,
+    0.853511,
+    0.964141
+   ],
+   "alpha_v": [
+    0.333361,
+    0.982082,
+    0.498144,
+    0.082993,
+    0.118103,
+    0.917415,
+    0.983779
+   ],
+   "lam": [
+    [
+     0.005995,
+     0.00164,
+     0.030583,
+     0.687855,
+     0.262727,
+     0.001139,
+     0.002582,
+     0.003506
+    ],
+    [
+     0.084535,
+     0.03049,
+     0.006868,
+     0.523827,
+     0.055619,
+     0.111778,
+     0.06728,
+     0.06503
+    ],
+    [
+     0.049812,
+     0.016463,
+     0.054703,
+     0.529162,
+     0.113755,
+     0.003456,
+     0.048781,
+     0.120798
+    ]
+   ],
+   "eta": 2.4836888756044493,
+   "within_lobe": {
+    "O0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.22733753420611724,
+      "column_norm_relative": 0.0009310273825520516
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.7690391673977387,
+      "column_norm_relative": 0.035827502441879114
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.044345785624131905,
+      "column_norm_relative": 0.018406212092077746
+     }
+    },
+    "O1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.8603948982883148,
+      "column_norm_relative": 0.01893840009220773
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.23520261050442925,
+      "column_norm_relative": 0.0011037591953343882
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.08666294052810762,
+      "column_norm_relative": 0.001271567901911259
+     }
+    },
+    "O2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.8002034579549663,
+      "column_norm_relative": 0.0009937284019111172
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.049455553804722226,
+      "column_norm_relative": 0.32914379424098783
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.012883064216797106,
+      "column_norm_relative": 0.1818169177342114
+     }
+    },
+    "I0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.9946489818404034,
+      "column_norm_relative": 0.026587884989220874
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.8134589784740904,
+      "column_norm_relative": 1.1720361707236533
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.019862096557366236,
+      "column_norm_relative": 0.781838950356652
+     }
+    },
+    "I1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.17322591672392657,
+      "column_norm_relative": 0.04293095272171074
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.24786488839071422,
+      "column_norm_relative": 0.06668108781570957
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.020455950239375343,
+      "column_norm_relative": 0.042505868540325266
+     }
+    },
+    "I2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.6912587733393862,
+      "column_norm_relative": 0.0030656908477036168
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.7194250858790671,
+      "column_norm_relative": 0.0008151128825768868
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.682590045706505,
+      "column_norm_relative": 0.00024128677177510244
+     }
+    },
+    "I3": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.6218779020083024,
+      "column_norm_relative": 0.003027057149046708
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.6475306624413298,
+      "column_norm_relative": 0.0005117605270751033
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.6373312083359025,
+      "column_norm_relative": 0.0001962955406224132
+     }
+    }
+   },
+   "attenuation_amplitude_equivalence": [
+    {
+     "channel": 0,
+     "relative_difference": 1.1810295930655396e-17,
+     "cos": 1.0
+    },
+    {
+     "channel": 1,
+     "relative_difference": 0.0,
+     "cos": 0.9999999999999999
+    },
+    {
+     "channel": 2,
+     "relative_difference": 0.0,
+     "cos": 0.9999999999999998
+    }
+   ]
+  },
+  "test83_block_161": {
+   "knots_s": [
+    [
+     0.386735,
+     0.824838,
+     0.999976,
+     0.999954,
+     0.914877
+    ],
+    [
+     0.368769,
+     0.746514,
+     0.999931,
+     0.999946,
+     0.977055
+    ],
+    [
+     0.378427,
+     0.773568,
+     0.999981,
+     0.999983,
+     0.997946
+    ]
+   ],
+   "knot_sigmoid_slope": [
+    0.2371709644794464,
+    0.14448031783103943,
+    2.4437307729385793e-05,
+    4.6251065214164555e-05,
+    0.07787732779979706,
+    0.23277851939201355,
+    0.1892307549715042,
+    6.925580237293616e-05,
+    5.4475676734000444e-05,
+    0.02241845801472664,
+    0.23521997034549713,
+    0.17516030371189117,
+    1.85963035619352e-05,
+    1.72850486706011e-05,
+    0.002050172770395875
+   ],
+   "f0": [
+    0.054057,
+    0.99432,
+    0.052811,
+    0.491293,
+    0.479325,
+    0.951641,
+    0.998444
+   ],
+   "f0_sigmoid_slope": [
+    0.051134880632162094,
+    0.005648056510835886,
+    0.050021883100271225,
+    0.2499241977930069,
+    0.24957256019115448,
+    0.046020008623600006,
+    0.001553795882500708
+   ],
+   "alpha_u": [
+    0.045784,
+    0.12373,
+    0.049552,
+    0.270521,
+    0.363533,
+    0.359243,
+    0.386434
+   ],
+   "alpha_v": [
+    0.049549,
+    0.104632,
+    0.050725,
+    0.420384,
+    0.407933,
+    0.42993,
+    0.424719
+   ],
+   "lam": [
+    [
+     0.120614,
+     0.181342,
+     0.010175,
+     0.6877,
+     6e-06,
+     6e-06,
+     4.4e-05,
+     8.8e-05
+    ],
+    [
+     0.091572,
+     0.000354,
+     0.008367,
+     0.893967,
+     6e-06,
+     9e-06,
+     0.000161,
+     0.005532
+    ],
+    [
+     0.147166,
+     0.563789,
+     0.013784,
+     0.270645,
+     1.1e-05,
+     3e-06,
+     0.000128,
+     0.004455
+    ]
+   ],
+   "eta": 1.001175085956187,
+   "within_lobe": {
+    "O0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.32392081728298,
+      "column_norm_relative": 0.08311623571476359
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.8571147375759326,
+      "column_norm_relative": 0.653484450790165
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.01603877302688276,
+      "column_norm_relative": 0.37858647361514497
+     }
+    },
+    "O1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.9044184226322439,
+      "column_norm_relative": 0.00012192106425144824
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.5523963450183671,
+      "column_norm_relative": 0.028316628892345912
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.018104483596593585,
+      "column_norm_relative": 0.019462029777017276
+     }
+    },
+    "O2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.28883412194130625,
+      "column_norm_relative": 0.151235125825195
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.7935493206038627,
+      "column_norm_relative": 1.2080267497137045
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.04495352343400248,
+      "column_norm_relative": 0.6981219498619
+     }
+    },
+    "I0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.11397389649995052,
+      "column_norm_relative": 1.2439371795685105e-06
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.026910296001936795,
+      "column_norm_relative": 2.163036195489827e-06
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.020320391352849316,
+      "column_norm_relative": 1.5344786731114377e-06
+     }
+    },
+    "I1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.08789329266618626,
+      "column_norm_relative": 8.163808176666138e-07
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.04244581800396461,
+      "column_norm_relative": 1.272361568516603e-06
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0051443589177162154,
+      "column_norm_relative": 9.036467664042697e-07
+     }
+    },
+    "I2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.297808098024282,
+      "column_norm_relative": 2.888412248790366e-06
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.14728492812855096,
+      "column_norm_relative": 4.6065552305816235e-05
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.027165858705354352,
+      "column_norm_relative": 3.335952788286799e-05
+     }
+    },
+    "I3": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.3061370512820336,
+      "column_norm_relative": 3.190042032308466e-06
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.15655660674462268,
+      "column_norm_relative": 0.0015394492100719765
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.017491398473810937,
+      "column_norm_relative": 0.001117698218078424
+     }
+    }
+   },
+   "attenuation_amplitude_equivalence": [
+    {
+     "channel": 0,
+     "relative_difference": 1.166823046889493e-16,
+     "cos": 0.9999999999999998
+    },
+    {
+     "channel": 1,
+     "relative_difference": 6.997726427289965e-17,
+     "cos": 0.9999999999999999
+    },
+    {
+     "channel": 2,
+     "relative_difference": 1.526520424420623e-16,
+     "cos": 1.0
+    }
+   ]
+  },
+  "test83_block_186": {
+   "knots_s": [
+    [
+     0.426178,
+     0.778468,
+     0.99989,
+     0.999912,
+     0.899695
+    ],
+    [
+     0.03244,
+     0.569282,
+     0.897718,
+     0.993238,
+     0.844479
+    ],
+    [
+     0.365543,
+     0.783519,
+     0.999851,
+     0.999805,
+     0.844453
+    ]
+   ],
+   "knot_sigmoid_slope": [
+    0.24455027282238007,
+    0.1724555939435959,
+    0.00010977969941450283,
+    8.784952660789713e-05,
+    0.09024359285831451,
+    0.03138746693730354,
+    0.24519997835159302,
+    0.09182005375623703,
+    0.006716420408338308,
+    0.13133391737937927,
+    0.2319212257862091,
+    0.1696166843175888,
+    0.00014898940571583807,
+    0.00019504794909153134,
+    0.13135230541229248
+   ],
+   "f0": [
+    0.07465,
+    0.989762,
+    0.068896,
+    0.366484,
+    0.345333,
+    0.768183,
+    0.955516
+   ],
+   "f0_sigmoid_slope": [
+    0.0690772756934166,
+    0.010132941417396069,
+    0.06414953619241714,
+    0.2321736067533493,
+    0.2260780930519104,
+    0.17807795107364655,
+    0.042505353689193726
+   ],
+   "alpha_u": [
+    0.057353,
+    0.282497,
+    0.059344,
+    0.515659,
+    0.497522,
+    0.612663,
+    0.627676
+   ],
+   "alpha_v": [
+    0.057265,
+    0.272218,
+    0.059808,
+    0.581432,
+    0.501081,
+    0.610155,
+    0.616342
+   ],
+   "lam": [
+    [
+     0.078686,
+     0.697616,
+     0.006613,
+     0.216956,
+     5e-06,
+     5e-06,
+     2.7e-05,
+     5.5e-05
+    ],
+    [
+     0.00963,
+     0.000542,
+     7.1e-05,
+     0.962963,
+     0.000221,
+     0.000284,
+     0.003905,
+     0.02111
+    ],
+    [
+     0.056566,
+     0.317155,
+     0.004262,
+     0.621814,
+     7e-06,
+     8e-06,
+     4.4e-05,
+     9.4e-05
+    ]
+   ],
+   "eta": 1.0116067556355404,
+   "within_lobe": {
+    "O0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.47110021444566835,
+      "column_norm_relative": 0.17657181848785117
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.8303495313654607,
+      "column_norm_relative": 0.8506222927570769
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.02859551793495439,
+      "column_norm_relative": 0.47876177340242837
+     }
+    },
+    "O1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.6194244948018569,
+      "column_norm_relative": 5.2677859189716516e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.31805301533077923,
+      "column_norm_relative": 0.005011800933048821
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.016473457881659926,
+      "column_norm_relative": 0.0034870726335456056
+     }
+    },
+    "O2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.39241813383125834,
+      "column_norm_relative": 0.24018434810682096
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.7465170256728563,
+      "column_norm_relative": 1.2216322021847903
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.018213386939750068,
+      "column_norm_relative": 0.6852941952607853
+     }
+    },
+    "I0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.022060042388411652,
+      "column_norm_relative": 1.3176389322754262e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.08146735929365133,
+      "column_norm_relative": 1.1198464155541784e-05
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.007917488764819793,
+      "column_norm_relative": 8.020406683611625e-06
+     }
+    },
+    "I1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.016999796384713335,
+      "column_norm_relative": 1.8234666920207494e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.09501555854830021,
+      "column_norm_relative": 1.6952910804203318e-05
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0013941925788183822,
+      "column_norm_relative": 1.2059844539948858e-05
+     }
+    },
+    "I2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.1558020232314031,
+      "column_norm_relative": 0.00015827536355207414
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.04050919318470495,
+      "column_norm_relative": 0.0003038887096427373
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.00273056672698409,
+      "column_norm_relative": 0.00021783726342022565
+     }
+    },
+    "I3": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.2133941997660383,
+      "column_norm_relative": 0.00020041859817967767
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.08969754237982434,
+      "column_norm_relative": 0.001939339276954148
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.005137747055544554,
+      "column_norm_relative": 0.001390731423837239
+     }
+    }
+   },
+   "attenuation_amplitude_equivalence": [
+    {
+     "channel": 0,
+     "relative_difference": 1.4094745267259711e-16,
+     "cos": 1.0000000000000002
+    },
+    {
+     "channel": 1,
+     "relative_difference": 2.5322692912987803e-16,
+     "cos": 1.0000000000000002
+    },
+    {
+     "channel": 2,
+     "relative_difference": 1.0392394131472802e-16,
+     "cos": 1.0000000000000002
+    }
+   ]
+  },
+  "test83_hard_76": {
+   "knots_s": [
+    [
+     0.738332,
+     0.879416,
+     0.980058,
+     0.943388,
+     0.999993
+    ],
+    [
+     0.660853,
+     0.857279,
+     0.97452,
+     0.94565,
+     0.999993
+    ],
+    [
+     0.656644,
+     0.859888,
+     0.961641,
+     0.939323,
+     0.999993
+    ]
+   ],
+   "knot_sigmoid_slope": [
+    0.19319778680801392,
+    0.10604368895292282,
+    0.019544817507267,
+    0.053407251834869385,
+    7.152506441343576e-06,
+    0.22412635385990143,
+    0.12235201150178909,
+    0.024830516427755356,
+    0.051396410912275314,
+    6.675675649603363e-06,
+    0.22546279430389404,
+    0.12048087269067764,
+    0.03688746318221092,
+    0.05699550360441208,
+    7.271713911904953e-06
+   ],
+   "f0": [
+    0.92719,
+    0.000772,
+    0.024683,
+    0.998703,
+    0.99939,
+    0.999955,
+    0.13195
+   ],
+   "f0_sigmoid_slope": [
+    0.06750905513763428,
+    0.000771870487369597,
+    0.02407420426607132,
+    0.0012956715654581785,
+    0.0006100980681367218,
+    4.5535874960478395e-05,
+    0.11453934758901596
+   ],
+   "alpha_u": [
+    0.170289,
+    0.132417,
+    0.108663,
+    0.060764,
+    0.060893,
+    0.062615,
+    0.863395
+   ],
+   "alpha_v": [
+    0.158333,
+    0.141195,
+    0.126635,
+    0.062526,
+    0.062108,
+    0.063672,
+    0.848747
+   ],
+   "lam": [
+    [
+     0.011702,
+     0.094963,
+     0.001177,
+     0.28093,
+     0.002406,
+     0.002347,
+     0.606446,
+     1.4e-05
+    ],
+    [
+     0.014983,
+     0.074114,
+     0.469037,
+     0.002454,
+     0.103314,
+     0.219147,
+     0.116819,
+     5.2e-05
+    ],
+    [
+     0.006253,
+     0.092861,
+     0.26244,
+     0.099857,
+     0.062753,
+     0.108923,
+     0.366876,
+     1.6e-05
+    ]
+   ],
+   "eta": 2.4991964306849908,
+   "within_lobe": {
+    "O0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.9429722996353278,
+      "column_norm_relative": 0.024865770797256003
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.8317706605124137,
+      "column_norm_relative": 0.5258541010651635
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.03976433044215108,
+      "column_norm_relative": 0.3542663627047718
+     }
+    },
+    "O1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.485125615940671,
+      "column_norm_relative": 0.0012176132068921573
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.47761384727770195,
+      "column_norm_relative": 0.9784792031282122
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.02670921453254805,
+      "column_norm_relative": 0.502322814027468
+     }
+    },
+    "O2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.22852878987133352,
+      "column_norm_relative": 0.02473399707714586
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.64752010644463,
+      "column_norm_relative": 0.7241039242217363
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.03569816068407124,
+      "column_norm_relative": 0.3740561111350069
+     }
+    },
+    "I0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.6139780921052366,
+      "column_norm_relative": 0.0002074571657407489
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.41545234079876026,
+      "column_norm_relative": 0.1998836150264178
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0030316756187037746,
+      "column_norm_relative": 0.13615666648999983
+     }
+    },
+    "I1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.624316267148823,
+      "column_norm_relative": 0.00019838729828841123
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.4256732048948811,
+      "column_norm_relative": 0.40622645654398726
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.004261941855677461,
+      "column_norm_relative": 0.276655002119184
+     }
+    },
+    "I2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.43655349698661206,
+      "column_norm_relative": 4.242807272397304e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.24360263665973808,
+      "column_norm_relative": 1.1659066330856276
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0010306911212989108,
+      "column_norm_relative": 0.7944667733369662
+     }
+    },
+    "I3": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.2992487317129677,
+      "column_norm_relative": 2.9250698066296424e-07
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.32841375963808334,
+      "column_norm_relative": 6.626445039895385e-08
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.15490182627170718,
+      "column_norm_relative": 7.406031311894237e-09
+     }
+    }
+   },
+   "attenuation_amplitude_equivalence": [
+    {
+     "channel": 0,
+     "relative_difference": 0.0,
+     "cos": 0.9999999999999998
+    },
+    {
+     "channel": 1,
+     "relative_difference": 0.0,
+     "cos": 1.0
+    },
+    {
+     "channel": 2,
+     "relative_difference": 1.7023838305872585e-16,
+     "cos": 1.0
+    }
+   ]
+  },
+  "test83_hard_53": {
+   "knots_s": [
+    [
+     0.347159,
+     0.983738,
+     0.999994,
+     0.999985,
+     0.999986
+    ],
+    [
+     0.236613,
+     0.941399,
+     0.999994,
+     0.999977,
+     0.99998
+    ],
+    [
+     0.161964,
+     0.8122,
+     0.999992,
+     0.999777,
+     0.999992
+    ]
+   ],
+   "knot_sigmoid_slope": [
+    0.2266397476196289,
+    0.015997368842363358,
+    5.602805231319508e-06,
+    1.478173362556845e-05,
+    1.3470467820297927e-05,
+    0.1806274652481079,
+    0.05516720563173294,
+    5.841221081936965e-06,
+    2.300686355738435e-05,
+    1.966914533113595e-05,
+    0.13573189079761505,
+    0.15253089368343353,
+    8.106166205834597e-06,
+    0.0002230504178442061,
+    8.106166205834597e-06
+   ],
+   "f0": [
+    0.003383,
+    0.015338,
+    0.999858,
+    0.998853,
+    0.999947,
+    0.999883,
+    0.328064
+   ],
+   "f0_sigmoid_slope": [
+    0.003371863393113017,
+    0.015102454461157322,
+    0.00014183892926666886,
+    0.0011458350345492363,
+    5.304531805450097e-05,
+    0.00011693063424900174,
+    0.22043806314468384
+   ],
+   "alpha_u": [
+    0.045399,
+    0.059199,
+    0.125151,
+    0.079124,
+    0.08049,
+    0.077807,
+    0.749802
+   ],
+   "alpha_v": [
+    0.051931,
+    0.064206,
+    0.125969,
+    0.077691,
+    0.079805,
+    0.077432,
+    0.639241
+   ],
+   "lam": [
+    [
+     0.011729,
+     0.285378,
+     0.000216,
+     0.24985,
+     0.004383,
+     0.448166,
+     0.000251,
+     1.2e-05
+    ],
+    [
+     0.011935,
+     0.321455,
+     0.009259,
+     0.234709,
+     0.012177,
+     0.409028,
+     0.001406,
+     1.4e-05
+    ],
+    [
+     0.000893,
+     0.000711,
+     0.514649,
+     0.176711,
+     0.029061,
+     0.09228,
+     0.185672,
+     6e-06
+    ]
+   ],
+   "eta": 2.4971896007485275,
+   "within_lobe": {
+    "O0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.17723466675185362,
+      "column_norm_relative": 0.0049523001508110995
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.8588463563878723,
+      "column_norm_relative": 1.1956038578825479
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.09286574781582715,
+      "column_norm_relative": 0.6449857684099896
+     }
+    },
+    "O1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.015961935325115806,
+      "column_norm_relative": 0.020839893868368948
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.811567493117527,
+      "column_norm_relative": 1.089240718402427
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.050983184004832545,
+      "column_norm_relative": 0.5785414020612463
+     }
+    },
+    "O2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.9052064631277559,
+      "column_norm_relative": 7.02272813695044e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.5743114558691638,
+      "column_norm_relative": 0.773354960316707
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.016294129917962027,
+      "column_norm_relative": 0.5168144925660243
+     }
+    },
+    "I0": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.11950896338986428,
+      "column_norm_relative": 1.6693571124374872e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.04263749218879897,
+      "column_norm_relative": 0.018135478880012632
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0027809839074164214,
+      "column_norm_relative": 0.012258516510246316
+     }
+    },
+    "I1": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.025172127721019857,
+      "column_norm_relative": 1.4775392986200732e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.12896551466163705,
+      "column_norm_relative": 0.3466637952815979
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.0022486689254899855,
+      "column_norm_relative": 0.23438793270559552
+     }
+    },
+    "I2": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.13592922138152985,
+      "column_norm_relative": 1.0024959485475911e-05
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.017156469900220028,
+      "column_norm_relative": 0.1068858655127095
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.004977855346641042,
+      "column_norm_relative": 0.07230008808342114
+     }
+    },
+    "I3": {
+     "fresnel": {
+      "cos_to_own_amplitude_span": 0.19936180414550056,
+      "column_norm_relative": 1.1874723893911471e-07
+     },
+     "roughness": {
+      "cos_to_own_amplitude_span": 0.22736479311551022,
+      "column_norm_relative": 7.444681191706991e-08
+     },
+     "anisotropy": {
+      "cos_to_own_amplitude_span": 0.185979540515031,
+      "column_norm_relative": 1.7745140672402758e-08
+     }
+    }
+   },
+   "attenuation_amplitude_equivalence": [
+    {
+     "channel": 0,
+     "relative_difference": 4.18933519557987e-16,
+     "cos": 0.9999999999999998
+    },
+    {
+     "channel": 1,
+     "relative_difference": 8.94069707159003e-16,
+     "cos": 1.0000000000000002
+    },
+    {
+     "channel": 2,
+     "relative_difference": 0.0,
+     "cos": 1.0
+    }
+   ]
+  }
+ }
+}
