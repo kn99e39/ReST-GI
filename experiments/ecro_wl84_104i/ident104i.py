@@ -108,7 +108,8 @@ def main():
     else:
         with np.load(args.states) as zf:
             st = {k: zf[k] for k in zf.files}
-        for key in sorted(k for k in st if k.startswith(("A1_", "B1_"))):
+        keys = [str(k) for k in st["start_keys"]]          # WL104I execution fix: per-start states only
+        for key in [f"{a}_{k}" for a in ("A1", "B1") for k in keys]:
             for m in mats:
                 x, y, RW = weights(ref, m)
                 if key.startswith("A1_"):
