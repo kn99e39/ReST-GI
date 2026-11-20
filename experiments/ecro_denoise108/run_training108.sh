@@ -5,11 +5,17 @@ out=results/ecro_denoise108
 commit=$1
 py="$HOME/NeuralShaderDemo/external/8dna26/.venv/bin/python"
 src=experiments/ecro_denoise108
+state_path="$out/${WL108_STATE:-training.state}"
 export DYN101_MI_DIR="$PWD/wl101/external/mi_3.8.0" DYN101_MI_VERSION=3.8.0
 export LD_LIBRARY_PATH="$HOME/nvlibs/optix595:${LD_LIBRARY_PATH:-}"
+if [[ -n ${WL108_RUNTIME:-} ]]; then
+  py="$WL108_RUNTIME/python/bin/python3.10"
+  export DYN101_MI_DIR="$WL108_RUNTIME/python/lib/python3.10/site-packages"
+  export LD_LIBRARY_PATH="$WL108_RUNTIME/drivers:$LD_LIBRARY_PATH"
+fi
 export OPENBLAS_NUM_THREADS=2 MPLCONFIGDIR="$PWD/$out/mpl"
 stage=preflight
-state() { printf '%s %s\n' "$(date -Iseconds)" "$*" | tee "$out/training.state"; }
+state() { printf '%s %s\n' "$(date -Iseconds)" "$*" | tee "$state_path"; }
 trap 'rc=$?; if (( rc )); then state "STOP stage=$stage exit=$rc"; fi' EXIT
 "$py" "$src/tests108.py"
 while [[ -n $(nvidia-smi --query-compute-apps=pid --format=csv,noheader,nounits) ]]; do

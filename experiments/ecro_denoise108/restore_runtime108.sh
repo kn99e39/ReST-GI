@@ -19,7 +19,10 @@ python_release='https://github.com/astral-sh/python-build-standalone/releases/do
 python_file='cpython-3.10.21+20260901-x86_64-unknown-linux-gnu-install_only.tar.gz'
 python_url="$python_release/${python_file/+/%2B}"
 if [[ ! -x python/bin/python3.10 ]]; then
-  fetch_verified "$python_url" "$python_file" "$python_url.sha256"
+  if [[ ! -f "$python_file" ]]; then
+    curl --fail --location --retry 2 --silent --show-error "$python_url" -o "$python_file"
+  fi
+  printf '%s  %s\n' '73cc92db5e6fb07ba611dca3709956d57cc2ed74ebcc01515b550ea89dfe9cba' "$python_file" | sha256sum -c -
   tar -xf "$python_file"
 fi
 py="$runtime/python/bin/python3.10"
