@@ -1,0 +1,55 @@
+{
+  "id": "WL104G",
+  "repository": "kn99e39/ReST-GI",
+  "repository_id": 1379024934,
+  "branch": "ecro_lr3_adapter",
+  "parent": "a0966dcd00daff22ff07bf8107e99a9173f25808",
+  "operator": {
+    "material": "test83_iid_1",
+    "arms": ["A", "C"],
+    "theta": 5,
+    "phi": 22.5,
+    "mc_seed": 10470011,
+    "mc_blocks": 32,
+    "mc_lanes_per_block": 65536,
+    "sobol_seed": 10470101,
+    "sobol_scrambles": 8,
+    "sobol_power": 18,
+    "known_margin": 0.006,
+    "distribution_margin": 0.003,
+    "sigma": 4,
+    "decision": "At the sole historical failing incidence, require abs(error)+4 SE <= margin for each of four known cosine-weighted integrals from the actual returned proposal PDF, and for each difference between accepted raw direction moments [1,x,y,z] and independent uniform-solid-angle Sobol integration of the reported PDF. Use combined independent standard error. All A/C support, finite nonnegative response and historical WL83 sample-vs-recomputed-PDF and WL104F weight identity checks must pass. Preserve the old audit and its limit. No extra seed runs."
+  },
+  "fit": {
+    "arms": ["R0", "R1", "R2"],
+    "meaning": "R0 is frozen ER_DF. R1 uses the original WL82 metric el1+ealb. R2 is the exact WL104F normalized F-squared recipe. Run the same matched A/C starts for both objectives on the original 64x64 per-material fit lanes. Use all nine frozen WL104D rows for paired angular and held-out distribution evidence. Fit each material independently. No independent reference or render values in training or selection.",
+    "f_squared": "For each incident group, sum use/q * (F_cl-F_layered)^2 over outgoing lanes and RGB, divide by the sum use/q * F_layered^2 over the same lanes and channels, then average equal incidence groups. F is the native cosine-weighted eval, with no extra cosine factor.",
+    "optimizer_source": "Reuse WL104F parts_bc.optimizer verbatim, Adam default betas in float32, all 12000 steps. Both starts and terminal scores are stored. Choose each material/arm terminal by its own original-data objective. No rescue fit."
+  },
+  "response": {
+    "precision": "Use WL104D Amendment 1 archived reference and original half-split precision gate, same ten incident angles, two azimuths, core/shoulder/tail regions, physical certification, nine materials. Report each angle including 20/50/60 and grazing, per-arm/cohort median and worst, both halves, absolute and signed directional albedo.",
+    "practical_rule": "Relative to R0, pooled mean el1 gain at least 0.005 on both independent halves in each cohort, majority of materials positive in each cohort on both halves, no per-material mean el1 regression >0.01, ealb >0.008, and no grazing eshape regression >0.02. Apply same rule to R2 vs R1 for objective evidence and R1 vs R0 for optimization evidence."
+  },
+  "scene": {
+    "development": {"test83_iid_1_L2": 1044900, "test83_hard_1_L1": 1046900},
+    "primary": "test83_iid_1_L2",
+    "held_out": {"test83_iid_159_L2": 1048900},
+    "held_out_fallback": {"test83_block_186_L2": 1050900},
+    "selection": "First unrendered WL104F held-out scene, same WL104D held-out camera. One fallback is predeclared, first block scene under L2, only for pre-candidate R0/reference precision failure on the selected held-out scene. Report every attempted reference. No iid_0 scenes.",
+    "replicates": 12,
+    "batch": 512,
+    "dev_spp": 1024,
+    "held_spp": 4096,
+    "held_mask_spp": 2048,
+    "held_mask_offset": 990,
+    "depth_cap": 1024,
+    "fixed_intervention": "WL104F cross at first hit with native R0 proposal and R0 terminal N2, evaluating R0/R1/R2. Use actual PDF. For descriptive recombined TOTAL use native candidate direct E1, fixed-proposal E2, frozen R0 HIGH. Native comparison evaluates each candidate at all hits.",
+    "precision_energy_half_width": 0.0025,
+    "precision_rms_half_width": 0.005,
+    "primary_gain": 0.005,
+    "held_out_gain": 0.003,
+    "regression_rms": 0.005,
+    "regression_signed": 0.01,
+    "decision": "For each contrast report paired delete-one 95% intervals. Practical recovery requires response rule, primary and held-out native TOTAL gains reaching their respective practical margins with positive 95% lower bounds, and improvement in the joint E1+E2 squared component error (sqrt of E1 RMS squared plus E2 RMS squared) on both with positive 95% lower bounds. Require no point regression exceeding 0.005 on objects E1/E2/TOTAL in any scene or 0.01 in absolute signed ROI biases. Assess R2-R1 and R1-R0 separately with the same plan, retaining null and adverse outcomes. Fixed-proposal results are attribution evidence only."
+  }
+}
