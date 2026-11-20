@@ -1,0 +1,55 @@
+{
+  "native_flags": {
+    "transmission": true,
+    "anisotropic": true,
+    "backside": true
+  },
+  "geometry": {
+    "native_segments": 1213440,
+    "native_control_points": 1219680,
+    "probes": 262144,
+    "accepted": 213081,
+    "acceptance": 0.8128395080566406,
+    "accepted_area_fraction": 0.8122671484464918,
+    "cells": 92,
+    "patches": 184,
+    "area_m2_quadrature": 71.1834003608399,
+    "min_candidates_per_cell": 41,
+    "encoder_absorption_rgb": [
+      0.26697999238967896,
+      0.37599998712539673,
+      0.02800000086426735
+    ],
+    "state_hit_fraction": 0.9285517153532609,
+    "state_exact_hit_fraction": 1.0,
+    "seconds": 0.4850000000005821
+  },
+  "signed_energy": 0.005333018093850767,
+  "coarse_rel_l1": 0.05167413215804492,
+  "native_coarse_half_l1": 0.07849349047960928,
+  "adapter_coarse_half_l1": 0.07464882459137573,
+  "zero_table_max_low_l1": 2.1497178028930673e-08,
+  "camera_lookup_fallback_max": 0.0,
+  "geometry_sha256": "b7264a7b05b71fe24b209f99dc0262dc776f547afbb3620c3e6b234ebd38fd96",
+  "seconds": 2.17200000000048,
+  "provenance": {
+    "repo_commit": "0cf45cb34324352034e8def23a09c92fb750cc9d",
+    "upstream_commit": "4a2157ca24e506c5ac0831f27d656ecc50a64f07",
+    "source_sha256": {
+      "external/8dna26/scenes/fabric/__init__.py": "a536aeb015764d61edeaa7fd22ebc1a048c3bf6d78cf772fff7b5de8260d265a",
+      "external/8dna26/scenes/fabric/fabric.m3curve": "c2e09e0e7051c3087562d1fff171a9797177f4242f3d1a0af4822e4a0acc1a8a",
+      "external/8dna26/scenes/textures/directional.exr": "edae2a6781fea90faf74070f5d7632928529106a2c46775d5b85791547be37ed",
+      "experiments/ecro_fabric105/fabric105.py": "314f9050a2b023bce9392fdadc0839909597dd049b7c0b454357b7c2c1c1c3bc",
+      "experiments/ecro_fabric105/run105.py": "8b131e94cd4e8443a98bcb1f027527f2b118c020c6f43daddc10ef1bf64ed954",
+      "experiments/ecro_fabric105/protocol.json": "8312f2c0f468d1fd173975e6f6ea5e7d671f8db63dbe75ae57047584d8a7d1e7",
+      "experiments/ecro86/model86.py": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+      "experiments/ecro_lr3_102/train102.py": "a09aa24213eb08437327dd47fbb86cff51cc740f7bed9260c5aeb8e5ec715c2f"
+    },
+    "protocol_sha256": "8312f2c0f468d1fd173975e6f6ea5e7d671f8db63dbe75ae57047584d8a7d1e7",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "mi": "3.5.1",
+    "drjit": "0.4.6"
+  },
+  "passed": true
+}

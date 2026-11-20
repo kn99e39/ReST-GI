@@ -1,0 +1,86 @@
+{
+  "quality": {
+    "public": {
+      "mask_pixels": 104474,
+      "fallback_fraction": 5.07329567831815e-08,
+      "physical_low_parity_max_l1": 0.0,
+      "reference_half_fabric_l1": 0.17239256595214256,
+      "fabric_l1": {
+        "ecro": 0.44876859223122195,
+        "low": 0.4022201094655372,
+        "physical": 0.12352752003420978
+      },
+      "fabric_signed_energy": {
+        "ecro": 0.002740397303972483,
+        "low": -0.2560268702555267,
+        "physical": 0.004449670980852926
+      },
+      "full_l1": {
+        "ecro": 0.4457326127404473,
+        "low": 0.4007554216907176,
+        "physical": 0.12390380314265702
+      },
+      "coarse_l1": {
+        "ecro": 0.3483696775087145,
+        "low": 0.3940527949475815,
+        "physical": 0.020435371804444078
+      },
+      "reference_halves_coarse_l1": 0.027681245947884195,
+      "high_l1_vs_physical": 1.0947534514646584,
+      "high_signed_energy_vs_physical": -0.006562102171532229,
+      "high_fraction_physical": 0.3974909483127148,
+      "patch_field_l1": {
+        "single": 0.7255305935906031,
+        "global": 0.5307679976418713,
+        "total": 0.4782448238856188
+      },
+      "patch_field_halves_l1": 0.46449992494826026
+    },
+    "held": {
+      "mask_pixels": 126399,
+      "fallback_fraction": 3.321264935967133e-08,
+      "physical_low_parity_max_l1": 0.0,
+      "reference_half_fabric_l1": 0.19989255123303212,
+      "fabric_l1": {
+        "ecro": 0.5966582535628328,
+        "low": 0.41733829617991763,
+        "physical": 0.14388244648990506
+      },
+      "fabric_signed_energy": {
+        "ecro": 0.1826045056368899,
+        "low": -0.26570232438347247,
+        "physical": 0.0031839419413218087
+      },
+      "full_l1": {
+        "ecro": 0.5895049450914349,
+        "low": 0.41520841571724193,
+        "physical": 0.14414740308015617
+      },
+      "coarse_l1": {
+        "ecro": 0.4840780486542961,
+        "low": 0.40578263351978033,
+        "physical": 0.02425435432987173
+      },
+      "reference_halves_coarse_l1": 0.031867244553771254,
+      "high_l1_vs_physical": 1.4150698290865351,
+      "high_signed_energy_vs_physical": 0.6672730673378522,
+      "high_fraction_physical": 0.4091928610291282,
+      "patch_field_l1": {
+        "single": 0.7425987140156914,
+        "global": 0.5658451647491831,
+        "total": 0.48004754816618717
+      },
+      "patch_field_halves_l1": 0.4644672831764298
+    }
+  },
+  "seconds": 74.8119999999999,
+  "model_sha256": "64ad6d25bc8f297cdfbf60dd6d0f95229da76fc1696fe6999ff29ed7c2b91920",
+  "execution_commit": "96caab25a412fed84226bb32a3cd37e41aa5d3c0",
+  "precision_protocol_sha256": "9bec8ecab90cdf2381f3f1e1c2cb3742819d6792e128660239b338cf0f78dd5c",
+  "device_allocator": [
+    "- host              : 0 B/3 MiB used (peak: 3 MiB).",
+    "- host-async        : 0 B/0 B used (peak: 0 B).",
+    "- host-pinned       : 0 B/48.49 MiB used (peak: 48.49 MiB).",
+    "- device            : 13.44 KiB/1.834 GiB used (peak: 1.834 GiB)."
+  ]
+}

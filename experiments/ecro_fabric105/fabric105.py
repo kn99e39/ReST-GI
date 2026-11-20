@@ -126,11 +126,6 @@ def make_geometry(scene):
         "min_candidates_per_cell": int(np.min(np.diff(bounds))), "encoder_absorption_rgb": absorption.tolist()}
 
 
-def packed(value):
-    dr.eval(value)
-    return array(value).astype(np.float32)
-
-
 def mis(pdf_a, pdf_b):
     a, b = dr.sqr(pdf_a), dr.sqr(pdf_b)
     return dr.select(a > 0., a/dr.maximum(a+b, 1e-38), 0.)
@@ -143,7 +138,6 @@ class Fabric:
         self.bctx = mi.BSDFContext()
         self.par = mi.traverse(scene)
         self.env_base = mi.Transform4f(self.par["background.to_world"])
-        self.geom = geometry
         if geometry is not None:
             g = geometry
             self.n = len(g["pc"])

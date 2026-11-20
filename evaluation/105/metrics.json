@@ -1,0 +1,72 @@
+{
+  "quality": {
+    "public": {
+      "mask_pixels": 104455,
+      "fallback_fraction": 0.0,
+      "physical_low_parity_max_l1": 0.0,
+      "reference_half_fabric_l1": 0.4476088103690284,
+      "fabric_l1": {
+        "ecro": 0.5364452956956676,
+        "low": 0.4607592797337118,
+        "physical": 0.32833850181407653
+      },
+      "fabric_signed_energy": {
+        "ecro": 0.00151938406115439,
+        "low": -0.2562298747637841,
+        "physical": 0.0039168762456094795
+      },
+      "full_l1": {
+        "ecro": 0.5328677167884723,
+        "low": 0.45888183508760433,
+        "physical": 0.3278168243162753
+      },
+      "high_l1_vs_physical": 1.1745259693153733,
+      "high_signed_energy_vs_physical": -0.009215922071494685,
+      "high_fraction_physical": 0.3972249550141414,
+      "patch_field_l1": {
+        "single": 0.8470920101455811,
+        "global": 0.6919028286742768,
+        "total": 0.5989211966189056
+      },
+      "patch_field_halves_l1": 0.8547667372459373
+    },
+    "held": {
+      "mask_pixels": 126396,
+      "fallback_fraction": 0.0,
+      "physical_low_parity_max_l1": 0.0,
+      "reference_half_fabric_l1": 0.5100566083968926,
+      "fabric_l1": {
+        "ecro": 0.7047814650844529,
+        "low": 0.4930949780831577,
+        "physical": 0.378569719481245
+      },
+      "fabric_signed_energy": {
+        "ecro": 0.18095486938064043,
+        "low": -0.2658986188211963,
+        "physical": 0.002529959041333043
+      },
+      "full_l1": {
+        "ecro": 0.696933400740135,
+        "low": 0.49000847557632593,
+        "physical": 0.37717953196617443
+      },
+      "high_l1_vs_physical": 1.5146563782467524,
+      "high_signed_energy_vs_physical": 0.6647016191796252,
+      "high_fraction_physical": 0.40885192496535233,
+      "patch_field_l1": {
+        "single": 0.8539378062568443,
+        "global": 0.7168289183652913,
+        "total": 0.5918483966953417
+      },
+      "patch_field_halves_l1": 0.8366943303375941
+    }
+  },
+  "seconds": 12.37500000000091,
+  "model_sha256": "64ad6d25bc8f297cdfbf60dd6d0f95229da76fc1696fe6999ff29ed7c2b91920",
+  "device_allocator": [
+    "- host              : 0 B/3 MiB used (peak: 3 MiB).",
+    "- host-async        : 0 B/0 B used (peak: 0 B).",
+    "- host-pinned       : 0 B/48.49 MiB used (peak: 48.49 MiB).",
+    "- device            : 13.44 KiB/1.816 GiB used (peak: 1.816 GiB)."
+  ]
+}
