@@ -206,3 +206,22 @@ PY=../../external/8dna26/.venv-cu128/Scripts/python.exe
 $PY -B posthoc104i_rank.py ../../results/ecro_wl84_104i/posthoc/rank.json        # post hoc
 $PY -B package104i.py ../../results/ecro_wl84_104i/primary ../../evaluation/104I
 ```
+
+## Visualization note (2026-11-21, appended; presentation only)
+
+The owner asked for reviewer figures that a researcher can read without decoding experiment IDs. This note adds a presentation layer only. No measurement, baseline, protocol, threshold, label or verdict above was changed, and nothing was re-fitted or re-rendered.
+
+- **Reviewer page.** [evaluation/104I/index.html](../../evaluation/104I/index.html) presents ten figures, `fig01`–`fig10`, each tagged MEASURED or CONCEPTUAL with the question it answers:
+  - component roles (conceptual);
+  - component energy shares and near-duplicate lobes (WL104H supporting evidence, historical fit);
+  - removed redundancies;
+  - remaining parameter-group dependencies;
+  - angular and scene fidelity of the two matched refits;
+  - error maps;
+  - training variability.
+- **Script.** [`review104i_figures.py`](../../experiments/ecro_wl84_104i/review104i_figures.py) reads only archived files. All 19 inputs are checked against the frozen WL104I / WL104H manifests. The 37 consistency checks against `decision.json` and the stage files pass, including identical colour scales to the original maps. Values, hashes and the mapping from IDs and seeds to readable labels are in [`figures_readable_manifest.json`](../../evaluation/104I/figures_readable_manifest.json).
+- **Original figures.** The six package figures and `manifest.json` remain in `evaluation/104I/` unchanged, for provenance.
+- **Observation while plotting.** The archived WL104H `posthoc_term_collinearity.json` contains 14 term pairs with median cosine ≥ 0.95, while the WL104H worklog table lists 7. The 7 unlisted pairs mostly involve Inner 4 or Lambert. Figure 5 shows all 14 and marks the listed ones. WL104H is not edited.
+- **Not visualised, for lack of archived evidence.**
+  - Per-term responses at the WL104I refit states; only Jacobian summaries exist.
+  - The fitted attenuation curves; their knots are archived but were not decoded for plotting.

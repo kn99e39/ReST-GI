@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WL104I ER-v1-GF review</title>
+<style>
+:root { --bg:#ffffff; --fg:#1d1d1f; --muted:#5f6368; --line:#d9dce1; --card:#f6f7f9; --ok:#1b7a3a; --bad:#b03030; --accent:#2f6db5; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --bg:#16181b; --fg:#e8eaed; --muted:#a0a6ad; --line:#33373c; --card:#1f2226; --ok:#5cc27a; --bad:#ef7a7a; --accent:#7fb0f0; } }
+:root[data-theme="dark"] { --bg:#16181b; --fg:#e8eaed; --muted:#a0a6ad; --line:#33373c; --card:#1f2226; --ok:#5cc27a; --bad:#ef7a7a; --accent:#7fb0f0; }
+body { background:var(--bg); color:var(--fg); font:15px/1.55 system-ui, -apple-system, "Segoe UI", sans-serif; margin:0; }
+main { max-width:1180px; margin:0 auto; padding:24px 16px 64px; }
+h1 { font-size:1.6rem; margin:0 0 4px; } h2 { font-size:1.2rem; margin:40px 0 8px; border-bottom:1px solid var(--line); padding-bottom:4px; }
+h3 { font-size:1.05rem; margin:28px 0 4px; }
+p, li { max-width:75ch; } .muted { color:var(--muted); font-size:.9rem; }
+table { border-collapse:collapse; margin:8px 0; font-size:.92rem; } td, th { border:1px solid var(--line); padding:4px 8px; text-align:left; vertical-align:top; }
+th { background:var(--card); } .pass { color:var(--ok); font-weight:600; } .fail { color:var(--bad); font-weight:600; }
+figure { margin:12px 0 0; background:#fff; border:1px solid var(--line); border-radius:6px; padding:6px; }
+figure img { width:100%; height:auto; display:block; }
+.q { background:var(--card); border-left:4px solid var(--accent); padding:6px 12px; margin:6px 0; max-width:none; }
+.kind { display:inline-block; font-size:.75rem; font-weight:700; padding:1px 7px; border-radius:10px; border:1px solid; margin-right:6px; }
+.kind.m { color:var(--ok); border-color:var(--ok); } .kind.c { color:var(--bad); border-color:var(--bad); }
+.wrap { overflow-x:auto; } a { color:var(--accent); }
+</style>
+</head>
+<body><main>
+<h1>WL104I — ER-v1-GF: gauge-fixed parameterization of the certified ER closure</h1>
+<p class="muted">Reviewer presentation, readable version (2026-11-21). Presentation only: no measurement, baseline, protocol or verdict was changed.
+Batch record: <a href="../../docs/worklogs/104I_WORKLOG_ER_V1_GF_GAUGE_FIXED_AB.md">Worklog 104I</a> · design: <a href="../../docs/plans/ER_V1_GF_GAUGE_FIXED_PARAMETERIZATION.md">ER-v1-GF design</a>.</p>
+
+<h2>What was tested, in one paragraph</h2>
+<p>The certified ER closure (the learned local-material model) has 64 parameters, six of which are exact redundancies: changing them in a coordinated way leaves the material response unchanged. ER-v1-GF is a 58-parameter rewrite that removes those six redundancies and reaches exactly the same set of material responses. WL104I checked the equivalence, then retrained both versions under identical conditions and compared their accuracy against an independent physical reference. It also checked whether the new coordinates bring any practical benefit.</p>
+
+<h2>Comparison arms and references</h2>
+<table>
+<tr><th>Name in figures</th><th>What it is</th></tr>
+<tr><td>Historical original fit</td><td>The archived certified-ER fit (R0, WL83 direct-fit recipe), 64 parameters. Not retrained here.</td></tr>
+<tr><td>Original ER refit</td><td>Original 64-parameter chart, retrained in WL104I (arm A1).</td></tr>
+<tr><td>ER-v1-GF refit</td><td>Gauge-free 58-parameter chart, retrained in WL104I from the <em>same physical starting responses</em> as the original refit (arm B1).</td></tr>
+<tr><td>Starts</td><td>One reproduction start (the historical recipe's initial state) plus three perturbed starts (start 1–3). Seeds are listed in <a href="figures_readable_manifest.json">figures_readable_manifest.json</a>.</td></tr>
+<tr><td>Angular physical reference</td><td>WL104D Amendment 1: an independent layered-BSDF random-walk reference with two independent halves, 9 materials × 20 probe directions × 1,024 lanes.</td></tr>
+<tr><td>Scene physical reference</td><td>The same three scenes rendered with the layered-BSDF random walk (depth cap 1024), same tracer and camera (WL104G).</td></tr>
+</table>
+
+<h2>Frozen decision (unchanged, from the worklog)</h2>
+<table>
+<tr><th>Item</th><th>Label</th><th>Figure</th></tr>
+<tr><td>Response-family equivalence</td><td class="pass">PASS</td><td>3 (A, note)</td></tr>
+<tr><td>Exact gauge removal</td><td class="fail">FAIL</td><td>3: frozen numerical rule. One original-side direction sat at 1.04e-15 against a 1e-15 cutoff. Post hoc, ER-v1-GF has no exact null.</td></tr>
+<tr><td>Training fidelity preservation</td><td class="pass">PASS</td><td>6, 8</td></tr>
+<tr><td>Structural identifiability improvement</td><td class="fail">FAIL</td><td>3, 4: frozen truncated-tangent test. Post hoc, the tangent spaces are identical.</td></tr>
+<tr><td>Training stability / practical benefit</td><td class="fail">FAIL</td><td>10</td></tr>
+<tr><td>Native proposal qualification</td><td class="fail">FAIL</td><td>8 C. Affects both arms; the sampler defect predates WL104I.</td></tr>
+<tr><td>ER-v1-GF candidate viability</td><td class="fail">NOT SUPPORTED</td><td>Under the frozen rule. Not adopted. Which reading governs is a human decision.</td></tr>
+</table>
+
+<h2>Figures</h2>
+
+<h3>1. What the model components represent</h3>
+<p><span class="kind c">CONCEPTUAL</span>Schematic of the closure: three outer GGX lobes, four inner GGX lobes, a Lambert term, a per-channel attenuation curve, and per-term amplitudes.</p>
+<p class="q">Question: what do Outer GGX, Inner GGX, Lambert and Attenuation stand for in the model?</p>
+<p>The roles come from the model definition and are not measured. Figures 2, 4 and 5 show that these terms overlap, so a term need not correspond one-to-one to a physical light path.</p>
+<figure><img src="fig01_er_model_components_conceptual.png" alt="Schematic of the ER closure components"></figure>
+
+<h3>2. How much energy each component carries</h3>
+<p><span class="kind m">MEASURED</span>WL104H, historical fit. Share of the directional reflectance by component group and incidence angle.</p>
+<p class="q">Question: which components matter, and where?</p>
+<p>Inner lobes dominate near normal incidence and outer lobes dominate at grazing incidence. Attenuation is not a separate bar because it multiplies the Lambert and Inner terms. The same shares hold for ER-v1-GF at an equivalent state, because the composed terms are identical. Shares at the WL104I refit states were not measured.</p>
+<figure><img src="fig02_measured_energy_share_by_component.png" alt="Energy share per component"></figure>
+
+<h3>3. Which parameter redundancies ER-v1-GF removes</h3>
+<p><span class="kind c">CONCEPTUAL</span> panel A, <span class="kind m">MEASURED</span> panel B (WL104I Stage C, 27 fitted states).</p>
+<p class="q">Question: are the six exact redundancies of the original chart actually gone in ER-v1-GF?</p>
+<p>Panel A is the 64 → 58 parameter accounting. Panel B shows that the original's six exact null directions sit at the float64 floor (1e-21 to 1e-15), while ER-v1-GF has none. The frozen rule still reads FAIL because one original-side direction measured 1.04e-15, just above the 1e-15 cutoff. Both the frozen label and the post-hoc reading are shown.</p>
+<figure><img src="fig03_parameter_redundancies_removed.png" alt="Parameter redundancies removed"></figure>
+
+<h3>4. Parameter dependencies that remain</h3>
+<p><span class="kind m">MEASURED</span>WL104I Stage C.</p>
+<p class="q">Question: does removing the exact redundancies also remove the approximate ones?</p>
+<p>No. Parameter groups that can nearly imitate each other remain in ER-v1-GF, for example Lambert/inner split versus Fresnel, attenuation or roughness. The weak-direction counts are the same in both charts.</p>
+<figure><img src="fig04_unresolved_parameter_group_dependencies.png" alt="Unresolved parameter group dependencies"></figure>
+
+<h3>5. Near-duplicate lobes that remain</h3>
+<p><span class="kind m">MEASURED</span>WL104H post-hoc diagnostic, historical fit, all 9 materials.</p>
+<p class="q">Question: which lobes have nearly the same angular shape, so that no data can say which of them "owns" that shape?</p>
+<p>ER-v1-GF does not change these pairs. Solid frames mark pairs listed in the WL104H worklog table. Dashed frames mark pairs with cosine ≥ 0.95 that are present in the archived WL104H data but missing from that table (see "Missing evidence").</p>
+<figure><img src="fig05_unresolved_near_duplicate_lobes.png" alt="Near-duplicate lobes, all materials"></figure>
+
+<h3>6. Angular fidelity after matched retraining</h3>
+<p><span class="kind m">MEASURED</span>WL104I Stage E, against the independent layered reference.</p>
+<p class="q">Question: does ER-v1-GF keep the original's angular accuracy?</p>
+<p>Yes, within the predeclared +5 % margin: every upper bound is ≤ +5 %. Negative point estimates in the held-out cohort are <em>not</em> claimed as an improvement. With 3 starts × 9 materials, an optimiser-path effect of the new coordinates cannot be separated from chance.</p>
+<figure><img src="fig06_angular_fidelity_original_vs_gf.png" alt="Angular fidelity comparison"></figure>
+
+<h3>7. Where the angular error sits</h3>
+<p><span class="kind m">MEASURED</span>WL104I Stage E lanes, development materials, first training start.</p>
+<p class="q">Question: do the two refits fail in the same places?</p>
+<p>Yes. The error patterns around the mirror direction are nearly identical, and the difference between the refits (third column of each block) is small compared with either refit's error.</p>
+<figure><img src="fig07_angular_error_maps_original_vs_gf.png" alt="Angular error maps"></figure>
+
+<h3>8. Scene fidelity</h3>
+<p><span class="kind m">MEASURED</span>WL104I Stage E scenes.</p>
+<p class="q">Question: does ER-v1-GF keep scene-level accuracy, and how much does the result depend on the training start?</p>
+<p>All upper bounds are ≤ +5 % under fixed historical sampling, so accuracy is preserved. The per-start points show that the large second-bounce changes come from individual starts. The confidence interval is conditional on the realised starts. Panel C, where each model uses its own sampling, is unqualified for both arms.</p>
+<figure><img src="fig08_scene_fidelity_original_vs_gf.png" alt="Scene fidelity comparison"></figure>
+
+<h3>9. Scene error maps</h3>
+<p><span class="kind m">MEASURED</span>WL104I Stage E scenes, mean of 12 replicates.</p>
+<p class="q">Question: where in the image are the errors, and how different are the two refits?</p>
+<figure><img src="fig09_scene_error_maps_original_vs_gf.png" alt="Scene error maps"></figure>
+
+<h3>10. Training variability and practical benefit</h3>
+<p><span class="kind m">MEASURED</span>WL104I Stage D.</p>
+<p class="q">Question: does the gauge-free chart train more stably, reach a lower objective, or run faster?</p>
+<p>None of the predeclared benefit criteria was met. Trajectories from identical physical starts separate on some starts, because Adam depends on the coordinates. The development spread ratio of 0.18 rests on 3 materials, one of which is more variable under ER-v1-GF.</p>
+<figure><img src="fig10_training_variability_and_benefit.png" alt="Training variability"></figure>
+
+<h2>Missing evidence and limits of these figures</h2>
+<ul>
+<li><b>Component-level response at the refit states.</b> Per-term responses (figures 2 and 5) exist only for the historical fit (WL104H). For the WL104I refits, only Jacobian-level summaries were archived (figure 4). No per-term curve is drawn for the refits, and none was inferred.</li>
+<li><b>Discrepancy in the WL104H near-duplicate table.</b> The WL104H worklog table lists 7 pairs. The archived <code>posthoc_term_collinearity.json</code> contains 14 pairs with median cosine ≥ 0.95, several involving Inner 4 or Lambert. Figure 5 shows all of them and marks which are listed. The reason for the omission is not recorded. The historical worklog is preserved unchanged.</li>
+<li><b>Fitted attenuation curves.</b> The fitted attenuation knots exist in <code>compiled_states.npz</code> / <code>fit_states.npz</code> but were not plotted. Figure 1 shows attenuation only conceptually.</li>
+<li><b>Optimiser effect versus chance.</b> This is not resolved: 3 starts, 9 materials, and no coordinate-invariant optimiser was run.</li>
+<li><b>Native-sampling comparison.</b> It is unqualified, because the audit failed for both arms and the support defect is also present in the historical fit.</li>
+</ul>
+
+<h2>Provenance</h2>
+<p>All figures are produced by <a href="../../experiments/ecro_wl84_104i/review104i_figures.py">review104i_figures.py</a>. The script reads only archived files, each checked against the frozen WL104I / WL104H manifests: 19 inputs. It recomputes nothing from a model. 37 consistency checks against <code>decision.json</code> and the stage files all pass. Values, hashes and the ID mapping are in <a href="figures_readable_manifest.json">figures_readable_manifest.json</a>.</p>
+<p>The original package figures stay unchanged in this folder (hash-listed in <a href="manifest.json">manifest.json</a>):</p>
+<div class="wrap"><table>
+<tr><th>Original figure</th><th>Replaced in this presentation by</th></tr>
+<tr><td><a href="training_histories.png">training_histories.png</a></td><td>Figure 10</td></tr>
+<tr><td><a href="jacobian_spectra.png">jacobian_spectra.png</a></td><td>Figures 3, 4</td></tr>
+<tr><td><a href="angular_el1_bands.png">angular_el1_bands.png</a></td><td>Figure 6</td></tr>
+<tr><td><a href="angular_residual_maps.png">angular_residual_maps.png</a></td><td>Figure 7 (same data, same colour scale)</td></tr>
+<tr><td><a href="scene_relative_rms.png">scene_relative_rms.png</a></td><td>Figure 8</td></tr>
+<tr><td><a href="scene_error_maps.png">scene_error_maps.png</a></td><td>Figure 9 (same data, same colour scale)</td></tr>
+</table></div>
+<p class="muted">Figures 1, 2 and 5 are new: concept and WL104H supporting evidence.</p>
+</main></body>
+</html>
