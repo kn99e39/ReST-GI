@@ -207,20 +207,45 @@ def crossover(out,geometry,tables):
     return result
 
 
+def reuse_view(parent, directory, view):
+    learned, mask, old = parent_data(parent,view)
+    record = read(directory/f"{view}.json")
+    with np.load(directory/f"{view}.npz") as saved:
+        fresh = {"mask":mask,"physical":np.stack([r["physical_h"] for r in old]),
+                 "learned":np.stack([r["ecro_hl"] for r in old]),
+                 "low":np.stack([r["physical_e0"]+r["physical_e1"]+r["physical_e2"] for r in old])}
+        if not all(np.array_equal(saved[k],v) for k,v in fresh.items()):
+            raise ValueError(f"Saved {view} comparison differs from the frozen camera evidence")
+        score, ms = scores(saved["physical"],saved["low"],
+                           {a:saved[a] for a in ("learned","area","camera")},mask)
+    if score != record["comparison"] or ms != record["mean_square"]:
+        raise ValueError(f"Saved {view} metrics do not reproduce")
+    return learned,record
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("parent",type=Path)
     parser.add_argument("output",type=Path)
+    parser.add_argument("--resume-cross",action="store_true")
     args = parser.parse_args()
     directory = args.output
     geometry = open_geometry(args.parent)
-    directory.mkdir(exist_ok=False,parents=True)
+    if args.resume_cross:
+        if any((directory/f"{n}.json").exists() for n in ("crossover","summary")):
+            raise ValueError("Crossover output already exists")
+    else:
+        directory.mkdir(exist_ok=False,parents=True)
     started = time.monotonic()
     tables,results = {},{}
     for view in VIEWS:
-        tables[view],results[view] = main_oracles(args.parent,directory,geometry,view)
+        if args.resume_cross:
+            tables[view],results[view] = reuse_view(args.parent,directory,view)
+        else:
+            tables[view],results[view] = main_oracles(args.parent,directory,geometry,view)
     cross = crossover(directory,geometry,tables)
-    write(directory/"summary.json",{"views":results,"crossover":cross,"seconds":time.monotonic()-started,
+    write(directory/"summary.json",{"views":results,"crossover":cross,"seconds_this_invocation":time.monotonic()-started,
+                                     "resumed_crossover":args.resume_cross,
                                      "execution_commit":commit(ROOT),"protocol_sha256":sha(HERE/"attribution105a.json")})
 
 
