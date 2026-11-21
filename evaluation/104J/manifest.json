@@ -1,0 +1,75 @@
+{
+ "batch": "WL104J",
+ "branch": "ecro_lr3_adapter",
+ "freeze_commit": "deefea9",
+ "amendment1_commit": "0350dae",
+ "raw_root": "results/ecro_wl84_104j",
+ "raw_sha256": {
+  "chain_resume_wrapper.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "chain_wrapper.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "posthoc/s1.log": "117f169efe00f4e5d722d5771cedf9303f8bceb6b1e05d371f59787cd7e65aa0",
+  "posthoc/s1_truth_frozen_B.json": "61906b957719c9caac6f66c4c830eefde85c7fa023fd60d720b66335d4556c6b",
+  "primary/data/azimuth_transfer_set.npz": "3112b605a9a17c23abd8389df1b9b75093c0d66f4b14c0a94c16625f184d0d18",
+  "primary/data/data.json": "bbcc097f3fe14ee0cd56582f60017a488f3ae66f2971e6faf245a2b32c58d8c6",
+  "primary/data/fit_set.npz": "1c094000b35375d021a400037d15acd8370acb7d76be7d409b11a6263e6e84eb",
+  "primary/data/polar_transfer_set.npz": "1c145445bd213118e934551f706f80c8d7c56481b2588fe3236d366109b28bbd",
+  "primary/eval/decision.json": "fad507fa21f6f68cffe1890b9c940b2abbb264be8dec6b2b8e6b329f353f8118",
+  "primary/eval/eval.json": "af165247b0509efc26f5a8c20304fbb0c9cd3d6ccc8ecfe908c927dbdf1b95f4",
+  "primary/eval/lanes.npz": "5372e98f31652d85bc1b41581b479be579f6af604ea756fb2d1fb904cc85b821",
+  "primary/fit_extended/fit.json": "9a397eaf3b184d5157f81ba9c1600297e2759e0f4e44b822b3e8e3776e44b080",
+  "primary/fit_extended/states.npz": "052f2d3e319b33d1ce9d36b3cd10a2f3f5583f35431bc846df41b0408f2e5b9d",
+  "primary/fit_primary/fit.json": "e206a86ce81e7482f4553b4e21463dac8ebfcefb2478794274e35ef17d87722f",
+  "primary/fit_primary/states.npz": "7cead9af85571ef9db79658230df2c54b858d5f1e7a5845c3f5c9f48d7b0dbf3",
+  "primary/logs/data.log": "4576bed78ed280cfc7cf3007bf2f7c26cfccc75f3973355472d0ee1f462fcfc8",
+  "primary/logs/decision.log": "b3562783d27c89f4cd470857d0afdd950994113285c7734fa21861905b6e3ea6",
+  "primary/logs/eval.log": "111d4f8b21aa1e55bf8854df38eb2f7af01210efb9d2d0e8b12678f2ec77a194",
+  "primary/logs/fit_extended.log": "74f26154efc07f0cf966548c2e0dc7e029b93c6605b28488e3cbc0e8c51257c0",
+  "primary/logs/fit_primary.log": "35ff24bcf3ae224e6f4c3a1b7a1583317d0d949af646123ea205dc91e583537b",
+  "primary/logs/synth_S0a.log": "8aab87237160e08a24f88e6559f2e3d8bb29ba9b2f96ee6d8ffb47cb8767a4e5",
+  "primary/logs/synth_S0b.log": "47b08a5941643f648733d4c59e4df3a003b51386c30dc8c3a696cecaf0c25a56",
+  "primary/logs/synth_S1.log": "0ff3df2ad4b29de6617b10b97aa836d9d1d22a417c02b1f57f33a05ff39c4de8",
+  "primary/logs/synth_S2.log": "9886d1871dd9d87ca4e1e5834abcd41a1978904c404a37462cf9553711ffc244",
+  "primary/logs/tests.log": "1cb8c22baf5acd869e2ff3fd2e6adac2c98900e2d4f286237a59300d545f565b",
+  "primary/status.txt": "80805c50ae4c3b930f2263d1fe07ef4f7f2b7e5059ded5035d06f053590046de",
+  "primary/synth_S0a/fit.json": "4e0f450d7dd74efbf55877101e09e41d13612e381d84d7e6f7625b35a01858ca",
+  "primary/synth_S0a/states.npz": "a4795427310560939793004bf7e63da8e2e946380e33f9620f2e7f8bdf21c13c",
+  "primary/synth_S0b/fit.json": "83529e849ecf59cdc8ee5db010558210fb828ea16829527b52edaa19a0f451a6",
+  "primary/synth_S0b/states.npz": "a16f0b5083a1d76412ddd76d83003378b5f4b4119e1b37d47fb2ba4a68f70030",
+  "primary/synth_S1/fit.json": "1804f7247858c38426714482d7afc66a1faca759535bdf392d46750dd8147103",
+  "primary/synth_S1/states.npz": "07241b6b697ab1ea955a93ba614cf641361953579683a5c65791731a706c0713",
+  "primary/synth_S2/fit.json": "182c0f6c85884606e4ed05571ceae27282897f664d642e4c8c5942fef172bc7e",
+  "primary/synth_S2/states.npz": "a20fcca86460f8f188f0910e3e8a720a338cf5a3a7d3f40c97bf6b21486bc425",
+  "primary/tests.json": "bd229eaebc962a6f8d39bc7d9e702f88099afcb6f13f67f3d688ee9989971847"
+ },
+ "review_copies": {
+  "data.json": {
+   "sha256": "bbcc097f3fe14ee0cd56582f60017a488f3ae66f2971e6faf245a2b32c58d8c6",
+   "source": "primary/data/data.json"
+  },
+  "decision.json": {
+   "sha256": "fad507fa21f6f68cffe1890b9c940b2abbb264be8dec6b2b8e6b329f353f8118",
+   "source": "primary/eval/decision.json"
+  },
+  "eval.json": {
+   "sha256": "af165247b0509efc26f5a8c20304fbb0c9cd3d6ccc8ecfe908c927dbdf1b95f4",
+   "source": "primary/eval/eval.json"
+  },
+  "s1_truth_frozen_B.json": {
+   "sha256": "61906b957719c9caac6f66c4c830eefde85c7fa023fd60d720b66335d4556c6b",
+   "source": "posthoc/s1_truth_frozen_B.json"
+  },
+  "status.txt": {
+   "sha256": "80805c50ae4c3b930f2263d1fe07ef4f7f2b7e5059ded5035d06f053590046de",
+   "source": "primary/status.txt"
+  },
+  "tests.json": {
+   "sha256": "bd229eaebc962a6f8d39bc7d9e702f88099afcb6f13f67f3d688ee9989971847",
+   "source": "primary/tests.json"
+  }
+ },
+ "post_hoc": [
+  "s1_truth_frozen_B.json (posthoc104j_s1.py, after the frozen decision; changes no label)"
+ ],
+ "index_html_sha256": "86ea515dee6d4f01fd98cdc242352a948361eabf69be353b08db9048c41da480",
+ "note": "index.html was extended with a post hoc note after figures_manifest.json was written; figures_manifest records the pre-note index hash, all PNG/CSV hashes there are current."
+}

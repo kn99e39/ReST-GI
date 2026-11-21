@@ -1,0 +1,104 @@
+{
+ "verdict": "INCONCLUSIVE",
+ "reasons": [
+  "CONTROL_FAILED",
+  "OPTIMIZATION_UNRESOLVED"
+ ],
+ "effect_labels": {
+  "B-A": {
+   "label": "SUBSTANTIAL",
+   "regression": false
+  },
+  "C-B": {
+   "label": "MEASURABLE",
+   "regression": false
+  },
+  "C-A": {
+   "label": "SUBSTANTIAL",
+   "regression": false
+  },
+  "C_noF-B": {
+   "label": "MEASURABLE",
+   "regression": false
+  },
+  "C-C_noF": {
+   "label": "NEGLIGIBLE",
+   "regression": false
+  }
+ },
+ "synthetic_controls": {
+  "S0a": true,
+  "S1": false,
+  "S2": true
+ },
+ "optimization_resolved": false,
+ "start_stable": {
+  "B-A": true,
+  "C-B": true,
+  "C-A": true
+ },
+ "overfit_dominated": {
+  "B-A": false,
+  "C-B": false,
+  "C-A": false
+ },
+ "slack_separable": {
+  "B-A": true,
+  "C-B": true,
+  "C-A": true
+ },
+ "reference_resolves": true,
+ "residual_large": {
+  "development": true,
+  "held_out": true
+ },
+ "residual_C_over_A": {
+  "development": 0.5478714437585641,
+  "held_out": 0.534239712813019
+ },
+ "transfer": {
+  "B-A": {
+   "polar_transfer": "TRANSFER_POSITIVE",
+   "azimuth_transfer": "TRANSFER_POSITIVE"
+  },
+  "C-B": {
+   "polar_transfer": "TRANSFER_POSITIVE",
+   "azimuth_transfer": "TRANSFER_POSITIVE"
+  },
+  "C-A": {
+   "polar_transfer": "TRANSFER_POSITIVE",
+   "azimuth_transfer": "TRANSFER_POSITIVE"
+  }
+ },
+ "attribution": {
+  "label": "AMPLITUDE_PRIMARY",
+  "amplitude_share": {
+   "development": 0.7930072368291399,
+   "held_out": 0.7881302439824862
+  }
+ },
+ "medians": {
+  "B-A": {
+   "development": -0.35826673088717026,
+   "held_out": -0.36641538626526643
+  },
+  "C-B": {
+   "development": -0.14390609484736522,
+   "held_out": -0.1564141035796744
+  },
+  "C-A": {
+   "development": -0.45212855624143594,
+   "held_out": -0.46576028718698104
+  },
+  "C_noF-B": {
+   "development": -0.13464223807106385,
+   "held_out": -0.1422021907035106
+  },
+  "C-C_noF": {
+   "development": -0.009096077747408005,
+   "held_out": -0.014689932189970611
+  }
+ },
+ "commit": "0350daed6df2a9626020d7f0077961086434b02f",
+ "eval_sha256": "af165247b0509efc26f5a8c20304fbb0c9cd3d6ccc8ecfe908c927dbdf1b95f4"
+}
