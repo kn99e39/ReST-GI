@@ -1,6 +1,8 @@
 """Separate Fabric HIGH table prediction from patch pooling and readout."""
 
 import argparse
+import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -180,29 +182,46 @@ def main_oracles(root, out, geometry, name):
     return learned,payload
 
 
-def crossover(out,geometry,tables):
+def cross_case(out, geometry, source, view, light):
     config = C["light_view_cross"]
+    ctx = context(geometry,view,light,config["resolution"])
+    table = mi.Float(np.ascontiguousarray(source,dtype=np.float32).ravel())
+    rows, values = [], []
+    for seed in config["seeds"]:
+        n = ctx.pixels(config["spp_per_half"],seed)
+        l = ctx.pixels(config["spp_per_half"],seed,table=table)
+        mask = n["fabric_mask"]>.5
+        low = n["e0"]+n["e1"]+n["e2"]
+        if max(relative_l1(l[k],n[k]) for k in ("e0","e1","e2")) > 1e-6:
+            raise ValueError("LOW is not paired in the crossover test")
+        rows.append({"signed_HIGH":signed_energy(l["hl"],n["h"],mask),
+                     "signed_TOTAL":signed_energy(low+l["hl"],low+n["h"],mask)})
+        values.append((low,n["h"],l["hl"],n["fabric_mask"]))
+    low,high,pred,coverage = (np.mean([v[j] for v in values],axis=0) for j in range(4))
+    mask = coverage>.5
+    key = view+"_"+light
+    record = {"signed_HIGH":signed_energy(pred,high,mask),
+              "signed_TOTAL":signed_energy(low+pred,low+high,mask),"halves":rows,
+              "protocol_sha256":sha(HERE/"attribution105a.json")}
+    save_npz(out/f"cross_{key}.npz",low=low,physical_high=high,predicted_high=pred,coverage=coverage)
+    write(out/f"cross_{key}.json",record)
+    print("CROSS",view,light,flush=True)
+
+
+def crossover(parent,out):
     result = {}
+    protocol = sha(HERE/"attribution105a.json")
     for view in VIEWS:
         for light in LIGHTS:
-            ctx = context(geometry,view,light,config["resolution"])
-            table = mi.Float(np.ascontiguousarray(tables[light],dtype=np.float32).ravel())
-            rows, values = [], []
-            for seed in config["seeds"]:
-                n = ctx.pixels(config["spp_per_half"],seed)
-                l = ctx.pixels(config["spp_per_half"],seed,table=table)
-                mask = n["fabric_mask"]>.5
-                low = n["e0"]+n["e1"]+n["e2"]
-                if max(relative_l1(l[k],n[k]) for k in ("e0","e1","e2")) > 1e-6:
-                    raise ValueError("LOW is not paired in the crossover test")
-                rows.append({"signed_HIGH":signed_energy(l["hl"],n["h"],mask),
-                             "signed_TOTAL":signed_energy(low+l["hl"],low+n["h"],mask)})
-                values.append((low,n["h"],l["hl"],n["fabric_mask"]))
-            low,high,pred,coverage = (np.mean([v[j] for v in values],axis=0) for j in range(4))
-            mask = coverage>.5
-            result[view+"_"+light] = {"signed_HIGH":signed_energy(pred,high,mask),
-                                     "signed_TOTAL":signed_energy(low+pred,low+high,mask),"halves":rows}
-            print("CROSS",view,light,flush=True)
+            key = view+"_"+light
+            path = out/f"cross_{key}.json"
+            if not path.exists():
+                # Dr.Jit 0.4.6 could retain CUDA state after destruction of a native curve scene.
+                subprocess.run([sys.executable,"-B",__file__,str(parent),str(out),"--cross-cell",view,light],
+                               check=True)
+            result[key] = read(path)
+            if result[key]["protocol_sha256"] != protocol:
+                raise ValueError(f"Different protocol in cached {key} run")
     write(out/"crossover.json",result)
     return result
 
@@ -220,7 +239,7 @@ def reuse_view(parent, directory, view):
                            {a:saved[a] for a in ("learned","area","camera")},mask)
     if score != record["comparison"] or ms != record["mean_square"]:
         raise ValueError(f"Saved {view} metrics do not reproduce")
-    return learned,record
+    return record
 
 
 def main():
@@ -228,22 +247,28 @@ def main():
     parser.add_argument("parent",type=Path)
     parser.add_argument("output",type=Path)
     parser.add_argument("--resume-cross",action="store_true")
+    parser.add_argument("--cross-cell",nargs=2,choices=tuple(VIEWS))
     args = parser.parse_args()
     directory = args.output
     geometry = open_geometry(args.parent)
+    if args.cross_cell:
+        view,light = args.cross_cell
+        table, _, _ = parent_data(args.parent,light)
+        cross_case(directory,geometry,table,view,light)
+        return
     if args.resume_cross:
         if any((directory/f"{n}.json").exists() for n in ("crossover","summary")):
             raise ValueError("Crossover output already exists")
     else:
         directory.mkdir(exist_ok=False,parents=True)
     started = time.monotonic()
-    tables,results = {},{}
+    results = {}
     for view in VIEWS:
         if args.resume_cross:
-            tables[view],results[view] = reuse_view(args.parent,directory,view)
+            results[view] = reuse_view(args.parent,directory,view)
         else:
-            tables[view],results[view] = main_oracles(args.parent,directory,geometry,view)
-    cross = crossover(directory,geometry,tables)
+            results[view] = main_oracles(args.parent,directory,geometry,view)[1]
+    cross = crossover(args.parent,directory)
     write(directory/"summary.json",{"views":results,"crossover":cross,"seconds_this_invocation":time.monotonic()-started,
                                      "resumed_crossover":args.resume_cross,
                                      "execution_commit":commit(ROOT),"protocol_sha256":sha(HERE/"attribution105a.json")})
