@@ -1,0 +1,212 @@
+{
+  "views": {
+    "public": {
+      "comparison": {
+        "learned": {
+          "signed_HIGH_luminance": -0.006562102171532229,
+          "HIGH_relative_l1": 1.0947534514646584,
+          "total_pixel_l1_vs_physical": 0.43515458759130454,
+          "total_coarse_l1_vs_physical": 0.34654335793723007,
+          "detail_l1_vs_physical_HIGH": 1.0745447372954011,
+          "detail_amplitude_fraction": 0.2709704576211392
+        },
+        "area": {
+          "signed_HIGH_luminance": 0.1733486937566476,
+          "HIGH_relative_l1": 1.1632515909425465,
+          "total_pixel_l1_vs_physical": 0.4623819780100269,
+          "total_coarse_l1_vs_physical": 0.3668805238432792,
+          "detail_l1_vs_physical_HIGH": 1.0912522846900339,
+          "detail_amplitude_fraction": 0.32502744449136356
+        },
+        "camera": {
+          "signed_HIGH_luminance": 0.006560194882999708,
+          "HIGH_relative_l1": 0.8927328365686148,
+          "total_pixel_l1_vs_physical": 0.35485322179755846,
+          "total_coarse_l1_vs_physical": 0.24604701780014554,
+          "detail_l1_vs_physical_HIGH": 0.9961672611148065,
+          "detail_amplitude_fraction": 0.2895248266737188
+        }
+      },
+      "mean_square": {
+        "pixels": {
+          "table_error_mean_square": 0.02446672543224405,
+          "pooling_error_mean_square": 0.8078560030268546,
+          "cross_term": -0.010830624115547704,
+          "full_mean_square": 0.8214921043435509,
+          "camera_oracle_error_mean_square": 0.633756595096666,
+          "HIGH_energy_denom": 0.0017525617640659092
+        },
+        "coarse": {
+          "table_error_mean_square": 0.038040355651272416,
+          "pooling_error_mean_square": 0.6732951065957494,
+          "cross_term": -0.02359435647487653,
+          "full_mean_square": 0.6877411057721453,
+          "camera_oracle_error_mean_square": 0.4301177607399146,
+          "HIGH_energy_denom": 0.0003493357615584062
+        },
+        "detail": {
+          "table_error_mean_square": 0.011459414103484902,
+          "pooling_error_mean_square": 0.9805636162876006,
+          "cross_term": -0.00730841621535501,
+          "full_mean_square": 0.9847146141757305,
+          "camera_oracle_error_mean_square": 0.8866968771321306,
+          "HIGH_energy_denom": 0.0007702616050865895
+        }
+      },
+      "camera_bin_support": [
+        0.9844599184782609,
+        0.9842051630434783
+      ],
+      "low_parity": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "camera_high_identity": [
+        1.2829292983736697e-08
+      ],
+      "area_tables_half_l1": 0.12038937965573931,
+      "camera_tables_half_l1": 0.5516773313725194,
+      "learnt_vs_area_mean_l1": 0.43242817998969296,
+      "seconds": 72.34399999999914
+    },
+    "held": {
+      "comparison": {
+        "learned": {
+          "signed_HIGH_luminance": 0.6672730673378522,
+          "HIGH_relative_l1": 1.4150698290865351,
+          "total_pixel_l1_vs_physical": 0.5790364719199188,
+          "total_coarse_l1_vs_physical": 0.4807584712314418,
+          "detail_l1_vs_physical_HIGH": 1.1390045159972157,
+          "detail_amplitude_fraction": 0.483135561623099
+        },
+        "area": {
+          "signed_HIGH_luminance": 0.7943083173087875,
+          "HIGH_relative_l1": 1.5307887236655544,
+          "total_pixel_l1_vs_physical": 0.6263878174678357,
+          "total_coarse_l1_vs_physical": 0.5242064624886917,
+          "detail_l1_vs_physical_HIGH": 1.1520927870503612,
+          "detail_amplitude_fraction": 0.49571513707693016
+        },
+        "camera": {
+          "signed_HIGH_luminance": 0.006667778761620158,
+          "HIGH_relative_l1": 0.8872048654567256,
+          "total_pixel_l1_vs_physical": 0.3630378972152003,
+          "total_coarse_l1_vs_physical": 0.24817822061240874,
+          "detail_l1_vs_physical_HIGH": 0.9760791260812702,
+          "detail_amplitude_fraction": 0.24530460434549037
+        }
+      },
+      "mean_square": {
+        "pixels": {
+          "table_error_mean_square": 0.03449321488223379,
+          "pooling_error_mean_square": 0.9939038285310493,
+          "cross_term": -0.08148220649055682,
+          "full_mean_square": 0.9469148369227263,
+          "camera_oracle_error_mean_square": 0.6718368036309202,
+          "HIGH_energy_denom": 0.001128490959698091
+        },
+        "coarse": {
+          "table_error_mean_square": 0.06210578017368111,
+          "pooling_error_mean_square": 1.1230072241862246,
+          "cross_term": -0.18884374203245796,
+          "full_mean_square": 0.9962692623274477,
+          "camera_oracle_error_mean_square": 0.48935532033044365,
+          "HIGH_energy_denom": 0.00022521917709893507
+        },
+        "detail": {
+          "table_error_mean_square": 0.016905783202546074,
+          "pooling_error_mean_square": 0.9387238376082411,
+          "cross_term": -0.011170448484715021,
+          "full_mean_square": 0.9444591723260721,
+          "camera_oracle_error_mean_square": 0.8344890265650899,
+          "HIGH_energy_denom": 0.0005683528909058021
+        }
+      },
+      "camera_bin_support": [
+        0.9850543478260869,
+        0.9850543478260869
+      ],
+      "low_parity": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "camera_high_identity": [
+        1.4198286951649966e-08
+      ],
+      "area_tables_half_l1": 0.12077317730393555,
+      "camera_tables_half_l1": 0.4640790657137344,
+      "learnt_vs_area_mean_l1": 0.42831648199533423,
+      "seconds": 72.125
+    }
+  },
+  "crossover": {
+    "public_public": {
+      "signed_HIGH": -0.000826535855708755,
+      "signed_TOTAL": -0.00021542215002200065,
+      "halves": [
+        {
+          "signed_HIGH": 0.003130253704622593,
+          "signed_TOTAL": 0.0008132914341455661
+        },
+        {
+          "signed_HIGH": -0.004060945528964254,
+          "signed_TOTAL": -0.0010616263317153609
+        }
+      ],
+      "protocol_sha256": "dd3a182e7fc23649e8e481337081fb863d51b9e9233441331ef87271b18978e1"
+    },
+    "public_held": {
+      "signed_HIGH": 0.4667395602349464,
+      "signed_TOTAL": 0.13009546571997235,
+      "halves": [
+        {
+          "signed_HIGH": 0.4685989723902329,
+          "signed_TOTAL": 0.13065670900997683
+        },
+        {
+          "signed_HIGH": 0.465944066953114,
+          "signed_TOTAL": 0.1298618408791151
+        }
+      ],
+      "protocol_sha256": "dd3a182e7fc23649e8e481337081fb863d51b9e9233441331ef87271b18978e1"
+    },
+    "held_public": {
+      "signed_HIGH": 0.0980631482787938,
+      "signed_TOTAL": 0.026214102962417943,
+      "halves": [
+        {
+          "signed_HIGH": 0.09379549910692835,
+          "signed_TOTAL": 0.025115256321591842
+        },
+        {
+          "signed_HIGH": 0.10152379139403178,
+          "signed_TOTAL": 0.0270869397502736
+        }
+      ],
+      "protocol_sha256": "dd3a182e7fc23649e8e481337081fb863d51b9e9233441331ef87271b18978e1"
+    },
+    "held_held": {
+      "signed_HIGH": 0.687972463739905,
+      "signed_TOTAL": 0.18555090239520175,
+      "halves": [
+        {
+          "signed_HIGH": 0.6895352668885756,
+          "signed_TOTAL": 0.18547659943086373
+        },
+        {
+          "signed_HIGH": 0.6844535679485271,
+          "signed_TOTAL": 0.1850948507291889
+        }
+      ],
+      "protocol_sha256": "dd3a182e7fc23649e8e481337081fb863d51b9e9233441331ef87271b18978e1"
+    }
+  },
+  "seconds_this_invocation": 18.172000000000025,
+  "resumed_crossover": true,
+  "execution_commit": "2d963a5e32ce464af343ba5c9d7b342a50990630",
+  "protocol_sha256": "dd3a182e7fc23649e8e481337081fb863d51b9e9233441331ef87271b18978e1"
+}

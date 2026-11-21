@@ -1,0 +1,71 @@
+{
+  "comparison": {
+    "learned": {
+      "signed_HIGH_luminance": -0.006562102171532229,
+      "HIGH_relative_l1": 1.0947534514646584,
+      "total_pixel_l1_vs_physical": 0.43515458759130454,
+      "total_coarse_l1_vs_physical": 0.34654335793723007,
+      "detail_l1_vs_physical_HIGH": 1.0745447372954011,
+      "detail_amplitude_fraction": 0.2709704576211392
+    },
+    "area": {
+      "signed_HIGH_luminance": 0.1733486937566476,
+      "HIGH_relative_l1": 1.1632515909425465,
+      "total_pixel_l1_vs_physical": 0.4623819780100269,
+      "total_coarse_l1_vs_physical": 0.3668805238432792,
+      "detail_l1_vs_physical_HIGH": 1.0912522846900339,
+      "detail_amplitude_fraction": 0.32502744449136356
+    },
+    "camera": {
+      "signed_HIGH_luminance": 0.006560194882999708,
+      "HIGH_relative_l1": 0.8927328365686148,
+      "total_pixel_l1_vs_physical": 0.35485322179755846,
+      "total_coarse_l1_vs_physical": 0.24604701780014554,
+      "detail_l1_vs_physical_HIGH": 0.9961672611148065,
+      "detail_amplitude_fraction": 0.2895248266737188
+    }
+  },
+  "mean_square": {
+    "pixels": {
+      "table_error_mean_square": 0.02446672543224405,
+      "pooling_error_mean_square": 0.8078560030268546,
+      "cross_term": -0.010830624115547704,
+      "full_mean_square": 0.8214921043435509,
+      "camera_oracle_error_mean_square": 0.633756595096666,
+      "HIGH_energy_denom": 0.0017525617640659092
+    },
+    "coarse": {
+      "table_error_mean_square": 0.038040355651272416,
+      "pooling_error_mean_square": 0.6732951065957494,
+      "cross_term": -0.02359435647487653,
+      "full_mean_square": 0.6877411057721453,
+      "camera_oracle_error_mean_square": 0.4301177607399146,
+      "HIGH_energy_denom": 0.0003493357615584062
+    },
+    "detail": {
+      "table_error_mean_square": 0.011459414103484902,
+      "pooling_error_mean_square": 0.9805636162876006,
+      "cross_term": -0.00730841621535501,
+      "full_mean_square": 0.9847146141757305,
+      "camera_oracle_error_mean_square": 0.8866968771321306,
+      "HIGH_energy_denom": 0.0007702616050865895
+    }
+  },
+  "camera_bin_support": [
+    0.9844599184782609,
+    0.9842051630434783
+  ],
+  "low_parity": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "camera_high_identity": [
+    1.2829292983736697e-08
+  ],
+  "area_tables_half_l1": 0.12038937965573931,
+  "camera_tables_half_l1": 0.5516773313725194,
+  "learnt_vs_area_mean_l1": 0.43242817998969296,
+  "seconds": 72.34399999999914
+}
