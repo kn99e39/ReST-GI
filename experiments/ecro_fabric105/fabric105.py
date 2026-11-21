@@ -73,15 +73,17 @@ def spline_probes(scene):
         "accepted_area_fraction": float(area[good].sum()/area.sum())}
 
 
-def make_geometry(scene):
+def make_geometry(scene, *, cell=None):
     origin, direction, pts, area, audit = spline_probes(scene)
     if min(audit["acceptance"], audit["accepted_area_fraction"]) < P["min_native_surface_acceptance"]:
         raise ValueError(f"Insufficient native surface probe acceptance: {audit}")
-    cell = P["patch_cell_m"]
-    lo = np.floor(array(scene.bbox().min).reshape(-1, 3)[0] / cell).astype(np.int32)
-    hi = np.floor(array(scene.bbox().max).reshape(-1, 3)[0] / cell).astype(np.int32)
+    size = P["patch_cell_m"] if cell is None else cell
+    if not np.isfinite(size) or size <= 0:
+        raise ValueError("Grid cell size must be finite and positive")
+    lo = np.floor(array(scene.bbox().min).reshape(-1, 3)[0] / size).astype(np.int32)
+    hi = np.floor(array(scene.bbox().max).reshape(-1, 3)[0] / size).astype(np.int32)
     dims = hi - lo + 1
-    xyz = np.floor(pts/cell).astype(np.int32) - lo
+    xyz = np.floor(pts/size).astype(np.int32) - lo
     code = np.ravel_multi_index(xyz.T, dims)
     keys, inv = np.unique(code, return_inverse=True)
     inverse = np.full(int(np.prod(dims)), -1, dtype=np.int32)
@@ -116,13 +118,16 @@ def make_geometry(scene):
     row[0, 31:38] = knob("azimuthal_roughness")
     row[0, 53] = knob("scale_tilt")
     row[0, 68] = knob("eta")
-    return {
+    geometry = {
         "pc": np.repeat(np.asarray(centers), 2, axis=0), "pn": pn, "pt": pt,
         "parea": np.repeat(np.asarray(areas)/2, 2),
         "pmat": np.zeros(2*n, dtype=np.int64), "rows": row,
         "grid_min": lo, "grid_dim": dims, "cell_lookup": inverse, "nearest_cell": nearest, "key": keys,
         "origin": origin[pool], "direction": direction[pool],
-    }, {**audit, "cells": n, "patches": 2*n, "area_m2_quadrature": float(sum(areas)),
+    }
+    if cell is not None:
+        geometry["grid_cell_m"] = np.asarray(size, dtype=np.float64)
+    return geometry, {**audit, "cells": n, "patches": 2*n, "area_m2_quadrature": float(sum(areas)),
         "min_candidates_per_cell": int(np.min(np.diff(bounds))), "encoder_absorption_rgb": absorption.tolist()}
 
 
@@ -142,6 +147,7 @@ class Fabric:
             g = geometry
             self.n = len(g["pc"])
             self.m = g["origin"].shape[1]
+            self.cell = float(g.get("grid_cell_m",P["patch_cell_m"]))
             self.lo = g["grid_min"].tolist()
             self.dims = g["grid_dim"].tolist()
             self.lookup = mi.Int32(g["cell_lookup"])
@@ -172,7 +178,7 @@ class Fabric:
         return mi.Vector3f(r*c, r*s*sign, z*sign)
 
     def address(self, p, w):
-        coord = [mi.Int32(dr.floor(p[k]/P["patch_cell_m"]))-self.lo[k] for k in range(3)]
+        coord = [mi.Int32(dr.floor(p[k]/self.cell))-self.lo[k] for k in range(3)]
         inside = mi.Bool(True)
         for a, d in zip(coord, self.dims):
             inside &= (a >= 0) & (a < d)

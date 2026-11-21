@@ -1,0 +1,17 @@
+{
+  "id": "WL105B",
+  "base": "41df700",
+  "change": "Refine only the regular Fabric spatial grid from 0.18 m to 0.06 m in each axis. Keep both +Z/-Z hemispheres and 64 direction bins per hemisphere. Use the same accepted native surface probes and original weighting/pool policy, partitioned over the refined grid.",
+  "fine_cell_m": 0.06,
+  "area_oracle": "Render one physical area table per independent half at 4,096 spp per bin, matching WL105A. Compare to archived WL105A 0.18 m area table film with the identical native LOW, camera samples and reference.",
+  "area_seeds": {"public": [106001, 106002], "held": [106011, 106012]},
+  "learned": "Fit the original ECRO v0 generator and training code from the same seed for 12,000 steps. Retain camera-independent area labels, environment splits, per-patch source budget, per-bin label spp, WL102 objective and final-step selection as in WL105. Compare to frozen WL105 model and render buffers. Refinement increases the total preparation and fit work.",
+  "evaluation": "Reuse WL105 512x512, 2x512 spp, six-event controls, archived masks and matched camera seeds. Assess native learned TOTAL relative pixel L1, normalized cross-half HIGH 8x8 detail mean-square error, signed HIGH and TOTAL luminance, and 8x8 coarse TOTAL. Report all views and costs.",
+  "validity": {"native_low_max_rel_l1": 0.00001, "camera_fallback_max": 0.005, "parent_area_partition_max_l1": 0.001},
+  "interpretation": {
+    "minimum_detail_gain_relative": 0.03,
+    "minimum_learned_total_pixel_gain": 0.02,
+    "held_out_absolute_bias_regression_max": 0.03,
+    "verdict": "Report physical oracle effects separately from learned results. Joint learned recovery requires both views to reduce cross-half HIGH detail MSE by at least 3% relative and TOTAL pixel L1 by at least 2 percentage points, with gains showing in both halves for pixel L1, and no more than 3 percentage points absolute TOTAL bias regression in either view. Stop execution only on invalid geometry, physical parity or unavailable artifacts."
+  }
+}

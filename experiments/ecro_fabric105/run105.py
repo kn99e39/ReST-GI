@@ -73,12 +73,12 @@ def provenance():
             "python": platform.python_version(), "mi": mi.__version__, "drjit": dr.__version__}
 
 
-def preflight(root):
+def preflight(root, *, cell=None):
     config = P["preflight"]
     root.mkdir(parents=True, exist_ok=False)
     t = time.monotonic()
     scene = load_scene(config["resolution"])
-    g, info = make_geometry(scene)
+    g, info = make_geometry(scene,cell=cell)
     ctx = Fabric(scene, g)
     hit, dbin, state = ctx.state()
     g.update({"hit": hit, "dbin": dbin})
