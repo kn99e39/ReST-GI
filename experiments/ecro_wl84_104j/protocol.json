@@ -1,0 +1,127 @@
+{
+  "id": "WL104J",
+  "title": "Cross-incidence parameter sharing ablation of the certified ER (diagnostic oracles)",
+  "branch": "ecro_lr3_adapter",
+  "classification": "Diagnostic architecture experiment; owner-named WL104J (dependent follow-up of WL104H / WL104I). Research only; no adoption.",
+  "host": "local RTX 5080 (work-placement default since 2026-11-20)",
+  "hypothesis": "A significant part of the certified ER angular response residual is caused by cross-incidence sharing of GGX lobe parameters rather than by the number of GGX lobes alone.",
+  "inputs": {
+    "materials": "evaluation/104D/amendment1/materials.json (9 materials, 3 development / 6 held out), authenticated through the WL104G manifest (io104h.inputs).",
+    "descriptors": "results/ecro_wl84_104/inputs63/rest_compiled83/results/data/materials83.npz, sha256 c34743b866b2039f78423cf8c1e37f73132754ed03224b4634444d58bf9145c6 (WL104D Amendment 1 provenance parent_source_sha256), plus per-row descriptor_sha256.",
+    "evaluation_reference": "results/ecro_wl84_104d/amendment1/amended_reference.npz (WL104D Amendment 1 independent layered reference; 10 polar x 2 azimuth probes x 1024 lanes, two independent walk halves, peak grid). Authenticated through the WL104G manifest; the frozen WL104D precision rule must pass. Used ONLY for evaluation, never for fitting, initialization, selection or early stopping.",
+    "external_controls": "Historical R0 (WL83 ER_DF) and the WL104I A1 / B1 refit states (results/ecro_wl84_104i/primary/fit/fit_states.npz, authenticated through evaluation/104I/manifest.json). Evaluated only, never replaced by the newly matched A."
+  },
+  "incident_groups": {
+    "polar_deg": [5, 20, 35, 50, 57.5, 60, 62.5, 70, 80, 86],
+    "azimuth_deg": [22.5, 112.5],
+    "definition": "One group per incident polar angle (10 groups); each group contains both azimuths. These are exactly the incident directions of the WL104D independent reference, so 55-65 deg is represented explicitly by three groups (57.5, 60, 62.5) and the brief's minimum set (20, 50, 60, 86 at both azimuths) is included. Probe order is polar-major, azimuth-minor (probe p belongs to group p // 2), as in the reference."
+  },
+  "data": {
+    "fit_set": {
+      "role": "Fitting targets for every arm (A, B, C, C_noF). Same incident directions as the evaluation reference, fresh outgoing directions and fresh walks.",
+      "lanes_per_probe": 1024, "walks_per_lane": 8192, "walk_depth": 1024,
+      "proposal": "WL104D data104d.proposal (half WL83 mixture, quarter uniform core < 3 deg of mirror, quarter uniform shoulder 3-12 deg; balance-heuristic q; rejected draws zero weight). Fresh direction seed.",
+      "direction_seed": 1041010, "walk_seed": 1041011, "walk_pair0": 134217728,
+      "walk_sequence_note": "pair0 * 8192 = 2^40: the walk sequence range starts at 2^40, disjoint from WL104D's [0, 735870976) and [12288000000, 12363497472)."
+    },
+    "transfer_set": {
+      "role": "Nearby held-out incident directions for transfer diagnostics only. Never used for fitting or selection.",
+      "polar_transfer_deg": [12.5, 27.5, 42.5, 53.75, 58.75, 61.25, 66.25, 75, 83],
+      "polar_transfer_azimuth_deg": [22.5, 112.5],
+      "polar_transfer_rule": "Evaluate each local arm with the parameters of BOTH neighbouring groups (lower and upper polar) and report each and their mean error; no nearest-group selection.",
+      "azimuth_transfer_polar_deg": [5, 20, 35, 50, 57.5, 60, 62.5, 70, 80, 86],
+      "azimuth_transfer_azimuth_deg": [67.5, 157.5],
+      "azimuth_transfer_rule": "Evaluate each local arm with the parameters of the group with the same polar angle.",
+      "lanes_per_probe": 1024, "walks_per_lane": 8192, "walk_depth": 1024,
+      "direction_seed": 1041020, "walk_seed": 1041021, "walk_pair0": 268435456,
+      "azimuth_transfer_direction_seed": 1041022,
+      "walk_sequence_note": "pair0 * 8192 = 2^41; the azimuth-transfer walks continue the same seed at pair0 + (polar-transfer pairs walked) + 1, so the two transfer ranges are disjoint."
+    },
+    "precision_rule": "Apply the WL104D rule to the half-split of each new set and require it before fitting: per material, mean half-split eshape noise <= 0.015 over probes with polar in [55, 65], <= 0.025 over probes with polar >= 80, mean half-split ealb noise <= 0.008 over all probes. The evaluation reference must pass the same frozen rule (WL104D Amendment 1).",
+    "support_rule": "Every fit and transfer probe must have >= 16 active (positive-weight) lanes in the core (< 3 deg) and in the shoulder (3-12 deg).",
+    "isolation_rule": "Stop on any of: a fit or transfer outgoing direction exactly equal to an evaluation outgoing direction of the same material and probe; overlapping walk seeds and sequence ranges; a change of the evaluation reference hash during the run.",
+    "comparison_resolution_rule": "The evaluation reference resolves the comparisons when, in each cohort, the mean half-split el1 noise (|el1_a - el1_b| / 2, averaged over probes and materials for arm A) is <= 1.25 % of A's el1 (one quarter of the 5 % measurable-effect threshold). Otherwise the verdict is INCONCLUSIVE (REFERENCE_INSUFFICIENT)."
+  },
+  "arms": {
+    "A": {
+      "name": "SHARED ER (ER-v1-GF)",
+      "parameters": "58 per material, one state shared by all incident directions (WL104I gf104i.decode).",
+      "trainable_per_material": 58,
+      "starts": "generic + 0.5 N(0,1) perturbations with seeds 104911, 104912, 104913 in original raw space mapped exactly to ER-v1-GF (the WL104I start set): 4 starts."
+    },
+    "B": {
+      "name": "AMPLITUDE-ONLY LOCAL ORACLE (DIAGNOSTIC_ONLY)",
+      "frozen_from_A": "Lobe shapes (au, av, F0 of all 7 GGX lobes), eta, and the attenuation function. The attenuation knots are frozen at the maximal admissible scale s_n = s' / max_j s'_cj per channel (section kappa_c = max_j s'_cj of the ER-v1-GF gauge), which leaves the response of A unchanged and gives the amplitudes the full original budget.",
+      "local": "Per incident group and channel, the 8 nonnegative amplitudes (Lambert, 3 outer, 4 inner) with the original certified budget sum <= 1 (additive log-ratio against an absorption slot: lam_k = exp(l_k) / (1 + sum exp(l))). 24 trainable per group, 240 per material.",
+      "init": "From each A terminal state (exact section; A's response is reproduced, test T2).",
+      "trainable_per_material": 240
+    },
+    "C": {
+      "name": "FULL LOCAL LOBE ORACLE (DIAGNOSTIC_ONLY)",
+      "frozen_from_A": "eta and the attenuation function (as in B).",
+      "local": "Per incident group: B's 24 amplitude coordinates plus the 21 raw lobe shape parameters of all 7 GGX lobes (log-alpha_u, log-alpha_v and F0 logits; same closure80c decode and bounds). 45 trainable per group, 450 per material. Lambert term and lobe functional forms unchanged.",
+      "init": "From each B terminal state with A's lobe shapes (B is reproduced exactly, test T3).",
+      "fallback": "If C from B ends non-finite or with a training objective above its own initial objective (= B's final) for any material, C is re-run for that start from the A-compatible initialization (A's amplitudes and shapes in every group) and the lower training objective per material is kept. Every fallback is recorded.",
+      "amplitude_fresnel_coupling": "F0 scales a lobe near normal incidence like an amplitude (F = F0 + (1 - F0)(1 - c)^5), so C - B is not a pure shape effect. The secondary arm C_noF documents the split.",
+      "trainable_per_material": 450
+    },
+    "C_noF": {
+      "name": "SECONDARY DECOMPOSITION (DIAGNOSTIC_ONLY; no verdict role)",
+      "definition": "As C but the 7 F0 logits stay frozen at A's values (gradient masked); local roughness/anisotropy only. Init from B. 38 trainable per group, 380 per material."
+    },
+    "validity": "B, C and C_noF are diagnostic oracles. Each group's state is a member of the certified ER family (passive), but the incident-conditioned response is not declared a reciprocal global BSDF and is never placed in a path tracer."
+  },
+  "fitting": {
+    "objective": "WL82 group_terms metric (el1 + ealb) per probe (1024 lanes), mean over the 20 probes per material, summed over materials and starts. The same objective, fit set and weights for every arm.",
+    "optimizer": "WL82 Adam: lr 0.03 -> 3e-4 cosine, warm-up 50 steps, float32, 12,000 steps, objective logged every 100 steps. Same schedule for every arm, including warm-started B, C and C_noF.",
+    "selection": "No selection by held-out data. Best start = lowest final training objective per material and arm; median = median over the 4 starts of the evaluation metric.",
+    "convergence_rule": "Resolved when (a) for every arm, >= 90 % of (material, start) units change their own training objective by <= 0.5 % relative over the last 2,000 steps; (b) nesting holds: in each cohort <= 25 % of units have a final training objective of B above A's or of C above B's by more than 0.1 % relative; (c) the extended check (generic-start lineage, A -> B -> C each 24,000 steps) changes each arm's median training objective by <= 1 % relative and each training-objective contrast (B - A, C - B) by <= 25 % of its 12,000-step value.",
+    "start_agreement_rule": "A contrast is start-stable when its sign agrees in >= 3 of 4 starts in each cohort."
+  },
+  "synthetic_controls": {
+    "role": "Attribution sensitivity of the diagnostic only (not physical validity). Targets are exact float64 ER responses of known states on the fit-set and evaluation directions. Fit targets carry Gaussian noise with the per-lane, per-channel standard deviation |fA - fB| / 2 of the physical fit set (seed 1041030); evaluation targets are noise-free.",
+    "truth": "theta* = each material's historical R0 mapped to ER-v1-GF, its B section and its shapes.",
+    "controls": {
+      "S0a_null_attainable": "Shared target theta*; A starts at theta* + 0.1 N(0,1) in ER-v1-GF raw (seed 1041031); B from A; C from B. PASS iff the cohort-pooled mean held-out el1 of B and of C each differ from A's by <= 1e-3 (absolute) and neither is lower than A's by more than 1e-3.",
+      "S0b_null_generic": "Shared target theta*; A from the generic start (as the primary), B from A, C from B. Descriptive calibration of optimization slack: the held-out el1 gain of B and C over A when no true incident dependence exists.",
+      "S1_amplitude_variation": "Per group g, theta* with amplitude logits l_g = l* + 0.5 u_g on the 3 outer slots and - 0.5 u_g on the Lambert and 4 inner slots (absorption reference fixed), u_g = 2 (mu_g - mu_min) / (mu_max - mu_min) - 1, mu = cos(polar). Starts as S0a. PASS iff pooled held-out el1 of B is <= 50 % of A's.",
+      "S2_shape_variation": "Per group g, theta* with the roughness logits (log-alpha_u and log-alpha_v raw) of the 3 outer lobes shifted by + 0.5 u_g; amplitudes unchanged. Starts as S0a. PASS iff pooled held-out el1 of C is <= 50 % of B's."
+    },
+    "stop": "If S0a, S1 or S2 fails, the attribution diagnostic is not qualified and the verdict is INCONCLUSIVE (CONTROL_FAILED). If an exact identity / nesting test fails, stop before primary fitting."
+  },
+  "evaluation": {
+    "primary_metric": "el1 (WL82 energy-weighted relative L1 of f cos) per (material, probe) against the mean of the two independent evaluation halves.",
+    "secondary_metrics": "ealb (directional albedo), eshape (albedo-normalized shape), signed relative luminance energy and region L1 in the mirror core (< 3 deg), shoulder (3-12 deg) and tail (>= 12 deg), peak height from the independent peak grid, signed residual maps; raw and normalized shape comparisons are reported separately.",
+    "contrasts": "B - A (amplitude sharing relaxed), C - B (additional lobe shape / Fresnel sharing relaxed), C - A (total). Relative change of the cohort-pooled sum of el1 over (material, probe), computed per start; summary = median over starts; 95 % interval = cluster bootstrap over materials within the cohort (starts kept paired, 10,000 resamples, seed 1041040). Replication: recomputed against each evaluation half separately.",
+    "effect_labels": {
+      "SUBSTANTIAL": "median relative el1 change <= -20 % in BOTH cohorts, bootstrap upper bound <= -10 % in both, point <= -15 % against each half separately in both, and >= 3 of 4 starts <= -10 % in both.",
+      "MEASURABLE": "not SUBSTANTIAL; median <= -5 % and bootstrap upper bound < 0 in both cohorts, and point < 0 against each half in both.",
+      "NEGLIGIBLE": "otherwise (including a cohort-dependent effect).",
+      "REGRESSION": "median >= +5 % in either cohort (reported alongside the label)."
+    },
+    "overfitting_rule": "For a contrast whose training-objective el1 reduction (fit set, same probes) is >= 5 %, the improvement is OVERFIT_DOMINATED when the held-out relative el1 reduction is < 50 % of the training relative el1 reduction in either cohort.",
+    "residual_rule": "RESIDUAL_LARGE when the cohort-pooled el1 of C (median start) is >= 50 % of A's in either cohort.",
+    "slack_rule": "A physical contrast cannot be separated from optimization slack when its absolute pooled held-out el1 gain is < 2x the corresponding S0b (generic-start null) gain.",
+    "transfer": "Polar-transfer probes: neighbour-mean local error vs A; azimuth-transfer probes: same-group local error vs A. TRANSFER_POSITIVE: median relative change <= -5 % with bootstrap upper bound < 0 in both cohorts; TRANSFER_NEGATIVE: median >= +5 % in either cohort; otherwise TRANSFER_NEUTRAL. Descriptive; never used for selection.",
+    "reciprocity": "Model-only inconsistency on 80 directions (the 10 group polars x 8 azimuths 22.5 + 45 k deg), all ordered pairs: f_fwd = F_g(wi)(wi, wo) / cos_o vs f_rev = F_g(wo)(wo, wi) / cos_i (luminance); reported as sum |f_fwd - f_rev| / sum (f_fwd + f_rev) / 2 and the 95th percentile of the pairwise relative difference over pairs with f above 1 % of the median. A must be reciprocal to float64 precision (test).",
+    "lobes": "Per group and arm: per-term responses (O0..O2, S L, S I0..I3) on the evaluation lanes, per-probe lane-weighted RGB cosine between terms (WL104H post hoc definition), number of pairs with cosine >= 0.95, term energy shares, and the local parameter values (amplitudes, roughness, anisotropy, F0) against incident angle. No orthogonality is imposed and no lobe is pruned."
+  },
+  "verdict": {
+    "SUPPORTED": "C - A SUBSTANTIAL; S0a, S1, S2 PASS; optimization resolved (convergence_rule) and start-stable; not OVERFIT_DOMINATED; separable from slack; reference resolves the comparisons.",
+    "NOT_SUPPORTED": "Qualified (controls PASS, optimization resolved, reference resolves) and C - A is not SUBSTANTIAL (MEASURABLE = small measurable headroom; NEGLIGIBLE = none).",
+    "INCONCLUSIVE": "Any qualification failure: CONTROL_FAILED, OPTIMIZATION_UNRESOLVED, START_UNSTABLE, OVERFIT_DOMINATED, SLACK_INSEPARABLE, REFERENCE_INSUFFICIENT, or cohorts disagree.",
+    "attribution": "Only when C - A is SUBSTANTIAL or MEASURABLE: amplitude share = (el1_A - el1_B) / (el1_A - el1_C), cohort-pooled, median start. AMPLITUDE_PRIMARY if >= 2/3 in both cohorts; LOBE_PARAMETER_PRIMARY if <= 1/3 in both; MIXED otherwise. Lobe-parameter attribution is qualified by the amplitude-Fresnel coupling (C_noF descriptive split).",
+    "scope": "Empirical relaxation headroom of diagnostic oracles on 9 coated-conductor materials at 10 incident polar angles; not a capacity lower bound and not a deployable or reciprocal BSDF. No scene rendering."
+  },
+  "stops": [
+    "Frozen inputs cannot be authenticated (hash mismatch).",
+    "New fit or transfer set fails the precision or support rule; evaluation reference fails its frozen rule.",
+    "Train / evaluation leakage (isolation_rule).",
+    "Response identity or nesting test fails (A == section, A in B, B in C, masks, gradients).",
+    "Non-finite objective in any arm."
+  ],
+  "pre_freeze_development": "Before this freeze, code was debugged on scratch copies only: (1) a smoke data set (64 lanes, 512 walks); (2) a full-size data set generated with these same seeds, used for a 300-step timing probe and a 150-step end-to-end dev chain (fits, evaluation, decision, figures). The 150-step states were far from converged; their printed contrasts and control outcomes are not evidence and no threshold, rule, arm or data choice was changed after they were seen. The only code changes after the dev chain were a guard for runs shorter than 2,000 steps and figure layout. The evidence run regenerates all data from the seeds after the freeze.",
+  "execution_note": "Another project's GPU job (TransGI_Reproduction data generation) shares the local RTX 5080 since 19:00 KST; fit wall times are contended and are reported as such.",
+  "seeds": {"fit_directions": 1041010, "fit_walks": 1041011, "transfer_directions": 1041020, "transfer_walks": 1041021,
+            "synthetic_noise": 1041030, "synthetic_start": 1041031, "bootstrap": 1041040, "starts": [104911, 104912, 104913], "test_directions": 1041050}
+}
