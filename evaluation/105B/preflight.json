@@ -1,0 +1,59 @@
+{
+  "native_flags": {
+    "transmission": true,
+    "anisotropic": true,
+    "backside": true
+  },
+  "geometry": {
+    "native_segments": 1213440,
+    "native_control_points": 1219680,
+    "probes": 262144,
+    "accepted": 213081,
+    "acceptance": 0.8128395080566406,
+    "accepted_area_fraction": 0.8122671484464918,
+    "cells": 875,
+    "patches": 1750,
+    "area_m2_quadrature": 71.1834003608399,
+    "min_candidates_per_cell": 1,
+    "encoder_absorption_rgb": [
+      0.26697999238967896,
+      0.37599998712539673,
+      0.02800000086426735
+    ],
+    "state_hit_fraction": 0.8967243303571428,
+    "state_exact_hit_fraction": 0.9999439925821286,
+    "seconds": 0.8589999999994689
+  },
+  "signed_energy": 0.006463030473794897,
+  "coarse_rel_l1": 0.052041888673093305,
+  "native_coarse_half_l1": 0.0792252952739386,
+  "adapter_coarse_half_l1": 0.07464882445458708,
+  "zero_table_max_low_l1": 2.1092894022340327e-08,
+  "camera_lookup_fallback_max": 0.00029104818926447965,
+  "geometry_sha256": "9ad5279951e377116373057d409ba291a62710cfd5f7f08bca073496f0c284da",
+  "seconds": 1.969000000000051,
+  "provenance": {
+    "repo_commit": "e385c80bad6be0f5274edde704d3ee8abd8b1b84",
+    "upstream_commit": "4a2157ca24e506c5ac0831f27d656ecc50a64f07",
+    "source_sha256": {
+      "external/8dna26/scenes/fabric/__init__.py": "a536aeb015764d61edeaa7fd22ebc1a048c3bf6d78cf772fff7b5de8260d265a",
+      "external/8dna26/scenes/fabric/fabric.m3curve": "c2e09e0e7051c3087562d1fff171a9797177f4242f3d1a0af4822e4a0acc1a8a",
+      "external/8dna26/scenes/textures/directional.exr": "edae2a6781fea90faf74070f5d7632928529106a2c46775d5b85791547be37ed",
+      "experiments/ecro_fabric105/attribute105a.py": "ea4b9b932821b06441c4339fb398722160fca54fbd4637d3790834f2efcec2d7",
+      "experiments/ecro_fabric105/fabric105.py": "fbf43c24d63e3501574b646bfa862a6f76a8efdad9300e342b9f9db24ce56e34",
+      "experiments/ecro_fabric105/review105.py": "63286816a26275beacbf2b2eba7b076dad6cc178e4117ccc559a582c3937a04f",
+      "experiments/ecro_fabric105/review105a.py": "206a7ab0ef3754d0efb08b2a8d5e46dfd8a721ab89ac9484ccfc71b814c4d4d2",
+      "experiments/ecro_fabric105/run105.py": "f002e126c57cc5d493c4ad1f8c15543f5d94b8559b63e6a71b6aa07d1e908fb8",
+      "experiments/ecro_fabric105/run105b.py": "dea21b2daceb67c694dc4766e81bd00bb29d708fbcb82104055898a056bb8dfb",
+      "experiments/ecro_fabric105/protocol.json": "8312f2c0f468d1fd173975e6f6ea5e7d671f8db63dbe75ae57047584d8a7d1e7",
+      "experiments/ecro86/model86.py": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+      "experiments/ecro_lr3_102/train102.py": "a09aa24213eb08437327dd47fbb86cff51cc740f7bed9260c5aeb8e5ec715c2f"
+    },
+    "protocol_sha256": "8312f2c0f468d1fd173975e6f6ea5e7d671f8db63dbe75ae57047584d8a7d1e7",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "python": "3.11.9",
+    "mi": "3.5.1",
+    "drjit": "0.4.6"
+  },
+  "passed": true
+}
