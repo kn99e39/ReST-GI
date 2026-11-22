@@ -241,3 +241,40 @@ correction:
 
 No estimator, gate, seed or decision rule changes. The T00 variance values from the stopped attempt are superseded by the
 rerun, which uses the same seeds and is therefore bitwise reproducible.
+
+## Amendment 1 execution record: operator stop at capture, foreign OOM contribution (2026-11-23)
+
+**What ran.** The watched TransGI b14 chain ended at 20:47 KST. After 120 s of free GPU the chain started. The development
+stage selected M\* = 1 (predicted GM equal-time ratio 0.882; not futile). The capture stage then finished every data part
+by 20:59:54:
+
+- Stage 0 archived replay;
+- paired R0/C1 frames, 6 views × 4 nominal spp × 32 replicates;
+- the R0 grid, 18 levels × 32 replicates.
+
+`run/manifest.json` (written at 20:59) lists 4,992 raw files with hashes and 768 paired-identity records. Raw output is
+40 GB. Stage 3 timing then waited for an exclusive GPU, because TransGI b15, b17 and a serial rerun queue kept starting.
+
+**Execution defect (ours).** While it waited, the `run109.py` process kept its CUDA context and the Dr.Jit/Torch memory
+caches: 1.74–1.78 GiB of device memory on a 24 GiB RTX 3090. Two TransGI chains (b16 eval and b17) then ran
+concurrently, and several of their evaluations died with CUDA OOM. Each OOM message lists our process holding 1.74 GiB.
+Without that memory, at least two of the failed allocations would have fit:
+
+| Evaluation | Requested | Free at failure | Free without WL109 |
+|---|---:|---:|---:|
+| bathroom b17_spec256 | 2.32 GiB | 1.44 GiB | 3.18 GiB |
+| living_room_2 b17_spec256 | 2.32 GiB | 1.67 GiB | 3.41 GiB |
+
+The primary cause was the two foreign chains running side by side. Our idle memory hold was still a contributing cause,
+and it contradicts the owner's instruction that WL109 must wait without being a cause of foreign OOM. Two design errors
+produced it:
+
+1. Amendment 1 watched only the b14 PID, not the foreign chain as a whole.
+2. The in-process timing wait (`exclusive_block`) keeps GPU memory allocated while it waits.
+
+**Action.** At 01:50 KST the operator terminated `run109.py` by PID. `chain.state` records `STOP stage=capture exit=143`.
+No captured file was modified. The on-disk manifest covers all captured data, but `complete=false` and there is no timing
+section. No timing, analysis or verdict exists.
+
+Resuming requires a further owner-approved amendment. It should run Stage 3 alone in a fresh process that is started only
+once no foreign GPU work is running or queued, and that frees all device memory whenever it waits.
