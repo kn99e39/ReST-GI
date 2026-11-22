@@ -1,0 +1,82 @@
+{
+  "id": "WL104K",
+  "title": "Reciprocal per-component symmetric directional modulation of the certified ER (candidate ER-v1-SDM)",
+  "branch": "ecro_lr3_adapter",
+  "classification": "Bounded architecture hypothesis experiment (owner-named WL104K). Candidate only; nothing adopted.",
+  "host": "local RTX 5080 (default placement); GPU checked idle before launch",
+  "candidate": {
+    "name": "ER-v1-SDM",
+    "response": "F_SDM(wi, wo) = sum_j q_j(mu_i) q_j(mu_o) C_j(wi, wo), with the eight base components of the certified ER (cosine-weighted, F = f cos_o): C_Ok = lam_{1+k} g_k(wi, wo) cos_o (k = 0..2, outer GGX), C_L = s(mu_i) s(mu_o) lam_0 cos_o / pi, C_Ik = s(mu_i) s(mu_o) lam_{4+k} g_{3+k}(t(wi), t(wo)) cos_o / eta^2 (k = 0..3, refracted inner GGX). Base parameters: ER-v1-GF (58 per material). Lobe shapes, Fresnel, attenuation and refraction are exactly the original closure82 / closure83 functions.",
+    "gate": "q_j,c(mu) piecewise linear in mu = cos(theta) through 5 knots at mu = 0, 0.15, 0.4, 0.7, 1 (the attenuation knot positions), value range [0, 1], one gate per component j and RGB channel c. Parameterized directly by the 5 knot values, kept in [0, 1] by projection after every optimizer step (projected Adam). Identity state: all knots = 1 (finite, interior to the parameter space of the unconstrained function, boundary of the feasible set); the gradient with respect to a knot at identity is generically non-zero (dF/dq = C_j (phi(mu_i) q(mu_o) + q(mu_i) phi(mu_o))), so identity is not a zero-gradient trap; an outward gradient is held at the boundary by the projection (KKT).",
+    "reciprocity": "Each C_j / cos_o is symmetric in (wi, wo) (GGX D(h), Fresnel at wi.h = wo.h, the horizon-safe denominator, the refraction map applied to both directions and s(mu_i) s(mu_o) are symmetric), and the gate factor q_j(mu_i) q_j(mu_o) is symmetric, so f_SDM = F_SDM / cos_o is reciprocal. Verified numerically (tests).",
+    "passivity": "Each C_j >= 0 and 0 <= q_j <= 1 give 0 <= F_SDM <= F_base pointwise, hence the directional albedo of every channel is <= that of the base ER, which the WL82 certificate bounds by sum_j lam_j <= 1 for every incident direction (ER-v1-GF compiled states have sum lam = 1, inside the certificate). The argument needs only pointwise nonnegativity of each component and the base certificate; symmetry is not used. Verified numerically (pointwise envelope and Monte Carlo directional albedo at grazing and extreme states).",
+    "storage": "Runtime state: the unchanged 69 compiled ER floats plus 15 (T) or 120 (P) gate floats per material."
+  },
+  "arms": {
+    "A": {"name": "shared ER-v1-GF", "gates": "none", "trainable_per_material": 58, "evaluation": "closure82.eval_closure (the WL104J A code path)"},
+    "T": {"name": "shared symmetric gate control", "gates": "one RGB gate q(mu) applied to all eight components", "nominal_added": 15, "trainable_per_material": 73},
+    "P": {"name": "per-component symmetric gates (ER-v1-SDM primary candidate)", "gates": "one RGB gate per component (8)", "nominal_added": 120, "trainable_per_material": 178},
+    "nesting": "A = T at q = 1; T = P with all eight gates equal. Same base parameterization and component functions.",
+    "dof_note": "Nominal counts are not free degrees of freedom: a constant gate scales a component like an amplitude, and the Lambert / inner gates overlap the shared attenuation. The numerical Jacobian rank of the response at fitted states is reported (descriptive)."
+  },
+  "data": {
+    "fit_set": "WL104J fit set (results/ecro_wl84_104j/primary/data/fit_set.npz; 9 materials x 20 incident directions x 1024 lanes, 8192 layered walks per lane), authenticated against evaluation/104J/manifest.json.",
+    "evaluation_reference": "WL104D Amendment 1 independent layered reference (evaluation only, never fitted or used for selection), authenticated via the WL104G manifest; frozen WL104D precision rule must pass.",
+    "transfer_sets": "WL104J nearby-polar and new-azimuth transfer sets (evaluation only).",
+    "materials": "WL104D population: 3 development (iid_1, iid_0, hard_1), 6 held out."
+  },
+  "fitting": {
+    "objective": "WL82 group_terms metric (el1 + ealb) per probe, mean over the 20 probes, summed over materials and starts; identical for all arms.",
+    "optimizer": "WL82 Adam (lr 0.03 -> 3e-4 cosine, warm-up 50), 12,000 steps, float32, log every 100 steps. Same schedule and learning rate for base and gate parameters; gate knots projected to [0, 1] after each step (disclosed optimizer asymmetry: A has no projected coordinates).",
+    "starts": "Primary: 4 matched physical starts (generic + 0.5 N(0,1) with seeds 104911, 104912, 104913 in original raw space, mapped to ER-v1-GF; the WL104I / WL104J start set). T and P start from the SAME base state with all gates at identity (q = 1), i.e. the identical physical response, and optimize base and gates JOINTLY. No arm is initialized from another arm's fit (no chained warm start).",
+    "reproduction_check": "A uses exactly the WL104J A code and data; its terminal states are compared with the archived WL104J A states (descriptive).",
+    "selection": "No held-out selection. Median over starts is primary; best start = lowest final training objective per material.",
+    "convergence_rule": "Optimization is resolved when (a) for every arm >= 90 % of (material, start) units change their own training objective by <= 0.5 % relative over the last 2,000 steps and (b) an extended generic-start run (A, T, P each 24,000 steps, same schedule stretched) changes each pooled training-objective contrast (T - A, P - T, P - A, relative change of the summed objective) by <= 3 percentage points. Rationale (disclosed): WL104J showed arm-level objective drift without contrast change; the decision-relevant quantity is the contrast.",
+    "warm_start_diagnostic": "Not run (optional per brief)."
+  },
+  "contracts": {
+    "baseline_identity": "T and P with identity gates reproduce A: float64 <= 1e-12 of peak on random and reference lanes for historical (R0, WL104D A/C, ER_L, WL104I B1) and random / extreme states; float32 training path <= 2e-6 of peak.",
+    "reciprocity": "float64 on interior pairs (cos_i, cos_o >= 0.05): max |f(wi,wo) - f(wo,wi)| / max f <= 1e-12 and max |cos_i F(wi,wo) - cos_o F(wo,wi)| / max <= 1e-12 for random gates in [0,1] (including 0 and 1 knots) on historical, random and extreme base states, and on all fitted states. Grazing pairs (cos < 0.05) are reported separately (conditioning).",
+    "passivity": "(i) pointwise 0 <= F_SDM <= F_base (+1e-15 of peak) on all test lanes; (ii) Monte Carlo directional albedo per channel (2^20 cosine-free uniform-hemisphere samples, 4 standard errors) <= 1 at mu_i in {0.01, 0.05, 0.1, 0.3, 0.6, 1.0} for random-gate extreme states and every fitted T / P state; (iii) compiled sum lam <= 1 + 1e-6.",
+    "gradient": "Autograd vs central finite differences (float64) for gate knots at identity and at interior values, and for base parameters, relative error <= 1e-5; a short 200-step fit from identity on the physical data must move at least one gate knot of every arm-material pair away from 1 (trainability).",
+    "runtime_parity": "experiment-local Dr.Jit SDM evaluator (comp104h.DrTerms components x gates) vs torch float64 <= max(2e-6, 1.5 x the unmodified compiled runtime's own parity on the same lanes), and the SDM evaluator at identity gates vs the unmodified compiled runtime <= 2e-6 of peak. Pre-freeze tolerance decision (disclosed): on random directions down to cos 1e-3 the unmodified production runtime itself differs from torch float64 by up to 3.5e-6 (float32), while the identity SDM evaluator matches the runtime to <= 1e-7."
+  },
+  "synthetic_controls": {
+    "role": "Whether the representation and the actual JOINT fitting procedure can exploit the gates. Targets are exact float64 responses of known states on the fit-set and evaluation directions; fit targets carry Gaussian noise with the per-lane sigma |fA - fB| / 2 of the physical fit set (seed 1041130); evaluation targets are noise-free. Truth base: each material's historical R0 mapped to ER-v1-GF. Every arm starts from the truth base + 0.1 N(0,1) in ER-v1-GF raw (seed 1041131) with identity gates and is fitted jointly with the primary schedule (1 start).",
+    "S0_null": "Target = truth base, no gates. PASS iff the pooled held-out el1 of T and of P each differ from A's by <= 1e-3 and neither is lower than A's by more than 1e-3.",
+    "ST_shared_gate": "Target = truth base with one shared RGB gate, knots (mu = 0..1) [0.45, 0.6, 0.8, 0.95, 1.0] on all eight components. PASS iff pooled held-out el1 of T <= 50 % of A's and of P <= 50 % of A's.",
+    "SP_per_component": "Target = truth base with per-component gates (same for RGB): O0 [0.4, 0.55, 0.8, 1, 1]; O1 [1, 1, 0.85, 0.6, 0.45]; O2 identity; L [1, 0.8, 0.6, 0.5, 0.5]; I0 [0.5, 0.7, 0.9, 1, 1]; I1 [1, 0.9, 0.7, 0.6, 0.5]; I2 [0.6, 1, 0.6, 1, 0.6]; I3 identity. PASS iff pooled held-out el1 of P <= 50 % of T's.",
+    "representability": "Each target evaluated by its own arm at the truth state reproduces itself exactly (test); a control failure is therefore an optimization failure, reported as such.",
+    "stop": "If a contract or synthetic control fails, physical comparison is not interpreted as qualified (verdicts INCONCLUSIVE); the physical fits still run and are reported."
+  },
+  "evaluation": {
+    "primary_metric": "Held-out angular el1 (WL82) per (material, probe) against the mean of the two independent evaluation halves.",
+    "secondary": "ealb, eshape, core (< 3 deg) / shoulder (3-12 deg) / tail (>= 12 deg) region L1 and signed energy, peak height (independent peak grid), signed residual maps, reference precision, across-start variability, nearby-polar and new-azimuth transfer.",
+    "contrasts": "T - A, P - T, P - A: relative change of the cohort-pooled el1 sum per start; median over 4 starts; 95 % cluster bootstrap over materials within cohort (10,000, seed 1041140); replicated against each evaluation half.",
+    "angular_fidelity_gain": "PASS: P - A median <= -10 % in BOTH cohorts, bootstrap upper bound < 0 in both, median < 0 against each half in both, >= 3 of 4 starts negative in both, and no concealed regression (no material with median-start el1 of P above A by > 5 % relative; no incident-polar group with cohort-pooled P above A by > 5 %). FAIL: qualification and optimization pass and PASS is not met. INCONCLUSIVE: a contract, control or optimization rule fails.",
+    "per_component_benefit": "SUPPORTED: P - T median <= -5 % in both cohorts, upper bound < 0, median < 0 against each half, >= 3 of 4 starts negative, in both cohorts. NOT_SUPPORTED: qualified, resolved and not SUPPORTED. INCONCLUSIVE otherwise.",
+    "heldout_directional_transfer": "PASS: P - A median < 0 and upper bound < 0 in both cohorts on BOTH the nearby-polar and new-azimuth transfer sets, with no cohort median >= +5 %. FAIL: qualified and any cohort median >= 0 on either set. INCONCLUSIVE otherwise, including any contract, control or optimization failure.",
+    "comparison_resolution": "Reference half-split el1 noise / A's el1 <= 1.25 % per cohort, otherwise INCONCLUSIVE.",
+    "oracle_context": "WL104J B / C oracle numbers are historical context only, never comparators or targets."
+  },
+  "scene_stage": {
+    "condition": "Runs only if baseline identity, reciprocity, passivity and synthetic controls PASS and angular fidelity gain PASS. Otherwise NOT RUN.",
+    "procedure": "WL104I fixed-proposal pass (WL104H exact replay of the archived WL104G launches): scenes test83_iid_1_L2 (dev), test83_hard_1_L1 (dev), test83_iid_159_L2 (held out); seeds 1044900 / 1046900 / 1048900 + r; 12 replicates; 1024 spp dev / 4096 spp held out; E1 at the fixed light direction, E2 with the frozen native R0 proposal and its actual pdf (common qualified proposal; F/p recomputed per arm); states A0 (R0), A, T, P x 4 starts evaluated through an experiment-local Dr.Jit SDM closure; TOTAL = E1 + fixed E2 + archived R0 HIGH. Identity gates: A0 replay vs archived R0 <= 2e-5 relative L1, lane F/p identity <= 2e-6 of peak.",
+    "primary": "Objects stable RMS against the layered reference, start-mean relative change (P - A) / A per scene for E1, fixed E2 and fixed TOTAL; delete-one-replicate jackknife t(11) 95 % CI.",
+    "scene_utility": "SUPPORTED: fixed TOTAL upper bound < 0 in >= 2 of 3 scenes and no scene with lower bound > +0.02. NOT_SUPPORTED: no scene with upper bound < 0, or any scene with lower bound > +0.02. INCONCLUSIVE: identity / precision failure or otherwise.",
+    "cost": "Torch float32 and Dr.Jit evaluation time for 2^22 lanes per arm (A via closure82 / DrClosure83, T / P via the experiment-local evaluators), storage per material; fixed-pass wall time per replicate. The experiment-local evaluator is not optimized; this is disclosed."
+  },
+  "verdict": {
+    "candidate_viability": "SUPPORTED: identity, reciprocity, passivity, synthetic controls PASS, angular gain PASS, transfer PASS and scene utility SUPPORTED. NOT_SUPPORTED: contracts and controls PASS, optimization resolved, and angular gain FAIL or scene utility NOT_SUPPORTED. INCONCLUSIVE otherwise.",
+    "scope": "One fixed factorized gate class (5 knots, rank-one symmetric per component), one coated-conductor family, 9 materials, 10 incident polars. A negative result applies to this factorization, knot resolution and optimization contract only."
+  },
+  "stops": [
+    "Componentwise reciprocity or nonnegativity fails, or the passivity argument does not hold for the implemented closure.",
+    "The original ER is not reproduced at identity gates.",
+    "Frozen inputs cannot be authenticated; evaluation reference unqualified; train / evaluation isolation violated.",
+    "Gates cannot be moved by the fitting procedure (trainability test)."
+  ],
+  "pre_freeze_development": "Before this freeze: contract tests were developed and run (all pass after one disclosed tolerance decision, runtime_parity); a 300-step full-scale timing probe of the primary fits (A 26 / T 29 / P 45 ms per step, GPU 91-96 %); a 150-step end-to-end dev chain (fits, fitted contracts, evaluation, decision, figures) whose non-converged contrasts were printed; a scene-replay smoke on the 300-step probe states (identity 3.4e-8 / 6.0e-8; 5.6 s per 512-spp launch uncontended). Changes after the dev chain: the transfer label now also requires qualification (stricter), a --k CLI flag for the scene chunk size (default 128, replay streams are chunk-independent), and figure layout. No threshold or rule was loosened after seeing dev numbers.",
+  "seeds": {"synthetic_noise": 1041130, "synthetic_start": 1041131, "bootstrap": 1041140, "tests": 1041150, "albedo_mc": 1041160,
+            "starts": [104911, 104912, 104913]}
+}
