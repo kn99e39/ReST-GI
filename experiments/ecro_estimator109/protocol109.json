@@ -1,0 +1,153 @@
+{
+  "id": "WL109",
+  "title": "Frozen ECRO conditional transport readout: feasibility and cost-normalized variance reduction",
+  "class": "regular numbered batch (owner-designated); bounded architecture-feasibility experiment",
+  "branch": "Denoise_Reconstructor (no new branch or worktree)",
+  "base_commit": "0e3d9c1",
+  "hypothesis": {
+    "H1": "Conditional HIGH readout reduces the MSE of the frozen ECRO TOTAL estimator at equal measured GPU time without material change in expectation.",
+    "H0": "Any HIGH variance reduction is offset by changed LOW/HIGH covariance, approximation bias or additional cost."
+  },
+  "frozen": [
+    "WL100 SSS checkpoint, learned HIGH table bytes, table generation, source encoding, patch/bin discretization, event ownership",
+    "LOW = E1 + E2 statements and the main PCG32 stream (J jitter, P first-event continuation, S k=2 walk)",
+    "geometry, materials, lights, camera contract, original sampling distributions, WL101 renderer (rt101.py, pt100.py, pt86.py unchanged)",
+    "WL103-WL108 artifacts and verdicts; contact disk excluded from every primary decision"
+  ],
+  "estimator": {
+    "R0": "rt101.RT._frame_prog (pt100.Ctx.trace ER, kmax 2, mode ecro): TOTAL = E1 + E2 + T(X) B[a(X)], HIGH read at the second hit with the shared first-event sample",
+    "C1": "H_C1(U) = (1/M) sum_m T(U,P'_m) B[a(U,P'_m)]; U = first camera interaction (function of J); P'_m = M fresh first-event continuations (NEE-free SSS walk then closure sample, original statements and distributions) from an independent TEA-seeded PCG32 stream; LOW unchanged and bitwise-paired with R0 for the same seed",
+    "target_expectation": "E[TOTAL_R0] of the frozen renderer; E[H_C1 | U] = E[H | U] so E[TOTAL_C1] = E[TOTAL_R0]",
+    "description_rule": "finite unbiased inner Monte Carlo estimate of the conditional expectation; never described as exact integration",
+    "exact_integration": "not used: the visible (patch, bin) partition of the first-hit hemisphere depends on continuous position and visibility",
+    "inner_samples_exclude_shared_sample": "fixed a priori from WL103: Cov(LOW,HIGH) through the shared first-event sample is positive in every ROI",
+    "stratification": "none (iid inner samples)",
+    "M_selection": "development rule below; candidates {1, 2, 4}"
+  },
+  "views": {
+    "eval": ["V0", "H1", "H2", "H3", "H4", "H5"],
+    "dev": ["T00", "T01", "T02", "T03"],
+    "note": "dev = WL105 training cameras; evaluation views were inspected by WL105-WL108, so no out-of-distribution generalization claim"
+  },
+  "environment": {
+    "host": "LabServer69 (native RTX 3090, driver 550.54.15)",
+    "remote_root": "rest_sss101a",
+    "python": "~/NeuralShaderDemo/external/8dna26/.venv/bin/python (3.10.21)",
+    "stack": "Mitsuba 3.8.0 / Dr.Jit 1.3.1 (DYN101_MI_DIR=~/rest_dyn101/external/mi_3.8.0), Torch 2.3.1+cu121, NumPy 1.26.4, FREEZE=1",
+    "admission": "experiments/ecro_denoise108/renderer108.py frozen_runtime, unchanged (sources, checkpoint, scene, learned-table hash, archived 4096-spp V0 replay)"
+  },
+  "inputs": {
+    "frozen_inputs": "results/ecro_denoise108/inputs",
+    "wl107_capture": "results/ecro_denoise107/capture",
+    "wl107_reference_manifest_sha256": "5fc7ee75b44462bbd7e62271d960ae1995f6f61ab628ef2e494285cb60b6c797",
+    "wl107_capture_manifest_sha256": "164ba353bf3aa5265d4cf875ab4b0aa1985252c945643778bd8399616f7195b0",
+    "reference": "WL107 qualified frozen-ECRO assessment reference: 46 WL107 + 2 WL105 independent 8192-spp blocks per view (393,216 spp); per-pixel variance recomputed from the blocks"
+  },
+  "nominal_spp": [1, 4, 16, 32],
+  "r0_grid_spp": [1, 2, 3, 4, 5, 6, 7, 8, 10, 12, 16, 20, 24, 28, 32, 40, 48, 64],
+  "grid_extension_rule": "if C1's measured time at a nominal spp lies outside the measured R0 grid times of its view, add R0 levels 80, 96, 128 with the grid seed rule and 32 replicates for all views before analysis; the verdict stays INCONCLUSIVE until the curve brackets C1",
+  "rois": {
+    "definition": "WL105 analyze105.rois on the frozen aux.npz, contact disk removed (common107 convention)",
+    "primary_decision": "primary",
+    "nonregression": ["silhouette", "sss_interior"],
+    "bias": ["primary", "sss_interior", "silhouette", "material_boundary", "control"],
+    "descriptive": ["contact", "signed distance bands -7..+7 px to the sphere silhouette"]
+  },
+  "seeds": {
+    "paired": 13100000,
+    "grid": 13200000,
+    "dev": 13300000,
+    "dynamic": 13400000,
+    "dynamic_reference": 13450000,
+    "timing": 13500000,
+    "synthetic": 14000000,
+    "smoke_offset": 50000000,
+    "bootstrap": 13999001,
+    "timing_order": 13998001,
+    "rules": "paired = base + 10000 view + 100 nominal_index + r; grid = base + 10000 view + 100 grid_index + r; dev = base + 10000 dev + 100 M_index + r; synthetic = base + 100000 table + 100 config + r; timing = base + 10000 view + 100 slot + i; main-stream seed value = splitmix64((seed << 16) + launch) passed to the unchanged frame program (development finding: the historical seed * 1000003 convention gives consecutive seeds correlated pcg_046 replicate streams, excess pair correlation of the original HIGH 0.012 on a high-contrast table and 0.005 on the learned table; archived-frame replays keep the historical convention); inner stream = TEA hash of inner_seed_value(seed)"
+  },
+  "synthetic": {
+    "structural_rel_l1": 1e-6,
+    "table_seed": 13997001,
+    "toy": {"M": [1, 2, 4], "n": 4, "K": 4000, "seeds": [1091, 1092, 1093], "mean_z_max": 4.0, "var_ratio_z_max": 4.0},
+    "statistical": {"view": "T00", "spp": 4, "replicates": 64, "min_region_pixels": 50, "bootstrap_draws": 400, "Q_groups": 8,
+      "gates": {"paired_t_max": 4.0, "spatial_bias_power_max": 0.01, "var_equivalence_tol": 0.03, "var_theory_tol": 0.05, "z_max": 4.0},
+      "variance_rule": "a variance deviation fails only if it is both material (beyond tolerance) and resolved (beyond z_max bootstrap SE)"},
+    "independence": {"view": "T01", "spp": 4, "replicates": 64, "bootstrap_draws": 400, "tables": ["learned", "negative_cov"],
+      "gates": {"abs_corr_max": 0.01, "z_max": 4.0}},
+    "replicate_independence": {"view": "T00", "spp": 4, "replicates": 64, "tables": ["contrast", "learned"], "power_control_table": "contrast",
+      "gates": {"z_max": 4.0},
+      "rule": "excess consecutive-pair correlation of LOW, original HIGH, C1 HIGH and their difference under the protocol seeding within z_max SE of 0; the historical seed * 1000003 convention must show a resolved original-HIGH correlation on the power-control table"},
+    "quadrature": {"view": "T00", "pixels": 4096, "pixel_seed": 13996001, "grid": 128, "spp": 64, "M": 4, "frames": 16,
+      "gates": {"violation_fraction_max": 0.005, "mean_z_abs_max": 0.1, "mean_z2_excess_max": 0.25}, "z_max": 4.0},
+    "stop_rule": "any synthetic gate failure stops the batch; ordinary implementation bugs that preserve the declared estimator may be fixed and recorded; no replacement mechanism"
+  },
+  "development": {
+    "M_candidates": [1, 2, 4], "spp": 4, "replicates": 16, "bootstrap_draws": 200, "timing_warmup": 3, "timing_rounds": 30,
+    "selection": "M* = argmin over M of the geometric mean over dev views of r(M) = Var_T,C1(M) t_C1(M) / (Var_T,R0 t_R0) on the primary ROI at 4 spp; ties within tie_tolerance go to the smaller M",
+    "tie_tolerance": 0.01,
+    "futility_ratio": 1.5,
+    "futility_rule": "if r(M*) > futility_ratio the batch closes NOT_SUPPORTED before any evaluation-view evidence",
+    "futility_disclosure": "raised from 1.0 to 1.5 before the freeze, after the non-evidence development smoke on T00 indicated r(1) ~ 1.1; the evaluation stage costs < 2 GPU-hours, so the gate now closes the batch only where even a large failure of the 1/time screening assumption could not yield a benefit; the change can only add evidence and leaves every decision threshold unchanged"
+  },
+  "final": {
+    "replicates": 32, "escalated_replicates": 64, "timing_warmup": 3, "timing_rounds": 30,
+    "escalation_rule": "only if a bias test is UNRESOLVED after 32 paired replicates: paired replicates 32..63 for every view and nominal spp (uniform, never selective), once"
+  },
+  "analysis": {
+    "bootstrap_draws": 10000, "component_bootstrap_draws": 200, "bootstrap_seed": 13999001, "band_width": 7, "Q_groups": 8,
+    "mse_definition": "mean over replicate frames of mean_{ROI,RGB}(Y - ref)^2 minus mean_{ROI,RGB} Var(ref); relative RMSE = sqrt(MSE / mean ref^2)",
+    "equal_time": "rho_v = MSE_C1,v(n) / MSE_R0,v(t_C1,v(n)); t = median synchronized frozen frame time; R0 MSE interpolated log-log between bracketing measured grid levels; GM over views; interval = normal on log GM with two-level bootstrap SE (views, then replicates and timing samples within view)",
+    "bias_spp": [4, 16, 32],
+    "bias_tolerance_relative": 0.005,
+    "bias_rule": "B1 per view x bias ROI: paired relative signed luminance bias of TOTAL_C1 - TOTAL_R0 (inverse-variance pooled over bias_spp) relative to the reference ROI luminance; EQUIVALENT if 95% CI within +-tolerance, BIASED if the CI lies outside, otherwise UNRESOLVED. B2 spatial bias power Q = mean over 8 independent replicate groups of mean_{ROI,RGB}(Dbar_g^2 - s_g^2/n_g) / pooled Var(TOTAL_R0) at each bias_spp; Student-t upper95 (7 df) <= limit",
+    "spatial_bias_power_max": {"primary": 0.01, "sss_interior": 0.01, "material_boundary": 0.01, "control": 0.01, "silhouette": 0.02},
+    "reference_noise_fraction_max": 0.10,
+    "gates": {
+      "primary_4spp_equal_time_ratio_max": 0.85,
+      "primary_4spp_upper95_below": 1.0,
+      "higher_spp_ratio_point_max": 1.02,
+      "higher_spp_ratio_upper95_max": 1.05,
+      "region_ratio_point_max": 1.05,
+      "region_ratio_upper95_max": 1.10
+    },
+    "report_only": ["1-spp operating point", "equal-spp variance ratios", "variance components and J attribution", "boundary-distance bands", "contact region", "signed bias against the reference", "relative HDR RMSE", "time to equal quality", "first-call and memory costs"]
+  },
+  "decision": {
+    "P1": "all synthetic gates pass (toy, structural, statistical, independence, quadrature)",
+    "P2": "primary 4-spp equal-time GM MSE ratio <= 0.85",
+    "P3": "its 95% upper bound < 1.0",
+    "P4": "every B1 EQUIVALENT and every B2 within limit",
+    "P5": "primary 16 and 32 spp: GM ratio <= 1.02 and upper95 <= 1.05",
+    "P6": "silhouette and sss_interior at 4/16/32 spp: GM ratio <= 1.05 and upper95 <= 1.10",
+    "P7": "dynamic D1-D4 correctness and D5 benefit",
+    "verdict": {
+      "STOPPED_MECHANISM_INFEASIBLE": "a structural synthetic gate (identity, replay, zero table, quadrature) fails and cannot be fixed without changing the declared estimator",
+      "NOT_SUPPORTED": "futility, or B1 BIASED / B2 failure, or any of P2, P3, P5, P6 fails, or dynamic correctness D1-D4 fails",
+      "INCONCLUSIVE": "reference precision fails, the equal-time curve cannot bracket C1, or a bias test stays UNRESOLVED after escalation",
+      "STATIC_ONLY_SUPPORTED": "P1-P6 pass and dynamic correctness passes but D5 fails, or the dynamic stage cannot be executed without touching another branch",
+      "SUPPORTED": "P1-P7 pass"
+    }
+  },
+  "dynamic": {
+    "condition": "run only if the static decision passes",
+    "view": "V0",
+    "edit_to_config": 2,
+    "light": "configuration 0 light 0 (unchanged)",
+    "table_fresh_rel_l1_max": 1e-6,
+    "reference_blocks": 16, "reference_block_spp": 8192,
+    "replicates": 32, "grid_spp": [4, 5, 6, 7, 8],
+    "benefit_ratio_max": 0.85, "benefit_upper95_below": 1.0
+  },
+  "budget": {"gpu_hours_max": 6, "storage_GB_max": 80, "note": "stage elapsed-time caps in run109.sh; a cap hit stops the chain with its stage recorded"},
+  "stop": [
+    "frozen checkpoint, table, scene or source identity fails",
+    "archived WL101 4096-spp replay or archived WL105 evaluation-frame replay fails its tolerance",
+    "the conditional measure cannot be implemented with valid sampling semantics",
+    "synthetic expectation or structural gates fail",
+    "reference precision cannot qualify",
+    "futility gate",
+    "continuing would need a new estimator family, a learned model, a table change or a change to another branch"
+  ],
+  "prior_art": "Neural control variates, neural radiance caching, neural two-level Monte Carlo and standard conditional / stratified Monte Carlo; any variance reduction here is an application of conditional Monte Carlo (Rao-Blackwellization) and not claimed novel"
+}
