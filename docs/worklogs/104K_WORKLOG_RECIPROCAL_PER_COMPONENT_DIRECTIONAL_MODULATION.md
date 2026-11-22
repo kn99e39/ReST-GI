@@ -280,3 +280,44 @@ cd experiments/ecro_wl84_104k
 bash chain.sh ../../results/ecro_wl84_104k/primary 12000
 PYTHONUTF8=1 ../../external/8dna26/.venv-cu128/Scripts/python.exe -B figures104k.py ../../results/ecro_wl84_104k/primary ../../evaluation/104K
 ```
+
+## Post-hoc qualitative scene evaluation (2026-11-22, owner request; appended)
+
+The owner asked for qualitative material, including renders, showing how the reported improvement appears on the existing scene data set. This section is **post hoc**. The frozen decision table above, including "Scene utility: NOT RUN", is unchanged, and nothing here is a frozen test.
+
+- **What was run.** The frozen, previously unexecuted scene replay [`scenes104k.py`](../../experiments/ecro_wl84_104k/scenes104k.py), with code unchanged, launched by [`qual_chain.sh`](../../experiments/ecro_wl84_104k/qual_chain.sh) (commit `9fb0eb6`).
+  - **Scenes and budget.** Scenes iid_1 and hard_1 (development materials) and iid_159 (held-out material and camera), 12 replicates each.
+  - **Replay.** Common R0 proposal with F/p recomputed per arm, so every arm is evaluated at the same sampled directions.
+  - **States.** A0 (R0) plus A / T / P × 4 starts.
+  - **Total term.** "Total" adds the archived R0 higher-order term to every model.
+  - **Replay identity.** ≤ 2.0e-7 relative L1; lane F/p ≤ 1.1e-7.
+  - **Run time.** 16:40–16:56 KST, local RTX 5080, about 32–45 s per replicate.
+- **Objects error of the shown renders** (start 1 = generic, 12-replicate mean, RMS / mean reference luminance):
+
+  | Scene | First bounce A / T / P | First + second | Total |
+  |---|---|---|---|
+  | iid_1 | 22.6 / 7.7 / 1.4 % | 11.8 / 5.0 / 3.5 % | 11.1 / 5.0 / 3.4 % |
+  | hard_1 | 21.8 / 21.5 / **24.2** % | 10.1 / 9.9 / **11.1** % | 8.2 / 8.1 / **9.1** % |
+  | iid_159 (held out) | 10.6 / 8.4 / 5.6 % | 5.7 / 4.7 / 3.5 % | 5.5 / 4.5 / 3.4 % |
+
+- **Descriptive contrast P − A** (objects stable RMS, the noise-debiased WL104E estimator; mean of 4 starts; replicate-jackknife 95 % CI):
+
+  | Scene | First bounce | Second bounce | Total |
+  |---|---|---|---|
+  | iid_1 | −94 % | −100 % [−112, −88] | −97 % [−113, −81] |
+  | hard_1 | **+3.6 % [+0.5, +6.7]** | −29 % | **+3.0 % [0.0, +6.1]** |
+  | iid_159 | −32 % | −34 % | −33 % [−33.3, −32.5] |
+
+  −100 % means P's error is below the replicate-noise estimate; the estimator clips at 0. T − A on the total is −69 % (iid_1), −1 % (hard_1) and −10 % (iid_159).
+- **Observation.**
+  - On iid_1 and the held-out iid_159, the angular gain carries into the rendered first and second bounce.
+  - On hard_1, P lowers the second-bounce error but raises the first-bounce error, and the total is slightly worse than A. The zoomed highlight shows that P overshoots the centre of the mirror highlight, while A undershoots it.
+  - So hard_1's angular el1 gain of −26 % does not translate into a better direct-highlight image.
+  - This is consistent with grazing incidence and the peak being the least improved angular regions. It is descriptive and was not tested.
+- **Package.** [evaluation/104K/qualitative/qualitative.html](../../evaluation/104K/qualitative/qualitative.html) contains:
+  - click-to-switch reference / A / T / P renders and absolute-error images per scene and event (same exposure);
+  - full-frame comparisons with error and error-reduction maps (one absolute luminance error scale for all maps, 0–0.84, 4th-root display);
+  - zoomed highlight, grazing and lower-sphere regions;
+  - the scene error summary.
+
+  Script: [`qual104k.py`](../../experiments/ecro_wl84_104k/qual104k.py). Hashes are in `qualitative_manifest.json`. Raw outputs are in `results/ecro_wl84_104k/primary/posthoc_scenes/`.
