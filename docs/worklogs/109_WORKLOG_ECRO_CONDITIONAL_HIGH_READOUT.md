@@ -278,3 +278,61 @@ section. No timing, analysis or verdict exists.
 
 Resuming requires a further owner-approved amendment. It should run Stage 3 alone in a fresh process that is started only
 once no foreign GPU work is running or queued, and that frees all device memory whenever it waits.
+
+## Amendment 2: guarded resume at Stage 3 without holding GPU memory (owner-approved, 2026-11-23)
+
+The owner approved resuming the run under a rule: WL109 must hold no GPU memory while foreign work runs or is queued.
+This is an execution correction only. The estimator, seeds, replicate counts, timing schedule, thresholds and decision
+rules are unchanged, and the captured data and their manifest are reused as they are.
+
+**[`guard109.py`](../../experiments/ecro_estimator109/guard109.py).** Every GPU-touching WL109 command now runs under this
+guard: per-view timing, analysis (it uses CUDA tensors), escalation and dynamic. The guard imports no GPU library.
+
+- It starts its command only when the user has no tmux session and nvidia-smi has listed no compute process for 120 s.
+  TransGI and the other foreign chains run in tmux; WL109 is launched with `nohup`/`setsid`.
+- While the command runs, the guard polls nvidia-smi every 2 s. When a compute process outside the command's process
+  tree appears, it terminates the command's process group: SIGTERM, then SIGKILL after 20 s. This releases all WL109
+  device memory.
+- It then waits for the start condition again and restarts the command from the beginning. Outputs depend only on the
+  seeds, so a restart reproduces the same data. Escalation rewrites the same files. Dynamic's partial output directory
+  is moved aside before a new attempt.
+- Each attempt is capped: 7200 s for timing and analysis, 86400 s for escalation and dynamic.
+- Every wait, start, preemption and exit is logged to `guard109.jsonl`.
+
+The remaining window is the ≤ 2 s polling interval between a foreign process appearing and WL109 being killed.
+
+**[`timing109.py`](../../experiments/ecro_estimator109/timing109.py).** Stage 3 runs one evaluation view per fresh
+process, after that process's own admission. The block content is the same as `run109.py` Stage 3:
+
+- the same slots and `seed_timing` with the view's `EVAL_VIEWS` index;
+- 3 warm-up and 30 rounds in the frozen randomized order;
+- the end-to-end composition, first-call and watermark measurements;
+- the `exclusive_block` contamination rule.
+
+Each view is written atomically to `run/timing_parts/<view>.json`; views already written are kept. A CPU-only `--merge`
+does the rest:
+
+- copies the capture manifest to `run/manifest_capture.json`;
+- adds `timing`, the per-view admissions and versions, and `table_sha_after`, asserting that every part's table bytes
+  equal the capture admission's;
+- records the hashes of the parts and the code under `amendment2`, and sets `complete`.
+
+**[`run109_amend2.sh`](../../experiments/ecro_estimator109/run109_amend2.sh).** The driver checks the synthetic PASS
+and the non-futile development result, then runs timing for each view, the merge and the analysis. After that it
+follows the frozen escalation and dynamic branches of `run109_amend1.sh`, each under the guard.
+
+**Disclosed differences.**
+
+- First-call (recording + compile) times are now measured in a fresh process after admission, not after the capture
+  stages in the same process. They are reported only and enter no gate.
+- Frame and end-to-end medians are taken after warm-up, as before.
+
+**Validation before launch.** Local tests with stubbed `nvidia-smi`/`tmux`:
+
+- a normal exit passes the child's code through;
+- tmux blocks the start;
+- a foreign PID preempts the child and attempt 2 completes;
+- the attempt timeout returns 124 and leaves no orphan.
+
+A CPU-only merge test on LabServer69 on synthetic parts checked the merged fields and refused to merge into a complete
+manifest.
