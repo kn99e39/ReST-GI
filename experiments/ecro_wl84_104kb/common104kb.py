@@ -130,11 +130,11 @@ def load_lane_set(path, n):
     return {"wi": s["wi"], "wo": s["wo"], "w": s["use"] / s["q"], "a": s["a"], "b": s["b"], "mean": 0.5 * (s["a"] + s["b"])}
 
 
-def training_set(name, n):
+def training_set(name, n, data_dir=None):
     if name == "original":
         return CM.load_set("fit_set", n)
     if name == "coverage":
-        return load_lane_set(DATA_DIR / "train_coverage.npz", n)
+        return load_lane_set(Path(data_dir or DATA_DIR) / "train_coverage.npz", n)
     raise ValueError(name)
 
 
