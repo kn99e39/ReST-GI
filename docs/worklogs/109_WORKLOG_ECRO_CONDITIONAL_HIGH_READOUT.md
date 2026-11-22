@@ -225,3 +225,19 @@ running since 18:50 KST), so the 3600 s stage cap expired. No M was selected and
 This is an execution-resource stop, not a scientific failure. Resuming requires an owner-approved amendment: the
 exclusive-GPU wait has to be kept out of the stage cap, or the GPU has to be scheduled. The stopped run's logs are kept
 under `results/ecro_estimator109/evidence/`.
+
+## Amendment 1: resume after the foreign GPU chain (owner-approved, 2026-11-22)
+
+The owner directed that a watcher be placed on the TransGI chain and that WL109 resume when that chain ends. The execution
+correction:
+
+- [`run109_amend1.sh`](../../experiments/ecro_estimator109/run109_amend1.sh) waits for the watched `run_b14.sh` process to
+  exit and then for 120 s of uncontended GPU.
+- It moves the stopped development output to `dev_stopped_cap/` and reruns the development stage and every later stage
+  with the frozen code, seeds, sizes and thresholds. The frozen synthetic result is reused; it comes from the same commit
+  and passed.
+- The elapsed-time caps of the GPU stages (development, capture, escalation, dynamic) become 24 h, so that exclusive-GPU
+  waiting cannot stop the chain. Analysis caps are unchanged.
+
+No estimator, gate, seed or decision rule changes. The T00 variance values from the stopped attempt are superseded by the
+rerun, which uses the same seeds and is therefore bitwise reproducible.
