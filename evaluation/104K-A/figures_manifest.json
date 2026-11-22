@@ -1,0 +1,80 @@
+{
+ "figures": [
+  {
+   "file": "fig01_optimization_closure_curves_and_stationarity.png",
+   "question": "Does a matched extension close the optimization of A / T / P?",
+   "caption": "Training curves, rule (a) and projected-gradient stationarity.",
+   "source": "ext/fit.json, WL104K fit_primary/fit.json"
+  },
+  {
+   "file": "fig02_per_start_angular_and_scene_quality.png",
+   "question": "Is the angular and scene advantage stable across starts?",
+   "caption": "Angular el1 per start; scene P \u2212 A per start with jackknife intervals.",
+   "source": "ext_angular.json, decision.json"
+  },
+  {
+   "file": "fig03_scene_conditioned_response_vs_rendered_error_iid_1.png",
+   "question": "Does the image error of iid_1 scene come from the angular response at the directions the image uses?",
+   "caption": "Top: lane-level response residual at the scene's own first-bounce directions (start-mean); bottom: rendered residual.",
+   "source": "lanes/<scene>/maps.npz"
+  },
+  {
+   "file": "fig03_scene_conditioned_response_vs_rendered_error_hard_1.png",
+   "question": "Does the image error of hard_1 scene come from the angular response at the directions the image uses?",
+   "caption": "Top: lane-level response residual at the scene's own first-bounce directions (start-mean); bottom: rendered residual.",
+   "source": "lanes/<scene>/maps.npz"
+  },
+  {
+   "file": "fig03_scene_conditioned_response_vs_rendered_error_iid_159.png",
+   "question": "Does the image error of iid_159 scene (held out) come from the angular response at the directions the image uses?",
+   "caption": "Top: lane-level response residual at the scene's own first-bounce directions (start-mean); bottom: rendered residual.",
+   "source": "lanes/<scene>/maps.npz"
+  },
+  {
+   "file": "fig04_region_attribution_core_shoulder_grazing.png",
+   "question": "Is the hard_1 highlight overshoot an angular-response error, noise or start-dependent?",
+   "caption": "Signed excess per region, arm, start.",
+   "source": "lanes/<scene>/attribution.json"
+  },
+  {
+   "file": "fig05_error_by_mirror_offset_at_scene_directions.png",
+   "question": "Is the overshoot concentrated at specific near-mirror directions?",
+   "caption": "Binned signed excess vs mirror offset at the scene's own directions.",
+   "source": "lanes/<scene>/attribution.json"
+  },
+  {
+   "file": "fig06_first_second_total_decomposition.png",
+   "question": "Which event carries each scene's change?",
+   "caption": "Stable RMS per event.",
+   "source": "stageA.json"
+  },
+  {
+   "file": "fig07_noise_and_variability_accounting.png",
+   "question": "Can noise or start variability explain the observed differences?",
+   "caption": "Separated uncertainty sources.",
+   "source": "stageA.json, lanes/*/attribution.json"
+  },
+  {
+   "file": "fig08_hard1_highlight_matched_direction_scatter.png",
+   "question": "At the exact directions of the hard_1 highlight, is P too bright near the mirror peak?",
+   "caption": "Per-lane model vs physical contribution; inset: signed excess by mirror offset.",
+   "source": "lanes/test83_hard_1_L1/lanes.npz"
+  }
+ ],
+ "decision_sha256": "de61b9505c135ca8b5633506750ba375dfd1954ece56485cb6bd4b85a0b345aa",
+ "script_sha256": "47498e8814dcbb6307a41c81cf907149314349a0b8bdf55f1875986cee3bb359",
+ "files_sha256": {
+  "fig01_optimization_closure_curves_and_stationarity.png": "28874267a7471de8304c4d1586d8df4a737a243ac6a598fd0cf84544bd70a121",
+  "fig02_per_start_angular_and_scene_quality.png": "01e6218044f4fa06aa465db15dba5c77e619e8307b145dc6ec9190742cd61110",
+  "fig03_scene_conditioned_response_vs_rendered_error_hard_1.png": "4940853a922d585785407159b09adc6aa8a227a34595a4b2776e0aeed1f0bb48",
+  "fig03_scene_conditioned_response_vs_rendered_error_iid_1.png": "7a1c747e2b2a82fff0b5d486045204f915363b15afa9346777d3966da0e803de",
+  "fig03_scene_conditioned_response_vs_rendered_error_iid_159.png": "fe81037650a7809bd408eb980b952e86e5f1de0937e03d9d262e2cbd9f9f3ff7",
+  "fig04_region_attribution_core_shoulder_grazing.png": "1344997de35ccf71038c31b392666c067c95501409fc755bf06ef52389a143bd",
+  "fig05_error_by_mirror_offset_at_scene_directions.png": "3693c02a3fe0ccd2e287e64c74c3b1b4ff207699dc80b48bb9e102222b0c3ba3",
+  "fig06_first_second_total_decomposition.png": "73449eee1310b2e4ae26d208aa18bcf75ab007aebe8f33bee0099deead264d84",
+  "fig07_noise_and_variability_accounting.png": "09f7912e9ccbc99182f1c03ae37335820c8a88334ca881129ce41b931f06bcb4",
+  "fig08_hard1_highlight_matched_direction_scatter.png": "705e0fdcf4bec8b9fc7ab825599d3e8461b51d19588f28aa7afbd9588e4d57c5",
+  "fig09_hard1_peak_pixels_and_peak_height_per_start.png": "7911b8e9768554c35557e365a91bd00f0072c2b9f3d79586a3021776a5af9bca",
+  "index.html": "a2d99d0c81b157a1f1e1dc510abbc658ffc020ef7922ab65f752649acdec5cf5"
+ }
+}

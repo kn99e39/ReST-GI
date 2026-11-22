@@ -69,7 +69,7 @@ def fig_optimization(pk):
                 ax.plot(s2, H2[:, r, m], color=plt.cm.tab10(m), lw=0.6, ls="-")
         ax.axvline(s1[-1], color="k", ls="--", lw=0.8)
         ax.set_yscale("log"); ax.set_xlabel("optimizer step (dashed: 12k end; then constant lr 3e-4, fresh Adam moments)")
-        ax.set_title(f"{SHORT[arm]}: rule (a) after extension {100 * pk.XF[arm]['rule_a_fraction']:.0f} % of units "
+        ax.set_title(f"{SHORT[arm]}: rule (a) after extension {100 * pk.XF[arm]['rule_a_fraction']:.0f} % of units\n"
                      f"({'PASS' if pk.XF[arm]['rule_a_pass'] else 'FAIL'}; WL104K at 12k: "
                      f"{100 * np.mean(np.array(pk.KF[arm]['last_2000_relative_change']) <= 0.005):.0f} %)", fontsize=9)
         if j == 0:
