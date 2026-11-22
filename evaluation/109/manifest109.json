@@ -1,0 +1,39 @@
+{
+ "worklog": "docs/worklogs/109_WORKLOG_ECRO_CONDITIONAL_HIGH_READOUT.md",
+ "server": "LabServer69 ~/rest_sss101a/results/ecro_estimator109/evidence (raw per-replicate frames, 40 GB, kept there; hashes in run/manifest.json)",
+ "local_mirror": "results/ecro_estimator109/lab69",
+ "code_commits": {
+  "frozen_protocol": "86e25cd",
+  "amendment1": "4704081",
+  "amendment2": "2752ff1"
+ },
+ "run_manifest_sha256": "b8c09600f784c00ffc595d2fb1487f038f0a88f66de86f5b29eefd610075e78a",
+ "capture_manifest_sha256": "e899f811685e1d9ca9b21887738632aefe5d710cab533b8337cd847216f8201f",
+ "files": {
+  "V0_maps_4spp.png": "7d8b7e558f6d6c36ef666ba534c8f896d91a659a82c802742d005c1e5b9d01c2",
+  "boundary_bands_4spp.png": "c46afd77083c6b547a28e877630b09442f2302544d4b60eb4c5a7497ddad8127",
+  "chain.state": "b6e3c377c9ecb3a7a830c9e10562ed9030131aad2bda12306db1cc313dfba9e5",
+  "dev.json": "87a856147732f5b355b6366d5fd96fa7d4d39a6792c4d32c965ad46a598cd7dd",
+  "equal_time_ratios.png": "efd8dbfca21388025f5d6760ba2c496850d1d6ccae8da3b1f4424abdd641b3a0",
+  "guard109.jsonl": "bc37ba88b311ad633422da06743b9f20bd85f3acc14c8ee9af0c62186cf26242",
+  "metrics109.json": "475c95d1db604a086e092da9b869cd39291fd3d6340cd26dfb1b72a6229d5d77",
+  "quality_vs_time.png": "284b3271f3a116c32c41e5f625eb93946e4d22583a85d708cb83e3a2050a299b",
+  "synth.json": "9d906ed03fea6aec94d44b2f6c53895977f25b801eb77929b53a46dee80c7bda",
+  "timing_H1.json": "93d2c15b7bf8ccb994c856129e61eceeed7597ee888b58ad368d511a050a7dd8",
+  "timing_H2.json": "b2d48eca6b9696b2a1d3459e66406cd34749cb5ab0675e64fd082f2654ad20e7",
+  "timing_H3.json": "00286a2abb73a9b040b35593201be355594e2ad11327b23cdaecd0728e1cf4cb",
+  "timing_H4.json": "65ff47dc552751ffb497c7ed9d91cfbfab82f4d080aaae5fcd548cd68b5d1719",
+  "timing_H5.json": "7a12599824826318a5f74bed4da50b17e0f8c50267efcb2a1d1eb86e422d4651",
+  "timing_V0.json": "cf069cca25511a3ffab5462a35931b0667c56b2dbc44f827774068de955ea4c0",
+  "variance_components_4spp.png": "1102b4e54dc41694e623af4593486e44b9e7a21b0eec9a10b23e5729129d5a60"
+ },
+ "source": {
+  "metrics109.json": "evidence/metrics/",
+  "*.png": "evidence/metrics/",
+  "synth.json": "evidence/synth/",
+  "dev.json": "evidence/dev/",
+  "timing_<view>.json": "evidence/run/timing_parts/<view>.json",
+  "chain.state": "evidence/",
+  "guard109.jsonl": "evidence/"
+ }
+}

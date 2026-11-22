@@ -336,3 +336,166 @@ follows the frozen escalation and dynamic branches of `run109_amend1.sh`, each u
 
 A CPU-only merge test on LabServer69 on synthetic parts checked the merged fields and refused to merge into a complete
 manifest.
+
+## Final report (2026-11-23)
+
+### Implementation Fact
+
+**Amendment 2 execution.** The chain ran `run109_amend2.sh` at commit `2752ff1`, with deployed files checked against
+`COMMIT_SHA256`.
+
+- The guard waited 01:57–04:16 KST for tmux sessions `rerun`, `b18`, `hole`, `fbv` and then for GPU processes. It
+  waited again 04:18–06:15 for `b19`.
+- Every guarded command finished on attempt 1: six timing views of 67–114 s each, then analysis of 666 s. Zero
+  preemptions are recorded in `guard109.jsonl`.
+- Every timing block was clean on its first try (`exclusivity` = 1 clean record per view).
+- Table bytes after every view equal the admission's.
+- The merge produced the final `run/manifest.json` (sha256 `b8c09600…`). The capture manifest was copied unchanged to
+  `run/manifest_capture.json` (`e899f811…`). Analysis verified all 4,992 raw-file hashes.
+
+**Estimator and stages.**
+
+- **Development:** M\* = 1, chosen by the frozen rule. Predicted GM equal-time ratio 0.882 for M = 1, 0.979 for M = 2 and
+  1.224 for M = 4; not futile.
+- **LOW and original HIGH identity:** 768 / 768 paired frames identical to R0 within the structural tolerance (asserted
+  per frame at capture).
+- **Not run:** escalation, because no B1 test was UNRESOLVED; and the dynamic stage, because the static stage failed.
+
+### Measurement
+
+Evaluation views V0 and H1–H5. Reference: the qualified WL107 393,216-spp per-view blocks. 32 paired replicates; R0
+grid of 18 levels × 32 replicates. Times are synchronized frozen-frame medians on an exclusive RTX 3090.
+
+**Gates.**
+
+| Gate | Result | Value |
+|---|---|---|
+| P1 synthetic contract | pass | all gates (see execution record) |
+| P2 primary 4-spp equal-time GM ratio ≤ 0.85 | pass | **0.792** |
+| P3 its upper95 < 1.0 | pass | 95% CI [0.763, 0.822] |
+| P4/B1 paired mean bias within ±0.5% | pass | **30 / 30 EQUIVALENT**; largest \|rel\| 4.5e-4; widest CI ±2.1e-3 (H3 material boundary) |
+| P4/B2 spatial bias power upper95 ≤ limit | **fail** | 28 / 30 within; failures below |
+| P5 primary 16 / 32 spp ratio ≤ 1.02, upper95 ≤ 1.05 | pass | 0.790 [0.761, 0.821] / 0.793 [0.765, 0.822] |
+| P6 silhouette and SSS interior, 4/16/32 spp, ratio ≤ 1.05, upper95 ≤ 1.10 | pass | silhouette 0.847–0.853 (upper95 ≤ 0.915); SSS 0.797–0.798 (upper95 ≤ 0.826) |
+| Reference precision ≤ 10% | pass | max reference noise / arm RMSE 0.0108 |
+| R0 grid brackets C1 times | yes | interpolation flag `ok` everywhere |
+
+**The two B2 failures.** Values are Q point ± SE per bias spp; upper95 uses the 7-df Student t.
+
+| ROI | 4 spp | 16 spp | 32 spp | Max upper95 | Limit |
+|---|---|---|---|---|---|
+| H3 material_boundary | −0.0049 ± 0.0029 | 0.0012 ± 0.0048 | 0.0061 ± 0.0032 | 0.0136 (32 spp) | 0.01 |
+| H4 material_boundary | 0.0042 ± 0.0096 | 0.0136 ± 0.0042 | −0.0021 ± 0.0063 | 0.0268 (4 spp) | 0.01 |
+
+In both ROIs the B1 mean bias is EQUIVALENT: H3 −1.3e-4 with CI [−2.1e-3, +1.8e-3]; H4 −4.5e-4 with CI
+[−2.1e-3, +1.2e-3]. One further B1 interval excludes zero (H2 silhouette +3.0e-4, CI [+1.7e-5, +5.8e-4]). It is inside
+the ±0.5% equivalence band, so under the frozen rule it is not a failure.
+
+**Per view, primary ROI at 4 spp** (equal-time ratio with its within-view CI; equal-spp ratio; C1 / R0 cost):
+
+| View | Equal-time ratio | Within-view CI | Equal-spp ratio | Cost ratio | C1 / R0 frame time |
+|---|---:|---|---:|---:|---|
+| V0 | 0.729 | [0.727, 0.731] | 0.644 | 1.125 | 11.74 / 10.43 ms |
+| H1 | 0.801 | | 0.730 | 1.092 | |
+| H2 | 0.759 | | 0.717 | 1.056 | |
+| H3 | 0.829 | | 0.811 | 1.022 | |
+| H4 | 0.830 | | 0.800 | 1.038 | |
+| H5 | 0.809 | | 0.734 | 1.096 | |
+
+**Report only.**
+
+- Equal-spp GM ratio: 0.737 at 4 spp.
+- 1-spp equal-time GM ratio: 0.809.
+- Contact region: 0.763 at 4 spp.
+- Material boundary: 0.848 at 4 spp, CI [0.767, 0.939].
+- Peak Dr.Jit allocation: 34.4 MiB for both arms.
+- Reference against independent R0 (z): |z| ≤ 1.6 everywhere except the silhouettes of V0 (2.62) and H5 (2.74). This is a
+  reference/R0 comparison that does not involve C1.
+
+**Variance components, primary ROI at 4 spp.**
+
+| View | var H | var H_C1 | 2Cov(L, H) | 2Cov(L, H_C1) | var_T ratio | Ideal conditional ratio |
+|---|---:|---:|---:|---:|---:|---:|
+| V0 | 0.0534 | 0.0535 | 0.138 | 0.0001 | 0.644 | 0.506 |
+| H3 | 0.0619 | 0.0621 | 0.165 | −0.0003 | 0.812 | 0.741 |
+
+Across all views, var_T ratio C1 / R0 lies between 0.644 and 0.812, and the ideal conditional ratio (exact inner
+integration) between 0.51 and 0.74. The jitter share of HIGH variance is ≤ 0.25%.
+
+### Observation
+
+- **Where C1's gain comes from.** Var(H_C1) ≈ Var(H) in every view. All of C1's TOTAL-variance reduction at M = 1 comes
+  from removing the positive LOW–HIGH covariance: R0 reads HIGH from the same k = 1 walk that produces E2's NEE.
+- **Pattern in the V0 paired-mean map.** The V0 4-spp paired-mean C1 − R0 HIGH map (`V0_maps_4spp.png`, 32 replicates)
+  shows a faint negative ring along the sphere silhouette. V0's own B1 and B2 tests pass, so this is qualitative only.
+- **The failing Q values do not scale like a fixed bias.** A stationary per-pixel bias gives Q ∝ spp, because Q is
+  normalized by Var(TOTAL_R0), which falls as 1/spp. H4's 16-spp point (0.0136) would then predict about 0.027 at 32 spp.
+  The observed value is −0.002 ± 0.006. H3 rises with spp but stays within about 2 SE of zero at every level. This check
+  is post hoc and descriptive.
+- **The failures are bound failures.** The B2 failures come from upper bounds; no Q point exceeds its limit. The frozen
+  code classifies an upper95 above the limit as a failure, not as unresolved, and escalation exists only for B1. A spatial
+  bias bound that is imprecise therefore closes the batch.
+
+### Interpretation
+
+**Cost-normalized variance reduction: supported on this scene.** C1 at M = 1 reduces the equal-time TOTAL MSE by about
+21% at every nominal spp. All six views and all regions improve, and the overhead is 2–13%.
+
+**Mechanism.** The gain comes from decorrelating HIGH from LOW. It does not come from a less noisy HIGH. Better inner
+integration (the ideal ratio 0.51–0.74) would need M > 1, which costs more than it returns here (development M = 2 and 4).
+
+**Unbiasedness.**
+
+- *Mean level:* supported everywhere at the ±0.5% resolution.
+- *Spatial structure:* not demonstrated at material boundaries in H3 and H4. The data do not resolve a bias there, and
+  the post hoc scaling check argues against a stationary one. Nor do they exclude a structured boundary bias of
+  Q ≈ 0.01–0.03. The V0 silhouette ring is a qualitative hint in the same direction.
+- *Construction:* C1 is unbiased only if its NEE-free inner walk and closure sample reproduce the distribution of R0's
+  walk exit. The synthetic contract verified that distribution only on the contract configurations.
+
+### Unresolved
+
+- Whether a real structured bias exists at material boundaries (H3, H4) or silhouettes (the V0 ring). If it does, the
+  next question is whether it comes from the inner walk's exit distribution near interfaces or from the closure / bin
+  assignment.
+- Whether the 8-group Student-t bound on Q is calibrated in small, high-variance ROIs. Example: H5 material boundary has
+  χ² = 13.6 on 3 df against zero although it passes.
+- Dynamic behaviour (P7), which was not run.
+- Generality beyond this scene and table. The gain depends on the LOW–HIGH covariance structure of the frozen estimator.
+
+### Verdict
+
+**NOT_SUPPORTED**, by the frozen mapping: P4/B2 failed in two of 30 bias ROIs. P1–P3, P5, P6, B1 and reference
+precision passed. The dynamic stage was not run.
+
+The variance and cost question itself was answered positively: equal-time GM ratio 0.792, CI [0.763, 0.822]. The
+batch closes on non-demonstration of spatial unbiasedness at material boundaries, not on a resolved bias.
+
+No adoption and no successor batch follow from this report.
+
+### Reproducibility
+
+**Code commits.**
+
+- Frozen protocol and code: `86e25cd`.
+- Amendment 1 driver: `4704081`.
+- Amendment 2 guard, timing and driver: `2752ff1`.
+
+Hashes: protocol sha256 in every JSON; analysis code sha in `metrics109.json`; `run_manifest_sha256` `b8c09600…`.
+
+**Data locations.**
+
+- Raw per-replicate frames: 40 GB on LabServer69 at `~/rest_sss101a/results/ecro_estimator109/evidence/run/raw`, with
+  hashes in `run/manifest.json`.
+- Small evidence (logs, JSON, metrics, figures): mirrored to `results/ecro_estimator109/lab69/`, untracked.
+- Reviewer artifacts: [`evaluation/109/`](../../evaluation/109/), with provenance hashes in `manifest109.json`.
+
+**Environment.** LabServer69, RTX 3090, Mitsuba 3.8.0, Dr.Jit 1.3.1, Torch 2.3.1. Frozen inputs from
+`results/ecro_denoise108/inputs`.
+
+**Rerun.**
+1. `run109.sh` up to capture.
+2. `run109_amend2.sh evidence <commit>` for timing and analysis.
+
+Outputs are deterministic in the seeds. Timing values are hardware- and contention-dependent; the exclusivity records
+are in the timing parts.
