@@ -1,0 +1,40 @@
+{
+ "decision_table": {
+  "baseline_identity": "PASS",
+  "reciprocity": "PASS",
+  "passivity": "PASS",
+  "synthetic_controls": "PASS",
+  "angular_fidelity_gain": "INCONCLUSIVE",
+  "per_component_benefit_beyond_shared_gating": "INCONCLUSIVE",
+  "heldout_directional_transfer": "INCONCLUSIVE",
+  "scene_utility": "NOT_RUN",
+  "runtime_feasibility": "MEASURED",
+  "candidate_architecture_viability": "INCONCLUSIVE"
+ },
+ "optimization_resolved": false,
+ "qualification": {
+  "baseline_identity": true,
+  "reciprocity": true,
+  "passivity": true,
+  "gradients_trainability_parity": true,
+  "synthetic_controls": true,
+  "reference_resolves": true
+ },
+ "scene_total_P_minus_A": null,
+ "medians": {
+  "T-A": {
+   "development": -0.14707051894465328,
+   "held_out": -0.23016808294343244
+  },
+  "P-T": {
+   "development": -0.4403598281135541,
+   "held_out": -0.4708259531671992
+  },
+  "P-A": {
+   "development": -0.5228917955507425,
+   "held_out": -0.5920474686107565
+  }
+ },
+ "commit": "711c6a300950505b95a8b7089bcace2e0288329b",
+ "eval_sha256": "b54a67c282acd8f44455f27ba4c55ff42f3ffc804e21cae66ccde89a10857656"
+}

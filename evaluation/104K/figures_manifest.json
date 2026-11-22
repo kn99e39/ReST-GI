@@ -1,0 +1,313 @@
+{
+ "figures": [
+  {
+   "file": "fig01_original_er_vs_reciprocal_per_component_gates.png",
+   "question": "What does the candidate change, and why is it reciprocal and passive?",
+   "kind": "CONCEPTUAL (illustration, no data)",
+   "caption": "Schematic of A, T and P; example gate curves are illustrative.",
+   "source": "protocol.json (no data)"
+  },
+  {
+   "file": "fig02_angular_profiles_iid_1_reference_vs_A_T_P.png",
+   "question": "Does P (or T) follow the reference better than A for iid_1, in core, shoulder or tail?",
+   "kind": "MEASURED",
+   "caption": "Reference in black; lower row relative difference (clipped \u00b160 %).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig02_angular_profiles_iid_0_reference_vs_A_T_P.png",
+   "question": "Does P (or T) follow the reference better than A for iid_0, in core, shoulder or tail?",
+   "kind": "MEASURED",
+   "caption": "Reference in black; lower row relative difference (clipped \u00b160 %).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig02_angular_profiles_hard_1_reference_vs_A_T_P.png",
+   "question": "Does P (or T) follow the reference better than A for hard_1, in core, shoulder or tail?",
+   "kind": "MEASURED",
+   "caption": "Reference in black; lower row relative difference (clipped \u00b160 %).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig02_angular_profiles_iid_191_reference_vs_A_T_P.png",
+   "question": "Does P (or T) follow the reference better than A for iid_191, in core, shoulder or tail?",
+   "kind": "MEASURED",
+   "caption": "Reference in black; lower row relative difference (clipped \u00b160 %).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig02_angular_profiles_iid_159_reference_vs_A_T_P.png",
+   "question": "Does P (or T) follow the reference better than A for iid_159, in core, shoulder or tail?",
+   "kind": "MEASURED",
+   "caption": "Reference in black; lower row relative difference (clipped \u00b160 %).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig02_angular_profiles_block_161_reference_vs_A_T_P.png",
+   "question": "Does P (or T) follow the reference better than A for block_161, in core, shoulder or tail?",
+   "kind": "MEASURED",
+   "caption": "Reference in black; lower row relative difference (clipped \u00b160 %).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig02_angular_profiles_block_186_reference_vs_A_T_P.png",
+   "question": "Does P (or T) follow the reference better than A for block_186, in core, shoulder or tail?",
+   "kind": "MEASURED",
+   "caption": "Reference in black; lower row relative difference (clipped \u00b160 %).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig02_angular_profiles_hard_76_reference_vs_A_T_P.png",
+   "question": "Does P (or T) follow the reference better than A for hard_76, in core, shoulder or tail?",
+   "kind": "MEASURED",
+   "caption": "Reference in black; lower row relative difference (clipped \u00b160 %).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig02_angular_profiles_hard_53_reference_vs_A_T_P.png",
+   "question": "Does P (or T) follow the reference better than A for hard_53, in core, shoulder or tail?",
+   "kind": "MEASURED",
+   "caption": "Reference in black; lower row relative difference (clipped \u00b160 %).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig03_residual_and_error_reduction_maps_iid_1.png",
+   "question": "Where in the outgoing hemisphere does P change the error of iid_1?",
+   "kind": "MEASURED",
+   "caption": "Rows 1\u20133 signed residual (red = model too dark); rows 4\u20135 change of absolute error (green = improvement).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig03_residual_and_error_reduction_maps_iid_0.png",
+   "question": "Where in the outgoing hemisphere does P change the error of iid_0?",
+   "kind": "MEASURED",
+   "caption": "Rows 1\u20133 signed residual (red = model too dark); rows 4\u20135 change of absolute error (green = improvement).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig03_residual_and_error_reduction_maps_hard_1.png",
+   "question": "Where in the outgoing hemisphere does P change the error of hard_1?",
+   "kind": "MEASURED",
+   "caption": "Rows 1\u20133 signed residual (red = model too dark); rows 4\u20135 change of absolute error (green = improvement).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig03_residual_and_error_reduction_maps_iid_191.png",
+   "question": "Where in the outgoing hemisphere does P change the error of iid_191?",
+   "kind": "MEASURED",
+   "caption": "Rows 1\u20133 signed residual (red = model too dark); rows 4\u20135 change of absolute error (green = improvement).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig03_residual_and_error_reduction_maps_iid_159.png",
+   "question": "Where in the outgoing hemisphere does P change the error of iid_159?",
+   "kind": "MEASURED",
+   "caption": "Rows 1\u20133 signed residual (red = model too dark); rows 4\u20135 change of absolute error (green = improvement).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig03_residual_and_error_reduction_maps_block_161.png",
+   "question": "Where in the outgoing hemisphere does P change the error of block_161?",
+   "kind": "MEASURED",
+   "caption": "Rows 1\u20133 signed residual (red = model too dark); rows 4\u20135 change of absolute error (green = improvement).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig03_residual_and_error_reduction_maps_block_186.png",
+   "question": "Where in the outgoing hemisphere does P change the error of block_186?",
+   "kind": "MEASURED",
+   "caption": "Rows 1\u20133 signed residual (red = model too dark); rows 4\u20135 change of absolute error (green = improvement).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig03_residual_and_error_reduction_maps_hard_76.png",
+   "question": "Where in the outgoing hemisphere does P change the error of hard_76?",
+   "kind": "MEASURED",
+   "caption": "Rows 1\u20133 signed residual (red = model too dark); rows 4\u20135 change of absolute error (green = improvement).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig03_residual_and_error_reduction_maps_hard_53.png",
+   "question": "Where in the outgoing hemisphere does P change the error of hard_53?",
+   "kind": "MEASURED",
+   "caption": "Rows 1\u20133 signed residual (red = model too dark); rows 4\u20135 change of absolute error (green = improvement).",
+   "source": "eval/lanes.npz"
+  },
+  {
+   "file": "fig04_error_by_material_and_incidence_A_T_P.png",
+   "question": "Which materials and incident angles gain or lose, and in which region?",
+   "kind": "MEASURED",
+   "caption": "Every material and incidence; region rows show A and P only for legibility (T in the table).",
+   "source": "eval/eval.json tables"
+  },
+  {
+   "file": "fig05_learned_gate_curves_per_component.png",
+   "question": "Do different lobes learn distinct directional modulation?",
+   "kind": "MEASURED",
+   "caption": "Per RGB channel; best training-objective start per material.",
+   "source": "eval/eval.json gates, component_share"
+  },
+  {
+   "file": "fig06_fidelity_vs_parameters_storage_runtime.png",
+   "question": "What does the fidelity change cost?",
+   "kind": "MEASURED",
+   "caption": "Each point = arm \u00d7 cohort.",
+   "source": "eval/eval.json cost, tables"
+  },
+  {
+   "file": "fig07_outcome_summary.png",
+   "question": "What is the overall outcome under the frozen rules?",
+   "kind": "MEASURED",
+   "caption": "Contrasts, transfer, synthetic controls, train vs held-out, decision table.",
+   "source": "eval/eval.json, decision.json"
+  },
+  {
+   "file": "fig08_training_histories.png",
+   "question": "Did every arm converge, and do starts agree?",
+   "kind": "MEASURED",
+   "caption": "One line per material and start.",
+   "source": "fit_primary/fit.json"
+  }
+ ],
+ "checks": [
+  {
+   "check": "eval:el1 T-A development median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "eval:el1 T-A held_out median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "eval:el1 P-T development median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "eval:el1 P-T held_out median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "eval:el1 P-A development median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "eval:el1 P-A held_out median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "polar_transfer:el1 T-A development median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "polar_transfer:el1 T-A held_out median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "polar_transfer:el1 P-T development median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "polar_transfer:el1 P-T held_out median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "polar_transfer:el1 P-A development median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "polar_transfer:el1 P-A held_out median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "azimuth_transfer:el1 T-A development median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "azimuth_transfer:el1 T-A held_out median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "azimuth_transfer:el1 P-T development median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "azimuth_transfer:el1 P-T held_out median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "azimuth_transfer:el1 P-A development median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "azimuth_transfer:el1 P-A held_out median",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "table A el1 = median over starts",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "table T el1 = median over starts",
+   "max_abs_diff": 0.0,
+   "pass": true
+  },
+  {
+   "check": "table P el1 = median over starts",
+   "max_abs_diff": 0.0,
+   "pass": true
+  }
+ ],
+ "all_checks_pass": true,
+ "angular_map_scale": 0.01972404574820007,
+ "eval_sha256": "b54a67c282acd8f44455f27ba4c55ff42f3ffc804e21cae66ccde89a10857656",
+ "decision_sha256": "13e9494e7238afe82d230e85986e87209ef682dc514dd6293158697b3b037439",
+ "lanes_sha256": "26f443a0f0121eca68a005a27019631f6aa4f3044e11002982f36b85611c01c5",
+ "script_sha256": "c40a29b88856abe96e2298a388759aa15696b8e3bbe8d1f9260ec737aa36141b",
+ "files_sha256": {
+  "fig01_original_er_vs_reciprocal_per_component_gates.png": "817dbe3c3ad53d62f246bbfc86bae9b11185812d765511804c4186ab32e83cce",
+  "fig02_angular_profiles_block_161_reference_vs_A_T_P.png": "89970f52874a0ea7b7cc873b23a3ee3ebb4adb799b5042d0a278bcc9c6535726",
+  "fig02_angular_profiles_block_186_reference_vs_A_T_P.png": "2abc1df6042a3894104cf6cdbccc9bf7224950d9096105200ce68fa768a48f9d",
+  "fig02_angular_profiles_hard_1_reference_vs_A_T_P.png": "c4bb3d7456e9ddba911ccaeaa66d2c817361a2393516af49a4c9d6a42b09472f",
+  "fig02_angular_profiles_hard_53_reference_vs_A_T_P.png": "c518536929483bcc78981a6132b92ce853a7a45c6c1b71062c6d7bb10ad4f433",
+  "fig02_angular_profiles_hard_76_reference_vs_A_T_P.png": "a633dcd3b1a457df4118e185223762456989978d728ba83cfd0d9facbd28fbcd",
+  "fig02_angular_profiles_iid_0_reference_vs_A_T_P.png": "e7f46d129ffbc4dad0caa6b3296570e44bdd65a3d0123d08a82b264eb45774fe",
+  "fig02_angular_profiles_iid_159_reference_vs_A_T_P.png": "06bb2296cbd20ec96f5d9839b724b5b9bcee2b2b26bf2bf5a90ce4cec834f6c3",
+  "fig02_angular_profiles_iid_191_reference_vs_A_T_P.png": "2ce61e42f3bcceb8580a059a4ce31b5b1c7f7c60ab1d70cb0a5272506db7e73b",
+  "fig02_angular_profiles_iid_1_reference_vs_A_T_P.png": "a3a5b33eb7ae21d3157cd41589dbc6d315c4a5f1e4617125bbcfc639ba4f56be",
+  "fig03_residual_and_error_reduction_maps_block_161.png": "1dbdcd255d809830305c9550e7a6e3bdac40c89a2dcd5d9503c160f25d340a2c",
+  "fig03_residual_and_error_reduction_maps_block_186.png": "3e92cab787c3985c22fb9309776fddd31efa300e0282bd71f2c77b84f2653251",
+  "fig03_residual_and_error_reduction_maps_hard_1.png": "3244f638ff9a0425c92adc76d6a16c1dad012bf0f2ddffdaddbed04afc433e1c",
+  "fig03_residual_and_error_reduction_maps_hard_53.png": "6926086f7593e46be4caa07bf2a94bdaec2482b588e55cfe635eb277b7f221b7",
+  "fig03_residual_and_error_reduction_maps_hard_76.png": "665e49b77983a226cca3ecfc99f4da0957b8a446d6ef9ae195aceeb2fff86b7b",
+  "fig03_residual_and_error_reduction_maps_iid_0.png": "5d048948244280b83b2808a5abd1397ac3525771d71c6685c8b780079424efb4",
+  "fig03_residual_and_error_reduction_maps_iid_1.png": "27f1af2182a650c8dacf9ada5ea9e789308daf04f43857113b8979e54efcf6f3",
+  "fig03_residual_and_error_reduction_maps_iid_159.png": "ec51720bef7e9f5a94c5a6135afae5bbf37ed488331c7c0ba956032f1f29fe25",
+  "fig03_residual_and_error_reduction_maps_iid_191.png": "776d39b409716559da9ef2b7b0028cb045d8aa0f58f74ad92f8b7d6361158b2c",
+  "fig04_error_by_material_and_incidence_A_T_P.png": "41e01cd0266549447d2f801b453778fef9bd8f761ece18c02c876a9dbfb3aa18",
+  "fig05_learned_gate_curves_per_component.png": "1a9f41ababc863eb894a65f48269cb8d0c1412a6685a051276c7dae04a543a6c",
+  "fig06_fidelity_vs_parameters_storage_runtime.png": "3cbaf6a32cf4f24182b27c088af8d5732885877c67483554b7d664888b5f2913",
+  "fig07_outcome_summary.png": "3e7ce3db2727b181a00fa0acdd704b2aa116f75c78762643aeb18a0c25f783c8",
+  "fig08_training_histories.png": "732af48dc9ccd21ab79361cc31af2d93a37faa479f1d6280798936af38c8665c",
+  "index.html": "456201e61903dfa84e920f38509fcb523630d4fc94dd571ca129276fade92729",
+  "table_el1_by_material_and_incidence.csv": "daa0c29e08e6bc32f96d73e87a2dc1cb92d035be652c39d99843809b4cf3b62c"
+ }
+}
