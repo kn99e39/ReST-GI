@@ -196,3 +196,32 @@ recorded below. No evaluation-view output existed before the freeze.
 - **GPU sharing.** Another project's jobs used the GPU intermittently. Renderer outputs are deterministic in the seed, so
   data stages run without an exclusive GPU. Every timing block waits for an exclusive GPU and is repeated if a foreign
   process appears during it.
+
+## Freeze and execution record
+
+**Freeze.** Commit `86e25cd7667a14326643f00ddc5ea4c2a33175d5`. Protocol SHA-256 `08725b76670c3a41ab93daf9aa2079767a7c3550080a9dfe70960b41fcd7d40b`.
+Before launch, the deployed LabServer69 files were checked against the committed blob hashes (`COMMIT_SHA256`,
+`DEPLOYED_COMMIT`). The chain was started with `run109.sh evidence 86e25cd…` at 19:14 KST.
+
+**Stage C: synthetic contract, PASS (423 s).** Every gate passed.
+
+- Exact discrete model: all eight cases. In the negative case C1's variance exceeds R0's, exactly and empirically.
+- Structural: eight tables, four views, 1 and 4 spp.
+- Replicate independence under the protocol seeding: |z| < 1 for LOW, original HIGH, C1 HIGH and their difference. The
+  historical seed · 1000003 convention resolved the original-HIGH correlation at z = 25.7 on the contrast table and
+  z = 8.0 on the learned table, which confirms the development finding inside the frozen evidence.
+- Statistical: seven tables, six regions.
+- Fixed-jitter independence, with its power control.
+- Dense quadrature: four tables. Violation fraction 0.06–0.15%, |mean z| ≤ 0.04, mean z² 1.12–1.20 against the
+  Student expectation 1.154, relative mean gap ≤ 0.018%.
+
+Raw: `results/ecro_estimator109/evidence/synth/synth.json`.
+
+**Development stage: STOPPED at its elapsed-time cap (exit 124, 20:21 KST).** The variance part finished for T00. Its
+primary TOTAL-variance ratios C1/R0 were 0.765 / 0.715 / 0.691 for M = 1 / 2 / 4 (bootstrap SE ≤ 0.0005). T00's timing
+block then waited for an exclusive GPU. Another project's chain held the GPU for the remaining 54 minutes (TransGI b14,
+running since 18:50 KST), so the 3600 s stage cap expired. No M was selected and no evaluation-view frame exists.
+
+This is an execution-resource stop, not a scientific failure. Resuming requires an owner-approved amendment: the
+exclusive-GPU wait has to be kept out of the stage cap, or the GPU has to be scheduled. The stopped run's logs are kept
+under `results/ecro_estimator109/evidence/`.
