@@ -120,3 +120,19 @@ the independent inner continuation P′ under the same U. Its code is committed 
 ## Execution record
 
 (appended below as the chain runs)
+
+### 2026-11-23 — chain start, tests and Stage A
+
+- Chain `run109a.sh evidence 4e694af` started on LabServer69 at 11:22:21 (+09:00). Output:
+  `results/ecro_estimator109a/evidence/` on the server.
+- `tests109a.py` passed.
+- **Stage A PASS** (CPU, torch 2.3.1, 6 threads, 6,930 s).
+  - WL109 code equals the WL109 run manifest; protocol and table sha equal (`d7e40954…`).
+  - The unchanged `analyze109.py` reproduces all 14,295 numeric leaves of `metrics109.json` within tolerance: 0
+    mismatches; decision and verdict (NOT_SUPPORTED) equal.
+  - Largest absolute difference: 1.3e-15. Largest relative difference among leaves with |value| > 1e-9: 7.8e-14.
+  - The recorded `max_relative_difference` of 4.0 comes from identity-residual leaves whose published value is ~1e-17
+    (abs difference 2.8e-17). It is float round-off around zero, within the abs ≤ 1e-12 rule.
+- Stage B synthetic families finished (106 cells, 1,077 s). The historical-split analysis is running on the CPU.
+- The first GPU unit (`smoke_null`) is waiting under the guard from 13:17:56: a foreign tmux session (`b21`) exists. No
+  WL109A process holds a CUDA context while waiting.
