@@ -90,3 +90,73 @@ Patching `torch.device` itself breaks `isinstance` checks in `torch.load`, so th
   - a thin-client streaming option from a CUDA server, not requested, as an alternative for real-time on Mac;
   - committing the 3 MB CUDA reference arrays (`rest_ecro_live/reference/`, included in this WIP commit).
 - **Freeze diagnosis follow-up.** The issue could be reported upstream or retested on newer Dr.Jit (≥ 1.3.1). Kernel replay is what makes CUDA fast; on LLVM, eager plus kernel-cache hits may be enough.
+
+## Update (2026-11-23 evening) — local chains and their results
+
+### `chain110a.sh`
+
+Run 17:28–17:36 at commit `de97471` with a clean worktree, through a package copy and the staged runtime (19 files) outside the repository.
+
+- **Self-check, all PASS** on the predeclared tolerances.
+
+  | backend / relation | stored-event result vs CUDA reference | compute median at 128² |
+  |---|---|---|
+  | CUDA, package path | identical (table / frame 0.0) | – |
+  | LLVM eager, full relation | table ≤ 1.7e-6, frame ≤ 3.3e-7 | – |
+  | LLVM eager, selective relation | same as full | 201 ms |
+
+- **Window loop (Tk on Xvfb), full relation, uncapped, 150 frames.**
+
+  | run | compute median | presented FPS | notes |
+  |---|---|---|---|
+  | LLVM 512² | 1006 ms | 0.98 | neural 677, render 122, relation 84, compose 46, tonemap 37 ms |
+  | LLVM 256² | 286 ms | 3.42 | |
+  | LLVM selective 256² | 287 ms | 3.41 | |
+  | CUDA 512² via the package | 18.4 ms | 38.8 | WL110 measured 44.2–44.5 FPS uncapped through `live110.py`; the gap is not yet attributed |
+
+- **Correction of the draft's attribution.** Selective and full are equal at 256² after warm-up, so "a new kernel compile every frame" does not explain the steady state. The earlier 1.35–1.41 s at 256² and 512² most likely includes first-run compilation into an empty Dr.Jit disk kernel cache (`~/.drjit`, 863 MB / 424 entries by now). The animation is deterministic, so later runs hit cached kernels.
+  - **Consequence for a Mac:** the first run of each new configuration pays a compilation cost until the cache is warm. This is unmeasured on a Mac.
+  - The `--relation full` default for eager LLVM is kept; it is the fixed-size path.
+
+### `chain110a_threads.sh`
+
+Run 17:54–18:01 at commit `8613d55`; headless LLVM, full relation, 60 frames.
+
+| configuration | compute | rate |
+|---|---|---|
+| 512², torch / Dr.Jit threads 8 / 16 (default) | 193 ms | 5.1 FPS |
+| 512², 8 / 8 | 192 ms | 5.15 FPS |
+| 512², 4 / 12 | 212 ms | – |
+| 512², 12 / 4 | 214 ms | – |
+| 512², 16 / 16 | 205 ms | – |
+| 512², 6 / 6 | 208 ms | – |
+
+- Neural (torch CPU) takes 83–117 ms and render 52–89 ms.
+- **The headless 512² loop is about 5× faster than the windowed 512² run above.** Neural 85–97 ms headless vs 677 ms windowed.
+- **The 256² sweep is contaminated.** It ran from 17:57 while another session's CPU-heavy job was running (`dev109b.py`, 17 processes, load average 18–20 on 16 hardware threads). Its results (154–1499 ms, erratic) are not used.
+- Whether the windowed 512² slowdown is a Tk interaction or the same CPU contention is **unresolved**. `chain110a.sh` ran at 17:31–17:34; the WL109B job started about 17:56, but other load at 17:31 was not recorded.
+
+### Execution notes
+
+- **Mid-chain edit.** During the thread chain, `app.py` was edited (default `--res` 0 → 512 on CUDA / 256 on LLVM). The chain passes `--res` explicitly, so its runs are unaffected, but those runs used a file newer than the recorded start commit. Later chains import the committed package only.
+- **CPU gate.** CPU benchmarks need one, in addition to the GPU gate.
+  - `chain110a_cpu.sh` waits until no process uses > 30 % CPU and the 1-min load average is < 3 for 30 s (max 6 h).
+  - `ps pcpu` is a lifetime average, so a process that was busy earlier can delay the gate. That is the conservative direction.
+  - The chain then repeats the 512² / 256² thread configurations headless and runs window vs headless at both resolutions to attribute the Tk slowdown.
+  - Launched 18:01 at commit `1152903`; it waits for the WL109B job to finish.
+
+### Packaging files written (not yet executed anywhere)
+
+- `pyproject.toml`: entry point `rest-ecro-live`; pins `mitsuba==3.8.0`, `drjit==1.3.1`, `torch==2.3.1`, `numpy<2`, `pillow`; `[build]` extra `pyinstaller`.
+- `launcher.py`.
+- `ecro_live_macos.spec`: collects mitsuba and drjit, bundles `runtime/`, the manifest, the reference and `libLLVM.dylib`; takes hidden imports from `RUNTIME_MANIFEST.json`; `target_arch` arm64.
+- `build_macos.sh`: venv → `pip install -e .[build]` → stage the runtime with checkpoint hash checks → **LLVM self-check on the Mac must PASS before packaging** → PyInstaller → `info` from the built app.
+- `README.md`.
+
+## Remaining work (updated)
+
+1. Read `chain110a_cpu.sh` (results in `results/ecro_live110a/cpu/status.txt`). Attribute the windowed slowdown and fix it if it is a Tk interaction.
+2. Attribute the CUDA package-path gap: 38.8 FPS vs WL110's 44 FPS, possibly overlay text or the `proof` path.
+3. Run a Linux onedir PyInstaller smoke test of the spec mechanics, in a separate venv and not during a CPU benchmark.
+4. **On a real Mac:** `build_macos.sh`, the self-check, the MPS generator check, the measured FPS and first-run compile time.
+5. Finalise this worklog, then commit and push. Push needs explicit approval.
