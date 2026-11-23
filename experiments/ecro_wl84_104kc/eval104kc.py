@@ -96,10 +96,14 @@ def truth_state():
 
 
 # ------------------------------------------------------------------ metrics
+PROFILES = {}                                                       # ring residual profiles [R, n, P, ring] of the last evaluate_all
+
+
 def evaluate_all(states, ds, pk):
     M = {}
+    PROFILES.clear()
     for a, st in states.items():
-        M[a], _ = EB.evaluate("P", st, ds, pk)
+        M[a], PROFILES[a] = EB.evaluate("P", st, ds, pk)
         print("evaluated", a, flush=True)
     return M
 
@@ -349,6 +353,7 @@ def run_test(root, smoke=False):
     if any(psha[a] != fd["fits_sha256"][a] for a in psha if a in fd["fits_sha256"]):
         raise Stop("TEST_LOCKED: physical states differ from the fit decision")
     M = evaluate_all(phys, ds, pk)
+    prof = dict(PROFILES)
     con = {}
     for X in ("CR", "O0C", "E2W", "E2_B", "R4", "CR_R4"):
         if X in ("R4",):
@@ -387,6 +392,9 @@ def run_test(root, smoke=False):
            "fits_sha256": {**psha, **ssha}, "fit_decision_sha256": C.sha(root / "fit_decision/fit_decision.json"),
            "protocol_sha256": C.sha(C.PROTOCOL), "commit": C.commit(), "seconds": time.monotonic() - t0}
     arrays = {f"{a}__{k}": M[a][k] for a in M for k in KEYS + ("s_h",)}
+    arrays.update({f"{a}__ring_residual": v for a, v in prof.items()})
+    arrays["ring_radius_deg"] = EB.rings(pk)[0]
+    arrays["polar_deg"] = ds["polar"]
     arrays.update({f"synthetic__{a}__{k}": MS[a][k] for a in MS for k in KEYS + ("s_h",)})
     out.mkdir(parents=True, exist_ok=True)
     np.savez_compressed(out / "arrays.npz", **arrays)
