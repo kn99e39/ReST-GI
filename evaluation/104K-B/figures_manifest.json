@@ -1,0 +1,307 @@
+{
+ "figures": [
+  {
+   "file": "stageA_hard1_mirror_peak_height_vs_incidence_per_start.png",
+   "caption": "Stage A: hard_1 mirror-peak height error vs incidence per archived WL104K P start, with the A baseline and reference noise.",
+   "kind": "DIAGNOSTIC: pre-freeze, archived WL104K states",
+   "sources": [
+    "stageA.json:grid",
+    "stageA.json:profiles.12k[*].peak_height_rel / A_peak_height_rel",
+    "stageA.json:profiles.extended"
+   ],
+   "sha256": "8870b7c48f15414c2c20fcca79880d89f8593ca335873160d0127ea54dc9c229"
+  },
+  {
+   "file": "stageA_hard1_core_shoulder_tail_signed_error_per_start.png",
+   "caption": "Stage A: hard_1 signed core / shoulder / tail error vs incidence per archived start.",
+   "kind": "DIAGNOSTIC: pre-freeze, archived WL104K states",
+   "sources": [
+    "stageA.json:profiles.12k[*].core_0_3_signed / shoulder_3_12_signed / tail_12_30_signed"
+   ],
+   "sha256": "f2489c2868e24db3671f51587e387dcec21315a6e52e6d7931fd5e22be939025"
+  },
+  {
+   "file": "stageA_hard1_good_vs_bad_straight_path_objective_peak_and_5pct_cost.png",
+   "caption": "Stage A: training objective, peak and held-out el1 along the bad-to-good straight path; objective cost of a 5 % peak change.",
+   "kind": "DIAGNOSTIC: pre-freeze, archived WL104K states",
+   "sources": [
+    "stageA.json:good_vs_bad[*].path",
+    "stageA.json:sensitivity[*].five_percent_peak_probe"
+   ],
+   "sha256": "f3f8b92a4b846547229b82ba1652a25e613eba7d152dd81584954dae5185f64d"
+  },
+  {
+   "file": "stageA_hard1_grouped_integrated_gradient_attribution_bad_vs_good.png",
+   "caption": "Stage A: grouped integrated-gradient attribution of the bad-vs-good peak difference (path dependent, non-identifiable).",
+   "kind": "DIAGNOSTIC: pre-freeze, archived WL104K states",
+   "sources": [
+    "stageA.json:good_vs_bad[*].integrated_gradient_by_group_rel",
+    "stageA.json:groups"
+   ],
+   "sha256": "79a149f9509580fcfb09cea890d260698446bb814044feba918629f7bbd60af3"
+  },
+  {
+   "file": "optimization_training_objective_curves_per_arm_hard1_block186_hard53_iid0.png",
+   "caption": "Training-objective curves per arm (O0 Adam, O1 L-BFGS, D, E2) for hard_1, block_186, hard_53, iid_0; 8 starts each.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "fits/<arm>/fit.json:history_steps|history_evaluations, history_objective, final_terms.objective"
+   ],
+   "sha256": "8fd5bcdf57a73d54ebdc41627ae69734a042d93b7ec3e9f1dde94560ae75d004"
+  },
+  {
+   "file": "optimization_lbfgs_early_termination_and_final_objective_vs_adam.png",
+   "caption": "O1 early termination per material, evaluations used, O1 vs O0 final objective per unit, stationarity per arm.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "fits/O1/fit.json:terminated_early, evaluations_per_unit, final_terms",
+    "fits/O0/fit.json:final_terms",
+    "test.json:optimization"
+   ],
+   "sha256": "8772a3f9933a8db26cf5509809f98b3a95fa10742bc8e1080bab2929f2fc0743"
+  },
+  {
+   "file": "qualification_O0_reproduction_of_WL104K_P_final_objective_and_amendment1.png",
+   "caption": "O0 reproduction of WL104K P per unit vs the predeclared 1e-4 / 1e-2 limits, and the Amendment 1 same-method rerun distributions (reason for UNQUALIFIED labels).",
+   "kind": "PREDECLARED RULE",
+   "sources": [
+    "test.json:O0_reproduction",
+    "amendment1/result.json:components, target_O0_vs_archive, pooled_reruns, verdict"
+   ],
+   "sha256": "da5bef3bf260305dfb3b4bfdb6c7968a3b22c3ce600ce1fe37a1e36853daac63"
+  },
+  {
+   "file": "test_pooled_peak_profile_error_and_el1_per_start_all_arms.png",
+   "caption": "Independent test: pooled e_prof and el1 per start per arm (dots) with medians.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "test_eval/arrays.npz:test__<arm>__e_prof, test__<arm>__el1"
+   ],
+   "sha256": "90f5076a3393cccd2ca7b22e5de87604028223451d77f12f8e43b68fcc9f51d8"
+  },
+  {
+   "file": "test_relative_change_vs_O0_with_bootstrap_CI_and_predeclared_thresholds.png",
+   "caption": "Independent test: e_prof, instability, el1, shoulder, tail, grazing changes vs O0 with bootstrap CI and predeclared thresholds; labels.",
+   "kind": "PREDECLARED RULE",
+   "sources": [
+    "test.json:contrasts_vs_O0.<arm>.<metric>.all",
+    "test.json:broad_preserved_facts",
+    "test.json:labels"
+   ],
+   "sha256": "5108c16c5b43eba858a4f7f57b72dc57e7585a802a84e07a64b912d9acc89a97"
+  },
+  {
+   "file": "test_peak_profile_error_per_material_and_start_all_arms.png",
+   "caption": "Independent test: e_prof per material, dots per start, all arms.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "test_eval/arrays.npz:test__<arm>__e_prof"
+   ],
+   "sha256": "fd86f09d0213dfdd4a0bdc36c113b8f89945ddae7c6d1d1ae80e4d5884aaa28a"
+  },
+  {
+   "file": "test_region_errors_core_shoulder_tail_grazing_per_arm.png",
+   "caption": "Independent test: core / shoulder / tail / grazing errors per arm, per start.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "test_eval/arrays.npz:test__<arm>__core_l1|shoulder_l1|tail_l1|el1_grazing"
+   ],
+   "sha256": "5f8a17c6efea0d90a94ce280cdc7ed86b3236a9cfd9b53e8701c37964842e07a"
+  },
+  {
+   "file": "test_mirror_peak_height_signed_error_vs_incidence_per_material_O0_E2_D.png",
+   "caption": "Independent test: signed peak-height error vs incidence per material, median over starts with per-start range (O0, E2, D).",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "test_eval/arrays.npz:test__<arm>__s_h, s_h_a, s_h_b, polar_deg"
+   ],
+   "sha256": "98037a6a6d6e3f3a4ba1a9d9f5fb03517b5ba39ce346ac10ef29471a8dc6d18e"
+  },
+  {
+   "file": "test_peak_height_instability_across_starts_per_material.png",
+   "caption": "Independent test: across-start SD of peak height per material per arm.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "test_eval/arrays.npz:test__<arm>__s_h"
+   ],
+   "sha256": "a3c482abef26112e5e4769ab67dfa8fd451151a3e629b180dfa6f00ce6b97ebf"
+  },
+  {
+   "file": "dev_stage_F_eligibility_vs_predeclared_rule.png",
+   "caption": "Dev-set eligibility of O1 / D / E2 for the combination F.",
+   "kind": "PREDECLARED RULE",
+   "sources": [
+    "dev.json:stage_F.eligibility"
+   ],
+   "sha256": "725dcc22c102c2501cdbbf520c360cd3cdade73837fbc3f9bac93e871b0b29a1"
+  },
+  {
+   "file": "test_ring_residual_profile_0_to_8deg_hard1_hard53_block186.png",
+   "caption": "Independent test: ring residual 0–8° per arm for hard_1, hard_53 and block_186, per start and median.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "test_eval/arrays.npz:profile__<arm>, profile_radius_deg"
+   ],
+   "sha256": "cf59a7cb0a93b64c28e448c08b8e3ba478df43f24c7f82dde8c5d9befbbcafd9"
+  },
+  {
+   "file": "selection_E1_dev_criterion_vs_test_peak_error_per_material.png",
+   "caption": "E1: per-material scatter of dev selection criterion vs test e_prof over 8 O0 starts; selected start highlighted.",
+   "kind": "PREDECLARED RULE",
+   "sources": [
+    "dev.json:selection.S_dev.O0",
+    "test_eval/arrays.npz:test__O0__e_prof",
+    "test.json:selection_E1.per_arm.O0"
+   ],
+   "sha256": "9bd37069fdd96545598a6cae4d421ff0f90c84c5b35459e4a84ed9402773903b"
+  },
+  {
+   "file": "selection_E1_selected_vs_median_vs_training_selected_bars.png",
+   "caption": "E1: pooled test e_prof / el1 of selected vs median vs training-selected starts per arm, with rule lines.",
+   "kind": "PREDECLARED RULE",
+   "sources": [
+    "test.json:selection_E1.per_arm"
+   ],
+   "sha256": "eed96f6268c399698e12a11b4a9ff3049ebb8c25c61fd4c9367173b4409dd2cc"
+  },
+  {
+   "file": "synthetic_controls_truth_referenced_errors_and_pass_rules.png",
+   "caption": "Synthetic controls: truth-referenced e_prof, el1, training objective and E1 selection per synthetic arm, with pass rules.",
+   "kind": "PREDECLARED RULE",
+   "sources": [
+    "test.json:synthetic.pooled",
+    "test.json:synthetic.controls",
+    "test_eval/arrays.npz:synthetic__S_O0__e_prof"
+   ],
+   "sha256": "099197004b73a41eb2e0434828d3c55b8f4cedcbe141d10552e842c6f5a8b54b"
+  },
+  {
+   "file": "scenes_relative_change_vs_O0_objects_total_and_first_bounce.png",
+   "caption": "Scenes: X vs O0 relative change of objects TOTAL and E1 stable RMS with jackknife CI and per-start values.",
+   "kind": "PREDECLARED RULE",
+   "sources": [
+    "scenes/test83_iid_1_L2/analysis104kb.json:contrasts, contrasts_descriptive_E1, contrasts_descriptive_hist",
+    "scenes/test83_hard_1_L1/analysis104kb.json:contrasts, contrasts_descriptive_E1, contrasts_descriptive_hist",
+    "scenes/test83_iid_159_L2/analysis104kb.json:contrasts, contrasts_descriptive_E1, contrasts_descriptive_hist",
+    "scenes/test83_hard_53_L2/analysis104kb.json:contrasts, contrasts_descriptive_E1, contrasts_descriptive_hist",
+    "scenes/test83_block_186_L2/analysis104kb.json:contrasts, contrasts_descriptive_E1, contrasts_descriptive_hist"
+   ],
+   "sha256": "18d27e18e391232644aa146167c0be3b0c9122153918a776b4c2d6252fc080b1"
+  },
+  {
+   "file": "scenes_objects_stable_rms_per_start_per_arm_total_and_first_bounce.png",
+   "caption": "Scenes: absolute objects stable RMS per start and arm with start-mean and across-start SD.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "scenes/test83_iid_1_L2/analysis104kb.json:arm_summary, selected_E1",
+    "scenes/test83_hard_1_L1/analysis104kb.json:arm_summary, selected_E1",
+    "scenes/test83_iid_159_L2/analysis104kb.json:arm_summary, selected_E1",
+    "scenes/test83_hard_53_L2/analysis104kb.json:arm_summary, selected_E1",
+    "scenes/test83_block_186_L2/analysis104kb.json:arm_summary, selected_E1"
+   ],
+   "sha256": "b536724240263a232d82d194eae63b835a8167701b42e5b4f9881b343bdd19d2"
+  },
+  {
+   "file": "scene_iid_1_L2_start_mean_images_and_absolute_error_maps.png",
+   "caption": "iid_1 scene (development camera): start-mean images (reference, O0, E2, D, O1, E1 start) and shared-scale absolute error maps.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "scenes/test83_iid_1_L2/maps.npz"
+   ],
+   "sha256": "c74a79b87906cd72d1935f7f819a9c9ec55a3d1b497090b26c4444b1817264de"
+  },
+  {
+   "file": "scene_hard_1_L1_start_mean_images_and_absolute_error_maps.png",
+   "caption": "hard_1 scene (development regression case): start-mean images (reference, O0, E2, D, O1, E1 start) and shared-scale absolute error maps.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "scenes/test83_hard_1_L1/maps.npz"
+   ],
+   "sha256": "6c19b37407211dc7d13d1eb971ed59cbf0b1dba25d3049342c51c882c6ed0d3a"
+  },
+  {
+   "file": "scene_iid_159_L2_start_mean_images_and_absolute_error_maps.png",
+   "caption": "iid_159 scene (held-out camera, independent): start-mean images (reference, O0, E2, D, O1, E1 start) and shared-scale absolute error maps.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "scenes/test83_iid_159_L2/maps.npz"
+   ],
+   "sha256": "37858808bc650b3652a975456dc386c71ce23742009b9c30a445e4b5868f2e69"
+  },
+  {
+   "file": "scene_hard_53_L2_start_mean_images_and_absolute_error_maps.png",
+   "caption": "hard_53 scene (new N1, independent): start-mean images (reference, O0, E2, D, O1, E1 start) and shared-scale absolute error maps.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "scenes/test83_hard_53_L2/maps.npz"
+   ],
+   "sha256": "824bf867884dd390859527151d88a2884d9d85347e2fa07fe6b49da4171a7d42"
+  },
+  {
+   "file": "scene_block_186_L2_start_mean_images_and_absolute_error_maps.png",
+   "caption": "block_186 scene (new N2, independent): start-mean images (reference, O0, E2, D, O1, E1 start) and shared-scale absolute error maps.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "scenes/test83_block_186_L2/maps.npz"
+   ],
+   "sha256": "1daa53807dde02422e386f1ae6797589ddd16971f664bdd2ef31cf419075d320"
+  },
+  {
+   "file": "scenes_peak_pixel_concentration_per_start.png",
+   "caption": "Scenes: concentration of the squared-error change in peak pixels.",
+   "kind": "DESCRIPTIVE",
+   "sources": [
+    "scenes/test83_iid_1_L2/analysis104kb.json:peak_pixels",
+    "scenes/test83_hard_1_L1/analysis104kb.json:peak_pixels",
+    "scenes/test83_iid_159_L2/analysis104kb.json:peak_pixels",
+    "scenes/test83_hard_53_L2/analysis104kb.json:peak_pixels",
+    "scenes/test83_block_186_L2/analysis104kb.json:peak_pixels"
+   ],
+   "sha256": "847afe8d5d14f6ce78896152027290b9b84c5c2cd828445f569fa4a66dfe5f31"
+  },
+  {
+   "file": "historical_WL104D_secondary_test_vs_independent_test_contrasts.png",
+   "caption": "Secondary WL104D reference vs primary test: relative changes vs O0 (e_prof, e_h, el1, instability).",
+   "kind": "SECONDARY: repeatedly inspected",
+   "sources": [
+    "test.json:secondary_historical.contrasts_vs_O0",
+    "test.json:contrasts_vs_O0"
+   ],
+   "sha256": "551db4004d92b8e8418f98e795ab84d55136611686a8d8552c97f37e3941d42f"
+  }
+ ],
+ "skipped": [],
+ "inputs_sha256": {
+  "test_eval/test.json": "1e185eb6aa8919de050cbcd8db48e083daf15da105963c85d1fe8ea213fe52aa",
+  "test_eval/arrays.npz": "f123c460eb22d62684be0dfc7a2ac9251890f8f831b293fc31f5f731ad7e3c0b",
+  "dev_eval/dev.json": "42f551efcbb9be936acf1176130bec4bba3ca64129090ffacc7ce8996b5ea5bd",
+  "dev_eval/arrays.npz": "eac027f58af94ef1d37460e6b39bc1152f65cb926752fff9e56d1c07327bdaa7",
+  "decision.json": "cfe48b0a6156ae01a0d148c2e8675f021e0b881483744154ae11687b9cd51463",
+  "amendment1/result.json": "b7efba55d5bafc7933542863caa50177fda5b16f5e5d573f9b327d9caec4601d",
+  "amendment1/test_amended.json": "49cd63f02dabd1a744853bd5310d0d362e930b08296e45e75ccb188b4de8aa75",
+  "amendment1/decision_amendment1.json": "3b1590ebba9ac11b994cbd58962ebc662fd3af082c0872e7310345cf6e12bfa2",
+  "fits/O0/fit.json": "0207ee3501571faebb5fb9a4b728ad4778d60bbb9054484c0b28bbecdaf735bc",
+  "fits/O1/fit.json": "a8a663272efa8d8b31025587b6fa20784d5ce664318f9c0908850e8c5f62b430",
+  "fits/D/fit.json": "467e1d2d89f17ccb06ce4d83b1481bcd1935617f83209469d194d0d42c7d2d20",
+  "fits/E2/fit.json": "eba97012c1b2c6819e39baccb7f8ed83c2114ed115a01a5dabd5c58a85718c97",
+  "fits/S_O0/fit.json": "d1d920db38e8c54b948ef4923cac629f19a62fb4c4c7ea5f89f78d23ca2935aa",
+  "fits/S_O1/fit.json": "71a14b32b09755b2f3261b29d7bd98b084dbfcd32edc5ddeb3beb5070255ac06",
+  "fits/S_D/fit.json": "cd09801f043a0e05357f468ae08bdcf879e09ee167dbd1da9d3c8761f70cc5de",
+  "fits/S_E2/fit.json": "41d4a63e89c0337279d733c830102c15d9a079a0ca698b4d9c132834914a9083",
+  "stageA/stageA.json": "08588b7cd053204104b9ecd094c5f91bd70c09ad4fa14d5e2fa78674ca8c41d5",
+  "scenes/test83_iid_1_L2/analysis104kb.json": "e9aa09d91d6b70abcbf5c9b18e2c2c71f347e4f1e29ce6795a90a9e8af9e890a",
+  "scenes/test83_iid_1_L2/maps.npz": "baf72722b2bcc7698fc104f2e679735e6f61d5cf4cb00add75358ee0e2ec1b6d",
+  "scenes/test83_hard_1_L1/analysis104kb.json": "87fba6d9c2b15395f6a7c109ac78df68f09a0f23ecb0607cb22655fb5223c4b8",
+  "scenes/test83_hard_1_L1/maps.npz": "38801205b6929e2d7d4c34397dd5d67f85544c15efc57ad4e35c88e1e7c13641",
+  "scenes/test83_iid_159_L2/analysis104kb.json": "a79053bf93a65ccf35c87436c4e286edd42d44af0d126940d118d64b0a07c818",
+  "scenes/test83_iid_159_L2/maps.npz": "1767e64befbcd4887c106bd1761de5fa574fd336b0113f3a74b5065c4afd56b6",
+  "scenes/test83_hard_53_L2/analysis104kb.json": "3429f727b703effb05ee19e0fb6a26d6ec8daa66472d8a37938512d47ea84e50",
+  "scenes/test83_hard_53_L2/maps.npz": "787990c3da6058ac2e54475b938d69534189783a2fc7681c16a851eccb4a948e",
+  "scenes/test83_block_186_L2/analysis104kb.json": "e44e6d1f5d408e55babf8c6178404ecb56e81397881252c09bb9ec87d6b266e0",
+  "scenes/test83_block_186_L2/maps.npz": "79e4cf45cf85e7c94f3bfb2f20bcf23aaeaed86bf750df855a5db94acf908c11"
+ },
+ "script_sha256": "2d4eed5712155204aee53139b24fa2c17254905710f8f42ca85305c5e62d611b",
+ "index_sha256": "c776f801135aa73b38f306399265a2fe371cc727def0290a45bd19779b31b0e2",
+ "qualified": false,
+ "qualification_note": "Labels UNQUALIFIED: O0 missed the WL104K P reproduction gate (max 4.84 % > 1 % limit); values and predeclared rules shown descriptively. Amendment 1 (same-method nondeterminism test): NOT_CONSISTENT, labels stay UNQUALIFIED."
+}
