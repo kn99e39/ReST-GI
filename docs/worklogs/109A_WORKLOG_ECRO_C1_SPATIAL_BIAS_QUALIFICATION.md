@@ -150,3 +150,172 @@ the independent inner continuation P′ under the same U. Its code is committed 
 - Stage B CPU analyses finished before the restart: historical splits (`calib/hist.json`) and synthetic families
   (`calib/synth.json`). Finished outputs and capture units are skipped on restart. The partial smoke dynamic directory is
   moved aside by the guard's `--before` hook.
+
+### 2026-11-23 — restart, null pool and Stage B budget decision
+
+- The chain was restarted at 15:09:40 with commit 8477b96. Every smoke unit passed, including smoke dynamic (D1–D4 code
+  path to the end); `SMOKE PASS` at 15:22:27.
+- **Independent R0 null pool:** 2,048 R0 frames for each of the 6 views × 3 bias spp. Run under the guard from 15:24:27 to
+  16:11:37 (2,829 s).
+- No foreign work appeared during any WL109A GPU unit, so the guard had no preemption event. Total WL109A GPU time:
+  ≈ 57 min.
+- `calib109a.py pool` ran on the CPU (81 s). **Budget outcome: `STOP_INCONCLUSIVE`**, with the reason "Q calibration cannot
+  be qualified (coverage)".
+- By `run109a.sh` and the protocol's budget rule, the chain ended with `COMPLETE verdict=INCONCLUSIVE (Stage B)` at
+  16:12:58.
+- Stages C–F were not executed: no paired C1 frame, no new grid or timing block, no dynamic edit.
+
+## Final report
+
+### Implementation Fact
+
+- The frozen WL109 C1 (M = 1), the HIGH table (sha `d7e40954…`), the checkpoint, the scene, R0 and the WL109 thresholds were
+  used unchanged. WL109 code was imported unchanged.
+- Protocol `protocol109a.json` (sha `2504c982…`) and all decision code were committed in 4e694af before any WL109A evidence.
+- Two code changes were made after commit 4e694af:
+  1. 8477b96: the smoke-only group count in `dynamic109a.py` (described above). It affects no evidence path.
+  2. After the decision, `fig109a.py` was reordered so the Stage B figures can be drawn without Stage C metrics, and a
+     synthetic-coverage figure was added. It is descriptive and computes no decision.
+- GPU ownership:
+  - Every GPU unit ran under the unchanged WL109 guard and was admitted only after no tmux session existed and the GPU had
+    no compute process for 120 s.
+  - While waiting (13:17–14:56, behind TransGI `b21` and another session's `verify110.py`), WL109A held no CUDA context and
+    no VRAM.
+  - No foreign process was killed or interrupted. The WL109 Amendment 1 incident record is unchanged.
+- **Reporting defect in `hist.json` (non-decision fields).**
+  - `q0.upper_median` and `q0.upper_q99` are each computed per draw, from one subset, and then averaged over draws. Both are
+    therefore the **mean upper95 over draws**, not a median or a 99th percentile.
+  - `fail`, `noncov`, `power`, `null_upper_percentile` and `null_point_percentile` are computed correctly over all draws.
+  - The budget decision does not read these two fields. The same fields in `pool.json` are correct, because they are taken
+    over the 12,870 subsets of one setting.
+
+### Measurement
+
+**Stage A.** WL109's metrics were reproduced exactly. Details are in the Stage A entry above.
+
+**Stage B, historical splits at the WL109 design (R = 32, G = 8, n = 4; exact-null R0-versus-R0 re-pairings of 64 WL109 R0
+frames).**
+
+H3 and H4 material boundary:
+
+| setting | pixels | null P(upper95 > limit) | power at 2 × limit | WL109 C1 upper95 | percentile of C1 upper95 in null upper bounds | percentile of C1 point |
+|---|---|---|---|---|---|---|
+| H3 mb 4 spp | 103 | 0.340 | 0.50 | 0.0018 | 0.08 | 0.09 |
+| H3 mb 16 spp | 103 | 0.384 | 0.42 | 0.0125 | 0.79 | 0.63 |
+| H3 mb 32 spp | 103 | 0.375 | 0.44 | 0.0136 | 0.86 | 0.95 |
+| H4 mb 4 spp | 48 | 0.682 | 0.21 | 0.0268 | 0.96 | 0.77 |
+| H4 mb 16 spp | 48 | 0.680 | 0.20 | 0.0236 | 0.91 | 0.99 |
+| H4 mb 32 spp | 48 | 0.646 | 0.24 | 0.0127 | 0.50 | 0.36 |
+
+- Every other view × ROI × spp setting has null P(fail) ≤ 0.001 at this design, including V0 silhouette at 0.000.
+- Mean one-sided non-coverage over all 84 settings: 0.026.
+
+**Stage B, independent null pool (n = 64 per group, the R = 512 design).**
+
+| quantity | value |
+|---|---|
+| Pooled non-coverage at Q_true = 0 | 0.028 |
+| Pooled non-coverage at injected Q_true = 0.5–2 × limit (4 patterns) | 0.020–0.027 |
+| Pooled null fail | 0.000 |
+| Pooled power at 2 × limit | 1.000 for every pattern |
+| Predicted per-setting fail at n = 64 | 0.000 everywhere |
+| Two disjoint R0-versus-R0 decision runs (Q and B1) | 56 / 56 view × ROI × half states EQUIVALENT |
+| H3 / H4 material-boundary median upper95 | 0.0004–0.0011, limit 0.01 |
+
+- Per-setting non-coverage estimates exceed 0.05 in 11 of 84 settings (maximum 0.35, at H5 silhouette 32 spp and H1
+  silhouette 16 spp). Each estimate comes from a single 16-group pool, so it varies strongly between pools.
+- The frozen gate uses the pooled value.
+
+**Stage B, synthetic known-truth families** (106 cells; 600 realizations at R ≥ 512, 2,000 below; binomial SE at 0.05 is
+≈ 0.009 for 600 realizations):
+
+- **Heteroscedastic** (per-pixel SD exp(N(0, 1))):
+  - At R512G8, non-coverage at Q_true = 0 is 0.055–0.083 on all five ROI shapes; the worst injected cell is 0.098.
+  - It is also above 0.05 at R128G8 (0.051–0.079) and R512G16 (0.040–0.067). At R32G8 it is 0.037–0.052.
+- **Correlated:**
+  - At R512G8, Q_true = 0 is 0.028–0.047.
+  - Injected cells reach 0.053 (H4 mb) and 0.063 (V0 mb).
+- **gauss_iid, mc_like_4, mc_like_32:** ≤ 0.040 at Q_true = 0 for every design. The single exception is gauss_iid H4 mb at
+  R1024G8, which reaches 0.053 on two injected cells.
+- Under the frozen skip rules, the R1024G8 cells are gauss_iid and mc_like_4 only.
+
+**Budget rule (frozen).**
+
+| design | coverage | other gates | result |
+|---|---|---|---|
+| R = 512 | Fails on 7 synthetic cells (5 heteroscedastic, 2 correlated) | Power, precision and direct null pass | Not qualified |
+| R = 1024 | Fails on the gauss_iid H4 mb cell (0.053) | Precision and power predictions pass | Not qualified |
+
+The rule therefore gives **STOP, INCONCLUSIVE**.
+
+Figures:
+- `evaluation/109A/calibration.png`: WL109-design null fail rates, and null-pool fail and coverage against n.
+- `evaluation/109A/synthetic_coverage.png`.
+
+### Observation
+
+- At WL109's own design, the WL109 B2 bound fails on an exact zero-bias R0-versus-R0 difference with probability:
+  - 0.65–0.68 at the 48-pixel H4 material boundary;
+  - 0.34–0.38 at the 103-pixel H3 material boundary.
+- At the same design, the bound would detect a bias of twice the limit with probability only 0.20–0.50 there.
+- WL109's observed C1 upper bounds lie inside the null distribution of R0-versus-R0 upper bounds, at percentiles 0.08–0.96.
+  None is beyond every null draw.
+- With n = 64, the same Q bound on real R0 noise is precise:
+  - median upper95 at H3/H4 material boundary 0.0004–0.0011;
+  - pooled coverage 0.972;
+  - power 1.0.
+- The one-sided Student-t bound with 8 groups under-covers when per-pixel noise levels differ strongly (heteroscedastic
+  family): non-coverage reaches 0.083 at Q_true = 0 and 0.098 in an injected cell, against the 0.05 gate. This gets worse
+  with more replicates per group, not better: 0.037–0.052 at R32G8, 0.055–0.083 at R512G8.
+- The R1024 miss (0.053 in 600 realizations) is within binomial noise of 0.05. The frozen rule has no Monte Carlo tolerance.
+
+### Interpretation
+
+- **WL109's two B2 failures (H3/H4 material boundary) are what an unbiased estimator produces most of the time at WL109's
+  design.** That bound could not distinguish C1 from R0 at those ROIs, so WL109's failures do not show a C1 spatial bias.
+- This is a statement about the precision of WL109's test. It does not show that C1 is unbiased, because no new C1
+  evidence was collected.
+- The question WL109A was frozen to answer, equivalence at the 0.01 / 0.02 limits with a qualified bound, is **not
+  answered**. The frozen coverage gate was not met.
+- The cause is a property of the inference method on synthetic heteroscedastic noise: an 8-group t bound on a skewed group
+  statistic. It is not a defect seen in the R0 null pool, where both direct R0-versus-R0 runs were EQUIVALENT and pooled
+  coverage passed.
+- Whether real C1 − R0 differences at H3/H4 are heteroscedastic enough for this under-coverage to matter is not measured.
+
+### Unresolved
+
+- C1-versus-R0 spatial equivalence at the WL109 limits with a qualified bound: Stage C was not executed.
+- The cost-normalized TOTAL variance benefit on fresh seeds (P2, P3, P5, P6) was not re-measured. WL109's 0.792
+  equal-time ratio is the latest measurement.
+- Dynamic closure under the P7 edit (D1–D6) was not executed. Only the smoke run touched that code path; its numbers are
+  not evidence.
+- A coverage-qualified inference method for heteroscedastic small ROIs is open: more groups, or a skew-robust or bootstrap
+  bound. Choosing one would change the frozen inference method, which needs an owner decision. It is not a WL109A
+  amendment.
+- `hist.json` upper-bound quantile fields are mislabelled (see Implementation Fact). They can be recomputed post hoc if
+  needed.
+
+### Architecture Verdict
+
+**INCONCLUSIVE** (Stage B budget rule: the Q calibration could not be qualified on coverage).
+
+- WL109 stays **NOT_SUPPORTED**.
+- C1 is not adopted.
+- No successor batch, inference-method change or amendment is started.
+- Living documents are unchanged; no architecture decision follows.
+
+### Reproducibility
+
+| item | value |
+|---|---|
+| Code | `experiments/ecro_estimator109a/` at 4e694af (frozen), plus 8477b96 (smoke fix) and the descriptive `fig109a.py` reorder |
+| Protocol | sha `2504c98256f9…` |
+| Server run | LabServer69 `~/rest_sss101a/results/ecro_estimator109a/evidence/` |
+| Chain | `run109a.sh evidence <commit>` |
+| CPU-stage environment | `CUDA_VISIBLE_DEVICES=`, `nice -n 10`, 6 threads |
+| Seeds | null family base 21,000,000; calibration RNG 26,900,001; splitmix64 launch seeds |
+| Local mirror (gitignored, no raw frames) | `results/ecro_estimator109a/lab69/` |
+| Reviewer artifacts | `evaluation/109A/` (manifest `manifest109a.json` with sha256 and source paths) |
+| `pool.json` sha | `fdaf884a…`, equal to `budget109a.json`'s `pool_json_sha256` |
+
+Software: Mitsuba 3.8.0, Dr.Jit 1.3.1, Torch 2.3.1+cu121, one RTX 3090.

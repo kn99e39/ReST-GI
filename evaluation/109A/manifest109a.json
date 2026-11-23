@@ -1,0 +1,58 @@
+{
+ "worklog": "docs/worklogs/109A_WORKLOG_ECRO_C1_SPATIAL_BIAS_QUALIFICATION.md",
+ "protocol": "experiments/ecro_estimator109a/protocol109a.json",
+ "protocol_sha256": "2504c98256f939d9cb785bb83ebd4de23473b5e570eeb62a06079ba994c94f53",
+ "server_run_dir": "LabServer69:~/rest_sss101a/results/ecro_estimator109a/evidence",
+ "chain_commits": [
+  "4e694af",
+  "8477b96"
+ ],
+ "outcome": "Stage B budget rule STOP_INCONCLUSIVE (synthetic coverage gate); Stages C-F not executed",
+ "files": {
+  "budget109a.json": {
+   "sha256": "5e7909adc4b33ac89e2000543f0e809a66c005e02dc815daeb08beaf5b96e1b1",
+   "bytes": 4922,
+   "source": "evidence/calib/budget109a.json"
+  },
+  "calibration.png": {
+   "sha256": "11e574bb48899a820f139f62eddae51491ee8d8aca18d78be8765a40f4445c3a",
+   "bytes": 191775,
+   "source": "evidence/fig/calibration.png"
+  },
+  "chain.state": {
+   "sha256": "b516010f2987ba66aeb72ebc23471698a9153c38c71abfc3ef288ff26b0d4882",
+   "bytes": 811,
+   "source": "evidence/chain.state"
+  },
+  "guard109a.jsonl": {
+   "sha256": "33787feacbc43becb750f3609bb941c844f3f271a82c9b6b54064f163b31611b",
+   "bytes": 9110,
+   "source": "evidence/guard109a.jsonl"
+  },
+  "hist.json": {
+   "sha256": "3b7ade5f97faedf5f18b0805e2eb29f34f274c59f383282e288c205ef20581d8",
+   "bytes": 173945,
+   "source": "evidence/calib/hist.json"
+  },
+  "pool.json": {
+   "sha256": "fdaf884a0bfe40754ad9e36dbc33f2dd157ca791eb4600baa47acbe665bc0ec4",
+   "bytes": 590811,
+   "source": "evidence/calib/pool.json"
+  },
+  "stageA.json": {
+   "sha256": "923510b5f7bb2da1eaa8dc105e6d8e8d626d9abc20cbd99d760ae9b691f9f38d",
+   "bytes": 977,
+   "source": "evidence/stageA/stageA.json"
+  },
+  "synth.json": {
+   "sha256": "84d1904e0af9b44af2a7a3a09839c183d00202de995f65d0b614d4051f4eba10",
+   "bytes": 201013,
+   "source": "evidence/calib/synth.json"
+  },
+  "synthetic_coverage.png": {
+   "sha256": "46c7c1d919d147a86d32ae78db83d9ddd97bf8b19fefa7574d065d094390c8e1",
+   "bytes": 89560,
+   "source": "evidence/fig/synthetic_coverage.png"
+  }
+ }
+}
