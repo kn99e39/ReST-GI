@@ -227,3 +227,7 @@ None. This is a demonstrator; it makes no SOTA, quality or architecture claim.
   - GIF previews for near and SVGF;
   - per-run summaries, `verify.json`, the WL101 rerun JSONs, `runs110.json` and figures 01–03.
   - The full-size near and SVGF WebPs and all `frames.jsonl` files stay in `results/ecro_live110/`; their hashes are in the manifest.
+
+### Owner decision (2026-11-23)
+
+- The research owner kept the number: "110으로 놔둬 그냥" (leave it at 110). WL110 stays as numbered; the reclassification note above is closed.
