@@ -1,0 +1,146 @@
+{
+  "id": "WL109A",
+  "title": "Frozen ECRO C1 spatial bias qualification and conditional dynamic closure",
+  "class": "suffix batch of WL109 (owner brief 2026-11-23): resolves WL109's residual spatial-bias uncertainty and, conditionally, its unexecuted dynamic stage under preserved architectural contracts; no new mechanism",
+  "branch": "Denoise_Reconstructor (no new branch or worktree)",
+  "base_commit": "92cb50d",
+  "historical_verdict": "WL109 stays NOT_SUPPORTED under its frozen rules; nothing here rewrites WL109 data, code, protocol or worklog",
+  "question": "Does frozen C1 (M = 1) preserve the pixelwise expected radiance of frozen R0 within the WL109 spatial bias tolerance, while retaining its cost-normalized TOTAL variance benefit, and does that survive the frozen P7 geometry edit?",
+  "description_rule": "C1 at M = 1 is described as conditional resampling / LOW-HIGH decorrelation (a finite unbiased one-sample inner estimate), never as exact conditional integration",
+  "frozen_from_WL109": [
+    "experiments/ecro_estimator109/*.py and protocol109.json at commit 92cb50d (imported, never edited): estimator C1, M = 1, inner stream, renderer R0, Engine, admission, ROIs, distance bands",
+    "checkpoint, learned HIGH table bytes (sha256 recorded in the WL109 run manifest), table generation, scene, materials, lights, cameras, event decomposition",
+    "Q definition: Q_g = mean_{ROI,RGB}(Dbar_g^2 - s_g^2 / n_g) / pooled Var(TOTAL_R0), D = H_C1 - H_R0 (paired, LOW cancels), Q = mean over G = 8 independent contiguous replicate groups, two-sided 95% Student-t bounds with 7 df",
+    "Q limits: primary / sss_interior / material_boundary / control 0.01, silhouette 0.02; bias spp 4, 16, 32",
+    "B1: inverse-variance pooled paired relative luma difference over the bias spp; EQUIVALENT if the 95% CI lies within +-0.5%",
+    "MSE definition, equal-time ratio, reference (WL107 48 x 8192 spp), reference precision rule and gates P2 (<= 0.85), P3 (upper95 < 1.0), P5 (<= 1.02, <= 1.05), P6 (<= 1.05, <= 1.10)",
+    "contact disk excluded from every decision"
+  ],
+  "stages": {
+    "A": "historical reproduction (CPU): source / protocol / raw-file identities; rerun of the unchanged analyze109.py on the 4,992 authenticated WL109 frames with torch on the CPU; every numeric leaf of metrics109.json must reproduce (rel 1e-8 or abs 1e-12) and decision / verdict exactly; the first GPU admission additionally checks checkpoint, scene, table bytes and the archived replay (frozen_runtime) and the table sha against the WL109 manifest. Any failure: STOP",
+    "B": "statistical audit and calibration (CPU + one GPU null capture of R0 only, no C1 frame): historical null splits, synthetic families, independent R0-versus-R0 null pool; produces the frozen budget decision by the rule below",
+    "C": "independent paired R0 / C1 evidence at R replicates per (view, bias spp), new R0 quality-versus-time grid and same-device timing",
+    "D": "conditional mechanism audit, only when triggered (rule below); predeclared measurements, code committed before it runs",
+    "E": "static decision (mapping below)",
+    "F": "dynamic closure on the frozen P7 edit, only after a static pass"
+  },
+  "seeds": {
+    "null": 21000000,
+    "paired": 22000000,
+    "grid": 23000000,
+    "timing": 23600000,
+    "dynamic": 24000000,
+    "dynamic_reference": 24950000,
+    "mechanism": 25000000,
+    "calibration_rng": 26900001,
+    "bootstrap": 26999001,
+    "timing_order": 26998001,
+    "smoke_offset": 60000000,
+    "rules": "null = base + 100000 view + 10000 spp_index + k; paired = base + 100000 view + 10000 spp_index + r; grid = base + 100000 view + 1000 grid_index + r; timing = base + 10000 view + 100 slot + i; dynamic = base + 10000 slot + r; mechanism = base + 10000 slot + r; spp_index over the bias spp (4, 16, 32); renderer main-stream value = common109.launch_seed(seed) (splitmix64), inner stream = c1_109.inner_seed_value(seed), both unchanged from WL109; every WL109A family is disjoint from every WL101-WL109 family, including the WL109 synthetic range reserved up to 18.31M (tests109a)"
+  },
+  "raw_rois": ["silhouette", "material_boundary"],
+  "diagnostics": {
+    "mb_band_width": 5,
+    "coverage_bins": [0.0, 0.1, 0.25, 0.5, 0.75, 0.9, 1.0],
+    "note": "material-boundary distance bands and sphere-coverage bins are descriptive (never decisions)"
+  },
+  "calibration": {
+    "historical_splits": {
+      "source": "WL109 raw R0 frames: 32 paired-R0 + 32 independent grid frames at the same spp per (view, bias spp) = 64 iid R0 frames; null D = H_a - H_b over random pairings (exact zero expectation), WL109 design R = 32, G = 8",
+      "draws_small_roi": 2000, "draws_large_roi": 200,
+      "note": "conditional on the 64-frame pool; diagnostic of the historical design, not a gate"
+    },
+    "injection": {
+      "Q_true_over_limit": [0, 0.5, 1, 2],
+      "patterns": ["uniform", "noise_proportional", "localized", "signed_smooth"],
+      "construction": "D + sqrt(Q_true * scale) * b with mean_{ROI,RGB}(b^2) = 1; the exact Q_g of the injected data is computed from the stored group sums"
+    },
+    "localized_fraction": 0.1,
+    "smooth_wavelength_px": 12,
+    "synthetic": {
+      "families": {
+        "gauss_iid": "D ~ N(0, 1) iid over pixels / replicates, channel correlation 0.9",
+        "mc_like_4": "D = X - X', X = mean of 4 iid draws of Bernoulli(0.3) x LogNormal(0, 1.5) (firefly-like heavy tail), channels share the Bernoulli",
+        "mc_like_32": "as mc_like_4 with 32 draws",
+        "heteroscedastic": "gauss_iid with per-pixel SD exp(N(0, 1.0)) fixed per realization",
+        "correlated": "mc_like_4 noise field Gaussian-filtered with sigma 1.5 px on the ROI bounding box, renormalized"
+      },
+      "roi_shapes": [["H4", "material_boundary"], ["H3", "material_boundary"], ["H2", "material_boundary"], ["V0", "silhouette"], ["V0", "material_boundary"]],
+      "designs": [[32, 8], [128, 8], [512, 8], [1024, 8], [512, 16]],
+      "realizations": {"R<=128": 2000, "R>=512": 600},
+      "note": "known-truth controls; the scale is the per-ROI mean noise variance of the synthetic TOTAL proxy (= D variance / 2)"
+    },
+    "null_pool": {
+      "frames": 2048, "pairs": 1024, "group_pairs": 64, "groups": 16,
+      "pairing": "D_p = H_{2p} - H_{2p+1} (R0 HIGH of independent hashed seeds); scale = pooled Var(TOTAL_R0) over the 2048 frames",
+      "full_frame": "per group sums of D and D^2 for every decision ROI (n = 64, 16 groups)",
+      "raw": "per-frame LOW and HIGH at the raw_rois pixels: any n in {4, 8, 16, 32, 64} via the pairing above",
+      "subsets": "all C(16, 8) = 12870 8-group subsets at n = 64; 4000 random 8-group subsets at smaller n; the subset average of a test indicator is an unbiased U-statistic estimate of its probability for 8 iid groups",
+      "direct_null": "groups 0-7 and 8-15 give two disjoint R = 512 R0-versus-R0 realizations of the full Q / B1 decision on all 28 view x decision-ROI pairs"
+    },
+    "gates": {
+      "coverage": "one-sided non-coverage P(upper95 < Q_true) <= 0.05 at Q_true in {0, 0.5, 1, 2} x limit for every injection pattern: (a) pooled over all null-pool settings (view x decision ROI x bias spp) at the selected design, and (b) in every synthetic family and ROI shape at (R_design, 8)",
+      "power": "P(lower95 > limit | Q_true = 2 x limit) >= 0.80 for every injection pattern, pooled over null-pool settings at the selected design (synthetic power is reported only: its noise-to-scale ratio Var(D) / scale = 2 is a deliberately unfavourable choice, not the scene's)",
+      "precision": "per null-pool setting, predicted P(upper95 > limit | Q = 0) <= 0.01, computed by Monte Carlo of point + t7 * SE-hat with point ~ N(0, SE^2), SE-hat ~ SE sqrt(chi2_7 / 7), SE = SD(Q_g over the 16 pool groups) / sqrt(8) scaled to the design n by sqrt(64 * 63 / (n (n - 1))); and the pooled subset estimate of P(upper95 > limit | Q = 0) <= 0.01",
+      "direct_null": "no Q or B1 state BIASED in either direct R0-versus-R0 realization",
+      "rule": "coverage or direct_null failure: STOP, verdict INCONCLUSIVE (Q calibration cannot be qualified); power and precision decide the budget"
+    },
+    "budget_rule": "R = 512 (G = 8, n = 64) if coverage, power and precision gates pass at n = 64; otherwise R = 1024 (n = 128) if coverage passes and the precision and power predictions pass at n = 128 (power predicted by the same Monte Carlo with the bias-induced group variance taken from the pool injections at n = 64 scaled by 64 / n); otherwise STOP, verdict INCONCLUSIVE (the evidence budget cannot achieve meaningful precision). Uniform over every view and spp, never selective"
+  },
+  "evidence": {
+    "views": ["V0", "H1", "H2", "H3", "H4", "H5"],
+    "bias_spp": [4, 16, 32],
+    "replicates": "R from the budget rule (512 or 1024)",
+    "groups": 8,
+    "paired_frame": "R0 frame (eager rt101 frame program) and C1 frame (M = 1, orig_hl instrumentation) with the same seed; LOW and the instrumented original HIGH must equal R0 per frame (structural rel L1 <= 1e-6; bitwise recorded)",
+    "stored": "per unit (view, spp): sums of D and D^2 per 16-replicate subgroup (float64, full frame), global float64 sums of L, H, H_C1 and their squares and cross products, per-subgroup pooled variance components per decision ROI, per-frame per-mask luma means of D / TOTAL_R0 / TOTAL_C1 and squared errors against the reference, raw LOW / H / H_C1 at the raw_rois pixels, the full first replicate of both arms",
+    "grid": {"levels": "WL109 r0_grid_spp (18 levels)", "replicates": 64, "stored": "per-frame per-mask squared error and luma means"},
+    "timing": "WL109 Stage 3 block unchanged in content (18 R0 grid levels + C1 at 1, 4, 16, 32 spp; 3 warm-up, 30 randomized rounds, end-to-end composition, first call, watermark), WL109A timing seeds, exclusive GPU (exclusive_block) under the guard",
+    "storage_GB_max": 45
+  },
+  "decision": {
+    "Q_state": "per view x decision ROI over the bias spp: EQUIVALENT if every upper95 <= limit; BIASED if any lower95 > limit; otherwise UNRESOLVED",
+    "B1_state": "original WL109 rule on all R replicates",
+    "reconfirmation": "P2, P3, P5, P6 and reference precision recomputed with the WL109 thresholds from the new paired squared errors, the new R0 grid and the new timing; R0 grid must bracket C1 (no extension)",
+    "stage_D_trigger": "any Q or B1 state not EQUIVALENT; or any Q t = point / SE above the one-sided t7 quantile at alpha = 0.05 / (number of Q tests: 28 view x decision-ROI pairs x 3 spp = 84; H3 and H4 have no control ROI); or any of the four WL109 concern regions (H3 / H4 / H5 material_boundary, V0 silhouette) with t above the one-sided t7 quantile at alpha = 0.05 / 12; or any B1 interval excluding zero at two-sided alpha = 0.05 / 28",
+    "mapping": {
+      "BIAS_SUPPORTED": "any Q or B1 state BIASED",
+      "INCONCLUSIVE": "no BIASED state but any UNRESOLVED; or reference precision fails; or the grid does not bracket C1; or Stage D replicates a flagged pattern without resolving a conditional-distribution mismatch",
+      "NOT_SUPPORTED": "P2, P3, P5 or P6 fails; or Stage D resolves a conditional-distribution mismatch (expectation-preservation contract violated even within tolerance); or dynamic D1-D3 fails",
+      "static_pass": "every Q and B1 EQUIVALENT, reconfirmation passes, and Stage D (if triggered) attributes the flag to non-replication",
+      "QUALIFIED_STATIC_AND_DYNAMIC": "static pass and dynamic D1-D4 pass and D5 passes",
+      "STATIC_ONLY_SUPPORTED": "static pass and D1-D3 pass but D4 is UNRESOLVED or D5 fails, or the dynamic stage cannot be executed",
+      "dynamic_BIAS": "a BIASED D4 state maps to BIAS_SUPPORTED"
+    }
+  },
+  "stage_D": {
+    "replication": "fresh seeds (mechanism family slot 0..9): R_D = R paired replicates of the flagged (view, spp) units; the flagged statistic must exceed its one-sided alpha = 0.05 / (number of flags) t7 quantile again to count as replicated",
+    "mechanism": "at the flagged ROI pixels and the same number of frames: (1) fixed-jitter (pixel-centre) R0 versus C1 paired difference, separating J-dependence from the continuation distribution given U; (2) histograms of second-hit validity, shape identity, (patch, bin) address and per-channel throughput of the replayed main-stream continuation P (replay = True) versus the independent inner continuation P' under the same U, with a null from two independent inner streams; total-variation and mean differences with bootstrap intervals over frames",
+    "no_repair": "a confirmed mismatch is a failure of the mechanism; nothing is repaired in this batch"
+  },
+  "dynamic": {
+    "edit": "WL109 P7: WL100 SSS configuration 0 -> 2 geometry, configuration 0 light 0, view V0, ordinary ECRO lifecycle (set_geom, selective update_state, source, respond)",
+    "D1_D3": "unchanged from dynamic109.py (selective == full rebuild == fresh table, frozen == eager, LOW / replay identity, no persistent C1 state)",
+    "D4": "paired R0 / C1 at 4 spp with R replicates (the budget R) on the edited state: B1 (single spp) and Q (G = 8) with the WL109 limits and the WL109A three-way state",
+    "D5": "unchanged: fresh 16 x 8192-spp reference, R0 grid 4-8 spp x 32 replicates, equal-time 4-spp primary ratio <= 0.85 with upper95 < 1.0; the C1 and nominal R0 squared errors use all R paired frames",
+    "D6": "update latency, C1-specific state (none), first and warm frames after the edit, peak allocation"
+  },
+  "gpu_ownership": {
+    "rule": "WL109A holds no CUDA context or VRAM while foreign GPU work runs or is queued (owner rule after the WL109 Amendment 1 incident)",
+    "guard": "every GPU command runs under experiments/ecro_estimator109/guard109.py (unchanged): it waits in a process that loads no GPU library until no tmux session exists and no compute process has been listed for 120 s, polls nvidia-smi every 2 s while the child runs and terminates the child's process group as soon as a foreign compute process appears, then waits and restarts; capture units are written atomically and completed units are skipped on restart, so restarts reproduce the same data",
+    "never": "WL109A never signals, interrupts or otherwise touches a foreign process"
+  },
+  "budget": {"gpu_hours_max": 8, "storage_GB_max": 45},
+  "stop": [
+    "historical source, protocol, raw-file, checkpoint, scene or table identity fails",
+    "WL109 metrics do not reproduce",
+    "Q calibration cannot be qualified (coverage or direct-null gate)",
+    "the budget rule cannot reach the precision requirement",
+    "a material expectation mismatch is established (BIAS_SUPPORTED)",
+    "conditional sampling semantics fail (Stage D)",
+    "reference independence or precision fails",
+    "dynamic correctness D1-D3 fails",
+    "GPU execution would interfere with another active job (the guard defers instead)"
+  ],
+  "not_authorised": ["changing C1, M, the inner stream, the table, the checkpoint or any threshold", "a new estimator or denoiser", "excluding views or ROIs after results", "scene-specific correction", "production adoption", "a successor batch"]
+}
