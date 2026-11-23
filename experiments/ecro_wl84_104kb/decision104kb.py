@@ -241,8 +241,11 @@ def mech_answer(row, what):
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("root", type=Path)
-    root = ap.parse_args().root.resolve()
-    test, dev = read(root / "test_eval/test.json"), read(root / "dev_eval/dev.json")
+    ap.add_argument("--test", type=Path, default=None, help="alternative test json (Amendment 1 amended labels)")
+    ap.add_argument("--out", type=Path, default=None, help="alternative output path (default <root>/decision.json)")
+    args = ap.parse_args()
+    root = args.root.resolve()
+    test, dev = read(args.test or root / "test_eval/test.json"), read(root / "dev_eval/dev.json")
     if dev is not None and (root / "dev_eval/dev.json.sha256").exists():
         dev_hash_ok = KB.sha(root / "dev_eval/dev.json") == (root / "dev_eval/dev.json.sha256").read_text(encoding="utf-8").split()[0]
     else:
@@ -318,7 +321,9 @@ def main():
                              if (root / rel).exists()},
            "contracts_sha256": {p.name: KB.sha(p) for p in sorted((root / "contracts").glob("*.json"))},
            "commit": KB.commit(), "protocol_sha256": KB.sha(KB.PROTOCOL)}
-    E.write(root / "decision.json", res)
+    if args.test is not None:
+        res["test_source"] = {"path": str(args.test), "sha256": KB.sha(args.test), "note": "Amendment 1 amended labels (see amendment1/result.json)"}
+    E.write(args.out or root / "decision.json", res)
     print("decision", {X: (r["angular_label"], r["scene_verdict"]) for X, r in rows.items()}, flush=True)
 
 
