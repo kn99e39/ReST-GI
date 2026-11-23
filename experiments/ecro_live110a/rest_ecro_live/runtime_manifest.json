@@ -1,0 +1,28 @@
+{
+ "about": "Files the ECRO live runtime needs at run time, relative to the repository root. Traced on 2026-11-23 with an audit hook over imports and file opens of rt101 (sss and near cases) plus the WL110 engine / animation modules. The staged runtime keeps this exact layout because the frozen modules locate their data relative to their own files.",
+ "modules": [
+  "experiments/ecro86/model86.py",
+  "experiments/ecro86/pt86.py",
+  "experiments/ecro86/scene86.py",
+  "experiments/ecro_dyn101/rt101.py",
+  "experiments/ecro_dyn101/seq101.py",
+  "experiments/ecro_material100/common100.py",
+  "experiments/ecro_material100/pt100.py",
+  "experiments/fnto_compiled81/layered81.py",
+  "experiments/fnto_compiled83/closure83_dr.py",
+  "experiments/ecro_live110/live110.py",
+  "experiments/ecro_live110/anim110.py"
+ ],
+ "data": [
+  "experiments/ecro86/data/mats86.npz",
+  "experiments/ecro86/protocol/ecro86.json",
+  "experiments/ecro_dyn101/protocol/dyn101.json",
+  "experiments/ecro_material100/protocol.json",
+  "experiments/ecro_nearmirror93e/scene.json"
+ ],
+ "checkpoints": {
+  "results/ecro_material100/configs.json": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+  "results/ecro_material100/sss/model.pt": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+  "results/ecro_material100/near/model.pt": "b3550787e08c8a4d41c975eb485be459591d84cf14a7c010a36984d10ac62e5a"
+ }
+}

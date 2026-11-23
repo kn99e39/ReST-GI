@@ -1,0 +1,35 @@
+{
+ "framebuffer": {
+  "width": 1024,
+  "height": 640,
+  "depth": 24,
+  "byte_order": 0,
+  "bytes_per_line": 4096
+ },
+ "region": [
+  0,
+  0,
+  908,
+  528
+ ],
+ "image_region": [
+  8,
+  8,
+  512,
+  512
+ ],
+ "seconds": 8.000000590458512,
+ "probe_hz_target": 120.0,
+ "probes": 960,
+ "probe_interval_ms": {
+  "median": 8.333336561918259,
+  "p95": 8.334014564752579,
+  "max": 8.349545300006866
+ },
+ "distinct_screen_changes": 0,
+ "screen_change_rate_hz": null,
+ "stored_frames": 240,
+ "store_hz_target": 30.0,
+ "recorder_busy_fraction": 0.11647087919496263,
+ "note": "screen_change_rate_hz counts distinct image-region states seen in the X framebuffer; it undercounts if the viewer presents faster than probe_hz / 2."
+}

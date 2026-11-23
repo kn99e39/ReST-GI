@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rest-ecro-live"
+version = "0.1.0"
+description = "ReST-GI ECRO live viewer: the frozen WL100 ECRO checkpoint executed every frame by the unchanged WL101 runtime (CUDA or LLVM/CPU backend)"
+requires-python = ">=3.10,<3.13"
+# Pinned to the stack WL101 / WL110 validated (Mitsuba 3.8.0 / Dr.Jit 1.3.1 / torch 2.3.1, numpy 1.x).
+dependencies = [
+  "mitsuba==3.8.0",
+  "drjit==1.3.1",
+  "torch==2.3.1",
+  "numpy>=1.24,<2",
+  "pillow>=10",
+]
+
+[project.optional-dependencies]
+build = ["pyinstaller>=6.6"]
+
+[project.scripts]
+rest-ecro-live = "rest_ecro_live.app:main"
+
+[tool.setuptools]
+packages = ["rest_ecro_live"]
+
+[tool.setuptools.package-data]
+rest_ecro_live = ["runtime_manifest.json", "reference/*"]
