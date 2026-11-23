@@ -136,3 +136,17 @@ the independent inner continuation P′ under the same U. Its code is committed 
 - Stage B synthetic families finished (106 cells, 1,077 s). The historical-split analysis is running on the CPU.
 - The first GPU unit (`smoke_null`) is waiting under the guard from 13:17:56: a foreign tmux session (`b21`) exists. No
   WL109A process holds a CUDA context while waiting.
+
+### 2026-11-23 — smoke stop and implementation fix (no evidence affected)
+
+- The guard admitted the smoke units after the foreign work ended: null, paired, grid and timing each passed
+  (14:56–15:05, 35–59 s each). The smoke pool and smoke analysis ran on the CPU. Their numbers are smoke data, not evidence.
+- `smoke_dynamic` passed D1–D3, then stopped at D4 (`ValueError: cannot reshape … (8,0,3,…)`). The chain stopped at
+  15:08:19 with `STOP stage=smoke_gpu exit=1`. No evidence unit had started.
+- **Cause (implementation bug).** `dynamic109a.py` fixed G = 8 groups of 16-frame subgroups. The smoke R = 32 has only two
+  subgroups. With the qualified R (512 or 1024) there are 32 or 64 subgroups, so the evidence path is not affected.
+- **Fix.** `G = 8 if nsub >= 8 else nsub`, the rule `analyze109a.py` already uses. The D4 code path was dry-run on the CPU
+  with the saved smoke accumulators before the restart. Protocol, thresholds and every R ≥ 128 path are unchanged.
+- Stage B CPU analyses finished before the restart: historical splits (`calib/hist.json`) and synthetic families
+  (`calib/synth.json`). Finished outputs and capture units are skipped on restart. The partial smoke dynamic directory is
+  moved aside by the guard's `--before` hook.

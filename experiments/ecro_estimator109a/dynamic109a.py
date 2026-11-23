@@ -205,7 +205,7 @@ def main(out, static_json, budget_json, smoke):
           "equal_spp_ratio": float(mse1 / (sse0.mean() - vr)), "cost_ratio": tc / float(tg[0])}
     d5["pass"] = bool(flag == "ok" and ratio <= cfg["benefit_ratio_max"] and d5["ci95"][1] < cfg["benefit_upper95_below"])
     # D4
-    G = 8
+    G = 8 if nsub >= 8 else nsub          # as analyze109a.py: only the smoke R = 32 (2 subgroups) has nsub < 8
     k = nsub // G
     GS1 = SG1.reshape(G, k, 3, -1).sum(1); GS2 = SG2.reshape(G, k, 3, -1).sum(1)
     d4 = {}
