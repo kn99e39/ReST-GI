@@ -36,6 +36,9 @@ def read(p):
     return KB.read(p) if p.exists() else None
 
 
+UNRES = "UNRESOLVED_NOISE_FLOOR"
+
+
 def scene_label(c):
     if not isinstance(c, dict) or c.get("lo") is None or c.get("hi") is None:
         return NA
@@ -119,14 +122,14 @@ def scene_column(scenes, arm, run=True):
         con = a.get("contrasts", {})
         c = next((con[k] for k in (E1_KEYS if arm == "E1" else (arm,)) if k in con), None)
         tot = c.get("total") if isinstance(c, dict) else None
-        lab = scene_label(tot)
+        lab = UNRES if isinstance(tot, dict) and tot.get("label") == UNRES else scene_label(tot)
         if tot is not None and tot.get("label") not in (None, lab):
             notes.append(f"{name}: stored label {tot.get('label')} != rule {lab}")
         if bool(a.get("independent")) != (name in INDEPENDENT):
             notes.append(f"{name}: analysis independent={a.get('independent')} differs from the protocol classification")
         labels[name] = lab
         if isinstance(c, dict) and isinstance(c.get("e1"), dict):
-            labels[name + ":e1_first_bounce"] = scene_label(c["e1"])
+            labels[name + ":e1_first_bounce"] = UNRES if c["e1"].get("label") == UNRES else scene_label(c["e1"])
     if not run:
         return labels, "NOT_RUN", notes
     main = {k: v for k, v in labels.items() if ":" not in k}
@@ -136,6 +139,10 @@ def scene_column(scenes, arm, run=True):
         verdict = "UNQUALIFIED"
     elif any(v == NA for v in main.values()):
         verdict = NA
+    elif any(v == UNRES for v in main.values()):
+        # execution fix (disclosed): a scene whose O0 noise-debiased RMS is clipped at the noise floor cannot show "no regression";
+        # conservatively INCONCLUSIVE, never SUPPORTED
+        verdict = "INCONCLUSIVE_NOISE_FLOOR"
     elif any(v == "IMPROVED" for k, v in main.items() if k in INDEPENDENT):
         verdict = "SCENE_SUPPORTED"
     else:

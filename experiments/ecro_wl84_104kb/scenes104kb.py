@@ -359,12 +359,19 @@ def rel_change(M, ev, xs, ys):
     Y = [rms_of(M, q, ev) for q in ys]
     Xp, Yp = np.mean([a[0] for a in X]), np.mean([a[0] for a in Y])
     Xl, Yl = np.mean([a[1] for a in X], 0), np.mean([a[1] for a in Y], 0)
+    if not (Yp > 0 and np.all(Yl > 0)):
+        # Execution fix (post-freeze, disclosed): the O0 noise-debiased RMS of this event is clipped at 0 (O0 error at or below the
+        # replicate noise), so a relative change is undefined. Reported, never labelled; no rule changes.
+        return {"point": None, "lo": None, "hi": None, "x_rms": float(Xp), "o0_rms": float(Yp), "n_starts": len(xs),
+                "label": "UNRESOLVED_NOISE_FLOOR",
+                "per_start_rms": {"x": [float(a[0]) for a in X], "o0": [float(b[0]) for b in Y]}}
     out = jk_ci((Xp - Yp) / Yp, (Xl - Yl) / Yl)
     out["x_rms"], out["o0_rms"], out["n_starts"] = float(Xp), float(Yp), len(xs)
     if len(xs) == len(ys):
-        per = [(a[0] - b[0]) / b[0] for a, b in zip(X, Y)]
-        out["per_start_rel"] = [float(v) for v in per]
-        out["per_start_rel_sd"] = float(np.std(per, ddof=1)) if len(per) > 1 else None
+        per = [(a[0] - b[0]) / b[0] if b[0] > 0 else None for a, b in zip(X, Y)]
+        out["per_start_rel"] = [None if v is None else float(v) for v in per]
+        ok = [v for v in per if v is not None]
+        out["per_start_rel_sd"] = float(np.std(ok, ddof=1)) if len(ok) > 1 else None
     out["label"] = label(out)
     return out
 
@@ -540,7 +547,8 @@ def analyze(scene, root, out, smoke=False):
                               "IMPROVED hi < 0, REGRESSED lo > +0.02, otherwise NEUTRAL",
                 "seconds": time.monotonic() - t0})
     KB.write(out / "analysis104kb.json", res)
-    print("analysis", scene, ok, {a: (round(v["total"]["point"], 4), round(v["total"]["lo"], 4), round(v["total"]["hi"], 4),
+    r4 = lambda x: None if x is None else round(x, 4)
+    print("analysis", scene, ok, {a: (r4(v["total"]["point"]), r4(v["total"]["lo"]), r4(v["total"]["hi"]),
                                      v["total"]["label"]) for a, v in contrasts.items()}, flush=True)
 
 
