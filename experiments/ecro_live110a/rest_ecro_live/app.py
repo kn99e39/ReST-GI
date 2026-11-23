@@ -94,6 +94,17 @@ def overlay(be, eng, L, k, t_sim, u, rec, fps, cap, missed):
     ])
 
 
+def apply_threads(be, args):
+    """CPU thread budget: Dr.Jit's LLVM pool (default = all hardware threads) and torch's intra-op pool share the cores."""
+    import torch
+    if args.torch_threads:
+        torch.set_num_threads(args.torch_threads)
+    if args.drjit_threads:
+        be.R.dr.set_thread_count(args.drjit_threads)
+    be.info['torch_threads'] = torch.get_num_threads()
+    be.info['drjit_threads'] = be.R.dr.thread_count()
+
+
 def run(args):
     from . import runtime, backend
     root = runtime.find_root()
@@ -102,6 +113,7 @@ def run(args):
         raise SystemExit(f'runtime authentication failed: {json.dumps(auth, indent=1)}')
     runtime.add_import_paths(root)
     be = backend.configure(args.backend, args.generator_device, freeze=args.freeze)
+    apply_threads(be, args)
     L, eng = build_engine(be, args.case, args.res, args.spp, args.period, args.relation)
     import numpy as np
     pres = L.TkPresenter(args.res, f'ReST-GI ECRO live — {args.case} · {be.name}') if args.present == 'tk' else None
@@ -154,7 +166,7 @@ def run(args):
     pt = [x['presented_at_s'] for x in meas]
     st = lambda v: {'median': float(np.median(v)), 'p95': float(np.percentile(v, 95))} if len(v) else None
     summary = {'batch': 'WL110A', 'args': vars(args), 'backend': be.name, 'variant': be.variant, 'generator_device': be.generator_device,
-               'generator_check': getattr(eng, 'generator_check', None), 'relation': eng.relation_mode, 'info': be.info, 'runtime': auth,
+               'generator_check': getattr(eng, 'generator_check', None), 'relation': eng.relation_mode, 'threads': [be.info['torch_threads'], be.info['drjit_threads']], 'info': be.info, 'runtime': auth,
                'frames': len(recs), 'measured': len(meas),
                'presented_fps': (len(pt) - 1) / (pt[-1] - pt[0]) if len(pt) > 1 else None,
                'compute_ms': st([x['compute_ms'] for x in meas]), 'present_ms': st([x['present_ms'] for x in meas]),
@@ -164,7 +176,7 @@ def run(args):
     if args.log:
         with open(args.log, 'w') as f:
             json.dump({'summary': summary, 'frames': recs}, f)
-    print('SUMMARY', json.dumps({k: summary[k] for k in ('backend', 'generator_device', 'relation', 'presented_fps', 'compute_ms', 'missed_deadlines',
+    print('SUMMARY', json.dumps({k: summary[k] for k in ('backend', 'generator_device', 'relation', 'threads', 'presented_fps', 'compute_ms', 'missed_deadlines',
                                                           'respond_calls', 'checkpoint_loads', 'parameters_unchanged')}), flush=True)
     return summary
 
@@ -176,6 +188,8 @@ def parser():
     ap.add_argument('--generator-device', choices=['auto', 'cpu', 'mps', 'cuda'], default='auto')
     ap.add_argument('--freeze', choices=['auto', 'on', 'off'], default='auto', help='Dr.Jit kernel replay (auto: on for CUDA, off for LLVM)')
     ap.add_argument('--relation', choices=['auto', 'selective', 'full'], default='auto', help='relation update (auto: selective with kernel replay, full rebuild without)')
+    ap.add_argument('--torch-threads', type=int, default=0, help='torch intra-op threads (0 = torch default)')
+    ap.add_argument('--drjit-threads', type=int, default=0, help='Dr.Jit LLVM worker threads (0 = all hardware threads)')
     ap.add_argument('--case', choices=['sss', 'near'], default='sss')
     ap.add_argument('--res', type=int, default=512)
     ap.add_argument('--spp', type=int, default=1)
