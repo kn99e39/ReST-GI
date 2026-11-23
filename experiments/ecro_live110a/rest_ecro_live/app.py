@@ -114,6 +114,8 @@ def run(args):
     runtime.add_import_paths(root)
     be = backend.configure(args.backend, args.generator_device, freeze=args.freeze)
     apply_threads(be, args)
+    if not args.res:
+        args.res = 512 if be.name == 'cuda' else 256
     L, eng = build_engine(be, args.case, args.res, args.spp, args.period, args.relation)
     import numpy as np
     pres = L.TkPresenter(args.res, f'ReST-GI ECRO live — {args.case} · {be.name}') if args.present == 'tk' else None
@@ -191,7 +193,7 @@ def parser():
     ap.add_argument('--torch-threads', type=int, default=0, help='torch intra-op threads (0 = torch default)')
     ap.add_argument('--drjit-threads', type=int, default=0, help='Dr.Jit LLVM worker threads (0 = all hardware threads)')
     ap.add_argument('--case', choices=['sss', 'near'], default='sss')
-    ap.add_argument('--res', type=int, default=512)
+    ap.add_argument('--res', type=int, default=0, help='0 = 512 on CUDA, 256 on the LLVM (CPU) backend')
     ap.add_argument('--spp', type=int, default=1)
     ap.add_argument('--period', type=float, default=6.0)
     ap.add_argument('--anim-rate', type=float, default=30.0)
