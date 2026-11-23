@@ -1,0 +1,109 @@
+{
+  "id": "WL104K-C",
+  "title": "Constrained fidelity fitting and ER-v1-SDM closure",
+  "branch": "ecro_lr3_adapter",
+  "classification": "Suffix follow-up of WL104K-B (owner-named WL104K-C; dependent evidence-gap follow-up under preserved representation contracts). Research only. The ER-v1-SDM representation is unchanged; nothing is adopted; WL104K, WL104K-A and WL104K-B records and verdicts (incl. WL104K-B's UNQUALIFIED labels and Amendment 1 NOT_CONSISTENT) are preserved and not revised.",
+  "host": "local RTX 5080, .venv-cu128 (Python 3.11.9, Torch 2.8.0+cu128, Mitsuba 3.5.1, Dr.Jit 0.4.6). Owner instruction 2026-11-24: at most 50 % of the GPU for this batch: every WL104K-C GPU process runs under gpu_duty.ps1 (duty-cycle suspension; estimated own share target 0.45; log results/ecro_wl84_104kc/gpu_duty/) and the torch allocator is capped at 50 % of device memory. No numerical operation depends on either; wall-clock seconds include suspension and are reported as such.",
+  "question": "Can ER-v1-SDM be fitted to improve sharp-peak / specular-core accuracy while preserving broad angular, albedo and real-scene fidelity, with stable fitting across starts? Separate constraint infeasibility, optimization failure, data insufficiency and representation limits.",
+  "invariants": {
+    "representation": "ER-v1-SDM exactly as WL104K / WL104K-B: 3 outer GGX + Lambert + 4 inner GGX, 8 reciprocal per-component gates q_j(mu_i) q_j(mu_o) with 5 knots (0, .15, .4, .7, 1) in [0, 1], ER-v1-GF base chart 58 + gates 120 = 178 parameters per material. No lobe, knot, gate, GGX function, Fresnel form or parameter is added, removed or changed; no regularizer forcing lobe independence; production code, ECRO LOW / HIGH, sampler, references unchanged.",
+    "baselines": "WL104K archived A / P checkpoints (WL104K manifest), WL104K-B fits, data and scene replicates (evaluation/104K-B/manifest.json raw_sha256) are read-only and authenticated.",
+    "materials": "The nine WL104D Amendment-1 materials, each fitted separately (batching across materials and starts is computational only). Cohorts (development: iid_1, iid_0, hard_1; held out: the other six) are reported; a held-out-cohort result is not zero-shot material generalization."
+  },
+  "stage_A": {
+    "protocol": "protocol_stageA.json (committed ed69ee1 before Stage A ran).",
+    "gate": "The main experiment runs only if results/ecro_wl84_104kc/primary/stageA/stageA.json has verdict BASELINE_QUALIFIED (chain stop otherwise).",
+    "paired_protocol": "Physical arms: fixed shape 72 units (9 materials x 8 starts, start-major, WL104K-B start keys generic, 104911-104917), warm start = Stage A R8 (bitwise = WL104K-B O0 when Q2 passes). Synthetic arms: fixed shape 36 units (starts 1-4). Contrasts are paired by (material, start). The batch-size numerical null (stage_D_angular.numerical_null) is reported next to every contrast and used in the PEAK_GAIN / STABILITY_GAIN rules."
+  },
+  "stage_B": {
+    "method": "CR, constrained refinement of the specular core under per-probe preservation constraints, solved by a Powell-Hestenes-Rockafellar augmented Lagrangian (fit104kc.py). Physical motivation: the WL104K-B E2 trade-off moved error from the specular core into the shoulder, tail and albedo; CR treats the broad response of EVERY incident direction (whole-hemisphere energy-weighted el1, RGB albedo error, the 3-12 deg shoulder and the >= 12 deg tail region L1) as hard 'do-no-harm' constraints relative to the O0 solution of the same unit and spends the remaining freedom on the < 3 deg specular core. It is not a weighted-sum objective: the multipliers are determined per (unit, probe, constraint) by the method, not chosen.",
+    "objective": "Per unit u (material, start): F_u(x) = mean_p e_core,p(x) / mean_p e_core,p(x0) (e_core = RGB region-normalized relative L1 over the train_original lanes with mirror offset < 3 deg; the E2 core term).",
+    "constraints": "For every probe p (20) and k in {el1, ealb, e_shoulder, e_tail}: g_k,p(x) <= b_k,p = max((1 + tau_k) g_k,p(x0), g_k,p(x0) + delta_k), x0 = the unit's warm-start (O0) state, all on train_original (training data only). e_tail = the same RGB region L1 over lanes >= 12 deg. Physical validity: gate knots projected to [0, 1] after every step (as O0); reciprocity, pointwise envelope, MC albedo (passivity) and 178 parameters are checked on every fitted state (contracts).",
+    "constants": {"steps": 6000, "inner": 500, "lr0": 3e-4, "lr_end": 3e-5, "warmup": 50,
+                  "tau": {"el1": 0.02, "ealb": 0.05, "e_shoulder": 0.05, "e_tail": 0.05},
+                  "delta": {"el1": 0.0, "ealb": 2e-4, "e_shoulder": 0.0, "e_tail": 0.0},
+                  "rho0": 10.0, "rho_factor": 5.0, "rho_max": 1e4, "violation_progress": 0.25, "eps_feas": 1e-3},
+    "constants_rationale": "tau: half of the corresponding test preservation tolerance (el1 5 %, the others 10 %) to leave room for the train-to-test gap. delta_ealb = 2e-4: per-probe albedo errors of O0 on train_original reach 3e-6 (q05 4e-5, median 8e-4), where a purely relative 5 % bound would freeze the probe; 2e-4 bounds the worst pooled ealb increase from the floor to ~+3 %. lr0 = 3e-4 = O0's terminal learning rate (a continuation at the O0 step size; a design smoke at 3e-3 left the converged state and violated the constraints at once), cosine to 3e-5, 6,000 steps = half the O0 budget, 12 outer iterations of 500 steps. PHR update lambda <- max(0, lambda + rho c) after each inner block; rho x5 (max 1e4) for units whose max violation did not fall below 0.25 x the previous one and is above eps_feas.",
+    "returned_state": "The outer checkpoint (every 500 steps, plus x0 itself) with the lowest F among checkpoints whose max_k,p c_k,p <= eps_feas = 1e-3 (relative). Fallback: x0 (always feasible). Selection uses training data only.",
+    "feasibility_tolerance": "eps_feas = 1e-3 relative violation of the per-probe bounds.",
+    "controls": {
+      "O0C": "Compute control: identical continuation (warm start, 6,000 steps, schedule, Adam operations, gate projection), ORIGINAL objective (el1 + ealb); returned state = checkpoint (incl. x0) with the lowest original training objective.",
+      "E2W": "Unconstrained-objective control: identical continuation with the WL104K-B E2 weighted sum (el1 + ealb + e_core + e_shoulder, weights 1 / 1 as WL104K-B); returned state = checkpoint (incl. x0) with the lowest E2 training objective.",
+      "E2_B": "WL104K-B E2 (12,000 steps from the generic starts), read-only.",
+      "P_hist": "WL104K archived P (4 starts), read-only reference baseline (unpaired comparisons).",
+      "CR_R4": "Batch-size sensitivity of CR: CR at the same shape 72 with the units of starts 1-4 warm-started from Stage A R4 (WL104K batching) instead of R8."
+    },
+    "design_disclosure": "Method design used training data (train_original) and the WL104K-B DEV set only (results/ecro_wl84_104kc/design/): smoke runs (60 / 400 steps; lr0 3e-3 rejected, 3e-4 kept) and one full CR design run (results/ecro_wl84_104kc/design/CR_v1, warm start WL104K-B O0, constants as frozen here) evaluated on DEV (design_dev_CR_v1.json): training checkpoint 12 feasible fraction 0.958, median F 0.944; DEV vs O0 pooled median: e_prof -6.5 %, core L1 -6.8 %, e_h -8.8 %, el1 +0.2 %, ealb +1.0 %, eshape +0.2 %, shoulder L1 -1.7 %, tail L1 +0.9 %, grazing el1 +0.7 %, instability +1.2 % (WL104K-B E2 on the same DEV: e_prof -51.6 %, ealb +53 %, el1 +9.1 %). No constant was changed after this design evaluation (no tolerance, budget or weight tuning toward a peak gain). The WL104K-B test set, the WL104K-C test set and every scene were not used for design."
+  },
+  "stage_C_synthetic": {
+    "truth": "WL104K-B synthetic truth (GF(R0) with a sharp isotropic outer lobe alpha 0.03 and the SP gates; exactly representable), training targets = truth + per-lane noise of the set (WL104K-B seed 1041340), reproduced bitwise (test).",
+    "arms": "From Stage A S_O0r (train_original lanes, 36 units): CR_S, O0C_S, E2W_S. From Stage A S_Dr (WL104K-B train_coverage lanes: denser core / shoulder sampling, same reference budget): CR_SD, O0C_SD. Same constants as the physical arms.",
+    "evaluation": "Noise-free truth on the WL104K-C test_c lanes and peak grid (truth_sets).",
+    "reports": {"constraint_feasibility": "Truth parameters evaluated on the arm's own noisy training targets against its bounds: number of units for which the truth is feasible.",
+                "optimizer_convergence": "Feasible fraction, F change over the last two checkpoints, projected Lagrangian gradient.",
+                "across_start_variation": "SD over the 4 starts of s_h against the truth.",
+                "final_accuracy": "Pooled truth test metrics (e_prof, e_h, core / shoulder / tail L1, el1, ealb, eshape)."},
+    "rules": {"SYN_RECOVERY_CR_S": "Pooled truth test e_prof of CR_S <= 0.8 x S_O0r (median over starts) and el1 <= 1.05 x S_O0r.",
+              "SYN_RECOVERY_CR_S_vs_O0C_S": "CR_S e_prof <= 0.8 x O0C_S (compute-controlled).",
+              "SYN_RECOVERY_CR_SD": "As SYN_RECOVERY_CR_S for CR_SD vs S_Dr.",
+              "data_sufficiency": "Descriptive: CR_SD / CR_S and S_Dr / S_O0r e_prof ratios (coverage-dense vs original lanes under a known truth)."},
+    "interpretation_limit": "A synthetic failure is not by itself proof that the physical representation is insufficient (non-convexity, noise)."
+  },
+  "data": {
+    "test_c": {
+      "role": "Independent angular TEST for WL104K-C. Generated after this protocol is committed; opened only after the hashed fit decision exists (eval104kc test_lock).",
+      "incidence": "WL104K-B incidence_stratified (10 polar strata x 2 probes, independent per material), direction seed 1043330",
+      "lanes_per_probe": 2048,
+      "walks_per_lane": 32768,
+      "proposal": "WL104K-B proposal_refined",
+      "walk_seed": 1043331,
+      "walk_pair0": 34359738368,
+      "peak_grid": {"radii_deg": "0 (exact mirror) + 0.25 .. 4.0 step 0.25 + 5, 6, 8", "azimuths": "(k + 0.5) * 22.5 deg, k = 0..15",
+                    "walks": 131072, "walk_seed": 1043332, "walk_pair0": 34359738368}
+    },
+    "stream_registry": "New initstates 1043331 / 1043332; ranges [2^50, ...) (lanes) and [2^52, ...) (peak), checked against the WL104D-WL104K-A historical registry, WL104K-B Stage A and every WL104K-B data.json range before walking.",
+    "precision_rule": "WL104K-B precision rule (band / grazing half-split shape <= 0.015 / 0.025, albedo <= 0.008; peak median <= 0.005, max <= 0.02 per material) and support rule (>= 16 active lanes in each of [0, .5), [.5, 1), [1, 3), [3, 12) deg). Failure stops the chain (DATA_UNQUALIFIED).",
+    "isolation_rule": "No active outgoing direction of test_c exactly equal to one of train_original, WL104K-B train_coverage, WL104K-B dev (lanes + peak) or WL104K-B test (lanes + peak) for the same material; no shared incidence; no duplicate incidence within test_c.",
+    "design_and_regression_sets": "WL104K-B DEV: design and descriptive only. WL104K-B test: opened in WL104K-B, reported as development / regression evidence only."
+  },
+  "stage_D_angular": {
+    "metrics": "eval104kb.evaluate on test_c (against the mean of the two halves; *_a / *_b halves for replication): el1, ealb, eshape, e_core, e_shoulder, core / shoulder / tail luminance region L1, grazing el1 (polar >= 75 deg), peak e_prof, e_h, s_h; ring residual profiles; per material and per start.",
+    "contrast": "Pooled paired-start relative change (eval104kb.pooled_contrast) X vs O0, median over the 8 starts, 95 % cluster bootstrap over materials (10,000, seed 1043350), cohorts all / development / held_out; RESOLVED by half replication (WL104K-B rule).",
+    "numerical_null": "Batch-size null per metric: pooled median relative change R4 vs O0 (starts 1-4), CR_R4 vs CR (starts 1-4) and the difference of the CR-vs-O0 contrasts computed from the R4 and the R8 warm starts; null level = the largest absolute of the three.",
+    "rules": {
+      "PEAK_GAIN": "e_prof vs O0: median <= -15 %, bootstrap hi < 0, RESOLVED, and |median| > 3 x the e_prof numerical null level.",
+      "COMPUTE_CONTROL": "CR only: e_prof vs O0C median <= -15 % and hi < 0; a PEAK_GAIN without it is labelled +COMPUTE_CONFOUNDED.",
+      "STABILITY_GAIN": "instability (SD over starts of s_h) vs O0: change <= -25 %, hi < 0, RESOLVED, |change| > 3 x the instability null level.",
+      "BROAD_PRESERVED": "vs O0 (median over starts, pooled): el1 <= +5 %, ealb <= +10 %, eshape <= +10 %, shoulder L1 <= +10 %, tail L1 <= +10 %, grazing el1 <= +10 %; el1 vs P_hist (median over its 4 starts) <= +5 %; no material with median-start el1 > +10 % vs O0.",
+      "labels": "QUALIFIED_IMPROVEMENT = PEAK_GAIN and BROAD_PRESERVED; TRADE_OFF = PEAK_GAIN without BROAD_PRESERVED; PRESERVED_NO_PEAK_GAIN = BROAD_PRESERVED without PEAK_GAIN; REGRESSION = neither. STABILITY_GAIN is reported as a separate conclusion. Applied to CR (primary) and descriptively to O0C, E2W, E2_B.",
+      "unqualified": "Any Stage A, contract, data, isolation or lock failure -> UNQUALIFIED."
+    }
+  },
+  "stage_D_scenes": {
+    "new_independent": "Predeclared, never rendered, in order: N3 test83_hard_76_L1 (seed base 1071900), N4 test83_block_161_L1 (1072900); fallbacks only if a primary fails the precision gate: test83_iid_191_L1 (1073900), test83_iid_0_L2 (1074900). At most two qualify. scenes104g.study_reference (WL104D held-out camera, LAY1024 layered reference + native R0 + masks, 12 x 4096 spp, mask 2048 spp at seed + 990); WL104G readiness rule (R0 vs reference: signed-energy jackknife 95 % half-width <= 0.0025 in objects / highlight_core / highlight_ring / grazing; objects stable-RMS half-width <= 0.005 for e2 and total). Their materials were fitted (angular per-material fits): independent of scene inspection, not of the material fit.",
+    "regression": "Previously examined (development / regression evidence): test83_hard_1_L1 (historical development failure case), test83_iid_1_L2, test83_iid_159_L2, test83_hard_53_L2, test83_block_186_L2 at their archived / WL104K-B seeds; CR / O0C replayed, O0 / E2_B / P_hist read from the authenticated WL104K-B replicates; O0 starts 0-1 replayed again as a determinism check.",
+    "replay": "scenes104kb.FixedKB (WL104K fixed-proposal replay): events e1 (fixed light), e2 (frozen native R0 proposal, F / p recomputed per closure), TOTAL = e1 + fixed e2 + R0 HIGH; HIGH fixed from R0 (NOT end-to-end ECRO). Identity gates A0 vs R0 <= 2e-5 relative L1, lane F / p <= 2e-6 of peak, grouped-pass repeat <= 2e-5, merged scenes: native lanes and O0 starts 0-1 vs WL104K-B images <= 2e-5.",
+    "metrics": "Objects stable RMS (noise-debiased) per closure and event, start mean and SD; X vs base relative change of the start mean with replicate jackknife t(11) 95 % CI. Labels IMPROVED (hi < 0), REGRESSED (lo > +0.02), NEUTRAL; UNRESOLVED_NOISE_FLOOR when the base RMS is clipped at 0 (absolute errors reported). Contrasts CR vs O0, O0C vs O0, CR vs O0C, E2_B vs O0; P_hist vs O0 descriptive.",
+    "verdict": "CR: SCENE_NOT_SUPPORTED if TOTAL REGRESSED in any scene (new or regression); else SCENE_INCONCLUSIVE if no new independent scene has a resolved TOTAL label; else SCENE_SUPPORTED_IMPROVED if TOTAL IMPROVED in >= 1 new independent scene; else SCENE_PRESERVED. Same rule reported for O0C and E2_B. No scene result selects a state."
+  },
+  "decision": {
+    "optimization": {"feasible_fraction_min": 0.9, "F_change_max": 0.005},
+    "objective_feasibility": {"fraction_min": 0.5, "meaning": "FEASIBLE_IMPROVEMENT iff >= 50 % of units return a feasible state with >= 10 % lower training core error (F <= 0.9); otherwise LIMITED_FEASIBLE_IMPROVEMENT."},
+    "completion_Q1": "YES_UNDER_TESTED_CONDITIONS iff CR angular label QUALIFIED_IMPROVEMENT (no +COMPUTE_CONFOUNDED) and CR scene verdict SCENE_SUPPORTED_IMPROVED or SCENE_PRESERVED; NO_UNDER_TESTED_CONDITIONS if TRADE_OFF / REGRESSION or SCENE_NOT_SUPPORTED; otherwise NOT_DEMONSTRATED (or ANGULAR_YES_SCENE_INCONCLUSIVE).",
+    "completion_Q2": "Answered in the report from the separate conclusions as evidence statements; the integration / representation-design decision belongs to the owner."
+  },
+  "stops": [
+    "Stage A verdict BASELINE_NOT_QUALIFIED.",
+    "A frozen input cannot be authenticated.",
+    "Pre-fit or fitted contracts fail (response identity, AL gradient, fallback, synthetic reproduction, reciprocity, envelope, passivity, 178 parameters, gates in [0, 1]).",
+    "test_c fails precision, support or isolation (DATA_UNQUALIFIED).",
+    "Leak: test_c read before the hashed fit decision; any selection reading test or scene results.",
+    "Non-finite objective.",
+    "A new scene reference fails the precision gate (fallback order; if none qualifies, independent new-scene evidence is UNAVAILABLE).",
+    "Scene replay identity fails."
+  ],
+  "seeds": {
+    "test_c_directions": 1043330, "test_c_walks": 1043331, "test_c_peak_walks": 1043332, "bootstrap": 1043350, "tests": 1043360,
+    "scene_seed_bases": {"test83_hard_76_L1": 1071900, "test83_block_161_L1": 1072900, "test83_iid_191_L1": 1073900, "test83_iid_0_L2": 1074900}
+  }
+}
