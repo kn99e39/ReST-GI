@@ -214,3 +214,28 @@ Protocol: `experiments/ecro_estimator109b/protocol109b.json`.
 ## Execution record
 
 (appended below as the chain runs)
+
+### 2026-11-23 — chain start and smoke
+
+- The chain `run109b.sh evidence cc8fb24` started on LabServer69 at 18:34:06 (+09:00).
+  - Server output: `results/ecro_estimator109b/evidence/`.
+  - Protocol sha256: `ba1f19a6…`.
+- `tests109b.py` passed.
+- Two CPU jobs started in the background: Stage A (WL109A reproduction) and synthetic stage 1.
+- The guard waited for a short foreign GPU process to end. It then admitted each smoke unit:
+
+| Smoke unit | Duration (s) |
+|---|---|
+| null | 160 |
+| paired | 100 |
+| grid | 41 |
+| timing | 43 |
+| dynamic | 37 |
+
+- Every code path ran to the end:
+  - smoke synthetic, pool and decide (outcome `SMOKE`; the frozen rule would have asked for escalation on the 3-realization
+    smoke cells);
+  - the bias phase and the static phase, which the smoke run forces through;
+  - dynamic D1–D6.
+- All smoke numbers are smoke data, not evidence. They use R = 64 and G = 4.
+- `SMOKE PASS` at 18:52:37. The independent R0 null pool (4,096 frames per view × spp) started under the guard.
