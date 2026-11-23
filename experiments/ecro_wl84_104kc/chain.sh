@@ -19,7 +19,9 @@ grep -q '"verdict": "BASELINE_QUALIFIED"' "$ROOT/stageA/stageA.json" || fail "ST
 for s in test83_hard_76_L1 test83_block_161_L1 test83_iid_191_L1 test83_iid_0_L2; do
   q=$(grep -c '"precision_passed": true' "$ROOT/scenes_new/manifest.json" 2>/dev/null || echo 0)
   [ "$q" -ge 2 ] && break
-  grep -q "\"$s\"" "$ROOT/scenes_new/manifest.json" 2>/dev/null && continue
+  # attempted = present in the manifest's "scenes" record (NOT merely in its predeclared "order" list; execution recovery 2026-11-24)
+  "$PY" -c "import json,sys;sys.exit(0 if sys.argv[2] in json.load(open(sys.argv[1]))['scenes'] else 1)" \
+      "$ROOT/scenes_new/manifest.json" "$s" 2>/dev/null && continue
   "$PY" -B "$HERE/scenes104kc.py" reference "$s" "$ROOT" > "$ROOT/logs/reference_$s.log" 2>&1 || say "reference $s error (recorded, next in order)"
   say "reference $s: $(tail -1 "$ROOT/logs/reference_$s.log")"
 done
