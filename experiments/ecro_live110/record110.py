@@ -39,6 +39,9 @@ def main():
     ap.add_argument('--store-hz', type=float, default=30.0)
     ap.add_argument('--delay', type=float, default=0.0, help='wait before recording (viewer warm-up)')
     ap.add_argument('--quality', type=int, default=80, help='WebP quality of recording.webp')
+    ap.add_argument('--wait-change', type=float, default=0.0,
+                    help='WL110 execution fix: first wait (up to this many s) until the image region has changed 10 times, '
+                         'i.e. the viewer is presenting, then apply --delay (a fixed delay missed the slower-starting SVGF viewer)')
     a = ap.parse_args()
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     x, y, w, h = map(int, a.region.split(','))
@@ -48,6 +51,14 @@ def main():
     nstore = int(a.seconds * a.store_hz) + 2
     store = np.empty((nstore, h, w, 3), np.uint8)
     st_t = []
+    waited = None
+    if a.wait_change > 0:
+        tw = time.perf_counter(); last, nch = None, 0
+        while nch < 10 and time.perf_counter() - tw < a.wait_change:
+            hsh = hashlib.blake2b(np.ascontiguousarray(fb[iy:iy + ih:3, ix:ix + iw:3, :3]).tobytes(), digest_size=8).digest()
+            nch += int(last is not None and hsh != last); last = hsh
+            time.sleep(0.02)
+        waited = {'seconds': time.perf_counter() - tw, 'changes_seen': nch}
     time.sleep(a.delay)
     probe_t, probe_h = [], []
     busy = 0.0
@@ -90,6 +101,7 @@ def main():
            'screen_change_rate_hz': (len(changes) - 1) / (changes[-1] - changes[0]) if len(changes) > 1 else None,
            'stored_frames': ns, 'store_hz_target': a.store_hz,
            'recorder_busy_fraction': busy / wall,
+           'wait_change': waited, 'delay_s': a.delay,
            'note': 'screen_change_rate_hz counts distinct image-region states seen in the X framebuffer; it undercounts if the '
                    'viewer presents faster than probe_hz / 2.'}
     (out / 'capture.json').write_text(json.dumps(cap, indent=1))
