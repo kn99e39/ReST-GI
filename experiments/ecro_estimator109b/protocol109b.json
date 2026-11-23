@@ -1,0 +1,283 @@
+{
+ "id": "wl109b_v1",
+ "title": "WL109B - Robust Spatial Bias Inference and Frozen ECRO C1 Dynamic Closure",
+ "class": "suffix batch of WL109 (owner brief 2026-11-23); closes the WL109 / WL109A evidence gap; no new estimator, denoiser or architecture",
+ "branch": "Denoise_Reconstructor (no new branch or worktree)",
+ "historical_verdicts": {
+  "WL109": "NOT_SUPPORTED (unchanged)",
+  "WL109A": "INCONCLUSIVE (unchanged)"
+ },
+ "question": "Can the frozen ECRO C1 estimator (M = 1) be shown, with a calibrated spatial-bias inference procedure, to preserve the expected image within the original tolerance while reducing TOTAL MSE at equal GPU cost, including after the frozen P7 geometry edit?",
+ "frozen_from_WL109": [
+  "experiments/ecro_estimator109/*.py and protocol109.json (imported, never edited): C1, M = 1, inner stream, R0, Engine, admission, ROIs, distance bands, MSE, equal-time interpolation and bootstrap, reference precision rule, P2 / P3 / P5 / P6 thresholds, dynamic D1-D3 / D5 / D6 rules",
+  "checkpoint, HIGH table bytes (sha256 = WL109 run manifest table_sha_after), table generation, scene, materials, lights, cameras, LOW = E1 + E2, HIGH = table readout, TOTAL = LOW + HIGH",
+  "Q estimand: Q = mean_{ROI, RGB} mu_D^2 / scale, D = H_C1 - H_R0 (paired; LOW identical bitwise and cancels), scale = mean_{ROI, RGB} per-pixel sample variance of TOTAL_R0 over the paired R0 frames (analyze109 / analyze109a var_T_R0)",
+  "Q limits: primary / sss_interior / material_boundary / control 0.01, silhouette 0.02; bias spp 4, 16, 32; 28 view x ROI conditions (H3 and H4 have no control ROI)",
+  "B1: inverse-variance pooled paired relative luma difference over the bias spp; EQUIVALENT if its 95% CI lies within +-0.5% (WL109 rule, unchanged)"
+ ],
+ "development_sources": {
+  "rule": "WL109A material is development information only. It informed the choice of the procedure and its group count; it is not used as qualification evidence.",
+  "used": [
+   "WL109A synthetic generators with fresh development seeds 77,000,001+ (experiments/ecro_estimator109b/dev109b.py)",
+   "raw small-ROI pixels of the WL109A independent R0 null pool",
+   "WL109A pool / hist / synth JSON (evaluation/109A)"
+  ],
+  "findings": [
+   "the WL109 per-group statistic Dbar_g^2 - s_g^2 / n is chi-square-like and right-skewed; with more replicates per group the bias-correction term stops offsetting it, which explains WL109A's worse heteroscedastic coverage at larger R",
+   "a cross-product U-statistic over independent groups (no diagonal term) with a delete-one-group jackknife SE removes the Q = 0 under-coverage in every development family",
+   "remaining failure mode: when the bias lies on the few highest-variance elements (heteroscedastic noise with a noise-proportional bias), the jackknife SE scales with |mu + ebar| and collapses together with the estimate, so the Wald bound under-covers; bounding the linear-term variance by its worst case over all bias fields with the same Q and inverting in q removes it",
+   "real R0 null noise is far less heteroscedastic than the synthetic stress families: per-pixel log-SD standard deviation 0.04-0.45 in the material-boundary / silhouette ROIs vs 1.0 / 1.5 in the stress families; both stress families are nevertheless retained as hard gates",
+   "XJL in development (600 realizations per cell, five designs): one-sided non-coverage 0.000-0.002 in every family, shape, Q_true and pattern, including heteroscedastic 1.0 / 1.5, het_mc4, asym_mc4 and correlated; the price is conservatism: in the stress families at Var(D) / scale = 2 the bound is wide (low synthetic precision and power), while on real R0 null noise at R = 512 the Q = 0 fail rate was 0 and power at 2 x limit 1.0"
+  ],
+  "files": [
+   "results/ecro_estimator109b/dev/dev109b.json (WL109 Q vs XJ)",
+   "results/ecro_estimator109b/dev/dev2_109b.json (XJ vs XJL vs XJL with Bonferroni lower)",
+   "real-noise heteroscedasticity measurement (per-pixel log-SD spread) in the WL109B worklog"
+  ]
+ },
+ "inference": {
+  "name": "XJL: cross-product U-statistic, delete-one-group jackknife, worst-case linear-term variance, inverted Student-t bounds",
+  "groups": 32,
+  "subgroup_pairs": 16,
+  "grouping": "the R paired frames in seed order form R / 16 contiguous subgroups of 16 pairs; G contiguous groups of R / (16 G) subgroups",
+  "estimator": "U = sum_{g != h} <dbar_g, dbar_h> / (G (G - 1) X scale) over the X = ROI pixels x RGB elements; unbiased for Q because distinct groups are independent; no clipping or truncation (U may be negative)",
+  "variance": "V(q) = se2_jack + b q; se2_jack = delete-one-group jackknife variance of U (pseudo-values G U - (G - 1) U_(-g)); b = 4 lam / (R X scale) with lam = 16 x largest eigenvalue of the sample covariance of the R / 16 subgroup means over the ROI elements; b q bounds the variance of the linear term 2 <mu, ebar> / (X scale) for every bias field mu with mean square q scale, including spatially correlated noise; lam is biased upward for wide ROIs (conservative)",
+  "bounds": "upper = sup{q >= 0 : U >= q - t_{G-1}(1 - alpha_up) sqrt(V(q))}; lower_family = inf{q >= 0 : U <= q + t_{G-1}(1 - alpha_lo) sqrt(V(q))} (0 if none); closed-form roots of the quadratic",
+  "alpha_upper_one_sided": 0.025,
+  "alpha_lower_one_sided_family": 0.0005952380952380953,
+  "alpha_lower_note": "0.05 / 84 (28 conditions x 3 bias spp): Bonferroni family-wise 5% for any BIASED claim",
+  "decision_per_condition": "EQUIVALENT if upper <= limit at every bias spp; BIASED if lower_family > limit at any bias spp; otherwise UNRESOLVED",
+  "multiplicity": "The all-condition equivalence claim is an intersection-union test: requiring every one-sided 97.5% upper bound below its limit controls the probability of a false overall equivalence claim at 2.5% without adjustment. Per-condition upper bounds are per-ROI claims, not simultaneous intervals. BIASED uses Bonferroni-adjusted lower bounds (family-wise 5%).",
+  "assumptions": [
+   "replicate frames independent across seeds (splitmix64 launch seeds; WL109A independence checks)",
+   "D groups identically distributed within a condition",
+   "no assumption on pixel independence, spatial correlation, heteroscedasticity or symmetry of D"
+  ],
+  "expected_failure_modes": [
+   "very few groups with strongly skewed group means (asymmetric heavy tails at small n)",
+   "lam underestimated when a rare heavy tail never appears in the R pairs",
+   "conservatism (wide bounds) when the noise covariance has a dominant direction; this lowers precision, not coverage"
+  ],
+  "original_Q": "the WL109 statistic (G = 8, t7) is computed and reported for historical comparison only; it takes no part in any decision",
+  "groups_choice": "G = 32 (one 16-pair subgroup per group at R = 512, two at R = 1024): in development on real R0 null noise the Bonferroni-level power at 2 x limit was 0.71-0.73 (G = 8), 0.997 (G = 16), 1.000 (G = 32), with no precision loss; coverage was conservative for every G"
+ },
+ "calibration": {
+  "designs_R": [
+   512,
+   1024
+  ],
+  "injection": {
+   "Q_true_over_limit": [
+    0,
+    0.5,
+    1,
+    2
+   ],
+   "patterns": [
+    "uniform",
+    "noise_proportional",
+    "localized",
+    "signed_smooth"
+   ],
+   "construction": "a fixed bias field sqrt(Q_true scale) b with mean_{ROI,RGB} b^2 = 1 is added to every pair; it shifts every subgroup and group mean by the same vector, so it is applied to the means (exact)"
+  },
+  "localized_fraction": 0.1,
+  "smooth_wavelength_px": 12,
+  "synthetic": {
+   "families": [
+    "gauss_iid",
+    "mc_like_4",
+    "mc_like_32",
+    "asym_mc4",
+    "heteroscedastic_1.0",
+    "heteroscedastic_1.5",
+    "het_mc4",
+    "correlated"
+   ],
+   "definitions": {
+    "gauss_iid": "D ~ N(0, 1) per element, channel correlation 0.9, channel weights 1 / 0.8 / 0.6 not applied",
+    "mc_like_k": "D = X - X', X = mean of k iid Bernoulli(0.3) x LogNormal(0, 1.5) draws (firefly-like heavy tail), symmetric, channel weights 1 / 0.8 / 0.6",
+    "asym_mc4": "D = X - Y, X as mc_like_4, Y Gaussian with the same mean and variance (asymmetric heavy-tailed: models two different estimators with equal expectation)",
+    "heteroscedastic_s": "gauss_iid with per-pixel SD exp(s N(0, 1)) drawn per realization (s = 1.0, 1.5: effective pixel count of the null quadratic term ~ 1)",
+    "het_mc4": "mc_like_4 with per-pixel SD exp(N(0, 1)) drawn per realization",
+    "correlated": "mc_like_4 smoothed by a row-normalized Gaussian kernel (sigma 1.5 px, radius 4 px) over the ROI pixels"
+   },
+   "correlated_sigma_px": 1.5,
+   "correlated_radius_px": 4.0,
+   "roi_shapes": [
+    [
+     "H4",
+     "material_boundary"
+    ],
+    [
+     "H3",
+     "material_boundary"
+    ],
+    [
+     "H2",
+     "material_boundary"
+    ],
+    [
+     "V0",
+     "silhouette"
+    ],
+    [
+     "V0",
+     "material_boundary"
+    ],
+    [
+     "H4",
+     "silhouette"
+    ]
+   ],
+   "varD_over_scale": 2.0,
+   "varD_over_scale_note": "deliberately unfavourable (real 0.1-0.35); synthetic power is reported only",
+   "realizations_stage1": 2000,
+   "realizations_stage2": 6000,
+   "seeds": "calibration_rng + 1000 + cell index (stage 1), calibration_rng + 500000 + cell index (stage 2)"
+  },
+  "null_pool": {
+   "frames": 4096,
+   "block_pairs": 16,
+   "source": "new GPU R0 frames, WL109B null seed family; D = H_2p - H_2p+1 (exact zero expectation); 128 blocks of 16 pairs per (view, bias spp)",
+   "draws": 400,
+   "draw": "R / 16 blocks drawn without replacement, in random order, form the subgroups of one design realization; scale from all 4096 frames of the setting",
+   "direct_null": "two disjoint realizations per design (blocks 0..k-1 and k..2k-1 in seed order), full Q (XJL) and B1 decisions for every view x ROI"
+  },
+  "gates": {
+   "coverage_tolerance": 0.05,
+   "coverage_nominal": 0.025,
+   "coverage_synthetic": "every (family, shape, Q_true, pattern) entry at the design: one-sided non-coverage P(upper < Q_true) classified by its 95% Clopper-Pearson interval: PASS if the upper end <= 0.05, FAIL if the lower end > 0.05, otherwise BORDERLINE",
+   "borderline_rule": "if no design qualifies and any entry is BORDERLINE, every synthetic cell (all families, shapes, designs) is escalated uniformly by stage 2 (6000 more realizations, new seeds); after escalation an entry passes iff its pooled rate <= 0.05; there is no further escalation",
+   "coverage_real": "pooled over the 84 view x ROI x spp settings: non-coverage <= 0.05 for every (Q_true, pattern) entry",
+   "precision_setting_fail_max": 0.01,
+   "precision_joint_pass_min": 0.8,
+   "precision": "real null pool at Q = 0: per-setting P(upper > limit) <= 0.01 and the product over the 84 settings of P(upper <= limit) >= 0.80",
+   "power_min": 0.8,
+   "power": "real null pool: pooled P(lower_family > limit | Q_true = 2 limit) >= 0.80 for every pattern",
+   "direct_null": "no BIASED state (Q or B1) in either disjoint R0-versus-R0 decision",
+   "monte_carlo_reporting": "every rate is reported with its 95% Clopper-Pearson interval (synthetic) or with the number of settings and draws (real null; draws are dependent re-groupings, so only the pooled rate is gated)"
+  },
+  "budget_rule": "R = 512 if every gate passes at R = 512; otherwise R = 1024 if every gate passes at R = 1024; otherwise STOP with INCONCLUSIVE (uniform over views and spp; decided from calibration data only, before any C1 frame exists)"
+ },
+ "evidence": {
+  "views": [
+   "V0",
+   "H1",
+   "H2",
+   "H3",
+   "H4",
+   "H5"
+  ],
+  "bias_spp": [
+   4,
+   16,
+   32
+  ],
+  "replicates": "R from the budget rule, all views and spp",
+  "paired_frame": "R0 frame and C1 frame (M = 1, orig_hl instrumentation) with the same seed; LOW and the instrumented original HIGH must equal R0 per frame (structural rel L1 <= 1e-6; bitwise recorded)",
+  "stored": "per unit: sums of D and D^2 per 16-pair subgroup (float64, full frame), global sums of L, H, H_C1 and their squares and cross products, per-subgroup variance components per decision ROI, per-frame per-mask luma means and squared errors, raw LOW / H / H_C1 at the raw ROI pixels, the first replicate of both arms",
+  "measured": [
+   "XJL point, upper, family lower per view x ROI x spp",
+   "original WL109 Q (descriptive)",
+   "B1",
+   "per-ROI signed luma differences",
+   "pixelwise paired-mean maps",
+   "boundary-distance profiles (sphere-silhouette bands, material-boundary bands)",
+   "coverage-conditioned residuals (sphere coverage bins)",
+   "variance components Var(LOW), Var(HIGH), 2Cov(LOW,HIGH), Var(TOTAL) for R0 and C1"
+  ],
+  "grid": {
+   "levels": "WL109 r0_grid_spp (18 levels)",
+   "replicates": 64,
+   "run_only_if": "all 28 conditions EQUIVALENT and B1 EQUIVALENT"
+  },
+  "timing": "WL109 Stage 3 block per view on an exclusive GPU (run only if the bias stage passes)",
+  "contact": "descriptive only"
+ },
+ "decision": {
+  "bias_stage": [
+   "any BIASED (Q or B1) -> Stage E replication",
+   "otherwise any UNRESOLVED -> INCONCLUSIVE (stop)",
+   "otherwise -> Stage F"
+  ],
+  "stage_E": {
+   "replication": "the flagged view x spp units are re-captured with R paired frames from the independent replication seed family and analysed with the same frozen procedure",
+   "mapping": "flagged condition again non-EQUIVALENT in the replication -> BIAS_SUPPORTED (persistent), followed by the conditional-path diagnostic for attribution; EQUIVALENT in the replication -> INCONCLUSIVE (non-persistent)",
+   "diagnostic": "under the same retained camera state U, compare the replayed main-stream continuation P with C1's independent inner continuation P' (SSS exit, closure sampling, throughput, pdf, second-hit visibility, surface identity, patch / bin address) on mechanism seeds; its code is committed before it runs; it attributes and never repairs"
+  },
+  "stage_F": [
+   "reference precision fails or the R0 grid does not bracket C1 -> INCONCLUSIVE",
+   "P2 (primary 4-spp equal-time GM ratio <= 0.85), P3 (its 95% upper bound < 1.0), P5 (16 / 32-spp non-regression), P6 (silhouette / SSS interior non-regression) - any fails -> NOT_SUPPORTED (practical utility)",
+   "otherwise STATIC_PASS -> Stage G"
+  ],
+  "stage_G": [
+   "D1-D3 fail -> NOT_SUPPORTED",
+   "D4 BIASED -> BIAS_SUPPORTED",
+   "D4 UNRESOLVED or D5 fails -> STATIC_ONLY_SUPPORTED",
+   "otherwise QUALIFIED_STATIC_AND_DYNAMIC"
+  ]
+ },
+ "dynamic": {
+  "edit": "WL109 P7: WL100 SSS configuration 0 -> 2 geometry, light 0, view V0, ordinary ECRO lifecycle; R0 and C1 use the identical updated table",
+  "D1_D3": "unchanged from dynamic109.py",
+  "D4": "R paired 4-spp frames on the edited state; XJL with the WL109 limits; lower bound at family alpha 0.05 / number of D4 ROIs; B1 single spp",
+  "d4_family_alpha": 0.05,
+  "D5_D6": "unchanged (fresh 16 x 8192-spp reference, 4-8-spp R0 grid, equal-time primary ratio <= 0.85 with upper95 < 1.0; update, first-frame, steady-state costs, peak allocation)",
+  "scope": "one edit; no general dynamic-scene claim"
+ },
+ "seeds": {
+  "null": 31000000,
+  "paired": 32000000,
+  "replication": 38000000,
+  "grid": 33000000,
+  "timing": 33600000,
+  "dynamic": 34000000,
+  "dynamic_reference": 34950000,
+  "mechanism": 35000000,
+  "calibration_rng": 36900001,
+  "bootstrap": 36999001,
+  "timing_order": 36998001,
+  "smoke_offset": 70000000,
+  "note": "every family is above every WL101-WL109A range (WL109A evidence up to 26.999M, smoke up to 87M with offset 60M; WL109B smoke from 101M) and disjoint from the development seeds 77.0M-77.2M; renderer stream value splitmix64((seed << 16) + k)"
+ },
+ "stages": {
+  "A": "reproduce WL109A calibration (repro109b.py): artifact hashes, pool rerun, hist rerun, corrected upper quantiles; STOP on failure",
+  "B": "design (this protocol; development study dev109b.py)",
+  "C": "sealed qualification (calib109b.py synth / pool / decide)",
+  "D": "independent paired evidence + bias decision (capture109b paired, analyze109b --phase bias)",
+  "E": "conditional replication and mechanism diagnostic (only if BIASED)",
+  "F": "cost-matched static closure (capture109b grid / timing, analyze109b --phase static)",
+  "G": "dynamic closure (dynamic109b.py, only after STATIC_PASS)"
+ },
+ "gpu_ownership": {
+  "rule": "WL109B holds no CUDA context or allocated VRAM while foreign GPU work runs or is queued (owner rule)",
+  "guard": "every GPU command runs under experiments/ecro_estimator109/guard109.py (unchanged): CPU-only wait until no tmux session exists and no compute process has been listed for 120 s; the child's process group is terminated as soon as a foreign compute process appears, then the guard waits and restarts; units are atomic and skipped on restart; every event is logged",
+  "never": "WL109B never signals, interrupts or touches a foreign process"
+ },
+ "budget": {
+  "gpu_hours_max": 10,
+  "storage_GB_max": 60
+ },
+ "stop": [
+  "historical source / checkpoint / table identity fails",
+  "WL109A reproduction fails",
+  "no design qualifies (INCONCLUSIVE; no C1 frame is rendered)",
+  "calibration independence is compromised",
+  "persistent material bias (BIAS_SUPPORTED)",
+  "conditional path law found incorrect",
+  "reference precision fails",
+  "static cost gate fails",
+  "dynamic evaluation would require changing another owned branch",
+  "GPU isolation cannot be maintained (the guard defers)"
+ ],
+ "not_authorised": [
+  "changing C1, M, the table, the checkpoint, the renderer, the Q estimand, the limits or B1",
+  "a second inference procedure after a qualification failure",
+  "selective escalation of favourable families or views",
+  "excluding views, ROIs or failed synthetic families",
+  "a denoiser, temporal reuse or another estimator",
+  "production adoption",
+  "a successor batch"
+ ]
+}
