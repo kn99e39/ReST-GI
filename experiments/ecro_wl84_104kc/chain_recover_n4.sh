@@ -7,4 +7,4 @@ until grep -qE "FAILED|:[0-9]{2} DONE$" "$1/status.txt"; do sleep 60; done
 grep -qE "^.{19} FAILED" "$1/status.txt" && grep -q "FAILED" <(tail -1 "$1/status.txt") && exit 1
 [ -f "$1/decision.json" ] && cp "$1/decision.json" "$1/decision_first_pass_before_N4_recovery.json"
 echo "$(date '+%F %T') RECOVERY: rerun chain.sh for the skipped predeclared N4 reference (first-pass decision preserved)" >> "$1/status.txt"
-bash "$(dirname "$0")/chain.sh" "$1"
+bash "$(dirname "$0")/chain_n4fix.sh" "$1"
