@@ -1,0 +1,785 @@
+{
+ "batch": "WL110 verification",
+ "snapshot_before": {
+  "gpu": "0 %, 294 MiB, 1755 MHz, 43",
+  "compute_apps": [
+   "3266359, 288 MiB, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python"
+  ],
+  "own_pid": 3266359
+ },
+ "V1_checkpoint": {
+  "sha256": {
+   "sss": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+   "near": "b3550787e08c8a4d41c975eb485be459591d84cf14a7c010a36984d10ac62e5a"
+  },
+  "equals_wl101_recorded": {
+   "sss": true,
+   "near": true
+  },
+  "sss_equals_archived_timing_json": true
+ },
+ "V2_v_sss_anim_replay": {
+  "events": 52,
+  "state_digest_equal_r1": 52,
+  "state_digest_equal_r2": 52,
+  "dirty_equal_r1": 52,
+  "live_engine_geometry_to_render_ms_median": 14.631382189691067,
+  "live_engine_geometry_to_render_ms_p95": 15.051013231277466,
+  "wl101_archived_dynamic_frame_ms_median": {
+   "r1": 15.658636577427387,
+   "r2": 15.661155804991722
+  },
+  "note": "live engine sums the same synchronised parts (geometry, relation, source, generator, hand-off, frame) as WL101 total_ms minus its trivial per-event set_light; compose / tonemap / readback / presentation are excluded here (they are WL110 additions).",
+  "rows": [
+   {
+    "i": 0,
+    "pose": "a1",
+    "digest": "87005ad50c8f0cd7",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81088,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 208.6507361382246,
+    "compute_ms": 221.01504914462566
+   },
+   {
+    "i": 1,
+    "pose": "a2",
+    "digest": "07619a0bcbb6c972",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81109,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 16.01942628622055,
+    "compute_ms": 16.77868887782097
+   },
+   {
+    "i": 2,
+    "pose": "a3",
+    "digest": "3411d89124871cac",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81070,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.425128862261772,
+    "compute_ms": 16.179433092474937
+   },
+   {
+    "i": 3,
+    "pose": "a4",
+    "digest": "a201c500f23062f0",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81054,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.265604481101036,
+    "compute_ms": 16.013791784644127
+   },
+   {
+    "i": 4,
+    "pose": "a1",
+    "digest": "87005ad50c8f0cd7",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 82074,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.041777864098549,
+    "compute_ms": 15.844399109482765
+   },
+   {
+    "i": 5,
+    "pose": "a2",
+    "digest": "07619a0bcbb6c972",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81109,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.004118904471397,
+    "compute_ms": 15.756461769342422
+   },
+   {
+    "i": 6,
+    "pose": "a3",
+    "digest": "3411d89124871cac",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81070,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.040958300232887,
+    "compute_ms": 15.773646533489227
+   },
+   {
+    "i": 7,
+    "pose": "a4",
+    "digest": "a201c500f23062f0",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81054,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.00728540122509,
+    "compute_ms": 15.756230801343918
+   },
+   {
+    "i": 8,
+    "pose": "a5",
+    "digest": "2e0fdb1ff0ae117a",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81037,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.956733211874962,
+    "compute_ms": 15.687597915530205
+   },
+   {
+    "i": 9,
+    "pose": "a6",
+    "digest": "ec3fc94d14691342",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81137,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.038758516311646,
+    "compute_ms": 15.755902975797653
+   },
+   {
+    "i": 10,
+    "pose": "a7",
+    "digest": "df8a3952e234bd43",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81187,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.992430806159973,
+    "compute_ms": 15.801897272467613
+   },
+   {
+    "i": 11,
+    "pose": "a8",
+    "digest": "8947c79b6be8c29a",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81137,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.096623450517654,
+    "compute_ms": 15.839584171772003
+   },
+   {
+    "i": 12,
+    "pose": "a9",
+    "digest": "0c275e50c368eb4f",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81152,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.016991645097733,
+    "compute_ms": 15.75973816215992
+   },
+   {
+    "i": 13,
+    "pose": "a10",
+    "digest": "a54a68e2940f73d4",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81149,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.055986121296883,
+    "compute_ms": 15.80069400370121
+   },
+   {
+    "i": 14,
+    "pose": "a11",
+    "digest": "7a864980172558f7",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81181,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 15.065282583236694,
+    "compute_ms": 15.804937109351158
+   },
+   {
+    "i": 15,
+    "pose": "a12",
+    "digest": "803ea607b3112fe4",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81222,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.862477779388428,
+    "compute_ms": 15.586771070957184
+   },
+   {
+    "i": 16,
+    "pose": "a13",
+    "digest": "1c77c8ccf399977f",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81243,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.609599485993385,
+    "compute_ms": 15.353815630078316
+   },
+   {
+    "i": 17,
+    "pose": "a14",
+    "digest": "f8ba48a6ed951cea",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81226,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.647603034973145,
+    "compute_ms": 15.383293852210045
+   },
+   {
+    "i": 18,
+    "pose": "a15",
+    "digest": "784c48c66d31ea5e",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81332,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.581101015210152,
+    "compute_ms": 15.313521027565002
+   },
+   {
+    "i": 19,
+    "pose": "a16",
+    "digest": "71f91802defb09d7",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81302,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.763766899704933,
+    "compute_ms": 15.521232038736343
+   },
+   {
+    "i": 20,
+    "pose": "a15",
+    "digest": "784c48c66d31ea5e",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81302,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.668231830000877,
+    "compute_ms": 15.40885865688324
+   },
+   {
+    "i": 21,
+    "pose": "a14",
+    "digest": "f8ba48a6ed951cea",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81332,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.625370502471924,
+    "compute_ms": 15.364304184913635
+   },
+   {
+    "i": 22,
+    "pose": "a13",
+    "digest": "1c77c8ccf399977f",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81226,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.599921181797981,
+    "compute_ms": 15.333786606788635
+   },
+   {
+    "i": 23,
+    "pose": "a12",
+    "digest": "803ea607b3112fe4",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81243,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.60924930870533,
+    "compute_ms": 15.344956889748573
+   },
+   {
+    "i": 24,
+    "pose": "a11",
+    "digest": "7a864980172558f7",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81222,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.525022357702255,
+    "compute_ms": 15.268834307789803
+   },
+   {
+    "i": 25,
+    "pose": "a10",
+    "digest": "a54a68e2940f73d4",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81181,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.599230140447617,
+    "compute_ms": 15.326103195548058
+   },
+   {
+    "i": 26,
+    "pose": "a9",
+    "digest": "0c275e50c368eb4f",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81149,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.715282246470451,
+    "compute_ms": 15.457574278116226
+   },
+   {
+    "i": 27,
+    "pose": "a8",
+    "digest": "8947c79b6be8c29a",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81152,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.5917609333992,
+    "compute_ms": 15.32195508480072
+   },
+   {
+    "i": 28,
+    "pose": "a7",
+    "digest": "df8a3952e234bd43",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81137,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.58841934800148,
+    "compute_ms": 15.332628041505814
+   },
+   {
+    "i": 29,
+    "pose": "a6",
+    "digest": "ec3fc94d14691342",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81187,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.602847397327423,
+    "compute_ms": 15.344850718975067
+   },
+   {
+    "i": 30,
+    "pose": "a5",
+    "digest": "2e0fdb1ff0ae117a",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81137,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.677487313747406,
+    "compute_ms": 15.416359528899193
+   },
+   {
+    "i": 31,
+    "pose": "a4",
+    "digest": "a201c500f23062f0",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81037,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.725016430020332,
+    "compute_ms": 15.458459034562111
+   },
+   {
+    "i": 32,
+    "pose": "a3",
+    "digest": "3411d89124871cac",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81054,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.69496451318264,
+    "compute_ms": 15.428997576236725
+   },
+   {
+    "i": 33,
+    "pose": "a2",
+    "digest": "07619a0bcbb6c972",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81070,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.630036428570747,
+    "compute_ms": 15.369897708296776
+   },
+   {
+    "i": 34,
+    "pose": "a1",
+    "digest": "87005ad50c8f0cd7",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81109,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.6865826100111,
+    "compute_ms": 15.426743775606155
+   },
+   {
+    "i": 35,
+    "pose": "a0",
+    "digest": "06e0a2ca33c12fce",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81088,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.597753062844276,
+    "compute_ms": 15.335727483034134
+   },
+   {
+    "i": 36,
+    "pose": "a1",
+    "digest": "87005ad50c8f0cd7",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81088,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.587905257940292,
+    "compute_ms": 15.32360166311264
+   },
+   {
+    "i": 37,
+    "pose": "a2",
+    "digest": "07619a0bcbb6c972",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81109,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.820486307144165,
+    "compute_ms": 15.57840220630169
+   },
+   {
+    "i": 38,
+    "pose": "a3",
+    "digest": "3411d89124871cac",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81070,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.652496203780174,
+    "compute_ms": 15.392504632472992
+   },
+   {
+    "i": 39,
+    "pose": "a4",
+    "digest": "a201c500f23062f0",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81054,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.68350738286972,
+    "compute_ms": 15.42973518371582
+   },
+   {
+    "i": 40,
+    "pose": "a5",
+    "digest": "2e0fdb1ff0ae117a",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81037,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.627717435359955,
+    "compute_ms": 15.370912849903107
+   },
+   {
+    "i": 41,
+    "pose": "a6",
+    "digest": "ec3fc94d14691342",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81137,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.618098735809326,
+    "compute_ms": 15.346182510256767
+   },
+   {
+    "i": 42,
+    "pose": "a7",
+    "digest": "df8a3952e234bd43",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81187,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.629000797867775,
+    "compute_ms": 15.353217720985413
+   },
+   {
+    "i": 43,
+    "pose": "a8",
+    "digest": "8947c79b6be8c29a",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81137,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.632727950811386,
+    "compute_ms": 15.43746329843998
+   },
+   {
+    "i": 44,
+    "pose": "a9",
+    "digest": "0c275e50c368eb4f",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81152,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.555422589182854,
+    "compute_ms": 15.323089435696602
+   },
+   {
+    "i": 45,
+    "pose": "a10",
+    "digest": "a54a68e2940f73d4",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81149,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.592524617910385,
+    "compute_ms": 15.328224748373032
+   },
+   {
+    "i": 46,
+    "pose": "a11",
+    "digest": "7a864980172558f7",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81181,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.592962339520454,
+    "compute_ms": 15.334811061620712
+   },
+   {
+    "i": 47,
+    "pose": "a12",
+    "digest": "803ea607b3112fe4",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81222,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.582691714167595,
+    "compute_ms": 15.320343896746635
+   },
+   {
+    "i": 48,
+    "pose": "a13",
+    "digest": "1c77c8ccf399977f",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81243,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.624442905187607,
+    "compute_ms": 15.356186777353287
+   },
+   {
+    "i": 49,
+    "pose": "a14",
+    "digest": "f8ba48a6ed951cea",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81226,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.615636318922043,
+    "compute_ms": 15.367910265922546
+   },
+   {
+    "i": 50,
+    "pose": "a15",
+    "digest": "784c48c66d31ea5e",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81332,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.559594914317131,
+    "compute_ms": 15.299336984753609
+   },
+   {
+    "i": 51,
+    "pose": "a16",
+    "digest": "71f91802defb09d7",
+    "digest_eq_r1": true,
+    "digest_eq_r2": true,
+    "dirty": 81302,
+    "dirty_eq_r1": true,
+    "thru_render_ms": 14.59801197052002,
+    "compute_ms": 15.342045575380325
+   }
+  ]
+ },
+ "V3_archived_wl101_output": {
+  "sss": {
+   "case": "sss",
+   "segment": [
+    2,
+    1
+   ],
+   "frame0": {
+    "state": 2,
+    "table_rel_l1": 0.0,
+    "table_rel_max": 0.0,
+    "e1_rel_l1": 5.749097071104761e-08,
+    "e2_rel_l1": 1.2189161260932214e-07,
+    "hl_rel_l1": 7.80049379842287e-08,
+    "total_rel_l1": 7.586971252668413e-08
+   },
+   "frame90": {
+    "state": 1,
+    "table_rel_l1": 0.0,
+    "table_rel_max": 0.0,
+    "e1_rel_l1": 5.9466905247007253e-08,
+    "e2_rel_l1": 1.5314329125354656e-07,
+    "hl_rel_l1": 9.954251079878427e-08,
+    "total_rel_l1": 8.5221278023051e-08
+   }
+  },
+  "near": {
+   "case": "near",
+   "segment": [
+    0,
+    1
+   ],
+   "frame0": {
+    "state": 0,
+    "table_rel_l1": 0.0,
+    "table_rel_max": 0.0,
+    "e1_rel_l1": 1.23908794130993e-06,
+    "e2_rel_l1": 9.488781319207136e-07,
+    "hl_rel_l1": 5.324917930816264e-07,
+    "total_rel_l1": 8.251750593586075e-07
+   },
+   "frame90": {
+    "state": 1,
+    "table_rel_l1": 1.1227499580924596e-06,
+    "table_rel_max": 6.614769988480814e-05,
+    "e1_rel_l1": 1.253703986892956e-06,
+    "e2_rel_l1": 6.771227212386424e-07,
+    "hl_rel_l1": 1.4934879534020662e-06,
+    "total_rel_l1": 9.810321549198875e-07
+   }
+  }
+ },
+ "V4_fresh_single_frame": [
+  {
+   "k": 15,
+   "table_rel_l1": 0.0,
+   "table_bitwise": true,
+   "hdr_mean_rel": 6.944584907131457e-09,
+   "hdr_bitwise": false,
+   "hdr_max_abs": 2.09808349609375e-05
+  },
+  {
+   "k": 45,
+   "table_rel_l1": 0.0,
+   "table_bitwise": true,
+   "hdr_mean_rel": 7.71148478406758e-09,
+   "hdr_bitwise": false,
+   "hdr_max_abs": 1.8596649169921875e-05
+  },
+  {
+   "k": 60,
+   "table_rel_l1": 0.0,
+   "table_bitwise": true,
+   "hdr_mean_rel": 8.603866064049726e-09,
+   "hdr_bitwise": false,
+   "hdr_max_abs": 2.0503997802734375e-05
+  },
+  {
+   "k": 75,
+   "table_rel_l1": 0.0,
+   "table_bitwise": true,
+   "hdr_mean_rel": 5.57751356211611e-09,
+   "hdr_bitwise": false,
+   "hdr_max_abs": 1.621246337890625e-05
+  },
+  {
+   "k": 120,
+   "table_rel_l1": 0.0,
+   "table_bitwise": true,
+   "hdr_mean_rel": 8.634689407926999e-09,
+   "hdr_bitwise": false,
+   "hdr_max_abs": 5.0067901611328125e-05
+  },
+  {
+   "k": 150,
+   "table_rel_l1": 0.0,
+   "table_bitwise": true,
+   "hdr_mean_rel": 6.4702398994143095e-09,
+   "hdr_bitwise": false,
+   "hdr_max_abs": 1.52587890625e-05
+  }
+ ],
+ "V5_selective_equals_full": {
+  "checked": 35,
+  "equal": 35
+ },
+ "V6_determinism": {
+  "frames": 180,
+  "geometry_and_state_identical": true,
+  "table_sum_max_rel": 0.0,
+  "table_sum_identical_frames": 180,
+  "raw_hdr_sum_max_rel": 0.0,
+  "raw_hdr_sum_identical_frames": 180
+ },
+ "V7_loop_integrity": {
+  "respond_calls": 540,
+  "expected": 540,
+  "checkpoint_loads_during_loops": 0,
+  "params_unchanged": true
+ },
+ "V8_timing_sync": {
+  "per_part_sync_minus_parts_ms": {
+   "median": 0.14299992471933365,
+   "max": 0.16942061483860016
+  },
+  "end_to_end_single_sync_ms": {
+   "median": 14.82121367007494,
+   "p95": 14.99123265966773
+  },
+  "end_to_end_per_part_sync_ms": {
+   "median": 15.79336915165186,
+   "p95": 16.81270059198141
+  },
+  "note": "single-sync run: no device synchronisation between parts; the tonemap readback (.cpu()) and a final sync close the frame. Some parts synchronise internally regardless (update_state nonzero count, source/respond host-side bookkeeping)."
+ },
+ "V9_reconstruction_history": {
+  "frames": 128,
+  "edited_frames": 119,
+  "edited_equal_reset": 119,
+  "held_frames": 8,
+  "held_equal_reset": 0,
+  "held_history_age_max": [
+   2.0,
+   3.0,
+   4.0,
+   5.0,
+   6.0,
+   7.0,
+   8.0,
+   9.0
+  ],
+  "sphere_boundary_band_recon_over_raw_luminance": {
+   "median": 0.9135241806507111,
+   "min": 0.9055274724960327
+  },
+  "sphere_interior_recon_over_raw_luminance": {
+   "median": 0.9646367728710175
+  },
+  "silhouette_ring_12px_recon_over_raw_luminance": {
+   "median": 0.9918541312217712
+  },
+  "note": "ratios are reconstruction vs the same frame raw mean (no reference); band = 4 px inner sphere boundary from the center-ray shape id. A ratio < 1 on the band with ~1 inside is the WL101B silhouette darkening signature."
+ },
+ "wall_s": 77.12658190727234,
+ "snapshot_after": {
+  "gpu": "54 %, 1810 MiB, 1950 MHz, 52",
+  "compute_apps": [
+   "3266359, 1804 MiB, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python"
+  ],
+  "own_pid": 3266359
+ },
+ "versions": {
+  "mitsuba": "3.8.0",
+  "drjit": "1.3.1",
+  "torch": "2.3.1+cu121",
+  "gpu": "NVIDIA GeForce RTX 3090"
+ }
+}

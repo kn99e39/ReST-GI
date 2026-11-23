@@ -1,0 +1,323 @@
+{
+ "batch": "WL110",
+ "args": {
+  "case": "sss",
+  "mode": "raw",
+  "res": 512,
+  "spp": 1,
+  "period": 6.0,
+  "quantize": 0,
+  "clock": "frame",
+  "anim_rate": 30.0,
+  "fps_cap": 30.0,
+  "frames": 630,
+  "warmup": 30,
+  "present": "tk",
+  "seed_base": 11000000,
+  "digest_every": 0,
+  "save_last": true,
+  "out": "/home/nd/ReST-GI/results/ecro_live110/evidence_clean/runs/sss_raw_cap30_r1"
+ },
+ "frames_total": 630,
+ "frames_measured": 600,
+ "warmup_frames": 30,
+ "wall_s": 21.22066890820861,
+ "presented_fps": 29.936700576307917,
+ "present_interval_ms": {
+  "n": 600,
+  "median": 33.33658445626497,
+  "p95": 33.952161855995655,
+  "p99": 34.295256100595,
+  "mean": 33.40382585922877,
+  "min": 24.333996698260307,
+  "max": 84.21646431088448
+ },
+ "compute_ms": {
+  "n": 600,
+  "median": 16.9435515999794,
+  "p95": 17.285447660833597,
+  "p99": 17.708215191960335,
+  "mean": 17.036631706481177,
+  "min": 16.521964222192764,
+  "max": 67.5687175244093
+ },
+ "present_ms": {
+  "n": 600,
+  "median": 6.073571741580963,
+  "p95": 6.274446379393339,
+  "p99": 6.3857449777424335,
+  "mean": 6.081696283072233,
+  "min": 5.792791023850441,
+  "max": 6.716286763548851
+ },
+ "proof_ms": {
+  "n": 600,
+  "median": 0.4411134868860245,
+  "p95": 0.5202507600188255,
+  "p99": 0.5519843846559523,
+  "mean": 0.456866892054677,
+  "min": 0.4137754440307617,
+  "max": 0.5968194454908371
+ },
+ "parts_ms": {
+  "compose": {
+   "n": 600,
+   "median": 0.29037054628133774,
+   "p95": 0.3123332746326923,
+   "p99": 0.3243379108607769,
+   "mean": 0.29138305845359963,
+   "min": 0.26938505470752716,
+   "max": 0.347016379237175
+  },
+  "display": {
+   "n": 600,
+   "median": 0.37376023828983307,
+   "p95": 0.3998476080596447,
+   "p99": 0.40790606290102005,
+   "mean": 0.37497213420768577,
+   "min": 0.3493279218673706,
+   "max": 0.4195086658000946
+  },
+  "geometry": {
+   "n": 600,
+   "median": 3.02016269415617,
+   "p95": 3.1314609572291374,
+   "p99": 3.1964425183832645,
+   "mean": 3.0203834486504397,
+   "min": 2.883683890104294,
+   "max": 3.5858582705259323
+  },
+  "handoff": {
+   "n": 600,
+   "median": 0.04288088530302048,
+   "p95": 0.05933642387390137,
+   "p99": 0.06397202610969543,
+   "mean": 0.0442738210161527,
+   "min": 0.0395067036151886,
+   "max": 0.08534267544746399
+  },
+  "neural": {
+   "n": 600,
+   "median": 5.6031616404652596,
+   "p95": 5.668668262660503,
+   "p99": 5.694842841476202,
+   "mean": 5.60036721949776,
+   "min": 5.48052042722702,
+   "max": 5.75861893594265
+  },
+  "relation": {
+   "n": 600,
+   "median": 3.9272531867027283,
+   "p95": 4.0326290763914585,
+   "p99": 4.6083322539925575,
+   "mean": 3.9404999340573945,
+   "min": 3.7824250757694244,
+   "max": 4.856893792748451
+  },
+  "render": {
+   "n": 600,
+   "median": 2.5042761117219925,
+   "p95": 2.5736588053405285,
+   "p99": 2.604208365082741,
+   "mean": 2.507622499639789,
+   "min": 2.3921076208353043,
+   "max": 2.6778802275657654
+  },
+  "source": {
+   "n": 600,
+   "median": 0.9952401742339134,
+   "p95": 1.03843342512846,
+   "p99": 1.0498792119324207,
+   "mean": 0.9984956961125135,
+   "min": 0.955238938331604,
+   "max": 1.07530876994133
+  }
+ },
+ "compute_minus_parts_ms": {
+  "n": 600,
+  "median": 0.17411448061466217,
+  "p95": 0.19286582246422768,
+  "p99": 0.204959399998188,
+  "mean": 0.2586338948458433,
+  "min": 0.15549547970294952,
+  "max": 50.554534420371056
+ },
+ "deadline": {
+  "cap_fps": 30.0,
+  "missed": 1,
+  "slot_ms": 33.333333333333336,
+  "animation_lag_s": 0.24402804498871333
+ },
+ "dirty_rays": {
+  "n": 600,
+  "median": 80789.5,
+  "p95": 80874.0,
+  "p99": 80908.0,
+  "mean": 80765.23166666667,
+  "min": 80625.0,
+  "max": 80908.0
+ },
+ "integrity": {
+  "checkpoint_sha256": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+  "checkpoint_matches_wl101": true,
+  "torch_load_calls": 1,
+  "param_digest_start": "7df9b1baf1fcc46fa912ea0092ebc233a8c1f0a0964626e7228b2fb29f0b535b",
+  "param_digest_end": "7df9b1baf1fcc46fa912ea0092ebc233a8c1f0a0964626e7228b2fb29f0b535b",
+  "parameters_unchanged": true,
+  "respond_calls": 630,
+  "frames": 630,
+  "respond_every_frame": true,
+  "frames_with_motion": 600,
+  "table_changed_on_every_moved_frame": true,
+  "distinct_geometries": 488
+ },
+ "memory": {
+  "torch_peak_mib": 197.54443359375,
+  "torch_alloc_mib": 47.62451171875,
+  "device_used_delta_mib": 1506.0
+ },
+ "recordings": {
+  "state": 2,
+  "source": 1,
+  "frames": {
+   "512x1": 1
+  }
+ },
+ "window": {
+  "x": 0,
+  "y": 0,
+  "w": 908,
+  "h": 528
+ },
+ "provenance": {
+  "checkpoint": "results/ecro_material100/sss/model.pt",
+  "configs_sha256": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+  "rt101_sha256": "0386f30996b71d515594f6b314eeba10c610c0356ea60ec48dece9b986309c20",
+  "live110_sha256": "25750824aad5c3dfd54c14156196b2a8aa2d42d1f972206fe93e4fd8d65134e7",
+  "anim110_sha256": "2f2fc5d549aa458f98dca232dedd9bd32cdef8c87710702c852bdd786315656c",
+  "animation": {
+   "case": "sss",
+   "segment": {
+    "from_test_config": 2,
+    "to_test_config": 1
+   },
+   "period_s": 6.0,
+   "quantize": 0,
+   "function": "u(t) = 0.5 - 0.5 cos(2 pi t / period); geom = seq101._lerp_geom(cfg_from, cfg_to, u) (centre and yaw linear)",
+   "from_geom": {
+    "A": {
+     "c": [
+      -0.21770946823794118,
+      0.35870297601847456,
+      0.75
+     ],
+     "h": [
+      0.22,
+      0.35,
+      0.5
+     ],
+     "yaw": 0.3698853663331546
+    },
+    "B": {
+     "c": [
+      1.6015951302269993,
+      1.2206319043162455,
+      0.35
+     ],
+     "h": [
+      0.15,
+      0.18,
+      0.35
+     ],
+     "yaw": 0.20099088504857354
+    }
+   },
+   "to_geom": {
+    "A": {
+     "c": [
+      -0.08730978086066854,
+      0.6812457581042914,
+      0.75
+     ],
+     "h": [
+      0.22,
+      0.35,
+      0.5
+     ],
+     "yaw": 0.3847816073436897
+    },
+    "B": {
+     "c": [
+      1.5551167968489157,
+      1.2322350598024787,
+      0.35
+     ],
+     "h": [
+      0.15,
+      0.18,
+      0.35
+     ],
+     "yaw": 0.07086575216268821
+    }
+   },
+   "light": [
+    {
+     "pos": [
+      1.0040083056304767,
+      1.3611482634942025,
+      1.2944466772916012
+     ],
+     "rgb": [
+      27.634931507169394,
+      27.634931507169394,
+      27.634931507169394
+     ]
+    }
+   ]
+  },
+  "camera": {
+   "origin": [
+    0.9,
+    -2.4,
+    1.05
+   ],
+   "target": [
+    0.9,
+    0.4,
+    0.55
+   ],
+   "fov_deg": 32,
+   "res": 512
+  },
+  "exposure_key": 0.1938553403045695,
+  "seed_policy": "frame seed = 11000000 + frame index (rt101.frame)",
+  "commit": "8db944800548ab7d1aa497bc57af1835e591d925",
+  "dirty_worktree": false,
+  "versions": {
+   "python": "3.10.21",
+   "mitsuba": "3.8.0",
+   "drjit": "1.3.1",
+   "torch": "2.3.1+cu121",
+   "gpu": "NVIDIA GeForce RTX 3090",
+   "host": "localhost.localdomain",
+   "os": "Linux-4.18.0-305.3.1.el8.x86_64-x86_64-with-glibc2.28"
+  },
+  "display": ":110",
+  "init_ms": 220.39254568517208,
+  "recon": null
+ },
+ "gpu_before": {
+  "gpu": "0 %, 294 MiB, 1755 MHz, 41",
+  "compute_apps": [
+   "3261763, 288 MiB, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python"
+  ],
+  "own_pid": 3261763
+ },
+ "gpu_after": {
+  "gpu": "29 %, 1800 MiB, 1755 MHz, 44",
+  "compute_apps": [
+   "3261763, 1794 MiB, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python"
+  ],
+  "own_pid": 3261763
+ }
+}

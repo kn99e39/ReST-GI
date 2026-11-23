@@ -62,6 +62,18 @@ wl101_hist = {r: json.loads((arch / f'V_SSS_ANIM_B_sel_{r}.json').read_text())['
 ver = json.loads((SRC / 'verify' / 'verify.json').read_text()) if (SRC / 'verify' / 'verify.json').exists() else None
 agg = {'batch': 'WL110', 'runs': table, 'wl101_same_day_rerun': wl101, 'wl101_historical_2026_11_17': wl101_hist,
        'pmon_logs': {p.stem: sha(p) for p in sorted((SRC / 'logs').glob('*.pmon'))}}
+if len(sys.argv) > 3:                   # contended first set (disclosure only: table, no artifacts)
+    C = Path(sys.argv[3])
+    agg['contended_first_set'] = {'root': str(C), 'note': 'same frozen plan, run while another session\'s TransGI job used the GPU '
+                                  '(pmon logs in that root); superseded by the clean set above, not used for the headline numbers',
+                                  'runs': {}}
+    for p in sorted((C / 'runs').iterdir()):
+        if (p / 'summary.json').exists():
+            s = json.loads((p / 'summary.json').read_text())
+            agg['contended_first_set']['runs'][p.name] = {'presented_fps': s['presented_fps'], 'compute_ms': s['compute_ms'],
+                                                          'present_interval_ms': s['present_interval_ms'], 'missed': s['deadline']['missed']}
+    for p in sorted((C / 'wl101').glob('*.json')):
+        agg['contended_first_set']['runs'][p.stem] = json.loads(p.read_text())['summary']['dynamic_frame_ms']['512x1']
 (DST / 'runs110.json').write_text(json.dumps(agg, indent=1))
 
 # ---- figure 1: per-frame time series, primary run
@@ -138,10 +150,17 @@ for n in runs:
     man['files'][f'summary_{n}.json']['frames_jsonl_sha256'] = sha(SRC / 'runs' / n / 'frames.jsonl')
     if (SRC / 'runs' / n / 'last_frame.png').exists():
         put(SRC / 'runs' / n / 'last_frame.png', f'last_frame_{n}.png')
+PRIMARY_REC = 'sss_raw_cap30_rec'      # full-size WebP committed only for the primary recording (1-spp noise barely compresses)
+man['recordings_not_copied'] = {}
 for d in sorted((SRC / 'rec').iterdir()):
+    full = d.name == PRIMARY_REC
     for f, nm in (('screenshot.png', 'screenshot'), ('recording.webp', 'recording'), ('recording_preview.gif', 'recording_preview'), ('capture.json', 'capture')):
-        if (d / f).exists():
-            put(d / f, f'{nm}_{d.name}{Path(f).suffix}')
+        if not (d / f).exists():
+            continue
+        if (f == 'recording.webp' and not full) or (f == 'recording_preview.gif' and full):
+            man['recordings_not_copied'][f'{d.name}/{f}'] = {'source': str(d / f), 'sha256': sha(d / f), 'bytes': (d / f).stat().st_size}
+            continue
+        put(d / f, f'{nm}_{d.name}{Path(f).suffix}')
 if ver:
     put(SRC / 'verify' / 'verify.json', 'verify.json')
 for p in sorted((SRC / 'wl101').glob('*.json')):

@@ -1,0 +1,355 @@
+{
+ "batch": "WL110",
+ "args": {
+  "case": "sss",
+  "mode": "svgf",
+  "res": 512,
+  "spp": 1,
+  "period": 6.0,
+  "quantize": 0,
+  "clock": "frame",
+  "anim_rate": 30.0,
+  "fps_cap": 30.0,
+  "frames": 630,
+  "warmup": 30,
+  "present": "tk",
+  "seed_base": 11000000,
+  "digest_every": 0,
+  "save_last": true,
+  "out": "/home/nd/ReST-GI/results/ecro_live110/evidence_clean/runs/sss_svgf_cap30_rec2"
+ },
+ "frames_total": 630,
+ "frames_measured": 600,
+ "warmup_frames": 30,
+ "wall_s": 54.76104846596718,
+ "presented_fps": 29.996502660370034,
+ "present_interval_ms": {
+  "n": 600,
+  "median": 33.33526663482189,
+  "p95": 34.03578791767359,
+  "p99": 34.59145575761795,
+  "mean": 33.336960365995765,
+  "min": 32.019857317209244,
+  "max": 35.01137159764767
+ },
+ "compute_ms": {
+  "n": 600,
+  "median": 18.181932158768177,
+  "p95": 18.62300569191575,
+  "p99": 18.959871772676706,
+  "mean": 18.115375467265647,
+  "min": 17.337903380393982,
+  "max": 19.493436440825462
+ },
+ "present_ms": {
+  "n": 600,
+  "median": 6.017795763909817,
+  "p95": 6.250897515565157,
+  "p99": 6.350012216717005,
+  "mean": 5.863067349418998,
+  "min": 5.241729319095612,
+  "max": 6.599662825465202
+ },
+ "proof_ms": {
+  "n": 600,
+  "median": 0.46172458678483963,
+  "p95": 0.5744556896388531,
+  "p99": 0.6169171445071697,
+  "mean": 0.47076296992599964,
+  "min": 0.3927405923604965,
+  "max": 0.9075738489627838
+ },
+ "parts_ms": {
+  "compose": {
+   "n": 600,
+   "median": 0.28121285140514374,
+   "p95": 0.31298585236072535,
+   "p99": 0.3433387912809848,
+   "mean": 0.2804742722461621,
+   "min": 0.25161169469356537,
+   "max": 0.39275921881198883
+  },
+  "display": {
+   "n": 600,
+   "median": 0.38013141602277756,
+   "p95": 0.4157427698373794,
+   "p99": 0.4410498775541782,
+   "mean": 0.38277441014846164,
+   "min": 0.3476683050394058,
+   "max": 0.5461461842060089
+  },
+  "geometry": {
+   "n": 600,
+   "median": 2.9011890292167664,
+   "p95": 3.0258869752287865,
+   "p99": 3.09038870036602,
+   "mean": 2.9012019435564675,
+   "min": 2.739338204264641,
+   "max": 3.8888193666934967
+  },
+  "guide": {
+   "n": 600,
+   "median": 0.6594350561499596,
+   "p95": 0.6993172690272331,
+   "p99": 0.7195139117538929,
+   "mean": 0.6625078649570545,
+   "min": 0.6260797381401062,
+   "max": 0.7466766983270645
+  },
+  "handoff": {
+   "n": 600,
+   "median": 0.04153884947299957,
+   "p95": 0.05851192399859428,
+   "p99": 0.06247781217098233,
+   "mean": 0.043171526243289314,
+   "min": 0.037709251046180725,
+   "max": 0.07664412260055542
+  },
+  "neural": {
+   "n": 600,
+   "median": 5.651739425957203,
+   "p95": 5.756390932947397,
+   "p99": 5.8102671802043915,
+   "mean": 5.625703725963831,
+   "min": 5.444766953587532,
+   "max": 6.347706541419029
+  },
+  "reconstruct": {
+   "n": 600,
+   "median": 0.5905749276280403,
+   "p95": 0.6342833861708641,
+   "p99": 1.1199430376291273,
+   "mean": 0.5963684959957997,
+   "min": 0.5197785794734955,
+   "max": 1.2283064424991608
+  },
+  "relation": {
+   "n": 600,
+   "median": 3.9377594366669655,
+   "p95": 4.035318456590176,
+   "p99": 4.116209316998719,
+   "mean": 3.9292259638508162,
+   "min": 3.730379045009613,
+   "max": 4.580413922667503
+  },
+  "render": {
+   "n": 600,
+   "median": 2.499881200492382,
+   "p95": 2.604776807129383,
+   "p99": 2.6675082743167877,
+   "mean": 2.506288026149074,
+   "min": 2.391323447227478,
+   "max": 2.705194056034088
+  },
+  "source": {
+   "n": 600,
+   "median": 0.9837280958890915,
+   "p95": 1.0333145037293434,
+   "p99": 1.0558289475739002,
+   "mean": 0.9819002728909254,
+   "min": 0.916898250579834,
+   "max": 1.0829884558916092
+  }
+ },
+ "compute_minus_parts_ms": {
+  "n": 600,
+  "median": 0.20431727170944214,
+  "p95": 0.2365298569202423,
+  "p99": 0.2543637901544571,
+  "mean": 0.20575896526376405,
+  "min": 0.17753243446350098,
+  "max": 0.5378872156143188
+ },
+ "deadline": {
+  "cap_fps": 30.0,
+  "missed": 0,
+  "slot_ms": 33.333333333333336,
+  "animation_lag_s": 33.785916030531126
+ },
+ "dirty_rays": {
+  "n": 600,
+  "median": 80789.5,
+  "p95": 80874.0,
+  "p99": 80908.0,
+  "mean": 80765.23166666667,
+  "min": 80625.0,
+  "max": 80908.0
+ },
+ "integrity": {
+  "checkpoint_sha256": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+  "checkpoint_matches_wl101": true,
+  "torch_load_calls": 1,
+  "param_digest_start": "7df9b1baf1fcc46fa912ea0092ebc233a8c1f0a0964626e7228b2fb29f0b535b",
+  "param_digest_end": "7df9b1baf1fcc46fa912ea0092ebc233a8c1f0a0964626e7228b2fb29f0b535b",
+  "parameters_unchanged": true,
+  "respond_calls": 630,
+  "frames": 630,
+  "respond_every_frame": true,
+  "frames_with_motion": 600,
+  "table_changed_on_every_moved_frame": true,
+  "distinct_geometries": 488
+ },
+ "memory": {
+  "torch_peak_mib": 225.1259765625,
+  "torch_alloc_mib": 74.6640625,
+  "device_used_delta_mib": 1566.0
+ },
+ "recordings": {
+  "state": 2,
+  "source": 1,
+  "frames": {
+   "512x1": 1
+  }
+ },
+ "window": {
+  "x": 0,
+  "y": 0,
+  "w": 908,
+  "h": 528
+ },
+ "provenance": {
+  "checkpoint": "results/ecro_material100/sss/model.pt",
+  "configs_sha256": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+  "rt101_sha256": "0386f30996b71d515594f6b314eeba10c610c0356ea60ec48dece9b986309c20",
+  "live110_sha256": "25750824aad5c3dfd54c14156196b2a8aa2d42d1f972206fe93e4fd8d65134e7",
+  "anim110_sha256": "2f2fc5d549aa458f98dca232dedd9bd32cdef8c87710702c852bdd786315656c",
+  "animation": {
+   "case": "sss",
+   "segment": {
+    "from_test_config": 2,
+    "to_test_config": 1
+   },
+   "period_s": 6.0,
+   "quantize": 0,
+   "function": "u(t) = 0.5 - 0.5 cos(2 pi t / period); geom = seq101._lerp_geom(cfg_from, cfg_to, u) (centre and yaw linear)",
+   "from_geom": {
+    "A": {
+     "c": [
+      -0.21770946823794118,
+      0.35870297601847456,
+      0.75
+     ],
+     "h": [
+      0.22,
+      0.35,
+      0.5
+     ],
+     "yaw": 0.3698853663331546
+    },
+    "B": {
+     "c": [
+      1.6015951302269993,
+      1.2206319043162455,
+      0.35
+     ],
+     "h": [
+      0.15,
+      0.18,
+      0.35
+     ],
+     "yaw": 0.20099088504857354
+    }
+   },
+   "to_geom": {
+    "A": {
+     "c": [
+      -0.08730978086066854,
+      0.6812457581042914,
+      0.75
+     ],
+     "h": [
+      0.22,
+      0.35,
+      0.5
+     ],
+     "yaw": 0.3847816073436897
+    },
+    "B": {
+     "c": [
+      1.5551167968489157,
+      1.2322350598024787,
+      0.35
+     ],
+     "h": [
+      0.15,
+      0.18,
+      0.35
+     ],
+     "yaw": 0.07086575216268821
+    }
+   },
+   "light": [
+    {
+     "pos": [
+      1.0040083056304767,
+      1.3611482634942025,
+      1.2944466772916012
+     ],
+     "rgb": [
+      27.634931507169394,
+      27.634931507169394,
+      27.634931507169394
+     ]
+    }
+   ]
+  },
+  "camera": {
+   "origin": [
+    0.9,
+    -2.4,
+    1.05
+   ],
+   "target": [
+    0.9,
+    0.4,
+    0.55
+   ],
+   "fov_deg": 32,
+   "res": 512
+  },
+  "exposure_key": 0.1938553403045695,
+  "seed_policy": "frame seed = 11000000 + frame index (rt101.frame)",
+  "commit": "baee724c2b8297ae4a63a95b07e14f5461b3fe5b",
+  "dirty_worktree": true,
+  "versions": {
+   "python": "3.10.21",
+   "mitsuba": "3.8.0",
+   "drjit": "1.3.1",
+   "torch": "2.3.1+cu121",
+   "gpu": "NVIDIA GeForce RTX 3090",
+   "host": "localhost.localdomain",
+   "os": "Linux-4.18.0-305.3.1.el8.x86_64-x86_64-with-glibc2.28"
+  },
+  "display": ":111",
+  "init_ms": 199.07277822494507,
+  "recon": {
+   "protocol_sha256": "f1ac9cc54b819b4aaf59a40084f287fa4218d705208163fbf4ef3c79c978c6b2",
+   "settings": {
+    "method": "SVGF adaptation on joint linear-HDR RGB (E1+E2+HL). Temporal accumulation of RGB and luminance moments, variance guidance and edge-aware 5x5 a-trous at steps 1,2,4. No material demodulation: SSS albedo is a transport coefficient.",
+    "history_frames": 16,
+    "history_invalidation": "Any geometry or source change resets all radiance history. This prevents stale indirect light across rigid edits. Reset also on explicit request, first frame and incompatible resolution. Same geometry/light permits static or camera-only reprojection.",
+    "motion": "Reproject current center-ray world positions into the previous camera; nearest previous pixel, same object ID, normal agreement, world-position agreement at the projected footprint. Invalidate when off screen or occluded. SSS view angle gate. Surface appearance at subpixel boundaries remains a limitation. Additionally trace an exact previous-eye segment visibility ray on camera moves, qualifying it against an independent closest-hit query.",
+    "normal_reprojection_min_cos": 0.9,
+    "sss_reprojection_min_view_cos": 0.995,
+    "position_footprint_pixels": 3.0,
+    "variance_luminance_scale": 4.0,
+    "clip": "No radiance clipping, history-color clamping, artificial energy correction or reference input. Frozen display exposure is the WL101A exposure."
+   },
+   "history_rule": "radiance history valid only while the geometry revision is unchanged (WL101B contract)"
+  }
+ },
+ "gpu_before": {
+  "gpu": "0 %, 294 MiB, 1755 MHz, 30",
+  "compute_apps": [
+   "3312937, 288 MiB, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python"
+  ],
+  "own_pid": 3312937
+ },
+ "gpu_after": {
+  "gpu": "30 %, 1860 MiB, 1755 MHz, 37",
+  "compute_apps": [
+   "3312937, 1854 MiB, /home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python"
+  ],
+  "own_pid": 3312937
+ }
+}
