@@ -1,0 +1,95 @@
+<!doctype html><meta charset="utf-8"><title>WL113 spatial HIGH refinement</title><body style="font-family:sans-serif;max-width:1400px;margin:auto;padding:16px"><h1>WL113 — spatially refined HIGH and the SSS near-contact gate</h1><p>Shared signed scale: max |error| 0.7339 linear HDR luminance (sqrt display). Raw renders, no denoising.</p><pre>{
+ "stageA": "QUALIFIED",
+ "selected": "S4",
+ "stageD_historical": false,
+ "stageD_3pct_depth_matched": false,
+ "stageD_3pct_full_depth": false,
+ "stageE_depth_matched_contract": false,
+ "stageE_3pct_full_depth": false,
+ "R6b": {
+  "F0": {
+   "gate3_full_depth": {
+    "b_spread": 0.047233510078629706,
+    "c_spread": 0.03511475782946331,
+    "pass": false
+   },
+   "gate3_depth_matched": {
+    "b_spread": 0.016078625448136565,
+    "c_spread": 0.006500384282173409,
+    "pass": true
+   }
+  },
+  "F1": {
+   "gate3_full_depth": {
+    "b_spread": 0.011322406002530164,
+    "c_spread": 0.018970448050113588,
+    "pass": true
+   },
+   "gate3_depth_matched": {
+    "b_spread": 0.017288958864135107,
+    "c_spread": 0.01437654869455814,
+    "pass": true
+   }
+  },
+  "F2": {
+   "gate3_full_depth": {
+    "b_spread": 0.014445704895873629,
+    "c_spread": 0.009617784131789396,
+    "pass": true
+   },
+   "gate3_depth_matched": {
+    "b_spread": 0.006529579189413021,
+    "c_spread": 0.009998410620473666,
+    "pass": true
+   }
+  },
+  "F3": {
+   "gate3_full_depth": {
+    "b_spread": 0.041410305110015505,
+    "c_spread": 0.015355382125851701,
+    "pass": false
+   },
+   "gate3_depth_matched": {
+    "b_spread": 0.017574130590347375,
+    "c_spread": 0.013784740258838002,
+    "pass": true
+   }
+  },
+  "F4": {
+   "gate3_full_depth": {
+    "b_spread": 0.009150890403746476,
+    "c_spread": 0.021279180890580923,
+    "pass": true
+   },
+   "gate3_depth_matched": {
+    "b_spread": 0.01705222410358169,
+    "c_spread": 0.023986354029693874,
+    "pass": true
+   }
+  }
+ },
+ "not_run": [
+  "R3 equal-time frontier comparator",
+  "R9 other radius / medium"
+ ],
+ "classification": "NOT_RESOLVED"
+}</pre><figure><img src="F0_compact_refinement_support_overlay.png" style="max-width:100%"><figcaption>F0_compact_refinement_support_overlay.png</figcaption></figure>
+<figure><img src="F1_compact_refinement_support_overlay.png" style="max-width:100%"><figcaption>F1_compact_refinement_support_overlay.png</figcaption></figure>
+<figure><img src="F2_compact_refinement_support_overlay.png" style="max-width:100%"><figcaption>F2_compact_refinement_support_overlay.png</figcaption></figure>
+<figure><img src="F3_compact_refinement_support_overlay.png" style="max-width:100%"><figcaption>F3_compact_refinement_support_overlay.png</figcaption></figure>
+<figure><img src="F0_within_patch_physical_higher_order_variation_4x4.png" style="max-width:100%"><figcaption>F0_within_patch_physical_higher_order_variation_4x4.png</figcaption></figure>
+<figure><img src="F0_learned_vs_physical_subpatch_higher_order_response.png" style="max-width:100%"><figcaption>F0_learned_vs_physical_subpatch_higher_order_response.png</figcaption></figure>
+<figure><img src="oracle_arms_signed_higher_order_error_contact_crops_all_views.png" style="max-width:100%"><figcaption>oracle_arms_signed_higher_order_error_contact_crops_all_views.png</figcaption></figure>
+<figure><img src="oracle_arms_contact_endpoints_per_camera_and_configuration.png" style="max-width:100%"><figcaption>oracle_arms_contact_endpoints_per_camera_and_configuration.png</figcaption></figure>
+<figure><img src="learned_arms_signed_higher_order_error_contact_crops_all_views.png" style="max-width:100%"><figcaption>learned_arms_signed_higher_order_error_contact_crops_all_views.png</figcaption></figure>
+<figure><img src="learned_candidate_full_frame_render_and_error_per_camera.png" style="max-width:100%"><figcaption>learned_candidate_full_frame_render_and_error_per_camera.png</figcaption></figure>
+<figure><img src="learned_arms_contact_endpoints_and_3pct_near_bias_per_camera.png" style="max-width:100%"><figcaption>learned_arms_contact_endpoints_and_3pct_near_bias_per_camera.png</figcaption></figure>
+<figure><img src="learned_candidate_near_bias_spatial_vs_depth_truncation.png" style="max-width:100%"><figcaption>learned_candidate_near_bias_spatial_vs_depth_truncation.png</figcaption></figure>
+<figure><img src="SEQ_A_lift_dynamic_sequence_V0_reference_and_higher_order_error_crops.png" style="max-width:100%"><figcaption>SEQ_A_lift_dynamic_sequence_V0_reference_and_higher_order_error_crops.png</figcaption></figure>
+<figure><img src="SEQ_A_lift_near_floor_higher_order_excess_per_state.png" style="max-width:100%"><figcaption>SEQ_A_lift_near_floor_higher_order_excess_per_state.png</figcaption></figure>
+<figure><img src="SEQ_B_slide_dynamic_sequence_V0_reference_and_higher_order_error_crops.png" style="max-width:100%"><figcaption>SEQ_B_slide_dynamic_sequence_V0_reference_and_higher_order_error_crops.png</figcaption></figure>
+<figure><img src="SEQ_B_slide_near_floor_higher_order_excess_per_state.png" style="max-width:100%"><figcaption>SEQ_B_slide_near_floor_higher_order_excess_per_state.png</figcaption></figure>
+<figure><img src="SEQ_C_independent_dynamic_sequence_W0_reference_and_higher_order_error_crops.png" style="max-width:100%"><figcaption>SEQ_C_independent_dynamic_sequence_W0_reference_and_higher_order_error_crops.png</figcaption></figure>
+<figure><img src="SEQ_C_independent_near_floor_higher_order_excess_per_state.png" style="max-width:100%"><figcaption>SEQ_C_independent_near_floor_higher_order_excess_per_state.png</figcaption></figure>
+<figure><img src="cost_table_size_latency_training_candidate_vs_coarse.png" style="max-width:100%"><figcaption>cost_table_size_latency_training_candidate_vs_coarse.png</figcaption></figure>
+</body>

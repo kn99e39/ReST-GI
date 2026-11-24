@@ -1,0 +1,58 @@
+{
+ "runtime_note": "Dr.Jit 0.4.6 re-traces every launch; latencies include Python tracing (WL101 frozen runtime not ported)",
+ "arms": {
+  "O_U": {
+   "params": 735664,
+   "spatial_outputs": 1270,
+   "active_bins": 64,
+   "table_floats": 243840,
+   "table_mib": 0.93017578125,
+   "index_metadata_bytes": 0,
+   "generator": {
+    "median_ms": 2.6462500009074574,
+    "p90_ms": 3.16229999953066
+   },
+   "generator_peak_mib": 170.84375,
+   "frame_512_1spp": {
+    "median_ms": 39.32905000147002,
+    "p90_ms": 40.00620000078925
+   },
+   "transport_update": {
+    "median_ms": 108.12189999705879,
+    "p90_ms": 109.41919999822858
+   },
+   "training_s": 1073.057805499997,
+   "training_peak_mib": 630.61572265625
+  },
+  "CAND": {
+   "params": 778464,
+   "support_vhs_ms_first": 49.93330000070273,
+   "support_vhs": {
+    "median_ms": 3.6784000003535766,
+    "p90_ms": 3.929700000298908
+   },
+   "refined_patches": 1270,
+   "spatial_outputs": 20320,
+   "active_bins": 64,
+   "table_floats": 4145280,
+   "table_mib": 15.81298828125,
+   "index_metadata_bytes": 5080,
+   "generator": {
+    "median_ms": 17.572450000443496,
+    "p90_ms": 17.861500000435626
+   },
+   "generator_peak_mib": 2218.00439453125,
+   "frame_512_1spp": {
+    "median_ms": 39.29575000074692,
+    "p90_ms": 40.15900000013062
+   },
+   "transport_update": {
+    "median_ms": 166.57389999818406,
+    "p90_ms": 170.08840000198688
+   },
+   "training_s": 2064.3542541999996,
+   "training_peak_mib": 5296.48681640625
+  }
+ },
+ "dataset_bytes": 10149922213
+}

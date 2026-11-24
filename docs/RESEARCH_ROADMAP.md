@@ -34,6 +34,19 @@ The sequence below defines **questions, dependencies, controls and exit decision
 - *Required:* the SSS near-contact artifact must be resolved by actual learned ECRO, across independent cameras and changing contact configurations, without per-state retraining. Average quality, runtime or other material classes cannot compensate for it. Only RESOLVED is eligible for milestone approval.
 - *Current blocking mechanism:* the spatial resolution of the higher-order output on the near-contact (lowest-ring) sphere patches. 2×2 sub-patches are insufficient under a qualified camera-independent construction. A 4×4 uniform table is sufficient post hoc on one fixture.
 - *Open decision (owner):* adopting a finer or adaptive output representation would be a new hypothesis.
+- *Update 2026-11-25 (WL113; gate still NOT_RESOLVED):*
+  - **Oracle (physical construction).**
+    - A camera-independent dense 4×4 uniform table removes the depth-matched artifact in independent configurations: all WL112 bands at all 14 contact-valid views.
+    - The compact VHS ∪ MEDIUM support keeps the contact fidelity but not the sphere silhouette.
+    - 4×4 still leaves a residual within about 10 cm of the support. Against the approved 3 % contract this fails the localisation and ring requirements (R1L, R4).
+  - **Learned dense-4×4 ECRO.**
+    - It reproduces the oracle at contact configurations, with exact rebuild and revisit.
+    - It has a learned bias of about +0.01 to +0.016 at new positions and in lifted states.
+  - **Full depth.** Every depth-6 representation fails the full-depth 3 % contract through truncation (−7 to −17 % in the near ROI).
+  - **Remaining blockers:**
+    - contact-scale resolution below 4×4;
+    - learned generalisation at lifted / new positions;
+    - transport depth.
 
 Do not treat historical failures of the earlier intrinsic-K line as observed defects of the learned ER baseline. They are possible failure mechanisms and diagnostic controls. Do not convert the local ER success into a full-K, global-interreflection, dynamic-reuse or end-to-end superiority claim. GM2–GM4 are directional commitments, not automatically approved work.
 

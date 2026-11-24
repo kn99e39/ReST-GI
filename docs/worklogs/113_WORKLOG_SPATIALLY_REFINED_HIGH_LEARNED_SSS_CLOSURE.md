@@ -175,3 +175,171 @@ The owner asked for the run to be stopped. At that moment the chain from `dd5fb6
 **Not run.** The post-fix selection, data, training, and Stages D–G.
 
 **Resume.** Run `bash experiments/ecro_sss113/chain113.sh` (detached). The chain skips completed outputs and restarts at `analyze113A`.
+
+### Resumed run (owner instruction, chain `9290eb7`, 2026-11-25 03:45–06:21 KST)
+
+| Time (KST) | Step |
+|---|---|
+| 03:46 | Analysis A rerun with Execution fix 2: **S4 (dense) selected**. S4 is adequate; L4 is not equivalent. |
+| 03:47–04:19 | D113 data: 208 geometries, 9.45 GB. |
+| 04:19 | Precheck passed, including the dense budget. |
+| 04:19–04:55 | Both arms trained in parallel: O_U in 17.9 min, CAND in 34.4 min. |
+| 04:55–05:09 | Stage D. |
+| 05:09–06:17 | Stage E. |
+| 06:17–06:21 | Rebuild, analysis, cost and figures. |
+
+No further fixes were needed.
+
+## Final report
+
+Written for the research owner.
+
+### Implementation fact
+
+- **Locations.** Code is in `experiments/ecro_sss113/`. Raw outputs are in `results/ecro_sss113/primary/`. Reviewer artifacts are in `evaluation/113/`: 19 figures, an index and a manifest.
+- **Representation.** The WL112 contract v3 construction at 4×4 gives nested 2×2 and coarse tables. Compact support uses the VHS ∪ MEDIUM rule.
+- **Learned candidate.** ECRO-L4 is model86 plus a sub-patch head with geometric descriptors. By the frozen selection rule it was **trained in dense mode, on all 1,270 patches**.
+- **Matched control.** O_U shares the samples, seed, schedule and initialisation with the candidate.
+- **References.** One deep physical camera pass to 24 events gives D6 (paired with every readout) and the full-depth reference.
+- **Gate metrics.** The 3 % gate quantities (R1, R1L, R2, R3 bias, R4, R5a/b, R6b, R7) are computed against both the full-depth and the D6 references.
+- **Unchanged.** ECRO v0, the ER/SDM status, LOW/HIGH ownership, the material and all historical artifacts.
+
+### Measurement
+
+**Physical construction qualification: QUALIFIED.**
+
+| Check | Result |
+|---|---|
+| Tracer / deep-pass identity | 0 / 3e-8 |
+| Pinning | 2.1e-7 |
+| Synthetic 4×4 | 96/96 within 4 SE; parent 5e-8 |
+| Support, F0–F3 | footprint \|t\| ≤ 3.15; singular counts 27–42 vs 35.7 expected; mismatch ≤ 3.2e-6 |
+| Sphere-interior origins (C) | zero |
+| Image materiality | all qualified |
+| LOW pairing | ≤ 1e-10 |
+| Decorrelated RNG, Q8 | equal within the combined interval at every F0/F1 view: the RNG correlation inflates variance only |
+
+**Dense 4×4 oracle: it generalises.**
+
+On independent F1–F3 and a fresh F0, under the historical depth-matched contract:
+- At all 14 contact-valid views, near and contrast lie inside the WL112 bands. Near is −0.0083…+0.0065 for S4 vs +0.037…+0.215 for U.
+- Near stable relative HIGH RMSE is 2.1–4.5 % for S4 vs 23–42 % for U.
+- No regression; coverage ≥ 0.9999.
+
+Against the D6 reference, under the approved 3 % quantities:
+- R1 near is −0.9…+2.1 % and R2 is −1.8…+1.1 %. Both are inside 3 %.
+- **R1L fails at every view.** The number of failing windows falls from 5,000–8,600 for U to 65–380 for S4, and max |e| from 0.43–0.74 to 0.05–0.13.
+- **The innermost ring (0–10 cm) stays at +1.5…+11 %** (U: +35…+64 %). **R4 fails at 9 of 14 views.**
+
+**Compact local refinement: not sufficient under the frozen equivalence.**
+- VHS ∪ MEDIUM refines 23–24 % of patches, which is 4.7× the coarse float count.
+- Contact endpoints and rings are equivalent to S4 at every view (|L4 − S4| ≤ 0.0005).
+- **Sphere-silhouette RMSE exceeds 1.10 × S4 + 0.0025 at 9 of 15 views**, and sphere interior at 2. The silhouette queries surfaces the compact rule leaves coarse.
+- The frozen rule therefore selected dense S4. Budget: 29 min projected, 5.7 GB, 14.9 MiB.
+
+**Learned generator adequacy (target domain, validation).**
+
+| Arm | Coarse rel L1 | Refined rel L1 |
+|---|---|---|
+| CAND | 0.0247 | 0.0859 |
+| O_U | 0.0246 | — |
+| Target half-noise | 0.020 | 0.082 |
+
+The coarse output measured against the 4×4 targets gives 0.0943.
+
+**Static and cross-view fidelity (Stage D, raw 4,096 spp).** The learned candidate removes the artifact at every contact-valid view of F0–F4.
+
+| Arm | F0 V0 near | F1 W0 near | F0 H3 near |
+|---|---|---|---|
+| O_U | +0.072 | +0.101 | +0.229 |
+| CAND | −0.0009 | +0.0139 | −0.0151 |
+
+- CAND is inside the near and contrast bands everywhere. Its learned-vs-oracle near RMSE is 1.3–4.8 %.
+- **The historical contract fails at 4 of 17 contact-valid views** (F1 W0/W1, F4 W0/W1), all on the innermost radial band: CAND +0.015…+0.029 vs bands of 0.014–0.016. The oracle there is +0.010…+0.022, so part of this miss is representational.
+- **3 % depth-matched contract.** R1L fails at every view and R4 at most views. R1 fails at F1 W0/W1 and F4 W0 (+3.4…+4.6 %). R6b spread is ≤ 3 % for F0–F4.
+- **3 % full-depth contract.** It fails at every view: R1 is −8…−17 % (Stage F).
+- **Off-target.** Silhouette RMSE is below O_U at every view (H5: 0.025 vs 0.043). The R5a/R5b bias parts fail at full depth because of truncation.
+
+**Dynamic fidelity (Stage E, same weights throughout, no per-state fitting).**
+
+- **Reuse mechanics are exact.** A fresh-process rebuild equals the in-sequence table (max rel 0) at all 17 states. Revisits give identical tables and supports. 21 of 24 transitions are discriminating.
+- **SEQ_A, F0 location.** All states pass at H2. At V0 the 5 cm state fails the innermost band: CAND +0.019 vs band 0.026, while the oracle itself is +0.028. R7 slope is 1.11 / 1.08 with corr 0.9999; V0 is just outside 1 ± 0.1.
+- **SEQ_B, slide across the patch edge.** All states pass.
+- **SEQ_C, independent F1 location and light.**
+  - Contact states lie inside the near bands (+0.010…+0.014), but the innermost band fails at W0.
+  - **Lifted states fail.** At 3 cm, CAND is +0.031 / +0.025 vs bands of 0.021 / 0.022. At 8 cm it is +0.037 / +0.038 vs 0.029 / 0.028. The oracle there is +0.012…+0.023.
+  - R7 slope is 1.12 / 1.18, so R7 fails.
+
+**Depth truncation (Stage F, near region, relative to full depth).**
+- Truncation contributes −6.8…−17 %.
+- CAND: the spatial-plus-learned term is −1.8…+4.0 %, total −8…−17 %.
+- O_U: the spatial term is +22…+30 % against truncation of −7…−13 %, total **+10…+17 %**. **For the coarse model, the spatial overbrightness and the truncation cancel in sign.**
+
+**Runtime and storage (local 5080, unoptimised Dr.Jit 0.4.6).**
+
+| | CAND (dense) | O_U |
+|---|---|---|
+| Parameters | 778,464 | 735,664 |
+| Spatial outputs | 20,320 | 1,270 |
+| Table | 15.8 MiB (+5 KB index) | 0.93 MiB |
+| Generator | 17.6 ms, 2.2 GB peak | 2.6 ms, 0.17 GB |
+| Support / descriptors | 3.7 ms | — |
+| Edit → table | 167 ms | 108 ms |
+| 512² 1-spp frame | 39 ms | 39 ms |
+| Training | 34.4 min, 5.3 GB | 17.9 min, 0.6 GB |
+
+Data generation took 32 min on two processes and produced 9.45 GB.
+
+### Observation
+
+- The coarse lobes disappear in every view and state, for both the candidate and the oracle.
+- A narrow positive rim remains right under the contact. It is stronger for lifted spheres and at the F1/F4 positions.
+- The stale table keeps the previous contact state's pattern after both contact formation and contact removal.
+- Patch-boundary silhouette stripes are weaker with 4×4 output (silhouette RMSE about 0.013 vs 0.04).
+
+### Interpretation
+
+- **Spatial aggregation is the supported cause of the depth-matched artifact.** In independent configurations a camera-independent dense 4×4 uniform table removes 85–100 % of it.
+- **4×4 is not sufficient for the approved 3 % localisation requirements.** A residual at the 6 cm sub-cell scale, within about 10 cm of the support, fails R1L and R4 even for the physical oracle.
+- **The compact VHS ∪ MEDIUM rule keeps the contact fidelity, but not the silhouette.** The silhouette needs refinement on surfaces the rule does not select.
+- **The learned dense candidate reproduces the oracle where training covers the configuration** (F0, F2, F3; SEQ_A, SEQ_B). At the F1/F4 positions and in lifted states (SEQ_C) it adds a configuration-dependent learned bias of about +0.01…+0.016. That is about the size of the band.
+- **Reuse is mechanically exact.** Depth-matched dynamic fidelity holds in 2 of 3 sequences. It fails in the lifted independent states, and R7 slope is narrowly missed.
+- **Every depth-6 representation fails the approved full-depth 3 % contract through truncation (−7…−17 %).** The coarse model's apparent full-depth +10 % is signed cancellation, not accuracy.
+
+### Unresolved questions
+
+1. What resolves the residual within 10 cm of the support, which blocks R1L and R4 even for the oracle? Finer than 4×4, or a different basis?
+2. Why is there a learned bias at new positions and in lifted states, when D113 contains lifted spheres? Candidates are sampling density near 3–8 cm gaps, the descriptors, or capacity.
+3. How should depth beyond D6 be handled? This is the full-depth blocker; depth was deliberately not changed in this batch.
+4. R3 equal-time frontier and R9 radius/medium were not run.
+
+### Architecture verdict
+
+**Mandatory SSS Gate: NOT_RESOLVED** by the frozen classification. The learned candidate fails the historical depth-matched contract at 4 of 17 static views and at the lifted SEQ_C states. The approved 3 % full-depth contract fails everywhere through truncation.
+
+The three parts reported separately:
+- **Oracle spatial adequacy.** Dense 4×4 is SUPPORTED for the depth-matched historical contract. It is NOT sufficient for 3 % R1L/R4.
+- **Learned spatial resolution.** It reproduces the oracle at contact configurations, with a learned bias at new and lifted ones.
+- **Full-depth milestone correctness.** Not met, because of truncation.
+
+Nothing is adopted, and Architecture.md's accepted contract is unchanged.
+
+### Reproducibility
+
+- **Commits.** Freeze `c564977`; Fix 1 `58162b9`; Fix 2 `dd5fb68`; stop record `9290eb7`; the report is the next commit.
+- **Seeds.**
+
+| Use | Seed |
+|---|---|
+| Constructions | 11301000 + 100·f + r |
+| Decorrelated control | 11302000 + … |
+| Streams | 11310000 + 100·f + 10·v + j |
+| Data | train 11320100 / val 11320200 |
+| Training | 11330001 |
+| F4 oracle | 11341000 |
+| Stage E | 11350000 + 1000·s + 10·t + 2·v + j |
+| Operating point | 11360000 + … |
+
+- **Environment.** Local RTX 5080 16 GB; Python 3.11, Mitsuba 3.5.1, Dr.Jit 0.4.6, torch 2.8.0+cu128. The WL100 checkpoint is `2d9cb580…`.
+- **Checkpoints.** `stageC/{O_U,CAND}/model.pt`; SHA-256 in `training.json`.
+- **Run.** `bash experiments/ecro_sss113/chain113.sh` (resumable). Figures: `fig113.py ROOT evaluation/113`.
