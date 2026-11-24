@@ -1,0 +1,157 @@
+{
+  "batch": "WL111",
+  "class": "Regular numbered batch (owner brief 2026-11-24: External Baseline Benchmark and Contribution Approval Gate). Benchmark and decision-contract batch; no ReST-GI architecture change, no SSS solution, no SDM adoption.",
+  "branch": "Denoise_Reconstructor (current branch; no new branch or worktree). Execution host: Main (owner directive 2026-11-24). Main's checkout C:\\Projects\\ReST-GI (branch ecro_lr3_adapter, untracked experiments/ecro_live101j of another session) is used READ-ONLY for frozen sources, checkpoints and the Mitsuba 3.9.1 runtime; WL111 code and outputs live in the isolated C:\\Projects\\bench111.",
+  "freeze_rule": "This file and the WL111 code are committed before any comparative outcome (method vs reference) is computed. Development smokes (dev111.py) compared only the new physical adapter with the WL100 finite-depth reference and measured raw frame times; they are disclosed in the worklog and are not evidence.",
+  "host": {
+    "name": "Main",
+    "gpu": "NVIDIA GeForce RTX 5080 16 GB (WDDM, also drives the desktop)",
+    "driver": "610.88",
+    "os": "Windows 11",
+    "python": "C:\\Projects\\ReST-GI\\external\\8dna26\\.venv-cu128 (Python 3.11.9, torch 2.8.0+cu128)",
+    "mitsuba": "3.9.1 / Dr.Jit 1.5.0 from C:\\Projects\\ReST-GI\\external\\mi39_dyn101 (WL101 arm-B runtime), cuda_ad_rgb, FREEZE=1"
+  },
+  "frozen_sources": [
+    "ecro_dyn101/rt101.py",
+    "ecro_material100/pt100.py",
+    "ecro_material100/common100.py",
+    "ecro86/pt86.py",
+    "ecro86/model86.py",
+    "ecro86/scene86.py"
+  ],
+  "frozen_checkpoints": {
+    "sss": "results/ecro_material100/sss/model.pt sha256 2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42 (WL100)",
+    "near": "results/ecro_material100/near/model.pt (WL100; sha256 recorded in the run manifest)"
+  },
+  "cameras": {
+    "V0": {"sss": {"origin": [0.9, -2.4, 1.05], "target": [0.9, 0.4, 0.55], "fov_deg": 32},
+           "near": {"origin": [0.3, -1.6, 1.3], "target": [-1.3, 0.45, 1.0], "fov_deg": 32},
+           "note": "V0 = the WL100 dataset camera of each case (configs.json, identical for every test row). Fixed during the code-path smoke (N0 initially used the SSS camera; caught by G_ADAPT before any evidence)."},
+    "held_out_target": [0.9, 0.4, 0.35],
+    "held_out_rule": "WL101G generalization.json: origin = T + (d sin az, -d cos az, d tan el); fov 32; 512 x 512. Fixed from geometry only (WL101G).",
+    "held_out": {
+      "H1": {"azimuth_deg": -45, "horizontal_m": 2.2, "elevation_deg": 18},
+      "H2": {"azimuth_deg": 35, "horizontal_m": 1.75, "elevation_deg": 20}
+    }
+  },
+  "states": {
+    "S0": {"case": "sss", "geom_index": 0, "light_from_index": 0, "light_index": 0, "views": ["V0", "H1", "H2"],
+           "role": "W1 SSS cfg0 static (WL100 test 0, light 0); category E + mandatory SSS near-contact gate"},
+    "S1": {"case": "sss", "geom_index": 1, "light_from_index": 0, "light_index": 0, "views": ["V0"],
+           "role": "W3 rigid edit target: boxes A and B moved to WL100 test-1 geometry, light unchanged; category G"},
+    "SL": {"case": "sss", "geom_index": 0, "light_from_index": 0, "light_index": 1, "views": ["V0"],
+           "role": "W5 lighting change target: test-0 geometry, WL100 test-0 light 1; category H"},
+    "N0": {"case": "near", "geom_index": 0, "light_from_index": 0, "light_index": 0, "views": ["V0"],
+           "role": "W2 near-mirror panel (GGX alpha 0.01, F0 1) static (WL100 near test 0, light 0); category C"}
+  },
+  "run_states": ["S0", "S1", "SL", "N0"],
+  "runtime_rule": "One case runtime alive at a time (rt101 module-level closure table _CL belongs to the last-constructed runtime; found in the code-path smoke before evidence). States are processed grouped by case.",
+  "references": {
+    "primary": "REF_FULL: pt111 full depth (kmax 256 events, Russian roulette from event 4, q = min(max throughput, 0.95)), same scene semantics as pt100 (SSS entry-to-first-exit walk = one event, ballistic through-sphere NEE). Two independent halves (splitmix/sha seeds). Primary scores use the half mean; per-pixel reference variance = (h0 - h1)^2 / 4 is subtracted from MSE (debiased).",
+    "full_spp_per_half": 32768,
+    "full_kmax": 256,
+    "full_rr": 4,
+    "diagnostic": "REF_D6: pt111 kmax 6 without RR = ECRO's depth-matched target (WL100 E1..E6 semantics), 2 halves. Diagnostic only; truncation stays in every primary score.",
+    "d6_spp_per_half": 8192,
+    "validity_gate": "G_ADAPT: pt111 at kmax 6 without RR, 1024 spp, against the archived WL100 REF_0_{0,1} (2 x 4096 spp, independent code path pt100.trace) on S0 V0 and N0 V0: for e1, e2, h in every channel the image-mean difference passes (|relative difference| <= 3e-3 OR |z| <= 4, z = mean difference / pixel-level standard error of the difference image) and RMSE / expected noise lies in [0.75, 1.25]; and kmax 6 with RR 4 equals the no-RR adapter by the same mean rule. Fail = stop the fixture workloads.",
+    "validity_gate_development_note": "Code-path smoke (before any evidence): the first written rule (|rel| <= 3e-3 without a noise term, RMSE/noise [0.85, 1.20]) failed on N0 only from heavy-tailed near-mirror noise: e1 matched to 2e-4 and two distributionally identical estimators (e2, unaffected by roulette) already differed by 0.6 %. The rule was changed to the noise-scaled form above before any evidence run; the smoke values are disclosed in the worklog.",
+    "full_depth_convergence": "Reported: energy beyond 6 events (FULL - D6) per state; FULL halves agreement (half-vs-half RMSE)."
+  },
+  "arms": {
+    "ECRO": "Canonical ReST-GI as implemented (Architecture 2026-11-13): frozen WL100 checkpoint, WL101 optimized runtime (rt101.RT.frame, FREEZE=1), LOW E1+E2 physical + learned HIGH table lookup, D = 6. Static frames reuse the resident table; dynamic transitions use the WL101 selective lifecycle (set_geom, update_state, set_light, source, respond, DLPack hand-off, frame). Nothing tuned.",
+    "ECRO_CONV": "ECRO at 4096 spp, one replicate: the canonical estimator's converged bias (diagnostic).",
+    "ECRO_STALE": "Dynamic control: T1 geometry/light with the T0 table.",
+    "PT": "Practical full-depth physical path tracer (pt111), same scene semantics, megakernel symbolic loop frozen with dr.freeze, kmax 256, RR from event 4. No per-workload tuning.",
+    "PTDN": "PT + OptiX AI denoiser (Mitsuba 3.9.1 OptixDenoiser, HDR model, albedo + normal guides from the same samples, no temporal history), input passed on the device.",
+    "not_run_here": {
+      "ECRO+denoiser": "NOT_RUN: would be a new ReST-GI pipeline variant (WL101B SVGF candidate already failed its gate); outside this batch's no-new-variant rule.",
+      "8DNA / RNA / TransGI on the fixtures": "UNSUPPORTED / UNQUALIFIED: see the registry. 8DNA: no released ECRO-room scene/asset; RNA: transparent-medium AOV failure (WL69) and no released production renderer; TransGI: no medium transport (glass and media removed in its scope).",
+      "NRC": "IMPLEMENTATION_UNAVAILABLE in this repository (no executed implementation on any branch)."
+    }
+  },
+  "quality": {
+    "ecro_spp": [1, 2, 4, 8, 16, 32, 64],
+    "ecro_converged_spp": 4096,
+    "pt_spp": [1, 2, 4, 8, 16, 32, 64, 128, 256, 1024],
+    "ptdn_spp": [1, 2, 4, 8, 16, 32, 64],
+    "pt_kmax": 256,
+    "pt_rr": 4,
+    "reps_by_spp": [[16, 16], [64, 8], [256, 4], [4096, 2]],
+    "seeds": "seed_of('q111', state, view, arm, spp, rep) (sha256 -> splitmix64, < 2^40), stream = seed * 1000003 (+ launch); disjoint by construction from reference seeds ('ref111', ...)."
+  },
+  "metrics": {
+    "primary": "E = relative debiased HDR RMSE over the full frame against REF_FULL: sqrt(max(mean_rep MSE - mean ref variance, 0)) / mean(REF), linear RGB, all pixels (exposure 1). Expected per-frame error at an operating point = mean over replicates of MSE before the square root.",
+    "secondary": ["relative HDR L1", "relative signed bias (energy)", "LDR RMSE / L1 / PSNR with clip(x,0,1)^(1/2.2)", "SSIM (LDR, gaussian 1.5; replicate 0, descriptive)", "ROI errors"],
+    "rois": {
+      "sss": ["full", "sphere", "sphere_interior", "silhouette", "near", "flank", "contact_disk", "off_target", "mixed_boundary"],
+      "near": ["full", "panel", "panel_interior", "non_panel", "mixed_boundary"]
+    },
+    "uncertainty": "Bootstrap over replicates (2,000 resamples, percentile 95 %) for E and ratios; reference noise via halves; timing: median with bootstrap CI over frames.",
+    "fixed_before_results": true
+  },
+  "sss_gate": {
+    "support_point": [0.9, 0.4, 0.0],
+    "near_r_m": 0.18,
+    "flank_r_m": [0.26, 0.40],
+    "radial_edges_m": [0.0, 0.10, 0.14, 0.18, 0.22, 0.26, 0.30, 0.35, 0.40, 0.50],
+    "contact_excluded_r_m": 0.25,
+    "definitions": "WL101C near / flank (V0: visible floor with world y <= 0.4; held-out: all azimuths, WL101G near_all / flank_all); near-minus-flank excess = (arm near - flank) - (REF near - flank) in Rec.709 luminance; signed near = arm near - REF near. WL101F material bands (near +-0.014030, contrast +-0.012520) were defined against the D6 Oracle excess and are reported for orientation only; this batch scores against REF_FULL."
+  },
+  "timing": {
+    "states": ["S0", "N0"],
+    "views": ["V0"],
+    "ecro_spp": [1, 2, 4, 8, 16, 32, 64],
+    "pt_spp": [1, 2, 4, 8, 16, 32, 64, 128, 256],
+    "ptdn_spp": [1, 2, 4, 8, 16, 32, 64],
+    "warmup": 10,
+    "rounds": 5,
+    "frames_per_round": 20,
+    "boundary": "Static frame: from the call with all resident state ready to the per-pixel radiance (and, for PTDN, the denoised tensor) in GPU memory; dr.sync_thread + torch.cuda.synchronize before and after; perf_counter. First call (kernel recording/compile) reported separately. Display/presentation excluded for every arm.",
+    "exclusivity": "Windows WDDM lists desktop processes as GPU clients, so a block is exclusive when no other python.exe (other than this process and its venv launcher parent) runs and the median GPU utilization over 3 s is <= idle_util_max_pct, before and after the block; otherwise the block is repeated (max_attempts) and finally flagged contaminated. The desktop compositor shares the GPU; this is disclosed, not removable.",
+    "idle_util_max_pct": 10,
+    "max_attempts": 3
+  },
+  "dynamic": {
+    "transitions": {
+      "EDIT_S0_S1": {"from": "S0", "to": "S1", "class": "rigid edit: both boxes move (WL100 test 0 -> test 1 geometry), sphere fixed"},
+      "LIGHT_S0_SL": {"from": "S0", "to": "SL", "class": "point-light change"}
+    },
+    "spp": 1,
+    "warmup_pairs": 5,
+    "rounds": 10,
+    "boundary": "edit -> first frame: from the new geometry/light parameters to the first 512^2 x 1 spp frame in GPU memory; ECRO_sel = WL101 selective lifecycle; ECRO_full = full relation rebuild; PT = BVH update + frame; PTDN = PT + denoiser. Each arm alternates T0 -> T1 -> T0 so arm boundaries always leave a consistent T0 state.",
+    "stale_spp": [1, 4, 16, 64],
+    "quality_at_target": "From the quality stage at S1 / SL (ECRO with the updated table, PT, PTDN) and the ECRO_STALE control here.",
+    "untested_dynamic_classes": "sphere translation, contact separation / formation, deformation, self-contact: UNSUPPORTED by the fixture family (sphere fixed) -> NOT_RUN; recorded in the SSS gate as missing evidence."
+  },
+  "lr3": {
+    "workload": "W4 Living Room 3 static V0, 640 x 360, GI output semantics (WL102 contract): Ref-65 (Mitsuba 3.6.4 path max_depth 65, 2 x 65,536 spp, LabServer69, DI by common random numbers) is the primary GI reference; Ref-7 is depth-matched diagnostic. Metric: GI LDR RMSE (WL102 / TransGI convention) and GI relative debiased HDR RMSE.",
+    "arms": {
+      "PT_LR3": "Mitsuba 3.9.1 'path' max_depth 65 (RR default 5), GI = full(65) - full(2) with common random numbers per sample set; spp ladder 1..256; timing = one full-depth render (an upper bound of a GI-only pass).",
+      "PTDN_LR3": "PT_LR3 GI + OptiX denoiser (albedo / normal from Mitsuba aov).",
+      "TransGI": "Independent reproduction, adopted configuration B24 L40 (D_vis, LeakyReLU, t = 0.15 probe spacing, object-balanced batches, lazy Adam, latent init 1e-4), seed-1 checkpoint living_room_3_b10t/train/b24_lz_i4_seed1 (LabServer69, read-only copy). Quality: its own evaluator at 640x360; timing: its fast frame if it runs on Main, otherwise historical LabServer69 timing labelled cross-hardware.",
+      "ECRO_LR3": "WL102 Amendment-2 model (owner-approved seed s10202), quality from WL102 (historical, same Ref-65 contract), timing on Main if its adapter runs unchanged; otherwise historical labelled."
+    },
+    "status_rule": "Each LR3 arm is QUALIFIED only if it runs unchanged on Main with the stated inputs; a blocker is recorded and the remaining comparisons continue (brief stop rule)."
+  },
+  "frontier": {
+    "rule": "Per workload and view: points (median frame ms on Main, E with 95 % CI). Pareto front over all executed arms. Strongest valid comparator at the ReST-GI operating point = the executed arm with the lower E at equal time (log-log interpolation along its spp ladder) and, separately, the lower time at equal E. No averaging across workloads.",
+    "interpolation": "Piecewise-linear in (log ms, log E) between adjacent executed spp; no extrapolation beyond executed points (reported as 'beyond executed range')."
+  },
+  "gate_derivation": {
+    "status": "PENDING_OWNER_APPROVAL. The numbers proposed in the worklog are derived from these measurements by the rule below; nothing becomes canonical without the owner.",
+    "path1": "Quality non-inferiority AND performance superiority, against the comparator Pareto frontier F (lowest E at each time over all valid executed comparators): PASS iff t_ReST <= (1 - s_t) * t_F(E_ReST / (1 + m_q)), where t_F(E) is the frontier time to reach error E (interpolated; 'beyond executed range' = not evaluable).",
+    "path2": "Performance non-inferiority AND quality superiority: PASS iff E_ReST <= (1 - s_q) * E_F(t_ReST / (1 + m_t)), where E_F(t) is the frontier error at time t.",
+    "absolute": "Independently of PATH 1/2, the owner's frame budgets apply to the ReST-GI operating point used for the claim (static frame and edit -> first frame reported separately).",
+    "initial_margins": {"m_q": 0.05, "m_t": 0.05, "s_q": 0.20, "s_t": 0.20},
+    "margin_assessment": "Margins are assessed against measured replicate CI half-widths of E and timing CIs; a margin smaller than the 95 % CI half-width of the measured difference is reported as not resolvable at the measured precision (it is not silently widened).",
+    "independence": "Each workload / view tier must pass separately; the SSS near-contact gate is separate and cannot be compensated.",
+    "frame_budgets_ms": {"ideal": 10, "desired": 15, "acceptable": 20}
+  },
+  "stops": [
+    "G_ADAPT fails -> stop the fixture workloads (reference not qualified).",
+    "A required reference half disagrees beyond 2x its own noise (half-vs-half RMSE ratio) -> that state is UNQUALIFIED.",
+    "Timing block contaminated after max_attempts -> the timing comparison of that block is UNQUALIFIED (quality still reported).",
+    "An external arm needs code changes beyond configuration -> REPRODUCTION_REQUIRED / IMPLEMENTATION_UNAVAILABLE; continue the rest."
+  ]
+}
