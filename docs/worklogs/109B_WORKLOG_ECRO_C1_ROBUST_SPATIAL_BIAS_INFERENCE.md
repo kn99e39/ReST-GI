@@ -488,3 +488,37 @@ Transfer script: `results/ecro_estimator109b/xfer70.sh` on LabServer69.
     1e-6; otherwise recapture all 18).
   - The CPU stages, which run on the host.
   - Every estimator, inference, threshold and decision rule.
+
+## WL109B Amendment 4 — CPU stages on Main WSL (owner decision, 2026-11-24)
+
+**Why.** LabServer70's 16 cores are held by other work: load average about 16 at 18:45. The owner asked that no CPU on
+LabServer70 be used, and that the CPU stages be offloaded to Main.
+
+**Main.** The owner's Windows workstation, reached by `ssh Main`. It runs WSL2 Ubuntu 22.04 with 32 cores, 31 GB of memory
+and glibc 2.35, and reaches LabServer70 directly over tailscale SSH.
+
+**Mirror.** `pull70_main.sh`, run detached through the repo's `wsl_run_detached.sh`, pulls from LabServer70 to the same
+`/home/nd` paths:
+- the frozen uv Python and venv;
+- `rest_dyn101`;
+- the code;
+- the WL108 inputs and WL107 capture/reference;
+- the WL109 manifests;
+- the WL109B evidence, excluding `tmp`, `mpl` and `smoke`.
+
+The analyses run with `HOME=/home/nd`, so every path resolves exactly as on the GPU hosts.
+
+**Split of stages.**
+
+| Host | Script | What runs |
+|---|---|---|
+| LabServer70 | `run109b_amend4_gpu.sh` | GPU only, in three phases: gpu1 (xcheck + paired); gpu2 (grid + timing, only if `bias109b.json` is EQUIVALENT_ALL); gpu3 (dynamic, only if `static109b.json` is STATIC_PASS) |
+| Main WSL | `run109b_main.sh` | CPU only: tests; bias (pull paired + xcheck, `analyze109b --phase bias`, push the bias decision); static (pull grid + timing, `analyze109b --phase static` + `decide109b`, push) |
+
+- Main appends its states to LabServer70's `chain.state`, prefixed `MAIN`. LabServer70 holds the authoritative record.
+- The LabServer70 guard polling (nvidia-smi and the load average every 10 s while waiting) is the only work done there
+  outside the GPU stages.
+
+**Reproducibility note.** The analyses are deterministic NumPy/SciPy code on the same interpreter and wheels. A different CPU
+can change floating-point results only at the last-bit level, through BLAS kernel selection. No decision threshold is near
+that scale.
