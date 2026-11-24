@@ -82,7 +82,10 @@ def mode_pt():
     scene, sensor = sess.sd.mi_scene, sess.sensor
     man = {'versions': C.versions(mi, dr, torch), 'scene_manifest': {k: sess.sd.manifest[k] for k in ('modified_sha256', 'removed_dielectric_shapes')},
            'ref_sha256': C.sha(REF / 'static_V0.npz'), 'ref7_sha256': C.sha(REF / 'static_V0_d7.npz'), 'snapshot': C.gpu_snapshot()}
-    assert man['scene_manifest']['modified_sha256'] == L['scene_modified_sha256'], man['scene_manifest']
+    import hashlib
+    xml = (DATA / 'scenes' / 'living-room-3' / 'scene_transgi.xml').read_bytes().replace(b'\r\n', b'\n')
+    man['scene_xml_lf_sha256'] = hashlib.sha256(xml).hexdigest()
+    assert man['scene_xml_lf_sha256'] == L['scene_modified_sha256'], man   # Windows writes CRLF; content must equal LabServer69's
     assert man['ref_sha256'] == L['ref65_sha256'], man['ref_sha256']
     ref = load_ref()
     i65 = mi.load_dict({'type': 'path', 'max_depth': 65})

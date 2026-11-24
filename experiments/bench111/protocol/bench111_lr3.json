@@ -183,5 +183,6 @@
     }
   },
   "transgi_exclusivity": "TransGI runs only after the fixture chain has finished (sequential GPU use); its own benchmark script synchronises per frame.",
-  "ecro_lr3": "Historical (WL102, LabServer69 RTX 3090): GI LDR RMSE vs Ref-65 0.170 at 4 spp, 0.102 converged; truncation-only 0.096; frame 27.3 / 27.7 ms (unoptimised path). Not re-run on Main: it needs the 11 GB WL102 dataset for its generator state and an unoptimised frame path; its LR3 gate status is decided by quality (its truncation floor alone exceeds TransGI's error), which a new timing cannot change. Recorded QUALIFIED_WITH_LIMITATIONS (quality) / cross-hardware (time)."
+  "ecro_lr3": "Historical (WL102, LabServer69 RTX 3090): GI LDR RMSE vs Ref-65 0.170 at 4 spp, 0.102 converged; truncation-only 0.096; frame 27.3 / 27.7 ms (unoptimised path). Not re-run on Main: it needs the 11 GB WL102 dataset for its generator state and an unoptimised frame path; its LR3 gate status is decided by quality (its truncation floor alone exceeds TransGI's error), which a new timing cannot change. Recorded QUALIFIED_WITH_LIMITATIONS (quality) / cross-hardware (time).",
+  "scene_check_amendment": "Pre-run correction (code-path smoke, before any LR3 result): on Windows the Session writes scene_transgi.xml with CRLF line endings, so its raw sha256 (bd062579...) differs from LabServer69's (62583fb9...) although the content is identical. The check is on the LF-normalised sha256 of the written XML."
 }
