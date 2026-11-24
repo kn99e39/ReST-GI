@@ -5,7 +5,7 @@
 | Part | Status | Where |
 |---|---|---|
 | Decision contract: non-inferiority 5 % (quality and performance), superiority 20 % (quality and performance), runtime tiers 10 / 15 / 20 ms, budget-anchored quality–performance frontier, monotone envelope, uncertainty in every equivalence / superiority judgment | **APPROVED — canonical** | §1, §3 |
-| Workload absolute targets measured in WL111 | **PROVISIONAL DEVELOPMENT TARGETS** (approved as such, not as final requirements) | §4 |
+| Workload absolute targets measured in WL110 | **PROVISIONAL DEVELOPMENT TARGETS** (approved as such, not as final requirements) | §4 |
 | SSS near-contact 3 % bands | **CONDITIONALLY APPROVED** with the added requirements in the [SSS gate](SSS_NEAR_CONTACT_GATE.md) | SSS gate |
 | SSS near contact as a gate | **MANDATORY, non-compensable** | SSS gate |
 | Dynamic reuse | **Final judgment DEFERRED**: no edit workload has passed qualification yet | §5 |
@@ -22,7 +22,7 @@ This approval adopts no ReST-GI architecture and authorises neither an implement
 - [claim-to-evidence matrix](CLAIM_EVIDENCE_MATRIX.md) — novelty evidence;
 - [SSS near-contact gate](SSS_NEAR_CONTACT_GATE.md) — mandatory and separate.
 
-Measurements: [WL111](worklogs/111_WORKLOG_EXTERNAL_BASELINE_BENCHMARK_AND_APPROVAL_GATE.md); reviewer package `evaluation/111/`.
+Measurements: [WL110](worklogs/110_WORKLOG_EXTERNAL_BASELINE_BENCHMARK_AND_APPROVAL_GATE.md); reviewer package `evaluation/110/`.
 
 ## 1. Decision rule
 
@@ -43,14 +43,14 @@ The rule is anchored at the owner's frame budgets b ∈ {10 ms ideal, 15 ms desi
 
 **Additional conditions, all mandatory:**
 1. **Independence.** Every mandatory workload tier and every qualified view passes on its own. No averaging across workloads, views or materials.
-2. **Dynamic.** The first frame after a rigid edit or a light change satisfies the same tier. Its time is measured edit → first frame and includes every update (relation, source, generator, BVH, history reset). On a qualified edit workload the stale-state control must fail the tier (§5). **Final dynamic-reuse judgment is deferred** until such a workload exists. The WL111 edit-latency values are recorded, not judged.
+2. **Dynamic.** The first frame after a rigid edit or a light change satisfies the same tier. Its time is measured edit → first frame and includes every update (relation, source, generator, BVH, history reset). On a qualified edit workload the stale-state control must fail the tier (§5). **Final dynamic-reuse judgment is deferred** until such a workload exists. The WL110 edit-latency values are recorded, not judged.
 3. **SSS near contact.** The [SSS gate](SSS_NEAR_CONTACT_GATE.md) passes. It cannot be compensated.
 4. **Novelty evidence (mandatory, separate from numerical superiority).** The passing configuration fails the same tier when its learned component is replaced by the learning-free explicit counterpart at equal time, or that counterpart is shown to cost more than the budget (claim K1 / K2 in the [matrix](CLAIM_EVIDENCE_MATRIX.md)).
 5. **Lifecycle accounting** is reported (§6). Per-edit retraining is not allowed inside a real-time claim. If a mode needs it, the retraining time counts as edit latency.
 
-### Why the rule is anchored at budgets (correction of the WL111 frozen evaluation rule)
+### Why the rule is anchored at budgets (correction of the WL110 frozen evaluation rule)
 
-The WL111 protocol evaluated PATH 1 / 2 at ReST-GI's own operating points. A comparator whose executed error range did not contain ReST-GI's error was "not evaluable". On every qualified workload, PT + OptiX at its cheapest point (1 spp) already has 5–10× lower error than ECRO at 1–4 spp. That point is ruled "not evaluable", which leaves only raw path tracing. The mechanical result is therefore "PASS" at ECRO 1–4 spp against raw PT only, at errors of 0.16–0.61. Those are not usable quality levels: PSNR 13–20 dB LDR, against 37–41 dB for the dominating PT + OptiX point at 1.3–4.8× the time. WL111 reports these mechanical verdicts unchanged. Budget anchoring and the monotone envelope (approved 2026-11-24) prevent a dominated, unusable operating point from passing.
+The WL110 protocol evaluated PATH 1 / 2 at ReST-GI's own operating points. A comparator whose executed error range did not contain ReST-GI's error was "not evaluable". On every qualified workload, PT + OptiX at its cheapest point (1 spp) already has 5–10× lower error than ECRO at 1–4 spp. That point is ruled "not evaluable", which leaves only raw path tracing. The mechanical result is therefore "PASS" at ECRO 1–4 spp against raw PT only, at errors of 0.16–0.61. Those are not usable quality levels: PSNR 13–20 dB LDR, against 37–41 dB for the dominating PT + OptiX point at 1.3–4.8× the time. WL110 reports these mechanical verdicts unchanged. Budget anchoring and the monotone envelope (approved 2026-11-24) prevent a dominated, unusable operating point from passing.
 
 ## 2. Hardware, resolution and cost accounting for the budgets
 
@@ -77,7 +77,7 @@ The WL111 protocol evaluated PATH 1 / 2 at ReST-GI's own operating points. A com
 
 **Status: PROVISIONAL DEVELOPMENT TARGETS** (owner, 2026-11-24). They are the current qualified-frontier values. They direct development and are updated by the frontier rule above (only toward stricter values when new qualified baselines arrive). They are not final acceptance values.
 
-Comparator for every row: path tracing + OptiX AI denoiser (strongest valid; TransGI is on the LR3 frontier only below 7.7 ms). E = relative debiased HDR RMSE against the full-depth reference (fixtures). LR3 uses GI LDR RMSE against Ref-65. ReST-GI = canonical ECRO v0 (WL100 checkpoints, WL101 runtime). Values are from WL111 on the RTX 5080.
+Comparator for every row: path tracing + OptiX AI denoiser (strongest valid; TransGI is on the LR3 frontier only below 7.7 ms). E = relative debiased HDR RMSE against the full-depth reference (fixtures). LR3 uses GI LDR RMSE against Ref-65. ReST-GI = canonical ECRO v0 (WL100 checkpoints, WL101 runtime). Values are from WL110 on the RTX 5080.
 
 | Workload / view | Budget b | Tier T_b (comparator error at b) | PATH 1 target | PATH 2 target | ReST-GI now | Gap | Status |
 |---|---|---|---|---|---|---|---|
@@ -106,14 +106,14 @@ So **any configuration that keeps D = 6 fails every tier on W1 and LR3, whatever
 ## 5. Dynamic-reuse requirements (final judgment DEFERRED)
 
 1. **Qualified edit workload.** The stale-state control must be measurably worse than the updated state, with a pre-registered size and the whole interval beyond noise.
-   - WL111's W3 box edit does not qualify: stale vs updated ECRO E differ by < 2 % (16 spp: 0.0853 vs 0.0858; 64 spp: 0.0465 vs 0.0457). WL101 found the same for its SSS tour (0 / 8 material transitions).
+   - WL110's W3 box edit does not qualify: stale vs updated ECRO E differ by < 2 % (16 spp: 0.0853 vs 0.0858; 64 spp: 0.0465 vs 0.0457). WL101 found the same for its SSS tour (0 / 8 material transitions).
    - A qualified edit (contact change, occluder near a receiver, LR3 rigid scenarios M1–M3) is required before any reuse claim.
 2. **Edit → first valid frame** within the tier at the budget, against PT + OptiX's edit → first frame. That comparator measured 5.24 ms (BVH update + 1 spp + denoiser) at E 0.027.
    - ECRO now: selective update 6.71 ms (p99 6.79), full relation rebuild 5.19 ms (selective is slower than full on the 5080), stale table 0.80 ms frame. Light change: 3.97 ms vs PT + OptiX 4.26 ms.
-3. **Selective = full rebuild** bit-exactly (passes: WL101, WL111 tests). Report stationary-receiver signed change against the reference.
+3. **Selective = full rebuild** bit-exactly (passes: WL101, WL110 tests). Report stationary-receiver signed change against the reference.
 4. **External Neural Full Recompute.** Where a neural baseline's representation is actually invalidated, use its native rebuild lifecycle (8DNA re-bake 1.76 h; RNA 3.24 h; TransGI per-scene data + training ≈ 74 min). Where it is not invalidated, use Native Reuse (TransGI rigid motion, 8DNA asset motion). Path-traced re-render is a separate axis, never a stand-in.
 
-## 6. Lifecycle accounting (WL111 values; one-time vs per-edit vs per-frame)
+## 6. Lifecycle accounting (WL110 values; one-time vs per-edit vs per-frame)
 
 | Method | One-time | Per edit | Per frame (fixture 512² / LR3 640 × 360) |
 |---|---|---|---|
@@ -133,7 +133,7 @@ The approved decision contract applies. The criteria below use the provisional t
 5. **Near-mirror qualification.** A converged caustic-capable reference for W2, then the W2 tier. Until then W2 is reported UNQUALIFIED, and no sharp-specular claim is made.
 6. **External comparisons on the shared scene.** TransGI on LR3 is QUALIFIED_WITH_LIMITATIONS. NRC is REPRODUCTION_REQUIRED and either gets run or the claim is scoped to exclude it explicitly.
 
-### Current gate statuses (canonical ReST-GI, WL111)
+### Current gate statuses (canonical ReST-GI, WL110)
 
 | Gate | Status |
 |---|---|

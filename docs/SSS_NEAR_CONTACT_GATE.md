@@ -66,12 +66,12 @@ Definitions reuse WL101C / WL101G ROIs and are coded in `experiments/bench111/ru
 | R10 | Camera-independent transport reuse | one transport state per scene state serves every view; changing only the camera triggers no transport recomputation | verified by construction (state hash identical across views) and by R6 |
 | R11 | No oracle dependency | no camera-conditioned projection, no scene-specific oracle table, no reference data at runtime, no per-configuration tuning | code audit + R6 / R9 |
 
-## 4. Current status of the canonical ReST-GI (WL111, against the full-depth reference)
+## 4. Current status of the canonical ReST-GI (WL110, against the full-depth reference)
 
 This is the first measurement of the contact artifact against a full-depth reference and the first in held-out views. WL101G produced none.
 - Values are relative to the reference luminance of the ROI. Each is the mean over 8–16 replicate frames; intervals are 95 % bootstrap.
 - Native contact semantics, RTX 5080. Converged = 4,096 spp, one replicate.
-- Source: `evaluation/111/sss_gate111.json`, `sss_radial_profile.png`, `contact_crop_S0_V0.png`.
+- Source: `evaluation/110/sss_gate111.json`, `sss_radial_profile.png`, `contact_crop_S0_V0.png`.
 
 | View / state | R1 near bias (ECRO 16 spp) | R1 converged | R2 excess / near ref (16 spp) | R5 silhouette bias | Off-target bias | PT + OptiX 16 spp: near / excess |
 |---|---|---|---|---|---|---|
@@ -90,7 +90,7 @@ This is the first measurement of the contact artifact against a full-depth refer
 | Requirement | Canonical ReST-GI status |
 |---|---|
 | R1 regional near bias | **FAIL** (V0, H1, S1, SL) |
-| R1L localized artifact | not evaluated with the window test in WL111. The radial profile shows a resolved +12…+15 % excess within 0.18 m at V0 (likely FAIL) |
+| R1L localized artifact | not evaluated with the window test in WL110. The radial profile shows a resolved +12…+15 % excess within 0.18 m at V0 (likely FAIL) |
 | R2 near-minus-flank contrast | **FAIL** (all five) |
 | R3 local contact-region error | **FAIL** (contact-disk E at ≈ 11–12 ms: ECRO 16 spp 0.315 vs PT + OptiX 4 spp 0.073; converged bias +1.4 % V0, −5.4 % H1, −4.2 % H2, +6.1 % SL) |
 | R4 radial profile | **FAIL** (systematic +/− pattern in every view) |
@@ -100,7 +100,7 @@ This is the first measurement of the contact artifact against a full-depth refer
 | R7 translation / separation | **NOT_RUN** (sphere fixed in the fixture family) |
 | R8 contact formation / removal | **NOT_RUN** |
 | R9 repeated configurations | **NOT_RUN** |
-| R10 camera-independent reuse | the canonical table is camera-independent by construction (one table for all views, verified by the WL111 harness); fidelity fails R6 |
+| R10 camera-independent reuse | the canonical table is camera-independent by construction (one table for all views, verified by the WL110 harness); fidelity fails R6 |
 | R11 no oracle dependency | canonical: satisfied. WL101F P / S (the only measured partial fixes) violate it |
 
 **Overall: FAIL** (static and cross-view); dynamic contact classes NOT_RUN.
@@ -113,7 +113,7 @@ This is the first measurement of the contact artifact against a full-depth refer
 | τ for R2 / R6b | 3 % of the reference near luminance | Same basis; comparator 16 spp ≤ 0.6 % everywhere |
 | τ for R4 | 3 % per ring, at convergence | Rings are wider than the near ROI and have lower noise |
 | τ for R5a / R5b | 3 % silhouette signed bias, plus RMSE ≤ 1.10 × the pre-change value | Retains WL101G's non-degradation form; catches the denoiser-type silhouette darkening (−5.5 % at 1 spp) |
-| R3 contact-disk bias | 3 % (the WL111 proposal of 2 % is replaced by the conditionally approved τ) | The comparator reaches ≤ 0.6 % at 16 spp |
+| R3 contact-disk bias | 3 % (the WL110 proposal of 2 % is replaced by the conditionally approved τ) | The comparator reaches ≤ 0.6 % at 16 spp |
 | R7 tracking | slope 1 ± 0.1, corr ≥ 0.98 over ≥ 4 gaps | Standard WL55 / WL101 change-tracking form |
 
 The WL101F equivalence margins (near ±0.014030, contrast ±0.012520, defined against the D6 Oracle excess) are retained as historical orientation; they are not adopted as the gate.

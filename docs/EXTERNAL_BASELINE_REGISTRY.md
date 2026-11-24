@@ -1,6 +1,6 @@
 # External Baseline Registry and Workload Compatibility
 
-**Current as of:** 2026-11-24 (WL111). **Role:** one current record of every baseline ReST-GI is compared with: what it is, where it runs, what it supports, and on which workloads a comparison is qualified. Measurements and execution history live in the owning Worklogs; this document links them. The benchmark contract (references, metrics, timing) is in the [benchmark protocol](BENCHMARK_PROTOCOL.md); the decision rules are in the [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md).
+**Current as of:** 2026-11-24 (WL110). **Role:** one current record of every baseline ReST-GI is compared with: what it is, where it runs, what it supports, and on which workloads a comparison is qualified. Measurements and execution history live in the owning Worklogs; this document links them. The benchmark contract (references, metrics, timing) is in the [benchmark protocol](BENCHMARK_PROTOCOL.md); the decision rules are in the [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md).
 
 Baseline roles and the binding Neural Full Recompute terminology stay owned by the [evidence strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md#mandatory-baseline-terminology-and-comparison-gate). An unavailable implementation is never evidence that a method is inferior.
 
@@ -19,15 +19,15 @@ Baseline roles and the binding Neural Full Recompute terminology stay owned by t
 
 | Baseline | Version / provenance | Evidence class | Materials | Geometry edits | Lighting | Training / preprocessing | Runtime stack (this project) | Known discrepancies |
 |---|---|---|---|---|---|---|---|---|
-| **Path tracing, same-semantics (pt111)** | WL111 benchmark adapter around the frozen ECRO scene code (pt100 statements in a full-depth symbolic loop, RR from event 4) | Internal physical comparator; validated against the independent pt100 path (G_ADAPT) | Everything the ECRO fixtures contain (Lambert, ER near-mirror, homogeneous SSS walk, ballistic) | Any (BVH update) | Any point light | None | Mitsuba 3.9.1 / Dr.Jit 1.5.0, Main RTX 5080 | Python-traced but frozen (`dr.freeze`) megakernel; not Mitsuba's C++ integrator |
+| **Path tracing, same-semantics (pt111)** | WL110 benchmark adapter around the frozen ECRO scene code (pt100 statements in a full-depth symbolic loop, RR from event 4) | Internal physical comparator; validated against the independent pt100 path (G_ADAPT) | Everything the ECRO fixtures contain (Lambert, ER near-mirror, homogeneous SSS walk, ballistic) | Any (BVH update) | Any point light | None | Mitsuba 3.9.1 / Dr.Jit 1.5.0, Main RTX 5080 | Python-traced but frozen (`dr.freeze`) megakernel; not Mitsuba's C++ integrator |
 | **Path tracing, Mitsuba stock `path`** | Mitsuba 3.9.1 (Main), 3.6.4 (references, LabServer69) | Official renderer | Mitsuba BSDFs; dielectrics removed in the LR3 conversion | Any | Any | None | Main | GI = full(65) − full(2) with common random numbers (TransGI / WL102 convention) |
 | **Path tracing + OptiX AI denoiser** | Mitsuba 3.9.1 `OptixDenoiser` (HDR model, albedo + normal guides, no temporal history) | Official renderer + vendor denoiser | as PT | as PT | as PT | Pretrained vendor network, no per-scene training | Main | Single-frame; a temporal (flow-guided) mode exists but was not used (static camera, no history); SVGF (WL101B) is an internal candidate, not this baseline |
-| **Cycles 3.5.1** | Official Blender build (CUDA) | Physical reference for WL53–WL70 fixtures | Volume RTE (validated), BSSRDF (path-history-dependent semantics, WL51) | Any | Any | None | LabServer69 | Not used as a practical competitor in WL111 |
+| **Cycles 3.5.1** | Official Blender build (CUDA) | Physical reference for WL53–WL70 fixtures | Volume RTE (validated), BSSRDF (path-history-dependent semantics, WL51) | Any | Any | None | LabServer69 | Not used as a practical competitor in WL110 |
 | **8DNA** (arXiv 2604.25129) | Official `lwwu2/8dna26` @ `4a2157c`, unmodified | Official release | Per-asset baked surfaces and homogeneous volumes (all ≥ 2-event paths inside the asset) | Native reuse: translation and 90° rotations exact, general rotation approximate, scale wrong; internal / non-rigid edit needs a full re-bake | Lighting-independent; envmap / area / directional at render time | Re-bake 1.76 h (teaset, RTX 5080, WL27); 2 h 37 min (slab, RTX 3090, WL69) | `external/8dna26/.venv-cu128` (Main), LabServer63/69 | max_depth 64 crashes (empty batch); demo depth 10 / RR 5 used. Static medium bias on the C1 slab (WL69: ineligible). No asset for the ECRO room fixtures |
 | **RNA** (arXiv 2312.09398) | Official `66b5b098` + official custom-Cycles bpy 3.5.1 | Official release; Lego qualified COMPARABLE (WL35) | Rough materials credible; poor on near-mirror nickel (WL22); position-AOV failure at transparent medium boundaries (WL69) | None natively; an edit needs a refit / retrain | Directional (sun) conditioning only; area light via a project inference adapter | Lego HQ 6.0 h; teaset rebuild 3.24 h (WL27) | WSL on Main; LabServer63 | Production renderer not released, so performance claims are blocked (WL35) |
 | **TransGI** (arXiv 2506.09909, TVCG 2025) | Independent reproduction `TransGI_Reproduction` (owner's project), adopted configuration B24 L40 (D_vis, LeakyReLU, t = 0.15 probe spacing, object-balanced batches, lazy Adam, latent init 1e-4) | Independent reproduction; no official code found (search 2026-11-24) | Opaque surfaces incl. glossy / mirror (extra specular bounce); glass and participating media excluded by the paper | Rigid object motion without retraining (dynamic probes, SH rotation) | Moving lights and environment rotation | Per scene: data generation ≈ 40 min, training 7–22 min (200k iterations) | `C:\Projects\TransGI_Reproduction\.venv` + Mitsuba 3.9.1 for the fast frame (Main); LabServer69 | Not the authors' Falcor engine (Mitsuba / Dr.Jit / PyTorch / tiny-cuda-nn); paper's tone map, resolution and camera inferred; LR3 Table I not met by the reproduction (formulation floor above the paper's total); the timed fast frame omits the adopted quality options (prefiltered albedo, 256-spp mirror DI) |
 | **Neural Radiance Caching (NRC)** (Müller et al. 2021) | NVIDIA RTXGI 2.0 / `NVIDIA-RTX/NRC` library (C++, D3D12 / Vulkan; marked experimental) | Official library exists | General path-traced scenes | Any (online training) | Any | Online, per frame | **Not integrated**: needs an engine / API integration this project does not have | REPRODUCTION_REQUIRED |
-| **Neural Radiosity** (Hadadan et al. 2021) | `external/neural-radiosity` (official code present on Main) | Official release, not exercised beyond WL69's scope check | Surfaces only (no medium transport, WL69) | Retraining | Retraining | Per scene | Main | Not run in WL111 (no qualified workload chosen) |
+| **Neural Radiosity** (Hadadan et al. 2021) | `external/neural-radiosity` (official code present on Main) | Official release, not exercised beyond WL69's scope check | Surfaces only (no medium transport, WL69) | Retraining | Retraining | Per scene | Main | Not run in WL110 (no qualified workload chosen) |
 | **DDGI / SHaRC** | RTXGI 2.0 (C++ engine SDK) | Official SDK | General | Any | Any | None / online | Not integrated | REPRODUCTION_REQUIRED |
 
 ### Internal comparators and ablations (ReST-GI side)
@@ -35,14 +35,14 @@ Baseline roles and the binding Neural Full Recompute terminology stay owned by t
 | Comparator | Role | Status |
 |---|---|---|
 | **Canonical ReST-GI** = ECRO v0 global transport (LOW E1 + E2 physical, learned HIGH E3–E6 patch × bin table, D = 6) + learned ER local closure | The method under test | [Architecture](Architecture.md); WL100 checkpoints, WL101 optimised runtime |
-| ECRO converged (4,096 spp) | Bias floor of the canonical estimator | WL111 measured |
-| ECRO stale table | Invalidation control after an edit | WL101, WL111 |
+| ECRO converged (4,096 spp) | Bias floor of the canonical estimator | WL110 measured |
+| ECRO stale table | Invalidation control after an edit | WL101, WL110 |
 | Same-checkpoint full rebuild (F) vs selective update (S) | Within-method reuse control | WL101 (ECRO), WL56 / WL59 (earlier lines) |
 | EXP / C3UR / C3URX1 (learning-free explicit transport on the same state) | Isolates what learning adds | WL87–WL91: explicit ≥ learned in quality; learned utility only source-only updates |
 | CAK / exact domain-selective oracle | Earlier FNTO-line physical-oracle baselines | WL55, WL56, WL69, WL70 |
 | ER-v1-SDM | Closed candidate, **not adopted** (WL104K-C) | Not a baseline here |
 
-## Workload compatibility matrix (WL111)
+## Workload compatibility matrix (WL110)
 
 Categories follow the brief: A diffuse / glossy GI, B layered materials, C sharp specular and interreflection, D textures, E media / SSS, F complex meshes, G rigid edits, H lighting / camera changes.
 
@@ -62,7 +62,7 @@ Categories follow the brief: A diffuse / glossy GI, B layered materials, C sharp
 
 Every unsupported or unqualified cell above is an absence of a valid comparison, not a measured win or loss.
 
-## Executed baseline runs (WL111, RTX 5080 "Main")
+## Executed baseline runs (WL110, RTX 5080 "Main")
 
 | Run | What was executed | Authentication / reproduction check |
 |---|---|---|

@@ -1,6 +1,6 @@
-# WL111 reviewer index — External Baseline Benchmark and Contribution Approval Gate
+# WL110 reviewer index — External Baseline Benchmark and Contribution Approval Gate
 
-Worklog: [docs/worklogs/111_WORKLOG_EXTERNAL_BASELINE_BENCHMARK_AND_APPROVAL_GATE.md](../../docs/worklogs/111_WORKLOG_EXTERNAL_BASELINE_BENCHMARK_AND_APPROVAL_GATE.md). Hashes and sources are in `manifest111.json`.
+Worklog: [docs/worklogs/110_WORKLOG_EXTERNAL_BASELINE_BENCHMARK_AND_APPROVAL_GATE.md](../../docs/worklogs/110_WORKLOG_EXTERNAL_BASELINE_BENCHMARK_AND_APPROVAL_GATE.md). Hashes and sources are in `manifest111.json`.
 
 **Display transform (all images):** LDR = clip(x, 0, 1)^(1/2.2) at exposure 1. **Error maps:** signed (x − ref) luminance / mean reference luminance. Scales: ±0.5 for the image grids, ±0.2 for the contact crop, ±1 for LR3.
 
@@ -25,3 +25,5 @@ Worklog: [docs/worklogs/111_WORKLOG_EXTERNAL_BASELINE_BENCHMARK_AND_APPROVAL_GAT
 - `frontier_LR3.png`: GI LDR RMSE against Ref-65. TransGI points use the fast-frame time; the "adopted" point's quality options are not in the timed frame. ECRO's point is historical (WL102, RTX 3090).
 - `sss_radial_profile.png`: signed relative floor-luminance error per ring from the sphere support point.
 - `dynamic_edit_latency.png`: edit → first 512² × 1 spp frame, bars = median, ticks = p95.
+
+**Renumbering (2026-11-24, owner instruction).** This folder was `evaluation/111/`. The batch is now WL110. The file names (`*111*`) and the experiment identifier `bench111` are frozen and were kept as they are.

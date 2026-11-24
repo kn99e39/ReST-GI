@@ -1,6 +1,6 @@
 # Worklog — External Baseline Benchmark and Contribution Approval Gate (2026-11-24)
 
-> Append-only execution record. Batch class: **regular WL111** (owner brief "ReST-GI — External Baseline Benchmark and
+> Append-only execution record. Batch class: **regular WL110** (owner brief "ReST-GI — External Baseline Benchmark and
 > Contribution Approval Gate", 2026-11-24). Branch `Denoise_Reconstructor` (current branch; no new branch or worktree).
 > Execution host: **Main** (RTX 5080), by owner directive during the session ("넌 ssh Main에서 작업해").
 > Protocol: `experiments/bench111/protocol/bench111.json`. Code: `experiments/bench111/`.
@@ -15,15 +15,16 @@
   mandatory SSS near-contact gate; reviewer index.
 - **Not authorised.** Redesigning ER or ECRO; changing LOW/HIGH; adopting ER-v1-SDM; tuning ReST-GI to beat a baseline;
   solving SSS near-contact; changing reference outputs or another batch's files; automatic start of the next milestone.
-- **Number.** WL111 is the next integer free on every branch: WL110 / WL110A exist on `ecro_lr3_adapter`; HEAD's highest
-  is WL109B. WL111 is regular because it opens an independent benchmark / decision-contract question, not a follow-up of
+- **Number.** Originally filed as WL111 (the next integer free on every branch at the time). Renumbered **WL110** by owner
+  instruction on 2026-11-24: numbering follows this branch only (see the renumbering note at the end). HEAD's highest
+  was WL109B. The batch is regular because it opens an independent benchmark / decision-contract question, not a follow-up of
   one completed batch.
 - **Active work left untouched.**
   - WL109B is running on LabServer69 under its guard, and the owner's TransGI reproduction batch `b28` runs there in tmux.
-    WL111 uses LabServer69 only for read-only file copies.
+    WL110 uses LabServer69 only for read-only file copies.
   - Main's checkout `C:\Projects\ReST-GI` is on `ecro_lr3_adapter` and holds another session's untracked
-    `experiments/ecro_live101j/`. WL111 reads frozen sources, checkpoints and the Mitsuba 3.9.1 runtime from it and
-    writes nothing there. WL111 code and outputs live in the isolated `C:\Projects\bench111`.
+    `experiments/ecro_live101j/`. WL110 reads frozen sources, checkpoints and the Mitsuba 3.9.1 runtime from it and
+    writes nothing there. WL110 code and outputs live in the isolated `C:\Projects\bench111`.
 
 ## 2026-11-24 — Sources read (before design)
 
@@ -33,7 +34,7 @@
   (`ecro_lr3_adapter`); denoising track WL103, WL105–WL109B.
 - Baselines: WL21A/B, WL22, WL27, WL35, WL43 (`baseline/8dna_dynamic_reuse`), WL67, WL69, WL70, WL102
   (`ecro_lr3_adapter`); the TransGI reproduction's `REPRODUCTION_STATUS.md` (LabServer69, read-only).
-- Current architecture and candidates: WL86–WL99, WL104–WL104K-C, WL105 fabric, WL110 / WL110A (`ecro_lr3_adapter`).
+- Current architecture and candidates: WL86–WL99, WL104–WL104K-C, WL105 fabric, the live-demonstrator worklogs on `ecro_lr3_adapter` (numbered 110 / 110A on that branch).
 - Facts that shape the design:
   - Canonical implemented ReST-GI = learned ER (local) + ECRO v0 (LOW E1 + E2 physical, learned HIGH E3–E6 table,
     D = 6). ER-v1-SDM is a closed candidate (WL104K-C: not adopted). EXP / C3UR are explicit comparators.
@@ -149,7 +150,7 @@ Protocol and code are committed before the evidence chain. Frozen decisions (det
 - **Canonical ReST-GI as tested.** ECRO v0 with the WL100 checkpoints and the WL101 optimised runtime (FREEZE = 1), D = 6, no change of any kind.
 - **Isolation.** Nothing written to Main's `C:\Projects\ReST-GI` or the TransGI data root. LabServer69 used for read-only copies only. WL109B and the owner's TransGI `b28` were not touched.
 
-### Measurement (RTX 5080; E = relative debiased HDR RMSE vs full-depth reference; 95 % CIs in `evaluation/111/summary111.json`)
+### Measurement (RTX 5080; E = relative debiased HDR RMSE vs full-depth reference; 95 % CIs in `evaluation/110/summary111.json`)
 
 **References.**
 - S0 / S1 / SL: half-vs-half relative RMSE ≈ 0.0035 (mean noise 0.18 % per pixel).
@@ -194,7 +195,7 @@ Protocol and code are committed before the evidence chain. Frozen decisions (det
 - A 1.5 ms OptiX denoiser on 1-spp path tracing beats ECRO at every ECRO operating point, including converged ECRO: 0.031 at 3.9 ms vs 0.021 floor reached only near 4 s.
 - On LR3, PT + OptiX at 7.7 ms has lower GI error than TransGI's adopted-quality evaluation and than every published TransGI LR3 number. TransGI remains on the frontier below 7.7 ms.
 - On the 5080, ECRO's selective relation update is slower than its full rebuild (6.71 vs 5.19 ms) at N = 1,270.
-- The WL111 box edit changes ECRO's frame error by < 2 %, so it does not test reuse.
+- The WL110 box edit changes ECRO's frame error by < 2 %, so it does not test reuse.
 
 ### Interpretation
 - The canonical ReST-GI is not on the quality–performance frontier of any qualified workload once a practical denoiser is admitted.
@@ -232,9 +233,9 @@ Protocol and code are committed before the evidence chain. Frozen decisions (det
   - TransGI checkpoints: L40 `1b32a633…`, WL102 `1b75c8a6…`.
   - Ref-65 `62625251…`.
   - ECRO SSS checkpoint `2d9cb580…`.
-- **Seeds.** sha256 → splitmix64 (protocol). Raw-result hashes in `evaluation/111/manifest111.json`.
+- **Seeds.** sha256 → splitmix64 (protocol). Raw-result hashes in `evaluation/110/manifest111.json`.
 
-## 2026-11-24 — Owner decision on the gate proposal (recorded; WL111 measurements and verdicts unchanged)
+## 2026-11-24 — Owner decision on the gate proposal (recorded; WL110 measurements and verdicts unchanged)
 
 - **Approved as the canonical decision contract:**
   - quality non-inferiority 5 %; performance non-inferiority 5 %;
@@ -242,7 +243,7 @@ Protocol and code are committed before the evidence chain. Frozen decisions (det
   - runtime tiers 10 / 15 / 20 ms;
   - budget-anchored quality–performance frontier with a monotone envelope;
   - measurement uncertainty must be reflected in every equivalence and superiority judgment.
-- **WL111 workload absolute targets:** approved as **Provisional Development Targets**. When further baselines are qualified, the qualified frontier is updated. The standard is never relaxed because ReST-GI does not meet it.
+- **WL110 workload absolute targets:** approved as **Provisional Development Targets**. When further baselines are qualified, the qualified frontier is updated. The standard is never relaxed because ReST-GI does not meet it.
 - **SSS near contact.**
   - The gate is mandatory and cannot be compensated by other results.
   - The 3 % band is **conditionally approved**. Conditions: the error normalisation is explicit, and the gate also requires localized artifacts, near-minus-flank contrast, cross-view consistency, dynamic contact and off-target non-regression alongside regional bias.
@@ -253,3 +254,17 @@ Protocol and code are committed before the evidence chain. Frozen decisions (det
   - Contribution Approval Gate: status table; approved contract vs provisional targets; frontier update rule; uncertainty rule; dynamic judgment deferred.
   - SSS Near-Contact Gate: §3.1 normalisation; R1L localized artifact (window detection test, Bonferroni); R5b off-target non-regression; R6b cross-view consistency; dynamic contact R7–R8 explicit; R3 contact-disk bias aligned to 3 %.
   - Pointers in Roadmap, Research topic, Evidence strategy, Architecture, README and the claim matrix.
+
+## 2026-11-24 — Renumbering note (owner instruction; no measurement or verdict changed)
+
+- The owner instructed: ignore worklog numbers used on other branches, renumber this batch from WL111 to **WL110**, and
+  give the next batch (ECRO low-cost spatiotemporal reconstruction) the number WL111.
+- Moved files: this worklog (`111_WORKLOG_…` → `110_WORKLOG_…`) and the reviewer folder (`evaluation/111/` →
+  `evaluation/110/`, contents unchanged). Every "WL111" in the living documents now reads "WL110".
+- Kept unchanged as frozen identifiers: the experiment directory `experiments/bench111/`, the file names `*111*`, the
+  protocol ids in `protocol/bench111*.json`, the raw-result folders (`results/bench111/`, `C:\Projects\bench111\` on
+  Main), the reviewer file names (`manifest111.json`, `summary111.json`, …) and the commit messages 7d64755 … 1a83b9f,
+  which say "WL111". Read these as WL110. Only the `worklog` path inside `manifest111.json` was updated.
+- The `ecro_lr3_adapter` branch separately carries worklogs numbered 110 / 110A (live demonstrator) and 112. These are
+  unrelated to this branch's WL110 / WL111. Where this branch cited that demonstrator, the citation now names it
+  explicitly.

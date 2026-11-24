@@ -1,16 +1,16 @@
 # Benchmark Protocol — Common Workload Suite, References, Metrics and Timing
 
-**Current as of:** 2026-11-24 (established by WL111). **Role:** the standing comparison contract that every future ReST-GI milestone evaluation reuses, so external comparisons are not redesigned per batch. A batch protocol may add workloads or tighten rules prospectively; it may not loosen them after results. Baselines: [registry](EXTERNAL_BASELINE_REGISTRY.md). Decision rules: [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md). Mandatory correctness gate: [SSS near-contact gate](SSS_NEAR_CONTACT_GATE.md). First executed instance: WL111 (`experiments/bench111/protocol/bench111.json`, `bench111_lr3.json`).
+**Current as of:** 2026-11-24 (established by WL110). **Role:** the standing comparison contract that every future ReST-GI milestone evaluation reuses, so external comparisons are not redesigned per batch. A batch protocol may add workloads or tighten rules prospectively; it may not loosen them after results. Baselines: [registry](EXTERNAL_BASELINE_REGISTRY.md). Decision rules: [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md). Mandatory correctness gate: [SSS near-contact gate](SSS_NEAR_CONTACT_GATE.md). First executed instance: WL110 (`experiments/bench111/protocol/bench111.json`, `bench111_lr3.json`).
 
 ## 1. Workload suite
 
 | ID | Workload | Category | Resolution | Output semantics | Primary reference | Status |
 |---|---|---|---|---|---|---|
-| W1 | WL100 SSS cfg0: homogeneous SSS sphere on a Lambert floor in the ECRO room; views V0 + held-out H1, H2 (H3–H5 defined) | A, E, near contact | 512² | FULL radiance | REF_FULL (same-semantics PT, kmax 256, RR, 2 × 32,768 spp) | executed WL111 |
-| W2 | WL100 near-mirror panel (GGX α 0.01, F0 1) | A, C | 512² | FULL | REF_FULL | executed WL111 |
-| W3 | W1 with both boxes moved (cfg0 → cfg1 geometry), sphere fixed | G | 512² | FULL; edit → first frame | REF_FULL at T1 | executed WL111 |
-| W5 | W1 with the WL100 second light | H | 512² | FULL; light change → first frame | REF_FULL at the new light | executed WL111 |
-| W4 | Bitterli Living Room 3, TransGI conversion (glass removed), authored camera V0 | A, B, C, D, F | 640 × 360 (Table I resolution 1920 × 1080 optional) | GI = FULL − DI (CRN) | Ref-65: Mitsuba `path` depth 65, 2 × 65,536 spp (LabServer69, sha256 `62625251…`) | executed WL111 |
+| W1 | WL100 SSS cfg0: homogeneous SSS sphere on a Lambert floor in the ECRO room; views V0 + held-out H1, H2 (H3–H5 defined) | A, E, near contact | 512² | FULL radiance | REF_FULL (same-semantics PT, kmax 256, RR, 2 × 32,768 spp) | executed WL110 |
+| W2 | WL100 near-mirror panel (GGX α 0.01, F0 1) | A, C | 512² | FULL | REF_FULL | executed WL110 |
+| W3 | W1 with both boxes moved (cfg0 → cfg1 geometry), sphere fixed | G | 512² | FULL; edit → first frame | REF_FULL at T1 | executed WL110 |
+| W5 | W1 with the WL100 second light | H | 512² | FULL; light change → first frame | REF_FULL at the new light | executed WL110 |
+| W4 | Bitterli Living Room 3, TransGI conversion (glass removed), authored camera V0 | A, B, C, D, F | 640 × 360 (Table I resolution 1920 × 1080 optional) | GI = FULL − DI (CRN) | Ref-65: Mitsuba `path` depth 65, 2 × 65,536 spp (LabServer69, sha256 `62625251…`) | executed WL110 |
 | W6 (future) | One rigid LR3 edit (TransGI's own M1–M3 scenarios) | G | 640 × 360 | GI | Ref-65 at T1 | needs ECRO LR3 edit support (WL102 stage 4 was not run) |
 | W7 (future) | SSS contact family: sphere translation, lift-off / contact formation, repeated contact geometries | G, E | 512² | FULL | REF_FULL per state | required by the SSS gate; not yet built |
 | W8 (future) | Non-rigid / self-contact | GM3 | — | — | — | out of scope until GM3 |

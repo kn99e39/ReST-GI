@@ -104,7 +104,7 @@ A free-space radiosity solver, SH2-only Lambertian model, scene-baked monolithic
 
 ## 9. Unresolved design decisions
 
-- **Transport depth beyond the fixed D = 6 (constraint from the approved gate contract and its provisional targets, WL111):** the depth-6 truncation of the canonical ECRO alone exceeds the provisional development targets on the SSS fixture and on Living Room 3 ([gate §4](CONTRIBUTION_APPROVAL_GATE.md)). How, if at all, the ECRO lineage owns ≥ 7-event transport is open; no mechanism is selected by this constraint.
+- **Transport depth beyond the fixed D = 6 (constraint from the approved gate contract and its provisional targets, WL110):** the depth-6 truncation of the canonical ECRO alone exceeds the provisional development targets on the SSS fixture and on Living Room 3 ([gate §4](CONTRIBUTION_APPROVAL_GATE.md)). How, if at all, the ECRO lineage owns ≥ 7-event transport is open; no mechanism is selected by this constraint.
 
 - **GM1 — dynamic directional interreflection:** Which global spatial/angular transport representation and edit-update mechanism can preserve sharp glossy/specular and multi-bounce response under a rigid edit using frozen ER, with qualified T0/T1 response and measured end-to-end economics? One mechanism must be explicitly chosen before its experiment; none is selected by this baseline decision.
 - **Component-to-global boundary:** ER's pointwise local response is qualified only for the tested material family. Nonlocal intrinsic transport, mixed materials, first-exit/boundary-port fields and composed multi-bounce error remain unvalidated with ER; do not silently infer them from WL84.
