@@ -11,7 +11,7 @@ name=$1; shift
 IMAGE=sha256:6fd6ebbd05fc4cf5dc3a789c47e42f4d787cb9c90fe5d29835875a934680271d   # python:3.10-bookworm (python@sha256:f72a8680...)
 GPU3090=GPU-ab3bc073-096c-6d0b-a304-13cef177a843
 L=/usr/lib/x86_64-linux-gnu
-exec docker run --rm --init --name "$name" --hostname lab70-wl109b \
+exec docker run --rm --init --name "$name" --hostname lab70-wl109b --cpus "${WL109B_CPUS:-4}" \
   --gpus "\"device=$GPU3090\"" -e NVIDIA_DRIVER_CAPABILITIES=all \
   -u 1014:1014 -v /home/nd:/home/nd -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro \
   -v /usr/share/nvidia/nvoptix.bin:/usr/share/nvidia/nvoptix.bin:ro \

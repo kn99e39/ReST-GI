@@ -522,3 +522,33 @@ The analyses run with `HOME=/home/nd`, so every path resolves exactly as on the 
 **Reproducibility note.** The analyses are deterministic NumPy/SciPy code on the same interpreter and wheels. A different CPU
 can change floating-point results only at the last-bit level, through BLAS kernel selection. No decision threshold is near
 that scale.
+
+### Amendment 4 withdrawn (2026-11-24)
+
+**Why it was withdrawn.**
+- The tailscale path from Main WSL to LabServer70 carried about 3 MB/s.
+- Mirroring about 26 GB would take about 2 h.
+- The owner chose instead to give WL109B a few LabServer70 threads.
+
+**What had run.** Before the withdrawal, nothing beyond the setup steps had executed:
+- The Main pull had copied 1.3 GB. It was stopped by PID; the partial mirror is unused and stays in Main WSL `/home/nd`.
+- The LabServer70 gpu1 chain was still waiting at its load gate. It was stopped by PID.
+- No GPU stage and no analysis had started.
+
+## WL109B Amendment 5 — capped CPU use on LabServer70 (owner decision, 2026-11-24)
+
+Everything runs on LabServer70 again (`run109b_amend5.sh`). Other work holds the host CPU, so WL109B caps its own use.
+
+**CPU stages on the host.**
+- Pinned to 4 cores with `taskset -c 12-15`.
+- Run under `nice 10` with 4 BLAS threads.
+
+**GPU containers.** Limited to 4 CPUs (`docker --cpus 4`).
+
+**Load gates.**
+- Data stages (xcheck, paired, grid) start without a load gate. Their outputs depend only on the seeds.
+- The timing-bearing stages (timing, dynamic) keep the Amendment 3 gate: 1-minute load average ≤ 2. Their measured frame
+  times must be free of CPU contention, so they wait until the host CPU is free.
+
+**Unchanged from Amendments 1 and 3.** The frozen admission inside the container, the cross-host rule, and every estimator,
+inference, threshold and decision rule.
