@@ -232,3 +232,23 @@ the evidence chain ran on the RTX 3090.
     3.0 ms width threshold, so m stays 1.0.
   - Fix 2 is in place before the evidence stages that use the candidate's fused path (Stage E, static, sequences,
     timing). The chain was in its data stage, which does not import these modules.
+
+## Observations relevant to ReST-GI performance beyond this batch (recorded at the owner's request; not decisions)
+
+These come from the diagnostics above. They will be carried into the final report's unresolved questions.
+
+1. **At low spp the ECRO frame is near the CPU/GPU crossover.** On the 3080 Ti, 1 spp costs 2.38 ms of GPU time and
+   1.85 ms of host enqueue time; 4 spp costs 10.4 ms against 1.9 ms. Low-spp frame times therefore depend on the host
+   CPU state. Earlier low-spp latencies, such as WL101 and WL110's 0.81 ms at 1 spp on the RTX 5080, are comparable only
+   under the same exclusive, uncontended host conditions.
+2. **The canonical frame program does not serve a moving camera efficiently.** `rt101.RT.frame` records one frozen
+   program per (res, spp) with the camera baked in as constants. A moving camera needs re-recording per camera, or else
+   it renders the recorded camera. Every ReST-GI timing so far used a fixed camera.
+   - Passing the camera as program input works on Dr.Jit 1.3.1 only as opaque scalars. Array inputs replayed stale
+     values (above).
+   - Scalar inputs cost about 0.3–0.6 ms of host time per call on this host.
+   - Moving-camera real-time budgets for ECRO must include this cost.
+3. **Sub-pixel coverage guides are a real per-change cost of R3-class reconstruction.** They cost 3.2–4.4 ms of GPU
+   time at 8×8 (16.8 M rays) whenever the camera or geometry changes; static views can cache them.
+4. **Possible effect on other batches.** Any other code on the Dr.Jit 1.3.1 stack that passes per-call-varying arrays
+   into frozen programs may be affected by the stale-replay behaviour. Other batches' code was not audited here.
