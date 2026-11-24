@@ -12,8 +12,8 @@ Living documents are mutable representations of current decisions, not cumulativ
 | [External baseline registry](EXTERNAL_BASELINE_REGISTRY.md) | Current baseline inventory, provenance, capabilities and workload compatibility classes |
 | [Benchmark protocol](BENCHMARK_PROTOCOL.md) | Standing workload suite, reference, metric, timing and frontier contract for external comparisons |
 | [Claim-to-evidence matrix](CLAIM_EVIDENCE_MATRIX.md) | Proposed contributions, competing architectures, required causal / external / dynamic evidence, gaps and failure conditions |
-| [Contribution approval gate](CONTRIBUTION_APPROVAL_GATE.md) | Numerical milestone exit criteria (quality / performance / dynamic / lifecycle); PENDING_OWNER_APPROVAL until approved |
-| [SSS near-contact gate](SSS_NEAR_CONTACT_GATE.md) | Mandatory, non-compensable correctness contract for SSS near contact; PENDING_OWNER_APPROVAL for its numerical bands |
+| [Contribution approval gate](CONTRIBUTION_APPROVAL_GATE.md) | Approved decision contract (5 / 20 % margins, 10 / 15 / 20 ms tiers, budget-anchored frontier, monotone envelope, uncertainty), provisional workload targets, deferred dynamic-reuse judgment, proposed milestone exit criteria |
+| [SSS near-contact gate](SSS_NEAR_CONTACT_GATE.md) | Mandatory, non-compensable correctness contract for SSS near contact; 3 % bands conditionally approved with explicit normalisation and the full requirement set |
 | [Plans](plans/) | Explicitly unadopted candidate designs and implementation plans; existence is not adoption or completed evidence |
 | [Worklogs](worklogs/) | Complete append-only chronological evidence: authorisation, hypotheses, implementation, metrics, failures, interpretation, verdicts, provenance and amendments |
 | Experiment protocols (`experiments/.../protocol/`) | Frozen experimental conditions, stage dependencies and acceptance criteria, with labelled amendments |

@@ -2,6 +2,8 @@
 
 **Current as of:** 2026-11-24 (WL111). **Role:** for every contribution ReST-GI might claim, the competing architecture, the precise distinction, the evidence that would establish it, the evidence that exists, the gap and the failure condition. Novelty is kept separate from numerical superiority: a better PSNR, a lower frame time or an unavailable competitor's code is not by itself evidence of architectural novelty. The numerical decision rules are in the [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md); baseline availability is in the [registry](EXTERNAL_BASELINE_REGISTRY.md).
 
+**Owner decision (2026-11-24):** architecture novelty and causal ablation are mandatory conditions, kept separate from numerical superiority. A numerical PASS under the [approval gate](CONTRIBUTION_APPROVAL_GATE.md) does not satisfy them, and they do not substitute for it.
+
 **Status of every claim below: NOT ESTABLISHED.** No canonical document states a positive contribution claim ([research topic](RESEARCH_CENTRIC_TOPIC.md): "intended contribution, not yet a demonstrated claim").
 
 ## Claims

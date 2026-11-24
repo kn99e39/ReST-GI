@@ -1,6 +1,20 @@
 # Contribution Approval Gate and Milestone Exit Criteria
 
-**Status: PENDING_OWNER_APPROVAL** (proposed by WL111, 2026-11-24). Nothing here is canonical until the research owner approves it. Once approved it becomes a fixed research contract for subsequent development: future batches may tighten it prospectively, but may not loosen it after results.
+**Status (owner decision, 2026-11-24):**
+
+| Part | Status | Where |
+|---|---|---|
+| Decision contract: non-inferiority 5 % (quality and performance), superiority 20 % (quality and performance), runtime tiers 10 / 15 / 20 ms, budget-anchored quality–performance frontier, monotone envelope, uncertainty in every equivalence / superiority judgment | **APPROVED — canonical** | §1, §3 |
+| Workload absolute targets measured in WL111 | **PROVISIONAL DEVELOPMENT TARGETS** (approved as such, not as final requirements) | §4 |
+| SSS near-contact 3 % bands | **CONDITIONALLY APPROVED** with the added requirements in the [SSS gate](SSS_NEAR_CONTACT_GATE.md) | SSS gate |
+| SSS near contact as a gate | **MANDATORY, non-compensable** | SSS gate |
+| Dynamic reuse | **Final judgment DEFERRED**: no edit workload has passed qualification yet | §5 |
+| Architecture novelty and causal ablation | **Mandatory, separate from numerical superiority** | §1 condition 4, [matrix](CLAIM_EVIDENCE_MATRIX.md) |
+| Milestone exit criteria | Proposed; **entry into the next milestone is not approved** | §7 |
+
+This approval adopts no ReST-GI architecture and authorises neither an implementation batch nor entry into the next milestone.
+
+**Frontier update rule (approved).** When an additional baseline is qualified, the qualified frontier is updated by the same protocol, which can only lower the tier errors T_b. Targets are never relaxed because ReST-GI fails to meet them. A re-measurement after a host or stack change follows the [benchmark protocol](BENCHMARK_PROTOCOL.md) and is reported with the old and new values.
 
 **Role:** the quality, performance, dynamic-reuse and correctness requirements ReST-GI must meet to advance to its next milestone. Supporting documents:
 - [External baseline registry](EXTERNAL_BASELINE_REGISTRY.md) — baselines;
@@ -21,18 +35,22 @@ The rule is anchored at the owner's frame budgets b ∈ {10 ms ideal, 15 ms desi
 | **PATH 1** — quality non-inferiority + performance superiority | ReST-GI reaches E ≤ (1 + m_q) · T_b at t ≤ (1 − s_t) · b | Same quality as the best practical method at that budget, ≥ 20 % faster |
 | **PATH 2** — performance non-inferiority + quality superiority | at t ≤ (1 + m_t) · b, ReST-GI has E ≤ (1 − s_q) · T_b | Same time budget, ≥ 20 % lower error |
 
-Recommended margins: m_q = m_t = 0.05, s_q = s_t = 0.20. These are the owner's initial values, **kept unchanged**; justification in §3. PASS requires the **whole 95 % interval** of the ReST-GI quantity to satisfy the inequality. An interval straddling the threshold is UNRESOLVED.
+**Approved margins:** m_q = m_t = 0.05, s_q = s_t = 0.20 (precision assessment in §3).
+
+**Uncertainty (approved requirement).** Equivalence and superiority are decided on intervals, not point values:
+- PASS requires the **whole 95 % interval** of the ReST-GI quantity to satisfy the inequality, with the tier value's own uncertainty propagated (reference noise, comparator replicate interval, timing interval).
+- An interval straddling the threshold is UNRESOLVED, never PASS.
 
 **Additional conditions, all mandatory:**
 1. **Independence.** Every mandatory workload tier and every qualified view passes on its own. No averaging across workloads, views or materials.
-2. **Dynamic.** The first frame after a rigid edit or a light change satisfies the same tier. Its time is measured edit → first frame and includes every update (relation, source, generator, BVH, history reset). On a qualified edit workload the stale-state control must fail the tier (§5).
+2. **Dynamic.** The first frame after a rigid edit or a light change satisfies the same tier. Its time is measured edit → first frame and includes every update (relation, source, generator, BVH, history reset). On a qualified edit workload the stale-state control must fail the tier (§5). **Final dynamic-reuse judgment is deferred** until such a workload exists. The WL111 edit-latency values are recorded, not judged.
 3. **SSS near contact.** The [SSS gate](SSS_NEAR_CONTACT_GATE.md) passes. It cannot be compensated.
-4. **Novelty evidence.** The passing configuration fails the same tier when its learned component is replaced by the learning-free explicit counterpart at equal time, or that counterpart is shown to cost more than the budget (claim K1 / K2 in the [matrix](CLAIM_EVIDENCE_MATRIX.md)).
+4. **Novelty evidence (mandatory, separate from numerical superiority).** The passing configuration fails the same tier when its learned component is replaced by the learning-free explicit counterpart at equal time, or that counterpart is shown to cost more than the budget (claim K1 / K2 in the [matrix](CLAIM_EVIDENCE_MATRIX.md)).
 5. **Lifecycle accounting** is reported (§6). Per-edit retraining is not allowed inside a real-time claim. If a mode needs it, the retraining time counts as edit latency.
 
 ### Why the rule is anchored at budgets (correction of the WL111 frozen evaluation rule)
 
-The WL111 protocol evaluated PATH 1 / 2 at ReST-GI's own operating points. A comparator whose executed error range did not contain ReST-GI's error was "not evaluable". On every qualified workload, PT + OptiX at its cheapest point (1 spp) already has 5–10× lower error than ECRO at 1–4 spp. That point is ruled "not evaluable", which leaves only raw path tracing. The mechanical result is therefore "PASS" at ECRO 1–4 spp against raw PT only, at errors of 0.16–0.61. Those are not usable quality levels: PSNR 13–20 dB LDR, against 37–41 dB for the dominating PT + OptiX point at 1.3–4.8× the time. WL111 reports these mechanical verdicts unchanged. This document proposes budget anchoring and the monotone envelope so that a dominated, unusable operating point cannot pass.
+The WL111 protocol evaluated PATH 1 / 2 at ReST-GI's own operating points. A comparator whose executed error range did not contain ReST-GI's error was "not evaluable". On every qualified workload, PT + OptiX at its cheapest point (1 spp) already has 5–10× lower error than ECRO at 1–4 spp. That point is ruled "not evaluable", which leaves only raw path tracing. The mechanical result is therefore "PASS" at ECRO 1–4 spp against raw PT only, at errors of 0.16–0.61. Those are not usable quality levels: PSNR 13–20 dB LDR, against 37–41 dB for the dominating PT + OptiX point at 1.3–4.8× the time. WL111 reports these mechanical verdicts unchanged. Budget anchoring and the monotone envelope (approved 2026-11-24) prevent a dominated, unusable operating point from passing.
 
 ## 2. Hardware, resolution and cost accounting for the budgets
 
@@ -55,7 +73,9 @@ The WL111 protocol evaluated PATH 1 / 2 at ReST-GI's own operating points. A com
 
 5 % non-inferiority lies above the measured precision on every qualified workload, so it is meaningful and not noise-limited. 20 % is a practically visible effect: about 1 dB PSNR, or one budget step (15 → 12 ms). **Recommendation: keep 5 % / 20 %.** Require ≥ 16 replicates where the comparator interval exceeds 2.5 %.
 
-## 4. Proposed gate table (absolute targets) and current ReST-GI gap
+## 4. Provisional development targets (absolute) and current ReST-GI gap
+
+**Status: PROVISIONAL DEVELOPMENT TARGETS** (owner, 2026-11-24). They are the current qualified-frontier values. They direct development and are updated by the frontier rule above (only toward stricter values when new qualified baselines arrive). They are not final acceptance values.
 
 Comparator for every row: path tracing + OptiX AI denoiser (strongest valid; TransGI is on the LR3 frontier only below 7.7 ms). E = relative debiased HDR RMSE against the full-depth reference (fixtures). LR3 uses GI LDR RMSE against Ref-65. ReST-GI = canonical ECRO v0 (WL100 checkpoints, WL101 runtime). Values are from WL111 on the RTX 5080.
 
@@ -67,7 +87,7 @@ Comparator for every row: path tracing + OptiX AI denoiser (strongest valid; Tra
 | W1 held-out H1 / H2 | 15 ms | 0.0152 / 0.0155 | E ≤ 0.0159 / 0.0163 at ≤ 12 ms | E ≤ 0.0121 / 0.0124 at ≤ 15.75 ms | 0.080 / 0.070 (both views) | ≈ 5× | FAIL |
 | W3 after rigid edit (static at T1) | 15 ms | 0.0148 | E ≤ 0.0155 at ≤ 12 ms | E ≤ 0.0118 at ≤ 15.75 ms | 0.083 / 0.073 | 5.4× / 6.2× | FAIL |
 | W5 after light change (static) | 15 ms | 0.0398 | E ≤ 0.0418 at ≤ 12 ms | E ≤ 0.0318 at ≤ 15.75 ms | 0.149 / 0.131 | 3.6× / 4.1× | FAIL |
-| W3 edit → first frame (1 spp) | 15 ms | comparator first frame: E 0.027 at 5.24 ms | first frame E ≤ 1.05 · T_15 within 12 ms | — | E 0.334 at 6.71 ms (selective) | 12× error | FAIL |
+| W3 edit → first frame (1 spp) | 15 ms | comparator first frame: E 0.027 at 5.24 ms | first frame E ≤ 1.05 · T_15 within 12 ms | — | E 0.334 at 6.71 ms (selective) | 12× error | DEFERRED (dynamic judgment; recorded only) |
 | W2 near-mirror | — | — | — | — | — | — | **UNQUALIFIED** (reference 16 % per-pixel noise, caustic fireflies) |
 | W4 LR3 static V0 (GI LDR RMSE) | 10 ms | 0.0329 | ≤ 0.0346 at ≤ 8.0 ms | ≤ 0.0264 at ≤ 10.5 ms | 0.170 at 27.7 ms (WL102, RTX 3090, 4 spp); converged 0.102 | ≥ 5× | FAIL |
 | | 15 ms | 0.0252 | ≤ 0.0264 at ≤ 12 ms | ≤ 0.0201 at ≤ 15.75 ms | as above | ≥ 6.7× | FAIL |
@@ -83,7 +103,7 @@ The depth-6 truncation alone exceeds the targets:
 
 So **any configuration that keeps D = 6 fails every tier on W1 and LR3, whatever the accuracy of its learned HIGH or its speed.** Passing requires transport beyond six events, in addition to a 5× error reduction at the budget on W1. How to provide it is an open architecture question. It is not answered here, and no architecture is recommended because of this gap.
 
-## 5. Dynamic-reuse requirements
+## 5. Dynamic-reuse requirements (final judgment DEFERRED)
 
 1. **Qualified edit workload.** The stale-state control must be measurably worse than the updated state, with a pre-registered size and the whole interval beyond noise.
    - WL111's W3 box edit does not qualify: stale vs updated ECRO E differ by < 2 % (16 spp: 0.0853 vs 0.0858; 64 spp: 0.0465 vs 0.0457). WL101 found the same for its SSS tour (0 / 8 material transitions).
@@ -103,9 +123,9 @@ So **any configuration that keeps D = 6 fails every tier on W1 and LR3, whatever
 | TransGI (reproduction) | ≈ 40 min data + 34 min training (LR3, RTX 3090) | rigid: no retraining; probes settle in ≈ 8–16 frames (reproduction §4.3) | 5.16 ms at 640 × 360, 22.5 ms at 1080p (RTX 5080, fast frame) |
 | 8DNA | per-asset bake ≈ 1.8–2.6 h | native reuse of separate assets; internal edit → re-bake | 0.164 s (teaset 512² × 1 spp, WL27) |
 
-## 7. Milestone exit criteria (proposed)
+## 7. Milestone exit criteria (proposed; entry not approved)
 
-The next ReST-GI milestone requires all of:
+The approved decision contract applies. The criteria below use the provisional targets. Meeting them is necessary but does not by itself authorise entry, which remains an owner decision. The next ReST-GI milestone requires all of:
 1. **§4 table.** PASS at the **20 ms acceptable** tier on every qualified workload (W1 V0 / H1 / H2, W3, W5, W4 LR3). PASS at 15 ms on at least W1 and LR3. 10 ms is aspirational.
 2. **§5.** A qualified edit workload with PASS for edit → first frame.
 3. **Mandatory SSS near-contact gate:** PASS.
@@ -117,14 +137,16 @@ The next ReST-GI milestone requires all of:
 
 | Gate | Status |
 |---|---|
-| Numerical thresholds (this document) | PENDING_OWNER_APPROVAL |
+| Decision contract (margins, tiers, budget anchoring, envelope, uncertainty) | APPROVED |
+| Absolute workload targets | PROVISIONAL DEVELOPMENT TARGETS |
 | W1 SSS tiers (V0, H1, H2) | FAIL (≈ 5× error at every budget; D6 truncation floor above target) |
 | W3 post-edit static tier | FAIL |
-| W3 edit → first frame | FAIL |
+| W3 edit → first frame | recorded (6.71 ms, E 0.334 vs comparator 5.24 ms, E 0.027); judgment DEFERRED |
 | W3 as a reuse-qualifying edit | UNQUALIFIED (stale ≈ updated) |
+| Dynamic reuse (overall) | DEFERRED (no qualified workload) |
 | W5 light-change tier | FAIL |
 | W2 near-mirror | UNQUALIFIED (reference) |
 | W4 LR3 tiers | FAIL (quality; ECRO timing cross-hardware, historical) |
-| SSS near-contact gate | FAIL (see the gate) |
-| Novelty condition (learned component necessary) | NOT_RUN in this form; existing evidence (WL87) favours the explicit counterpart |
+| SSS near-contact gate (mandatory) | FAIL against the conditionally approved bands (see the gate) |
+| Novelty / causal ablation (mandatory, separate) | NOT_RUN in this form; existing evidence (WL87) favours the explicit counterpart |
 | NRC comparison | NOT_RUN (REPRODUCTION_REQUIRED) |

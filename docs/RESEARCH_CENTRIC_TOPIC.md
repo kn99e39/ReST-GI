@@ -39,7 +39,7 @@ In that earlier research line, [WL63](worklogs/63_WORKLOG_PHYSICAL_BALLISTIC_SCA
 
 Broader open questions are whether a sufficiently accurate learned K can be composed stably, whether validity certificates permit useful selective work after non-rigid edits, and whether benefits survive global deformation and contact changes. None has a general affirmative answer.
 
-**Milestone exit criteria (proposed 2026-11-24, PENDING_OWNER_APPROVAL):** quantitative, benchmark-grounded requirements against the strongest practical comparator (currently denoised path tracing). The [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md) sets them; the [SSS Near-Contact Gate](SSS_NEAR_CONTACT_GATE.md) is separate and mandatory; the [claim-to-evidence matrix](CLAIM_EVIDENCE_MATRIX.md) separates novelty from numerical superiority.
+**Contribution decision contract (owner approval, 2026-11-24):** ReST-GI is judged against the strongest qualified practical comparator, currently denoised path tracing. The [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md) fixes the approved contract: 5 % non-inferiority, 20 % superiority, 10 / 15 / 20 ms tiers, a budget-anchored frontier with a monotone envelope, and uncertainty-aware judgments. Its workload values are provisional development targets. The [SSS Near-Contact Gate](SSS_NEAR_CONTACT_GATE.md) is mandatory and non-compensable. Architecture novelty and causal ablation remain separate mandatory conditions ([matrix](CLAIM_EVIDENCE_MATRIX.md)). Dynamic-reuse judgment is deferred until a qualified edit workload exists. This adopts no architecture and does not open the next milestone.
 
 ## Research direction and novelty discipline
 

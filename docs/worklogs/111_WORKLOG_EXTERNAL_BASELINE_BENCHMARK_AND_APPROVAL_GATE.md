@@ -233,3 +233,23 @@ Protocol and code are committed before the evidence chain. Frozen decisions (det
   - Ref-65 `62625251…`.
   - ECRO SSS checkpoint `2d9cb580…`.
 - **Seeds.** sha256 → splitmix64 (protocol). Raw-result hashes in `evaluation/111/manifest111.json`.
+
+## 2026-11-24 — Owner decision on the gate proposal (recorded; WL111 measurements and verdicts unchanged)
+
+- **Approved as the canonical decision contract:**
+  - quality non-inferiority 5 %; performance non-inferiority 5 %;
+  - quality superiority 20 %; performance superiority 20 %;
+  - runtime tiers 10 / 15 / 20 ms;
+  - budget-anchored quality–performance frontier with a monotone envelope;
+  - measurement uncertainty must be reflected in every equivalence and superiority judgment.
+- **WL111 workload absolute targets:** approved as **Provisional Development Targets**. When further baselines are qualified, the qualified frontier is updated. The standard is never relaxed because ReST-GI does not meet it.
+- **SSS near contact.**
+  - The gate is mandatory and cannot be compensated by other results.
+  - The 3 % band is **conditionally approved**. Conditions: the error normalisation is explicit, and the gate also requires localized artifacts, near-minus-flank contrast, cross-view consistency, dynamic contact and off-target non-regression alongside regional bias.
+- **Dynamic reuse:** final judgment deferred, because no edit workload has yet passed qualification.
+- **Architecture novelty and causal ablation:** remain mandatory conditions separate from numerical superiority.
+- **Not approved:** adoption of the current ReST-GI architecture, and entry into the next milestone.
+- **Living documents updated accordingly.**
+  - Contribution Approval Gate: status table; approved contract vs provisional targets; frontier update rule; uncertainty rule; dynamic judgment deferred.
+  - SSS Near-Contact Gate: §3.1 normalisation; R1L localized artifact (window detection test, Bonferroni); R5b off-target non-regression; R6b cross-view consistency; dynamic contact R7–R8 explicit; R3 contact-disk bias aligned to 3 %.
+  - Pointers in Roadmap, Research topic, Evidence strategy, Architecture, README and the claim matrix.

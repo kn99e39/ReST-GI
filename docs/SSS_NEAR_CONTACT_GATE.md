@@ -1,6 +1,6 @@
 # Mandatory SSS Near-Contact Gate
 
-**Current as of:** 2026-11-24 (proposed in WL111). **Status: PENDING_OWNER_APPROVAL for the numerical thresholds; the gate's existence and non-compensability are an owner requirement (WL111 brief).** **Role:** an unconditional milestone requirement, separate from the [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md). Better average quality, speed or results on other materials cannot compensate a failure here. This gate does not solve the problem and authorises no implementation.
+**Current as of:** 2026-11-24. **Status (owner decision, 2026-11-24):** the gate is **MANDATORY and non-compensable**. The 3 % band is **CONDITIONALLY APPROVED**, on condition that the error normalisation is explicit (§3.1) and that regional bias, localized artifacts, near-minus-flank contrast, cross-view consistency, dynamic contact and off-target non-regression are all required together (§3.2). The gate cannot PASS while any required class is NOT_RUN. **Role:** an unconditional milestone requirement, separate from the [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md). Better average quality, speed or results on other materials cannot compensate a failure here. This gate does not solve the problem and authorises no implementation.
 
 ## 1. Why a separate gate (evidence summary)
 
@@ -36,18 +36,32 @@ Definitions reuse WL101C / WL101G ROIs and are coded in `experiments/bench111/ru
 - **silhouette** = sphere sub-pixel coverage in (0, 1) on an 8 × 8 grid;
 - **off-target** = valid pixels outside the contact disk, silhouette and sphere.
 
-Proposed thresholds are relative to the full-depth reference luminance of the same ROI and view (PENDING_OWNER_APPROVAL; values in §5).
+### 3.1 Normalisation (explicit, required by the conditional approval)
 
-| # | Requirement | Measured quantity | Proposed band |
+- **Luminance.** Y = 0.2126 R + 0.7152 G + 0.0722 B (Rec.709) of linear HDR radiance, exposure 1. Every band is a ratio, so it does not depend on exposure.
+- **Reference.** Ŷ_ref = mean of the two independent full-depth halves of the **same state, view and contact semantics**. Never a depth-matched or different-semantics reference.
+- **Method value.** The expected frame at the operating point (mean over ≥ 8 independent replicates) **and** the converged estimate. Both must pass.
+- **Regional relative bias** (R1, rings in R4, silhouette and off-target bias in R5): b_ROI = (mean_ROI Y_method − mean_ROI Ŷ_ref) / mean_ROI Ŷ_ref, each pixel of the ROI weighted equally.
+- **Near-minus-flank contrast** (R2): c = [(Ȳ_m,near − Ȳ_m,flank) − (Ȳ_ref,near − Ȳ_ref,flank)] / Ȳ_ref,near. The near-ROI reference mean is the denominator, so a uniform scaling of the whole floor by x gives c = x·(1 − Ȳ_ref,flank / Ȳ_ref,near). This form isolates the contact-shaped component.
+- **Localized error** (R1L): for every square window of 5 × 5 pixels (at 512²; scaled by resolution so the footprint is equal) centred in the floor within 0.50 m of the support point, or in the sphere's lower hemisphere band, or in the silhouette: e_w = (mean_w Y_method − mean_w Ŷ_ref) / mean_w Ŷ_ref.
+- **RMSE-type quantities** (R3, R5): relative debiased HDR RMSE of RGB over the ROI ([benchmark protocol](BENCHMARK_PROTOCOL.md) §3).
+- **Uncertainty.** As §2.4. Equivalence-type requirements (R1, R2, R4, R5 bias, R6b) PASS only if the whole 95 % interval lies inside the band. The localized test (R1L) is a detection test with a Bonferroni correction over windows.
+
+### 3.2 Requirements (all mandatory; τ = 3 % conditionally approved)
+
+| # | Requirement | Measured quantity | Band |
 |---|---|---|---|
-| R1 | Static near signed bias | (method − ref) / ref in **near**, at the claimed operating point **and** at convergence | \|·\| ≤ τ_near |
-| R2 | Near-minus-flank excess | excess / ref near luminance | \|·\| ≤ τ_contrast |
-| R3 | Local contact-region HDR error | relative debiased HDR RMSE in the contact disk | ≤ (1 + m_q) × the frontier comparator at equal time (Approval-Gate rule), and converged ≤ ε_disk |
-| R4 | Radial / spatial profile | signed relative luminance error per ring, 0–0.50 m | every ring \|·\| ≤ τ_ring at convergence; no ring shows a systematic sign run (≥ 3 adjacent rings of one sign beyond τ_ring / 2) |
-| R5 | Silhouette and off-target fidelity (no transfer) | relative HDR RMSE in silhouette and off-target ROIs | ≤ 1.10 × the canonical value measured before the change (WL101G non-degradation form) **and** silhouette signed bias \|·\| ≤ τ_sil |
+| R1 | Regional near signed bias | b_near, at the operating point **and** at convergence | \|·\| ≤ τ (3 %) |
+| R1L | No localized artifact | e_w for every window (§3.1) | no window whose Bonferroni-corrected 95 % interval of \|e_w\| lies entirely above τ (3 %). Window count and correction are recorded |
+| R2 | Near-minus-flank contrast | c (§3.1) | \|·\| ≤ τ (3 %) |
+| R3 | Local contact-region HDR error | relative debiased HDR RMSE in the contact disk | ≤ (1 + m_q) × the frontier comparator at equal time (Approval-Gate rule), and converged \|b_disk\| ≤ τ (3 %) |
+| R4 | Radial / spatial profile | signed relative luminance error per ring, 0–0.50 m | every ring \|·\| ≤ τ (3 %) at convergence; no systematic sign run (≥ 3 adjacent rings of one sign beyond τ / 2) |
+| R5a | Silhouette fidelity | silhouette relative RMSE; silhouette bias b_sil | RMSE ≤ 1.10 × the pre-change canonical value at equal spp (WL101G form); \|b_sil\| ≤ τ (3 %) |
+| R5b | **Off-target non-regression** | off-target relative RMSE; b_off; b over each WL101A region outside the contact disk (sphere interior, contact shadow, control wall) | RMSE ≤ 1.10 × the pre-change canonical value at equal spp; every regional \|b\| ≤ τ (3 %); no region worse than before the change beyond its interval |
 | R6 | Independent cameras | R1–R5 on every contact-valid view (V0, H1–H4; ≥ 200 near / ≥ 1,000 flank px); H5 silhouette / off-target only | all pass |
-| R7 | Geometry translation and separation | sphere translated parallel to the floor; lifted by gaps {0, 2 mm, 1 cm, 5 cm} | each state passes R1–R2; predicted signed change in near tracks the reference change (slope 1 ± 0.1, corr ≥ 0.98) |
-| R8 | Contact formation and removal | sequence lifted → contact → lifted with edit → first frame | the first valid frame after each change passes R1–R2; no hysteresis (state after return equals the initial state within noise) |
+| R6b | **Cross-view consistency** | spread (max − min over contact-valid views) of b_near and of c | each spread ≤ τ (3 %), no sign change of a resolved bias between views |
+| R7 | **Dynamic contact:** geometry translation and separation | sphere translated parallel to the floor; lifted by gaps {0, 2 mm, 1 cm, 5 cm} | each state passes R1–R2; predicted signed change in near tracks the reference change (slope 1 ± 0.1, corr ≥ 0.98) |
+| R8 | **Dynamic contact:** formation and removal | sequence lifted → contact → lifted with edit → first frame | the first valid frame after each change passes R1–R2; no hysteresis (state after return equals the initial state within noise) |
 | R9 | Repeated near-contact configurations | ≥ 3 distinct contact configurations (other radius / medium / support position), none used for development | all pass R1–R5 |
 | R10 | Camera-independent transport reuse | one transport state per scene state serves every view; changing only the camera triggers no transport recomputation | verified by construction (state hash identical across views) and by R6 |
 | R11 | No oracle dependency | no camera-conditioned projection, no scene-specific oracle table, no reference data at runtime, no per-configuration tuning | code audit + R6 / R9 |
@@ -75,12 +89,14 @@ This is the first measurement of the contact artifact against a full-depth refer
 
 | Requirement | Canonical ReST-GI status |
 |---|---|
-| R1 static near bias | **FAIL** (V0, H1, S1, SL) |
-| R2 near-minus-flank excess | **FAIL** (all five) |
+| R1 regional near bias | **FAIL** (V0, H1, S1, SL) |
+| R1L localized artifact | not evaluated with the window test in WL111. The radial profile shows a resolved +12…+15 % excess within 0.18 m at V0 (likely FAIL) |
+| R2 near-minus-flank contrast | **FAIL** (all five) |
 | R3 local contact-region error | **FAIL** (contact-disk E at ≈ 11–12 ms: ECRO 16 spp 0.315 vs PT + OptiX 4 spp 0.073; converged bias +1.4 % V0, −5.4 % H1, −4.2 % H2, +6.1 % SL) |
 | R4 radial profile | **FAIL** (systematic +/− pattern in every view) |
-| R5 silhouette / off-target | silhouette bias −1.5 … −2.8 % (inside 3 %); off-target −1.7 … −2.1 % (truncation). Not a pass: R5 is relative to a corrected method and has no baseline yet |
+| R5a / R5b silhouette / off-target | silhouette bias −1.5 … −2.8 %, off-target bias −1.7 … −2.1 % (truncation); both inside 3 %. The non-regression parts apply to a changed method and have nothing to compare yet. These values are the pre-change baseline |
 | R6 independent cameras | **FAIL** (V0, H1, H2 measured; H3, H4 NOT_RUN) |
+| R6b cross-view consistency | **FAIL** (b_near spans −6.6 … +10.1 %, a resolved sign change between V0 and H1; c spans +6 … +23 %) |
 | R7 translation / separation | **NOT_RUN** (sphere fixed in the fixture family) |
 | R8 contact formation / removal | **NOT_RUN** |
 | R9 repeated configurations | **NOT_RUN** |
@@ -89,15 +105,15 @@ This is the first measurement of the contact artifact against a full-depth refer
 
 **Overall: FAIL** (static and cross-view); dynamic contact classes NOT_RUN.
 
-## 5. Proposed numerical bands (PENDING_OWNER_APPROVAL)
+## 5. Numerical bands (τ = 3 % CONDITIONALLY APPROVED, 2026-11-24; basis below)
 
 | Band | Proposed value | Basis |
 |---|---|---|
-| τ_near (R1) | 3 % of the reference near luminance | The physical 3 % rule used since WL55. The practical comparator meets it at ≥ 4 spp (except SL at 4 spp). Reference near noise is 1.2 % per pixel, ≪ 1 % for the ROI mean. Tighter than WL101F's ±0.01403 absolute (≈ 4.6 % of V0's near luminance), which was set relative to the Oracle defect, not to physics |
-| τ_contrast (R2) | 3 % of the reference near luminance | Same basis; comparator 16 spp ≤ 0.6 % everywhere |
-| τ_ring (R4) | 3 % per ring, at convergence | Rings are wider than the near ROI and have lower noise |
-| τ_sil (R5) | 3 % silhouette signed bias, plus RMSE ≤ 1.10 × the pre-change value | Retains WL101G's non-degradation form; catches the denoiser-type silhouette darkening (−5.5 % at 1 spp) |
-| ε_disk (R3) | converged contact-disk bias ≤ 2 % | The comparator reaches ≤ 0.6 % at 16 spp |
+| τ for R1 / R1L | 3 % of the reference near luminance | The physical 3 % rule used since WL55. The practical comparator meets it at ≥ 4 spp (except SL at 4 spp). Reference near noise is 1.2 % per pixel, ≪ 1 % for the ROI mean. Tighter than WL101F's ±0.01403 absolute (≈ 4.6 % of V0's near luminance), which was set relative to the Oracle defect, not to physics |
+| τ for R2 / R6b | 3 % of the reference near luminance | Same basis; comparator 16 spp ≤ 0.6 % everywhere |
+| τ for R4 | 3 % per ring, at convergence | Rings are wider than the near ROI and have lower noise |
+| τ for R5a / R5b | 3 % silhouette signed bias, plus RMSE ≤ 1.10 × the pre-change value | Retains WL101G's non-degradation form; catches the denoiser-type silhouette darkening (−5.5 % at 1 spp) |
+| R3 contact-disk bias | 3 % (the WL111 proposal of 2 % is replaced by the conditionally approved τ) | The comparator reaches ≤ 0.6 % at 16 spp |
 | R7 tracking | slope 1 ± 0.1, corr ≥ 0.98 over ≥ 4 gaps | Standard WL55 / WL101 change-tracking form |
 
 The WL101F equivalence margins (near ±0.014030, contrast ±0.012520, defined against the D6 Oracle excess) are retained as historical orientation; they are not adopted as the gate.
