@@ -26,6 +26,12 @@ from common109a import (C9, P9, W109, EVAL_VIEWS, GRID, NOMINAL, DECISION_ROIS, 
                         sha, read, write, array_sha, launch_seed, t975, all_masks, raw_pixels, b1_state, q_from_group_sums,
                         q_summary)
 
+import os  # noqa: E402
+if os.environ.get("WL109B_ADMISSION") == "lab70":           # Amendment 2: LabServer70 admission (environment pins only)
+    import renderer108 as _R108                                # noqa: E402
+    import admission70 as _A70                                 # noqa: E402
+    _R108.frozen_runtime = _A70.frozen_runtime
+
 PROTOCOL = HERE / "protocol109b.json"
 P = json.loads(PROTOCOL.read_text())
 INF = P["inference"]

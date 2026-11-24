@@ -328,3 +328,52 @@ Transfer script: `results/ecro_estimator109b/xfer70.sh` on LabServer69.
 - Grid, timing and dynamic all run on LabServer70 (`run109b_amend1.sh`), so every equal-time comparison stays within one
   host and GPU.
 - WL109's 0.792 equal-time ratio was measured on LabServer69. It is compared only descriptively.
+
+### Amendment 1 execution: the frozen admission refuses LabServer70 (2026-11-24)
+
+- **Transfer, 69 → 70.** Finished 16:40–17:23 on LabServer69's clock. LabServer70's clock runs a few minutes behind.
+  All 16 transferred paired units match their `unit.json` hashes.
+- **`tests109b.py`** passed on LabServer70.
+- **`xcheck` stopped in the frozen admission after 6 s.** The guard admitted it after 120 s of free GPU. No GPU work had
+  started.
+  - Immediate cause: `renderer108.frozen_runtime` parses a single `nvidia-smi` row, but LabServer70 has two GPUs.
+  - Underlying cause: the frozen WL108 admission pins LabServer69. It asserts GPU = RTX 3090 with driver **550.54.15**,
+    asserts the OptiX library is `libnvoptix.so.550.54.15`, and labels the host `LabServer69`.
+  - LabServer70 runs driver 525.60.13, so the frozen admission cannot pass there even with the parse fixed.
+- The owner was asked to choose among three options:
+  - wait for LabServer69;
+  - replace the admission for LabServer70;
+  - align LabServer70's driver.
+
+## WL109B Amendment 2 — LabServer70 admission (owner decision, 2026-11-24)
+
+**Decision.** The owner chose to replace the admission for LabServer70.
+
+**What changed.**
+- `experiments/ecro_estimator109b/admission70.py` is a copy of `renderer108.frozen_runtime`. Only its environment pins
+  differ:
+  - The GPU row is selected by the UUID in `CUDA_VISIBLE_DEVICES`. The name must still be RTX 3090.
+  - The driver must equal LabServer70's declared driver, 525.60.13.
+  - The OptiX library must match that driver.
+  - The host label and the OptiX sha256 are recorded as found.
+- The diff against the frozen function contains only these lines.
+
+**What is unchanged and still executed.**
+- Baseline and prior manifests.
+- Renderer source hashes.
+- Mitsuba 3.8.0, Dr.Jit 1.3.1, Torch 2.3.1+cu121, NumPy and Python versions.
+- Workload, camera and scene fingerprint.
+- Learned HIGH table hash.
+- The archived 4096-spp V0 replay within the WL105 tolerance.
+
+**How it is installed.**
+- The frozen file is not edited.
+- `common109b` installs the copy in place of `renderer108.frozen_runtime`, inside WL109B processes only, when
+  `WL109B_ADMISSION=lab70` is set.
+- The chain `run109b_amend2.sh` is `run109b_amend1.sh` with that flag set.
+
+**What still guards reproducibility.**
+- The Amendment 1 cross-host rule is unchanged: re-render the first replicate of each of the 16 LabServer69 paired units.
+  - All relative L1 ≤ 1e-6: keep the 16 units.
+  - Otherwise: recapture all 18 units on LabServer70.
+- If Mitsuba/Dr.Jit OptiX cannot run on driver 525, the admission fails and nothing is captured. That would be reported.
