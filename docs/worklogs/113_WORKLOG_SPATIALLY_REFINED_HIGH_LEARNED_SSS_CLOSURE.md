@@ -131,3 +131,13 @@ No evidence seed was used.
 ## Execution
 
 (appended below)
+
+### Execution fix 1 (2026-11-24 21:16 KST, before any Stage A stream or evidence metric)
+
+The first primary chain started at `c564977` and completed eight F0 and F1 constructions. It then stalled at about 0 % GPU in the decorrelated-RNG control.
+
+The per-launch salt of the decorrelated lane seeding was a Python literal. Every launch therefore recompiled the fused five-event construction kernel: 64 launches at full scale, against only 2 in development.
+
+The fix makes the salt opaque (`dr.opaque`). The hash values are identical (checked), so the RNG streams and results do not change.
+
+The chain was stopped, partial temporary files were removed, and the run resumed. The eight completed constructions were kept.

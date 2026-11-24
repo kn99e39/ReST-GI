@@ -31,7 +31,7 @@ EVAL_EVERY = 1
 
 def decorrelated_pcg(N, sd, salt):
     lane = dr.arange(mi.UInt64, N)
-    h = (lane + mi.UInt64(salt) * mi.UInt64(0x9E3779B97F4A7C15)) * mi.UInt64(0xBF58476D1CE4E5B9)
+    h = (lane + dr.opaque(mi.UInt64, salt) * mi.UInt64(0x9E3779B97F4A7C15)) * mi.UInt64(0xBF58476D1CE4E5B9)   # opaque salt: no per-launch recompilation
     return mi.PCG32(size=N, initstate=sd, initseq=h ^ (h >> 31))
 
 
