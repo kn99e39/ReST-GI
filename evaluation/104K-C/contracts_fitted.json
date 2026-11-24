@@ -1,0 +1,2319 @@
+{
+ "protocol_sha256": "d63bfa48e9ba26872485083b2e1f50d7112ffd3c3c6934bc376ca7be26655d7a",
+ "commit": "ae82533864372478a8806b79ab39403177b5c057",
+ "mode": "fitted",
+ "tests": {
+  "C:\\Projects\\ReST-GI\\results\\ecro_wl84_104kc\\primary\\fits\\CR": {
+   "passed": true,
+   "values": {
+    "starts": 8,
+    "arm": {
+     "method": "continuation_CR",
+     "data": "original",
+     "objective": "constrained_core",
+     "synthetic": false
+    },
+    "shape_178_per_material": true,
+    "finite": true,
+    "gate_min": 0.0,
+    "gate_max": 1.0,
+    "states_sha256": "8f4c386c82ad89b85d29c33e160fbc18b5a5077e3b2a3a55e19781cd61787670",
+    "fit_record": {
+     "fit_json_present": true,
+     "states_sha256_recorded": "8f4c386c82ad89b85d29c33e160fbc18b5a5077e3b2a3a55e19781cd61787670",
+     "budget": 6000,
+     "budget_respected": true,
+     "max_evaluations_per_unit": 6000,
+     "parameters_per_material": 178,
+     "states_sha256_match": true,
+     "passed": true
+    },
+    "rng_key": {
+     "seeds": [
+      1041360,
+      1041361
+     ],
+     "crc32_arm_dir": 535314145,
+     "arm_dir": "CR"
+    },
+    "per_start": {
+     "start0": {
+      "reciprocity_interior": {
+       "f_rel": 4.841372635467561e-16,
+       "cos_identity_rel": 1.0699983808218208e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 4.584423143699224e-15,
+       "cos_identity_rel": 5.016682298806408e-16
+      },
+      "envelope": {
+       "min_F": 5.646736948159953e-06,
+       "max_excess_over_base_rel_peak": -7.613252008976166e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8010975482745114,
+       "max_albedo_minus_4se": 0.7890138405935112,
+       "max_albedo_plus_4se": 0.8131812559555116,
+       "per_material_max": [
+        0.5346001654200899,
+        0.45516990278523484,
+        0.8010975482745114,
+        0.3960123650790297,
+        0.22145012163695982,
+        0.5708486321235067,
+        0.5480459080637746,
+        0.6506781701711413,
+        0.6523737547420246
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start1": {
+      "reciprocity_interior": {
+       "f_rel": 1.7902325116244435e-15,
+       "cos_identity_rel": 8.521051198424068e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 4.846515206229781e-15,
+       "cos_identity_rel": 4.7286015640508505e-15
+      },
+      "envelope": {
+       "min_F": 4.9516335994850405e-06,
+       "max_excess_over_base_rel_peak": -1.061603756124146e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8046163568794826,
+       "max_albedo_minus_4se": 0.7923898092547834,
+       "max_albedo_plus_4se": 0.8168429045041818,
+       "per_material_max": [
+        0.5196513749901767,
+        0.4544145779076066,
+        0.8046163568794826,
+        0.3965459841515723,
+        0.2214437965263836,
+        0.548960007742395,
+        0.534998120073772,
+        0.6501066110644925,
+        0.6526788963076481
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start2": {
+      "reciprocity_interior": {
+       "f_rel": 2.8789837685853675e-15,
+       "cos_identity_rel": 8.547706179860748e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 4.951790128963409e-15,
+       "cos_identity_rel": 2.410968643464619e-15
+      },
+      "envelope": {
+       "min_F": 4.576228906637389e-06,
+       "max_excess_over_base_rel_peak": -2.371934400891017e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8035877390659739,
+       "max_albedo_minus_4se": 0.791566149408688,
+       "max_albedo_plus_4se": 0.8156093287232599,
+       "per_material_max": [
+        0.5488642352070618,
+        0.4547214218430265,
+        0.8035877390659739,
+        0.39824740245152884,
+        0.22132484088514093,
+        0.5933622122258276,
+        0.566918616081295,
+        0.6492570560351433,
+        0.6518489577858987
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start3": {
+      "reciprocity_interior": {
+       "f_rel": 3.1223256980573626e-15,
+       "cos_identity_rel": 3.190760578879545e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 6.196053658030441e-15,
+       "cos_identity_rel": 1.9820288990409563e-15
+      },
+      "envelope": {
+       "min_F": 6.090955793157068e-06,
+       "max_excess_over_base_rel_peak": -3.9768456184038815e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8025652241685943,
+       "max_albedo_minus_4se": 0.790535211870638,
+       "max_albedo_plus_4se": 0.8145952364665506,
+       "per_material_max": [
+        0.5378956438795082,
+        0.4543062717140429,
+        0.8025652241685943,
+        0.3946737396049471,
+        0.2207134534518391,
+        0.5810857266957123,
+        0.553116169987064,
+        0.6477583520413815,
+        0.6504573280935715
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start4": {
+      "reciprocity_interior": {
+       "f_rel": 2.0030091280732036e-15,
+       "cos_identity_rel": 4.0086298491658836e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 7.91104337550426e-16,
+       "cos_identity_rel": 6.14736124663561e-16
+      },
+      "envelope": {
+       "min_F": 5.310733081087733e-06,
+       "max_excess_over_base_rel_peak": -3.026054266036081e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8021850369830811,
+       "max_albedo_minus_4se": 0.7899992120957519,
+       "max_albedo_plus_4se": 0.8143708618704103,
+       "per_material_max": [
+        0.525273389550636,
+        0.4546322008699262,
+        0.8021850369830811,
+        0.39467031133432207,
+        0.22149547490157231,
+        0.5649616893717724,
+        0.5432025541507359,
+        0.649853292820717,
+        0.6521310722051463
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start5": {
+      "reciprocity_interior": {
+       "f_rel": 5.5623926790097235e-15,
+       "cos_identity_rel": 1.78468962117464e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 6.497197738045672e-16,
+       "cos_identity_rel": 4.314158295834226e-16
+      },
+      "envelope": {
+       "min_F": 4.166539774279332e-06,
+       "max_excess_over_base_rel_peak": -3.1607553502443185e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8052966382607466,
+       "max_albedo_minus_4se": 0.7931719482561193,
+       "max_albedo_plus_4se": 0.817421328265374,
+       "per_material_max": [
+        0.5290181033826424,
+        0.4556161834822557,
+        0.8052966382607466,
+        0.394621946080533,
+        0.2217375020488631,
+        0.570712420059366,
+        0.5454613449234748,
+        0.6510386173524445,
+        0.6538431960919854
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start6": {
+      "reciprocity_interior": {
+       "f_rel": 2.9756359903567082e-15,
+       "cos_identity_rel": 1.6976892537392292e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 7.869056216197505e-16,
+       "cos_identity_rel": 1.3782363890385418e-15
+      },
+      "envelope": {
+       "min_F": 4.00840165282073e-06,
+       "max_excess_over_base_rel_peak": -5.342061692834512e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.7972283276160445,
+       "max_albedo_minus_4se": 0.785206573432196,
+       "max_albedo_plus_4se": 0.8092500817998929,
+       "per_material_max": [
+        0.5146352825591931,
+        0.454687646232204,
+        0.7972283276160445,
+        0.39104656164480245,
+        0.22077912982386372,
+        0.5520485622306078,
+        0.5360225124119015,
+        0.6462449404707746,
+        0.6502937282692308
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start7": {
+      "reciprocity_interior": {
+       "f_rel": 3.62016911349103e-15,
+       "cos_identity_rel": 3.616560148489699e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.45095891388715e-15,
+       "cos_identity_rel": 5.46574430676241e-16
+      },
+      "envelope": {
+       "min_F": 7.352248970167931e-06,
+       "max_excess_over_base_rel_peak": -5.277180512785459e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8065058149854039,
+       "max_albedo_minus_4se": 0.7944006582985684,
+       "max_albedo_plus_4se": 0.8186109716722393,
+       "per_material_max": [
+        0.530373283764988,
+        0.455574327026838,
+        0.8065058149854039,
+        0.3952433322137846,
+        0.22192061646177866,
+        0.5728983340083592,
+        0.5498494974187316,
+        0.6520669840187046,
+        0.6544006845634183
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     }
+    }
+   }
+  },
+  "C:\\Projects\\ReST-GI\\results\\ecro_wl84_104kc\\primary\\fits\\O0C": {
+   "passed": true,
+   "values": {
+    "starts": 8,
+    "arm": {
+     "method": "continuation_O0C",
+     "data": "original",
+     "objective": "original",
+     "synthetic": false
+    },
+    "shape_178_per_material": true,
+    "finite": true,
+    "gate_min": 0.0,
+    "gate_max": 1.0,
+    "states_sha256": "a884370586e3f8a6f781c03a7bce53d121f07f2ef7d5ebd4d90fffa1ef2f64c3",
+    "fit_record": {
+     "fit_json_present": true,
+     "states_sha256_recorded": "a884370586e3f8a6f781c03a7bce53d121f07f2ef7d5ebd4d90fffa1ef2f64c3",
+     "budget": 6000,
+     "budget_respected": true,
+     "max_evaluations_per_unit": 6000,
+     "parameters_per_material": 178,
+     "states_sha256_match": true,
+     "passed": true
+    },
+    "rng_key": {
+     "seeds": [
+      1041360,
+      1041361
+     ],
+     "crc32_arm_dir": 3021223222,
+     "arm_dir": "O0C"
+    },
+    "per_start": {
+     "start0": {
+      "reciprocity_interior": {
+       "f_rel": 1.0046436147714503e-15,
+       "cos_identity_rel": 7.62094717086364e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 3.3462700019571886e-15,
+       "cos_identity_rel": 2.5263517458224267e-15
+      },
+      "envelope": {
+       "min_F": 4.79730789471383e-06,
+       "max_excess_over_base_rel_peak": -3.382332205353974e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8071585526278312,
+       "max_albedo_minus_4se": 0.794949193900883,
+       "max_albedo_plus_4se": 0.8193679113547794,
+       "per_material_max": [
+        0.5067985990760713,
+        0.4545681952824101,
+        0.8071585526278312,
+        0.39041318259767854,
+        0.22187027513987517,
+        0.5499314085910756,
+        0.5211234950713196,
+        0.6529771317465082,
+        0.6546132990941956
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start1": {
+      "reciprocity_interior": {
+       "f_rel": 8.122407490767355e-16,
+       "cos_identity_rel": 7.823136233456681e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 8.460663325820733e-16,
+       "cos_identity_rel": 7.881633866289975e-16
+      },
+      "envelope": {
+       "min_F": 6.132094701610902e-06,
+       "max_excess_over_base_rel_peak": -2.5360886674089466e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8076494919204131,
+       "max_albedo_minus_4se": 0.7953576394245208,
+       "max_albedo_plus_4se": 0.8199413444163055,
+       "per_material_max": [
+        0.5258824444083455,
+        0.4554348411501011,
+        0.8076494919204131,
+        0.39272191877676155,
+        0.2221019887152207,
+        0.5635397315301299,
+        0.539801610381295,
+        0.6516774416631474,
+        0.654653430504254
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start2": {
+      "reciprocity_interior": {
+       "f_rel": 4.346487242136672e-15,
+       "cos_identity_rel": 2.070117697805424e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.5805352069678827e-15,
+       "cos_identity_rel": 3.1702196786396604e-16
+      },
+      "envelope": {
+       "min_F": 7.333238736494007e-06,
+       "max_excess_over_base_rel_peak": -2.0859918715576402e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8099046198186587,
+       "max_albedo_minus_4se": 0.7977631937583033,
+       "max_albedo_plus_4se": 0.8220460458790141,
+       "per_material_max": [
+        0.5390320491638818,
+        0.45545337832562155,
+        0.8099046198186587,
+        0.39784641355725753,
+        0.2219007752354871,
+        0.5808308966696338,
+        0.5576489462125512,
+        0.6520641801334501,
+        0.6542624702159874
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start3": {
+      "reciprocity_interior": {
+       "f_rel": 1.3761903275599786e-15,
+       "cos_identity_rel": 1.0691358563829866e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.3723646556443267e-16,
+       "cos_identity_rel": 6.843067327018995e-16
+      },
+      "envelope": {
+       "min_F": 7.5125931098056505e-06,
+       "max_excess_over_base_rel_peak": -8.031211283478184e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8075928688996131,
+       "max_albedo_minus_4se": 0.7955126048095178,
+       "max_albedo_plus_4se": 0.8196731329897085,
+       "per_material_max": [
+        0.5070990497774662,
+        0.45524590553989713,
+        0.8075928688996131,
+        0.38787649195700624,
+        0.22155748756984545,
+        0.5481833982064273,
+        0.5220132923542075,
+        0.6507778884504496,
+        0.6534330981486703
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start4": {
+      "reciprocity_interior": {
+       "f_rel": 2.4980650461125484e-15,
+       "cos_identity_rel": 2.4970119360712415e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 3.266269327601275e-15,
+       "cos_identity_rel": 3.3326492574982755e-15
+      },
+      "envelope": {
+       "min_F": 6.476959170862869e-06,
+       "max_excess_over_base_rel_peak": -3.838302198473826e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.804239380303564,
+       "max_albedo_minus_4se": 0.7920062616433962,
+       "max_albedo_plus_4se": 0.8164724989637319,
+       "per_material_max": [
+        0.5324425048135879,
+        0.4552540436176051,
+        0.804239380303564,
+        0.3981892771053936,
+        0.22184920731768196,
+        0.5718776771556385,
+        0.5495338578747208,
+        0.650075627256831,
+        0.6530806987366753
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start5": {
+      "reciprocity_interior": {
+       "f_rel": 1.5025451080854143e-15,
+       "cos_identity_rel": 1.4960182027135588e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.1977766012953686e-15,
+       "cos_identity_rel": 5.779397579441888e-16
+      },
+      "envelope": {
+       "min_F": 7.544977897069206e-06,
+       "max_excess_over_base_rel_peak": -1.430375664197847e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8064462217988113,
+       "max_albedo_minus_4se": 0.7942534413358232,
+       "max_albedo_plus_4se": 0.8186390022617994,
+       "per_material_max": [
+        0.5378687633546662,
+        0.45583603617188145,
+        0.8064462217988113,
+        0.3951372378839067,
+        0.2217959638555558,
+        0.5835376868465789,
+        0.553807036445309,
+        0.6511338707157812,
+        0.6543531701963341
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start6": {
+      "reciprocity_interior": {
+       "f_rel": 4.6868816629671416e-15,
+       "cos_identity_rel": 1.7473838653643714e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.3772245467284897e-15,
+       "cos_identity_rel": 1.009466171162448e-15
+      },
+      "envelope": {
+       "min_F": 6.808294231634875e-06,
+       "max_excess_over_base_rel_peak": -1.4761892287605498e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8030370934653153,
+       "max_albedo_minus_4se": 0.7909283861475452,
+       "max_albedo_plus_4se": 0.8151458007830853,
+       "per_material_max": [
+        0.5428537323192053,
+        0.45550833495255244,
+        0.8030370934653153,
+        0.3989057387984025,
+        0.22186645060779656,
+        0.5862325416812917,
+        0.564681627657224,
+        0.6498901023842044,
+        0.6540023568879342
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start7": {
+      "reciprocity_interior": {
+       "f_rel": 3.34891902176606e-15,
+       "cos_identity_rel": 1.2208873136076286e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.5421347471511117e-15,
+       "cos_identity_rel": 2.3161741799819193e-15
+      },
+      "envelope": {
+       "min_F": 4.556709798647984e-06,
+       "max_excess_over_base_rel_peak": -1.8442675407192862e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8051597587300584,
+       "max_albedo_minus_4se": 0.7930018719012969,
+       "max_albedo_plus_4se": 0.8173176455588199,
+       "per_material_max": [
+        0.5102498416865889,
+        0.45507925389031534,
+        0.8051597587300584,
+        0.39495287247375965,
+        0.22148433552332294,
+        0.5415022064212041,
+        0.5292718362889622,
+        0.6500476163339183,
+        0.652942849832024
+       ]
+      },
+      "max_sum_lambda": 1.0,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     }
+    }
+   }
+  },
+  "C:\\Projects\\ReST-GI\\results\\ecro_wl84_104kc\\primary\\fits\\E2W": {
+   "passed": true,
+   "values": {
+    "starts": 8,
+    "arm": {
+     "method": "continuation_E2W",
+     "data": "original",
+     "objective": "e2",
+     "synthetic": false
+    },
+    "shape_178_per_material": true,
+    "finite": true,
+    "gate_min": 0.0,
+    "gate_max": 1.0,
+    "states_sha256": "2909d66ae606e8d7e25242990db13f74ddff00abc3065ce3b8da7b7415d33d61",
+    "fit_record": {
+     "fit_json_present": true,
+     "states_sha256_recorded": "2909d66ae606e8d7e25242990db13f74ddff00abc3065ce3b8da7b7415d33d61",
+     "budget": 6000,
+     "budget_respected": true,
+     "max_evaluations_per_unit": 6000,
+     "parameters_per_material": 178,
+     "states_sha256_match": true,
+     "passed": true
+    },
+    "rng_key": {
+     "seeds": [
+      1041360,
+      1041361
+     ],
+     "crc32_arm_dir": 2439972383,
+     "arm_dir": "E2W"
+    },
+    "per_start": {
+     "start0": {
+      "reciprocity_interior": {
+       "f_rel": 2.5120717313126013e-15,
+       "cos_identity_rel": 1.2099942489239872e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 4.002655956682057e-15,
+       "cos_identity_rel": 1.0429989393810733e-15
+      },
+      "envelope": {
+       "min_F": 7.93320090991735e-06,
+       "max_excess_over_base_rel_peak": -4.458677681628438e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8193628444624754,
+       "max_albedo_minus_4se": 0.8073322431729572,
+       "max_albedo_plus_4se": 0.8313934457519937,
+       "per_material_max": [
+        0.5209719871226614,
+        0.4537080100428933,
+        0.8193628444624754,
+        0.3908017872911993,
+        0.22197346331300247,
+        0.550534404823262,
+        0.5324367468290256,
+        0.6659026307786821,
+        0.6550079596880729
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start1": {
+      "reciprocity_interior": {
+       "f_rel": 2.709100659454223e-15,
+       "cos_identity_rel": 2.361487674542386e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.4799694632464197e-14,
+       "cos_identity_rel": 9.50015924953358e-16
+      },
+      "envelope": {
+       "min_F": 6.412733865427436e-06,
+       "max_excess_over_base_rel_peak": -2.580165100765409e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8143491323891773,
+       "max_albedo_minus_4se": 0.8024437667668716,
+       "max_albedo_plus_4se": 0.826254498011483,
+       "per_material_max": [
+        0.519268617151078,
+        0.45356170040875227,
+        0.8143491323891773,
+        0.3930572294446324,
+        0.22187385197171616,
+        0.5463734713940072,
+        0.5320600593385064,
+        0.6629292405514516,
+        0.6543809508547074
+       ]
+      },
+      "max_sum_lambda": 1.0,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start2": {
+      "reciprocity_interior": {
+       "f_rel": 1.6289323283300357e-15,
+       "cos_identity_rel": 1.4717244463251865e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.5655072981982864e-15,
+       "cos_identity_rel": 4.276869018762772e-16
+      },
+      "envelope": {
+       "min_F": 5.190603644580153e-06,
+       "max_excess_over_base_rel_peak": -2.098792670763339e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8264634048416879,
+       "max_albedo_minus_4se": 0.8143412357164915,
+       "max_albedo_plus_4se": 0.8385855739668843,
+       "per_material_max": [
+        0.5076352940200645,
+        0.4521354630760484,
+        0.8264634048416879,
+        0.394863646225692,
+        0.22133179589027221,
+        0.5357386656986285,
+        0.5257226991122681,
+        0.6620959656606474,
+        0.6538378000724503
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start3": {
+      "reciprocity_interior": {
+       "f_rel": 3.1610978642548815e-15,
+       "cos_identity_rel": 1.635250701255805e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.5942359923364096e-15,
+       "cos_identity_rel": 4.525341301688916e-16
+      },
+      "envelope": {
+       "min_F": 4.731710708749654e-06,
+       "max_excess_over_base_rel_peak": -2.552248663698325e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8163799062986049,
+       "max_albedo_minus_4se": 0.8044179438347261,
+       "max_albedo_plus_4se": 0.8283418687624837,
+       "per_material_max": [
+        0.5081295007916168,
+        0.4520340153183587,
+        0.8163799062986049,
+        0.3898060225916859,
+        0.2203985840571315,
+        0.5388681833383813,
+        0.5213018611037616,
+        0.6575092641963555,
+        0.6494618453304333
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000004,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start4": {
+      "reciprocity_interior": {
+       "f_rel": 1.1007843173134036e-15,
+       "cos_identity_rel": 8.355114855270256e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 9.429053461273233e-16,
+       "cos_identity_rel": 6.395109009691645e-16
+      },
+      "envelope": {
+       "min_F": 3.6070082961588275e-06,
+       "max_excess_over_base_rel_peak": -3.310394123955971e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8078424402002521,
+       "max_albedo_minus_4se": 0.796031889462698,
+       "max_albedo_plus_4se": 0.8196529909378062,
+       "per_material_max": [
+        0.5214708725283708,
+        0.45290064199814234,
+        0.8078424402002521,
+        0.3953216307820326,
+        0.22066050121925404,
+        0.5503885125761891,
+        0.5364567406321532,
+        0.6559647398916857,
+        0.6511380222462554
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start5": {
+      "reciprocity_interior": {
+       "f_rel": 1.5304095009386023e-15,
+       "cos_identity_rel": 2.310978959628478e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.654670631232531e-15,
+       "cos_identity_rel": 8.060743454703982e-16
+      },
+      "envelope": {
+       "min_F": 5.735750715617749e-06,
+       "max_excess_over_base_rel_peak": -3.622668694569414e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.814925876377168,
+       "max_albedo_minus_4se": 0.8029489366535286,
+       "max_albedo_plus_4se": 0.8269028161008073,
+       "per_material_max": [
+        0.5347320183609356,
+        0.45255960591421135,
+        0.814925876377168,
+        0.3927491017635515,
+        0.22145574246551772,
+        0.5767895028615505,
+        0.5504110561240037,
+        0.6586547739958661,
+        0.6530189913752684
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start6": {
+      "reciprocity_interior": {
+       "f_rel": 1.6934609448797198e-15,
+       "cos_identity_rel": 1.899196323645554e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.2213331394593722e-15,
+       "cos_identity_rel": 5.697034166581501e-16
+      },
+      "envelope": {
+       "min_F": 4.611854975725438e-06,
+       "max_excess_over_base_rel_peak": -1.7095954272336923e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8137893722782857,
+       "max_albedo_minus_4se": 0.8017923759138855,
+       "max_albedo_plus_4se": 0.825786368642686,
+       "per_material_max": [
+        0.4971776798542915,
+        0.4528376552322151,
+        0.8137893722782857,
+        0.3858929016478524,
+        0.2211938436551206,
+        0.528421821860027,
+        0.5159961440638081,
+        0.6565631162568587,
+        0.6515305655226946
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start7": {
+      "reciprocity_interior": {
+       "f_rel": 5.458005185320195e-15,
+       "cos_identity_rel": 2.3108163341141027e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 6.5622797714688194e-15,
+       "cos_identity_rel": 2.0499819167913618e-15
+      },
+      "envelope": {
+       "min_F": 5.633628181916434e-06,
+       "max_excess_over_base_rel_peak": -8.061577169746938e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8174593854836768,
+       "max_albedo_minus_4se": 0.8054526792323273,
+       "max_albedo_plus_4se": 0.8294660917350263,
+       "per_material_max": [
+        0.5394775376193288,
+        0.4530286064461476,
+        0.8174593854836768,
+        0.39706580017392135,
+        0.22184734363626663,
+        0.5801413841290627,
+        0.55494912644374,
+        0.6606955376087551,
+        0.6543538865587614
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     }
+    }
+   }
+  },
+  "C:\\Projects\\ReST-GI\\results\\ecro_wl84_104kc\\primary\\fits\\CR_R4": {
+   "passed": true,
+   "values": {
+    "starts": 8,
+    "arm": {
+     "method": "continuation_CR",
+     "data": "original",
+     "objective": "constrained_core",
+     "synthetic": false
+    },
+    "shape_178_per_material": true,
+    "finite": true,
+    "gate_min": 0.0,
+    "gate_max": 1.0,
+    "states_sha256": "6837b772c97523a4ca88abb692ededaf1fdaddd17e96a8b5750667ee78bce2df",
+    "fit_record": {
+     "fit_json_present": true,
+     "states_sha256_recorded": "6837b772c97523a4ca88abb692ededaf1fdaddd17e96a8b5750667ee78bce2df",
+     "budget": 6000,
+     "budget_respected": true,
+     "max_evaluations_per_unit": 6000,
+     "parameters_per_material": 178,
+     "states_sha256_match": true,
+     "passed": true
+    },
+    "rng_key": {
+     "seeds": [
+      1041360,
+      1041361
+     ],
+     "crc32_arm_dir": 1991028803,
+     "arm_dir": "CR_R4"
+    },
+    "per_start": {
+     "start0": {
+      "reciprocity_interior": {
+       "f_rel": 4.936036589845732e-15,
+       "cos_identity_rel": 4.73117696043995e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.5345323304189497e-15,
+       "cos_identity_rel": 4.1160612114336623e-16
+      },
+      "envelope": {
+       "min_F": 4.891476753141522e-06,
+       "max_excess_over_base_rel_peak": -6.088742848260051e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8072905659478578,
+       "max_albedo_minus_4se": 0.7950882671970176,
+       "max_albedo_plus_4se": 0.8194928646986979,
+       "per_material_max": [
+        0.5141849783088581,
+        0.45594840172093154,
+        0.8072905659478578,
+        0.3965653588083389,
+        0.22227869332681677,
+        0.5424820730699804,
+        0.5284526551440298,
+        0.6533962799099492,
+        0.6553120756991196
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start1": {
+      "reciprocity_interior": {
+       "f_rel": 1.0305381842376092e-15,
+       "cos_identity_rel": 1.18912206008415e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 8.274735273490839e-15,
+       "cos_identity_rel": 3.518256445840474e-15
+      },
+      "envelope": {
+       "min_F": 6.127842448885513e-06,
+       "max_excess_over_base_rel_peak": -2.740540685094071e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8005947665431469,
+       "max_albedo_minus_4se": 0.7884508705221729,
+       "max_albedo_plus_4se": 0.8127386625641209,
+       "per_material_max": [
+        0.5468249508571023,
+        0.45460716306974575,
+        0.8005947665431469,
+        0.4035578628877772,
+        0.22127822614914402,
+        0.5817917548331911,
+        0.5620603815896581,
+        0.6494560619571025,
+        0.6519008609226041
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start2": {
+      "reciprocity_interior": {
+       "f_rel": 7.030150180880131e-16,
+       "cos_identity_rel": 8.96906422462705e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.085989592833544e-15,
+       "cos_identity_rel": 4.2634420859487866e-16
+      },
+      "envelope": {
+       "min_F": 4.916902554587436e-06,
+       "max_excess_over_base_rel_peak": -7.963119320528232e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8099540726727139,
+       "max_albedo_minus_4se": 0.7978343526341585,
+       "max_albedo_plus_4se": 0.8220737927112693,
+       "per_material_max": [
+        0.5419810381852528,
+        0.45570560881458194,
+        0.8099540726727139,
+        0.39718154580167075,
+        0.2223284247620808,
+        0.5844978402463784,
+        0.5595273288311836,
+        0.6530997377868972,
+        0.6554813073048676
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start3": {
+      "reciprocity_interior": {
+       "f_rel": 2.3541297460049665e-15,
+       "cos_identity_rel": 7.243571571760017e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.8982770994880107e-15,
+       "cos_identity_rel": 3.620152921575355e-16
+      },
+      "envelope": {
+       "min_F": 4.00130281276335e-06,
+       "max_excess_over_base_rel_peak": -4.034469604189869e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.807825667149378,
+       "max_albedo_minus_4se": 0.7957302114553563,
+       "max_albedo_plus_4se": 0.8199211228433997,
+       "per_material_max": [
+        0.5309326921218617,
+        0.4553747489928228,
+        0.807825667149378,
+        0.385791296758519,
+        0.22182647090531238,
+        0.5773779556249423,
+        0.5458101402067915,
+        0.6518670588273412,
+        0.6536673949275511
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start4": {
+      "reciprocity_interior": {
+       "f_rel": 2.7596072717875056e-15,
+       "cos_identity_rel": 2.7203380595482153e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.6898928472599634e-15,
+       "cos_identity_rel": 1.1226434606737783e-15
+      },
+      "envelope": {
+       "min_F": 4.20130050460632e-06,
+       "max_excess_over_base_rel_peak": -7.02242625094518e-09
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8004663335853973,
+       "max_albedo_minus_4se": 0.7882967176104629,
+       "max_albedo_plus_4se": 0.8126359495603317,
+       "per_material_max": [
+        0.537306508333792,
+        0.45515930098933666,
+        0.8004663335853973,
+        0.3974715047803201,
+        0.22154081366012404,
+        0.5804103995264477,
+        0.5553320541955671,
+        0.6492463327671986,
+        0.6517255788781818
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start5": {
+      "reciprocity_interior": {
+       "f_rel": 2.1439786390086397e-15,
+       "cos_identity_rel": 1.4119762529721528e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.0936902819491037e-15,
+       "cos_identity_rel": 3.262591907120531e-16
+      },
+      "envelope": {
+       "min_F": 5.811670068316225e-06,
+       "max_excess_over_base_rel_peak": -5.140242011674979e-10
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8026361686284731,
+       "max_albedo_minus_4se": 0.7905470548551109,
+       "max_albedo_plus_4se": 0.8147252824018353,
+       "per_material_max": [
+        0.5155107104256158,
+        0.45490556229419205,
+        0.8026361686284731,
+        0.39125205912774136,
+        0.22134950309531143,
+        0.5556157936018593,
+        0.5320768115233006,
+        0.649522399684979,
+        0.6523676341944054
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start6": {
+      "reciprocity_interior": {
+       "f_rel": 1.6955220242605654e-15,
+       "cos_identity_rel": 1.7416563160030109e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 4.052098971013264e-15,
+       "cos_identity_rel": 3.977420441586416e-15
+      },
+      "envelope": {
+       "min_F": 6.303684418187869e-06,
+       "max_excess_over_base_rel_peak": -1.5243987466950394e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.799188934529998,
+       "max_albedo_minus_4se": 0.7871558023777286,
+       "max_albedo_plus_4se": 0.8112220666822673,
+       "per_material_max": [
+        0.514334870555933,
+        0.4549840701492149,
+        0.799188934529998,
+        0.38960103196415347,
+        0.22128108311195185,
+        0.5509445162614576,
+        0.5356852886270667,
+        0.6478188255147262,
+        0.6517656939519006
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start7": {
+      "reciprocity_interior": {
+       "f_rel": 2.255885230095427e-15,
+       "cos_identity_rel": 1.0371558122792328e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.7717946576293614e-15,
+       "cos_identity_rel": 1.1048535512177286e-15
+      },
+      "envelope": {
+       "min_F": 7.031544449205861e-06,
+       "max_excess_over_base_rel_peak": -1.6470773103017506e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.8046633327834114,
+       "max_albedo_minus_4se": 0.7925869232095925,
+       "max_albedo_plus_4se": 0.8167397423572303,
+       "per_material_max": [
+        0.5179900256516863,
+        0.45533853762054954,
+        0.8046633327834114,
+        0.4019697274091845,
+        0.22167631745399538,
+        0.5505852425792216,
+        0.5377357368872522,
+        0.6511580217626531,
+        0.6535175313834426
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     }
+    }
+   }
+  },
+  "C:\\Projects\\ReST-GI\\results\\ecro_wl84_104kc\\primary\\fits\\CR_S": {
+   "passed": true,
+   "values": {
+    "starts": 4,
+    "arm": {
+     "method": "continuation_CR",
+     "data": "original",
+     "objective": "constrained_core",
+     "synthetic": true
+    },
+    "shape_178_per_material": true,
+    "finite": true,
+    "gate_min": 0.0,
+    "gate_max": 1.0,
+    "states_sha256": "eb9bd94f0ca73d74cc26aae28a2804a8a2b1258194fc12c9c98c98cbca1c978a",
+    "fit_record": {
+     "fit_json_present": true,
+     "states_sha256_recorded": "eb9bd94f0ca73d74cc26aae28a2804a8a2b1258194fc12c9c98c98cbca1c978a",
+     "budget": 6000,
+     "budget_respected": true,
+     "max_evaluations_per_unit": 6000,
+     "parameters_per_material": 178,
+     "states_sha256_match": true,
+     "passed": true
+    },
+    "rng_key": {
+     "seeds": [
+      1041360,
+      1041361
+     ],
+     "crc32_arm_dir": 144479172,
+     "arm_dir": "CR_S"
+    },
+    "per_start": {
+     "start0": {
+      "reciprocity_interior": {
+       "f_rel": 6.858947238785806e-15,
+       "cos_identity_rel": 6.84380731920709e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.4455824997584604e-15,
+       "cos_identity_rel": 8.321764250222421e-16
+      },
+      "envelope": {
+       "min_F": 3.323140167574617e-06,
+       "max_excess_over_base_rel_peak": -3.4775917892233964e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5079079170154945,
+       "max_albedo_minus_4se": 0.5002904616050338,
+       "max_albedo_plus_4se": 0.5814194306242431,
+       "per_material_max": [
+        0.47131613972589176,
+        0.22351710878135875,
+        0.5079079170154945,
+        0.3578002066468134,
+        0.20990660953408308,
+        0.4977608453655,
+        0.4838360618439286,
+        0.3740137515793966,
+        0.42256837825908466
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start1": {
+      "reciprocity_interior": {
+       "f_rel": 1.2148064842387557e-15,
+       "cos_identity_rel": 1.0905225063292262e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.7339599490335707e-15,
+       "cos_identity_rel": 2.773406135435755e-16
+      },
+      "envelope": {
+       "min_F": 2.958210793458119e-06,
+       "max_excess_over_base_rel_peak": -5.442225973743568e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5651807473784249,
+       "max_albedo_minus_4se": 0.5025032202567997,
+       "max_albedo_plus_4se": 0.6607584354933878,
+       "per_material_max": [
+        0.529113243060706,
+        0.22249673735801623,
+        0.5101282447402441,
+        0.382396751643669,
+        0.21081267885305563,
+        0.5651807473784249,
+        0.5420768131698525,
+        0.37065280214000795,
+        0.45735463693538825
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start2": {
+      "reciprocity_interior": {
+       "f_rel": 2.397984796083837e-15,
+       "cos_identity_rel": 2.5106461039553456e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.454586609642147e-15,
+       "cos_identity_rel": 1.297946654159588e-15
+      },
+      "envelope": {
+       "min_F": 2.913213702443372e-06,
+       "max_excess_over_base_rel_peak": -3.0003654457144625e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5489526893284312,
+       "max_albedo_minus_4se": 0.5014967407662171,
+       "max_albedo_plus_4se": 0.6383473923579529,
+       "per_material_max": [
+        0.5154728298577497,
+        0.22395857136319547,
+        0.5091282929156823,
+        0.373680113140146,
+        0.21013899329242197,
+        0.5489526893284312,
+        0.5299290492196639,
+        0.3722176167060562,
+        0.4511365055499415
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start3": {
+      "reciprocity_interior": {
+       "f_rel": 9.91238858679035e-16,
+       "cos_identity_rel": 6.923461407146244e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.8629025521835866e-15,
+       "cos_identity_rel": 4.869699782678484e-16
+      },
+      "envelope": {
+       "min_F": 2.161766600059873e-06,
+       "max_excess_over_base_rel_peak": -4.9916330104078155e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5541111766593327,
+       "max_albedo_minus_4se": 0.5025404520088698,
+       "max_albedo_plus_4se": 0.6442847333630083,
+       "per_material_max": [
+        0.5182050868062241,
+        0.2230156754284193,
+        0.5101781817301795,
+        0.37118632844831734,
+        0.21053071001217818,
+        0.5541111766593327,
+        0.5298401579225419,
+        0.3726612120054832,
+        0.44831616554095366
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     }
+    }
+   }
+  },
+  "C:\\Projects\\ReST-GI\\results\\ecro_wl84_104kc\\primary\\fits\\O0C_S": {
+   "passed": true,
+   "values": {
+    "starts": 4,
+    "arm": {
+     "method": "continuation_O0C",
+     "data": "original",
+     "objective": "original",
+     "synthetic": true
+    },
+    "shape_178_per_material": true,
+    "finite": true,
+    "gate_min": 0.0,
+    "gate_max": 1.0,
+    "states_sha256": "5a56d96463dcc5b88ab760bd687babee45c21fa888d43f14b13750d1f98c039b",
+    "fit_record": {
+     "fit_json_present": true,
+     "states_sha256_recorded": "5a56d96463dcc5b88ab760bd687babee45c21fa888d43f14b13750d1f98c039b",
+     "budget": 6000,
+     "budget_respected": true,
+     "max_evaluations_per_unit": 6000,
+     "parameters_per_material": 178,
+     "states_sha256_match": true,
+     "passed": true
+    },
+    "rng_key": {
+     "seeds": [
+      1041360,
+      1041361
+     ],
+     "crc32_arm_dir": 1362604648,
+     "arm_dir": "O0C_S"
+    },
+    "per_start": {
+     "start0": {
+      "reciprocity_interior": {
+       "f_rel": 2.724875366190482e-15,
+       "cos_identity_rel": 1.3467783817687966e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.6681149513473112e-15,
+       "cos_identity_rel": 3.3868514474082303e-16
+      },
+      "envelope": {
+       "min_F": 2.5028649279372146e-06,
+       "max_excess_over_base_rel_peak": -6.238308795343092e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.534255416913317,
+       "max_albedo_minus_4se": 0.5022591541553512,
+       "max_albedo_plus_4se": 0.6203880036262931,
+       "per_material_max": [
+        0.5058952285826632,
+        0.22245846545752462,
+        0.5098806513823889,
+        0.37490769555316106,
+        0.2106350702133848,
+        0.534255416913317,
+        0.5208585262275324,
+        0.37717458580084373,
+        0.4444428698110432
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start1": {
+      "reciprocity_interior": {
+       "f_rel": 3.697519816440219e-15,
+       "cos_identity_rel": 1.5205669017339896e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.8435956615666966e-15,
+       "cos_identity_rel": 2.361493692579145e-16
+      },
+      "envelope": {
+       "min_F": 5.226362507952468e-06,
+       "max_excess_over_base_rel_peak": -4.6026150333870556e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.532191824301163,
+       "max_albedo_minus_4se": 0.5014858078911983,
+       "max_albedo_plus_4se": 0.622423285279648,
+       "per_material_max": [
+        0.4995098804566345,
+        0.22222341424252307,
+        0.5090997423294167,
+        0.36878468353380944,
+        0.21050879870245512,
+        0.532191824301163,
+        0.5119253250469332,
+        0.3743773927838636,
+        0.43889110190139624
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start2": {
+      "reciprocity_interior": {
+       "f_rel": 5.3791560235736886e-15,
+       "cos_identity_rel": 4.488439662509361e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.9944739616624785e-15,
+       "cos_identity_rel": 1.8935863405860397e-16
+      },
+      "envelope": {
+       "min_F": 2.6578227090027917e-06,
+       "max_excess_over_base_rel_peak": -2.0232012505356022e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5471769689730352,
+       "max_albedo_minus_4se": 0.5060542428351822,
+       "max_albedo_plus_4se": 0.6329880131404846,
+       "per_material_max": [
+        0.5158317208646993,
+        0.22411737272521984,
+        0.5137305782959775,
+        0.37644488186574404,
+        0.21138936052220067,
+        0.5471769689730352,
+        0.5313467411371383,
+        0.3753311352878853,
+        0.45269220702773955
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start3": {
+      "reciprocity_interior": {
+       "f_rel": 1.7699608490272944e-15,
+       "cos_identity_rel": 1.3641396028655946e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 3.952253371475979e-15,
+       "cos_identity_rel": 7.120218232896802e-16
+      },
+      "envelope": {
+       "min_F": 2.9260043036953845e-06,
+       "max_excess_over_base_rel_peak": -7.559796572691995e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5531264830731257,
+       "max_albedo_minus_4se": 0.5024226972387649,
+       "max_albedo_plus_4se": 0.6432814476201958,
+       "per_material_max": [
+        0.5194182107076872,
+        0.22544480757047278,
+        0.5100652867125872,
+        0.3784674058206107,
+        0.21078872362897658,
+        0.5531264830731257,
+        0.5326980313206892,
+        0.37439378959790676,
+        0.4523129005248275
+       ]
+      },
+      "max_sum_lambda": 1.0,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     }
+    }
+   }
+  },
+  "C:\\Projects\\ReST-GI\\results\\ecro_wl84_104kc\\primary\\fits\\E2W_S": {
+   "passed": true,
+   "values": {
+    "starts": 4,
+    "arm": {
+     "method": "continuation_E2W",
+     "data": "original",
+     "objective": "e2",
+     "synthetic": true
+    },
+    "shape_178_per_material": true,
+    "finite": true,
+    "gate_min": 0.0,
+    "gate_max": 1.0,
+    "states_sha256": "6b25037ee50ceec41e44d948528a78646c5d1f0cabcddbb955932750b554e0c9",
+    "fit_record": {
+     "fit_json_present": true,
+     "states_sha256_recorded": "6b25037ee50ceec41e44d948528a78646c5d1f0cabcddbb955932750b554e0c9",
+     "budget": 6000,
+     "budget_respected": true,
+     "max_evaluations_per_unit": 6000,
+     "parameters_per_material": 178,
+     "states_sha256_match": true,
+     "passed": true
+    },
+    "rng_key": {
+     "seeds": [
+      1041360,
+      1041361
+     ],
+     "crc32_arm_dir": 2862705134,
+     "arm_dir": "E2W_S"
+    },
+    "per_start": {
+     "start0": {
+      "reciprocity_interior": {
+       "f_rel": 3.4852915208813556e-15,
+       "cos_identity_rel": 3.4150355590998797e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 5.88209855051949e-15,
+       "cos_identity_rel": 3.405535009722497e-15
+      },
+      "envelope": {
+       "min_F": 3.595161128493608e-06,
+       "max_excess_over_base_rel_peak": -3.129740537199114e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5492269255474842,
+       "max_albedo_minus_4se": 0.5043943237540404,
+       "max_albedo_plus_4se": 0.6380209415707038,
+       "per_material_max": [
+        0.5164869508374867,
+        0.22334152202668128,
+        0.5120497134943639,
+        0.3753637868437286,
+        0.21106519528041626,
+        0.5492269255474842,
+        0.5307282008571231,
+        0.37600596460783425,
+        0.44867601562453213
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start1": {
+      "reciprocity_interior": {
+       "f_rel": 1.7573982450657504e-15,
+       "cos_identity_rel": 1.509112906520624e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.5256826536092488e-15,
+       "cos_identity_rel": 5.133693362098755e-16
+      },
+      "envelope": {
+       "min_F": 4.27961874751594e-06,
+       "max_excess_over_base_rel_peak": -3.7627311699747834e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5174728886151106,
+       "max_albedo_minus_4se": 0.5052058455419295,
+       "max_albedo_plus_4se": 0.5997958540343289,
+       "per_material_max": [
+        0.4910480412493783,
+        0.22488852225148417,
+        0.5128775521140124,
+        0.3687541758617568,
+        0.21126547402394708,
+        0.5174728886151106,
+        0.5054444331555076,
+        0.3707433930815735,
+        0.43344707276306715
+       ]
+      },
+      "max_sum_lambda": 1.0,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start2": {
+      "reciprocity_interior": {
+       "f_rel": 5.529215361334435e-15,
+       "cos_identity_rel": 3.717251826905473e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 4.355174669826574e-15,
+       "cos_identity_rel": 1.6649193538151766e-15
+      },
+      "envelope": {
+       "min_F": 1.9874207440893866e-06,
+       "max_excess_over_base_rel_peak": -2.3184861085746552e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5778852023785613,
+       "max_albedo_minus_4se": 0.5004799690352301,
+       "max_albedo_plus_4se": 0.6760018031040331,
+       "per_material_max": [
+        0.5363050279455968,
+        0.22046076654692143,
+        0.5080809095485382,
+        0.3766097568581454,
+        0.210297647659942,
+        0.5778852023785613,
+        0.5491186404668728,
+        0.3758627706130264,
+        0.46047691266774743
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start3": {
+      "reciprocity_interior": {
+       "f_rel": 2.5758319884767624e-15,
+       "cos_identity_rel": 7.342029305002486e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.3661684617354888e-15,
+       "cos_identity_rel": 3.807769900393481e-16
+      },
+      "envelope": {
+       "min_F": 3.3609813466134e-06,
+       "max_excess_over_base_rel_peak": -1.2498859851009002e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5207209270735099,
+       "max_albedo_minus_4se": 0.5038511239516452,
+       "max_albedo_plus_4se": 0.6047276819449124,
+       "per_material_max": [
+        0.49135689211388267,
+        0.22221905963853267,
+        0.5114803935090221,
+        0.36851468090775363,
+        0.21126803513913864,
+        0.5207209270735099,
+        0.5050922204252325,
+        0.37229564029898893,
+        0.43585182260885286
+       ]
+      },
+      "max_sum_lambda": 1.0,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     }
+    }
+   }
+  },
+  "C:\\Projects\\ReST-GI\\results\\ecro_wl84_104kc\\primary\\fits\\CR_SD": {
+   "passed": true,
+   "values": {
+    "starts": 4,
+    "arm": {
+     "method": "continuation_CR",
+     "data": "coverage",
+     "objective": "constrained_core",
+     "synthetic": true
+    },
+    "shape_178_per_material": true,
+    "finite": true,
+    "gate_min": 0.0,
+    "gate_max": 1.0,
+    "states_sha256": "c8e9fceb297b0180e0246b2e4f4763e8180fd04d0ec647c8486f248458aed217",
+    "fit_record": {
+     "fit_json_present": true,
+     "states_sha256_recorded": "c8e9fceb297b0180e0246b2e4f4763e8180fd04d0ec647c8486f248458aed217",
+     "budget": 6000,
+     "budget_respected": true,
+     "max_evaluations_per_unit": 6000,
+     "parameters_per_material": 178,
+     "states_sha256_match": true,
+     "passed": true
+    },
+    "rng_key": {
+     "seeds": [
+      1041360,
+      1041361
+     ],
+     "crc32_arm_dir": 1068691518,
+     "arm_dir": "CR_SD"
+    },
+    "per_start": {
+     "start0": {
+      "reciprocity_interior": {
+       "f_rel": 6.997151890505423e-16,
+       "cos_identity_rel": 4.691055449794263e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.1330239832272203e-15,
+       "cos_identity_rel": 1.3080344031542726e-15
+      },
+      "envelope": {
+       "min_F": 3.3559165783655143e-06,
+       "max_excess_over_base_rel_peak": -3.329564884420357e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5495647097703171,
+       "max_albedo_minus_4se": 0.5019742499471505,
+       "max_albedo_plus_4se": 0.6430306434415398,
+       "per_material_max": [
+        0.5119025104968268,
+        0.22159756550745338,
+        0.5095880260950579,
+        0.3666584531360301,
+        0.2106649747141538,
+        0.5495647097703171,
+        0.5260229696937597,
+        0.3781584041326783,
+        0.4480365584518559
+       ]
+      },
+      "max_sum_lambda": 1.0,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start1": {
+      "reciprocity_interior": {
+       "f_rel": 1.970104672828365e-15,
+       "cos_identity_rel": 2.0371576033429663e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 2.4891837748307937e-15,
+       "cos_identity_rel": 4.050686093593564e-15
+      },
+      "envelope": {
+       "min_F": 2.1848200543074437e-06,
+       "max_excess_over_base_rel_peak": -1.6660905590164743e-07
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5114241133139205,
+       "max_albedo_minus_4se": 0.5037770584760989,
+       "max_albedo_plus_4se": 0.5789421978471222,
+       "per_material_max": [
+        0.47310132156741685,
+        0.2227874683547686,
+        0.5114241133139205,
+        0.36175600566249244,
+        0.2111810501216486,
+        0.4989782771066107,
+        0.48569108410253514,
+        0.3737328720249304,
+        0.4267257130422688
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start2": {
+      "reciprocity_interior": {
+       "f_rel": 2.0580616456000303e-15,
+       "cos_identity_rel": 3.0021689061463528e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.313105244149484e-14,
+       "cos_identity_rel": 4.002061972310942e-15
+      },
+      "envelope": {
+       "min_F": 2.2181701646952806e-06,
+       "max_excess_over_base_rel_peak": -5.650240483603941e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5316215807070818,
+       "max_albedo_minus_4se": 0.5015478719301831,
+       "max_albedo_plus_4se": 0.620188338470269,
+       "per_material_max": [
+        0.49848085950316606,
+        0.22199345213496713,
+        0.5091702873653086,
+        0.3700889599646593,
+        0.21060095408102078,
+        0.5316215807070818,
+        0.5144124875874578,
+        0.3758353900567412,
+        0.44492214086461757
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start3": {
+      "reciprocity_interior": {
+       "f_rel": 2.838069951798109e-15,
+       "cos_identity_rel": 2.5660913060347063e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.5652682212910188e-15,
+       "cos_identity_rel": 3.445662482278202e-16
+      },
+      "envelope": {
+       "min_F": 3.0487166180204356e-06,
+       "max_excess_over_base_rel_peak": -2.0731940636422672e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5506200824008537,
+       "max_albedo_minus_4se": 0.5032974478154842,
+       "max_albedo_plus_4se": 0.6437856116637295,
+       "per_material_max": [
+        0.5131262935284175,
+        0.22281120436969482,
+        0.5109335324307761,
+        0.36954973814763237,
+        0.21080242649797107,
+        0.5506200824008537,
+        0.5259452157926539,
+        0.3759509033396107,
+        0.448040349754983
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     }
+    }
+   }
+  },
+  "C:\\Projects\\ReST-GI\\results\\ecro_wl84_104kc\\primary\\fits\\O0C_SD": {
+   "passed": true,
+   "values": {
+    "starts": 4,
+    "arm": {
+     "method": "continuation_O0C",
+     "data": "coverage",
+     "objective": "original",
+     "synthetic": true
+    },
+    "shape_178_per_material": true,
+    "finite": true,
+    "gate_min": 0.0,
+    "gate_max": 1.0,
+    "states_sha256": "9c3227932c85b18e63294afc3a9c5dcc7b76e3e45d38a68a690bdab8d210ee7a",
+    "fit_record": {
+     "fit_json_present": true,
+     "states_sha256_recorded": "9c3227932c85b18e63294afc3a9c5dcc7b76e3e45d38a68a690bdab8d210ee7a",
+     "budget": 6000,
+     "budget_respected": true,
+     "max_evaluations_per_unit": 6000,
+     "parameters_per_material": 178,
+     "states_sha256_match": true,
+     "passed": true
+    },
+    "rng_key": {
+     "seeds": [
+      1041360,
+      1041361
+     ],
+     "crc32_arm_dir": 3767252188,
+     "arm_dir": "O0C_SD"
+    },
+    "per_start": {
+     "start0": {
+      "reciprocity_interior": {
+       "f_rel": 1.7594963991917792e-15,
+       "cos_identity_rel": 1.140114317680641e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 3.966484211987859e-15,
+       "cos_identity_rel": 1.6247460045521196e-15
+      },
+      "envelope": {
+       "min_F": 2.122866697212572e-06,
+       "max_excess_over_base_rel_peak": -4.2385298433338775e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5753969835384088,
+       "max_albedo_minus_4se": 0.5015771703969507,
+       "max_albedo_plus_4se": 0.6683269598213211,
+       "per_material_max": [
+        0.5374028706968654,
+        0.2233545916737425,
+        0.5092053931202773,
+        0.38080325761893996,
+        0.21043682796364804,
+        0.5753969835384088,
+        0.5543208745313006,
+        0.373806342576816,
+        0.4654635656970261
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start1": {
+      "reciprocity_interior": {
+       "f_rel": 4.078826115448935e-15,
+       "cos_identity_rel": 6.682202996251993e-16
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 8.809532130171658e-15,
+       "cos_identity_rel": 4.532649984035975e-16
+      },
+      "envelope": {
+       "min_F": 4.80762773592871e-06,
+       "max_excess_over_base_rel_peak": -1.35549860547529e-07
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5324018133889391,
+       "max_albedo_minus_4se": 0.5028016296975246,
+       "max_albedo_plus_4se": 0.6157042721845446,
+       "per_material_max": [
+        0.503983119421626,
+        0.22327872924791253,
+        0.5104417275213569,
+        0.37646278600188515,
+        0.210812759569655,
+        0.5324018133889391,
+        0.5184230443569606,
+        0.373320582164768,
+        0.44788277914409347
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start2": {
+      "reciprocity_interior": {
+       "f_rel": 3.881839694307176e-15,
+       "cos_identity_rel": 1.684887579421286e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.034327584978865e-15,
+       "cos_identity_rel": 4.797142296547424e-16
+      },
+      "envelope": {
+       "min_F": 5.447421020030903e-06,
+       "max_excess_over_base_rel_peak": -1.0275904944045972e-07
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5634110527041473,
+       "max_albedo_minus_4se": 0.5003723876929761,
+       "max_albedo_plus_4se": 0.6533507757186581,
+       "per_material_max": [
+        0.5265177806730758,
+        0.2211238359786146,
+        0.5079737784069501,
+        0.37681459784262517,
+        0.21044035929182986,
+        0.5634110527041473,
+        0.5431570833169833,
+        0.3773858661356607,
+        0.46119493003704587
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     },
+     "start3": {
+      "reciprocity_interior": {
+       "f_rel": 4.0054342455848505e-15,
+       "cos_identity_rel": 1.7302996246167274e-15
+      },
+      "reciprocity_grazing_included_descriptive": {
+       "f_rel": 1.3275114230562867e-15,
+       "cos_identity_rel": 4.78677228098059e-16
+      },
+      "envelope": {
+       "min_F": 2.183121958563319e-06,
+       "max_excess_over_base_rel_peak": -6.816906506297746e-08
+      },
+      "mc_albedo": {
+       "max_albedo": 0.5411572740543713,
+       "max_albedo_minus_4se": 0.501954205994259,
+       "max_albedo_plus_4se": 0.626241393182675,
+       "per_material_max": [
+        0.5093290729762413,
+        0.22115451474774964,
+        0.5095762267657734,
+        0.37772968252534783,
+        0.21055493018744617,
+        0.5411572740543713,
+        0.5252688289893329,
+        0.37395432757511954,
+        0.45077028692175597
+       ]
+      },
+      "max_sum_lambda": 1.0000000000000002,
+      "parts": {
+       "reciprocity": true,
+       "envelope": true,
+       "albedo": true,
+       "sum_lambda": true
+      },
+      "passed": true
+     }
+    }
+   }
+  }
+ },
+ "passed": true,
+ "seconds": 352.67199999999866,
+ "peak_allocated_bytes": 1291991552
+}

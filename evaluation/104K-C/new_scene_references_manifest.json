@@ -1,0 +1,141 @@
+{
+ "batch": "WL104K-C",
+ "order": [
+  "test83_hard_76_L1",
+  "test83_block_161_L1",
+  "test83_iid_191_L1",
+  "test83_iid_0_L2"
+ ],
+ "scenes": {
+  "test83_hard_76_L1": {
+   "image": "test83_hard_76_L1",
+   "status": "complete",
+   "material": "test83_hard_76",
+   "cohort": "held_out",
+   "seed_base": 1071900,
+   "precision_passed": true,
+   "failures": [],
+   "spp": 4096,
+   "replicates": 12,
+   "mask_spp": 2048,
+   "mask_seed": 1072890,
+   "camera": {
+    "origin": [
+     0.45,
+     -3.0,
+     1.35
+    ],
+    "target": [
+     0,
+     0,
+     0.3
+    ],
+    "fov": 40.0
+   },
+   "reference": "scenes104g.study_reference, LAY1024",
+   "files": {
+    "test83_hard_76_L1/mask_reference.npz": "980dd2cb0d6a1ce28e5e80b1c0a9a03a108dee36e1b6609616a61f9f6eabe124",
+    "test83_hard_76_L1/r000.npz": "17cd53012eaa99790d8d96bbece9b2fb44665cfae59ea90b11a769cf890cdd51",
+    "test83_hard_76_L1/r001.npz": "b1f9adc3eafe72e86418e7417ed5bd5d5914e9602425d50a92d786594eb598c3",
+    "test83_hard_76_L1/r002.npz": "29ce11045c7b5dfdaa6d1da382040589b81ec9960b1e1a8d1531bcdf4676ef09",
+    "test83_hard_76_L1/r003.npz": "4d3220c16147dddf4c361acd5ef8562678b9c71fe28e0b141c9c53c1d55064db",
+    "test83_hard_76_L1/r004.npz": "bb8d7b8e7cfc7521b30368a48f605ae583bf6ea0c460ff69af4a4edead72a45f",
+    "test83_hard_76_L1/r005.npz": "94ff8f43919970e93c3121daa05399573782080aa8fc9bebd27f0e5bd830bd47",
+    "test83_hard_76_L1/r006.npz": "4a6b94e2cf52f575f09277d9d7305c5a7de0c156a0ab76a42b99fd1c6a92d6bf",
+    "test83_hard_76_L1/r007.npz": "3e3598ef2cbbee298c525eff2d9a30f2bcf500c68340484714675e7ed90e9d30",
+    "test83_hard_76_L1/r008.npz": "672dbe6dbda77935b4bad21e87c911b5ebb9e30b075ed47d59c278f9a93bbcda",
+    "test83_hard_76_L1/r009.npz": "1ecc89e2cd4379c1a49f3fb64f3dae94be1eac4528906955ff841942869c4f6c",
+    "test83_hard_76_L1/r010.npz": "0f6725772ec0840e6ad2245deb0b745ed40db4b7fada84517337d8f517c90100",
+    "test83_hard_76_L1/r011.npz": "ac5c4d8cda7d2f4cc5b77845c0478e5ebfde9d994cfdeb98024a74fbecb6faf8",
+    "test83_hard_76_L1/readiness.json": "e39969d3ad2cd6e52b68e3e814a527f8540703f06eb831f5bc9749c0f3b2c59c",
+    "test83_hard_76_L1/region_masks.npz": "99c36236cdbcc7cba7cb54eec7228aa61fa8cdcd4c7ddddc7f82eb8c5b139275"
+   },
+   "inputs_sha256": {
+    "results/ecro_wl84_104d/amendment1/amended_reference.npz": "6e7c3da76c2c23b0515c912f0479eb8a7dd2a586307319c69309515150f78c37",
+    "evaluation/104D/amendment1/compiled_states.npz": "1508db1b50ad9fba08910d5dfff471ec8e80c1a8c90f0da4a5528020c12e44a5",
+    "evaluation/104D/fit_states.npz": "ccd49624930bb7d028dccdfea957b8b66750da98d8955343cff6e6914f3826dd",
+    "evaluation/104D/amendment1/materials.json": "6c180dcaa2dabf458b77d42e6c5e0cf3ebe905187fa32e857d0ab00f4b720b90",
+    "results/fnto_compiled83/results/fit/fit_test83_block_ER_cert_metric_12000_generic.npz": "a671a08b4dae1db8fa489487be924b2b8b80db2a62cf03fcfdd7b0eb8f65b5a0",
+    "results/fnto_compiled83/results/fit/fit_test83_hard_ER_cert_metric_12000_generic.npz": "f3e31ddc3a1f798997ee3c462dda40bf8b13707d06dce252cbc461a922f0684f",
+    "results/fnto_compiled83/results/fit/fit_test83_iid_ER_cert_metric_12000_generic.npz": "2268e978ba9fe2e618ee74fc761d7328b5c0f10d93a8664dd32ac28ac02de8ab",
+    "results/ecro_wl84_104f/inputs/train_original.npz": "13035b009c9695af06bb4f88c548015403d62e5dd86977aabf2e53fcfbffc149",
+    "results/ecro_wl84_104/inputs63/rest_compiled83/results/data/materials83.npz": "c34743b866b2039f78423cf8c1e37f73132754ed03224b4634444d58bf9145c6",
+    "results/ecro_wl84_104i/primary/fit/fit_states.npz": "c125f330e8fd9a78699d3893880c0c762d9257c5c5b7af6bdc169405ebeaea0a",
+    "results/ecro_wl84_104j/primary/data/fit_set.npz": "1c094000b35375d021a400037d15acd8370acb7d76be7d409b11a6263e6e84eb",
+    "results/ecro_wl84_104j/primary/data/polar_transfer_set.npz": "1c145445bd213118e934551f706f80c8d7c56481b2588fe3236d366109b28bbd",
+    "results/ecro_wl84_104j/primary/data/azimuth_transfer_set.npz": "3112b605a9a17c23abd8389df1b9b75093c0d66f4b14c0a94c16625f184d0d18",
+    "results/ecro_wl84_104j/primary/data/data.json": "bbcc097f3fe14ee0cd56582f60017a488f3ae66f2971e6faf245a2b32c58d8c6",
+    "results/ecro_wl84_104j/primary/fit_primary/states.npz": "7cead9af85571ef9db79658230df2c54b858d5f1e7a5845c3f5c9f48d7b0dbf3"
+   },
+   "protocol_sha256": "f82042dbdde521108747896a73704239e85d46942b99045ed97f684a4c2d00e6",
+   "seconds": 133.01599999999962,
+   "commit": "ae82533864372478a8806b79ab39403177b5c057",
+   "created": "2026-11-23T19:45:30+00:00"
+  },
+  "test83_block_161_L1": {
+   "image": "test83_block_161_L1",
+   "status": "complete",
+   "material": "test83_block_161",
+   "cohort": "held_out",
+   "seed_base": 1072900,
+   "precision_passed": true,
+   "failures": [],
+   "spp": 4096,
+   "replicates": 12,
+   "mask_spp": 2048,
+   "mask_seed": 1073890,
+   "camera": {
+    "origin": [
+     0.45,
+     -3.0,
+     1.35
+    ],
+    "target": [
+     0,
+     0,
+     0.3
+    ],
+    "fov": 40.0
+   },
+   "reference": "scenes104g.study_reference, LAY1024",
+   "files": {
+    "test83_block_161_L1/mask_reference.npz": "92238568cf4c1f42afef994e56bfe867dbecce0601629cd26b8115a73523902f",
+    "test83_block_161_L1/r000.npz": "a655ade26c1fa5e55b4f5149a61128b930c72ca42e335495639a7b15611351a4",
+    "test83_block_161_L1/r001.npz": "7b3d6872692b98dd9785f3d9610ac7c03313b5155cdb0cd5affefae714aad1ab",
+    "test83_block_161_L1/r002.npz": "1bfc2c6ce50cf078e9173cd87a5bcadff6a9e544d07b39fd48f8a46c53a2f1f5",
+    "test83_block_161_L1/r003.npz": "15d4257b05635fc639be52efafc7fe6eec64ebed390259275c1118eb0df0a62a",
+    "test83_block_161_L1/r004.npz": "007881459c78ea15f3cf03d7f929ddbfe31ff5785df1ae0c565fb1242e20285b",
+    "test83_block_161_L1/r005.npz": "caa56fe1cb5e0d94bf4f0aff6aea8d36d713373a93657c399276ad846647d890",
+    "test83_block_161_L1/r006.npz": "2f946aa12253e2466875119dfbac6c3dcdda1420ea58a5f35718abb19ec37eba",
+    "test83_block_161_L1/r007.npz": "c89b43f7f18399b6b728f6b27c5421bc263661607fdafaa57e8ebcc68a12332a",
+    "test83_block_161_L1/r008.npz": "0850592cad1c3b09e8821c8d5cd2c5b9975ed0d3edcb2187ab1914e11a8f7bfa",
+    "test83_block_161_L1/r009.npz": "d81e9ec2c32413ce19986dcac1582b62b87c70bc6d272403ca9724e65bf81b0b",
+    "test83_block_161_L1/r010.npz": "3a77c5f1581518c6249f1e2dea55f1671f2271fc309a0f165e1cb449e031fdb7",
+    "test83_block_161_L1/r011.npz": "31e0fdb1fc82f838fabea44c468cf8edf4f167d1aacee5ad0582def73961539f",
+    "test83_block_161_L1/readiness.json": "a07c53a00952dd1ec63b090db2dc35a8488647c33d70b487ab884607a0293b87",
+    "test83_block_161_L1/region_masks.npz": "85619595a1dec658de99cc9d0d16ebed4c9485db91ec795fc4dd0add9bcf9349"
+   },
+   "inputs_sha256": {
+    "results/ecro_wl84_104d/amendment1/amended_reference.npz": "6e7c3da76c2c23b0515c912f0479eb8a7dd2a586307319c69309515150f78c37",
+    "evaluation/104D/amendment1/compiled_states.npz": "1508db1b50ad9fba08910d5dfff471ec8e80c1a8c90f0da4a5528020c12e44a5",
+    "evaluation/104D/fit_states.npz": "ccd49624930bb7d028dccdfea957b8b66750da98d8955343cff6e6914f3826dd",
+    "evaluation/104D/amendment1/materials.json": "6c180dcaa2dabf458b77d42e6c5e0cf3ebe905187fa32e857d0ab00f4b720b90",
+    "results/fnto_compiled83/results/fit/fit_test83_block_ER_cert_metric_12000_generic.npz": "a671a08b4dae1db8fa489487be924b2b8b80db2a62cf03fcfdd7b0eb8f65b5a0",
+    "results/fnto_compiled83/results/fit/fit_test83_hard_ER_cert_metric_12000_generic.npz": "f3e31ddc3a1f798997ee3c462dda40bf8b13707d06dce252cbc461a922f0684f",
+    "results/fnto_compiled83/results/fit/fit_test83_iid_ER_cert_metric_12000_generic.npz": "2268e978ba9fe2e618ee74fc761d7328b5c0f10d93a8664dd32ac28ac02de8ab",
+    "results/ecro_wl84_104f/inputs/train_original.npz": "13035b009c9695af06bb4f88c548015403d62e5dd86977aabf2e53fcfbffc149",
+    "results/ecro_wl84_104/inputs63/rest_compiled83/results/data/materials83.npz": "c34743b866b2039f78423cf8c1e37f73132754ed03224b4634444d58bf9145c6",
+    "results/ecro_wl84_104i/primary/fit/fit_states.npz": "c125f330e8fd9a78699d3893880c0c762d9257c5c5b7af6bdc169405ebeaea0a",
+    "results/ecro_wl84_104j/primary/data/fit_set.npz": "1c094000b35375d021a400037d15acd8370acb7d76be7d409b11a6263e6e84eb",
+    "results/ecro_wl84_104j/primary/data/polar_transfer_set.npz": "1c145445bd213118e934551f706f80c8d7c56481b2588fe3236d366109b28bbd",
+    "results/ecro_wl84_104j/primary/data/azimuth_transfer_set.npz": "3112b605a9a17c23abd8389df1b9b75093c0d66f4b14c0a94c16625f184d0d18",
+    "results/ecro_wl84_104j/primary/data/data.json": "bbcc097f3fe14ee0cd56582f60017a488f3ae66f2971e6faf245a2b32c58d8c6",
+    "results/ecro_wl84_104j/primary/fit_primary/states.npz": "7cead9af85571ef9db79658230df2c54b858d5f1e7a5845c3f5c9f48d7b0dbf3"
+   },
+   "protocol_sha256": "f82042dbdde521108747896a73704239e85d46942b99045ed97f684a4c2d00e6",
+   "seconds": 131.09399999999732,
+   "commit": "8c7d0b25976abf9198d21e7ab8e997d7bae8a3e4",
+   "created": "2026-11-24T02:08:00+00:00"
+  }
+ }
+}

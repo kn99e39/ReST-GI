@@ -286,10 +286,10 @@ def fig_scenes(root, out):
         for i, s in enumerate(sc):
             ref = maps[s][f"reference_{'e1' if ev == 'e1' else 'total'}_lum"]
             axs[i, 0].imshow(np.sqrt(np.clip(ref, 0, None) / max(ref.max(), 1e-30)), cmap="gray")
-            axs[i, 0].set_title(f"{s.replace('test83_', '')}: reference {ev} (sqrt, own scale)", fontsize=7.5)
+            axs[i, 0].set_title(f"{s.replace('test83_', '')}: reference\n(sqrt, own scale)", fontsize=8)
             for j, a in enumerate(arms):
                 im = axs[i, j + 1].imshow(np.sqrt(maps[s][f"{a}_{ev}_abs_err"]), cmap="magma", vmin=0, vmax=np.sqrt(vmax))
-                axs[i, j + 1].set_title(f"{s.replace('test83_', '')}: |{a} - reference| {ev}", fontsize=7.5)
+                axs[i, j + 1].set_title(f"{s.replace('test83_', '')}:\n|{a} - reference| {ev}", fontsize=8)
         for ax in axs.ravel():
             ax.set_xticks([]); ax.set_yticks([])
         cb = fig.colorbar(im, ax=axs, shrink=0.6)
@@ -299,6 +299,33 @@ def fig_scenes(root, out):
         save(fig, out, f"scenes_{ev}_absolute_error_maps_O0_CR_E2B_shared_scale.png",
              f"Absolute HDR luminance error maps of the {ev} event (start-mean images) for O0, CR and E2_B in every scene, all on one "
              f"absolute scale (max {vmax:.3g}) with sqrt mapping; the reference image is shown on its own scale for orientation.")
+    # relative signed error maps (X - reference) / reference on the objects mask, one shared symmetric scale over all scenes and arms
+    for ev in ("e1", "total"):
+        maps = {s: np.load(root / "scenes" / s / "maps.npz") for s in sc}
+        arms = [a for a in ("O0", "CR", "E2_B") if all(f"{a}_{ev}_lum" in maps[s] for s in sc)]
+
+        def rel(s, a):
+            ref = maps[s][f"reference_{ev}_lum"]
+            floor = 0.01 * float(np.percentile(ref[maps[s]["objects_mask"]], 99))
+            r = (maps[s][f"{a}_{ev}_lum"] - ref) / np.maximum(ref, floor)
+            return np.where(maps[s]["objects_mask"], r, np.nan)
+
+        lim = float(np.nanpercentile(np.concatenate([np.abs(rel(s, a)).ravel() for s in sc for a in arms]), 99))
+        fig, axs = plt.subplots(len(sc), len(arms), figsize=(3.2 * len(arms), 3.0 * len(sc)))
+        axs = np.atleast_2d(axs)
+        for i, s in enumerate(sc):
+            for j, a in enumerate(arms):
+                im = axs[i, j].imshow(PCT * rel(s, a), cmap="RdBu_r", vmin=-PCT * lim, vmax=PCT * lim)
+                axs[i, j].set_facecolor("#d9d9d9")
+                axs[i, j].set_title(f"{s.replace('test83_', '')}:\n({a} - reference) / reference, {ev}", fontsize=8)
+        for ax in axs.ravel():
+            ax.set_xticks([]); ax.set_yticks([])
+        cb = fig.colorbar(im, ax=axs, shrink=0.6)
+        cb.set_label(f"relative signed luminance error, {ev} (%; red = too bright, blue = too dark; shared scale = 99th percentile)")
+        save(fig, out, f"scenes_{ev}_relative_signed_error_maps_O0_CR_E2B_shared_scale.png",
+             f"Relative signed HDR luminance error (X - reference) / reference of the {ev} event (start-mean images) on the objects mask "
+             f"(grey = background, not evaluated) for O0, CR and E2_B; one symmetric shared scale +/-{PCT * lim:.3g} % (99th percentile "
+             f"over all scenes and arms; larger values saturate); reference floored at 1 % of its objects 99th percentile.")
 
 
 def main():

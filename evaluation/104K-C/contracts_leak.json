@@ -1,0 +1,25 @@
+{
+ "mode": "leak",
+ "tests": {
+  "refuses_without_fit_decision": {
+   "passed": true,
+   "values": {
+    "tail": "                                # before ANY test_c array is opened\n         ^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\ReST-GI\\experiments\\ecro_wl84_104kc\\eval104kc.py\", line 291, in test_lock\n    raise Stop(\"TEST_LOCKED: hashed fit decision missing\")\nio104h.Stop: TEST_LOCKED: hashed fit decision missing\n"
+   }
+  },
+  "refuses_tampered_fit_decision": {
+   "passed": true,
+   "values": {
+    "tail": "                                  # before ANY test_c array is opened\n         ^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\ReST-GI\\experiments\\ecro_wl84_104kc\\eval104kc.py\", line 293, in test_lock\n    raise Stop(\"TEST_LOCKED: fit decision hash mismatch\")\nio104h.Stop: TEST_LOCKED: fit decision hash mismatch\n"
+   }
+  },
+  "refuses_changed_states": {
+   "passed": true,
+   "values": {
+    "tail": "                  # before ANY test_c array is opened\n         ^^^^^^^^^^^^^^^\n  File \"C:\\Projects\\ReST-GI\\experiments\\ecro_wl84_104kc\\eval104kc.py\", line 298, in test_lock\n    raise Stop(f\"TEST_LOCKED: {a} changed after the fit decision\")\nio104h.Stop: TEST_LOCKED: CR changed after the fit decision\n"
+   }
+  }
+ },
+ "passed": true,
+ "commit": "ae82533864372478a8806b79ab39403177b5c057"
+}

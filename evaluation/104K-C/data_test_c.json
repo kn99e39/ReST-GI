@@ -1,0 +1,457 @@
+{
+ "qualified": {
+  "test_c": true,
+  "test_c_peak": true,
+  "isolation": true,
+  "all": true
+ },
+ "sets": {
+  "test_c": {
+   "pairs_walked": 361047,
+   "walks_per_pair": 32768,
+   "walks": 11830788096,
+   "seconds_walks": 330.2029999999977,
+   "walks_per_second": 35828832.85736375,
+   "initstate": 1043331,
+   "pair0": 34359738368,
+   "sequence_range": [
+    1125899906842624,
+    1125911737630720
+   ],
+   "registry": {
+    "label": "WL104K-C test_c",
+    "initstate": 1043331,
+    "start": 1125899906842624,
+    "end": 1125911737630720,
+    "initstate_new": true,
+    "at_or_above_2^44": true,
+    "overlaps": [],
+    "passed": true
+   },
+   "direction_seed": 1043330,
+   "lanes_per_probe": 2048,
+   "proposal_check": {
+    "mixture_pdf_max_rel_diff": 0.0,
+    "active_fraction": 0.9794026692708333,
+    "min_q": 0.016364818174345756
+   },
+   "precision": [
+    {
+     "band_shape": 0.0010286034562911213,
+     "grazing_shape": 0.00043859244205217754,
+     "albedo": 2.2783728922711973e-05,
+     "all_shape": 0.001042772122779572,
+     "el1_half_noise": 0.001038955510635399,
+     "band_probes": 6,
+     "grazing_probes": 4,
+     "passed": true
+    },
+    {
+     "band_shape": 0.003675119505157483,
+     "grazing_shape": 0.0027282116295408014,
+     "albedo": 7.10265811087953e-05,
+     "all_shape": 0.0035817957670299812,
+     "el1_half_noise": 0.003582083497042368,
+     "band_probes": 6,
+     "grazing_probes": 4,
+     "passed": true
+    },
+    {
+     "band_shape": 0.007169796173754638,
+     "grazing_shape": 0.005996806589103669,
+     "albedo": 0.00033660751556211156,
+     "all_shape": 0.006760053735980709,
+     "el1_half_noise": 0.00675000812964577,
+     "band_probes": 6,
+     "grazing_probes": 4,
+     "passed": true
+    },
+    {
+     "band_shape": 0.001138466985214032,
+     "grazing_shape": 0.000632017276308131,
+     "albedo": 3.316135258780768e-05,
+     "all_shape": 0.001229996229585815,
+     "el1_half_noise": 0.0012263076424835026,
+     "band_probes": 6,
+     "grazing_probes": 4,
+     "passed": true
+    },
+    {
+     "band_shape": 0.004913626469785242,
+     "grazing_shape": 0.0029043546857843265,
+     "albedo": 0.00015423046992712203,
+     "all_shape": 0.004832655261781055,
+     "el1_half_noise": 0.004834711193846327,
+     "band_probes": 6,
+     "grazing_probes": 4,
+     "passed": true
+    },
+    {
+     "band_shape": 0.0020197318792971536,
+     "grazing_shape": 0.0009578836587723063,
+     "albedo": 4.314547824538703e-05,
+     "all_shape": 0.0019075868159432515,
+     "el1_half_noise": 0.0019001578513948732,
+     "band_probes": 6,
+     "grazing_probes": 4,
+     "passed": true
+    },
+    {
+     "band_shape": 0.0011123992000221686,
+     "grazing_shape": 0.00048260259422522463,
+     "albedo": 3.0285164847802542e-05,
+     "all_shape": 0.0011261862367936012,
+     "el1_half_noise": 0.001117995217137808,
+     "band_probes": 6,
+     "grazing_probes": 4,
+     "passed": true
+    },
+    {
+     "band_shape": 0.007875679873385511,
+     "grazing_shape": 0.0065291797961355485,
+     "albedo": 0.00024386241036157205,
+     "all_shape": 0.007650282686728417,
+     "el1_half_noise": 0.0076471669188163515,
+     "band_probes": 6,
+     "grazing_probes": 4,
+     "passed": true
+    },
+    {
+     "band_shape": 0.005414997064997283,
+     "grazing_shape": 0.0037325108377092566,
+     "albedo": 0.00019787438318879212,
+     "all_shape": 0.004970426059297542,
+     "el1_half_noise": 0.0049599750522079915,
+     "band_probes": 6,
+     "grazing_probes": 4,
+     "passed": true
+    }
+   ],
+   "support": {
+    "min_active_per_probe": {
+     "[0.0,0.5)": 256,
+     "[0.5,1.0)": 128,
+     "[1.0,3.0)": 230,
+     "[3.0,12.0)": 271
+    },
+    "passed": true
+   }
+  },
+  "test_c_peak": {
+   "pairs_walked": 54540,
+   "walks_per_pair": 131072,
+   "walks": 7148666880,
+   "seconds_walks": 215.0,
+   "walks_per_second": 33249613.395348836,
+   "initstate": 1043332,
+   "pair0": 34359738368,
+   "sequence_range": [
+    4503599627370496,
+    4503606776037376
+   ],
+   "registry": {
+    "label": "WL104K-C test_c_peak",
+    "initstate": 1043332,
+    "start": 4503599627370496,
+    "end": 4503606776037376,
+    "initstate_new": true,
+    "at_or_above_2^44": true,
+    "overlaps": [],
+    "passed": true
+   },
+   "points_per_probe": 305,
+   "radii_deg": [
+    0.0,
+    0.25,
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5,
+    1.75,
+    2.0,
+    2.25,
+    2.5,
+    2.75,
+    3.0,
+    3.25,
+    3.5,
+    3.75,
+    4.0,
+    5.0,
+    6.0,
+    8.0
+   ],
+   "precision": [
+    {
+     "median": 1.8906100187330624e-06,
+     "max": 2.6516273385214733e-05,
+     "min_h": 1.6575769013908963,
+     "active_points_min": 267,
+     "passed": true
+    },
+    {
+     "median": 8.629837168094566e-05,
+     "max": 0.0007998165185212793,
+     "min_h": 0.18033031594647192,
+     "active_points_min": 253,
+     "passed": true
+    },
+    {
+     "median": 0.0003969149029956749,
+     "max": 0.00220604324888742,
+     "min_h": 3.715840215375282,
+     "active_points_min": 281,
+     "passed": true
+    },
+    {
+     "median": 1.3419357762827811e-05,
+     "max": 0.0001215590340310341,
+     "min_h": 0.435950818632735,
+     "active_points_min": 263,
+     "passed": true
+    },
+    {
+     "median": 0.0006279792081254188,
+     "max": 0.003215897095636822,
+     "min_h": 0.1059729305811219,
+     "active_points_min": 277,
+     "passed": true
+    },
+    {
+     "median": 2.9045496933321323e-06,
+     "max": 4.9293083241882324e-05,
+     "min_h": 1.3758806261323049,
+     "active_points_min": 299,
+     "passed": true
+    },
+    {
+     "median": 9.763273556845082e-07,
+     "max": 1.622318116013285e-05,
+     "min_h": 1.4238275191704735,
+     "active_points_min": 295,
+     "passed": true
+    },
+    {
+     "median": 0.00036277348836406375,
+     "max": 0.0016003905077777824,
+     "min_h": 1.1841016344108484,
+     "active_points_min": 253,
+     "passed": true
+    },
+    {
+     "median": 0.00010693039740494591,
+     "max": 0.0005736066526665137,
+     "min_h": 2.189786065957385,
+     "active_points_min": 291,
+     "passed": true
+    }
+   ]
+  }
+ },
+ "isolation": {
+  "exact_equal_outgoing_active": {
+   "train_original|test_c": 0,
+   "wl104kb_train_coverage|test_c": 0,
+   "wl104kb_dev|test_c": 0,
+   "wl104kb_test|test_c": 0
+  },
+  "exact_equal_incidence": {
+   "historical_train_original|test_c": 0,
+   "historical_wl104d_reference|test_c": 0,
+   "wl104kb_train_coverage|test_c": 0,
+   "wl104kb_dev|test_c": 0,
+   "wl104kb_test|test_c": 0
+  },
+  "duplicate_incidence_within_set": {
+   "test_c": 0
+  },
+  "passed": true,
+  "registry": {
+   "recorded": [
+    [
+     "WL104D lanes",
+     104460,
+     0,
+     735870976
+    ],
+    [
+     "WL104D peak grid",
+     104470,
+     0,
+     189480960
+    ],
+    [
+     "WL104D Amendment 1",
+     10441901,
+     12288000000,
+     12363497472
+    ],
+    [
+     "WL104J fit_set",
+     1041011,
+     1099511627776,
+     1100982534144
+    ],
+    [
+     "WL104J transfer sets",
+     1041021,
+     2199023255552,
+     2201824591872
+    ],
+    [
+     "WL104K-A scene lanes si=0",
+     1041210,
+     4398046511104,
+     4398909931520
+    ],
+    [
+     "WL104K-A scene lanes si=1",
+     1041211,
+     4430814511104,
+     4431677931520
+    ],
+    [
+     "WL104K-A scene lanes si=2",
+     1041212,
+     4463582511104,
+     4464445931520
+    ],
+    [
+     "WL104K-B Stage A",
+     1041301,
+     140737488355328,
+     140738025095168
+    ],
+    [
+     "WL104K-B train_coverage",
+     1041311,
+     17592186044416,
+     17593665429504
+    ],
+    [
+     "WL104K-B dev",
+     1041321,
+     35184372088832,
+     35187328368640
+    ],
+    [
+     "WL104K-B dev_peak",
+     1041322,
+     70368744177664,
+     70372320083968
+    ],
+    [
+     "WL104K-B test",
+     1041331,
+     281474976710656,
+     281486807465984
+    ],
+    [
+     "WL104K-B test_peak",
+     1041332,
+     562949953421312,
+     562957107855360
+    ]
+   ],
+   "new": [
+    [
+     "WL104K-C test_c",
+     1043331,
+     1125899906842624,
+     1125911737630720
+    ],
+    [
+     "WL104K-C test_c_peak",
+     1043332,
+     4503599627370496,
+     4503606776037376
+    ]
+   ],
+   "checks": [
+    {
+     "label": "WL104K-C test_c",
+     "initstate": 1043331,
+     "start": 1125899906842624,
+     "end": 1125911737630720,
+     "initstate_new": true,
+     "at_or_above_2^44": true,
+     "overlaps": [],
+     "passed": true
+    },
+    {
+     "label": "WL104K-C test_c_peak",
+     "initstate": 1043332,
+     "start": 4503599627370496,
+     "end": 4503606776037376,
+     "initstate_new": true,
+     "at_or_above_2^44": true,
+     "overlaps": [],
+     "passed": true
+    }
+   ],
+   "passed": true,
+   "stage_A": [
+    "WL104K-B Stage A",
+    1041301,
+    140737488355328,
+    140738025095168
+   ],
+   "stage_A_source": {
+    "path": "results/ecro_wl84_104kb/stageA/stageA.json",
+    "sha256": "08588b7cd053204104b9ecd094c5f91bd70c09ad4fa14d5e2fa78674ca8c41d5"
+   },
+   "stage_A_equals_default": true,
+   "historical_end_max": 4464445931520,
+   "historical_below_2^44": true,
+   "wl104kb_data_json_sha256": "3304a12ae2a55e686dce0c2deeb45a04d3af5ffc4e9994dd1a3e14a2c0d90b2f"
+  },
+  "frozen_inputs": {
+   "files": 15,
+   "changed": [],
+   "passed": true
+  },
+  "protocol_sha256_unchanged": true
+ },
+ "materials": [
+  "test83_iid_1",
+  "test83_iid_0",
+  "test83_hard_1",
+  "test83_iid_191",
+  "test83_iid_159",
+  "test83_block_161",
+  "test83_block_186",
+  "test83_hard_76",
+  "test83_hard_53"
+ ],
+ "smoke": false,
+ "commit": "ae82533864372478a8806b79ab39403177b5c057",
+ "protocol_sha256": "f82042dbdde521108747896a73704239e85d46942b99045ed97f684a4c2d00e6",
+ "inputs_sha256": {
+  "results/ecro_wl84_104d/amendment1/amended_reference.npz": "6e7c3da76c2c23b0515c912f0479eb8a7dd2a586307319c69309515150f78c37",
+  "evaluation/104D/amendment1/compiled_states.npz": "1508db1b50ad9fba08910d5dfff471ec8e80c1a8c90f0da4a5528020c12e44a5",
+  "evaluation/104D/fit_states.npz": "ccd49624930bb7d028dccdfea957b8b66750da98d8955343cff6e6914f3826dd",
+  "evaluation/104D/amendment1/materials.json": "6c180dcaa2dabf458b77d42e6c5e0cf3ebe905187fa32e857d0ab00f4b720b90",
+  "results/fnto_compiled83/results/fit/fit_test83_block_ER_cert_metric_12000_generic.npz": "a671a08b4dae1db8fa489487be924b2b8b80db2a62cf03fcfdd7b0eb8f65b5a0",
+  "results/fnto_compiled83/results/fit/fit_test83_hard_ER_cert_metric_12000_generic.npz": "f3e31ddc3a1f798997ee3c462dda40bf8b13707d06dce252cbc461a922f0684f",
+  "results/fnto_compiled83/results/fit/fit_test83_iid_ER_cert_metric_12000_generic.npz": "2268e978ba9fe2e618ee74fc761d7328b5c0f10d93a8664dd32ac28ac02de8ab",
+  "results/ecro_wl84_104f/inputs/train_original.npz": "13035b009c9695af06bb4f88c548015403d62e5dd86977aabf2e53fcfbffc149",
+  "results/ecro_wl84_104/inputs63/rest_compiled83/results/data/materials83.npz": "c34743b866b2039f78423cf8c1e37f73132754ed03224b4634444d58bf9145c6",
+  "results/ecro_wl84_104i/primary/fit/fit_states.npz": "c125f330e8fd9a78699d3893880c0c762d9257c5c5b7af6bdc169405ebeaea0a",
+  "results/ecro_wl84_104j/primary/data/fit_set.npz": "1c094000b35375d021a400037d15acd8370acb7d76be7d409b11a6263e6e84eb",
+  "results/ecro_wl84_104j/primary/data/polar_transfer_set.npz": "1c145445bd213118e934551f706f80c8d7c56481b2588fe3236d366109b28bbd",
+  "results/ecro_wl84_104j/primary/data/azimuth_transfer_set.npz": "3112b605a9a17c23abd8389df1b9b75093c0d66f4b14c0a94c16625f184d0d18",
+  "results/ecro_wl84_104j/primary/data/data.json": "bbcc097f3fe14ee0cd56582f60017a488f3ae66f2971e6faf245a2b32c58d8c6",
+  "results/ecro_wl84_104j/primary/fit_primary/states.npz": "7cead9af85571ef9db79658230df2c54b858d5f1e7a5845c3f5c9f48d7b0dbf3"
+ },
+ "code_sha256": {
+  "experiments/ecro_wl84_104kc/data104kc.py": "23620373b44d964513e5e7be1c67c9dff387d0918648797aede1ca187edd378c",
+  "experiments/ecro_wl84_104kc/common104kc.py": "07eb8e5a3b80fe15a7d6972ea310e49ac92112aa690d19834ed4387b3004e813"
+ },
+ "git_status_frozen_code": [],
+ "outputs_sha256": {
+  "test_c.npz": "ac869cd1a5fdfba1f1c4015c8f2a20c22a828199b07fa320900058a9c1be83d7",
+  "test_c_peak.npz": "4c96fbd871953dd1712c3bd8b547eb2dcb640fbbe246bf055d50875d6e6db728"
+ },
+ "seconds": 547.2820000000029
+}

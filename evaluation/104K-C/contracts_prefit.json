@@ -1,0 +1,104 @@
+{
+ "mode": "prefit",
+ "tests": {
+  "response_identity_vs_fit104kb": {
+   "passed": true,
+   "values": {
+    "max_abs": 0.0
+   }
+  },
+  "e2_identity_vs_fit104kb": {
+   "passed": true,
+   "values": {
+    "max_rel": 1.299927419040614e-07
+   }
+  },
+  "region_partition": {
+   "passed": true,
+   "values": {
+    "min": 1.0,
+    "max": 1.0
+   }
+  },
+  "al_gradient_fd": {
+   "passed": true,
+   "values": {
+    "rel_errors": [
+     7.184061462784292e-10,
+     1.1752850086408364e-10,
+     1.2104934660392654e-10,
+     1.171190148597711e-10,
+     2.0448702192723963e-10,
+     4.3134707379137556e-11
+    ]
+   }
+  },
+  "al_warm_start_feasible": {
+   "passed": true,
+   "values": {
+    "F": 1.0,
+    "max_c": -0.019607843137254832
+   }
+  },
+  "zero_lr_returns_warm_start_CR": {
+   "passed": true,
+   "values": {
+    "checkpoints": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "zero_lr_returns_warm_start_O0C": {
+   "passed": true,
+   "values": {
+    "checkpoints": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "zero_lr_returns_warm_start_E2W": {
+   "passed": true,
+   "values": {
+    "checkpoints": [
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0,
+     0
+    ]
+   }
+  },
+  "synthetic_target_reproduction": {
+   "passed": true,
+   "values": {
+    "max_abs": 0.0
+   }
+  },
+  "warm_r4_layout": {
+   "passed": true,
+   "values": {}
+  }
+ },
+ "passed": true,
+ "commit": "ae82533864372478a8806b79ab39403177b5c057"
+}
