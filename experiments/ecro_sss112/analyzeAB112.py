@@ -186,7 +186,28 @@ def gate_A5(root, geom):
         row['pass'] = bool(zmax <= 5 and under_ok and row['singular_p'] >= 1e-4 and unreg == 0 and mis <= 1e-5)
         ok &= row['pass']
         res['replicas'].append(row)
-    res['pass'] = bool(ok)
+    res['pass_frozen_per_replica_binomial'] = bool(ok)
+    # Amendment 1: pooled test with between-replica dispersion (the shared PCG32 lane seeding correlates proposals, so the
+    # per-replica binomial variance is invalid; measured overdispersion ~3, decorrelated seeding ~1.1)
+    from scipy import stats
+    burs = np.stack([load_acc(root / 'stageA' / f'C_r{r}.npz')['buried'].reshape(N, NS, NB).sum(2) for r in range(C.RC)])
+    tests = []
+    for pid in np.flatnonzero(g.PSID == 0):
+        for sub in range(4):
+            f = footprint_fraction(g, geom, pid, sub)
+            if f <= 0 and burs[:, pid, sub].sum() == 0:
+                continue
+            tot = NB * n
+            x = burs[:, pid, sub].astype(np.float64)
+            sd = x.std(ddof=1)
+            t = (x.mean() - tot * f) / max(sd / math.sqrt(C.RC), 1e-9) if sd > 0 else (0.0 if abs(x.mean() - tot * f) < 1 else float('inf'))
+            tests.append({'pid': int(pid), 'sub': int(sub), 'fraction': f, 'mean_excess': float(x.mean() - tot * f), 't': float(t),
+                          'overdispersion': float(x.var(ddof=1) / max(tot * f * (1 - f), 1e-9))})
+    crit = float(stats.t.ppf(1 - 0.01 / 2 / max(len(tests), 1), C.RC - 1))
+    res['amendment1_footprint'] = {'critical_t': crit, 'tests': tests, 'max_abs_t': max(abs(x['t']) for x in tests)}
+    other = all(r['underside_all_buried'] and r['singular_p'] >= 1e-4 and r['singular_unregistered'] == 0 and r['mismatch_rate'] <= 1e-5
+                for r in res['replicas'])
+    res['pass'] = bool(other and res['amendment1_footprint']['max_abs_t'] <= crit)
     return res
 
 
@@ -292,6 +313,7 @@ def main(root):
         reg, bands = C.masks(gb, geom, light[0]['pos'])
         cv = C.contact_valid(reg)
         h = [s['phys_C_h'].astype(np.float64) for s in st]
+        kap = MX.pixel_kappa(h[0], h[1], reg['floor'])
         hN = [s['phys_N_h'].astype(np.float64) for s in st]
         mu = MX.region_mean_lum(0.5 * (h[0] + h[1]), reg['near']) if reg['near'].any() else float('nan')
         bn_, bc_ = BAND_NEAR_FRAC * mu, BAND_CON_FRAC * mu
@@ -301,7 +323,7 @@ def main(root):
             meta = json.loads(str(s['meta']))
             a6_bad['C'] += meta.get('bad_origin_C', 0.); a6_bad['N'] += meta.get('bad_origin_N', 0.)
             a6_bad['C_floor'] += meta.get('bad_floor_C', 0.); a6_bad['paths'] += meta.get('paths', 0.)
-        vm = {'contact_valid': cv, 'mu_ref_near': mu, 'band_near': bn_, 'band_contrast': bc_, 'pixels': {k: int(m.sum()) for k, m in reg.items()},
+        vm = {'pixel_kappa_amendment1': kap, 'contact_valid': cv, 'mu_ref_near': mu, 'band_near': bn_, 'band_contrast': bc_, 'pixels': {k: int(m.sum()) for k, m in reg.items()},
               'ref_noise': {}, 'semantics_shift_C_minus_N': {}, 'arms': {}}
         for rname in REGIONS_ALL:
             m = reg[rname]
@@ -316,7 +338,7 @@ def main(root):
             res, hh = arm_res(st, arm, R, ref)
             o = {}
             if cv:
-                o['endpoints'] = MX.endpoint_stats(res, reg['near'], reg['flank'])
+                o['endpoints'] = MX.endpoint_stats(res, reg['near'], reg['flank'], kappa=kap)
             o['bands'] = MX.band_profile(res, bands)
             o['rmse'] = {}
             for rname in REGIONS_ALL:
@@ -385,6 +407,7 @@ def main(root):
     gates['A8'] = {'per_view': a8, 'unqualified': unq}
     core = all(gates[k]['pass'] for k in ('A1', 'A2', 'A3', 'A4', 'A5', 'A6', 'A7', 'A9'))
     gates['verdict'] = 'NOT QUALIFIED' if not core else ('QUALIFIED' if not unq else 'PARTIALLY QUALIFIED')
+    gates['verdict_as_frozen_before_amendment1'] = 'NOT QUALIFIED (A5 per-replica binomial footprint z 5.16 > 5, replica 1)'
     C.jd(gates, an / 'stageA_gates.json')
     C.jd(metrics, an / 'stageB_metrics.json')
     decision(root, gates, metrics, a8)

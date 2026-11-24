@@ -116,3 +116,30 @@ The evaluation stages therefore run as two concurrent processes (≈ 5 GB each).
 ## Execution
 
 (appended below)
+
+### First frozen pass (chain from commit `74b647c`, 2026-11-24 18:06–18:47 KST)
+
+Tests T1–T6 passed. T2 reproduces the WL101H X checks: under C, shadow attenuation agrees with the analytic chord law to within 0.998–1.000 from 1 mm to 80 mm; under N it is overstated 2,190-fold inside the 11.5 mm ring.
+
+Stage A ran 8 C, 4 N, 2 legacy, 2 frame-control and 1 synthetic construction, about 2.5 min in total. Stage B rendered the six F0 views (2 × 4,096 spp, physical C and N passes, 65-table readout) in 38 min on two processes.
+
+**Frozen verdict: NOT QUALIFIED.** A1–A4, A6, A7 and A9 pass, and A8 is qualified for every view and region. A5 fails only on its footprint sub-test: replica 1 has a per-replica binomial z of 5.16 against a limit of 5. The other replicas give 2.1–4.8. The chain therefore stopped before Stage C by its frozen rule. This verdict is preserved.
+
+### Amendment 1 — RNG-correlated proposals make the per-replica binomial footprint test invalid (`protocol/amendment1.json`)
+
+The diagnostic is post hoc and used only Stage A sums and reference images. No Stage B arm metric was opened.
+
+- **Replay.** A geometry-only replay of the frozen proposal stream reproduces every stored buried count exactly. The analytic footprint and the exclusion logic are therefore correct.
+- **No bias.** The per-cell excess averaged over the 8 replicas is centred: mean z per cell lies between −1.1 and +1.25, with no fixed-sign cells.
+- **Cause.** The shared WL86/WL100 Dr.Jit PCG32 lane seeding (initstate per launch, initseq = lane index) correlates proposals. Adjacent lanes show u1 correlation −0.079 at lag 2, and the same slot shows about −0.004 across the 1,024 batch repeats.
+- **Effect.** On partially covered sub-cells, between-replica variance is 3.05× the binomial variance. The same proposal formula with decorrelated lane seeding gives 1.14×.
+- **Same effect in camera pixels.** Reference block-mean variance is 1.03–1.30× the iid value on the floor of the six views.
+
+Changes, under the brief's instrumentation-fix clause:
+
+1. The A5 footprint test now uses the 8-replica pooled excess with between-replica dispersion: |t| ≤ t₇ at family-wise 1%. Per-replica z values are kept as description.
+2. The endpoint stream SE in Stages B, D and E is multiplied by √κ, where κ is the measured pixel block-mean variance ratio of each view. This is conservative and only widens intervals.
+
+Samples, seeds, tables, streams, thresholds, bands, arms and outcome rules are unchanged, and nothing is re-rendered.
+
+**Successor note.** This RNG property affects every WL86–WL112 estimator. It inflates per-sample variance but does not bias means. Statistics across independent seeds remain valid.

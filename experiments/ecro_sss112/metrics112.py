@@ -14,7 +14,7 @@ def region_mean_lum(img, mask):
     return float(lum(img[mask]).mean()) if mask.any() else float('nan')
 
 
-def endpoint_stats(res_by_rep, mask_near, mask_flank):
+def endpoint_stats(res_by_rep, mask_near, mask_flank, kappa=1.0):
     """res_by_rep: list over table replicas of [res_stream0, res_stream1] (RGB residual images, readout - physical).
     Returns near / contrast estimates, SE_stream, SE_table, 95% half-widths (frozen formula)."""
     R = len(res_by_rep)
@@ -30,7 +30,7 @@ def endpoint_stats(res_by_rep, mask_near, mask_flank):
     for pair in res_by_rep:
         dn = lum(pair[0][mask_near]) - lum(pair[1][mask_near]); df = lum(pair[0][mask_flank]) - lum(pair[1][mask_flank])
         sn.append(dn.var(ddof=1) / (4 * dn.size)); sf.append(df.var(ddof=1) / (4 * df.size))
-    se_near = math.sqrt(np.mean(sn) / R); se_flank = math.sqrt(np.mean(sf) / R)
+    se_near = math.sqrt(kappa * np.mean(sn) / R); se_flank = math.sqrt(kappa * np.mean(sf) / R)    # Amendment 1: x kappa
     out['near']['se_stream'] = se_near
     out['contrast']['se_stream'] = math.sqrt(se_near ** 2 + se_flank ** 2)
     t = T975.get(R - 1, 1.96) if R > 1 else 0.0
@@ -61,6 +61,20 @@ def band_profile(res_by_rep, bands):
     for m in bands:
         out.append(float(np.mean([region_mean_lum(0.5 * (p[0] + p[1]), m) for p in res_by_rep])) if m.any() else float('nan'))
     return out
+
+
+def pixel_kappa(h0, h1, floor):
+    """Amendment 1: measured pixel-noise correlation of a view: max over 2 / 4 / 8 px blocks of var(block mean of the paired
+    reference difference) / (var(pixel difference) / block size) on the floor region; >= 1."""
+    d = lum(h0) - lum(h1)
+    ks = [1.0]
+    for b in (2, 4, 8):
+        n = 512 // b * b
+        m = floor[:n, :n].reshape(n // b, b, n // b, b).all((1, 3))
+        bm = d[:n, :n].reshape(n // b, b, n // b, b).mean((1, 3))[m]
+        if bm.size > 10:
+            ks.append(float(bm.var() / (d[floor].var() / (b * b))))
+    return max(ks)
 
 
 def coverage(Wlum, native):

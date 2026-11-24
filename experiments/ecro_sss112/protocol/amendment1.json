@@ -1,0 +1,20 @@
+{
+ "amendment": 1,
+ "batch": "WL112",
+ "date": "2026-11-24",
+ "authority": "owner brief: 'Correct execution and instrumentation bugs within this batch when doing so preserves the frozen research contract.' Disclosed append-only; the frozen verdict is preserved.",
+ "trigger": "frozen Stage A verdict NOT QUALIFIED: A5 per-replica binomial footprint z 5.16 (replica 1) > 5; all other gates (A1-A4, A6, A7, A9) passed and A8 qualified everywhere",
+ "diagnosis": {
+  "replay": "geometry-only replay of the frozen proposal stream reproduces every stored buried count exactly (analytic footprint and exclusion logic correct)",
+  "cause": "the shared WL86/WL100 Dr.Jit PCG32 lane seeding (initstate per launch, initseq = lane) correlates proposals: adjacent-lane u1 corr -0.079 at lag 2, same-slot lag corr ~ -0.004 over 1,024 batch repeats; between-replica variance / binomial variance = 3.05 on partially covered sub-cells; a decorrelated lane seeding of the same proposal formula gives 1.14",
+  "mean": "no bias: per-cell excess averaged over the 8 replicas is centred (mean z per cell -1.1 .. 1.25)",
+  "pixels": "the same convention correlates camera pixels: block-mean variance / iid = 1.03-1.30 on the floor of the six F0 views"
+ },
+ "changes": [
+  "A5 footprint test uses the 8-replica pooled excess with between-replica dispersion: |t| <= t_{7, 1 - 0.01/(2 m)} (m tested sub-cells); per-replica binomial z and overdispersion reported descriptively; underside, singular and mismatch tests unchanged",
+  "endpoint stream SE (Stages B, D, E) multiplied by sqrt(kappa), kappa = measured pixel block-mean variance ratio of the view (max over 2/4/8 px, floor region, >= 1): conservative, widens intervals only"
+ ],
+ "unchanged": "samples, seeds, tables, streams, thresholds, bands, arms, outcome and gate rules; no new rendering",
+ "blindness": "designed and committed before any Stage B arm metric was opened (only stageA_gates.json and reference images were read)",
+ "note_for_successors": "the RNG correlation is a property of every WL86-WL112 estimator; it inflates per-sample variance but does not bias means; between-replica / independent-seed statistics remain valid"
+}

@@ -30,8 +30,9 @@ def view_metrics(st, gb, geom, light_pos, arms):
     reg, bands = C.masks(gb, geom, light_pos)
     cv = C.contact_valid(reg)
     h = [s['phys_C_h'].astype(np.float64) for s in st]
+    kap = MX.pixel_kappa(h[0], h[1], reg['floor'])
     mu = MX.region_mean_lum(0.5 * (h[0] + h[1]), reg['near']) if reg['near'].any() else float('nan')
-    out = {'contact_valid': cv, 'mu_ref_near': mu, 'band_near': BAND_NEAR_FRAC * mu, 'band_contrast': BAND_CON_FRAC * mu,
+    out = {'pixel_kappa_amendment1': kap, 'contact_valid': cv, 'mu_ref_near': mu, 'band_near': BAND_NEAR_FRAC * mu, 'band_contrast': BAND_CON_FRAC * mu,
            'pixels': {k: int(m.sum()) for k, m in reg.items()}, 'arms': {},
            'low_pairing_rel_l1': float(max((np.abs(s['phys_C_e1'] - s['ro_e1']).sum() + np.abs(s['phys_C_e2'] - s['ro_e2']).sum()) / (np.abs(s['phys_C_e1']).sum() + np.abs(s['phys_C_e2']).sum()) for s in st)),
            'bad_origin': float(sum(json.loads(str(s['meta'])).get('bad_origin_C', 0.) for s in st))}
@@ -44,7 +45,7 @@ def view_metrics(st, gb, geom, light_pos, arms):
         res = [[st[j][f'hl|{arm}'].astype(np.float64) - h[j] for j in range(2)]]
         o = {}
         if cv:
-            o['endpoints'] = MX.endpoint_stats(res, reg['near'], reg['flank'])
+            o['endpoints'] = MX.endpoint_stats(res, reg['near'], reg['flank'], kappa=kap)
         o['bands'] = MX.band_profile(res, bands)
         o['rmse'] = {}
         for r in REG:
