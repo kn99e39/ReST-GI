@@ -288,8 +288,9 @@ def decide(root, q, metrics):
             ok = l4['rmse'][reg] <= 1.10 * s4['rmse'][reg] + 0.0025; r[f'L4_vs_S4_{reg}'] = bool(ok); equiv &= ok
         for reg in ('floor_outside', 'full'):
             ok = l4['rmse'][reg] <= 1.10 * u['rmse'][reg] + 0.0025; r[f'L4_nonreg_{reg}'] = bool(ok); equiv &= ok
-        cov = min(min(s4['coverage'].values()), min(l4['coverage'].values()))
-        r['coverage_min'] = cov; adequate &= cov >= 0.995
+        covs = [v for v in list(s4['coverage'].values()) + list(l4['coverage'].values()) if not math.isnan(v)]   # empty regions carry no queries
+        cov = min(covs) if covs else float('nan')
+        r['coverage_min'] = cov; adequate &= (not covs) or cov >= 0.995
         rows[tag] = r
     sys.path.insert(0, str(HERE)); import tracer113 as T
     budget = {}

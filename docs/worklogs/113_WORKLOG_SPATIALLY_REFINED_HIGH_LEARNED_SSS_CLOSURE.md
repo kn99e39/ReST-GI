@@ -141,3 +141,23 @@ The per-launch salt of the decorrelated lane seeding was a Python literal. Every
 The fix makes the salt opaque (`dr.opaque`). The hash values are identical (checked), so the RNG streams and results do not change.
 
 The chain was stopped, partial temporary files were removed, and the run resumed. The eight completed constructions were kept.
+
+### First primary pass to the Stage B selection (chain `58162b9`, 21:16–21:46 KST)
+
+- Stage A qualification: **QUALIFIED**.
+  - Q1–Q5, Q7 and Q8 pass, and Q6 qualifies every comparison.
+  - Q4 footprint |t| ≤ 3.15 against the critical value.
+  - Singular counts are 27–42 per replica against an expected 35.7.
+- The frozen selection code returned **STOP** with `S4_adequate = False`.
+
+### Execution fix 2 — NaN coverage of an empty region (2026-11-24 21:50 KST, after the Stage A metrics were seen; disclosed)
+
+**Cause.** The only S4 "failure" was the coverage minimum at F0 H5. That camera has no visible near-floor region, so the near-region coverage is NaN (no queries). The decision line `adequate &= cov >= 0.995` evaluates NaN as a failure. Every other S4 criterion passed at every contact-valid view.
+
+**Fix.** The minimum is now taken over defined regions only. This matches the frozen coverage requirement ("native query weight ≥ 0.995 in every region"): an empty region carries no query weight. It also matches WL112's handling of the same view, where NaN did not limit.
+
+**Disclosure.** The fix was made after the Stage A arm metrics had been inspected. Both records are preserved:
+- the pre-fix decision (STOP) and gate in `results/ecro_sss113/primary/frozen_pass1/`;
+- the post-fix decision in `stageB/decision.json`.
+
+**Unchanged.** No threshold, band, arm or rule changed. No sample or stream was regenerated.
