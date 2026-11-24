@@ -405,3 +405,86 @@ Transfer script: `results/ecro_estimator109b/xfer70.sh` on LabServer69.
 - Amendments 1–3 are recorded as **not executable on LabServer70**.
 - The transferred copies remain on LabServer70 and are unused.
 - LabServer69's data and state are unchanged: 16 of 18 paired units done; Stages A–C complete.
+
+## WL109B Amendment 3 — LabServer70 driver 550.54.15 and containerized execution (owner decisions, 2026-11-24)
+
+**Owner decisions.**
+- LabServer70 must become a usable shared execution host. Under no circumstances may it go down.
+- Prepare a fallback access path first.
+- Upgrade the driver without a reboot.
+- Run the frozen stack in Docker.
+
+### Fallback access
+- A VS Code tunnel `labserver70` runs as nd in a Docker container: `nd-vscode-tunnel`, image `python:3.10-bookworm`,
+  restart policy `unless-stopped`, host network. Docker is enabled at boot. GitHub device login was done by the owner.
+- Limitation: the tunnel terminal is a shell in the container, not on the host.
+  - Host sshd (port 26048) authenticates only through the lab privacyIDEA OTP (`pam_privacyidea`). The owner has no OTP
+    token.
+  - The tunnel therefore gives non-root access only. Host root recovery still needs tailscale, an OTP, or local/LAN access
+    (xrdp 3389 is open).
+- An unsanctioned docker-socket route to host root was declined.
+
+### Driver 525.60.13 → 550.54.15
+- Executed by the owner, with sudo, from commands prepared and checked here. No reboot.
+
+**Preparation (nd, no root).**
+- The NVIDIA online repository is not configured on LabServer70. The 525 driver came from the local
+  `cuda-rhel7-12-0-local` repo.
+- The 12 RPMs (the 11 installed driver packages plus the new dependency `nvidia-kmod-common`) were downloaded from the NVIDIA
+  rhel7 repository into `~/nvidia-550.54.15/`.
+- Verification:
+  - sha256 against the repository metadata: all 12 match.
+  - GPG signatures against NVIDIA key D42D0685 (fingerprint 610C 7B14 E068 A878 070D A4E9 9CD0 A493 D42D 0685), checked
+    in a temporary rpmdb: all 12 OK.
+  - Epoch 3, as installed.
+- No repository was added to the system.
+- `yum --disablerepo='*' -x 'kernel*' --assumeno localinstall` dry run: Install 1, Upgrade 11, no other package, no
+  dependency error.
+
+**Rollback path (checked, not needed).**
+- The local repo still holds the 44 files of 525.60.13: `yum history undo` offline.
+
+**Execution.**
+1. Stopped the nine GPU containers and lightdm. lightdm's X server (`/usr/bin/X` on GPU 0) and nd's `btop` held the
+   device.
+2. With the nvidia module down to its two inter-module references and no holder in `fuser`:
+   - `localinstall` completed.
+   - `dkms status`: `nvidia/550.54.15, 3.10.0-862.el7.x86_64: installed`.
+   - The 550.54.15 modules were loaded with `modprobe`.
+3. Result: `NVRM 550.54.15`; `nvidia-smi` shows driver 550.54.15 (CUDA 12.4), with the RTX 3090 and the RTX 3080 Ti.
+4. lightdm and the nine containers were restarted. The X server is back on GPU 0.
+5. Containers reach the GPU through toolkit 1.11.
+
+### Container probe
+- The frozen stack runs in `python:3.10-bookworm`, image ID `sha256:6fd6ebbd05fc…271d`.
+- It needs three host files bind-mounted read-only. Toolkit 1.11 predates driver R535 and does not inject them:
+  `/usr/share/nvidia/nvoptix.bin`, `libnvidia-gpucomp.so.550.54.15` and `libnvidia-nvvm.so.4`.
+  - Without them, OptiX fails with `OPTIX_ERROR_INTERNAL_COMPILER_ERROR` (7299).
+- With them in place:
+  - Dr.Jit 1.3.1, Mitsuba 3.8.0, Torch 2.3.1+cu121, NumPy 1.26.4, Python 3.10.21; glibc 2.36.
+  - An OptiX render runs; `libnvoptix.so.550.54.15` is loaded; torch sees the RTX 3090.
+- Host `nvidia-smi` lists a container's compute process by its host PID, the same PID `docker top` reports. The guard can
+  therefore see foreign containerized GPU work and identify its own.
+
+### Amendment 3 execution design (`run109b_amend3.sh`)
+- **Frozen admission.** The frozen WL108 admission runs **unchanged** inside the container. The container exposes only the
+  RTX 3090, with driver 550.54.15 and `libnvoptix.so.550.54.15`, which satisfies its pins. Amendment 2 is not used.
+- **Container.** `ctr109b.sh` runs each GPU command in a container: image pinned by ID; RTX 3090 by UUID; uid 1014;
+  `/home/nd` and the three OptiX files mounted; the frozen interpreter and venv used as files.
+- **Guard.** `guard109c.py` is `guard109.py` with three additions:
+  - GPU PIDs of its own named container (`docker top`) count as its own.
+  - On preemption or timeout it runs `docker kill` before killing the process group.
+  - It enforces a 1-minute load-average gate during the 120-s free window.
+- **Load gates.**
+
+| Stages | 1-min load average must be |
+|---|---|
+| xcheck, paired, grid (data) | ≤ 8 (leave CPU to others) |
+| timing, dynamic (timing-bearing) | ≤ 2 (no CPU contention in measured frame times) |
+
+- Load averages are logged at every start, exit and preemption.
+- **Unchanged.**
+  - The Amendment 1 cross-host rule (keep the 16 LabServer69 units only if every re-rendered first replicate matches within
+    1e-6; otherwise recapture all 18).
+  - The CPU stages, which run on the host.
+  - Every estimator, inference, threshold and decision rule.
