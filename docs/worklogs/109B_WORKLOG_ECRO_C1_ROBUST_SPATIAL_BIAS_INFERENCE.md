@@ -239,3 +239,45 @@ Protocol: `experiments/ecro_estimator109b/protocol109b.json`.
   - dynamic D1–D6.
 - All smoke numbers are smoke data, not evidence. They use R = 64 and G = 4.
 - `SMOKE PASS` at 18:52:37. The independent R0 null pool (4,096 frames per view × spp) started under the guard.
+
+### 2026-11-23 / 24 — null pool, Stage A, Stage C qualification, paired capture in progress
+
+**Null pool.** 4,096 R0 frames for each of the 18 view × spp settings. One attempt with no preemption, 18:54–20:34
+(6,012 s).
+
+**Stage A: PASS.**
+- Artifact hashes match.
+- The unchanged `calib109a` pool and hist reruns reproduce every leaf: 0 mismatches each. The budget decision is equal.
+- The label defect is confirmed: in every setting, the archived `upper_median` equals the mean of the per-draw upper bounds.
+  The true quantiles are in `stageA/hist_upper_quantiles.json`.
+- The WL109-design null fail rates for H3/H4 material boundary reproduce.
+
+**Stage C qualification: PROCEED with R = 512.**
+- Synthetic stage 1 took 3,614 s. The real-null pool analysis ran 20:34 → 06:27 on the CPU.
+- No escalation was needed.
+
+| Gate | R = 512 | R = 1024 |
+|---|---|---|
+| Synthetic entries | 624 / 624 PASS (0 FAIL, 0 BORDERLINE); worst one-sided non-coverage 0.000 | 624 / 624 PASS; worst 0.0005 |
+| Real-null pooled non-coverage | 0.000 for every Q_true and pattern | 0.000 |
+| Precision | max per-setting fail 0.000; joint pass probability 1.000 | max per-setting fail 0.000 |
+| Pooled Bonferroni power at 2 × limit | ≥ 0.99997 for every pattern | 1.0 |
+| Direct null | 56 / 56 states EQUIVALENT, none BIASED | 56 / 56 EQUIVALENT |
+
+- By the budget rule (the smallest design that passes every gate), **R = 512** was selected. No C1 frame existed before
+  this decision.
+- The measured coverage is far more conservative than the nominal 0.025. This is the expected price of the worst-case
+  linear-term variance. It lowers synthetic precision in the stress families. On real noise it did not.
+
+**Paired capture (Stage D), R = 512.**
+- The guard waited for foreign GPU work from 06:27, then admitted the unit at 10:49.
+- It preempted itself three times, each time killing only its own child when foreign work appeared:
+
+| Time | Foreign work | WL109B run time before preemption |
+|---|---|---|
+| 10:50 | foreign PID | 33 s |
+| 10:56 | foreign PID | 45 s |
+| 14:37 | tmux `b28` | 1,332 s |
+
+- At 14:55, 16 of 18 units are complete. H5 at 16 and 32 spp remain.
+- The guard is waiting while `b28` and its GPU processes run, and holds no GPU memory.
