@@ -189,3 +189,46 @@ Freeze commit: `24211b7` (protocol sha256 `e160f91c…`).
 - **Scope.** This is a non-scientific execution fix. No protocol rule, threshold, design, seed or analysis changed. The
   chain was relaunched in the same output directory: the completed tests stage is skipped, and Stage A starts from
   scratch.
+
+## Diagnostic and execution fix 2 — fixed per-frame overhead (2026-11-24, owner request; before any candidate evidence)
+
+The owner asked to profile the fixed overhead on LabServer70's RTX 3080 Ti (GPU1), in the same container stack, while
+the evidence chain ran on the RTX 3090.
+
+- **Method.** The diagnostics are `dbg_overhead_r111.py` and `dbg_graph_r111.py`; they are not evidence.
+  - GPU time was isolated by queueing a device sleep before each measured region, so CPU enqueue latency is excluded.
+  - CUPTI (`torch.profiler`) crashed with an illegal address alongside Dr.Jit/OptiX, so it was not used.
+- **Findings (3080 Ti, container limited to 4 CPUs, host load1 about 14).**
+  - **Guide pack (sub = 4).** GPU 1.41 ms, CPU enqueue 3.2 ms. The roughly 2.3 ms floor seen in Stage A is host-side
+    work:
+    - 16 opaque camera scalars, 0.6 ms;
+    - Dr.Jit replay preparation;
+    - about a dozen torch post-processing ops at about 13 µs each.
+    - Without the 4-CPU quota (16 CPUs) it was slightly slower, so cgroup throttling is not the cause; the shared host
+      CPU is.
+  - **R3's 8×8 coverage guides.** GPU 3.2 ms. This is genuine ray-tracing cost (16.8 M rays).
+  - **ECRO frame.** 1 spp: GPU 2.38 ms, CPU 1.85 ms. 4 spp: GPU 10.4 ms.
+  - **Candidate graph: 5.4 ms of device time, of which 3.3 ms was one layout conversion.** The network ran in
+    channels_last, so cuDNN returned the 150-channel fp16 logits in channels_last. The fused passes then made an NCHW
+    copy of them with `.contiguous()`.
+    - By comparison, the network took 1.78 ms and the three passes on NCHW logits 0.28 ms.
+    - Reading channels_last logits in place was correct but slower (5.2 ms), because the reads are uncoalesced.
+- **Fix 2 (owner-approved option 1; option 2, moving the pack post-processing into the graph, is on hold).**
+  - At inference (batch 1, no gradient), the 1×1 head is computed as one GEMM on the channels_last feature view, which
+    yields NCHW logits directly.
+  - The fused passes accept NCHW and channels_last logits through their strides.
+  - Training keeps the cuDNN conv path.
+  - Equivalence checks:
+    - GEMM head vs conv head: 8.6e-8 relative to peak in fp32 with TF32 off; 3.5e-4 in fp16 autocast, within fp16
+      precision;
+    - channels_last vs NCHW passes: bitwise equal;
+    - all tests pass.
+  - Candidate graph device time: 5.40 → 1.66 ms (3080 Ti).
+- **Scope.**
+  - Execution only: same mechanism, same weights, same function up to fp16 rounding. No rule, threshold, design rule or
+    analysis changed.
+  - Stage A was measured with the former layout. Its record stays as measured. Its decisions (sub = 4, m = 1.0, no
+    cost futility) are unchanged by a faster candidate. With the fix the camera-form subsystem is still above the
+    3.0 ms width threshold, so m stays 1.0.
+  - Fix 2 is in place before the evidence stages that use the candidate's fused path (Stage E, static, sequences,
+    timing). The chain was in its data stage, which does not import these modules.

@@ -67,6 +67,15 @@ class CompactNet(nn.Module):
         u = r(self.u1(torch.cat([u, s1], 1)))
         u = Fn.interpolate(u, size=s0.shape[-2:], mode="bilinear", align_corners=False)
         f = r(self.fuse(torch.cat([u, s0], 1)))
+        if f.shape[0] == 1 and f.is_contiguous(memory_format=torch.channels_last) and not torch.is_grad_enabled():
+            # inference (WL111 execution fix 2): the 1 x 1 head as one GEMM on the channels_last features (a view of an
+            # (H W, C) matrix), producing NCHW logits directly; a cuDNN head on channels_last features returns
+            # channels_last logits whose NCHW conversion cost about 3.3 ms of device time at 512 x 512
+            _, Cf, H, W = f.shape
+            fm = f.permute(0, 2, 3, 1).reshape(H * W, Cf)
+            wt = self.head.weight.view(HEAD, Cf)
+            out = torch.addmm(self.head.bias[:, None].to(fm.dtype), wt.to(fm.dtype), fm.t())
+            return out.view(1, HEAD, H, W)
         return self.head(f.contiguous())
 
 
@@ -118,16 +127,19 @@ def _triton():
 
 
 def spatial_fused(low, high, logits, block=256):
-    """Inference: low/high (1,3,H,W) fp32, logits (1,150,H,W) fp16/fp32 contiguous NCHW."""
+    """Inference: low/high (1,3,H,W) fp32, logits (1,150,H,W) fp16/fp32 in NCHW or channels_last layout, read in place
+    through its strides (WL111 execution fix 2: the former .contiguous() conversion of channels_last fp16 logits cost
+    about 3.3 ms of device time at 512 x 512, against 0.28 ms for the three passes)."""
     T = _triton()
     _, _, H, W = low.shape
     HW = H * W
     cur = torch.cat([low, high], 0).contiguous().float()          # (2,3,H,W)
     nxt = torch.empty_like(cur)
-    L = logits.contiguous()
+    sN, sC, sH, sW = logits.stride()
+    assert sH == W * sW, "pixel-linear layout required (NCHW or channels_last)"
     for p, d in enumerate(DILATIONS):
-        lp = L[:, p * NCOMP * 25:(p + 1) * NCOMP * 25]               # (1,50,H,W) contiguous view
-        T["atrous"][(T["triton"].cdiv(HW, block), NCOMP)](cur, lp, nxt, H, W, HW, D=d, BLOCK=block)
+        lp = logits[:, p * NCOMP * 25:(p + 1) * NCOMP * 25]            # view: same strides, offset to pass p
+        T["atrous"][(T["triton"].cdiv(HW, block), NCOMP)](cur, lp, nxt, H, W, HW, sC, sW, D=d, BLOCK=block)
         cur, nxt = nxt, cur
     return cur[0:1], cur[1:2]
 

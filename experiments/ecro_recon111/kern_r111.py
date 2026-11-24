@@ -5,16 +5,18 @@ import triton.language as tl
 
 
 @triton.jit
-def _atrous(img, logits, out, H, W, HW, D: tl.constexpr, BLOCK: tl.constexpr):
+def _atrous(img, logits, out, H, W, HW, CS, PS, D: tl.constexpr, BLOCK: tl.constexpr):
+    # logits element (channel k of component c, pixel pix) at logits + (c * 25 + k) * CS + pix * PS: NCHW (CS = HW, PS = 1)
+    # and channels_last (CS = 1, PS = channels) are read in place (no layout conversion)
     c = tl.program_id(1)
     pix = tl.program_id(0) * BLOCK + tl.arange(0, BLOCK)
     mask = pix < HW
     y = pix // W
     x = pix % W
-    lb = logits + c * 25 * HW
+    lb = logits + c * 25 * CS
     m = tl.full((BLOCK,), -1e30, tl.float32)
     for k in range(25):
-        m = tl.maximum(m, tl.load(lb + k * HW + pix, mask=mask, other=-1e30).to(tl.float32))
+        m = tl.maximum(m, tl.load(lb + k * CS + pix * PS, mask=mask, other=-1e30).to(tl.float32))
     s = tl.zeros((BLOCK,), tl.float32)
     a0 = tl.zeros((BLOCK,), tl.float32)
     a1 = tl.zeros((BLOCK,), tl.float32)
@@ -28,7 +30,7 @@ def _atrous(img, logits, out, H, W, HW, D: tl.constexpr, BLOCK: tl.constexpr):
         xx = tl.where(xx < 0, -xx, xx)
         xx = tl.where(xx >= W, 2 * W - 2 - xx, xx)
         q = yy * W + xx
-        e = tl.exp(tl.load(lb + k * HW + pix, mask=mask, other=-1e30).to(tl.float32) - m)
+        e = tl.exp(tl.load(lb + k * CS + pix * PS, mask=mask, other=-1e30).to(tl.float32) - m)
         s += e
         a0 += e * tl.load(ib + q, mask=mask, other=0.0)
         a1 += e * tl.load(ib + HW + q, mask=mask, other=0.0)

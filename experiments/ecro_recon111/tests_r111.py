@@ -251,6 +251,27 @@ def t_gpu():
     b = RC.spatial_fused(low, high, logits)
     rel = max(float(((x - y).abs() / y.abs().clamp(min=1e-6)).max()) for x, y in zip(b, a))
     check("E13_fused_spatial_equals_reference", rel <= 1e-5, max_rel=rel)
+    net = RC.CompactNet(1.0).cuda().eval()
+    xin = torch.randn(1, RC.CIN, 64, 64, device="cuda")
+    netc = RC.CompactNet(1.0).cuda().eval()
+    netc.load_state_dict(net.state_dict())
+    netc = netc.to(memory_format=torch.channels_last)
+    tf32 = torch.backends.cudnn.allow_tf32
+    torch.backends.cudnn.allow_tf32 = False                 # exact fp32 reference (the cuDNN default uses TF32)
+    with torch.no_grad():
+        y_ref = net(xin)
+        y_gemm = netc(xin.to(memory_format=torch.channels_last))
+    torch.backends.cudnn.allow_tf32 = tf32
+    relg = float(((y_gemm - y_ref).abs()).max() / y_ref.abs().max().clamp(min=1e-12))
+    check("E13_gemm_head_equals_conv_head_fp32", relg <= 1e-5 and y_gemm.is_contiguous(), max_rel_to_peak=relg)
+    with torch.no_grad(), torch.autocast("cuda", dtype=torch.float16):
+        y_ref16 = net(xin)                                   # training-path conv head under autocast
+        y_gemm16 = netc(xin.to(memory_format=torch.channels_last))
+    rel16 = float(((y_gemm16.float() - y_ref16.float()).abs()).max() / y_ref16.float().abs().max().clamp(min=1e-12))
+    check("E13_gemm_head_fp16_within_fp16_precision", rel16 <= 4e-3, max_rel_to_peak=rel16)
+    lcl = logits.to(memory_format=torch.channels_last)
+    b2 = RC.spatial_fused(low, high, lcl)
+    check("E13_fused_spatial_channels_last_equals_nchw", all(torch.equal(x, y) for x, y in zip(b2, b)))
     cst = RC.spatial_fused(torch.full_like(low, 0.5), torch.full_like(high, 3.0), logits)
     check("E1_constant_preserved_fused", float((cst[0] - 0.5).abs().max()) <= 5e-6 and float((cst[1] - 3.0).abs().max()) <= 3e-5)
     cfg = C.P["candidate"]["temporal_settings"]
