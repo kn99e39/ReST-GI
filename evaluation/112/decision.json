@@ -1,0 +1,1186 @@
+{
+ "stageA_verdict": "QUALIFIED",
+ "arms": {
+  "G": {
+   "sufficient": false,
+   "limited_views": [],
+   "views": {
+    "V0": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.039840088725266905,
+       "limit": 0.04733140427982376,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.02417728456748642,
+       "limit": 0.02942818433743046,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.027734411657162377,
+       "limit": 0.05352333926847023,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.017283546335693102,
+       "limit": 0.03177061380997196,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.013640979508309368,
+       "limit": 0.019948391899800525,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999995492779665
+    },
+    "H1": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.04473491206925241,
+       "limit": 0.05162208187398731,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.022469680578905436,
+       "limit": 0.027084977950092414,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.032809812433735465,
+       "limit": 0.059188552180987064,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.02804005859412047,
+       "limit": 0.04990877315098646,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.017029489497306406,
+       "limit": 0.025984294585258184,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999989371970701
+    },
+    "H2": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.04832043598133197,
+       "limit": 0.056057767816992024,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.020985188526659166,
+       "limit": 0.025719123380263997,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.040117765479463136,
+       "limit": 0.06886012872335667,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.024831259455076478,
+       "limit": 0.041499886773385286,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.01789995758981607,
+       "limit": 0.027085961993647722,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999993781595198
+    },
+    "H3": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.08258867622378326,
+       "limit": 0.0953995293712875,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.017497311345848074,
+       "limit": 0.022162981911459472,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.07056661987483111,
+       "limit": 0.11500606076313939,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.061557651315288064,
+       "limit": 0.09980054583901891,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.030133149663204503,
+       "limit": 0.04673031001542971,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999994355071284
+    },
+    "H4": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.08136804453687196,
+       "limit": 0.09346403472724511,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.019533935341311603,
+       "limit": 0.024324879737529847,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.06736150470962918,
+       "limit": 0.10234422363403943,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.054525871677205684,
+       "limit": 0.08221139779961648,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.031808129243773735,
+       "limit": 0.04643201056678433,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999999383514804
+    },
+    "H5": {
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.039888963855458315,
+       "limit": 0.04592138104990461,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.017415336708497285,
+       "limit": 0.021482475535219564,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.00983216521735298,
+       "limit": 0.028292885866309223,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.006745742445947291,
+       "limit": 0.014750827522819459,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.01300334916415897,
+       "limit": 0.018487270975597832,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": NaN
+    }
+   }
+  },
+  "S_G": {
+   "sufficient": false,
+   "limited_views": [],
+   "views": {
+    "V0": {
+     "near_inside": true,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.02032191514987794,
+       "limit": 0.04733140427982376,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.011192215666121415,
+       "limit": 0.02942818433743046,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.012112832411457932,
+       "limit": 0.05352333926847023,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.0074228192187022445,
+       "limit": 0.03177061380997196,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.0064253841324841,
+       "limit": 0.019948391899800525,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999979849188374
+    },
+    "H1": {
+     "near_inside": true,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.02412018183464478,
+       "limit": 0.05162208187398731,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.011126698423912158,
+       "limit": 0.027084977950092414,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.015648230975057475,
+       "limit": 0.059188552180987064,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.013270154560588217,
+       "limit": 0.04990877315098646,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.008290928066437078,
+       "limit": 0.025984294585258184,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999980417008092
+    },
+    "H2": {
+     "near_inside": true,
+     "contrast_inside": true,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.024930204779433782,
+       "limit": 0.056057767816992024,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.010260703335117628,
+       "limit": 0.025719123380263997,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.019299727794892276,
+       "limit": 0.06886012872335667,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.011212044612483386,
+       "limit": 0.041499886773385286,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.008257500182477282,
+       "limit": 0.027085961993647722,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.999998818500605
+    },
+    "H3": {
+     "near_inside": true,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.04980742271407666,
+       "limit": 0.0953995293712875,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.010516952848327502,
+       "limit": 0.022162981911459472,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.040243289583532724,
+       "limit": 0.11500606076313939,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.03473322745057241,
+       "limit": 0.09980054583901891,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.017318606511030822,
+       "limit": 0.04673031001542971,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999992808061784
+    },
+    "H4": {
+     "near_inside": true,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.04249709717729082,
+       "limit": 0.09346403472724511,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.010158084741464856,
+       "limit": 0.024324879737529847,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.03714943637540535,
+       "limit": 0.10234422363403943,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.029388659482974377,
+       "limit": 0.08221139779961648,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.016977940890108924,
+       "limit": 0.04643201056678433,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999995750475532
+    },
+    "H5": {
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.02689415691726248,
+       "limit": 0.04592138104990461,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.011455724846355032,
+       "limit": 0.021482475535219564,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.0032594628233210275,
+       "limit": 0.028292885866309223,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.0029584458221354635,
+       "limit": 0.014750827522819459,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.007295655617282838,
+       "limit": 0.018487270975597832,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": NaN
+    }
+   }
+  },
+  "S_U": {
+   "sufficient": false,
+   "limited_views": [],
+   "views": {
+    "V0": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.021440393416279797,
+       "limit": 0.04733140427982376,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.01175259722596001,
+       "limit": 0.02942818433743046,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.01743463487303953,
+       "limit": 0.05352333926847023,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.010384486173947922,
+       "limit": 0.03177061380997196,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.0070824563755518995,
+       "limit": 0.019948391899800525,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999999711796353
+    },
+    "H1": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.024084587733731323,
+       "limit": 0.05162208187398731,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.011144967337711085,
+       "limit": 0.027084977950092414,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.0198312519378844,
+       "limit": 0.059188552180987064,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.01687612799859156,
+       "limit": 0.04990877315098646,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.009262032691729004,
+       "limit": 0.025984294585258184,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999999915827076
+    },
+    "H2": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.025028369276934033,
+       "limit": 0.056057767816992024,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.010313187043769803,
+       "limit": 0.025719123380263997,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.021434818584506788,
+       "limit": 0.06886012872335667,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.012505543809960867,
+       "limit": 0.041499886773385286,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.008847413362644612,
+       "limit": 0.027085961993647722,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 1.0
+    },
+    "H3": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.050689475826817085,
+       "limit": 0.0953995293712875,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.010682110856099446,
+       "limit": 0.022162981911459472,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.041229097240755866,
+       "limit": 0.11500606076313939,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.035634979092599654,
+       "limit": 0.09980054583901891,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.0177203629261573,
+       "limit": 0.04673031001542971,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 1.0
+    },
+    "H4": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.04308571838192191,
+       "limit": 0.09346403472724511,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.010284152348002873,
+       "limit": 0.024324879737529847,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.03792828341306481,
+       "limit": 0.10234422363403943,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.03001206088096772,
+       "limit": 0.08221139779961648,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.017316574928850685,
+       "limit": 0.04643201056678433,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 1.0
+    },
+    "H5": {
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.027400910986622635,
+       "limit": 0.04592138104990461,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.01167845377499725,
+       "limit": 0.021482475535219564,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.01408604957237562,
+       "limit": 0.028292885866309223,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.006649858718719684,
+       "limit": 0.014750827522819459,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.008661006148226388,
+       "limit": 0.018487270975597832,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": NaN
+    }
+   }
+  },
+  "V": {
+   "sufficient": false,
+   "limited_views": [],
+   "views": {
+    "V0": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.040490214496074366,
+       "limit": 0.04733140427982376,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.0244660224125999,
+       "limit": 0.02942818433743046,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.04636385840114064,
+       "limit": 0.05352333926847023,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.02659199034452086,
+       "limit": 0.03177061380997196,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.015822889373579507,
+       "limit": 0.019948391899800525,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999995492779665
+    },
+    "H1": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.045273865779659625,
+       "limit": 0.05162208187398731,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.02267281585453263,
+       "limit": 0.027084977950092414,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.05153849689967432,
+       "limit": 0.059188552180987064,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.043099181921780944,
+       "limit": 0.04990877315098646,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.021394935442686874,
+       "limit": 0.025984294585258184,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999989371970701
+    },
+    "H2": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.04867671573780318,
+       "limit": 0.056057767816992024,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.02110493881118352,
+       "limit": 0.025719123380263997,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.06028614354221948,
+       "limit": 0.06886012872335667,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.03542454105932766,
+       "limit": 0.041499886773385286,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.022324951569740167,
+       "limit": 0.027085961993647722,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999993781595198
+    },
+    "H3": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.08444182117430428,
+       "limit": 0.0953995293712875,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.017836768872602743,
+       "limit": 0.022162981911459472,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.10228965199577023,
+       "limit": 0.11500606076313939,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.08846506107512606,
+       "limit": 0.09980054583901891,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.04020062103407271,
+       "limit": 0.04673031001542971,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999994355071284
+    },
+    "H4": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.08274507784927153,
+       "limit": 0.09346403472724511,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.01982645735949463,
+       "limit": 0.024324879737529847,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.09076498739858878,
+       "limit": 0.10234422363403943,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.07245988046364121,
+       "limit": 0.08221139779961648,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.03993309242379706,
+       "limit": 0.04643201056678433,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999999383514804
+    },
+    "H5": {
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.039981560714372824,
+       "limit": 0.04592138104990461,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.017452889928300762,
+       "limit": 0.021482475535219564,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.02345122640126141,
+       "limit": 0.028292885866309223,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.011128991493097467,
+       "limit": 0.014750827522819459,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.01457561831874743,
+       "limit": 0.018487270975597832,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": NaN
+    }
+   }
+  },
+  "S_V": {
+   "sufficient": false,
+   "limited_views": [],
+   "views": {
+    "V0": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.020430763918101728,
+       "limit": 0.04733140427982376,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.011241334339571763,
+       "limit": 0.02942818433743046,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.017304893101992517,
+       "limit": 0.05352333926847023,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.010319093551611801,
+       "limit": 0.03177061380997196,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.0070071540043308775,
+       "limit": 0.019948391899800525,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999979849188374
+    },
+    "H1": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.02421228186381481,
+       "limit": 0.05162208187398731,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.01116411045410134,
+       "limit": 0.027084977950092414,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.019735212177520008,
+       "limit": 0.059188552180987064,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.016801502552700152,
+       "limit": 0.04990877315098646,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.009242905450731581,
+       "limit": 0.025984294585258184,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999980417008092
+    },
+    "H2": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.024863478348420426,
+       "limit": 0.056057767816992024,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.01023653011071102,
+       "limit": 0.025719123380263997,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.021334951772006033,
+       "limit": 0.06886012872335667,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.012451164877459975,
+       "limit": 0.041499886773385286,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.008796569502609609,
+       "limit": 0.027085961993647722,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.999998818500605
+    },
+    "H3": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.05069087812246108,
+       "limit": 0.0953995293712875,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.01068035007905511,
+       "limit": 0.022162981911459472,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.04121971953633989,
+       "limit": 0.11500606076313939,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.03562735650989862,
+       "limit": 0.09980054583901891,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.017716628388003464,
+       "limit": 0.04673031001542971,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999992808061784
+    },
+    "H4": {
+     "near_inside": false,
+     "contrast_inside": false,
+     "precision": true,
+     "materiality_qualified": true,
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.043089739463626237,
+       "limit": 0.09346403472724511,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.010282643349498705,
+       "limit": 0.024324879737529847,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.03791268904319659,
+       "limit": 0.10234422363403943,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.03000027286813562,
+       "limit": 0.08221139779961648,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.017310563967685367,
+       "limit": 0.04643201056678433,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": 0.9999995750475532
+    },
+    "H5": {
+     "non_regression": {
+      "sphere_boundary": {
+       "arm": 0.026993744155399978,
+       "limit": 0.04592138104990461,
+       "ok": true,
+       "qualified": true
+      },
+      "sphere": {
+       "arm": 0.011498181613312295,
+       "limit": 0.021482475535219564,
+       "ok": true,
+       "qualified": true
+      },
+      "contact_shadow": {
+       "arm": 0.013992495482204348,
+       "limit": 0.028292885866309223,
+       "ok": true,
+       "qualified": true
+      },
+      "floor": {
+       "arm": 0.006611550963777913,
+       "limit": 0.014750827522819459,
+       "ok": true,
+       "qualified": true
+      },
+      "full": {
+       "arm": 0.008601283291145,
+       "limit": 0.018487270975597832,
+       "ok": true,
+       "qualified": true
+      }
+     },
+     "coverage_min": NaN
+    }
+   }
+  }
+ },
+ "outcome": "NONE"
+}

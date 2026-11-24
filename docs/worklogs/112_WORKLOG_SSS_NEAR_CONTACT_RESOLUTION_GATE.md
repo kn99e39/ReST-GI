@@ -143,3 +143,147 @@ Changes, under the brief's instrumentation-fix clause:
 Samples, seeds, tables, streams, thresholds, bands, arms and outcome rules are unchanged, and nothing is re-rendered.
 
 **Successor note.** This RNG property affects every WL86–WL112 estimator. It inflates per-sample variance but does not bias means. Statistics across independent seeds remain valid.
+
+### Second pass under Amendment 1 (chain from commit `890a135`, 2026-11-24 18:52–18:54 KST)
+
+The second pass re-ran the analysis only; no samples or streams were regenerated.
+
+- **Stage A: QUALIFIED.** All of A1–A9 pass.
+- **Stage B outcome: NONE.** Stage C was not run, and therefore neither were Stages D/E or the learned cost accounting. The frozen gate classification is **NOT_RESOLVED**.
+
+## Final report
+
+Written for the research owner.
+
+### Implementation fact
+
+Code is under `experiments/ecro_sss112/`, raw data under `results/ecro_sss112/primary/`, reviewer artifacts under `evaluation/112/`.
+
+- **Tracer.** `tracer112.py` is a copy of the WL100 physics with a movable sphere and C/N origin semantics. It adds an analytic pinned first surface, 2×2 sub-patch addresses, event-2 query capture and multi-table readout.
+- **Construction contract v3.** `stageA112.py` and `analyzeAB112.py`.
+- **Evaluation streams.** `eval112.py`.
+- **Not run.** The candidate ECRO-S2 (`model112.py`), the D112 data and training code (`data112.py`, `train112.py`) and the Stage D/E/F code exist and passed a reduced development run. None was run at evidence scale because the frozen Stage B rule stopped the batch.
+- **Unchanged.** ECRO v0, ER/SDM, LOW/HIGH ownership, the material, every historical checkpoint and reference, and every earlier worklog.
+
+### Measurement
+
+**Physical semantics qualification.** Stage A is QUALIFIED under Amendment 1. As frozen, it was NOT QUALIFIED; that pass is preserved in `results/ecro_sss112/primary/frozen_pass1/`.
+
+| Gate | Result |
+|---|---|
+| A1 tracer identity | lanes max abs 0 |
+| A2 pinned identity | relative L1 2.1e-7 on 8,065 paired probes |
+| A3 frame invariance | max \|z\| 1.02 |
+| A4 synthetic projection | 80/80 entries within 4 SE; nested parent 7e-8 |
+| A5 support | pooled footprint \|t\| ≤ 3.03 vs critical 5.73; singular counts 9–12 per replica vs 8.93 expected; address mismatch 2.0–2.3e-6 |
+| A6 origins | C: zero sphere-interior origins in constructions and references; junction-band rate 1.3e-8 per camera path. N: 41,274 / 1,454,382 sphere-interior origins (F6 detected) |
+| A7 positive control | legacy WL100 sampler has a 1.08% address/count inconsistency rate (rejected); 0 of 256 materially different cells pass as clean |
+| A8 materiality | numerical-event bounds at most 0.065 (near) and 0.085 (contrast) of their 10%-of-band thresholds; region relative bounds ≤ 8.3e-5 |
+| A9 LOW pairing | relative L1 ≤ 1e-10 |
+
+**Semantics factor.** C minus N reference shift on near-floor HIGH is −0.00017 to −0.00026 luminance, at most −0.0006 in the 0–10 cm band. Tables built under N give the same endpoints as under C within their intervals: S_G near at V0 is +0.0106 under N vs +0.0104 under C. The F6 correction is physically required at the tangency but immaterial at every image endpoint, confirming WL101H.
+
+**Projection measure and spatial resolution.** Mean HIGH residual, linear HDR luminance, eight table replicas × two 4,096-spp streams. Half-widths are ≤ 0.0024. Bands: near 0.014–0.038, contrast 0.013–0.034.
+
+| Arm | V0 near / contrast | H1 | H2 | H3 | H4 |
+|---|---|---|---|---|---|
+| U (1270×64) | +0.072 / +0.068 | +0.078 / +0.075 | +0.076 / +0.074 | +0.216 / +0.229 | +0.205 / +0.222 |
+| G | +0.043 / +0.052 | +0.047 / +0.057 | +0.045 / +0.055 | +0.139 / +0.167 | +0.134 / +0.165 |
+| S_U (2×2) | +0.022 / +0.018 | +0.023 / +0.020 | +0.021 / +0.018 | +0.071 / +0.077 | +0.069 / +0.077 |
+| **S_G (2×2)** | **+0.010 / +0.014** | +0.011 / +0.015 | +0.009 / +0.012 | +0.032 / +0.045 | +0.033 / +0.048 |
+| original ECRO (WL100) | +0.072 / +0.071 | +0.076 / +0.075 | +0.076 / +0.078 | +0.217 / +0.232 | +0.207 / +0.227 |
+| camera-fitted P_v (diag.) | +0.052 / +0.057 | +0.057 / +0.066 | +0.059 / +0.063 | +0.131 / +0.148 | +0.169 / +0.190 |
+| camera-fitted S_v (diag.) | +0.020 / +0.021 | +0.024 / +0.027 | +0.024 / +0.026 | +0.091 / +0.098 | +0.101 / +0.110 |
+
+- **S_G.** Near is inside the band at all five contact-valid views. Contrast is inside only at H2. The cause is a negative flank residual under G: −0.003 to −0.015, against U's +0.004 at the front views.
+- **Other arms.** V equals U; the receiver restriction alone changes nothing. No arm regresses off-target: every relative RMSE in silhouette, sphere, contact/shadow, floor and full frame is ≤ U. Coverage is 1.000.
+- **Near-region stable relative HIGH RMSE.** U 32–38%, S_U 10–15%, S_G 5–9%.
+- **Comparison with WL101.** These are new local values on a different stack, so they are not paired with WL101. U at V0 (+0.0722) matches WL101E's +0.0702 in pattern. G (+0.043) and S_G (+0.010) reproduce WL101H's descriptive +0.0415 and +0.0106.
+
+**Factorial, at V0 near.** Measure at fixed resolution: U→G −0.029; S_U→S_G −0.012. Resolution at fixed measure: U→S_U −0.050; G→S_G −0.032. Interaction +0.017.
+
+**Post-hoc diagnostic (`diag112.py`, commit `07b45a0`).** Descriptive only; it changes no verdict.
+
+- **(a) Where near queries land.** 79–88% of the near-floor HIGH query weight lands on the eight lowest sphere patches (ring 0). Flank weight splits about 45% sphere ring 0 and 30% walls. All projection and resolution effects act through ring-0 cells. At V0 the ring-0 contribution is −0.031 for G→S_G and +0.007 at the flank.
+- **(b) One further level, 4×4 sub-patches.** Four replicas, read on the same stream seeds (LOW pairing 2e-8).
+
+| Arm | V0 | H1 | H2 | H3 | H4 |
+|---|---|---|---|---|---|
+| S4_U near / contrast | +0.004 / −0.000 | +0.003 / −0.001 | +0.003 / −0.002 | −0.006 / −0.010 | −0.006 / −0.008 |
+| S4_G near / contrast | −0.003 / −0.002 | −0.005 / −0.004 | −0.006 / −0.005 | −0.035 / −0.032 | −0.031 / −0.028 |
+
+  - S4_U: both endpoints are inside the bands at every view, and near RMSE is 2.3–2.9%.
+  - S4_G: over-corrects at the lit-side views; it is barely inside there.
+
+**Learned generator adequacy, static, cross-view and dynamic fidelity, reuse correctness, collateral regression of a learned candidate.** **Not measured.** No candidate was trained, because the frozen Stage B rule stopped the batch.
+
+**Runtime and scalability cost.**
+
+| Representation | Floats | Size (float32) |
+|---|---|---|
+| Coarse table | 243,840 | 0.93 MiB |
+| 2×2 | — | 3.72 MiB |
+| 4×4 | — | 14.9 MiB |
+
+- **Physical construction.** About 5.8 s per 333M-sample 2×2 replica and about 21 s per 1.3e9-sample 4×4 replica on the local GPU.
+- **Development run only.** ECRO-S2 generator 4.8 ms vs 2.5 ms for ECRO v0. Parameters 736,720 vs 735,664. Training about 0.023 s per step. Generator latency does not depend on the weights.
+- **Not measured.** No learned edit-to-frame latency was measured for a candidate.
+
+### Observation
+
+The S_G residual maps keep a narrow positive band directly beneath the contact and a negative region on the lit-side flank (H3/H4). Every arm shows silhouette stripes at sphere patch boundaries, the same in camera-fitted arms and in the original ECRO. They do not change with the projection measure.
+
+### Interpretation
+
+**Supported cause of the artifact.** The near-floor overbrightness is a representation/projection error. It is not caused by generator learning, LOW, the semantics change, sampling or reconstruction. The near floor reads the higher-order radiance of the eight lowest sphere patches through their whole-patch mean. Radiance varies strongly within those patches near the contact. The uniform measure averages brighter parts of the patch than the near floor actually sees.
+
+**Projection measure.** Projection alone (G) removes 41% of the near excess at V0 but cannot reach the bands at any view. Its cos weighting also creates a negative flank bias that grows with resolution.
+
+**Spatial representation adequacy.**
+- At the predeclared 2×2 resolution, no camera-independent measure meets both endpoints at every contact-valid view. Under the frozen rule, adequacy is therefore not demonstrated.
+- One more level of resolution under the uniform measure (S4_U) meets both endpoints at all five views, with no off-target regression and full coverage.
+- That result is post hoc, comes from one fixture (F0) and one level, and is not a frozen decision.
+- The required resolution is driven by the near-contact patches of the sphere's lowest ring, which carry 79–88% of the near query weight. It is not a global requirement. Whether this depends on gap, light side or sphere position was not measured, because Stage E did not run.
+
+**Learned candidate status.** Not trained. The 2×2 ECRO-S2 candidate was frozen but not admitted by the Stage B rule.
+
+**Measurement note.** The shared PCG32 lane seeding of every WL86–WL112 estimator correlates samples. Within-replica binomial or iid-pixel standard errors are therefore optimistic: about 3× variance for proposal counts, 1.03–1.30× for pixels. Statistics across independent seeds remain valid.
+
+### Unresolved questions
+
+1. Would a camera-independent 4×4 representation, under the uniform measure or one restricted to the lowest sphere ring, meet the contract on an independently frozen set of views, configurations and dynamic sequences? Would a learned decoder reproduce it?
+2. Why does G's cos weighting bias the flank negative at fine resolution? Is the uniform-area Lambertian receiver proxy wrong near a contact, where receivers are dominated by the nearby floor?
+3. What causes the sphere-silhouette patch-boundary stripes common to every arm?
+4. Static and dynamic learned evidence, reuse, collateral regression and learned cost all remain unmeasured.
+
+### Architecture verdict
+
+**Mandatory SSS Gate: NOT_RESOLVED.** The physics is qualified under Amendment 1. Under the frozen rule, no camera-independent representation at the predeclared resolutions (1270×64, 2×2) is sufficient, so no learned candidate was trained. This is a completed negative stage and does not satisfy the gate.
+
+The blocking mechanism is the spatial resolution of the higher-order outgoing radiance on the sphere's lowest-ring patches at the contact. 2×2 is insufficient. 4×4 is sufficient post hoc on F0 under the uniform measure.
+
+Moving to a 4×4 (or ring-restricted adaptive) output representation would be a new representation hypothesis. Under the brief that is a **decision for the research owner**. No candidate is adopted, and Architecture.md's accepted contract does not change.
+
+### Reproducibility
+
+- **Commits.** Freeze `74b647c`. Figure script `30163d4`. Amendment 1 `890a135`. Post-hoc diagnostic `07b45a0`. The report is the next commit.
+- **Protocol and manifests.** `experiments/ecro_sss112/protocol/{sss112.json, amendment1.json, freeze_manifest.json}`. The WL100 checkpoint SHA-256 `2d9cb580…` is verified.
+- **Environment.** Local RTX 5080 16 GB; `external/8dna26/.venv-cu128` with Python 3.11, Mitsuba 3.5.1, Dr.Jit 0.4.6, torch 2.8.0+cu128.
+- **Seeds.**
+
+| Use | Seeds |
+|---|---|
+| C constructions | 11201001–8 |
+| N constructions | 11202001–4 |
+| Legacy | 11203001–2 |
+| Frame control | 11204001 |
+| Synthetic | 11205001 |
+| Identity checks | 11206000/1 |
+| Streams | 11210000 + 10·view + j |
+| P_v | 11211000 + 10·view + r |
+| Diagnostic 4×4 | 11208001–4 |
+| Development | offset +5,000,000 / +7,000,000 |
+
+- **Run.** `bash experiments/ecro_sss112/chain112.sh`, detached and resumable. Then `python experiments/ecro_sss112/diag112.py results/ecro_sss112/primary` and `python experiments/ecro_sss112/fig112.py results/ecro_sss112/primary evaluation/112`.
+- **Logs.** `results/ecro_sss112/primary/logs/`. The development runs are `results/ecro_sss112/{dev,devrun,probe}`.
+- **Reviewer index.** [evaluation/112/index.html](../../evaluation/112/index.html) and `manifest112.json`, which holds the SHA-256 of every figure and JSON.

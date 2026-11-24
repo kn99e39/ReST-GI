@@ -130,6 +130,36 @@ def main(root, outdir):
             ax[k].set_title('near-floor HIGH excess' if key == 'near' else 'near-minus-flank HIGH excess'); ax[k].set_ylabel('signed luminance')
         ax[1].legend(fontsize=6)
         save(fig, 'F0_contact_endpoints_per_camera_physical_table_arms.png')
+    # 4b. POST HOC diagnostic: 4x4 resolution and queried-shape decomposition (labelled; not part of any decision)
+    dg = an / 'diag112.json'
+    if dg.exists() and mp.exists():
+        dd = json.loads(dg.read_text()); met = json.loads(mp.read_text())
+        vs = list(dd['b_resolution_4x4'])
+        fig, ax = plt.subplots(1, 2, figsize=(13, 3.8))
+        series = [('U', 'uniform U (1270x64)', 'B'), ('S_U', '2x2 uniform', 'B'), ('S_G', '2x2 etendue', 'B'),
+                  ('S4_U', '4x4 uniform (post hoc)', 'D'), ('S4_G', '4x4 etendue (post hoc)', 'D')]
+        for k, key in enumerate(('near', 'contrast')):
+            w = 0.16
+            for j, (a, lab, src) in enumerate(series):
+                e = [(met[v]['arms'][a] if src == 'B' else dd['b_resolution_4x4'][v][a])['endpoints'][key] for v in vs]
+                ax[k].bar(np.arange(len(vs)) + (j - 2) * w, [x['estimate'] for x in e], w, yerr=[x['half_width'] for x in e], capsize=2, label=lab)
+            for i, v in enumerate(vs):
+                bnd = met[v]['band_near' if key == 'near' else 'band_contrast']
+                ax[k].plot([i - .45, i + .45], [bnd, bnd], 'k--', lw=.8); ax[k].plot([i - .45, i + .45], [-bnd, -bnd], 'k--', lw=.8)
+            ax[k].set_xticks(range(len(vs))); ax[k].set_xticklabels(vs); ax[k].axhline(0, c='k', lw=.5)
+            ax[k].set_title(('near-floor' if key == 'near' else 'near-minus-flank') + ' HIGH excess vs table resolution (dashed: band)')
+        ax[1].legend(fontsize=7)
+        save(fig, 'F0_post_hoc_resolution_2x2_vs_4x4_contact_endpoints.png')
+        a = dd['a_shape_decomposition']
+        fig, ax = plt.subplots(1, 2, figsize=(13, 3.6))
+        labs = ['sphere_ring0', 'sphere_ring1', 'wall', 'ceiling', 'floor', 'boxA', 'boxB', 'panel']
+        for k, r in enumerate(('near', 'flank')):
+            for j, v in enumerate(vs):
+                ax[k].bar(np.arange(len(labs)) + (j - 2) * 0.16, [a[v][r]['query_weight_share'].get(l, 0) for l in labs], 0.16, label=v)
+            ax[k].set_xticks(range(len(labs))); ax[k].set_xticklabels(labs, rotation=30, fontsize=7)
+            ax[k].set_title(f'share of {r}-floor HIGH query weight by queried shape')
+        ax[1].legend(fontsize=7)
+        save(fig, 'F0_queried_shape_share_of_near_and_flank_floor_higher_order.png')
     # 5. learned arms (Stage D)
     larms = [a for a in ['A_learned', 'O_U', 'O_G', 'S2', 'oracle'] if mD and f'hl_{a}' in next(iter(mD.values()))]
     if mD:
