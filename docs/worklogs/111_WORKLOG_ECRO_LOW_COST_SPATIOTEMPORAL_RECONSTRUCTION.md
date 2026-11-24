@@ -169,3 +169,23 @@ Its commit is recorded below, before Stage A evidence.
 The protocol, code and this section are committed together before any evidence. The commit is recorded in the next
 section.
 
+
+Freeze commit: `24211b7` (protocol sha256 `e160f91c…`).
+
+## Execution fix 1 — guard self-preemption at a stage transition (2026-11-24, before any evidence)
+
+- **What happened.** The first evidence launch (`run_r111.sh evidence 24211b7`) passed the tests stage.
+  - Exactly when the Stage A process started, the unchanged WL109B guard reported a "foreign" compute PID (24700) on
+    the RTX 3090 and killed the container.
+  - The PID did not exist a moment later. No other job was on the GPU; WL109B's guard was waiting at its load gate.
+  - Only the tests stage had run. Stage A had produced nothing.
+- **Cause.** The WL111 chain runs several processes one after another in one container. The exiting tests process was
+  still listed by `nvidia-smi` after it had left the container's process table (`docker top`), so the guard counted it
+  as foreign. WL109B ran one process per container and never met this.
+- **Fix.** `guard_r111.py` is a copy of `guard109c.py` with one change: during a run, a PID counts as foreign only if it
+  is seen in two consecutive polls (2 s apart) and still exists in `/proc`. The start condition (120 s without any
+  compute process on the 3090) and every other behaviour are unchanged. Foreign work is still detected within about
+  4 s.
+- **Scope.** This is a non-scientific execution fix. No protocol rule, threshold, design, seed or analysis changed. The
+  chain was relaunched in the same output directory: the completed tests stage is skipped, and Stage A starts from
+  scratch.
