@@ -1,0 +1,45 @@
+{
+ "batch": "WL112",
+ "base_head": "5709d8d075691f355e50675673d743fcc646b523",
+ "wl112_sources": {
+  "analyzeAB112.py": "80307de25af087cb9d89a909ddc6262b1d40882fe3fcfa357d5ce1155a20b640",
+  "analyzeDE112.py": "da6d1addeec902e9cae472e83ad716cd81b58fad08a641ba29e7ca396ab12db4",
+  "common112.py": "9bd5e5a4a5449e1368bacd9e1bc9600b98bed9ff772d25d29db28b790fbad3dd",
+  "cost112.py": "6a3273aae734f92b460504de5a25655b0ada5eca5e7ec56fcce3f59239f1044a",
+  "data112.py": "6979faa2b0cbbd8fb443042012e2fddc53f843c9aa5b6795e942eee2c97809bf",
+  "dev_probe112.py": "bb089940da8957ac293df53a6b2d30693ee0dddaa7949a04bbc5b8d3f5d3c874",
+  "dev_render112.py": "db414acc5346bb344d6bf7ae9ed5c1f29119c8d7299c183d9d50c474b6f52b11",
+  "dev_smoke112.py": "3965a5e36ba087f00ad3206e2f1e4e1ebc7f0735a0fb4804ffa031ed6d69de7d",
+  "eval112.py": "090e6e02a572658ec80aa4b5f63afa27764bac191acbbcf7c478d46046082ccf",
+  "freeze112.py": "b3ea12b89207084e3c4df56e85f5b90ecab053bb99eacb1c08a3024edd833734",
+  "geometry_check112.py": "618d2f06b03e3243de61571f3d1fc1f5378056db484d133c00666d977b57904e",
+  "metrics112.py": "1de6953da5bc794a232997fa687e8ef00993003e1b7ffa42d9c76f39546cd078",
+  "model112.py": "482ffd7d10a7d678f5f7c82349eb8581fcfa201afe0d7f0b4c0fa8391cd87312",
+  "precheck112.py": "b18a9ceae16b219b4469cef1d12b44ac0dec4821e562f7850314dc2ca38869ff",
+  "probe_full112.py": "53bfd613825536654e0aeb8577f90f09bc246cdfa1f4cba6640f98bdf2549c4c",
+  "stageA112.py": "7ef31a3cfacc4891edcfa55d7b646cf0ac42f1674b7d024a4d4dc2eb0d70d285",
+  "tests112.py": "4205f2939910baf6220b9bacd4287e6abdb6539bae863a036f8fa60f1afc8144",
+  "tracer112.py": "1c159f2de52ccd49dae07f5d0275671c0a76dd9c11e67c7eb1672ee35d2d3986",
+  "train112.py": "573748251f07722182cd00f9ad22120d00070b478e65b3212b90d1646ce2018c",
+  "chain112.sh": "98f1b339c31349aafecb38d3bc75465e9fb73c1bf8ba966d3ccd3e0da9e306d5",
+  "sss112.json": "ece1a7545d47d33b5c32f3289039a7afbc65bda9986f471b221c981406b0a146"
+ },
+ "unchanged_dependencies": {
+  "ecro86/pt86.py": "912e68acd314d79ef0cc270784d99f79ed8024caf856527a127f31e6ccd6c983",
+  "ecro86/scene86.py": "b75a2d9cbae1f738429e16fa32095a1c3cdf346bff5f5e55d5576ad14ce39e69",
+  "ecro86/model86.py": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+  "ecro86/protocol/ecro86.json": "ecca67246ef013d798fa4bbec2cd93aef4f0430b43d51429b6953821ce2451b5",
+  "ecro86/data/mats86.npz": "d3c5be854d80665b11f476eff0333a0232828293d31b28a6069f4dbd81371b3f",
+  "ecro_material100/pt100.py": "c8b201da8db13274940af7038d0a4b95cfb3313277a5bd87ec03bc956a5046a0",
+  "ecro_material100/common100.py": "1c1098dbd54efa49bdc206228cf85cff8a2abbfbb69910691a3aa70fda8b2a33",
+  "ecro_material100/protocol.json": "f00c6e78780aa55693dcef5f6db72a0f2792c8ab366c6197a3a3a87c3b8443dc",
+  "fnto_compiled83/closure83_dr.py": "3eee59095fc77fdb7a965d1a14a124230efa40fda05a2c4744e260b64c904614",
+  "fnto_compiled81/layered81.py": "16e3bde18d92b19a64016444cb63bdecf865cbc70b00fa940f8402c87aadd228"
+ },
+ "inputs": {
+  "results/ecro_material100/sss/model.pt": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+  "results/ecro_material100/configs.json": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+  "results/ecro_material100/sss/renders/REF_0_0.npz": "248e3ed6a0f9f233c396822d20688f4a721ff0e6038bcb7655427ea0569def49",
+  "results/ecro_material100/sss/renders/REF_0_1.npz": "6371e6becd897d5eaec2f2f64e54e31d804ca6e67ae64f791ab278bbf451455a"
+ }
+}

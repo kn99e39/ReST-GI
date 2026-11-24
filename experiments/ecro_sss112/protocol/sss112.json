@@ -1,0 +1,158 @@
+{
+ "batch": "WL112",
+ "class": "regular numbered batch (new camera-independent spatial HIGH representation hypothesis, conditional learned candidate, static and dynamic validation); next free regular number after WL111 (external baseline benchmark, Denoise_Reconstructor) and WL110 (this branch)",
+ "title": "SSS near-contact artifact resolution and mandatory correctness gate",
+ "date": "2026-11-24",
+ "branch": "ecro_lr3_adapter",
+ "base_commit": "5709d8d",
+ "machine": "local RTX 5080 16 GB (default machine since 2026-11-20); no server, no cross-machine pairing",
+ "runtime": "external/8dna26/.venv-cu128: Python 3.11, Mitsuba 3.5.1, Dr.Jit 0.4.6, PyTorch 2.8.0+cu128 (WL100 training/reference stack)",
+ "question": "Can actual learned ECRO render SSS near-contact transport correctly across independent cameras and changing contact configurations, without per-state retraining or transferring the error elsewhere?",
+ "historical_inputs": {
+  "checkpoint_A": "results/ecro_material100/sss/model.pt (WL100 SSS ECRO v0; SHA-256 recorded in the manifest; expected 2d9cb580...)",
+  "wl100_references": "results/ecro_material100/sss/renders/REF_0_{0,1}.npz (native semantics, seeds 100901/100902) used only for the instrument regression check",
+  "wl101_series": "WL101A-I raw arrays live on LabServer63 (no longer used); their numbers are cited as historical (different machine and Mitsuba 3.8.0 stack), never paired with WL112 renders"
+ },
+ "invariants": "ECRO v0 network (model86.py) unchanged; ER/SDM untouched; physical LOW (events 1-2) and learned HIGH (events >=3) ownership unchanged; SSS medium (sigma_t 12/m, albedo .92/.80/.65, index matched, isotropic) unchanged; source-independent linear response; no denoiser, clamp, mask, camera-conditioned production lookup, contact-distance heuristic or ROI-specific correction; no shared production file edited; WL101A-I verdicts preserved",
+ "scene": {
+  "F0": "WL100 SSS test configuration 0, light 0, sphere centre (0.9, 0.4, 0.4): the original SSS fixture (WL101 cfg0)",
+  "F1": "independent static configuration: WL100 test configuration 2 boxes and light 0, sphere centre (0.80, 0.75, 0.40) (geometry-checked before any radiance)",
+  "movable_sphere": "geometry key S.c; radius 0.4 m; sphere patch layout in sphere-local coordinates unchanged",
+  "views_F0": "WL101G six cameras V0, H1..H5 (512 px, 32 deg); H5 is not contact-valid (near floor hidden)",
+  "views_F1": "W0 (az 0, 2.8 m, 14 deg), W1 (-45, 2.2, 18), W2 (35, 1.75, 20) about (0.80, 0.75, 0.35), WL101G camera rule"
+ },
+ "semantics": {
+  "N": "native WL100 pt100 origins (historical ground truth of WL100-WL101)",
+  "C": "contact-valid origins (WL101H rule generalised to any sphere position, h_min 2.124e-7 m): native ray kept when offset < g/2, else origin at the gap midpoint; g/2 < h_min -> singular, no contribution; SSS exit step min(1e-4, g/2)",
+  "primary": "C is the primary reference and construction semantics of WL112 because it is the physically valid one at the tangency (WL101H X checks). N is retained as a separate factor: N references at all six F0 views and N-semantics U / S_G tables quantify the semantics change separately from projection and representation. The original WL100 checkpoint was trained under N; its C-reference evaluation includes that factor and is reported as such."
+ },
+ "stage_A": {
+  "name": "construction contract v3 (WL112)",
+  "construction": "per (patch, 2x2 sub-patch, direction bin): n proposals per sub-cell, uniform in sub-patch parameters and in the bin preimage of the camera quantizer (sphere ring 0 extended to patch-frame z in [-1, 0.25]); ANALYTIC pinned first surface (point, local normal, shape pointer; no attachment ray query); registered first-vertex exclusions (floor footprint and underside of a resting box, sphere points at z <= 0, C singular set) leave numerator and denominator; the count is the tracer's own front predicate (wi.z > 1e-6) evaluated once; E2..E5 suffix by the copied WL100 tracer. Measures from the same samples: U (uniform area x solid angle), V (U restricted to segments whose forward ray hits a front face), G (V x local cos theta: Lambertian uniform-area receiver density); coarse tables are pooled sub-cell sums (nested).",
+  "replicas_C": 8,
+  "replicas_N": 4,
+  "proposals_per_subcell": 1024,
+  "launch_subcell_batch": 32,
+  "seeds": {
+   "C": "11201001 + r",
+   "N": "11202001 + r",
+   "legacy_positive_control": "11203001 + r (2 replicas, n=256)",
+   "frame_control": "11204001 (patch-tangent frame, n=256) vs 11204001 (Frame3f(n), n=256)",
+   "synthetic": "11205001",
+   "pinned_identity": "11206001"
+  },
+  "gates": {
+   "A1_tracer_identity": "Ctx112 under N reproduces pt100.Ctx tables and camera / readout lane values exactly (max abs 0) on a 128 px 4 spp probe",
+   "A2_pinned_identity": "analytic pinned first surface with the native frame vs native first hit, same RNG: E2..E5 relative L1 <= 1e-5 on >= 2000 paired probes",
+   "A3_frame_invariance": "constructions differing only in the analytic tangent frame (Frame3f(n) vs patch tangent): V0 region readouts (near, flank, contact_shadow, sphere, full) agree within 4 SE",
+   "A4_synthetic_projection": "analytic radiance L(p,w,n) = 1 + 0.5 x + 0.3 y + 0.4 w.n + 0.2 w_x replaces the suffix; U and cos-weighted tables (receiver forced) vs dense deterministic quadrature on 40 cells (rect, box, sphere ring 0 and 3, all sub-cells): |MC - exact| <= 4 SE for >= 95% of entries and pooled parent == measure-weighted sub-cells to 1e-6 relative",
+   "A5_support": "per replica: resting-box exclusion counts vs analytic footprint fraction (binomial |z| <= 5 per affected patch); singular counts vs analytic measure (two-sided Poisson p >= 1e-4); camera-quantizer address mismatches <= 1e-5 of accepted samples",
+   "A6_origin_validity": "C: zero spawned origins inside the sphere (F6 semantic class) in every construction replica and every physical reference; below-floor origins (resting-box / floor junction float band, F3 numerical class) counted separately and required <= 1e-7 per camera path; N: > 0 sphere-interior origins (discrimination: native F6 detected)",
+   "A7_positive_control": "legacy WL100 supervising sampler (N) evaluated by the v3 instruments: (a) its address / count inconsistency rate (misrouted + back-counted samples) must exceed the A5 limit 1e-5 (the contract rejects it); (b) no cell with a material legacy-vs-v3N difference (> 5.2 SE family-wise and > 7e-4) may carry zero misroute / back counts (no materially contaminated cell passes as clean); contaminated-cell counts reported",
+   "A8_image_materiality": "per view and region: numerical-event effect bound B = sum_cells W_R(cell) * |mismatch effect + singular effect| / |R| from the stored per-cell sums and the unit-marker query weights W_R of the evaluation streams; contact endpoints qualified if B <= 0.1 band; region RMSE comparisons qualified if B <= 2.5e-4 (10% of the 0.0025 additive margin); otherwise that comparison is UNQUALIFIED",
+   "A9_pairing": "physical pass and readout pass of one stream (same seed, same launch size) give the same LOW to relative L1 <= 1e-5 (kernel-composition float rounding only)"
+  },
+  "verdict": "QUALIFIED if A1-A7 and A9 pass and A8 passes for every decision comparison; PARTIALLY QUALIFIED if only some A8 comparisons fail (listed, excluded from decisions); NOT QUALIFIED otherwise (Stage B stops)",
+  "pre_freeze_development_fixes": "development run (throwaway seeds +5,000,000, reduced sizes): A9 'max abs 0' failed at ~1e-6 (different kernel compositions) -> relative L1 1e-5; A6 counted box/floor junction float-band origins together with the F6 class -> split classes; A7 'every contaminated cell flagged' demanded detection of immaterial contamination -> materiality-based predicate. No evidence seed was used."
+ },
+ "stage_B": {
+  "arms": "U, V, G (coarse 1270x64) and S_U, S_V, S_G (2x2 sub-patches) from the 8 C replicas; U_N and S_G_N from 4 N replicas; learned A (WL100 checkpoint table, coarse); camera-conditioned diagnostics P_v (coarse) and S_v (2x2) per view from 2 replicas of 1024-spp camera passes at independent seeds (throughput-weighted mean of the traced suffix at each event-2 cell; descriptive only, never decides)",
+  "fallback": "empty sub-cell -> parent of the same measure; empty G / V parent -> U parent; fallback query weight reported (coverage)",
+  "streams": "per view two 4096-spp streams (launch 32), seeds 11210000 + 10 view_index + j; physical C pass (6 events) and readout pass share the seed (paired LOW); N physical passes at the same seeds for the semantics factor",
+  "metrics": "signed luminance endpoints (near mean HIGH residual; near minus flank residual); radial bands 0-0.50 m; noise-debiased relative RGB RMSE (cross product of residuals from the two streams with distinct table replicas); signed bias; absolute and relative; LOW and HIGH separately; residual maps on one shared absolute scale",
+  "intervals": "half-width = sqrt((1.96 SE_stream)^2 + (t_{R-1,0.975} SE_table)^2); SE_stream from the paired two-stream pixel difference within the region, SE_table from the between-replica variance",
+  "bands": "normalised: band_near = 0.0649 x mean reference near HIGH luminance; band_contrast = 0.0579 x mean reference near HIGH luminance (reproduce WL101F's absolute +-0.01403 / +-0.01252 at WL101C's 0.21633)",
+  "non_regression": "relative RMSE rmse_conv(arm) <= 1.10 rmse_conv(U) + 0.0025 in sphere_boundary, sphere, contact_shadow, floor, full at every view",
+  "coverage": "native (non-fallback) query weight >= 0.995 in every region of every view",
+  "precision": "endpoint half-widths <= 0.75 band at every contact-valid view",
+  "sufficient": "both endpoint intervals inside the bands at every contact-valid view AND non-regression at every view AND coverage AND precision",
+  "outcome": "PROJECTION if G sufficient; else SPATIAL_G if S_G sufficient; else SPATIAL_U if S_U sufficient; else NONE (Stage C stops). Learned target: G -> coarse G; SPATIAL_G -> 2x2 G; SPATIAL_U -> 2x2 U",
+  "attribution": "factorial: measure at fixed resolution (U->G), resolution at fixed measure (U->S_U, G->S_G), interaction (U - G - S_U + S_G), restriction vs cos weighting (U->V->G); per-shape query-weighted contribution of the sub-cell gain; residual of the best camera-independent arm relative to the camera-conditioned S_v (estimator / readout share). Angular subdivision is not re-tested (WL101F: negligible)"
+ },
+ "stage_C": {
+  "condition": "Stage A QUALIFIED or PARTIALLY QUALIFIED and Stage B outcome != NONE",
+  "distribution": {
+   "sphere_x": [
+    0.55,
+    1.25
+   ],
+   "sphere_y": [
+    0.1,
+    0.75
+   ],
+   "p_contact": 0.4,
+   "gap_m": [
+    0.0,
+    0.12
+   ],
+   "clearance_m": 0.05,
+   "boxes": "WL100 SSS distribution (A floating, B resting)",
+   "lights": "WL100 SSS distribution",
+   "exclusion_sphere_m": 0.01,
+   "exclusion_box_m": 0.05
+  },
+  "splits": {
+   "train": {
+    "geometries": 192,
+    "lights_per_geometry": 4,
+    "seed": 11220100,
+    "proposals_per_subcell": 32
+   },
+   "val": {
+    "geometries": 16,
+    "lights_per_geometry": 4,
+    "seed": 11220200,
+    "proposals_per_subcell_per_half": 64,
+    "halves": 2
+   }
+  },
+  "targets": "C-semantics construction v3; per field coarse U, coarse G and 2x2 sub-cell G (and 2x2 U) f2 / fh with weights; cells of zero weight masked in the loss",
+  "arms": {
+   "O_U": "model86 ECRO v0 unchanged, coarse U targets (original ECRO control on the same data)",
+   "O_G": "model86 ECRO v0 unchanged, coarse G targets (projection-only learned control)",
+   "S2": "candidate ECRO-S2 (only for a SPATIAL outcome): model86 with head_a conditioned on a learned 8-d sub-patch embedding -> a_sub [N,4,NB,3,R]; patch-level a = mean over sub-patches for the internal single flight; output B_sub = a_sub . (u1 + yg); c, Q, P, message passing, source encoding unchanged. Trained on the Stage-B-selected 2x2 measure"
+  },
+  "training": {
+   "seed": 11230001,
+   "steps": 24000,
+   "optimizer": "Adam",
+   "lr": 0.001,
+   "lr_final": 1e-05,
+   "warmup": 500,
+   "gradient_clip": 10,
+   "objective": "WL92A OWN (whole + single + global, weights 1/1/1) with masked relative squared error, denominator per-patch mean over (sub-patches, bins) + 0.05 x global mean",
+   "selection": "final step; no held-out selection, no restart, one seed"
+  },
+  "pre_training_checks": "candidate readout of the physical Stage-B table reproduces the Stage-B image exactly (max abs 0); measure-weighted sub-cells reproduce the parent to 1e-6; zero / superposition / non-negativity of the candidate operator (superposition rel <= 1e-5); candidate support (fraction of query weight on supported sub-cells at F0 V0); 100-step budget probe (time, peak memory)"
+ },
+ "stage_D": {
+  "configurations": "F0 at V0, H1..H5; F1 at W0, W1, W2",
+  "arms": "A (WL100 checkpoint), O_U, O_G, candidate (S2 if trained), physical oracle of the selected representation (class C)",
+  "streams": "two 4096-spp streams per view (seeds 11240000 + 10 config_view_index + j, launch 32), raw, no denoising",
+  "pass": "candidate at every contact-valid view of F0 and F1: (i) near and contrast 95% intervals inside the normalised bands; (ii) every radial band 0-0.40 m |signed excess| <= band_near; (iii) near noise-debiased relative HIGH RMSE <= 0.10; (iv) relative RMSE in sphere_boundary, sphere_interior, contact_shadow, floor_outside, full <= 1.10 x O_U + 0.0025 at every view (incl. H5)",
+  "separation": "learned approximation error = candidate vs its physical oracle (same readout); representation error = oracle vs reference; rendering / readout error = LOW pairing and stream noise"
+ },
+ "stage_E": {
+  "sequences": "SEQ_A_lift (F0, gaps 0,1,4,10,4,1,0,4 cm; views V0,H2), SEQ_B_slide (F0, x 0.90,0.80,0.70,0.80,0.90 in contact; views V0,H1; crosses the floor patch edge x=0.75), SEQ_C_independent (F1 location/light, gaps 0,3,0,8,0 cm; views W0,W2; never used for any design or selection)",
+  "parameters": "one set of trained parameters per arm for every state; tables regenerated from the current geometry; no per-state fitting",
+  "controls": "A, O_U, O_G, candidate, stale (previous state's candidate table read at the current geometry), fresh-process full rebuild of the candidate table per state (must equal the in-sequence table to 1e-6 relative)",
+  "streams": "two 4096-spp streams per view per state, seed 11250000 + 1000 seq_index + 10 state + 2 view_index + j (launch 32)",
+  "resolved_change": "a transition counts as dynamic evidence only if the physical near-floor HIGH change exceeds 5 SE",
+  "pass": "every state, every contact-valid view: Stage D (i)-(iv) (non-regression vs O_U at the same state); revisited states give identical candidate tables (<= 1e-6 rel); fresh-process rebuild equals the in-sequence table (<= 1e-6 rel); far_unchanged region relative RMSE at every state <= 1.10 x its state-0 value + 0.0025; at least one discriminating transition per sequence (physical near HIGH change resolved at 5 SE AND the stale table materially worse than the candidate); transitions that are resolved but not stale-discriminating are reported and do not count as dynamic evidence",
+  "pre_freeze_development_fix": "the development run showed that requiring the stale control to be worse on every resolved transition turns a test-sensitivity limitation into a candidate failure; replaced by the discriminating-transition rule above (test design, independent of candidate outcomes)"
+ },
+ "stage_F": "table size, parameters, data generation, training time, generator latency, transport update latency, readout latency, static frame and edit-to-frame latency (Dr.Jit 0.4.6 unoptimised runtime; the WL101 frozen runtime is not ported to sub-patches), peak GPU memory; attribution to projection / sub-patch output / generator expansion / readout",
+ "gate": {
+  "RESOLVED": "Stage A qualified, Stage B sufficient, learned candidate passes Stage D at F0 and F1 and Stage E at every state of every sequence, no collateral regression",
+  "PARTIALLY_RESOLVED": "learned candidate materially improves (>= 50% reduction of |near excess| vs O_U at every contact-valid F0 view) but at least one Stage D or E criterion fails",
+  "NOT_RESOLVED": "Stage B outcome NONE, or the learned candidate does not materially improve",
+  "UNQUALIFIED": "Stage A NOT QUALIFIED, or coverage / precision prevent a Stage B or Stage D decision",
+  "note": "only RESOLVED is eligible for owner approval; no automatic adoption"
+ },
+ "evaluation": {
+  "contact_valid_near_px": 200,
+  "contact_valid_flank_px": 1000,
+  "luminance": "Rec.709 (0.2126, 0.7152, 0.0722)"
+ },
+ "stop": "stop the affected experiment on NOT QUALIFIED reference, unqualified projection construction, no camera-independent adequacy, ownership violation, camera / ROI dependence, unacceptable off-target artifact, or unresolved dynamic change; execution bugs may be fixed when the frozen contract is preserved (disclosed)"
+}
