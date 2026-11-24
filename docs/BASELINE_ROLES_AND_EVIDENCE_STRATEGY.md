@@ -1,6 +1,6 @@
 # Baseline Roles and Evidence Strategy
 
-**Current as of:** 2026-11-02. **Role:** baseline roles, comparison controls, evidence limits and evaluation accounting. [Architecture](Architecture.md) owns candidate dispositions; the [roadmap](RESEARCH_ROADMAP.md) owns current bounded scope. This document neither grants implementation permission nor specifies replacement thresholds for frozen protocols.
+**Current as of:** 2026-11-24. **Role:** baseline roles, comparison controls, evidence limits and evaluation accounting. [Architecture](Architecture.md) owns candidate dispositions; the [roadmap](RESEARCH_ROADMAP.md) owns current bounded scope. This document neither grants implementation permission nor specifies replacement thresholds for frozen protocols.
 
 ## Baseline roles
 
@@ -12,11 +12,13 @@
 | Exact domain-selective oracle | Isolate work avoided by preserving unchanged optical domains | Oracle invalidation and Monte Carlo rebuild savings are not a deployable learned contribution; [evidence](worklogs/56_WORKLOG_EXACT_SELECTIVE_K_RECOMPUTE.md) |
 | Stale K / stale state | Negative control for intrinsic invalidation and signed receiver response | Parameter identity does not imply physical validity |
 | Same-architecture F/S | Isolate selective persistent-state updates with identical rule parameters, inputs and quality requirements | Reference data and solved training-light responses cannot be privileged runtime state |
-| TransGI | External dynamic-GI comparison after workload, quality, reference, hardware and lifecycle alignment | No advantage claim before an aligned comparison. Blocked as of 2026-11-01: no released implementation (arXiv 2506.09909); its paper excludes transparent objects and deformation ([WL67](worklogs/67_WORKLOG_BASELINE_SUPERIORITY_EVIDENCE.md)) |
+| TransGI | External dynamic-GI comparison after workload, quality, reference, hardware and lifecycle alignment | No advantage claim before an aligned comparison. No official code (checked 2026-11-24); an **independent reproduction** (owner's `TransGI_Reproduction`) is the comparator: QUALIFIED_WITH_LIMITATIONS on Living Room 3 ([WL102](worklogs/102_WORKLOG_ECRO_LR3_ADAPTER_AND_TRANSGI_COMPARISON.md), [WL111](worklogs/111_WORKLOG_EXTERNAL_BASELINE_BENCHMARK_AND_APPROVAL_GATE.md)). Its paper excludes transparent objects, media and deformation ([WL67](worklogs/67_WORKLOG_BASELINE_SUPERIORITY_EVIDENCE.md)). The earlier "blocked" status (2026-11-01) is superseded |
 | RNA (`66b5b098`, upstream configuration) | Initial implementation substrate and static full-material quality control; native Lego credibility established in [baseline qualification](worklogs/35_WORKLOG_RNA_REFERENCE_REPRODUCTION_LEGO.md) | Not a permanent final-model constraint; credibility does not transfer automatically to other material regimes |
 | Surface-Owned complete-unit models | Separate relearning baseline, including full/selective reconstruction, capacity, composition and REINIT controls | Uses post-edit supervision; does not demonstrate state-only updates. [Physical edit](worklogs/37_WORKLOG_ORACLE_SELECTIVE_RECONSTRUCTION_DIFFUSE_LEGO.md), [replication](worklogs/38_WORKLOG_B4_SEED_REPLICATE_SELECTIVE_VS_FULL.md) |
 | SPT-1 and historical FNTO recipes | Immutable architecture-contrast evidence, including their negative outcomes | Never silently merge recipes, change roles or promote partial reuse evidence to full fidelity; [current dispositions](Architecture.md) |
 | Cycles volume plus independent analytic controls | Physical intrinsic-transport reference for canonical homogeneous medium fixtures | Not a full-material production reference; [reference contract](worklogs/53_WORKLOG_PHYSICAL_INTRINSIC_TRANSPORT_REFERENCE.md) |
+
+**Benchmark contract (WL111, 2026-11-24).** The standing baseline list and workload compatibility live in the [External Baseline Registry](EXTERNAL_BASELINE_REGISTRY.md), and the reusable workload, reference, metric and timing contract in the [Benchmark Protocol](BENCHMARK_PROTOCOL.md). Practical comparators now include **path tracing + a practical denoiser** (OptiX), which is the strongest measured comparator on every qualified workload. The numerical decision rules are proposed in the [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md) and the mandatory [SSS Near-Contact Gate](SSS_NEAR_CONTACT_GATE.md) (both PENDING_OWNER_APPROVAL).
 
 ## Mandatory baseline terminology and comparison gate
 

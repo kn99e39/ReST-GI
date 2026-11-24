@@ -120,3 +120,116 @@ Protocol and code are committed before the evidence chain. Frozen decisions (det
   reported separately. Display is excluded.
 - **Frontier and gate derivation rule.** Margins of 5 % / 20 % (initial owner values) are assessed against measured
   precision. Gates are PENDING_OWNER_APPROVAL.
+
+## 2026-11-24 — Execution record
+
+**Fixture chain.** `chain.cmd 7d64755` on Main, 16:31–17:02, all stages completed, no preemption.
+- Tests 20 / 20 PASS. G_ADAPT PASS on S0 and N0 (noise-scaled rule).
+- References: FULL 2 × 32,768 spp at ≈ 81 s per half (S0 / S1 / SL views), 22 s (N0); D6 2 × 8,192.
+- Quality: 299 rows per state / view.
+- Timing: every block exclusive on its first attempt (no other python, idle GPU before and after).
+- Dynamic: both transitions exclusive.
+
+**LR3 chain.**
+- `lr3_chain.cmd` (code `a9bcfd7`; the status file's commit label shows the literal `$(git` because of a shell-quoting slip in the launch command) waited for the fixture chain, then ran the PT ladder: 17:02–17:03, timing exclusive.
+- **Execution-staging defect (disclosed).** The three TransGI evaluations and two benchmarks failed at once. The reproduction's `Session` also reads `datasets/living_room_3/{scene_manifest,material_tables}.json` from its data root, which the isolated data copy lacked.
+  - Both files were copied from LabServer69 (read-only).
+  - Only the TransGI steps were re-run (`lr3_tg.cmd`, 17:05–17:06).
+  - No protocol, model or option changed; no TransGI output had existed.
+
+**Analysis-code correction (disclosed; analysis written before results, corrected against the frozen text).**
+- The first `analyze111.t_to()` returned a comparator's cheapest executed time whenever even that point was better than the ReST-GI error.
+- The frozen rule says "beyond executed range = not evaluable". The code now follows the text, and the mechanical verdicts below use it.
+- A descriptive dominance record (best comparator point within 1.5× time; cheapest comparator point with lower error) is added next to them. It is not a gate rule.
+
+## 2026-11-24 — Final report
+
+### Implementation fact
+- **Benchmark adapter.** pt111 (full-depth, same-semantics physical PT with RR) validated against the independent pt100 path. The OptiX denoiser arm runs on device. LR3: Mitsuba stock `path` + OptiX; the TransGI reproduction runs unchanged on its own stacks.
+- **Canonical ReST-GI as tested.** ECRO v0 with the WL100 checkpoints and the WL101 optimised runtime (FREEZE = 1), D = 6, no change of any kind.
+- **Isolation.** Nothing written to Main's `C:\Projects\ReST-GI` or the TransGI data root. LabServer69 used for read-only copies only. WL109B and the owner's TransGI `b28` were not touched.
+
+### Measurement (RTX 5080; E = relative debiased HDR RMSE vs full-depth reference; 95 % CIs in `evaluation/111/summary111.json`)
+
+**References.**
+- S0 / S1 / SL: half-vs-half relative RMSE ≈ 0.0035 (mean noise 0.18 % per pixel).
+- N0: 0.32 (16 % per pixel, heavy-tailed caustics) → **N0 unqualified** for pixel metrics.
+- Energy beyond six events: −1.7…−2.1 % full frame; **−13 % in the SSS near-contact ROI**. D6 vs full E = 0.019.
+
+**W1 S0 V0 (H1 / H2 within ±1 % of these):**
+
+| Arm | spp | ms (median) | E |
+|---|---|---|---|
+| ECRO | 1 / 4 / 16 / 64 | 0.81 / 3.06 / 11.2 / 43.8 | 0.320 / 0.161 / 0.082 / 0.044 |
+| ECRO converged | 4,096 | — | 0.0206 (vs D6 0.0057) |
+| PT | 1 / 4 / 16 / 64 | 2.38 / 10.3 / 39.4 / 157 | 0.510 / 0.255 / 0.128 / 0.063 |
+| PT + OptiX | 1 / 4 / 16 / 64 | 3.88 / 11.7 / 41.0 / 158 | 0.031 / 0.018 / 0.011 / 0.0075 |
+
+- **W3 (after box edit) / W5 (after light change):** same ordering. ECRO 16 spp: 0.086 / 0.155; PT + OptiX 4 spp: 0.016 / 0.047.
+- **Dynamic (edit → first 512² × 1 spp frame):**
+
+  | Transition | ECRO selective | ECRO full rebuild | PT | PT + OptiX |
+  |---|---|---|---|---|
+  | Box edit | 6.71 ms | 5.19 ms | 3.87 ms | 5.24 ms |
+  | Light change | 3.97 ms | 4.35 ms | 2.83 ms | 4.26 ms |
+
+  Stale-table E is within 2 % of the updated table (box edit) and within 1–4 % (light change).
+- **W2 N0 (unqualified reference, descriptive):** PT + OptiX panel-ROI error 0.017–0.11; ECRO 0.058–0.32.
+- **W4 LR3 (GI LDR RMSE vs Ref-65, 640 × 360):**
+
+  | Arm | Time | GI LDR RMSE |
+  |---|---|---|
+  | PT 1 / 16 / 64 spp | 5.1 / 15.1 / 47.1 ms | 0.413 / 0.150 / 0.085 |
+  | PT + OptiX 1 / 16 spp | 7.7 / 17.7 ms | 0.039 / 0.023 |
+  | TransGI L40, fast-frame settings | 5.16 ms (1080p 22.5 ms) | 0.061 |
+  | TransGI L40, adopted options | — | 0.053 |
+  | TransGI WL102 model | — | 0.077 |
+  | ECRO 4 spp (historical, RTX 3090) | 27.7 ms | 0.170 |
+
+  ECRO converged (historical) 0.102; Ref-7 truncation alone 0.0963.
+- **SSS near contact (ECRO, converged = sampled):** relative near bias +10.1 % (V0), −6.6 % (H1), +1.2 % (H2), +8.3 % (S1), +20 % (SL). Near-minus-flank excess relative to near reference luminance: +23 %, +6 %, +14 %, +21 %, +29 %. PT + OptiX 16 spp: within ±0.6 % everywhere; at 1 spp +5…+8 % near and −5.5 % silhouette bias at V0.
+
+### Observation
+- At equal time, ECRO's LOW + lookup estimator has ≈ 3× lower error than raw full-depth path tracing on every fixture state.
+- A 1.5 ms OptiX denoiser on 1-spp path tracing beats ECRO at every ECRO operating point, including converged ECRO: 0.031 at 3.9 ms vs 0.021 floor reached only near 4 s.
+- On LR3, PT + OptiX at 7.7 ms has lower GI error than TransGI's adopted-quality evaluation and than every published TransGI LR3 number. TransGI remains on the frontier below 7.7 ms.
+- On the 5080, ECRO's selective relation update is slower than its full rebuild (6.71 vs 5.19 ms) at N = 1,270.
+- The WL111 box edit changes ECRO's frame error by < 2 %, so it does not test reuse.
+
+### Interpretation
+- The canonical ReST-GI is not on the quality–performance frontier of any qualified workload once a practical denoiser is admitted.
+- Its gap to the proposed 10 / 15 / 20 ms tiers is ≈ 5× error on W1 and ≥ 5–7× on LR3.
+- **The fixed D = 6 truncation alone exceeds every tier target on W1 and LR3.**
+- The near-contact artifact is a representation bias. It is present against the full-depth reference, in held-out views and after edits.
+- These are statements about the current canonical configuration against this benchmark. They are not a falsification of learned transport reuse as a research direction, and they recommend no architecture.
+
+### Unresolved question
+- Owner approval of the proposed gate: budget anchoring, monotone envelope, margins 5 / 20 %, SSS bands 3 %.
+- A converged caustic-capable near-mirror reference.
+- A reuse-qualifying edit workload.
+- NRC (REPRODUCTION_REQUIRED).
+- Shared-scene edits against TransGI.
+- 1080p tiers.
+- SSS dynamic contact classes R7–R9 (fixtures not yet built).
+
+### Architecture verdict
+**No architecture decision.** Gate statuses for the canonical ReST-GI:
+- W1 / W3 / W5 / LR3 tiers: FAIL;
+- edit → first frame: FAIL;
+- W3 as a reuse test: UNQUALIFIED;
+- W2: UNQUALIFIED;
+- SSS near-contact gate: FAIL (dynamic classes NOT_RUN);
+- novelty condition: NOT_RUN in its gate form;
+- numerical thresholds: PENDING_OWNER_APPROVAL.
+
+**Mechanical frozen-rule verdicts (reported unchanged).** PATH 1 / PATH 2 "PASS" at ECRO 1–4 spp against raw PT only, with PT + OptiX not evaluable there. Every other ECRO operating point is FAIL on PATH 2. The gate document explains why this rule was replaced by the budget-anchored proposal.
+
+### Reproducibility
+- **Code and protocol.** `experiments/bench111/` at `7d64755` (fixtures, frozen before evidence) and `a9bcfd7` (LR3 protocol / chain, before any LR3 result). Analysis and figures are in the results commit.
+- **Run manifests.** `C:\Projects\bench111\evidence\manifest.json` holds protocol sha, code sha, frozen-source sha, checkpoint sha and versions. Local copy: `results/bench111/`.
+- **Stack.** Python 3.11.9, torch 2.8.0+cu128, Mitsuba 3.9.1 / Dr.Jit 1.5.0 (ECRO, PT, LR3 PT, TransGI fast frame); Mitsuba 3.6.4 / Dr.Jit 1.0.5 (TransGI evaluator). RTX 5080, driver 610.88.
+- **Hashes.**
+  - TransGI checkpoints: L40 `1b32a633…`, WL102 `1b75c8a6…`.
+  - Ref-65 `62625251…`.
+  - ECRO SSS checkpoint `2d9cb580…`.
+- **Seeds.** sha256 → splitmix64 (protocol). Raw-result hashes in `evaluation/111/manifest111.json`.

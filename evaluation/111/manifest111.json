@@ -1,0 +1,191 @@
+{
+ "worklog": "docs/worklogs/111_WORKLOG_EXTERNAL_BASELINE_BENCHMARK_AND_APPROVAL_GATE.md",
+ "created": "2026-11-24 17:09:53",
+ "display_transform": "LDR = clip(x,0,1)^(1/2.2), exposure 1; error maps = signed (x - ref) luminance / mean reference luminance, shared scale per figure (images +-0.5, contact crop +-0.2, LR3 +-1)",
+ "items": [
+  {
+   "file": "contact_crop_S0_V0.png",
+   "sha256": "3ebfeb081a6dd3983c6352887cdf0034859236132a2498abb21693f9adcadf8e",
+   "source": "results/bench111/figures/contact_crop_S0_V0.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "dynamic_edit_latency.png",
+   "sha256": "66d80b470e85145a0bd681610462199714c989be68adceaf47b667136270771e",
+   "source": "results/bench111/figures/dynamic_edit_latency.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "frontier_LR3.png",
+   "sha256": "6ca5ff27343b0401531f2fd88857ae48ef8ffb58d19fc54d1d812cf8eee67a2f",
+   "source": "results/bench111/figures/frontier_LR3.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "frontier_N0_V0.png",
+   "sha256": "c8562c30c4ff5aaf16fb3e9ca0bc56aab362add82903704bcf63c6342d4d2928",
+   "source": "results/bench111/figures/frontier_N0_V0.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "frontier_S0_H1.png",
+   "sha256": "d5c641fc917d0e1264d5df8413f762177aac57e455d2d20079690de02d46a847",
+   "source": "results/bench111/figures/frontier_S0_H1.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "frontier_S0_H2.png",
+   "sha256": "133347979e9ba267d200670f5e94a956c643abb5435ef8ae2b445f1eb8e75837",
+   "source": "results/bench111/figures/frontier_S0_H2.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "frontier_S0_V0.png",
+   "sha256": "06e841246c4a941b0e1d7073e8cd1829df3c0263cc9d13e91f114f898356af74",
+   "source": "results/bench111/figures/frontier_S0_V0.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "frontier_S1_V0.png",
+   "sha256": "83cb6897dcdd0d63d39fca6d0933bcb7ddba1505b21dc55329ceff7f58725d01",
+   "source": "results/bench111/figures/frontier_S1_V0.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "frontier_SL_V0.png",
+   "sha256": "d73f39144ad51571cfcbdc5af760438bde4328a216ad115db026052054a8dfaa",
+   "source": "results/bench111/figures/frontier_SL_V0.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "frontier_fixtures.png",
+   "sha256": "2d4588311f626b29b48c3ef7a88e85c6095be9c5c93a9b6eea4401ce7d4b7076",
+   "source": "results/bench111/figures/frontier_fixtures.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "images_LR3.png",
+   "sha256": "43c44f412c1a42edaccc813bde301e07efd7be12bed0d5689dac4b72e83855af",
+   "source": "results/bench111/figures/images_LR3.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "images_N0_V0.png",
+   "sha256": "051f850431cb85fd99bb4b11569fa65fdcd713b43c69ba57ad866eaecd8d39e5",
+   "source": "results/bench111/figures/images_N0_V0.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "images_S0_H1.png",
+   "sha256": "dcf5a8a3f48eb3df2823dcf55f053288b6e2fe49105dcee9f4d2a65427ccf907",
+   "source": "results/bench111/figures/images_S0_H1.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "images_S0_H2.png",
+   "sha256": "077cd49a633f561272907e68ac81d5a56667ccc6f923fa0c4fd4c11e251391df",
+   "source": "results/bench111/figures/images_S0_H2.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "images_S0_V0.png",
+   "sha256": "ba493bc7feca4ebad33eafff0a5effb4ba662d0bf08a9c8c2ee83f2469adf872",
+   "source": "results/bench111/figures/images_S0_V0.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "images_S1_V0.png",
+   "sha256": "51b375d6d552a33b5e3f1a622f9aa77428933fa4d8e11b145f3c0890bb13c025",
+   "source": "results/bench111/figures/images_S1_V0.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "images_SL_V0.png",
+   "sha256": "9a9d117d097399fe4e83f2e94e407fc7ce66bc806a99435508605566a4476c24",
+   "source": "results/bench111/figures/images_SL_V0.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "sss_radial_profile.png",
+   "sha256": "1d031ff204eeb396930259b990cec414a9917a576f8a341144e46f1c00367fb4",
+   "source": "results/bench111/figures/sss_radial_profile.png",
+   "generator": "experiments/bench111/figs111.py"
+  },
+  {
+   "file": "summary111.json",
+   "sha256": "99ea321c349e68a024d1608eee34249d5c36626137159eb7b08f60af7da57797",
+   "source": "results/bench111/analysis/summary111.json",
+   "generator": "experiments/bench111/analyze111.py + worklog tier / SSS-gate snippets (recorded in WL111)"
+  },
+  {
+   "file": "tiers111.json",
+   "sha256": "6cb6cb9754cb106ff93873e104773d0eec828232bb8b1af5f581db30367ca5b2",
+   "source": "results/bench111/analysis/tiers111.json",
+   "generator": "experiments/bench111/analyze111.py + worklog tier / SSS-gate snippets (recorded in WL111)"
+  },
+  {
+   "file": "sss_gate111.json",
+   "sha256": "59df447fba48bd8eac50337135e258312cb9a7df06eb198158d8254c41a6f6be",
+   "source": "results/bench111/analysis/sss_gate111.json",
+   "generator": "experiments/bench111/analyze111.py + worklog tier / SSS-gate snippets (recorded in WL111)"
+  },
+  {
+   "file": "README.md",
+   "sha256": "c1b2df9a53e6c1f880c5d13db111cb62f3f87f0de084e0c52b832ed2b1668839",
+   "source": "written for WL111",
+   "generator": "manual"
+  }
+ ],
+ "raw_results_sha256 (local results/bench111, untracked; Main C:/Projects/bench111)": {
+  "results/bench111/evidence/dynamic/dynamic.json": "7c61effd21c2737aea65c590d43475f2d5924e0b8f92938051701a404aacff0d",
+  "results/bench111/evidence/g_adapt.json": "c44df54f99879d2251fc73d8d11c788dcad33712961afc3320f5b181fba5bb17",
+  "results/bench111/evidence/manifest.json": "5674e5b464954e17fa3a77c5af57fab9041e0e004cad2e354ec977865dbf2eb4",
+  "results/bench111/evidence/quality/N0_V0.json": "2c1c2c251be95b04c4f227366919134b79b2b954082902fb11e3ec2d71e7a8aa",
+  "results/bench111/evidence/quality/S0_H1.json": "bc1eb98fc2a9d53ddfca00abc0957d74dbc40f57ed436283311164369e410b9c",
+  "results/bench111/evidence/quality/S0_H2.json": "cd7793f6b7a1d043b8d820108535667b84ed66f4f9019de38c1ec2043e18e856",
+  "results/bench111/evidence/quality/S0_V0.json": "2d1506e964d691f0ef69fe1e26371caead982b736c7768c91b57e225935e6005",
+  "results/bench111/evidence/quality/S1_V0.json": "b5c3bc787613e9e2275cfaf6735e92b80010cabc61dfa1019b4964e4c2af7d44",
+  "results/bench111/evidence/quality/SL_V0.json": "032ddfd0c601c39ebcea99c7b80388a75669d4eb22811d100b95cbcf9b03abfa",
+  "results/bench111/evidence/refs/N0_V0_D6_h0.json": "ec0d0f8fef89fc24b86efb26b2f7452145e849af88a4f3961a31becb3cee027f",
+  "results/bench111/evidence/refs/N0_V0_D6_h1.json": "793c4cc6030bad422eed5b3449fd66c00e110895c288ab47afa387c0c4776860",
+  "results/bench111/evidence/refs/N0_V0_FULL_h0.json": "33123ea1f5a19268c2a506fc088b5555a080d9fcee139c944068bc8f2e83e599",
+  "results/bench111/evidence/refs/N0_V0_FULL_h1.json": "02e5992a99ecb4cbe3ae911921e76c7e93336029d3adcefef8376c2067de4679",
+  "results/bench111/evidence/refs/N0_V0_masks.json": "51eafc50759f74f818bbdda9460c805bd5d5d9ef08af991bc76cfef9f4804be9",
+  "results/bench111/evidence/refs/S0_H1_D6_h0.json": "230862367185cdad1dc9dff3a78237970ac2b8cfab7bc8d12ebde50bafb9540c",
+  "results/bench111/evidence/refs/S0_H1_D6_h1.json": "6de897dfbeb94cfddec7dc3de0d1f241209b97fa74fe9a89df35e8b3497bb65d",
+  "results/bench111/evidence/refs/S0_H1_FULL_h0.json": "6b2e65f4a572add911c6af754832e3a24e2bc885dc69cf39fa4209830a8402bd",
+  "results/bench111/evidence/refs/S0_H1_FULL_h1.json": "47921d3895a16ee87436e96799a307bb23f0b5a84306cfcc7679399744fb0f1f",
+  "results/bench111/evidence/refs/S0_H1_masks.json": "a9f8e3f78a97183276a5247d62335c9201edc90ee8a108d6b02a0e8b32843ba4",
+  "results/bench111/evidence/refs/S0_H2_D6_h0.json": "ebe2bd4d068ffe4fd697d2e9d6d50eed776c73dd70823cb85cf445fa9f3f4a93",
+  "results/bench111/evidence/refs/S0_H2_D6_h1.json": "b25c7817d74718d3aa2176e124efc0c25fb8fc7b3093d6fe122a7564802392e3",
+  "results/bench111/evidence/refs/S0_H2_FULL_h0.json": "4209e6a598c668443c73b98ebbc309d3e03f1e60042927d30f3b39845073657d",
+  "results/bench111/evidence/refs/S0_H2_FULL_h1.json": "c332178d38371e550945b0d640ac8e0a68fc62107ed117bba21c8ee7cf9f4650",
+  "results/bench111/evidence/refs/S0_H2_masks.json": "67a838d173787d3bdf4484b8e13e5972cf9abea6c295290dbd93370c45244aee",
+  "results/bench111/evidence/refs/S0_V0_D6_h0.json": "438ae9000fcaf065db9e5e0d29cb2305f426dc647515d97404d4815d7f6850e1",
+  "results/bench111/evidence/refs/S0_V0_D6_h1.json": "0f157d1445377ac12aa8e32e1568015faa619e244bb745c34e5436ee251d1faa",
+  "results/bench111/evidence/refs/S0_V0_FULL_h0.json": "ccd102f80e803f7cfdd86a2bd490d1973f2c5518d7855665bf18f61ee36179b8",
+  "results/bench111/evidence/refs/S0_V0_FULL_h1.json": "51c5d00550d9c43e2464c21222173e68f57b55c660004952b4aeea942536981d",
+  "results/bench111/evidence/refs/S0_V0_masks.json": "f5769172a60c311c4befc16565d32fb8f0b6a654ba73234dcb18c15958c2ffe5",
+  "results/bench111/evidence/refs/S1_V0_D6_h0.json": "0b48d97cc97e60b8071d7cb2c0fa4f6093f247270d8e489e917ec6bac9f126c0",
+  "results/bench111/evidence/refs/S1_V0_D6_h1.json": "8f440b03bbd389443203d6665da33c0eac6c696398ee3a1327f847adc378405d",
+  "results/bench111/evidence/refs/S1_V0_FULL_h0.json": "311375a6afb898fade73548f73f6d29e8c9bdfa3212937693f96bb5ce31059d8",
+  "results/bench111/evidence/refs/S1_V0_FULL_h1.json": "904b8cc9328c39cf12e0cd248dfb049e43afed28e62a455597ff7a4896bb0c8f",
+  "results/bench111/evidence/refs/S1_V0_masks.json": "c0cfbd7c6e6655a799bc2fb97cf845a872415813982c8bf24cc997aee6d7c25f",
+  "results/bench111/evidence/refs/SL_V0_D6_h0.json": "530add50010eb90a5ace655266bd4092009913c3de1d20f7fbc0edd4d547ad12",
+  "results/bench111/evidence/refs/SL_V0_D6_h1.json": "931a3bf8ff4bd432aef36c65ceb59cee2a9e0b07e4c7ed35fef4c54d378391ce",
+  "results/bench111/evidence/refs/SL_V0_FULL_h0.json": "2f742ea10bcf37daa60bd04d61f812451b9e51803a5cdbc9ea3a416e3517331a",
+  "results/bench111/evidence/refs/SL_V0_FULL_h1.json": "14d68c1b0c4a103b9d0b04ec28d30a9eb8b1b8fa17a63622d25dcce38658bfc3",
+  "results/bench111/evidence/refs/SL_V0_masks.json": "f5769172a60c311c4befc16565d32fb8f0b6a654ba73234dcb18c15958c2ffe5",
+  "results/bench111/evidence/tests111.json": "cba21a341b089b11595a81e94254770b1b43bffafb74553a3e81b549ab9c3823",
+  "results/bench111/evidence/timing/N0_V0.json": "6b95e6b836fa4f39ebf669e71dfb6faee0aa35912c26d7ba4cf3e826b18ce929",
+  "results/bench111/evidence/timing/S0_V0.json": "42c18ba2411bd999dd675d64b5a70573e1d6be675cfde32fdf5c4467c0905c66",
+  "results/bench111/lr3/bench_D_vis_1920x1080_wl111_L40.json": "4114f627352f40bed26867feb2633d39122d309863c848909c690206f4cee75e",
+  "results/bench111/lr3/bench_D_vis_640x360_wl111_L40.json": "5d3d80292a2f7e3c7eaa074c9bf6ac52cdfc20a00ac6daa89a7562cce684bf87",
+  "results/bench111/lr3/lr3_pt_quality.json": "336dc111cb0b5d49ac31a8faf2fbdb113109cc598b16a52021cacb1fb4c08764",
+  "results/bench111/lr3/lr3_pt_timing.json": "db8af8c820b828beb213332bba1e698f4ca129e533e5c7befe4d654889721224",
+  "results/bench111/lr3/lr3_transgi_scored.json": "b94e3e5918c95a6b47eee0de61c048d9d4d7e909f066048094f5fe397158f7d6",
+  "results/bench111/lr3/transgi_wl111_L40_adopted.json": "0bda27d7de00261b76a5d0f08f5b31a351ff4291d39edb256f35abc51c7f92fb",
+  "results/bench111/lr3/transgi_wl111_L40_fastmatched.json": "0ffa54b3fc80222a6797769c9150be7044b4b3d4705cc9950c14d8f9d188afed",
+  "results/bench111/lr3/transgi_wl111_wl102_repro.json": "f41f8a133b711730f7c041708da18e1aceeb27df946a59d6d23449c73785c4ed"
+ }
+}

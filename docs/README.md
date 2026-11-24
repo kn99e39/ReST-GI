@@ -9,6 +9,11 @@ Living documents are mutable representations of current decisions, not cumulativ
 | [Roadmap](RESEARCH_ROADMAP.md) | Current bounded scope, milestone dependencies, next decision gate and untested coverage; links authorisation rather than accumulating approval history |
 | [Evidence strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) | Baseline roles, comparison discipline, reference caveats, evidence breadth and cost/quality accounting |
 | [FNTO contract v0.1](FNTO_ARCHITECTURE_CONTRACT_V0_1.md) | Unchanged versioned historical design, dated 2026-10-23. Original status and future-tense statements apply at that date; consult Architecture for current status |
+| [External baseline registry](EXTERNAL_BASELINE_REGISTRY.md) | Current baseline inventory, provenance, capabilities and workload compatibility classes |
+| [Benchmark protocol](BENCHMARK_PROTOCOL.md) | Standing workload suite, reference, metric, timing and frontier contract for external comparisons |
+| [Claim-to-evidence matrix](CLAIM_EVIDENCE_MATRIX.md) | Proposed contributions, competing architectures, required causal / external / dynamic evidence, gaps and failure conditions |
+| [Contribution approval gate](CONTRIBUTION_APPROVAL_GATE.md) | Numerical milestone exit criteria (quality / performance / dynamic / lifecycle); PENDING_OWNER_APPROVAL until approved |
+| [SSS near-contact gate](SSS_NEAR_CONTACT_GATE.md) | Mandatory, non-compensable correctness contract for SSS near contact; PENDING_OWNER_APPROVAL for its numerical bands |
 | [Plans](plans/) | Explicitly unadopted candidate designs and implementation plans; existence is not adoption or completed evidence |
 | [Worklogs](worklogs/) | Complete append-only chronological evidence: authorisation, hypotheses, implementation, metrics, failures, interpretation, verdicts, provenance and amendments |
 | Experiment protocols (`experiments/.../protocol/`) | Frozen experimental conditions, stage dependencies and acceptance criteria, with labelled amendments |

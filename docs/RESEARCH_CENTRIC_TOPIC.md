@@ -1,6 +1,6 @@
 # Research Topic — Physically Valid Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-11-13. **Role:** research problem, objective, scope and scientific decision frontier. [Document ownership](README.md) defines the other sources of authority.
+**Current as of:** 2026-11-24. **Role:** research problem, objective, scope and scientific decision frontier. [Document ownership](README.md) defines the other sources of authority.
 
 ## Research problem and motivation
 
@@ -38,6 +38,8 @@ The [intrinsic-state reuse v1 candidate](plans/INTRINSIC_STATE_REUSE_V1.md) stop
 In that earlier research line, [WL63](worklogs/63_WORKLOG_PHYSICAL_BALLISTIC_SCATTERED_ATTRIBUTION.md) identifies the learned collided response as the dominant error component for qualified Pair7; [WL64](worklogs/64_WORKLOG_DIRECTIONAL_CONTRAST_SUPERVISION.md) finds a controlled fixed contrast-loss intervention worsens original and independent held-out directional fidelity. Neither supplies an accepted correction, coupled-GI quality or external-baseline advantage.
 
 Broader open questions are whether a sufficiently accurate learned K can be composed stably, whether validity certificates permit useful selective work after non-rigid edits, and whether benefits survive global deformation and contact changes. None has a general affirmative answer.
+
+**Milestone exit criteria (proposed 2026-11-24, PENDING_OWNER_APPROVAL):** quantitative, benchmark-grounded requirements against the strongest practical comparator (currently denoised path tracing). The [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md) sets them; the [SSS Near-Contact Gate](SSS_NEAR_CONTACT_GATE.md) is separate and mandatory; the [claim-to-evidence matrix](CLAIM_EVIDENCE_MATRIX.md) separates novelty from numerical superiority.
 
 ## Research direction and novelty discipline
 

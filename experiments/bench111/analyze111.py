@@ -78,7 +78,12 @@ def E_at(pts, t):
 
 
 def t_to(pts, e):
-    """Earliest time at which the arm's interpolated error first reaches <= e; None if never within range."""
+    """Time at which the arm's interpolated error first reaches e; None when e lies outside the arm's executed error range
+    (frozen rule: 'beyond executed range' = not evaluable). Correction disclosed in WL111: the first version returned the
+    arm's cheapest time when even that point was better than e."""
+    es = [p[1] for p in pts]
+    if e > max(es) or e < min(es):
+        return None
     if pts[0][1] <= e:
         return pts[0][0]
     for (t0, e0), (t1, e1) in zip(pts[:-1], pts[1:]):
@@ -98,11 +103,21 @@ def frontier_eval(rest_t, rest_E, comps):
     EF = min(eq) if eq else None
     best_arm_E = min(comps, key=lambda a: (E_at(comps[a], rest_t / (1 + G['m_t'])) or 1e9))
     best_arm_t = min(comps, key=lambda a: (t_to(comps[a], rest_E / (1 + G['m_q'])) or 1e9))
+    # descriptive dominance (not a gate rule): best comparator point within 1.5x the ReST time, cheapest comparator point
+    # with an error <= the ReST error
+    allp = [(a, t, e) for a, p in comps.items() for t, e in p]
+    near = [x for x in allp if x[1] <= 1.5 * rest_t]
+    better = [x for x in allp if x[2] <= rest_E]
+    dom = {'best_within_1p5x_time': min(near, key=lambda x: x[2]) if near else None,
+           'cheapest_with_lower_or_equal_error': min(better, key=lambda x: x[1]) if better else None}
     p1 = None if tF is None else bool(rest_t <= (1 - G['s_t']) * tF)
     p2 = None if EF is None else bool(rest_E <= (1 - G['s_q']) * EF)
     return {'t_F_at_E_rest_over_1pmq': tF, 'E_F_at_t_rest_over_1pmt': EF, 'PATH1': p1, 'PATH2': p2,
             'strongest_at_equal_time': best_arm_E, 'strongest_at_equal_quality': best_arm_t,
-            'speed_ratio_needed': None if tF is None else rest_t / tF, 'error_ratio': None if EF is None else rest_E / EF}
+            'speed_ratio_needed': None if tF is None else rest_t / tF, 'error_ratio': None if EF is None else rest_E / EF,
+            'evaluable_arms_time': [a for a, p in comps.items() if t_to(p, rest_E / (1 + G['m_q'])) is not None],
+            'evaluable_arms_error': [a for a, p in comps.items() if E_at(p, rest_t / (1 + G['m_t'])) is not None],
+            'dominance': dom}
 
 
 # ------------------------------------------------------------------------------------------------ fixtures

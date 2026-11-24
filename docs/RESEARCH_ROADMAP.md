@@ -1,6 +1,6 @@
 # Research Roadmap — Dynamic Learned Transport Reuse
 
-**Current as of:** 2026-11-18. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
+**Current as of:** 2026-11-24. **Role:** milestone dependencies, current bounded scope and next decision gate. [Research objective](RESEARCH_CENTRIC_TOPIC.md), [architecture contracts and candidate status](Architecture.md), and [evaluation strategy](BASELINE_ROLES_AND_EVIDENCE_STRATEGY.md) have separate owners.
 
 ## Current frontier
 
@@ -180,6 +180,8 @@ See [WL80](worklogs/80_WORKLOG_ORBIT_BALANCED_ANGULAR_BASIS.md), [WL79](worklogs
 No learned corrective recipe or successor architecture is adopted. Work on `Selective_Recompute` only; no branch/worktree change without user consent.
 
 ## Current decision boundary
+
+**Milestone exit contract (proposed 2026-11-24, PENDING_OWNER_APPROVAL).** The next milestone's quality, performance, dynamic-reuse and lifecycle requirements are proposed in the [Contribution Approval Gate](CONTRIBUTION_APPROVAL_GATE.md). The non-compensable correctness requirement is the [SSS Near-Contact Gate](SSS_NEAR_CONTACT_GATE.md). Comparisons follow the [Benchmark Protocol](BENCHMARK_PROTOCOL.md) and the [registry](EXTERNAL_BASELINE_REGISTRY.md). Once approved, these become the fixed contract that directs later architecture work. Approval authorises no implementation batch.
 
 **Current decision (human, 2026-11-13):** ECRO is reinstated as the **central learned-global-transport implementation base** for GM1, while WL84 learned ER remains the local-scattering baseline. The prior ECRO v0 WL86 verdict remains NOT SUPPORTED under its frozen sharp/held-out gates: this is a starting-point selection, not adoption or a successful rerun. Explicit EXP/C3UR and the WL87–WL90 sampling/projection diagnostics remain immutable null/comparator evidence, not a replacement for learned global transport. The next architecture decision must isolate **one falsifiable ECRO-lineage representation/training/ownership hypothesis** that addresses the measured learned-flight sharp deficit and compensation without sacrificing source-independent reuse, edited-geometry response or quality-matched economics. Fix the physical/angular interface, T0/T1 and held-out controls, independent references, matched explicit comparator and prospective gates before an authorised evidence run. Do not tune WL86 retrospectively, promote an explicit candidate as the project goal, or launch an automatic successor batch.
 

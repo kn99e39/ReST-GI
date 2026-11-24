@@ -84,14 +84,13 @@ for k in keys:
 
 
 # ---------------------------------------------------------------- image grids with shared scale
-def grid(key, panels, fname, crop=None):
+def grid(key, panels, fname, crop=None, lim=0.5):
     z = np.load(EV / 'quality' / f'{key}_images.npz')
     ref = z['ref'].astype(np.float64)
     mL = float((ref @ LUMA).mean())
     sel = [(lab, k) for lab, k in panels if k in z.files or k == 'ref']
     n = len(sel)
     fig, axs = plt.subplots(2, n, figsize=(2.6 * n, 5.6))
-    lim = 0.5
     for j, (lab, k) in enumerate(sel):
         img = ref if k == 'ref' else z[k].astype(np.float64)
         if crop:
@@ -122,7 +121,7 @@ for k in keys:
     grid(k, panels, f'images_{k}.png')
 # contact crops (SSS V0): rows 300-470, cols 150-370 hold the near floor / sphere contact in the 512^2 V0 frame
 if 'S0_V0' in keys:
-    grid('S0_V0', panels, 'contact_crop_S0_V0.png', crop=((330, 470), (170, 350)))
+    grid('S0_V0', panels, 'contact_crop_S0_V0.png', crop=((330, 470), (170, 350)), lim=0.2)
 
 # ---------------------------------------------------------------- SSS radial profile
 fig, axs = plt.subplots(1, 3, figsize=(14, 4.2), sharey=True)
@@ -228,7 +227,7 @@ if any(k.startswith('PT_LR3') for k in L3):
             f = LR / f'transgi_{tag}.npz'
             if f.exists():
                 zz = np.load(f)
-                tg[tag] = zz['gi'] if 'gi' in zz.files else None
+                tg[tag] = zz['transgi_gi'] if 'transgi_gi' in zz.files else None
         pan = [('Ref-65 GI', ref), ('Ref-7 GI (6 events)', z['ref7_gi']), ('PT 4 spp GI', z.get('PT_4')), ('PT 64 spp GI', z.get('PT_64')),
                ('PT+OptiX 4 spp GI', z.get('PTDN_4'))] + [(f'TransGI {t[6:]}', v) for t, v in tg.items() if v is not None]
         pan = [p for p in pan if p[1] is not None]
