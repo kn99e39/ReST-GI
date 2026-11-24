@@ -1,0 +1,187 @@
+{
+  "batch": "WL111",
+  "part": "W4 Living Room 3 (separate file so that the fixture protocol bytes stay frozen while its chain runs)",
+  "frozen_before": "LR3 comparative results (added and committed before any LR3 run; the fixture chain was already running, no LR3 output existed).",
+  "res": [
+    640,
+    360
+  ],
+  "scene_modified_sha256": "62583fb9faa68c87109ab4bcfbe84e67b2ed48cb9dc898c1cfadc1f4a4c0969d",
+  "ref65_sha256": "6262525144298f284558d790a253554a25c93827d1ca53a96961411715fcbf98",
+  "ref_note": "Ref-65 / Ref-7 copied from Main's own copy of the TransGI data (identical sha256 to LabServer69's WL102 re-render). The isolated scene copy differs from LabServer69's scene_transgi.xml only in CRLF line endings; Session regenerates it and its modified_sha256 must equal the reference manifest.",
+  "pt_spp": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128,
+    256
+  ],
+  "ptdn_spp": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64
+  ],
+  "ptdn_guide_spp": 1,
+  "reps_by_spp": [
+    [
+      16,
+      8
+    ],
+    [
+      64,
+      4
+    ],
+    [
+      256,
+      2
+    ]
+  ],
+  "timing_pt_spp": [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128
+  ],
+  "timing_ptdn_spp": [
+    1,
+    2,
+    4,
+    8,
+    16
+  ],
+  "primary": "GI LDR RMSE against Ref-65 (WL102 / TransGI convention clip(x,0,1)^(1/2.2)), and GI relative debiased HDR RMSE (WL111 primary form) - both reported; the LDR RMSE is primary for LR3 because every historical LR3 number (paper Table I, WL102, TransGI reproduction) uses it.",
+  "transgi_probe_override": {
+    "share": true,
+    "side_test": true,
+    "depth_mode": "frame",
+    "depth_eps": 0.01,
+    "share_visibility": "shadow_ray"
+  },
+  "transgi_runs": {
+    "eval_L40_adopted": {
+      "script": "scripts/eval_transgi.py",
+      "ckpt": "L40",
+      "args": [
+        "configs/living_room_3.yaml",
+        "--ckpt",
+        "{CKPT}",
+        "--scenario",
+        "static",
+        "--view",
+        "V0",
+        "--res",
+        "640",
+        "360",
+        "--albedo-prefilter",
+        "256",
+        "--spec-di-spp",
+        "256",
+        "--tag",
+        "wl111_L40_adopted",
+        "--probe-override",
+        "{PO}"
+      ],
+      "role": "TransGI best quality: adopted B24 L40 checkpoint (b23_lz_i4_seed0, sha256 1b32a633...) with the adopted evaluation options, at the WL102 resolution"
+    },
+    "eval_L40_fastmatched": {
+      "script": "scripts/eval_transgi.py",
+      "ckpt": "L40",
+      "args": [
+        "configs/living_room_3.yaml",
+        "--ckpt",
+        "{CKPT}",
+        "--scenario",
+        "static",
+        "--view",
+        "V0",
+        "--res",
+        "640",
+        "360",
+        "--spp-sub",
+        "1",
+        "--albedo-prefilter",
+        "0",
+        "--spec-di-spp",
+        "1",
+        "--tag",
+        "wl111_L40_fastmatched",
+        "--probe-override",
+        "{PO}"
+      ],
+      "role": "Quality at the settings the timed fast frame uses (1-spp G-buffer, no albedo prefilter, 1-spp specular DI)"
+    },
+    "eval_wl102_repro": {
+      "script": "scripts/eval_transgi.py",
+      "ckpt": "wl102",
+      "args": [
+        "configs/living_room_3.yaml",
+        "--ckpt",
+        "{CKPT}",
+        "--scenario",
+        "static",
+        "--view",
+        "V0",
+        "--res",
+        "640",
+        "360",
+        "--tag",
+        "wl111_wl102_repro",
+        "--probe-override",
+        "{PO}"
+      ],
+      "role": "Host reproduction check of the WL102 TransGI result (historical GI LDR RMSE 0.0775 on LabServer69)"
+    },
+    "bench_L40_640": {
+      "script": "scripts/b03/bench_fast.py",
+      "ckpt": "L40",
+      "args": [
+        "configs/living_room_3.yaml",
+        "--ckpt",
+        "{CKPT}",
+        "--res",
+        "640",
+        "360",
+        "--frames",
+        "200",
+        "--arm",
+        "D_vis",
+        "--tag",
+        "_wl111_L40"
+      ],
+      "role": "TransGI fast-frame timing on Main (reproduction's own benchmark, median of 200 warm frames)"
+    },
+    "bench_L40_1080": {
+      "script": "scripts/b03/bench_fast.py",
+      "ckpt": "L40",
+      "args": [
+        "configs/living_room_3.yaml",
+        "--ckpt",
+        "{CKPT}",
+        "--res",
+        "1920",
+        "1080",
+        "--frames",
+        "200",
+        "--arm",
+        "D_vis",
+        "--tag",
+        "_wl111_L40"
+      ],
+      "role": "Same at 1920 x 1080 (paper Table I resolution)"
+    }
+  },
+  "transgi_exclusivity": "TransGI runs only after the fixture chain has finished (sequential GPU use); its own benchmark script synchronises per frame.",
+  "ecro_lr3": "Historical (WL102, LabServer69 RTX 3090): GI LDR RMSE vs Ref-65 0.170 at 4 spp, 0.102 converged; truncation-only 0.096; frame 27.3 / 27.7 ms (unoptimised path). Not re-run on Main: it needs the 11 GB WL102 dataset for its generator state and an unoptimised frame path; its LR3 gate status is decided by quality (its truncation floor alone exceeds TransGI's error), which a new timing cannot change. Recorded QUALIFIED_WITH_LIMITATIONS (quality) / cross-hardware (time)."
+}
