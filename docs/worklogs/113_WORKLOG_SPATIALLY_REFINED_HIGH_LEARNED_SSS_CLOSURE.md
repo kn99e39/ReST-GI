@@ -161,3 +161,17 @@ The chain was stopped, partial temporary files were removed, and the run resumed
 - the post-fix decision in `stageB/decision.json`.
 
 **Unchanged.** No threshold, band, arm or rule changed. No sample or stream was regenerated.
+
+### Stopped by the owner (2026-11-24 21:49 KST)
+
+The owner asked for the run to be stopped. At that moment the chain from `dd5fb68` was re-running `analyze113A` with Execution fix 2. All chain processes were stopped, partial `.tmp` files were removed, and `chain.status` reads `STOPPED`.
+
+**Kept on disk.** Everything under `results/ecro_sss113/primary/`:
+- 24 Stage A constructions and the VHS descriptors;
+- the 30 Stage A streams (D6 plus full depth);
+- the Stage A qualification (QUALIFIED) and metrics;
+- the pre-fix decision in `frozen_pass1/`.
+
+**Not run.** The post-fix selection, data, training, and Stages D–G.
+
+**Resume.** Run `bash experiments/ecro_sss113/chain113.sh` (detached). The chain skips completed outputs and restarts at `analyze113A`.
