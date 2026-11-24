@@ -1,0 +1,367 @@
+{
+  "id": "WL111",
+  "title": "ECRO low-cost spatiotemporal reconstruction: quality-performance frontier relative to frozen R3",
+  "class": "regular numbered batch (owner brief 2026-11-24; owner-assigned number 111). Independent Denoising Track question: can temporal information reduce the spatial reconstruction work needed for useful quality. Independent of WL109B; C1 not used.",
+  "branch": "Denoise_Reconstructor (no new branch or worktree)",
+  "host": {
+    "name": "LabServer70 RTX 3090 (GPU-ab3bc073-096c-6d0b-a304-13cef177a843); owner directive 2026-11-24: Main is in use by another session, LabServer69 contends with TransGI; WL109B was placed in waiting by the owner for this batch",
+    "gpu": "NVIDIA GeForce RTX 3090 24 GB, driver 550.54.15 (same GPU model as WL108's R3 timing on LabServer69)",
+    "container": "python:3.10-bookworm image sha256:6fd6ebbd05fc... (pinned by ID, as WL109B Amendment 3: glibc userland only; interpreter, venv, Mitsuba build, code and data are the host files bind-mounted at their own paths; OptiX 8 driver files bind-mounted read-only); docker --cpus 4; GPU by UUID",
+    "stack": "Python 3.10.21 venv ~/NeuralShaderDemo/external/8dna26/.venv (Torch 2.3.1+cu121, Triton 2.3.1, NumPy 1.26.4), Mitsuba 3.8.0 / Dr.Jit 1.3.1 (~/rest_dyn101/external/mi_3.8.0): the frozen WL101 stack of LabServer63 / 69 / WL109B",
+    "work_dir": "~/rest_sss101a/experiments/ecro_recon111 (code, this branch only; no other experiment directory on the host is modified) and ~/rest_sss101a/results/ecro_recon111 (outputs; inputs/ holds read-only links to the frozen inputs already on LabServer70 - WL108 inputs tree and WL107 capture - plus copies of the archived WL101B static frames and the WL110 full-depth physical references)",
+    "guard": "experiments/ecro_estimator109b/guard109c.py, used unchanged (sha256 f7d6072b..., identical on the host): --gpu-uuid of the RTX 3090, --container recon111_<stage>, --free 120; the container starts only after the RTX 3090 had no compute process for 120 s and is killed at once when a foreign compute process appears on that GPU; stage outputs depend only on seeds, so a restarted stage reproduces its result",
+    "cpu": "The host CPU is shared with other users (1-minute load average about 14 of 16 cores when the batch was planned). Containers are capped at 4 CPUs. Timing blocks record the load average and require load1 <= 16 (no oversubscription); arms are interleaved inside every timing block so compared arms share the same CPU conditions. Absolute latencies are labelled as measured on a shared host."
+  },
+  "frozen": [
+    "WL100 SSS checkpoint 2d9cb580..., learned HIGH table generation and lookup, physical LOW = E1 + E2, HIGH = HL, TOTAL = LOW + HIGH",
+    "WL101 renderer (rt101.py 417fd6c0... and the frozen pt100 / pt86 / model86 / scene86 / closure83_dr / common100 sources), native R0 sampling, geometry-update lifecycle",
+    "R3 checkpoint d51b6919... and its code (model105 / kpn_triton105); WL101B SVGF code (ecro_sss101b/svgf.py) and settings",
+    "WL101B, WL105-WL109B artifacts and verdicts; contact disk excluded from reconstruction attribution"
+  ],
+  "seeds": {
+    "rule": "evidence seed = base(family) + sum(index_i * stride_i); main-stream value = splitmix64((seed << 16) + launch) (WL109 rule; consecutive historical seed * 1000003 streams are correlated). Archived replays keep the historical convention.",
+    "smoke_offset": 900000000,
+    "family_width": 1000000,
+    "strides": [
+      100000,
+      1000,
+      1
+    ],
+    "families": {
+      "ladder": 18000000,
+      "stageA": 19000000,
+      "static_hist": 20000000,
+      "static_sealed": 21000000,
+      "seq": 22000000,
+      "ref_sealed": 23000000,
+      "ref_seq": 24000000,
+      "timing": 25000000,
+      "synthetic": 26000000
+    },
+    "index_layout": {
+      "limits": "index_0 < 10, index_1 < 100, index_2 < 1000 (strides 100000, 1000, 1)",
+      "stageA": "(0, slot, i)",
+      "ladder": "(view // 10, (view % 10) * 10 + rep, level)",
+      "static_hist / static_sealed": "(view, spp_index * 10 + rep, frame)",
+      "seq": "(sequence_index, spp_index * 10 + rep, frame)",
+      "ref_sealed": "(view, 0, block)",
+      "ref_seq": "(sequence_index, state_index, block)",
+      "timing": "(regime, slot, i)",
+      "synthetic": "(0, test, i)"
+    },
+    "sealed_cameras": 17000002,
+    "training_realizations": [
+      17950001,
+      17950002
+    ],
+    "bootstrap": 17990001,
+    "timing_order": 17990002
+  },
+  "gates": {
+    "G0": {
+      "wl101e_manifest_sha256": "0fb45d7b9ac46c204c393299a77180c74d9f043f44100361980afe0f5427c0c9",
+      "checkpoint_sha256": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+      "r3_sha256": "d51b69199b99a8608d8bfbd1f17375cd837894350cb33d63d9170be7b29264e1",
+      "mitsuba": "3.8.0",
+      "drjit": "1.3.1",
+      "table_relative_l1": 1e-06,
+      "replay_relative_l1": 0.0005,
+      "r3_replay_relative_l1_exact": 1e-06,
+      "r3_replay_relative_l1_host": 0.0001,
+      "svgf_replay_relative_l1": 0.0001,
+      "rules": "G0a: every frozen source / checkpoint / config / reference / manifest hash equal (WL101F validate_inputs + WL101E/A manifests). G0b: learned table of the frozen SSS state equal to the archived hash, else relative L1 <= 1e-6 to the archived WL101 PRED_B_0 table (WL101B criterion), else STOP. G0c: archived V0 4096-spp predictions replayed within 5e-4 relative L1 per component (WL105 G1), else STOP. G0d: R3 on the 144 archived WL105 evaluation inputs (6 views x 3 spp x 8 replicates) against the archived R3 outputs: max relative L1 <= 1e-6 = EXACT, <= 1e-4 = HOST_NUMERIC (cross-GPU numerical difference, reported), else STOP (R3 not reproduced). G0e: WL107 reference blocks and manifests hash-verified (runtime109.reference statements). G0f: WL101B SVGF replayed on its archived static sequences (raw frames, archived centre guides) reproduces the archived reconstructed frames within 1e-4 relative L1, else SVGF is reported as not reproducible and omitted (not repaired).",
+      "frame_program": "the camera-input frame program equals the original rt101 _frame_prog bitwise for the same camera, spp and seed (V0 and H1, spp 1 and 4); the camera-input guide program equals render105.aux_buffers on the archived WL105 aux.npz of V0 and H1 (coverage exactly on >= 99.99 % of pixels; normal / depth max abs <= 1e-4) and the centre program equals the archived WL101B guide (shape-id mismatch <= 1e-4, position / normal RMS <= 1e-4). Any failure stops before evidence."
+    }
+  },
+  "stageA": {
+    "purpose": "Recover R3 on LabServer70 and attribute its cost; recover WL101B SVGF as a low-cost comparator; measure the guide acquisition costs that decide the candidate's guide sampling and width.",
+    "views": [
+      "V0",
+      "H1",
+      "H3"
+    ],
+    "ecro_frame_spp": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      12,
+      16,
+      24,
+      32
+    ],
+    "r3_spp": [
+      1,
+      2,
+      4,
+      16,
+      32
+    ],
+    "warmup": 5,
+    "rounds": 30,
+    "measurements": [
+      "ECRO frame time vs spp (camera-input program and, for V0, the original rt101 program: parity check)",
+      "online guide acquisition: 8 x 8 (R3's input), 4 x 4 and 2 x 2 sub-pixel guides, centre-ray guide, previous-eye visibility query",
+      "R3 stage breakdown by CUDA events: features, net_low, apply_low, net_high, apply_high, sum; synchronized total; peak allocation; logits bytes",
+      "R3 diagnostics (latency only): fp16 autocast of the U-Nets; unfused unfold kernel application; per-network convolution FLOPs (analytic) and activation / logits traffic (analytic bytes) with the measured device copy bandwidth",
+      "SVGF (frozen WL101B code): temporal + variance + three a-trous passes; its centre guide",
+      "candidate cost grid (untrained weights: cost does not depend on weight values): width multiplier m in {1.0, 1.5, 2.0} x guide sub-sampling sub in {4, 8}: features + network (fp16) + three fused passes + fused temporal step, with and without guide acquisition"
+    ],
+    "attribution_question": "Which part dominates R3 latency and memory traffic: network computation, per-pixel kernel prediction (225-channel head), kernel storage, kernel application, guide acquisition or integration overhead. Answered from the measurements; no assumption."
+  },
+  "candidate": {
+    "name": "CT-AK (compact temporal a-trous kernels)",
+    "architecture": "recon_r111.CompactNet: full-resolution 3 x 3 stem (20 -> c0), three stride-2 levels with one 3 x 3 conv each (c1, c2, c3 at 1/2, 1/4, 1/8), bilinear decoder with skips to 1/2 resolution (3 x 3 convs), full-resolution 1 x 1 fusion with the stem features (-> 2 c0), 1 x 1 head -> 150 logits = 3 passes x 2 components x 25 taps. Base widths (16, 32, 48, 64) x m. ReLU. Inference fp16 autocast + channels_last; logits fp16.",
+    "inputs": "log1p(LOW_acc) (3), log1p(HIGH_acc) (3), sub-pixel coverage of the 9 shapes (9), mean camera-facing normal (3), mean hit distance / 5 (1), log2(ESS) / 11 (1) = 20 channels. ESS = exact effective sample count of the history (inverse of the tracked variance factor); a cold / S frame has ESS = spp.",
+    "spatial": "For each component c in {LOW, HIGH}: three passes with dilation 1, 2, 4 of a per-pixel 5 x 5 softmax kernel (normalized, nonnegative, constant-preserving), reflect padding; effective support 29 x 29 >= R3's 15 x 15. LOW' and HIGH' are filtered separately with component-specific kernels from a shared trunk; TOTAL = LOW' + HIGH' in linear HDR, no clipping.",
+    "temporal": "recon_r111.History: accumulation of the raw current LOW and HIGH means BEFORE spatial reconstruction, identical weights and validity for both components (their covariance is preserved, not assumed zero). Running mean in samples, w = spp / min(n_prev + spp, cap_frames * spp); variance factor r = (1 - w)^2 r_prev + w^2 / spp tracked exactly (ESS = 1 / r). Reset: first frame, explicit reset, resolution change, ANY transport revision change (geometry or light edit): global conservative invalidation (no selective reuse based on dirty relations). Camera motion with unchanged transport: nearest previous pixel of the current centre-ray point; accept only if inside the previous frame, same centre shape id, normal cos >= 0.9, position within 3 pixel footprints, pure sub-pixel coverage in the current AND the previous pixel (mixed / silhouette pixels never accumulate across frames), unoccluded segment from the previous eye (WL101B visibility query), and for the view-dependent SSS sphere (shape 6) a view-direction cos >= 0.995 (WL101B gate). Every other material in the SSS scene is Lambert (checked against the material table in Stage E). History never reads references or future frames.",
+    "temporal_settings": {
+      "cap_frames": 32,
+      "normal_min_cos": 0.9,
+      "position_footprint_pixels": 3.0,
+      "sss_min_view_cos": 0.995
+    },
+    "stageA_rule": "Fixed before Stage A. sub = 8 (R3's guide resolution) if the measured 8 x 8 guide acquisition median <= 1.0 ms, otherwise sub = 4. Width m = the largest of {2.0, 1.5, 1.0} whose measured candidate subsystem median (guide pack with sub-pixel guides(sub) + centre guide + visibility query, then the CUDA graph of temporal step + features + network + three passes; camera-motion form) is <= 3.0 ms at 512 x 512; if none is, m = 1.0. The decision uses cost only (untrained weights), before any training or quality evidence.",
+    "cost_futility": "STOP (NOT_SUPPORTED by cost) before training if the candidate subsystem at m = 1.0 in the camera-motion form is >= 0.70 x the R3 subsystem in the same form (8 x 8 guide acquisition + R3 under the common execution contract).",
+    "rejected_alternatives": "Direct radiance prediction (bias / hallucination risk; WL105); signed kernels (WL107: no gain); a grazing descriptor or boundary-aware objective (WL108: not qualified); per-pixel 15 x 15 kernels (the R3 cost under study); temporal accumulation of reconstructed radiance (would accumulate the spatial bias of R3-class kernels at silhouettes); selective history reuse across transport edits (separate hypothesis, not authorised)."
+  },
+  "training": {
+    "data": "WL105 training (T00-T39) and validation (Q00-Q07) cameras and their frozen WL105 4096-spp frozen-ECRO targets (component means; target noise is independent of the inputs). New noisy component-mean frames from the frozen renderer at a spp ladder 2^l, l = 0..11 (1 ... 2048), 2 independent replicates per level and view (ladder seed family). This is more data than R3 saw (R3: 4 replicates at 4 / 16 / 32 spp): declared, and the candidate-vs-R3 difference is not attributed to architecture alone.",
+    "input_synthesis": "Per 128 x 128 crop: base spp s ~ {1: 0.25, 2: 0.25, 4: 0.25, 8: 0.1, 16: 0.1, 32: 0.05}; replicate uniform; age map A(x) (frames): with p = 0.35 A = 1 (cold / reset / S), p = 0.30 A = 2^u uniform over the crop with u ~ U{1..6}, p = 0.35 spatially varying: A = 2^round(u(x)), u = 6 x (Gaussian-blurred uniform noise sigma 16 px, rescaled to [0, 1]) plus 0-3 discs of radius 4-24 px with A = 1 (disocclusions) and, with p = 0.5 per crop, every mixed-coverage pixel of the crop set to A = 1 (camera-motion rejection at silhouettes; with the other 0.5 they keep the field, as in static accumulation). Per pixel the input is the ladder frame with spp = min(s A(x), 2048) and ESS = that spp. Pixels are statistically independent in this renderer, so a per-pixel choice among independent frames reproduces the distribution of a running mean of A(x) frames of s spp (LOW / HIGH covariance preserved inside each frame).",
+    "loss": "rel_mse(LOW', LOW_t) + rel_mse(HIGH', HIGH_t) + rel_mse(TOTAL', TOTAL_t) with the WL105 relative MSE (mean-seeking): component supervision plus full-frame supervision.",
+    "schedule": "Adam lr 2e-4, cosine decay to 1e-5, 20,000 iterations, batch 16 random crops 128 x 128 (random view, base spp, replicate, age map), fp16 autocast with gradient scaling (same precision as inference); kernel application in fp32 with the torch reference implementation.",
+    "realizations": "Two independent training realizations with seeds 17950001 and 17950002 (initialization and batch stream). Final weights only (no checkpoint selection). Both realizations are evaluated on every decision; a route passes only if it passes for BOTH realizations (no post-hoc seed selection). Validation views are logged only.",
+    "S_vs_ST": "S and ST use the same frozen weights of a realization; S = history disabled (ESS = spp)."
+  },
+  "views": {
+    "V0": {
+      "origin": [
+        0.9,
+        -2.4,
+        1.05
+      ],
+      "target": [
+        0.9,
+        0.4,
+        0.55
+      ],
+      "fov_deg": 32
+    },
+    "historical": [
+      "V0",
+      "H1",
+      "H2",
+      "H3",
+      "H4",
+      "H5"
+    ],
+    "historical_note": "WL105 evaluation views, inspected by WL105-WL109: reported as historical-workload comparisons, never as independent generalization evidence. References: WL107 qualified frozen-ECRO references (48 x 8192 spp).",
+    "sealed": {
+      "names": [
+        "K1",
+        "K2",
+        "K3",
+        "K4",
+        "K5",
+        "K6"
+      ],
+      "camera_seed": 17000002,
+      "candidates": 64,
+      "rule": "cameras105.random_cameras(64, 17000002, cfg0 geometry, forbidden = every WL105 train / val / eval camera); accept in order while mean 2 x 2 sub-pixel valid fraction >= 0.9 and >= 2,000 pixels with full sphere coverage (8 x 8 guide), until 6 are accepted. Geometry only; sealed (cameras written to the evidence and committed) before training.",
+      "reference": "32 independent blocks x 8,192 spp (262,144 spp; ref_sealed seed family), per-pixel variance of the mean from the blocks"
+    }
+  },
+  "sequences": {
+    "Q1": {
+      "role": "stationary camera / geometry / light",
+      "views": [
+        "V0",
+        "K1"
+      ],
+      "note": "covered by the static protocol (64 frames + forced reset) on every view; Q1 names its V0 / K1 instances"
+    },
+    "Q2": {
+      "role": "continuous camera motion, fixed scene (cfg0, light 0)",
+      "frames": 96,
+      "target": [
+        0.9,
+        0.4,
+        0.35
+      ],
+      "horizontal_m": 1.9,
+      "elevation_deg": 20,
+      "fov_deg": 32,
+      "azimuth_deg": [
+        -60,
+        25
+      ],
+      "reference_every": 4,
+      "reference_extra": [
+        41,
+        73
+      ],
+      "reference_spp": 65536,
+      "reference_blocks": 64
+    },
+    "Q3": {
+      "role": "abrupt supported rigid geometry edit",
+      "frames": 80,
+      "edit_frame": 40,
+      "edit_to_config": 2,
+      "fallback_edit_to_config": 1,
+      "reference_spp_state": 262144,
+      "reference_blocks_state": 32
+    },
+    "Q4": {
+      "role": "continuous supported geometry motion (new box poses every frame)",
+      "frames": 48,
+      "from_config": 2,
+      "to_config": 1,
+      "reference_spp": 65536,
+      "reference_blocks": 64
+    },
+    "Q5": {
+      "role": "abrupt supported light change",
+      "frames": 80,
+      "edit_frame": 40,
+      "light_index": 1,
+      "reference_spp_state": 262144,
+      "reference_blocks_state": 32
+    },
+    "qualification": "Before any candidate evaluation, from the references only: Q3 and Q4 qualify if, on stationary receivers (centre-ray shape not a box in either compared state, contact disk excluded), the relative RMS reference change of TOTAL between the first and last state is >= 5 % and of the indirect part (E2 + HL) >= 3 %, each >= 10 x its reference noise; Q4 additionally needs a per-frame stationary-receiver change >= 3 x reference noise on >= 50 % of consecutive frame pairs. If Q3 with config 2 fails, config 1 is used (declared fallback); if a sequence still fails it is reported as non-qualifying (no easier replacement). Q2 qualifies if every frame has mean 2 x 2 valid fraction >= 0.9 and the sphere is visible (>= 2,000 full-coverage pixels).",
+    "frame_spp": [
+      1,
+      2,
+      4
+    ],
+    "candidate_spp_grid_dynamic": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      8
+    ],
+    "replicates": 4,
+    "camera_change_rule": "Guides and the centre guide are recomputed every frame in Q2 (camera motion) and Q3-Q5 frames whose geometry changed; static frames reuse them."
+  },
+  "static_protocol": {
+    "views": "6 historical + 6 sealed",
+    "spp_grid": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      12,
+      16,
+      24,
+      32
+    ],
+    "replicates": 6,
+    "frames": 65,
+    "recorded_frames": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      12,
+      16,
+      24,
+      32,
+      48,
+      64
+    ],
+    "reset_frame": 65,
+    "rule": "Per (view, spp, replicate) one 65-frame stream of independent frames (static_* seed families). ST runs on every frame; frame 65 is a forced reset (ST must equal S on that frame). R0, R3 and S are single-frame arms evaluated on frames 1 and 64 of the same stream (paired inputs; their frames are iid). Cold = frame 1; early = frames 2-16; warm = frame 64. Flicker: RMS of Y_t - Y_(t-1) over frames 57-64 (static scene: the reference change is zero)."
+  },
+  "references": {
+    "T_ECRO": "Frozen-ECRO expectation at the same scene state and camera: WL107 (historical views), 32 x 8192 spp blocks (sealed views, Q3 / Q5 states), 64 x 1024 spp blocks (Q2 keyframes, every Q4 frame). Per-pixel variance of the mean from the blocks; every MSE is debiased (MSE - mean Var(ref)).",
+    "T_PHYSICAL": "Descriptive only: WL110 full-depth path-traced references (copied from Main; S0 = cfg0 light 0 at V0 / H1 / H2; S1 = cfg1 at V0; SL = light 1 at V0; 2 x 32,768 spp) and the archived WL101 six-event physical references (cfg 0-7 at V0; 2 x 4,096 spp) for transport-depth accounting (D = 6 truncation). Contact region included in these full-frame results.",
+    "qualification": "Per reference family and decision ROI: relative RGB RMS SE of the reference mean <= 0.10 x R3's debiased primary RMSE at the anchor and <= 0.30 x the smallest debiased RMSE entering the decision. If violated, the family is escalated once to twice the blocks; if still violated the affected decisions are INCONCLUSIVE.",
+    "dynamic": "No interpolation through a geometry discontinuity: Q4 has a reference per frame; Q2 keyframes only (claims restricted to them); Q3 / Q5 one reference per transport state (static camera)."
+  },
+  "metrics": "Per frame and ROI (WL105 ROIs with the contact disk removed; contact reported separately): debiased relative HDR RMSE, HDR MSE, PSNR (on the HDR peak of the reference) where appropriate, signed luminance bias, gradient ratio and gradient relative RMSE (silhouette, material boundary), spatially resolved signed error (maps for reviewer artifacts), sphere distance bands. Temporal: flicker (static), temporal-change error TCE = RMS_ROI[(Y_t - Y_(t-d)) - (T_t - T_(t-d))] / RMS(T_t) debiased by both references' variance (Q2: d = 4 and the extra pairs; Q4: d = 1), signed-change slope on changed pixels (|dT| > 3 sigma), history acceptance / rejection rates and age, recovery frames after edits. Latency: median / p95 per frame.",
+  "timing": {
+    "idle_samples": 6,
+    "idle_util_max_pct": 5,
+    "max_attempts": 8,
+    "warmup": 5,
+    "rounds": 30,
+    "e2e_definition": "Synchronized wall time from the start of the frame's work to completed reconstructed HDR output resident on the GPU: [edit update (geometry / light lifecycle) when the transport state changes] + ECRO frame + [guide acquisition when camera or geometry changed; centre guide + previous-eye visibility for ST on camera motion] + reconstruction. Static regime: guides cached. Component spans by CUDA events in separate instrumented runs. Readback, disk and first-call compilation excluded (reported separately). Exclusive GPU: the host guard (no foreign compute process on the RTX 3090) plus, before and after every block, median utilization <= 5 % and load1 <= 16; a contaminated block is repeated. Arms are interleaved round-robin inside each block.",
+    "regimes": [
+      "static (guides cached)",
+      "camera motion (guides every frame)",
+      "continuous geometry update (Q4 lifecycle + guides every frame)"
+    ],
+    "max_load1": 16
+  },
+  "decision": {
+    "anchors": "R3 at its trained operating points 4 (primary anchor), 16, 32 spp; R3 at 1 / 2 spp is an out-of-distribution diagnostic.",
+    "aggregation": "Per view (or per sequence replicate group): debiased relative RMSE from the replicate-pooled MSE; ratio = candidate / R3; geometric mean over views. 95 % intervals: two-level bootstrap (views, then replicates within view; timing samples resampled for cost terms), 10,000 draws, seed 17990001. Dynamic sequences: replicates only (one camera path).",
+    "route_A_quality_equivalent_speedup": "At the anchor: c* = the cheapest candidate operating point (spp in the grid, by median E2E) whose primary RMSE ratio upper95 <= 1.05. PASS iff E2E(c*) / E2E(R3 anchor) <= 0.85 (point) with timing upper95 < 1.0, every decision ROI (silhouette, sss_interior, material_boundary) ratio point <= 1.05 and upper95 <= 1.10, and no new temporal artifact.",
+    "route_B_cost_equivalent_quality": "At the anchor: c = the candidate operating point with the largest spp whose median E2E <= the R3 anchor's median E2E (no extrapolation; if none, route B is not evaluable). PASS iff D = 1 - RMSE_c / RMSE_R3 >= 0.10 with lower95 > 0, decision ROIs noninferior as in route A, and no new temporal artifact.",
+    "temporal_artifact": "Static warm: ST flicker <= 1.05 x R3 flicker (point) at the compared points. Dynamic: the D rules below.",
+    "regimes": {
+      "static_warm": "sealed views, frame 64 (historical views reported alongside)",
+      "cold_reset": "sealed views, frame 1 (= S) against R3",
+      "continuous_edit": "Q4 all frames (ST resets every frame by the global rule) against R3 with per-frame guides; candidate grid 1-8 spp",
+      "camera_motion": "Q2 keyframes against R3 (reported; enters D6)"
+    },
+    "absolute_contract_C": "At the routed candidate operating point (or equal 4 spp if no route passes) in static warm, cold and Q4: |signed luminance bias| <= 1 % in primary, sss_interior, silhouette, material_boundary, control (point; CI reported); silhouette gradient ratio in [0.8, 1.2]; silhouette and material_boundary RMSE ratio vs R3 upper95 <= 1.05.",
+    "dynamic_safety_D": {
+      "D1_no_stale_history": "Q3 / Q5 post-edit frames and every Q4 frame: maximum ST history age <= frames since the last transport edit (exact) and the first frame after each edit equals S on the same input (relative L1 <= 1e-6).",
+      "D2_disocclusion": "Q2: fraction of independently disoccluded pixels (oracle closest-hit from the previous eye, or out of the previous frame) that retained history <= 0.5 % (WL101B criterion).",
+      "D3_no_attenuation": "Q2 keyframe pairs: ST temporal-change error <= 1.05 x S's (point) and ST signed-change slope on changed pixels in [0.9, 1.1].",
+      "D4_reset_regression": "Forced reset (static frame 65) and post-edit frames: ST == S (relative L1 <= 1e-6).",
+      "D5_latency_continuous": "Q4: ST median E2E <= S median E2E x 1.05 + 0.2 ms.",
+      "D6_camera_motion_quality": "Q2 keyframes: ST / S RMSE ratio point <= 1.05 in primary, silhouette and sss_interior (GM over keyframes, replicates pooled)."
+    },
+    "verdict": {
+      "QUALITY_PERFORMANCE_SUPPORTED": "route A or B passes at the primary anchor in static_warm AND cold_reset AND continuous_edit for both realizations; all D rules pass; C passes.",
+      "FRONTIER_GAIN_BUT_QUALITY_UNQUALIFIED": "as SUPPORTED but C fails.",
+      "STATIC_ONLY_SUPPORTED": "route A or B passes in static_warm for both realizations and all D rules pass, but cold_reset or continuous_edit fails.",
+      "NOT_SUPPORTED": "no route passes in static_warm, or any D rule fails, or the cost futility stop.",
+      "INCONCLUSIVE": "reference qualification, timing exclusivity, identity or execution conditions prevent a valid decision."
+    },
+    "reporting": "Equal-spp and equal-E2E comparisons are reported separately for every regime, anchor and realization; frame / sample counts and time to reach R3-anchor quality; R0 and SVGF on every regime; T_PHYSICAL fidelity with transport-depth accounting. No threshold, margin, ROI, trajectory or seed changes after any candidate evaluation output is inspected."
+  },
+  "stage_E_contracts": [
+    "E1 constant radiance preserved (S and ST, fused and reference): relative error <= 1e-5",
+    "E2 TOTAL' = LOW' + HIGH' exactly (fp32 sum of the reconstructed components)",
+    "E3 HDR: inputs spanning 0 .. 1e4 give finite outputs, no clipping (max output <= max input, min >= min input for nonnegative inputs)",
+    "E4 ST after reset == S on the same input (relative L1 <= 1e-6)",
+    "E5 causality: two streams identical up to frame t and different afterwards give identical ST outputs up to t",
+    "E6 known camera reprojection: radiance = smooth function of world position; accepted pixels reproduce it within 1e-3 relative; acceptance >= 90 % of pure, visible, in-frame pixels",
+    "E7 disocclusion: oracle-disoccluded pixels retaining history <= 0.5 %",
+    "E8 mixed sub-pixel coverage pixels are never accepted under camera motion (exactly 0)",
+    "E9 moving material / shape boundaries: centre shape-id changes are never accepted (exactly 0)",
+    "E10 view-dependent radiance: sphere pixels with view cos < 0.995 never accepted (exactly 0); every non-sphere material of the SSS case is Lambert",
+    "E11 negative control: a box edit that changes stationary-receiver radiance beyond noise while object ids and normals match: an id/normal-only validator would retain the floor; the declared rule resets every pixel (age 1 everywhere after the edit)",
+    "E12 light edit resets every pixel (age 1)",
+    "E13 optimized == reference: fused passes vs torch reference (relative <= 1e-5), fused temporal vs torch reference (map agreement >= 99.99 %, outputs <= 1e-5 relative), camera-input frame program == original (bitwise), guide programs == offline guides (G0 frame_program rule)"
+  ],
+  "stop": [
+    "G0 identity failure (ECRO, R3) or frame / guide program mismatch",
+    "candidate requires a change of ECRO transport representation or estimator semantics",
+    "guide acquisition needs unavailable information",
+    "any Stage E contract failure (ordinary implementation bugs may be fixed and recorded before final evidence)",
+    "history survives an invalid transport-state change",
+    "reference precision cannot qualify after one escalation",
+    "the candidate cannot reconstruct without history (S cold RMSE not below R0 at every spp)",
+    "cost futility (candidate section)",
+    "valid dynamic sequences cannot be evaluated within the renderer contract",
+    "repository or GPU ownership cannot be maintained"
+  ],
+  "not_authorised": "ECRO / C1 changes, transport retraining, a second denoiser architecture, open-ended loss / hyperparameter sweeps, selective GI history reuse, future frames, reference images at runtime, hiding guide / preprocessing cost, excluding unfavourable motion or reset frames, post-hoc threshold changes, production merge, claims about external GI frameworks.",
+  "execution_contract": "Common execution contract for every timed reconstructor: a reconstructor whose per-frame work is a fixed sequence of GPU kernels is executed as captured CUDA graphs on static buffers (R3: one graph, output equal to its eager forward (Stage A check); S and ST: one graph per history mode -- none / reset / static / moving -- chosen by the host-side history logic; outputs equal to the eager fused path within 1e-6 relative L1 (Stage E)); renderer-side work (ECRO frames, guide pack, visibility) runs as Dr.Jit frozen functions with the camera uploaded as one array. WL101B SVGF keeps its original eager code (host-side branching; reported as executed historically). R3 executed eagerly as in WL105 / WL108 (R3e) is reported for historical comparability only; the decisions use the common-contract R3, which is the faster (conservative) comparator.",
+  "pre_freeze_record": [
+    "Code-path smokes on LabServer70 (non-evidence seed offset, 3 timing rounds) before this protocol was committed: identity gates G0a-c exact (learned table hash equal), frame / guide / centre programs bitwise equal to the originals, R3 replay EXACT (0.0), SVGF replay 0.0. The first Stage A smoke met the cost-futility condition (candidate 15.0-17.0 ms vs R3 15.6 ms in the camera form). Its component breakdown showed launch-bound execution (single elementwise kernels at 1.5-1.7 ms, identical time for 4 x 4 and 2 x 2 guides, 13 separate camera uploads per program call) on the CPU-shared host. With the owner's approval (2026-11-24: '수정 진행하도록 해') the implementation was changed before any evidence: one camera array per program call, guides + centre + visibility in one Dr.Jit program, CUDA-graph execution of S / ST and of R3 (common contract). No rule, threshold, margin, design rule or mechanism changed; the futility rule is evaluated again on the frozen code.",
+    "Later smokes, also non-evidence. (1) The sealed-view acceptance exposed stale camera replay when the camera entered a frozen Dr.Jit program as one array (plain or DLPack-shared torch buffer, Dr.Jit 1.3.1); 16 opaque scalars replay correctly. Scalars are now the only mode, and the equivalence check now cycles V0 -> H1 -> H2 -> H3 -> V0. (2) In the last smoke the cost-futility ratio was 0.701 (candidate 10.2 ms vs R3 14.6 ms, camera form; 3 rounds); the previous smoke gave 0.61. The difference is host-CPU-bound launch latency on the shared host (load1 about 14 of 16, container capped at 4 CPUs). The owner chose (2026-11-24, option 1: '일단 1로 진행해봐') to freeze the protocol as it stands and let the frozen Stage A (30 rounds) decide under the unchanged futility rule. Any outcome is reported together with this host-load dependence."
+  ]
+}
