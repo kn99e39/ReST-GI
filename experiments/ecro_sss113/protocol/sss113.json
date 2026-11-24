@@ -1,0 +1,118 @@
+{
+ "batch": "WL113",
+ "class": "regular numbered batch: new spatially refined HIGH representation hypothesis (post-hoc WL112 4x4 evidence), compact local refinement, conditional learned candidate, static / dynamic / full-depth validation",
+ "title": "Spatially refined HIGH representation and learned SSS near-contact closure",
+ "date": "2026-11-24",
+ "branch": "ecro_lr3_adapter",
+ "base_commit": "1e31414",
+ "machine": "local RTX 5080 16 GB; runtime external/8dna26/.venv-cu128 (Python 3.11, Mitsuba 3.5.1, Dr.Jit 0.4.6, torch 2.8.0+cu128)",
+ "numbering": "next regular number on this branch (WL112 highest); the owner instructed that numbers on other branches are ignored (Denoise_Reconstructor renumbering note, 2026-11-24)",
+ "preserved_verdicts": "WL101G D; WL101H / WL101I NOT QUALIFIED; WL112 first pass NOT QUALIFIED; WL112 amended Stage A QUALIFIED; WL112 Stage B NONE; Mandatory SSS Gate NOT_RESOLVED. The WL112 post-hoc 4x4 result is hypothesis evidence, not a WL112 PASS. F0 and every WL112 stream are development / regression evidence.",
+ "invariants": "physical LOW (events 1-2) / learned HIGH (events >= 3) ownership; source-independent linear response; geometry-conditioned reuse; ER / ER-v1-SDM untouched; material and medium unchanged; contact-valid (C) semantics in every primary arm; camera-independent runtime representation; coarse implementations intact; no shared production file edited; no denoising, clamping, masking, sphere-specific correction or depth change",
+ "evidence_classes": {
+  "A": "historical WL112 oracle evidence (cited, not re-scored)",
+  "B": "new dense 4x4 oracle S4_U",
+  "C": "new compact refinement oracle L4_U",
+  "D": "matched coarse learned control O_U",
+  "E": "spatially refined learned candidate",
+  "F": "dynamic stale / fresh-rebuild controls"
+ },
+ "fixtures": {
+  "F0": "WL100 test cfg0, light 0, sphere (0.90, 0.40, 0.40): development / regression; WL101G six cameras V0, H1..H5",
+  "F1": "WL100 test cfg2 boxes, light 0, sphere (0.80, 0.75, 0.40) contact",
+  "F2": "WL100 test cfg4 boxes, light 1 (low side light), sphere (1.00, 0.30, 0.41): 1 cm gap",
+  "F3": "WL100 test cfg6 boxes, light 0 (high back light), sphere (0.75, 0.45, 0.40) contact",
+  "F4": "WL100 test cfg7 boxes, light 1, sphere (1.10, 0.55, 0.40) contact: Stage D only, held out from representation selection",
+  "cameras": "F1-F4: W0 (az 0, 2.8 m, 14 deg), W1 (-45, 2.2 m, 18 deg), W2 (35, 1.75 m, 20 deg; for support x >= 0.95: 20, 1.5 m, 22 deg, so that the camera stays inside the room), WL101G rule about the support point; contact-valid = >= 200 near and >= 1,000 flank pixels (geometry-only check: every F1-F4 camera contact-valid)"
+ },
+ "references": {
+  "depth_matched": "events 1-6 (D6) of one deep physical pass per stream (two independent 4,096-spp streams per view), RNG-identical to the depth-6 estimator and paired with every readout (same seed and launch size)",
+  "full_depth": "D6 + tail (events 7-24) of the same deep pass; events beyond 24 measured < 1e-11 of the total in development (24 vs 40)",
+  "semantics": "contact-valid C everywhere",
+  "throughput_design": "pre-freeze full-scale probe: per-event evaluation of the camera pass is 4x faster than the fused depth-6 kernel (4,096 spp: 27.5 s vs 53 s; GPU 81 %); constructions and readouts keep the fused WL112 trace (per-event evaluation there exhausts 16 GB); launch 64 spp; asynchronous compression of outputs"
+ },
+ "stage_A": {
+  "construction": "WL112 contract v3 (tracer112 + 4x4 sub-patches): analytic pinned first surface, registered exclusions, tracer front predicate, U measure; one construction at 4x4 gives nested 2x2 and coarse tables by exact pooling",
+  "replicas": 4,
+  "proposals_per_subcell": 1024,
+  "seeds": "construction 11301000 + 100 fixture_index + r; decorrelated-RNG control 11302000 + 100 fixture_index + r (F0, F1); streams 11310000 + 100 fixture_index + 10 view_index + j; identity: WL112 identity routine (11206000/1) + deep-pass check 11306002; synthetic 11305001",
+  "focused_qualification": {
+   "Q1": "tracer identity: tracer113 under N reproduces pt100 lanes exactly; deep pass events 1-6 equal the depth-6 pass (rel L1 <= 1e-6)",
+   "Q2": "analytic pinned vs native first-hit suffix (native frame): rel L1 <= 1e-5 on >= 2000 probes",
+   "Q3": "synthetic analytic radiance at 4x4: >= 95% of 96 entries within 4 SE (SE from the observed second moment x the WL112 measured overdispersion factor 3) and pooled parents equal measure-weighted children to 1e-6",
+   "Q4": "support: resting-box footprint pooled over replicas with between-replica dispersion (WL112 Amendment 1 form, |t| <= t_{3, 1-0.01/(2m)}); singular counts Poisson p >= 1e-4 and only in registered cells; quantizer mismatch <= 1e-5",
+   "Q5": "origins: zero sphere-interior origins in every C construction and reference; junction-band rate <= 1e-7 per camera path",
+   "Q6": "image materiality: numerical-event bound through the unit-marker query weights <= 0.1 band (contact endpoints) and <= 2.5e-4 of region RMS",
+   "Q7": "LOW pairing between physical and readout passes: rel L1 <= 1e-5",
+   "Q8": "decorrelated-RNG control: 4x4 tables built with decorrelated lane seeding give contact endpoints equal to the frozen seeding within the combined 95% interval at every contact-valid F0 / F1 view (RNG correlation inflates variance only)",
+   "verdict": "QUALIFIED if Q1-Q8 pass; a failed Q6 comparison is UNQUALIFIED and excluded; any other failure stops the batch"
+  },
+  "arms": {
+   "U": "coarse 1270x64 (existing)",
+   "S2_U": "historical 2x2",
+   "S4_U": "dense 4x4 (adequacy reference)",
+   "L4_U": "compact: 4x4 on supported patches, coarse elsewhere (same samples)",
+   "R0_U": "diagnostic support control: 4x4 only on the 8 lowest-ring sphere patches (never a production solution)",
+   "S4_U_decorrelated": "Q8 control (F0, F1)"
+  },
+  "compact_contract": {
+   "name": "VHS u MEDIUM",
+   "VHS": "geometry-only visibility heterogeneity: per patch and 4x4 sub-cell, the cos-weighted fraction of the 64 bin-centre directions whose first hit is closer than the patch size L_p = sqrt(area); a patch is supported if max - min over its 16 sub-cells >= delta = 0.15",
+   "MEDIUM": "every patch of a participating medium whose scattering mean free path 1/sigma_t is below L_p (here the SSS sphere: 1/12 m < 0.22 m)",
+   "calibration": "delta chosen from the bimodal plateau of the VHS range on F0 and four D113 training geometries (support fraction insensitive for delta 0.05-0.30); the table-level calibration on training geometries showed that VHS alone misses the medium patches' within-patch structure (D 0.26-0.29 with VHS range 0), hence MEDIUM. Light-induced smooth gradients (D 3-5 %) on Lambert patches are deliberately not supported (left to the coarse table and judged by non-regression). No camera, ROI, reference image or evaluation fixture was used.",
+   "lifecycle": "support is recomputed from the current geometry at every state as part of the transport update (no history): contact formation activates near-contact floor / sphere support, separation beyond L_p removes the floor support; MEDIUM is material-static",
+   "budget": "supported patches <= 30 % of patches at every evaluated geometry"
+  },
+  "adequacy_S4": "at every contact-valid view of F0-F3: historical endpoint 95% intervals inside the WL112 bands (near 6.49 %, contrast 5.79 % of the D6 reference near HIGH); relative RMSE in sphere_boundary, sphere, contact_shadow, floor, full <= 1.10 x U + 0.0025; coverage >= 0.995; precision half-width <= 0.75 band",
+  "equivalence_L4": "at every contact-valid view of F0-F3: L4 endpoints inside the bands and |L4 - S4| <= 0.25 band (near and contrast); every radial band 0-0.40 m |L4 - S4| <= 0.25 band_near; RMSE in sphere_boundary, sphere_interior, contact_shadow <= 1.10 x S4 + 0.0025; RMSE in floor_outside and full <= 1.10 x U + 0.0025 (non-regression vs coarse); budget met"
+ },
+ "stage_B": {
+  "selection": "L4 if S4 adequate AND L4 equivalent; else S4 (dense) if S4 adequate AND the dense learned budget holds (training <= 90 min, peak <= 13 GB, table <= 16 MiB, measured in a 100-step probe); else STOP (report the residual mechanism; no learned candidate)",
+  "validate": "parent / child aggregation; compact indexing (compact readout == dense expansion); readout consistency (candidate readout of the physical table reproduces the Stage A image); source linearity, zero, non-negativity; coverage; camera independence (one table per state, identical across views); dynamic support recomputation (support at a revisited state identical)"
+ },
+ "stage_C": {
+  "data": "D113 = WL112 D112 moving-sphere distribution with WL113 split seeds (train 11320100, val 11320200), 192 x 4 training fields, 16 x 4 validation fields (two halves), C semantics, depth 6, construction v3 at 4x4 with 32 proposals per sub-cell (coarse targets = exact pooling of the same samples: 512 per cell, both arms); per geometry the VHS descriptors and support",
+  "arms": {
+   "O_U": "model86 ECRO v0 unchanged, coarse U targets",
+   "CAND": "ECRO-L4 (or -S4): model86 + a sub-patch head producing a_sub [R,16,64,3,16] for supported patches from [patch token, bin embedding, learned 8-d sub-cell index embedding, 3 geometric sub-cell descriptors (near fraction, mean log10 hit distance, escape fraction)]; refined output B_sub = a_sub . (u1 + yg); coarse head, message passing, c / Q / P unchanged; loss = coarse OWN (as O_U) + refined OWN on supported sub-cells"
+  },
+  "training": {
+   "seed": 11330001,
+   "steps": 24000,
+   "optimizer": "Adam",
+   "lr": 0.001,
+   "lr_final": 1e-05,
+   "warmup": 500,
+   "gradient_clip": 10,
+   "init": "same seed; shared parameters constructed first (identical initialisation)",
+   "selection": "final step"
+  },
+  "target_domain": "validation relative L1 of coarse and refined outputs vs targets, with the target half-noise floor"
+ },
+ "stage_D": {
+  "configurations": "F0 (6 views), F1-F3 (3 views each; physical streams shared with Stage A by seed), F4 (3 views, new streams; held out from selection)",
+  "arms": "A (WL100 checkpoint), O_U, candidate, physical oracle of the selected representation, U oracle",
+  "contracts": {
+   "historical": "WL112 bands on HIGH vs D6 HIGH (near 6.49 %, contrast 5.79 %), radial bands, near stable relative HIGH RMSE <= 10 %, non-regression vs O_U in sphere_boundary, sphere_interior, contact_shadow, floor_outside, full (1.10 x + 0.0025)",
+   "approved_3pct_full_depth": "SSS_NEAR_CONTACT_GATE.md (Denoise_Reconstructor, 2026-11-24): luminance of the complete method frame vs the mean of the full-depth reference halves; R1 near bias (converged and operating point 16 spp x 8 replicates), R1L 5x5 windows (floor within 0.50 m, sphere lower-hemisphere band, silhouette; Bonferroni), R2 contrast, R3 contact-disk (0.25 m) converged bias (the equal-time frontier part is NOT_EVALUATED here), R4 rings, R5a silhouette (8x8 sub-pixel coverage in (0,1)) bias and RMSE <= 1.10 x O_U, R5b off-target bias and RMSE <= 1.10 x O_U, R6 per contact-valid view, R6b spread, R7 / R8 dynamic, R9 partial (support positions only; radius / medium not varied), R10, R11; tau = 3 %",
+   "depth_matched_3pct": "the same quantities against the D6 reference (diagnostic: separates spatial / learned error from truncation)"
+  }
+ },
+ "stage_E": {
+  "sequences": "SEQ_A_lift (F0; gaps 0, 2 mm, 1 cm, 5 cm, 1 cm, 0, 5 cm; views V0, H2), SEQ_B_slide (F0; x 0.90, 0.80, 0.70, 0.80, 0.90 in contact, crossing the floor patch edge x = 0.75; views V0, H1), SEQ_C_independent (F1 location / light; gaps 0, 3 cm, 0, 8 cm, 0; views W0, W2)",
+  "streams": "per state and view two 4,096-spp deep streams (seed 11350000 + 1000 seq + 10 state + 2 view + j)",
+  "arms": "A, O_U, candidate, current-state physical oracle (selected representation, 1,024 proposals), U oracle, stale candidate (previous state's table and support), fresh-process candidate rebuild",
+  "pass": "every state and contact-valid view passes the historical Stage D criteria; R7 tracking over SEQ_A gaps (slope 1 +- 0.1, corr >= 0.98) on near HIGH change; revisited states give identical tables and supports; fresh rebuild equal (<= 1e-6); far_unchanged non-regression; >= 1 discriminating transition per sequence (resolved at 5 SE and stale materially worse); support activation / deactivation recorded per state"
+ },
+ "stage_F": "per configuration / view: method - full = (method - D6) [spatial + learned] + (D6 - full) [truncation]; near, contrast, rings, contact disk; for U, S4, L4 oracles and O_U, candidate",
+ "stage_G": "parameters, spatial output count, active bins, table storage, metadata / index overhead, target generation, training time, generator latency and peak memory, support (VHS) cost, readout, static frame and edit-to-frame latency; candidate vs O_U; Dr.Jit 0.4.6 unoptimised runtime (recorded as such)",
+ "uncertainty": "replica-based table SE; stream SE from paired pixel differences x the measured pixel kappa (WL112 Amendment 1); 95% intervals; equivalence requirements PASS only with the whole interval inside",
+ "gate": {
+  "RESOLVED": "learned candidate passes the approved 3 % full-depth contract (all evaluated R-classes) at every contact-valid view of F0-F4 and every dynamic state, plus off-target non-regression (R9 radius / medium and R3 frontier remain NOT_RUN, so RESOLVED is not reachable in this batch unless those are run)",
+  "PARTIALLY_RESOLVED": "learned candidate passes the historical depth-matched contract statically and dynamically (spatial artifact resolved at depth 6) but the approved full-depth contract fails or is incomplete",
+  "NOT_RESOLVED": "no adequate representation, or the learned candidate fails the depth-matched contract",
+  "UNQUALIFIED": "Stage A not qualified",
+  "reporting": "oracle adequacy, learned spatial resolution and full-depth milestone correctness are reported separately"
+ },
+ "stop": "materially unqualified construction; dense S4 fails independent adequacy; refinement exceeds the declared budget; candidate needs an unauthorised representation-class change or camera-dependent information; ownership / reuse contract failure; significant collateral error. Ordinary execution / instrumentation bugs are fixed with disclosure."
+}
