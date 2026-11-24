@@ -6,6 +6,9 @@ Changes from guard109.py:
                     `docker top NAME`) count as the guard's own. A stale container of that name is removed before every
                     attempt; on preemption or timeout the container is killed (`docker kill NAME`) before the child's
                     process group, which releases all of its device memory.
+  --gpu-uuid U      (Amendment 5 addendum) only compute processes on GPU U count as foreign, for the start condition and
+                    for preemption; default: every GPU on the host, as in guard109.py. Data stages on a multi-GPU host use it;
+                    timing-bearing stages keep the whole-host rule (another GPU's work can still perturb measured times).
   --max-load L      the start condition additionally requires the host 1-minute load average <= L throughout the
                     `--free` window (protects timing stages from CPU contention and leaves CPU to other users); the load
                     average is recorded at every start / exit / preemption.
@@ -35,16 +38,24 @@ import sys
 import time
 
 
+GPU_UUID = ""     # Amendment 5 addendum: when set (--gpu-uuid), only compute processes on that GPU count
+
+
 def gpu_pids():
-    """Compute-process PIDs on the GPU, or None when nvidia-smi fails (treated as busy)."""
+    """Compute-process PIDs on the GPU (all GPUs, or only GPU_UUID), or None when nvidia-smi fails (treated as busy)."""
     try:
-        r = subprocess.run(["nvidia-smi", "--query-compute-apps=pid", "--format=csv,noheader,nounits"],
+        r = subprocess.run(["nvidia-smi", "--query-compute-apps=pid,gpu_uuid", "--format=csv,noheader,nounits"],
                            capture_output=True, text=True, timeout=60)
     except (OSError, subprocess.TimeoutExpired):
         return None
     if r.returncode != 0:
         return None
-    return {int(p) for p in r.stdout.split() if p.strip().isdigit()}
+    out = set()
+    for line in r.stdout.splitlines():
+        f = [x.strip() for x in line.split(",")]
+        if len(f) >= 2 and f[0].isdigit() and (not GPU_UUID or f[1] == GPU_UUID):
+            out.add(int(f[0]))
+    return out
 
 
 def tmux_sessions():
@@ -104,9 +115,12 @@ def main():
     ap.add_argument("--before", default="")
     ap.add_argument("--container", default="")
     ap.add_argument("--max-load", type=float, default=0)
+    ap.add_argument("--gpu-uuid", default="", help="count only compute processes on this GPU (default: every GPU)")
     ap.add_argument("cmd", nargs=argparse.REMAINDER)
     a = ap.parse_args()
     cmd = a.cmd[1:] if a.cmd[:1] == ["--"] else a.cmd
+    global GPU_UUID
+    GPU_UUID = a.gpu_uuid
     assert cmd, "no command"
     t_start = time.time()
 

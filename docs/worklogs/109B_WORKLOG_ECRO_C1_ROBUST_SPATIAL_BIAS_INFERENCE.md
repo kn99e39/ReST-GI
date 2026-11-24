@@ -582,3 +582,27 @@ All times are LabServer70's clock.
   - The original WL109 Q (G = 8; descriptive only) on the same R = 512 data has every upper bound ≤ 0.08 × limit.
 - **Stage F grid.** 18 levels × 64 replicates, 675 s.
 - **Timing.** Waiting at its load gate (≤ 2). Load average about 14 at 19:26, from other work.
+
+### Amendment 5 addendum — per-GPU foreign detection in the guard (owner decision, 2026-11-24)
+
+**Finding (reported by another process on LabServer70).**
+- `guard109c.py` inherits `guard109.py`'s rule: any compute process on any GPU counts as foreign.
+- That is correct on single-GPU LabServer69.
+- On LabServer70 it means work on the RTX 3080 Ti alone blocks or preempts WL109B on the RTX 3090, although the two share no
+  device memory.
+
+**Change.** A `--gpu-uuid U` option.
+- Only compute processes on GPU U count, for both the start condition and preemption. They are read from
+  `nvidia-smi --query-compute-apps=pid,gpu_uuid`.
+- The default is unchanged: every GPU on the host.
+
+**Use.**
+- Data stages on a multi-GPU host use the option.
+- Timing-bearing stages keep the whole-host rule, because work on another GPU can still perturb measured frame times through
+  PCIe or CPU.
+
+**Effect on this batch.**
+- WL109B's remaining stages are timing and dynamic, which both keep the whole-host rule. Neither the running chain nor any
+  WL109B result is affected.
+- The running chain script was deliberately left untouched: bash reads a running script incrementally.
+- Only `guard109c.py` was updated on LabServer70.
