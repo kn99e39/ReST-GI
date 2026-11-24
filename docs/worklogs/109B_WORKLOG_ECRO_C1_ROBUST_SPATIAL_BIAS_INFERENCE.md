@@ -552,3 +552,33 @@ Everything runs on LabServer70 again (`run109b_amend5.sh`). Other work holds the
 
 **Unchanged from Amendments 1 and 3.** The frozen admission inside the container, the cross-host rule, and every estimator,
 inference, threshold and decision rule.
+
+### 2026-11-24 — Amendment 5 execution: cross-host check, Stage D bias decision, grid
+
+All times are LabServer70's clock.
+
+- **Chain start.** `run109b_amend5.sh` (c77cb86) started at 18:58. `tests109b.py` passed (CPU-capped).
+- **Cross-host check: PASS, bitwise** (`xcheck/xcheck109b.json`).
+  - The guard admitted it at 19:00:23 after 120 s of free GPU. Load average was 13.9; this stage has no load gate.
+  - The frozen WL108 admission passed **unchanged** inside the container: sources, checkpoint, scene, table hash and the
+    archived 4096-spp V0 replay.
+  - The 16 LabServer69 paired units: the first replicate re-rendered on LabServer70 equals the stored frame **bitwise**
+    for both R0 and C1 HIGH (relative L1 0.0). The units are kept.
+- **Paired.** The two missing units (H5 at 16 and 32 spp, R = 512) were captured in 237 s.
+  - LOW and the original HIGH were bitwise identical in all 512 frames of each unit.
+  - All 18 units are now present.
+- **Stage D bias decision: EQUIVALENT_ALL** (`metrics/bias109b.json`, CPU-capped analysis, 19:07–19:12).
+  - Q (XJL): 28 / 28 conditions EQUIVALENT, at every bias spp.
+  - B1: 28 / 28 EQUIVALENT.
+  - No condition is flagged.
+
+| Condition | Largest upper bound / limit | Note |
+|---|---|---|
+| H4 material boundary | 0.138 (16 spp) | point 0.024 × limit |
+| H3 material boundary | 0.083 (4 spp) | |
+| Every other condition | ≤ 0.05 | |
+
+  - B1 95 % intervals lie within ±0.08 %. The tolerance is ±0.5 %.
+  - The original WL109 Q (G = 8; descriptive only) on the same R = 512 data has every upper bound ≤ 0.08 × limit.
+- **Stage F grid.** 18 levels × 64 replicates, 675 s.
+- **Timing.** Waiting at its load gate (≤ 2). Load average about 14 at 19:26, from other work.
