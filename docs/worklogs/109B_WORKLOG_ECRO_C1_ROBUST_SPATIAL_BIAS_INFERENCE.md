@@ -281,3 +281,50 @@ Protocol: `experiments/ecro_estimator109b/protocol109b.json`.
 
 - At 14:55, 16 of 18 units are complete. H5 at 16 and 32 spp remain.
 - The guard is waiting while `b28` and its GPU processes run, and holds no GPU memory.
+
+## WL109B Amendment 1 — owner-directed host move LabServer69 → LabServer70 (2026-11-24)
+
+**Owner direction, 2026-11-24.**
+- LabServer69 is held by TransGI reproduction work until the evening.
+- Execution therefore moves to LabServer70, which has the same RTX 3090.
+- The owner expects no material effect on the final decision.
+- LabServer63 is no longer used.
+
+**Classification.** This is a non-scientific execution change inside the same ongoing protocol, so it is an amendment.
+- The estimator, the inference procedure, the budget R = 512, every threshold and every decision rule are unchanged.
+- Stages A–C and their outputs stand as completed on LabServer69.
+
+**State at the move.**
+- On LabServer69 the chain was waiting in the guard behind tmux `b28`. It held no GPU memory.
+- 16 of 18 paired units were complete. H5 at 16 and 32 spp were missing.
+- The operator stopped the chain processes (`run109b.sh` and its guard, by PID; no foreign process was touched) and
+  appended an `OPERATOR STOP` line to `chain.state`.
+
+**What was copied to LabServer70, paths unchanged, nothing on 69 modified or deleted:**
+- the Python environment (venv and uv Python), Mitsuba 3.8.0 and `rest_dyn101`;
+- the ReST-GI code copy;
+- the frozen inputs (WL105/107/108);
+- WL109 manifests, dev and metrics;
+- the WL109B evidence directory without the null pool and smoke outputs, which later stages do not read.
+
+Transfer script: `results/ecro_estimator109b/xfer70.sh` on LabServer69.
+
+**LabServer70 differences.**
+- NVIDIA driver 525.60.13; LabServer69 uses 550.54.15.
+- A second GPU, an RTX 3080 Ti. GPU commands are pinned to the RTX 3090 by UUID, but the guard watches every GPU and
+  every tmux session on the host.
+
+**Predeclared cross-host rule** (`xcheck109b.py`, run under the guard before any further capture):
+1. The unchanged WL109 admission must pass on LabServer70. It checks sources, checkpoint, scene and table hash (which must
+   equal the WL109 manifest), and replays the archived 4096-spp V0 frame.
+2. The first replicate of each of the 16 completed paired units is re-rendered with the same seed. It is compared with the
+   stored `frame0_R0` and `frame0_C1H`.
+   - **PASS** if every relative L1 is ≤ 1e-6 (the WL109 structural tolerance). The 16 units are kept, and only the 2
+     missing units are captured on LabServer70.
+   - **FAIL** otherwise. The LabServer69 units are moved aside and kept as descriptive only, and all 18 units are
+     recaptured on LabServer70 with the same seeds.
+
+**Rest of the chain.**
+- Grid, timing and dynamic all run on LabServer70 (`run109b_amend1.sh`), so every equal-time comparison stays within one
+  host and GPU.
+- WL109's 0.792 equal-time ratio was measured on LabServer69. It is compared only descriptively.
