@@ -377,3 +377,31 @@ Transfer script: `results/ecro_estimator109b/xfer70.sh` on LabServer69.
   - All relative L1 ≤ 1e-6: keep the 16 units.
   - Otherwise: recapture all 18 units on LabServer70.
 - If Mitsuba/Dr.Jit OptiX cannot run on driver 525, the admission fails and nothing is captured. That would be reported.
+
+### Amendment 2 execution and Amendment 3 probe: LabServer70 cannot run the frozen renderer (2026-11-24)
+
+**Amendment 2 chain (`run109b_amend2.sh`, commit 5c4bdeb).**
+- The first launch carried a placeholder commit label. It was stopped before any GPU work, recorded in `chain.state`, and
+  relaunched.
+- `xcheck` then stopped while importing Dr.Jit: `libatomic.so.1` is missing.
+  - The WL108 runtime directory holds a symlink to LabServer69's `/usr/local/anaconda3/lib/libatomic.so.1`.
+  - LabServer70 has no anaconda installation.
+- A copy of the real file, `runtime70/lib`, removed that error. Two further incompatibilities then appeared:
+  - LabServer70 runs CentOS 7, with glibc 2.17 and the GCC 4.8 `libstdc++`.
+  - The frozen Dr.Jit 1.3.1 binaries need GLIBC 2.27 (`libdrjit-core.so`) and GLIBCXX 3.4.22.
+
+**Amendment 3 probe (owner decision: try Docker).**
+- Command: `docker run --rm` with the `python:3.10-bookworm` image (glibc 2.36).
+  - GPU: the RTX 3090 only, selected by UUID, with `NVIDIA_DRIVER_CAPABILITIES=all`.
+  - User `nd` (uid 1014); `/home/nd` mounted at the same path.
+  - Before the run, no foreign GPU process or tmux session was present.
+- Inside the container the frozen stack loads with the frozen versions: Dr.Jit 1.3.1, Mitsuba 3.8.0, Torch 2.3.1+cu121,
+  NumPy 1.26.4, Python 3.10.21.
+- OptiX initialization fails: *"OptiX 8.0 requires driver revision R535 or newer"*. LabServer70's driver is 525.60.13.
+
+**Conclusion.**
+- The frozen renderer cannot run on LabServer70 while its driver is older than R535, whether natively or in a container.
+- Nothing was captured on LabServer70. No WL109B evidence or decision depends on it.
+- Amendments 1–3 are recorded as **not executable on LabServer70**.
+- The transferred copies remain on LabServer70 and are unused.
+- LabServer69's data and state are unchanged: 16 of 18 paired units done; Stages A–C complete.
