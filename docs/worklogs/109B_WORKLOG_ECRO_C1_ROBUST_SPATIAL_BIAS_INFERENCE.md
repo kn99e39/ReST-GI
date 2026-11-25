@@ -606,3 +606,34 @@ All times are LabServer70's clock.
   WL109B result is affected.
 - The running chain script was deliberately left untouched: bash reads a running script incrementally.
 - Only `guard109c.py` was updated on LabServer70.
+
+### 2026-11-24/25 — timing stalls inside the container; WL109B Amendment 6 (in-container exclusivity check)
+
+**Timing attempts.** All times are LabServer70's clock.
+
+| Attempt | Admitted | Load | Ended | Run time | How it ended |
+|---|---|---|---|---|---|
+| 1 | 01:37 | 1.7 | 03:23 | 6,340 s | Preempted by the guard when foreign PID 13978 appeared |
+| 2 | 03:45 | — | 03:46 | 47 s | Preempted by foreign PID 6175 |
+
+Since then the guard waits: GPU work on the RTX 3080 Ti (the timing stage keeps the whole-host rule), and load above 2.
+
+**Defect: attempt 1 never measured anything.**
+- `capture_timing.log` repeats *"waiting for foreign GPU process [18326]"* 211 times, every 30 s.
+- PID 18326 was the capture process itself.
+- Cause: `runtime109.exclusive_block` → `wait_free_gpu` excludes only `os.getpid()`. Inside a container that is the
+  namespace PID (7), while `nvidia-smi` reports the process by its host PID. The process therefore waited for itself.
+- The smoke run never reaches this path: it uses `require=False`. On LabServer69 no container is involved.
+- Consequence: the capture held a CUDA context and about 1.8 GB on the RTX 3090 for 1 h 45 min without measuring. When
+  real foreign work appeared, the host guard preempted it correctly. No timing data was written.
+
+**Amendment 6.**
+- What changes: inside the LabServer70 container (`WL109B_HOST=LabServer70`, set by `ctr109b.sh`), `common109b` replaces
+  `runtime109.foreign_gpu_apps` with an empty list, in WL109B processes only. The frozen file is not edited.
+- Where exclusivity comes from instead: the host guard `guard109c.py` checks every GPU on the host every 2 s. On any foreign
+  compute process it kills the container and restarts the unit from the beginning.
+- What this means for a record:
+  - A timing or dynamic unit can complete only if no foreign compute process appeared during its attempt.
+  - The guard log for that attempt (start → exit with no preemption) is the exclusivity record.
+  - The in-JSON `exclusivity` field is therefore always "clean" and is not used as evidence.
+- The load gate for timing-bearing stages (≤ 2) and the whole-host rule are unchanged.

@@ -32,6 +32,14 @@ if os.environ.get("WL109B_ADMISSION") == "lab70":           # Amendment 2: LabSe
     import admission70 as _A70                                 # noqa: E402
     _R108.frozen_runtime = _A70.frozen_runtime
 
+if os.environ.get("WL109B_HOST") == "LabServer70":          # Amendment 6: inside the LabServer70 container
+    # runtime109.exclusive_block / wait_free_gpu exclude only os.getpid(); in a PID namespace nvidia-smi reports this
+    # process by its host PID, so it waited forever for itself. Exclusivity is enforced by the host guard (guard109c.py
+    # watches every GPU on the host every 2 s and restarts the unit when any foreign compute process appears), so the
+    # in-container foreign check is disabled; the guard log of the completed attempt is the exclusivity record.
+    import runtime109 as _RT109                               # noqa: E402
+    _RT109.foreign_gpu_apps = lambda: []
+
 PROTOCOL = HERE / "protocol109b.json"
 P = json.loads(PROTOCOL.read_text())
 INF = P["inference"]
