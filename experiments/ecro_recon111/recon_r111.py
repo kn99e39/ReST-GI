@@ -324,6 +324,12 @@ class GraphCandidate:
         self.out = z(3, H, W)
         self.par.copy_(torch.tensor([0.0] * 16 + [1.0, 32.0, 0.9, 3.0, 0.995] + [0.0] * 3))
         self.graphs = {}
+        with torch.no_grad():                    # capture the inference path (WL111 execution fix 3)
+            self._capture(history)
+        torch.cuda.synchronize()
+        self.valid, self.cam, self.revision = False, None, None
+
+    def _capture(self, history):
         for mode in (self.MODES if history else ("S",)):
             s = torch.cuda.Stream()
             s.wait_stream(torch.cuda.current_stream())
@@ -335,8 +341,6 @@ class GraphCandidate:
             with torch.cuda.graph(g):
                 self._body(mode)
             self.graphs[mode] = g
-        torch.cuda.synchronize()
-        self.valid, self.cam, self.revision = False, None, None
 
     def _body(self, mode):
         H = W = self.Wd

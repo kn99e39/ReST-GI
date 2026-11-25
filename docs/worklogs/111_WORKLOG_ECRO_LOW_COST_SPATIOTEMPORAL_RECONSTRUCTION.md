@@ -252,3 +252,38 @@ These come from the diagnostics above. They will be carried into the final repor
    time at 8×8 (16.8 M rays) whenever the camera or geometry changes; static views can cache them.
 4. **Possible effect on other batches.** Any other code on the Dr.Jit 1.3.1 stack that passes per-call-varying arrays
    into frozen programs may be affected by the stale-replay behaviour. Other batches' code was not audited here.
+
+## Execution fix 3 — Stage E caught a graph-capture defect (2026-11-25; before any static, sequence or timing evidence)
+
+- **Chain run.** The chain at `7a5993e` completed these stages:
+  - **Data.** Sealed views K1–K6 and the 48-view ladder (16 min).
+  - **Training, both realizations.** 194,102 parameters each; 1,028 s and 979 s. Validation was logged only; relative
+    RMSE on the validation views:
+
+    | Realization | 1 spp, age 1 | 1 spp, age 16 | 4 spp, age 1 | 4 spp, age 16 |
+    |---|---|---|---|---|
+    | r0 | 2.45 % | 1.24 % | 1.70 % | 0.96 % |
+    | r1 | 2.60 % | 1.24 % | 1.76 % | 0.93 % |
+- **Stage E then stopped the chain, as designed.** Every contract passed for both realizations except E13 "graph equals
+  eager". That contract measured relative L1 7.0e-6 to 9.5e-6 against a 1e-6 limit.
+- **Passing contracts:**
+  - E1 constant fields (≤ 1.05e-6);
+  - E2 composition, E3 HDR;
+  - E4 reset = S (0.0), E5 causality;
+  - E6 real reprojection acceptance (99.3 %);
+  - E7 disocclusion retention (0 of 7,553 disoccluded pixels);
+  - E8 mixed coverage, E9 id change and E10 view gate, never accepted;
+  - E11 box-edit negative control: 72,252 id/normal-matched floor pixels, 11,684 of them with a resolved radiance
+    change (mean 10.9 %); every pixel reset;
+  - E12 light edit: every pixel reset;
+  - E13 fused = reference (real frames) and fused temporal = reference.
+- **Cause.** `GraphCandidate` captured its CUDA graphs outside `torch.no_grad()`. The captured network therefore took
+  the training branch: the cuDNN 1×1 head with channels_last logits. That is also the slow layout that execution fix 2
+  removed. The eager path takes the inference GEMM head. Both compute the same function, but the fp16 rounding differs.
+- **Fix.** The graphs are captured under `torch.no_grad()`.
+- **Record kept.** The failed Stage E record is kept as `synth_failed_fix3/` and `synth_failed_fix3.log`.
+- **Relaunch.** The chain resumes at Stage E. Data and the trained weights are unchanged and reused.
+- **Scope.** This is an ordinary implementation defect, fixed under the protocol's Stage E stop rule before any final
+  evidence. No rule, threshold, design or weight changed.
+- **Stage A.** Stage A timed the candidate graph with this defect. Its record stays as measured, and its decisions are
+  unaffected (the candidate only becomes cheaper).
