@@ -1,0 +1,53 @@
+{
+ "batch": "WL114",
+ "base_head": "f9fd2e2f0bfc9209e209aaad2d8c6c6c6c7316e9",
+ "wl114_sources": {
+  "analyze114.py": "f014ebff4ad4eec943118b76a7f28d5c31c2b589dbc1d844c839f4866cd25aaa",
+  "analyze114A.py": "6987839a8f63ac2805636579cbd1b23629628f5a76d649480d898be574f875f4",
+  "common114.py": "b31a23befe7470297c93bcfce9de0219e0f7093bb479767a8e09367439d70c23",
+  "cost114.py": "f41ae5798332fc16388b1435aeedea2b8cd94a4581d910e6dab2e234cbd9e67d",
+  "data114.py": "b153dc3a30fe1549a480191fcc3c0ccd5e1bffd91a0beedefe2770558724985c",
+  "design114.py": "ee1d473e5b586c8cefd40a8c5ad3959a454660c15780288f9f52ee19f1425e2c",
+  "devcheck114.py": "5c0b5a6fc847b7d1e87eb3af86b40590d39a63d27f0f74e651eb642d294f3b75",
+  "eval114.py": "660355ab581f08de9bea6457b9d5f156d4540dd9f09c8a985d2c1ee190f7873c",
+  "fig114.py": "49cbc5486ee1e6325fa2c0ca977af1116bfb6fe19b4fa2593db0ba9fb8f77dd6",
+  "freeze114.py": "4e6c531f0e137c7f9817be1ec1fd3d45623556649df1ad99ce7f82afdb53e769",
+  "lr3ref114.py": "8a657b5646311f47f8095d9eece8a3a86eb34f08d031236a4d25c92c2fdd89f3",
+  "probe114.py": "0b060cc71a88a38dae8e72f90a76656cfc24a4b0f88272ba26751879c1df2d68",
+  "stageA114.py": "2a19dcd408bd7dc40fc098ce0dea2b4f8c57fa7ff6b320627ef261bc734931bd",
+  "tests114.py": "0e4c3bcd71dca816b326f418e571f53439c33d4f574ca1b99da311bd56538013",
+  "tracer114.py": "0a72a08c5e0cabdf0c354f161b82df636f13bfb4d0dd3ff41d8e09c1d059fc02",
+  "train114.py": "b8118a2d16e3bae736d5d8946a72224332f2c170502d0e66d02091437e320179",
+  "chain114.sh": "695ac60fee0e9ebf73707de49ea635afd324956f5806dd5725035a9ad3e68203",
+  "fd114.json": "10fb71ccddb246861cfd188c2388cbc233bce87c6774b22bc2d74d44aeaf73e6"
+ },
+ "unchanged_dependencies": {
+  "ecro_sss113/tracer113.py": "fb59ac7a401bd6ecedbe093077b51d7c2fe57a45e9fa436e4afcccd823afc95a",
+  "ecro_sss113/common113.py": "eba07d79e95b6c989936e70f9f2e551d0c931b8bcd9cda4e217c3f3fdccd3cd8",
+  "ecro_sss113/metrics113.py": "30b39a7dbd929b621f09bff66bdd12526d74541aff5970dbdb6b6213296558e6",
+  "ecro_sss113/eval113.py": "9dac54d6b856ba79ea1bd721f58daac1f7089316a1b4b983528ac99824ea1bfa",
+  "ecro_sss113/train113.py": "b2c07f584f8397b8d9906a810def05c249ba682aa92935db9d24ba4141a82864",
+  "ecro_sss113/model113.py": "f3c7f9f802b52ae727df3ebd05659e84c38e28e08e6ee86de20abead1dc4945a",
+  "ecro_sss112/tracer112.py": "1c159f2de52ccd49dae07f5d0275671c0a76dd9c11e67c7eb1672ee35d2d3986",
+  "ecro_sss112/common112.py": "9bd5e5a4a5449e1368bacd9e1bc9600b98bed9ff772d25d29db28b790fbad3dd",
+  "ecro_sss112/metrics112.py": "fede9dc02aa42097140e724635ac6bf58b7a13762d9cc7c8e411bdd435821908",
+  "ecro_sss112/stageA112.py": "7ef31a3cfacc4891edcfa55d7b646cf0ac42f1674b7d024a4d4dc2eb0d70d285",
+  "ecro86/pt86.py": "912e68acd314d79ef0cc270784d99f79ed8024caf856527a127f31e6ccd6c983",
+  "ecro86/scene86.py": "b75a2d9cbae1f738429e16fa32095a1c3cdf346bff5f5e55d5576ad14ce39e69",
+  "ecro86/model86.py": "72a728b81e490fb7743f17a4dbbe5e33a771915227b615793befee66c5479d3c",
+  "ecro_material100/pt100.py": "c8b201da8db13274940af7038d0a4b95cfb3313277a5bd87ec03bc956a5046a0",
+  "ecro_material100/common100.py": "1c1098dbd54efa49bdc206228cf85cff8a2abbfbb69910691a3aa70fda8b2a33",
+  "fnto_compiled83/closure83_dr.py": "3eee59095fc77fdb7a965d1a14a124230efa40fda05a2c4744e260b64c904614"
+ },
+ "inputs": {
+  "results/ecro_material100/configs.json": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+  "results/ecro_sss113/primary/stageC/CAND/model.pt": "08f9ff317715b04130bffe6017a34aa709cda4cf57d00e0d2ecdf8b6aeb47134",
+  "results/ecro_sss113/primary/stageC/O_U/model.pt": "2ddecc55b763d4ae079d70715e6f27af7ff3c0e4488b10f4025630ca96517272",
+  "results/ecro_fd114/design/design_check.json": "ba7aa7b873ff1055845d03945a81b58715d348e59fd6bbab1e3f308c3b10abe7"
+ },
+ "external_inputs": {
+  "Ref-65 static_V0.npz": "6262525144298f284558d790a253554a25c93827d1ca53a96961411715fcbf98",
+  "Ref-7 static_V0_d7.npz": "904a3d9104c1f73db4823063116c8eba44755da629d46ab43f90549a6c4944ac",
+  "TransGI reference.py": "e1b42890144b83b33a96456db77cfc44439a3aec0fb459286a57d64a8cedf2ed"
+ }
+}

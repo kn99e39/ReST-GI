@@ -1,0 +1,66 @@
+{
+ "batch": "WL114",
+ "class": "regular numbered batch: new HIGH target-depth hypothesis (full-depth physical suffix supervision of the unchanged ECRO response architecture)",
+ "title": "Full-depth HIGH transport learning and truncation error resolution",
+ "date": "2026-11-25",
+ "branch": "ecro_lr3_adapter",
+ "base_commit": "f9fd2e2",
+ "machine": "local RTX 5080 16 GB (WDDM). SSS: external/8dna26/.venv-cu128 (Python 3.11, Mitsuba 3.5.1, Dr.Jit 0.4.6, torch cu128). LR3 Stage A: C:/Projects/TransGI_Reproduction/.venv (Mitsuba 3.6.4, Dr.Jit 1.0.5 = the stack that rendered the authenticated Ref-65 / Ref-7).",
+ "numbering": "next regular number on this branch (WL113 highest); numbers on other branches ignored by owner instruction",
+ "preserved_verdicts": "WL112 NOT_RESOLVED; WL113 NOT_RESOLVED (official). WL113 descriptive-summary discrepancy corrected append-only in the WL114 worklog: SEQ_A FAILS its historical depth-matched contract, SEQ_B passes, SEQ_C fails. Dense 4x4 supported only for the historical oracle contract (not the 3 % localisation contract); compact VHS/MEDIUM unadopted.",
+ "invariants": "ER / material / medium unchanged; physical LOW = camera events 1-2; learned HIGH ownership begins at camera event 3 (table read at event 2); source-independent linear response; geometry-conditioned reuse; ECRO v0 (735,664) and ECRO-S4 dense (778,464) architectures and capacities unchanged; WL113 coarse and dense 4x4 representations unchanged; contact-valid (C) semantics; no denoising / clamping / masking / heuristic energy compensation; historical checkpoints and references untouched. Changed ONLY: experiment-local HIGH target depth, physical suffix target generation (deep bucketed estimator, compaction, verification roulette), datasets / checkpoints, evaluation tooling.",
+ "target_semantics": {
+  "event_convention": "camera event k = k-th surface vertex of a camera path (NEE + SSS-walk source at that vertex; a ballistic sphere crossing from vertex k counts as event k+1). Construction probe event j = camera event j + 1; probe event 1 is the table patch (camera event 2, LOW, not counted).",
+  "LOW": "camera events 1 and 2, physical, unchanged",
+  "HIGH_D6": "camera events 3..6 = probe f2 (camera 3) + fh (camera 4..6): the historical WL86-WL113 target",
+  "HIGH_full": "camera events 3..K* = f2 + fh + deterministic deep buckets up to K*; K* selected by the Stage A rule from {24, 48, 96}",
+  "buckets": "e1 | e2 | h(3-6) | c7_12 | c13_24 | c25_48 | c49_96 | c97_192 | rr (events beyond rr_from, roulette)",
+  "no_double_counting": "every vertex contribution is added to exactly one bucket (the bucket of its camera event); LOW never enters a table; f2 is camera event 3 (focused test T2 / T3)",
+  "roulette": "verification only: survival q = min(max_c thr_c / max_c thr_c(at roulette start), 0.95), thr /= q, one extra RNG draw per roulette event, from camera event rr_from = 6, hard cap 1,024 camera events (residual alive throughput reported)"
+ },
+ "stage_A": {
+  "SSS_views": "F0 V0, F1 W0, F2 W0, F3 W0, F4 W0 (WL113 static); SEQ_A state 3 (gap 50 mm) V0, SEQ_C state 1 (gap 30 mm) W0, SEQ_C state 3 (gap 80 mm) W0 (lifted / contact-changing); N1 W0, N2 W0 (new contact), N3 W0 (new 2 cm lift), N4 W0 (new 6 cm lift)",
+  "SSS_passes": "per view, 512 x 512: deterministic deep pass to camera event 192 (2 replicas x 2,048 spp, seeds 11400000 + 100 v + j) and roulette pass from event 6 (6 replicas x 2,048 spp, seeds 11401000 + 100 v + j)",
+  "SSS_constructions": "F0, F1, SEQ_C gap 80 mm, N3: deep 4x4 construction, probe events to 191 (2 replicas, n = 64, seeds 11402000 + 10 c + j) and roulette from camera event 6 (8 replicas, n = 64, seeds 11403000 + 10 c + j)",
+  "regions": "near, flank, contact_shadow, sphere_boundary, sphere, floor, full (WL112 / WL113 masks; regions with < 200 pixels skipped)",
+  "rule_K": "K* = smallest K in {24, 48, 96} such that (C1) at every view and region, tail(events K+1..192) + 2 SE <= 1e-3 x HIGH_full(region) [SE = |rep0 - rep1| / 2], and (C3) at every construction, the summed deep buckets beyond K <= 1e-3 x the summed HIGH_full over all counted proposals and over ring-0 (sphere lowest ring + floor contact disk) patches. No qualifying K -> SSS workload STOPS (unqualified target).",
+  "rule_RR": "(C2) at every view and region, |RR(events > 6) - DET(events 7..192)| <= max(4 SE_comb, 1e-3 HIGH_full), SE_comb = sqrt(sd_RR^2 / 6 + SE_det^2); (C4) the same at construction level (all and ring-0 sums; RR 8 replicas). Any failure -> long-path reference uncertainty unresolved -> SSS workload STOPS.",
+  "LR3": "Mitsuba 3.6.4 stock path (the Ref-65 stack), scene_transgi.xml (LF sha256 62583fb9...), V0 640x360, seeds (11, 12). L0 authentication: max_depth 65, 65,536 spp must reproduce the authenticated Ref-65 (GI mean per channel within 1e-3 relative and RMSE(ours - Ref-65) <= 2.0 x Ref-65 GI noise RMSE (an independent same-budget render is expected at sqrt(2) x; bit-identity across GPUs is not required)). Ladder (FULL, 16,384 spp, common random numbers with L0's first chunks): max_depth 7, 13, 25, 49, 65, 97, 129, 257 and -1 (infinite, Mitsuba roulette = unbiased RR estimator), DI (max_depth 2) for GI. L1 qualification: |GI(-1) - GI(65)| + 2 SE <= 1e-3 x GI mean, whole frame per channel and per material-group region (first-hit object groups of WL102: rug, cushions, paint, sofa, floor, walls; >= 500 px). L0 and L1 pass -> Ref-65 is the qualified effectively full-depth LR3 reference; Ref-7 (max_depth 7) is the D6 (6-event) finite-depth reference. Mitsuba max_depth d = d - 1 ECRO events."
+ },
+ "LR3_stages_B_to_E": "require the ECRO Mitsuba 3.5.1 / Dr.Jit 0.4.6 stack, which cannot load LR3 on the local RTX 5080 (Dr.Jit 0.4.6 large compress / scan kernels never return on this GPU; reproduced: dr.compress at n = 5,000; LR3 load stalls in Mesh::build_pmf). Run only if the owner approves LabServer69 (cross-machine split recorded); otherwise NOT_RUN (execution-stack constraint), not a negative result.",
+ "stage_B": {
+  "oracle_tables": "per evaluation state: one deep 4x4 construction (n = 1,024 proposals per sub-cell and bin, probe events to K*-1, b = 8) giving, from the SAME samples, coarse U_D6 / U_F and dense S4_D6 / S4_F tables (WL113 table contracts); static fixtures F0-F4, N1-N4: replicas r0, r1 (seeds 11410000 + 100 f + r), the replica mean is read; sequence states: one construction (seeds 11411000 + 100 s + t)",
+  "streams": "per view two 4,096-spp streams, 512 x 512: deterministic deep physical pass to K* (references D6 = e1+e2+h and FULL = D6 + buckets <= K*) and the paired readout (identical camera rays and first two events) of every oracle table; seeds as WL113 for every WL113 view (static 11310000 + 100 f + 10 v + j; sequences 11350000 + 1000 s + 10 t + 2 v + j), N1-N4 11420000 + 100 k + 10 v + j, SEQ_D with the sequence formula (s = 3)",
+  "measures": "absolute oracle error (approved 3 % quantities vs FULL; depth-matched D6 oracle vs D6); truncation removal (near bias of S4_D6 and S4_F vs FULL); within-cell spatial variation (luminance coefficient of variation of the 16 sub-cells about their coarse mean on ring-0 patches, D6 and F targets); local contact (R4 innermost ring, disk) and silhouette (R5a) residuals; target distribution change (F / D6 HIGH ratio by patch class: ring-0 sphere, ring-0 floor, other sphere, other floor, walls / boxes; angular profile correlation)",
+  "stop_rule": "the depth intervention is attributable at a contact-valid static view if |trunc_near| = |D6 - FULL|_near / FULL_near >= 2 x |S4_F - FULL|_near / FULL_near. SSS learned stages run if this holds at >= 75 % of contact-valid static views (F0-F4, N1-N4); otherwise the SSS learned workload STOPS (oracle error prevents attribution)."
+ },
+ "stage_C": {
+  "data": "D114 = the D113 configurations (192 train, 16 val; identical configuration and construction seeds and launch partition b = 16), deep construction to probe event K*-1: c_f2, c_fh (D6), c_fhF (= fh + deep buckets <= K*), dense s_* likewise, masks, sq moments; val two halves as D113",
+  "authentication": "D114 D6 part vs D113 files: rel L1 <= 1e-5 on c_f2 + c_fh (float32) and on s_f2 + s_fh (float16 storage) per file; pass -> WL113 CAND / O_U (sha256 08f9ff31... / 2ddecc55...) are authenticated matched D6 runs (class A_hist); fail -> they are reported but not used as matched controls",
+  "objective": "unchanged WL113 train113 recipe: OWN loss (whole / single / global, + refined OWN for the dense arm), Adam 1e-3 -> 1e-5 cosine, warm-up 500, clip 10, 24,000 steps, final step; single = f2, global = fh (D6) or fhF (full)",
+  "arms": {
+   "A1r": "dense S4, D6 targets, seed 11330001 (matched rerun on D114)",
+   "B1": "dense S4, full targets, seed 11330001",
+   "A2": "dense S4, D6 targets, seed 11330002",
+   "B2": "dense S4, full targets, seed 11330002",
+   "OB1": "coarse ECRO v0, full targets, seed 11330001 (coarse D6 control = WL113 O_U)"
+  },
+  "budget": "D114 generation <= 3.0 h wall; training <= 3.5 h wall in total; exceeding either stops the SSS learned workload"
+ },
+ "stage_D": {
+  "views": "WL113 static F0 (V0, H1-H5), F1-F4 (W0, W1, W2); new N1-N4 (W0, W2); sequences SEQ_A, SEQ_B, SEQ_C (WL113) and SEQ_D (new: F-independent support (0.95, 0.60), gaps 0, 15, 0, 40, 100, 15, 0 mm, views W0, W1, revisits (0,2), (0,6), (1,5))",
+  "streams": "readout-only with the Stage B seeds (paired with the Stage B physical references): learned tables A (WL113 CAND), A1r, B1, A2, B2, O_U (WL113), OB1; sequences add stale tables (previous state's A1r and B1 tables)",
+  "references": "full-depth = FULL (K*); depth-matched = D6, both from the Stage B deep pass",
+  "metrics": "WL113 analysis: historical WL112 contract (bands 6.49 % / 5.79 % of the D6 near HIGH) for D6 arms vs D6 (regression) and, labelled descriptive, for full arms vs FULL; approved 3 % gate quantities (R1, R1L, R2, R3-disk bias, R4, R5a/b bias, R5a/b RMSE non-regression, R6b, R7, R8 revisits / rebuild, R10/R11 transitions) at full depth (primary) and depth-matched (secondary); R5 RMSE control: OB1 for the full-depth gate, O_U for the depth-matched gate",
+  "decomposition": "per contact-valid view, near ROI, relative to FULL near HIGH+LOW: truncation = D6 - FULL; spatial_F = S4_F - FULL; learned_B = B - S4_F; spatial_D6 = S4_D6 - D6; learned_A = A1r - S4_D6",
+  "dynamic": "same weights across every sequence; meaningful higher-order change: |delta FULL_near| >= 5 SE between consecutive states; stale (previous state's table) must be worse than current; fresh-process rebuild and revisit tables bit-identical (<= 1e-6)"
+ },
+ "verdicts": {
+  "H1_full_depth_learnable": "SUPPORTED if, for both seeds, B reduces |near bias vs FULL| relative to the matched A at >= 90 % of contact-valid static views and sequence views with |trunc_near| >= 3 %, AND learned excess |b_B - b_S4F| <= 1.25 x |b_A - b_S4D6 (vs D6)| + 0.005 at >= 90 % of those views, AND val refined rel L1 / refined half-noise of B <= 1.25 x that of A. NOT SUPPORTED if either seed reduces |bias| at < 50 % of those views or its learned excess exceeds 2 x A's at >= 50 % of them. INCONCLUSIVE otherwise (incl. seed disagreement).",
+  "SSS_gate": "RESOLVED unreachable in this batch (R3 equal-time and R9 radius / medium NOT_RUN). PARTIALLY_RESOLVED only if every run 3 % requirement at full depth passes for B1 AND B2 on every static view and sequence; otherwise NOT_RESOLVED. A mean near-bias improvement alone never changes the classification.",
+  "remaining_errors": "a failing requirement is attributed to spatial representation if the full-depth oracle S4_F fails it, to learned generalisation if S4_F passes and B fails, to depth if only D6 references pass"
+ },
+ "not_run": ["R3 equal-time frontier comparator", "R9 other radius / medium"],
+ "stop_conditions": "unqualified full-depth target (A rule_K / rule_RR), event-ownership / source-linearity test failure, D114 authentication irrelevant to B validity but matched comparison requires A1r, budget overrun, need for a new representation / architecture",
+ "do_not": "increase spatial resolution, new bases, capacity, LOW ownership, heuristic energy compensation, material tuning, SDM, denoising changes, unrelated GPU optimisation, another architecture hypothesis, the next milestone"
+}
