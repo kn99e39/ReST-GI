@@ -11,6 +11,7 @@ replicate 0 are kept for reviewer artifacts.
 """
 import argparse
 import math
+import os
 import time
 from pathlib import Path
 
@@ -28,10 +29,18 @@ W = C.RES
 N = W * W
 ROOT = None
 SMOKE = False
+# Execution fix 4: static / sequence work items (each fully determined by its seeds; every arm is reset per item) may be split
+# over several processes on the same GPU. RECON111_SHARD="i/n" keeps the items whose running index is i mod n. Timing never
+# shards. An unsharded completion pass afterwards finds every item already written and skips it.
+SHARD = tuple(int(x) for x in os.environ.get("RECON111_SHARD", "0/1").split("/"))
+
+
+def mine(idx):
+    return idx % SHARD[1] == SHARD[0]
 
 
 def log(*a):
-    s = time.strftime("%Y-%m-%d %H:%M:%S ") + " ".join(str(x) for x in a)
+    s = time.strftime("%Y-%m-%d %H:%M:%S ") + (f"[{SHARD[0]}/{SHARD[1]}] " if SHARD[1] > 1 else "") + " ".join(str(x) for x in a)
     print(s, flush=True)
     with open(ROOT / "eval.log", "a", encoding="utf-8") as f:
         f.write(s + "\n")
@@ -255,6 +264,7 @@ def stage_static(eng):
     warm = nfr - 1
     flick = list(range(warm - 7, warm + 1))
     eng.set_state(rows()[0]["geom"], rows()[0]["lights"][0])
+    item = -1
     for vname, cam in views().items():
         hist = vname in C.P["views"]["historical"]
         fam = "static_hist" if hist else "static_sealed"
@@ -265,7 +275,8 @@ def stage_static(eng):
         for si, spp in enumerate(grid):
             for rep in range(reps):
                 f = out / f"{vname}_spp{spp:02d}_r{rep}.json"
-                if f.exists():
+                item += 1
+                if f.exists() or not mine(item):
                     continue
                 for a in A.values():
                     a.reset()
@@ -322,6 +333,7 @@ def stage_seq(eng):
     qual = C.read(ROOT / "refs" / "qualification.json")
     grid = Q["candidate_spp_grid_dynamic"] if not SMOKE else [1, 4]
     reps = Q["replicates"] if not SMOKE else 1
+    item = -1
     for si, name in enumerate(("Q2", "Q3", "Q4", "Q5")):
         if name == "Q3":
             cfg = qual.get("Q3_selected_config")
@@ -338,7 +350,8 @@ def stage_seq(eng):
         for spi, spp in enumerate(grid):
             for rep in range(reps):
                 f = out / f"{name}_spp{spp}_r{rep}.json"
-                if f.exists():
+                item += 1
+                if f.exists() or not mine(item):
                     continue
                 for a in A.values():
                     a.reset()
@@ -579,8 +592,11 @@ def main(root, stage, smoke):
     global ROOT, SMOKE
     ROOT, SMOKE = root, smoke
     root.mkdir(parents=True, exist_ok=True)
+    if SHARD[1] > 1 and stage not in ("static", "seq"):
+        raise SystemExit(f"stage {stage} never runs sharded")
     eng, audit = setup()
-    C.write(root / f"admission_{stage}.json", audit)
+    tag = f"_shard{SHARD[0]}of{SHARD[1]}" if SHARD[1] > 1 else ""
+    C.write(root / f"admission_{stage}{tag}.json", audit)
     {"refs": stage_refs, "static": stage_static, "seq": stage_seq, "timing": stage_timing}[stage](eng)
     print(f"EVAL_{stage.upper()}_COMPLETE", flush=True)
 

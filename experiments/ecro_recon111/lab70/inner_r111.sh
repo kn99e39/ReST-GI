@@ -34,7 +34,24 @@ stage=data; run data data_r111.py "$O/data" "$O/design.json" $SM
 for ri in 0 1; do stage=train$ri; run train$ri train_r111.py "$O/data" "$O/design.json" "$O/models" $ri $SM; done
 stage=synth; run synth synth_r111.py "$O" $SM
 [[ $(jget "$O/synth/synth.json" all_pass) == True ]] || { state "STOP Stage E contract failure"; exit 3; }
-for s in refs static seq timing; do stage=eval_$s; run eval_$s eval_r111.py "$O" $s $SM; done
+# Execution fix 4 (owner request 2026-11-26, GPU efficiency): static and seq run as NSH processes on the same GPU, each taking
+# the items i mod NSH (RECON111_SHARD); an unsharded completion pass then finds every item written (and computes any that a
+# shard left out). refs and timing stay single-process; timing keeps exclusive use of the GPU.
+NSH=3
+par() { local name=$1 s=$2 i rc=0; local pids=()
+  if [[ -f $O/.done_$name ]]; then return 0; fi
+  state "RUNNING $name (shards=$NSH)"
+  for ((i = 0; i < NSH; i++)); do
+    RECON111_SHARD=$i/$NSH "$py" eval_r111.py "$O" "$s" $SM > "$O/${name}_shard$i.log" 2>&1 & pids+=($!)
+  done
+  for p in "${pids[@]}"; do wait "$p" || rc=1; done
+  (( rc == 0 )) || { state "STOP $name: a shard failed"; exit 4; }
+  "$py" eval_r111.py "$O" "$s" $SM > "$O/$name.log" 2>&1
+  touch "$O/.done_$name"; state "DONE $name"; }
+stage=eval_refs; run eval_refs eval_r111.py "$O" refs $SM
+stage=eval_static; par eval_static static
+stage=eval_seq; par eval_seq seq
+stage=eval_timing; run eval_timing eval_r111.py "$O" timing $SM
 stage=analyze; run analyze analyze_r111.py "$O" "$O/analysis.json"
 stage=figs; run figs figs_r111.py "$O" "$O/figs"
 stage=done; state "COMPLETE verdict=$(jget "$O/analysis.json" verdict)"
