@@ -238,7 +238,7 @@ class Ctx115(T114.Ctx114):
             return acc
         raise KeyError(kind)
 
-    def readout_multi(self, lights, cam, res, spp, seed, reps, b=64):
+    def readout_multi(self, lights, cam, res, spp, seed, reps, b=64, group=8):
         """LOW (e1, e2) + event-2 readout of every representation in `reps` (dict name -> rep). Same per-launch seeding, camera
         rays and first two events as tracer112.cam_pass / tracer114.deep_pass (paired with the WL114 physical references)."""
         n = res * res
@@ -255,9 +255,12 @@ class Ctx115(T114.Ctx114):
             for k_, v in a.items():
                 img[k_] = img.get(k_, 0.) + v
             th = cap['thr']; act = cap['act']
-            for name, rep in reps.items():
-                val = self.lookup(rep, cap)
-                vals = {f'{name}|{c}': dr.select(act, tc * vc, 0.) for c, (tc, vc) in enumerate(zip((th.x, th.y, th.z), val))}
+            names = list(reps)
+            for g0 in range(0, len(names), group):            # one evaluation / scatter / host transfer per group of representations
+                vals = {}
+                for name in names[g0:g0 + group]:
+                    val = self.lookup(reps[name], cap)
+                    vals.update({f'{name}|{c}': dr.select(act, tc * vc, 0.) for c, (tc, vc) in enumerate(zip((th.x, th.y, th.z), val))})
                 a2 = self.accum(vals, pix, n)
                 for k_, v in a2.items():
                     img[k_] = img.get(k_, 0.) + v
