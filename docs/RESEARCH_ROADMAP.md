@@ -47,6 +47,14 @@ The sequence below defines **questions, dependencies, controls and exit decision
     - contact-scale resolution below 4×4;
     - learned generalisation at lifted / new positions;
     - transport depth.
+- *Update 2026-11-26 (WL114; gate still NOT_RESOLVED; R3 and R9 not run):*
+  - **Depth.** Full-depth HIGH supervision of the unchanged ECRO architecture (an effectively full-depth target of ≤ 24 events on this family) removes the truncation at contact, at unchanged inference cost. The frozen H1 verdict is INCONCLUSIVE.
+  - **Approved 3 % contract still fails** for the full-depth dense oracle and for both learned seeds.
+  - **Remaining blockers:**
+    - near-support spatial resolution or projection (R1L everywhere, most R4; oracle-level);
+    - lifted-state (30–100 mm) dense-oracle over-brightness (+2.5 to +4.9 %);
+    - a smaller learned excess at lifted / new positions (≤ about +2 %).
+  - **Living Room 3:** the full-depth reference is qualified (Ref-65). The learned LR3 stages were not run (execution-stack constraint).
 
 Do not treat historical failures of the earlier intrinsic-K line as observed defects of the learned ER baseline. They are possible failure mechanisms and diagnostic controls. Do not convert the local ER success into a full-K, global-interreflection, dynamic-reuse or end-to-end superiority claim. GM2–GM4 are directional commitments, not automatically approved work.
 
