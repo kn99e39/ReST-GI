@@ -697,3 +697,30 @@ All times are LabServer70's clock.
 - **Why 4 is safe.** The host has 16 cores and WL109B's container is capped at 4 CPUs. A load of ≤ 4 at admission still
   leaves at least 8 idle cores.
 - **What is recorded.** The load at start and exit of every attempt (guard log). The 10 s GPU-occupancy record continues.
+
+### 2026-11-26 — WL109B Amendment 8 (owner decision): no GPU guard for the remaining stages
+
+**Decision.** At 19:12 the owner directed that the guard be removed altogether.
+
+**What changes.**
+- The remaining GPU stages (timing, then dynamic if STATIC_PASS) start immediately in the same container (`ctr109b.sh`, RTX
+  3090 only).
+- There is no idle window, no load gate and no preemption.
+- This supersedes the brief's GPU-ownership rule for these stages. That rule required a CPU-only wait and preemption on
+  foreign GPU work.
+
+**What is unchanged.**
+- The container, frozen stack, protocol, seeds and analysis.
+- Amendment 6: the in-container foreign check stays disabled.
+
+**What replaces enforcement.**
+- Exclusivity is now recorded, not enforced.
+- `evidence/gpu_util_lab70.csv` and `evidence/gpu_apps_lab70.csv` hold both GPUs' utilization and compute processes every
+  10 s, from `nvidia-smi` queries only.
+- `start_unguarded` / `exit_unguarded` events with the load are appended to the guard log.
+- A timing or dynamic unit that overlapped foreign compute on the RTX 3090 will be identified from these records and
+  reported. It is not silently used.
+
+**Execution.**
+- New chain `run109b_amend8.sh`: `run109b_amend7.sh` without the guard, resuming after the completed grid stage.
+- The Amendment 7 chain was stopped by PID while its timing guard was in the 120 s idle window.
