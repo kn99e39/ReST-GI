@@ -287,3 +287,49 @@ These come from the diagnostics above. They will be carried into the final repor
   evidence. No rule, threshold, design or weight changed.
 - **Stage A.** Stage A timed the candidate graph with this defect. Its record stays as measured, and its decisions are
   unaffected (the candidate only becomes cheaper).
+
+## Host event — RTX 3090 failure during the static stage (2026-11-25 to 2026-11-26)
+
+- **What happened.** References finished at 2026-11-25 17:14 KST; they took 5 h 40 min. The static stage then ran normally.
+  - Its last output was `static/H5_spp24_r4.json` at 17:57:44 KST.
+  - After that the chain wrote nothing more for about 24 h. Normally an item takes 5–10 s.
+  - The owner found that the RTX 3090 had failed. They rebooted LabServer70 at 2026-11-26 17:53 KST.
+  - The reboot killed the container. The launcher logged `error waiting for container: unexpected EOF`.
+  - The guard logged no exit event, because it died with the host.
+- **Checks after the reboot.**
+  - Every saved static JSON and image archive loads, and no partial `.tmp` file remains.
+  - The 3090 reports normally: P8, 36 °C.
+  - The stalled log is kept as `eval_static_gpu_failure_20261125.log`.
+- **Restarts.**
+  - The first relaunch at 18:52 waited in the guard: another process appeared on the 3090. The owner then stopped it.
+  - The chain resumed at 19:54, after WL109B completed (19:30). The static stage continued from `H5_spp24_r5`.
+  - This resumed single-process run is logged in `eval_static_resume_20261126.log`.
+- **Effect on results.** Every static item is fully determined by its seeds. Each arm is reset per item, and items are
+  written atomically. Resuming from the saved items therefore reproduces the uninterrupted run. No rule, seed or design
+  changed.
+- **Effect on timing.** Timing evidence is measured after this event, on the same physical 3090. Every timing block
+  records the load average. A latency anomaly would be reported and not corrected.
+
+## Execution fix 4 — static and sequence items split over three processes (2026-11-26, owner request)
+
+- **Why.** The owner asked for more efficient GPU use. The single static process kept the 3090 busy only about half the
+  time:
+  - utilization swung between 14 % and 99 % on a 1 s sample;
+  - it used 5 GB of 24 GB;
+  - about 1.8 CPUs went to per-frame host work and CPU metrics.
+- **Change** (`d6a6525`).
+  - `eval_r111.py` reads `RECON111_SHARD=i/n`. In the static and sequence stages, a process keeps only the work items whose
+    running index is i mod n.
+  - `inner_r111.sh` runs those two stages as three such processes in the same container. Each writes its own log
+    (`eval_<stage>_shard<i>.log`) and admission record (`admission_<stage>_shard<i>of3.json`).
+  - An unsharded completion pass follows. It finds every item already written, or computes any item a shard left out.
+  - The references stage and the timing stage refuse to run sharded. Timing keeps exclusive, single-process use of the
+    GPU, unchanged.
+  - The container stays capped at 4 CPUs.
+- **Effect on results.**
+  - Items are independent: arms are reset per item and seeds depend only on (view or sequence, spp, replicate, frame).
+    The split therefore changes no evaluated quantity.
+  - What can differ is GPU nondeterminism between processes. One example is library algorithm choices, at fp16 rounding
+    level. Such differences are of the same kind as those between two runs of one process.
+  - This is a non-scientific execution change. No rule, threshold, seed, design or weight changed.
+- **Restart.** The chain stopped at 414 of 720 static items and relaunched at `d6a6525`.
