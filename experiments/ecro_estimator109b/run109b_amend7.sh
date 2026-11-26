@@ -52,7 +52,7 @@ state "resume after bias: BIAS verdict=$bv, XCHECK PASS"
 stage=grid; state "RUNNING $stage"
 guard grid 10800 0 -- capture109b.py "$out/cap" grid > "$out/grid_stage.log" 2>&1
 stage=timing; state "RUNNING $stage"
-guard timing 10800 2 -- capture109b.py "$out/cap" timing --R "$R" > "$out/timing_stage.log" 2>&1
+guard timing 10800 "${WL109B_TIMING_MAXLOAD:-2}" -- capture109b.py "$out/cap" timing --R "$R" > "$out/timing_stage.log" 2>&1
 stage=static; state "RUNNING $stage"
 cpu analyze109b.py "$out/cap" "$out/calib/budget109b.json" "$out/metrics" --phase static > "$out/static.log" 2>&1
 cpu decide109b.py "$out/metrics/metrics109b.json" "$out/metrics/static109b.json" >> "$out/static.log" 2>&1
@@ -61,7 +61,7 @@ state "STATIC verdict=$sv"
 if [[ $sv != STATIC_PASS ]]; then stage=done; state "COMPLETE static=$sv"; exit 0; fi
 
 stage=dynamic; state "RUNNING $stage"
-guard dynamic 28800 2 --before "if [ -d '$out/dyn' ]; then mv '$out/dyn' '$out/dyn_preempted_'\$(date +%s); fi" -- \
+guard dynamic 28800 "${WL109B_TIMING_MAXLOAD:-2}" --before "if [ -d '$out/dyn' ]; then mv '$out/dyn' '$out/dyn_preempted_'\$(date +%s); fi" -- \
   dynamic109b.py "$out/dyn" "$out/metrics/static109b.json" "$out/calib/budget109b.json" > "$out/dyn_stage.log" 2>&1
 dv=$(jget "$out/dyn/dyn109b.json" verdict)
 stage=done; state "COMPLETE verdict=$dv"

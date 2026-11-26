@@ -686,3 +686,14 @@ All times are LabServer70's clock.
 - The guard log records the load at start and exit. The chain also writes both GPUs' utilization and memory every 10 s
   (`evidence/gpu_util_lab70.csv`; `nvidia-smi` queries only), so each timing unit can be classified afterwards by whether
   the 3080 Ti was busy during it.
+
+**Amendment 7 addendum (2026-11-26 19:10): load gate of the timing-bearing stages 2 → 4.**
+
+- **Observation.** After Amendment 7 the grid check ran at 19:02 (27 s, all units skipped). Timing then waited on the load
+  gate.
+- **Cause.** The host 1-minute load sat at 2.0–2.2. It was driven by the RTX 3080 Ti training process (PID 14270, one core
+  at ~94 %). So the ≤ 2 gate re-imposed the 3080 Ti dependence that the owner had removed.
+- **Change.** The gate becomes a chain parameter, `WL109B_TIMING_MAXLOAD` (default 2), set to 4 for this relaunch.
+- **Why 4 is safe.** The host has 16 cores and WL109B's container is capped at 4 CPUs. A load of ≤ 4 at admission still
+  leaves at least 8 idle cores.
+- **What is recorded.** The load at start and exit of every attempt (guard log). The 10 s GPU-occupancy record continues.
