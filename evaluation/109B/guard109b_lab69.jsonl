@@ -1,0 +1,60 @@
+{"t": 1795426452.6296775, "iso": "2026-11-23T18:34:12+0900", "name": "smoke_null", "event": "waiting", "gpu": [3358177]}
+{"t": 1795426603.2495084, "iso": "2026-11-23T18:36:43+0900", "name": "smoke_null", "event": "idle", "free_s": 120.0}
+{"t": 1795426603.250359, "iso": "2026-11-23T18:36:43+0900", "name": "smoke_null", "event": "start", "attempt": 1, "pid": 3359789, "cmd": ["/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "capture109b.py", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/smoke", "null", "--smoke"]}
+{"t": 1795426763.178448, "iso": "2026-11-23T18:39:23+0900", "name": "smoke_null", "event": "exit", "attempt": 1, "rc": 0, "elapsed_s": 159.92798972129822}
+{"t": 1795426883.6925159, "iso": "2026-11-23T18:41:23+0900", "name": "smoke_paired", "event": "idle", "free_s": 120.0}
+{"t": 1795426883.6933532, "iso": "2026-11-23T18:41:23+0900", "name": "smoke_paired", "event": "start", "attempt": 1, "pid": 3362919, "cmd": ["/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "capture109b.py", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/smoke", "paired", "--smoke"]}
+{"t": 1795426984.0145068, "iso": "2026-11-23T18:43:04+0900", "name": "smoke_paired", "event": "exit", "attempt": 1, "rc": 0, "elapsed_s": 100.32105159759521}
+{"t": 1795427104.516182, "iso": "2026-11-23T18:45:04+0900", "name": "smoke_grid", "event": "idle", "free_s": 120.0}
+{"t": 1795427104.517095, "iso": "2026-11-23T18:45:04+0900", "name": "smoke_grid", "event": "start", "attempt": 1, "pid": 3365304, "cmd": ["/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "capture109b.py", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/smoke", "grid", "--smoke"]}
+{"t": 1795427145.4387152, "iso": "2026-11-23T18:45:45+0900", "name": "smoke_grid", "event": "exit", "attempt": 1, "rc": 0, "elapsed_s": 40.92146968841553}
+{"t": 1795427265.9515154, "iso": "2026-11-23T18:47:45+0900", "name": "smoke_timing", "event": "idle", "free_s": 120.0}
+{"t": 1795427265.9523792, "iso": "2026-11-23T18:47:45+0900", "name": "smoke_timing", "event": "start", "attempt": 1, "pid": 3366970, "cmd": ["/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "capture109b.py", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/smoke", "timing", "--smoke"]}
+{"t": 1795427308.8976839, "iso": "2026-11-23T18:48:28+0900", "name": "smoke_timing", "event": "exit", "attempt": 1, "rc": 0, "elapsed_s": 42.94520688056946}
+{"t": 1795427520.4679656, "iso": "2026-11-23T18:52:00+0900", "name": "smoke_dynamic", "event": "idle", "free_s": 120.0}
+{"t": 1795427520.4709115, "iso": "2026-11-23T18:52:00+0900", "name": "smoke_dynamic", "event": "start", "attempt": 1, "pid": 3369579, "cmd": ["/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "dynamic109b.py", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/smoke/dyn", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/smoke/static_smoke.json", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/smoke/calib/budget109b.json", "--smoke"]}
+{"t": 1795427557.2606845, "iso": "2026-11-23T18:52:37+0900", "name": "smoke_dynamic", "event": "exit", "attempt": 1, "rc": 0, "elapsed_s": 36.78959250450134}
+{"t": 1795427677.7175207, "iso": "2026-11-23T18:54:37+0900", "name": "null", "event": "idle", "free_s": 120.0}
+{"t": 1795427677.7184236, "iso": "2026-11-23T18:54:37+0900", "name": "null", "event": "start", "attempt": 1, "pid": 3371339, "cmd": ["/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "capture109b.py", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/cap", "null"]}
+{"t": 1795433689.5382483, "iso": "2026-11-23T20:34:49+0900", "name": "null", "event": "exit", "attempt": 1, "rc": 0, "elapsed_s": 6011.819709777832}
+{"t": 1795469221.0914404, "iso": "2026-11-24T06:27:01+0900", "name": "paired", "event": "waiting", "tmux": ["b23"]}
+{"t": 1795470766.696883, "iso": "2026-11-24T06:52:46+0900", "name": "paired", "event": "waiting", "gpu": [3797691]}
+{"t": 1795470806.8564296, "iso": "2026-11-24T06:53:26+0900", "name": "paired", "event": "waiting", "gpu": [3798066]}
+{"t": 1795470857.0335722, "iso": "2026-11-24T06:54:17+0900", "name": "paired", "event": "waiting", "gpu": [3798483]}
+{"t": 1795470917.261208, "iso": "2026-11-24T06:55:17+0900", "name": "paired", "event": "waiting", "gpu": [3799019]}
+{"t": 1795470967.4354584, "iso": "2026-11-24T06:56:07+0900", "name": "paired", "event": "waiting", "tmux": ["b24"]}
+{"t": 1795472773.9261591, "iso": "2026-11-24T07:26:13+0900", "name": "paired", "event": "waiting", "tmux": ["b24"]}
+{"t": 1795474580.5207071, "iso": "2026-11-24T07:56:20+0900", "name": "paired", "event": "waiting", "tmux": ["b24"]}
+{"t": 1795476387.1029565, "iso": "2026-11-24T08:26:27+0900", "name": "paired", "event": "waiting", "tmux": ["b24"]}
+{"t": 1795478193.393757, "iso": "2026-11-24T08:56:33+0900", "name": "paired", "event": "waiting", "tmux": ["b24"]}
+{"t": 1795479999.9215608, "iso": "2026-11-24T09:26:39+0900", "name": "paired", "event": "waiting", "tmux": ["b24"]}
+{"t": 1795481806.6007185, "iso": "2026-11-24T09:56:46+0900", "name": "paired", "event": "waiting", "tmux": ["b24"]}
+{"t": 1795483612.9600224, "iso": "2026-11-24T10:26:52+0900", "name": "paired", "event": "waiting", "tmux": ["b24"]}
+{"t": 1795484967.853927, "iso": "2026-11-24T10:49:27+0900", "name": "paired", "event": "idle", "free_s": 120.0}
+{"t": 1795484967.8546267, "iso": "2026-11-24T10:49:27+0900", "name": "paired", "event": "start", "attempt": 1, "pid": 3865277, "cmd": ["/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "capture109b.py", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/cap", "paired", "--R", "512"]}
+{"t": 1795485000.5376916, "iso": "2026-11-24T10:50:00+0900", "name": "paired", "event": "preempted", "attempt": 1, "foreign_pids": [3865516], "elapsed_s": 32.68296194076538, "child_rc": -15}
+{"t": 1795485000.5522702, "iso": "2026-11-24T10:50:00+0900", "name": "paired", "event": "waiting", "gpu": [3865516]}
+{"t": 1795485121.0300858, "iso": "2026-11-24T10:52:01+0900", "name": "paired", "event": "waiting", "gpu": [3866039]}
+{"t": 1795485211.3709018, "iso": "2026-11-24T10:53:31+0900", "name": "paired", "event": "waiting", "gpu": [3866531]}
+{"t": 1795485221.4073863, "iso": "2026-11-24T10:53:41+0900", "name": "paired", "event": "waiting", "gpu": [3866607]}
+{"t": 1795485231.4316711, "iso": "2026-11-24T10:53:51+0900", "name": "paired", "event": "waiting", "gpu": [3866807]}
+{"t": 1795485361.915464, "iso": "2026-11-24T10:56:01+0900", "name": "paired", "event": "idle", "free_s": 120.0}
+{"t": 1795485361.9163034, "iso": "2026-11-24T10:56:01+0900", "name": "paired", "event": "start", "attempt": 2, "pid": 3867614, "cmd": ["/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "capture109b.py", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/cap", "paired", "--R", "512"]}
+{"t": 1795485406.8158443, "iso": "2026-11-24T10:56:46+0900", "name": "paired", "event": "preempted", "attempt": 2, "foreign_pids": [3867938], "elapsed_s": 44.899441957473755, "child_rc": -15}
+{"t": 1795485406.830908, "iso": "2026-11-24T10:56:46+0900", "name": "paired", "event": "waiting", "tmux": ["b25"]}
+{"t": 1795486641.4466553, "iso": "2026-11-24T11:17:21+0900", "name": "paired", "event": "waiting", "tmux": ["b25", "b26"]}
+{"t": 1795488447.7343116, "iso": "2026-11-24T11:47:27+0900", "name": "paired", "event": "waiting", "tmux": ["b25", "b26"]}
+{"t": 1795490254.1684952, "iso": "2026-11-24T12:17:34+0900", "name": "paired", "event": "waiting", "tmux": ["b25", "b26"]}
+{"t": 1795492040.4199018, "iso": "2026-11-24T12:47:20+0900", "name": "paired", "event": "waiting", "tmux": ["b26"]}
+{"t": 1795492732.7584007, "iso": "2026-11-24T12:58:52+0900", "name": "paired", "event": "waiting", "tmux": ["b26", "b27"]}
+{"t": 1795493144.319506, "iso": "2026-11-24T13:05:44+0900", "name": "paired", "event": "waiting", "tmux": ["b26"]}
+{"t": 1795494950.827433, "iso": "2026-11-24T13:35:50+0900", "name": "paired", "event": "waiting", "tmux": ["b26"]}
+{"t": 1795496757.2999613, "iso": "2026-11-24T14:05:57+0900", "name": "paired", "event": "waiting", "tmux": ["b26"]}
+{"t": 1795497329.3361728, "iso": "2026-11-24T14:15:29+0900", "name": "paired", "event": "idle", "free_s": 120.0}
+{"t": 1795497329.3369527, "iso": "2026-11-24T14:15:29+0900", "name": "paired", "event": "start", "attempt": 3, "pid": 3924036, "cmd": ["/home/nd/NeuralShaderDemo/external/8dna26/.venv/bin/python", "capture109b.py", "/home/nd/rest_sss101a/results/ecro_estimator109b/evidence/cap", "paired", "--R", "512"]}
+{"t": 1795498661.225946, "iso": "2026-11-24T14:37:41+0900", "name": "paired", "event": "preempted", "attempt": 3, "foreign_pids": [3930977], "elapsed_s": 1331.8888759613037, "child_rc": -15}
+{"t": 1795498661.2421787, "iso": "2026-11-24T14:37:41+0900", "name": "paired", "event": "waiting", "tmux": ["b28"]}
+{"t": 1795500466.7146127, "iso": "2026-11-24T15:07:46+0900", "name": "paired", "event": "waiting", "tmux": ["b28"]}
+{"t": 1795502272.6517432, "iso": "2026-11-24T15:37:52+0900", "name": "paired", "event": "waiting", "tmux": ["b28"]}
+{"t": 1795504077.7282448, "iso": "2026-11-24T16:07:57+0900", "name": "paired", "event": "waiting", "tmux": ["b28"]}
+{"t": 1795505883.8877218, "iso": "2026-11-24T16:38:03+0900", "name": "paired", "event": "waiting", "tmux": ["b28"]}

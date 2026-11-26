@@ -1,0 +1,129 @@
+{
+ "worklog": "docs/worklogs/109B_WORKLOG_ECRO_C1_ROBUST_SPATIAL_BIAS_INFERENCE.md",
+ "protocol": "experiments/ecro_estimator109b/protocol109b.json",
+ "protocol_sha256": "ba1f19a63fc41a177141062d238fdf3bdfc4af870907da49bbe56d4fa088e9b6",
+ "server_run_dir": "LabServer70:~/rest_sss101a/results/ecro_estimator109b/evidence (Stages A-C and 16/18 paired units on LabServer69)",
+ "final_verdict": "QUALIFIED_STATIC_AND_DYNAMIC",
+ "large_evidence_not_copied": [
+  "cap/paired/*/*.npy (9.7 GB)",
+  "dyn/paired_accumulators.npz (409 MB)",
+  "metrics/maps109b.npz (135 MB; rendered in bias_maps.png)"
+ ],
+ "files": {
+  "budget109b.json": {
+   "sha256": "112c9aef104f4e28812e73e535f1750c46d8424cfca4ba6aa6fd58781334afed",
+   "bytes": 4969,
+   "source": "evidence/calib/budget109b.json"
+  },
+  "pool109b.json": {
+   "sha256": "6554dc54096141432b5db2d41bbccc9f9b02415a3a4d70f77221be4a1173eab9",
+   "bytes": 412438,
+   "source": "evidence/calib/pool109b.json"
+  },
+  "synthetic_entries109b.json": {
+   "sha256": "fe8baa6e63c32b5ae67435910fad8e1c42fd46c1c35fee9d4b945877c93c0ca9",
+   "bytes": 310488,
+   "source": "evidence/calib/synthetic_entries109b.json"
+  },
+  "bias109b.json": {
+   "sha256": "b6e13b16ff65dcb9436d24934811fa68035a9d5a3a66ed71e45703f1f05668b3",
+   "bytes": 1069479,
+   "source": "evidence/metrics/bias109b.json"
+  },
+  "metrics109b.json": {
+   "sha256": "9705bbaaa918ea27cd1d182f247714704bf430033b63705e7bf6e203603c1051",
+   "bytes": 1147299,
+   "source": "evidence/metrics/metrics109b.json"
+  },
+  "static109b.json": {
+   "sha256": "e52adf9ad8b46247469efeb2cb28070cc3b1ae7c82adbb01969cb23c904aa3fc",
+   "bytes": 274,
+   "source": "evidence/metrics/static109b.json"
+  },
+  "dyn109b.json": {
+   "sha256": "07976371235993157399ec348e8aadb7bbb3148fb516ef3726e6c700d026e9e1",
+   "bytes": 13234,
+   "source": "evidence/dyn/dyn109b.json"
+  },
+  "xcheck109b.json": {
+   "sha256": "5623f868511ca0636ba91144df5dd7e418f125aa8f864284377a3c414a088f3b",
+   "bytes": 5601,
+   "source": "evidence/xcheck/xcheck109b.json"
+  },
+  "chain.state": {
+   "sha256": "fdab1e2a00990742b589fd744d7d9a57d4845a7b49daa0d3a90a26a4c8e1caea",
+   "bytes": 4642,
+   "source": "evidence/chain.state"
+  },
+  "guard109b_lab69.jsonl": {
+   "sha256": "4a10e563918540a9a1044bdff67b5906d023c682effe9b46183fef538c910322",
+   "bytes": 9320,
+   "source": "evidence/guard109b.jsonl"
+  },
+  "guard109b_lab70.jsonl": {
+   "sha256": "330e1b8673220f2ab33cd7b73abd799a0a053c955e46a1bf0c4eb2f1de6056e6",
+   "bytes": 26967,
+   "source": "evidence/guard109b_lab70.jsonl"
+  },
+  "gpu_util_lab70.csv": {
+   "sha256": "318e9e0893d239892a17a496f8c57dada55e4953cce9e4b0e69bb571522a40ae",
+   "bytes": 15404,
+   "source": "evidence/gpu_util_lab70.csv"
+  },
+  "gpu_apps_lab70.csv": {
+   "sha256": "5996b5434cf7fc5c902ffd3f957c26e9232f134d4e4f69b44ea548ed0ee7ed68",
+   "bytes": 12627,
+   "source": "evidence/gpu_apps_lab70.csv"
+  },
+  "timing/V0.json": {
+   "sha256": "5ae831ff384c38bdabeed48dd3fb9841eb7accf8c1f6f8366d6aefe7b7cc9707",
+   "bytes": 22189,
+   "source": "evidence/cap/timing/V0/timing.json"
+  },
+  "timing/H1.json": {
+   "sha256": "0613b31043db68da045a730d01615abfb1d4cd78ac61644b1aa0dfd76a885d8b",
+   "bytes": 22269,
+   "source": "evidence/cap/timing/H1/timing.json"
+  },
+  "timing/H2.json": {
+   "sha256": "c3df2a3379f77abab1c78054e739337d10eb850b1c4ba216a7971673ddaa2869",
+   "bytes": 22210,
+   "source": "evidence/cap/timing/H2/timing.json"
+  },
+  "timing/H3.json": {
+   "sha256": "175c0ef9474015b8172d5795ab107226e52e5aeb48561a7e7ed640ca80dc6c6f",
+   "bytes": 22249,
+   "source": "evidence/cap/timing/H3/timing.json"
+  },
+  "timing/H4.json": {
+   "sha256": "2b2b557bc56ffca5a6b3f8cae413fcb4fe4b71b71c2e5f338b7e91d2817e6bfa",
+   "bytes": 22231,
+   "source": "evidence/cap/timing/H4/timing.json"
+  },
+  "timing/H5.json": {
+   "sha256": "b8a477b373b1dc6301f01d55e05da2dd693fefe1cb2af16ee080a1e8a3a47ac6",
+   "bytes": 22301,
+   "source": "evidence/cap/timing/H5/timing.json"
+  },
+  "calibration.png": {
+   "sha256": "6e87cf4ba6375ee0702eb19f9e47092f63cdb45d062ef07d79fd248a1758144d",
+   "bytes": 69193,
+   "source": "export109b.py (figure)"
+  },
+  "bias_bounds.png": {
+   "sha256": "e3621798487994f48f05148b244b857ae69205d47c117b3a12ed62f8db1d588c",
+   "bytes": 103896,
+   "source": "export109b.py (figure)"
+  },
+  "equal_time.png": {
+   "sha256": "dd1b7fb54a28d24374d8ff9873db9a8c8dbdf196b22ff9f3c421c4215bfd3354",
+   "bytes": 145633,
+   "source": "export109b.py (figure)"
+  },
+  "bias_maps.png": {
+   "sha256": "52f0c2fd1a8b7cabd361d20e37ff41e8a3cc6498e63bec6ae956945e99f4c811",
+   "bytes": 1039162,
+   "source": "export109b.py (figure)"
+  }
+ }
+}

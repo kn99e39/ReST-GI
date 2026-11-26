@@ -1,0 +1,225 @@
+{
+ "protocol109b_sha256": "ba1f19a63fc41a177141062d238fdf3bdfc4af870907da49bbe56d4fa088e9b6",
+ "escalated": false,
+ "inputs": {
+  "synth_stage1.json": "42744e538482891c389f542da0c88fc002a0ec685be700504f64bbaa72b7cff8",
+  "pool109b.json": "6554dc54096141432b5db2d41bbccc9f9b02415a3a4d70f77221be4a1173eab9"
+ },
+ "code_sha256": "7090be693c97d8838bfc8ef9c22103f457b5f0bf11346066d9db7625de9e6215",
+ "gates": {
+  "R512": {
+   "R": 512,
+   "synthetic": {
+    "entries": 624,
+    "FAIL": 0,
+    "BORDERLINE": 0,
+    "PASS": 624,
+    "worst": [
+     "gauss_iid/H4:material_boundary/R512/none@0",
+     0.0
+    ],
+    "failed": [],
+    "borderline": []
+   },
+   "real_coverage": {
+    "none@0": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "uniform@0.5": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "noise_proportional@0.5": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "localized@0.5": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "signed_smooth@0.5": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "uniform@1": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "noise_proportional@1": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "localized@1": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "signed_smooth@1": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "uniform@2": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 1.0,
+     "settings": 84
+    },
+    "noise_proportional@2": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 1.0,
+     "settings": 84
+    },
+    "localized@2": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 1.0,
+     "settings": 84
+    },
+    "signed_smooth@2": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.9999702380952381,
+     "settings": 84
+    }
+   },
+   "real_coverage_ok": true,
+   "precision": {
+    "max_setting_fail": 0.0,
+    "worst_setting": "V0/primary/4/R512",
+    "joint_pass_probability": 1.0,
+    "settings_over_limit": {}
+   },
+   "precision_ok": true,
+   "power": {
+    "uniform@2": 1.0,
+    "noise_proportional@2": 1.0,
+    "localized@2": 1.0,
+    "signed_smooth@2": 0.9999702380952381
+   },
+   "power_ok": true,
+   "direct_null": {
+    "biased": [],
+    "equivalent_Q": 56,
+    "n": 56
+   },
+   "direct_null_ok": true,
+   "synthetic_ok": true,
+   "all_ok": true
+  },
+  "R1024": {
+   "R": 1024,
+   "synthetic": {
+    "entries": 624,
+    "FAIL": 0,
+    "BORDERLINE": 0,
+    "PASS": 624,
+    "worst": [
+     "heteroscedastic_1.5/V0:silhouette/R1024/noise_proportional@2",
+     0.0005
+    ],
+    "failed": [],
+    "borderline": []
+   },
+   "real_coverage": {
+    "none@0": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "uniform@0.5": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "noise_proportional@0.5": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "localized@0.5": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "signed_smooth@0.5": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "uniform@1": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "noise_proportional@1": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "localized@1": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "signed_smooth@1": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 0.0,
+     "settings": 84
+    },
+    "uniform@2": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 1.0,
+     "settings": 84
+    },
+    "noise_proportional@2": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 1.0,
+     "settings": 84
+    },
+    "localized@2": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 1.0,
+     "settings": 84
+    },
+    "signed_smooth@2": {
+     "pooled_noncov": 0.0,
+     "pooled_power_family": 1.0,
+     "settings": 84
+    }
+   },
+   "real_coverage_ok": true,
+   "precision": {
+    "max_setting_fail": 0.0,
+    "worst_setting": "V0/primary/4/R1024",
+    "joint_pass_probability": 1.0,
+    "settings_over_limit": {}
+   },
+   "precision_ok": true,
+   "power": {
+    "uniform@2": 1.0,
+    "noise_proportional@2": 1.0,
+    "localized@2": 1.0,
+    "signed_smooth@2": 1.0
+   },
+   "power_ok": true,
+   "direct_null": {
+    "biased": [],
+    "equivalent_Q": 56,
+    "n": 56
+   },
+   "direct_null_ok": true,
+   "synthetic_ok": true,
+   "all_ok": true
+  }
+ },
+ "decision": {
+  "outcome": "PROCEED",
+  "R": 512
+ }
+}

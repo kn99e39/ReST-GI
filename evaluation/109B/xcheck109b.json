@@ -1,0 +1,184 @@
+{
+ "host": "lab70-wl109b",
+ "cuda_visible_devices": null,
+ "gpu": "NVIDIA GeForce RTX 3090",
+ "versions": {
+  "mitsuba": "3.8.0",
+  "drjit": "1.3.1",
+  "torch": "2.3.1+cu121",
+  "numpy": "1.26.4",
+  "python": "3.10.21",
+  "gpu": "NVIDIA GeForce RTX 3090",
+  "variant": "cuda_ad_rgb",
+  "freeze": true,
+  "host": "lab70-wl109b"
+ },
+ "admission": {
+  "scene_sha256": "a18c76efd49245dfb3f50d6d215e50d1b70e87854bac943126b60b09a50b71cb",
+  "checkpoint_sha256": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+  "cfg_sha256": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+  "learned_table_sha256": "d7e40954304bfc2b03f679af0ef6a39876f21ffc21d3a07fe3dfc3de7bd18543",
+  "input_sha256": {
+   "REF_0_0.npz": "797f22a8f52a288f09250e805b4334008253766f806d6df197f8ef0e40449377",
+   "REF_0_1.npz": "8145d022e682fc8ba7ec1c08248ee4e483d85b1d7b1c70eb6143c9081d343105",
+   "PRED_A_0.npz": "87f020840044880a681bf6ebefb5ec60f3ca134b4ce3d6adef89aa4cc0adce4b",
+   "PRED_B_0.npz": "fb43bb808a48f8ad5293603d4b4404c7275d2d2e6e5d085ec2778b4635eb143a",
+   "MAP_0.npz": "8c269050c351027ceae4a06cc63ca3a401ba64c37d341a90c345830089393fbc"
+  },
+  "renderer_sources_sha256": {
+   "experiments/ecro_dyn101/rt101.py": "417fd6c041603b6760aa72179bb383ac44ca1e3d031715f8b76fe0bb419eedf6",
+   "experiments/ecro_dyn101/seq101.py": "b85e9a0f4b79a5c589f57d3d0a4fbd1b99f0375030955183e339bacffe4784bf",
+   "experiments/ecro_dyn101/protocol/dyn101.json": "91f225db1e6f3f2739ddc2e149694fe86e76e2a418cefb1ecb3433c5963453fa",
+   "experiments/ecro_material100/protocol.json": "f00c6e78780aa55693dcef5f6db72a0f2792c8ab366c6197a3a3a87c3b8443dc",
+   "results/ecro_material100/configs.json": "fd2fa6760b2c130dad928ed5068034dfbd719c947e1ad2555bfb884d8447d3cd",
+   "results/ecro_material100/sss/model.pt": "2d9cb5805ecff8a6aae6639ddca7a3bcd0c84b0eaa9b2a3282fe127df9284f42",
+   "experiments/ecro86/pt86.py": "e2a1a2f33f62aff3e91ce779278d04f23fd93450228a7eabe449f1ec91c28a31",
+   "experiments/ecro86/ecro86.py": "3900bc2af6b23c7394dcbccd663ad6f34220d2a1ccb51339ec19faafe1f00042",
+   "experiments/ecro86/model86.py": "9cb89be656cf581897dc127fb01c1ec38292d3be9c0204ad92bb6ae51cf3eead",
+   "experiments/ecro86/scene86.py": "e9116629b94c88244783f69c2f06207f40030212ec00b22183181f21cb252d0b",
+   "experiments/ecro_material100/pt100.py": "0e96ea6f59ea08dcd695407cdc5db14ac80300937cb8bd2647c58cbd26f37715",
+   "experiments/ecro_material100/common100.py": "5157927ca5ce54d61a9c486624d817571b01cac1a541f48535a02a1f15a96d4e",
+   "experiments/fnto_compiled83/closure83_dr.py": "0132f3d94a372a289a2aa0ccc29c170389a6583f6a0a814b82dfec2c29a7f292"
+  },
+  "environment": {
+   "host": "LabServer69",
+   "gpu": "NVIDIA GeForce RTX 3090",
+   "driver": "550.54.15",
+   "optix_sha256": "c977704e90f9166da3271bfff788ff0c54b06ff4f64fd9e5b7ef13fe3109c1c0",
+   "mitsuba": "3.8.0",
+   "drjit": "1.3.1",
+   "torch": "2.3.1+cu121",
+   "python": "3.10.21",
+   "numpy": "1.26.4"
+  },
+  "archive_replay_relative_l1": [
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0,
+   0.0
+  ],
+  "admission_gpu_snapshot": {
+   "query": "0 %, 19 MiB, 0 MHz, 42",
+   "foreign_compute_pids": [],
+   "t": 1795514426.8293867
+  },
+  "table_bytes_sha256": "d7e40954304bfc2b03f679af0ef6a39876f21ffc21d3a07fe3dfc3de7bd18543",
+  "table_shape": [
+   1270,
+   64,
+   3
+  ],
+  "admission_source_sha256": {
+   "renderer108.py": "edee531b9e1b56b6512de6ee1d9415e6c1af07425b4ad56379f8b4858af4378a",
+   "render105.py": "e9cf8b1a2fb8b5b88f0ed8eb51a52d3c2dd00dce51cb2babf51a9e56dbce6c7b"
+  }
+ },
+ "table_equal_wl109": true,
+ "units": {
+  "H1_spp16": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H1_spp32": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H1_spp4": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H2_spp16": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H2_spp32": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H2_spp4": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H3_spp16": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H3_spp32": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H3_spp4": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H4_spp16": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H4_spp32": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H4_spp4": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "H5_spp4": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "V0_spp16": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "V0_spp32": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  },
+  "V0_spp4": {
+   "r0_rel_l1": 0.0,
+   "c1h_rel_l1": 0.0,
+   "r0_bitwise": true,
+   "c1h_bitwise": true
+  }
+ },
+ "code_sha256": "172bc9434c9f4a0709614e3bacd87a88a0abf3ae9382b96fe6e273fe0b67ae79",
+ "tolerance_rel_l1": 1e-06,
+ "max_rel_l1": 0.0,
+ "all_bitwise": true,
+ "outcome": "PASS",
+ "table_sha_after": "d7e40954304bfc2b03f679af0ef6a39876f21ffc21d3a07fe3dfc3de7bd18543",
+ "elapsed_s": 78.61723375320435
+}

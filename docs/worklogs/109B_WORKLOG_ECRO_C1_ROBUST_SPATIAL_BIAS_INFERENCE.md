@@ -724,3 +724,253 @@ All times are LabServer70's clock.
 **Execution.**
 - New chain `run109b_amend8.sh`: `run109b_amend7.sh` without the guard, resuming after the completed grid stage.
 - The Amendment 7 chain was stopped by PID while its timing guard was in the 120 s idle window.
+
+### 2026-11-26 — Stage F timing, static decision and Stage G dynamic (Amendment 8 chain)
+
+All times are LabServer70's clock. Commit label of the chain: `2504147`.
+
+| Stage | Window | Duration | Outcome |
+|---|---|---|---|
+| timing | 19:12:37–19:20:44 | 487 s | 6 / 6 views written; admission passed, table sha equal to WL109 |
+| static (CPU, 4 cores) | 19:20:44–19:23:13 | 149 s | **STATIC_PASS** |
+| dynamic | 19:23:13–19:30:26 | 433 s | **QUALIFIED_STATIC_AND_DYNAMIC** |
+
+**Exclusivity record** (`gpu_apps_lab70.csv`, every 10 s):
+
+| Stage | RTX 3090 samples | Foreign process on the 3090 | RTX 3080 Ti |
+|---|---|---|---|
+| timing | 49 | none (48 show only WL109B PID 19491; the first is before the container started) | foreign training PID 14270 throughout; mean utilization 33 % |
+| dynamic | 43 | none (only WL109B PID 7796) | same foreign training throughout |
+
+- 1-minute load average: 2.05 at timing start, 2.89 at timing exit, 2.93 at dynamic start, 2.72 at dynamic exit.
+- The in-JSON `exclusivity` fields are "clean" by construction under Amendment 6 and are not used as evidence. The table
+  above is the evidence.
+
+## Final report
+
+### Implementation Fact
+
+- **Procedure.** The frozen inference procedure is XJL with G = 32 groups of 16-pair subgroups at R = 512. It consists of the
+  cross-product U-statistic, the delete-one-group jackknife variance and the worst-case linear-term variance b·q, inverted
+  with Student t at 31 df.
+- **Unchanged inputs.** The estimator (C1, M = 1), table, checkpoint, renderer, ROIs, Q estimand, limits (0.01; silhouette
+  0.02) and B1 (±0.5 %) are imported unchanged from WL109.
+- **Stages run in protocol order.**
+  - Stage A: PASS.
+  - Stage C: PROCEED at R = 512.
+  - Stage D: EQUIVALENT_ALL.
+  - Stage E: not entered, because no condition was BIASED.
+  - Stage F: STATIC_PASS.
+  - Stage G: QUALIFIED_STATIC_AND_DYNAMIC.
+- **Hosts.**
+  - LabServer69 ran Stages A–C and 16 of the 18 paired units.
+  - LabServer70 ran everything else, inside the pinned container (Amendments 1, 3 and 5).
+  - The 16 LabServer69 units passed the bitwise cross-host check.
+- **Execution amendments.** Amendments 1–8 are recorded above. Amendment 4 was withdrawn.
+- **Changes to GPU-ownership enforcement by owner decision.**
+  - Amendments 7 and 8 change only how GPU ownership is enforced.
+  - The final timing and dynamic stages ran without a guard. Their exclusivity on the RTX 3090 is shown by the 10 s record.
+  - The RTX 3080 Ti ran other users' training during both stages.
+- **No change to the rest.** No protocol threshold, seed, estimator, table or decision rule was changed at any point.
+
+### Measurement
+
+**Stage C (qualification, before any C1 frame).**
+
+| Check | Result |
+|---|---|
+| Synthetic entries, R = 512 | 624 / 624 PASS; worst one-sided non-coverage 0.000 |
+| Real-null pooled non-coverage | 0.000 |
+| Precision at Q = 0 | max per-setting fail 0.000 |
+| Bonferroni power at 2 × limit | ≥ 0.99997 |
+| Direct R0-versus-R0 null | 56 / 56 EQUIVALENT |
+
+**Stage D (spatial bias).** 28 ROI × view conditions (primary, SSS interior, silhouette and material boundary for six views;
+control for four) at 4, 16 and 32 spp.
+
+- **Q (XJL):** 28 / 28 conditions EQUIVALENT at every spp.
+
+| ROI | Largest upper bound / limit |
+|---|---|
+| primary | 0.036 |
+| SSS interior | 0.040 |
+| silhouette | 0.026 |
+| material boundary | **0.138** (H4, 16 spp) |
+| control | 0.048 |
+
+  - Largest |point| / limit: 0.024 (material boundary).
+
+- **WL109's two failed ROIs, re-measured.**
+
+| ROI | XJL upper bounds (4 / 16 / 32 spp) | Fraction of limit 0.01 | WL109-design Q upper bounds on the same data (descriptive) |
+|---|---|---|---|
+| H3 material boundary | 0.00083 / 0.00062 / 0.00066 | ≤ 0.083 × | 0.00076 / < 0 / 0.00043 |
+| H4 material boundary | 0.00097 / 0.00138 / 0.00097 | ≤ 0.138 × | 0.00077 / 0.00050 / 0.00016 |
+
+  - In WL109 these ROIs had upper bounds of 0.0136 and 0.0268.
+  - Over all 84 settings, the WL109-design bound on the new data is ≤ 0.077 × limit.
+
+- **B1:** 28 / 28 EQUIVALENT. The widest half-interval is 5.1e-4 (H3 material boundary).
+  - One interval excludes zero: H1 primary, −9.3e-6, CI [−1.7e-5, −1.6e-6].
+  - That is about 1/300 of the ±0.5 % band, so it is a resolved but negligible offset.
+
+**Stage F (cost-matched static).** Equal-time MSE ratio, C1 / R0 at C1's frame time. GM over six views, 95 % CI.
+
+| Gate | Rule | Value |
+|---|---|---|
+| P2 | primary 4 spp ≤ 0.85 | **0.789** |
+| P3 | its upper95 < 1.0 | [0.751, 0.828] |
+| P5 | primary 16 / 32 spp non-regression | 0.791 [0.756, 0.828] / 0.795 [0.760, 0.832] |
+| P6 | silhouette 4–32 spp | 0.844–0.851 (upper95 ≤ 0.902) |
+| P6 | SSS interior 4–32 spp | 0.794–0.799 (upper95 ≤ 0.835) |
+| Reference precision | | max reference noise / arm RMSE 0.0107 |
+| Grid bracketing | | interpolation flag `ok` everywhere |
+
+- **Report only.**
+  - Material boundary 0.823–0.853 (CI up to 0.929).
+  - Contact 0.760–0.764.
+  - Equal-spp primary 0.737 [0.694, 0.784].
+
+- **Per view, primary 4 spp:**
+
+| View | Equal-time ratio | C1 / R0 frame time (ms) | Cost ratio |
+|---|---:|---|---:|
+| V0 | 0.729 | 12.15 / 10.85 | 1.120 |
+| H1 | 0.797 | 14.21 / 13.09 | 1.086 |
+| H2 | 0.738 | 19.77 / 19.24 | 1.028 |
+| H3 | 0.865 | 26.58 / 24.98 | 1.064 |
+| H4 | 0.810 | 22.77 / 22.51 | 1.012 |
+| H5 | 0.801 | 15.58 / 14.48 | 1.076 |
+
+- Peak Dr.Jit watermark: 36.09–36.12 MB over all slots. C1 is at most 25 kB above R0 in the same view.
+
+**Stage G (P7 edit: WL100 SSS configuration 0 → 2, light 0, view V0).**
+
+| Check | Result |
+|---|---|
+| D1 | selective = full = fresh, bitwise; the table changed from static as expected |
+| D2 | both replays bitwise; frozen versus eager differences 0 |
+| D3 | relative L1 1.2e-8 (not bitwise; within the frozen tolerance); pass |
+| D4 Q | EQUIVALENT in all five ROIs; largest upper bound 0.00040 (silhouette, limit 0.02) and ≤ 0.00037 elsewhere (limit 0.01) |
+| D4 B1 | EQUIVALENT in all five ROIs |
+| D5 | equal-time ratio **0.745**, CI [0.741, 0.748]; equal-spp 0.656; cost ratio 1.121 |
+
+D5 is measured against a fresh 16 × 8,192-spp reference.
+
+D6 costs:
+
+| Cost | Value |
+|---|---|
+| Update | 14.1 ms total: geometry 3.2, state 4.0, light 0.13, source 1.0, response 5.7 ms |
+| Dirty rays | 85,844 (objects A and B moved) |
+| First frame after edit | C1 13.4 ms; R0 4 spp 11.0 ms |
+| Steady state | C1 12.67 ms; R0 4 spp 11.30 ms |
+| Peak watermark | 37.16 MB for both |
+| C1 persistent state | none |
+
+### Observation
+
+- **The variance gain matches WL109.**
+  - WL109 measured P2 0.792 [0.763, 0.822] on LabServer69 with an exclusive host.
+  - WL109B measures 0.789 [0.751, 0.828] on LabServer70 with fresh grid and timing.
+  - The per-view ratios agree to within 0.04 (largest difference H3: 0.829 → 0.865).
+- **Frame times are slightly higher than on LabServer69.** V0 is 12.15 / 10.85 ms here against 11.74 / 10.43 ms there.
+  - The cost ratio is almost unchanged (1.120 against 1.125).
+  - Both arms were measured while the RTX 3080 Ti ran foreign training.
+- **The bias maps show no spatial structure** (`evaluation/109B/bias_maps.png`). The per-pixel z of mean D looks like noise in
+  every view, including the H3 / H4 material boundaries.
+- **XJL is conservative.** At Q = 0 its upper bounds sit at 0.02–0.14 × limit. The WL109-design bound on the same data is
+  mostly lower, but that bound is the anticonservative one.
+- **The dynamic gain is larger than the static GM.** D5 (0.745) is below the static GM (0.789), and close to the static V0
+  value (0.729) for the same view before the edit.
+
+### Interpretation
+
+- **Spatial bias.** WL109's NOT_SUPPORTED came from its B2 gate: two material-boundary ROIs failed under an 8-group
+  Student-t bound. WL109A showed that this bound under-covers when noise is heteroscedastic.
+  - With a procedure that qualified on synthetic and real-noise gates *before* any C1 frame, the independent R = 512 data
+    place every bias upper bound at or below 0.14 × the original limits.
+  - So the WL109 failure is best read as a property of the bound, not as evidence of a spatial bias in frozen C1.
+  - This is an equivalence statement: the spatial bias power is below the tolerance (Q ≤ limit). It is not a proof that
+    the bias is zero.
+- **Cost-matched variance reduction.** The reduction is about 21 % of TOTAL MSE at equal GPU time on six static views, and
+  about 25 % on one edited view. It holds at 4, 16 and 32 spp and in every region class.
+- **Dynamic closure.**
+  - Under the ordinary ECRO update, C1 needs no state of its own.
+  - It stays bitwise consistent with full and fresh rebuilds (D1).
+  - It keeps the equivalence after the edit (D4) and the benefit after the edit (D5).
+- **Scope.** All of this is measured for one scene family, one table and checkpoint, one edit and one dynamic view. It says
+  nothing about other scenes, other edits or other estimators.
+
+### Unresolved
+
+- **Generality.** There is one scene family, one frozen table and one P7 edit, and the dynamic stage has one view. The gain
+  depends on the LOW–HIGH covariance of this frozen estimator (as in WL109).
+- **The D5 interval is narrow** ([0.741, 0.748]). It resamples frames, grid and timing for that one view and edit only.
+  Variation across views or edits is not in it.
+- **Host conditions for timing.** Timing and dynamic ran with the RTX 3090 exclusive but with foreign training on the RTX
+  3080 Ti and load 2–3 (Amendments 7 and 8). The C1 / R0 cost ratios match WL109's exclusive-host values closely, but
+  differential interference was not measured.
+- **Conservatism of XJL.** Its precision cost in the synthetic stress families (worst-case linear term) did not matter on
+  real noise. A less conservative calibrated procedure was not studied.
+- **The contact ROI** is reported for variance only. It is not one of the frozen bias ROIs.
+- **The LabServer70 GPU failure** (2026-11-25 17:57 → reboot 11-26 17:53) has an unknown cause. No WL109B GPU work was
+  running at the time.
+- **Untested.** A denoiser, temporal reuse and production integration were not tested and are not authorised.
+
+### Architecture Verdict
+
+**QUALIFIED_STATIC_AND_DYNAMIC**, by the frozen protocol mapping:
+- Stage D EQUIVALENT_ALL;
+- Stage F STATIC_PASS (P2, P3, P5, P6, reference precision, grid bracketing);
+- Stage G with D1–D3 pass, D4 EQUIVALENT and D5 pass.
+
+What the verdict covers:
+- Frozen ECRO C1 (M = 1) preserves the expected image within the original WL109 spatial and mean tolerances.
+- It lowers TOTAL MSE at equal GPU cost, statically on six views and after the P7 edit on one view.
+- This holds for this scene, table and edit.
+
+What it does not change:
+- WL109 stays **NOT_SUPPORTED** and WL109A stays **INCONCLUSIVE**; their records are unchanged.
+- This verdict is new evidence from a calibrated procedure, not a rewrite of either.
+- No production adoption, deployment or successor batch follows from this report.
+
+### Reproducibility
+
+**Code and amendments**
+
+| Item | Commit |
+|---|---|
+| Protocol and code frozen before evidence | `cc8fb24` |
+| Amendment 1 | `d5fc566` |
+| Amendment 2 | `5c4bdeb` |
+| Amendment 3 | `88fb2e7` |
+| Amendment 4 (withdrawn) | `98abe2b` |
+| Amendment 5 | `c77cb86` |
+| Amendment 5 addendum | `83c45d3` |
+| Amendment 6 | `d2e255e` |
+| Amendment 7 | `2390989`, `09418b2`, `a39da83` |
+| Amendment 8 | `2504147` |
+
+The final stages ran from `run109b_amend8.sh` at `2504147`.
+
+**Protocol.** `experiments/ecro_estimator109b/protocol109b.json`, sha256 `ba1f19a63fc4…`.
+
+**Environment**
+- LabServer69: native frozen stack.
+- LabServer70: Docker image `sha256:6fd6ebbd05fc…` (python:3.10-bookworm).
+- Driver 550.54.15 on both, Dr.Jit 1.3.1 / Mitsuba 3.8.0. The frozen WL108 admission passed on both hosts.
+
+**Seeds.** As listed above. Every family is disjoint from WL101–WL109A and from the development seeds (`tests109b.py`).
+
+**Evidence**
+- Server: `LabServer70:~/rest_sss101a/results/ecro_estimator109b/evidence/`. Stage A–C files were produced on LabServer69.
+- Local mirror without the large arrays: `results/ecro_estimator109b/evidence/`. The paired `.npy` (9.7 GB) and the dynamic
+  accumulators (409 MB) stay on the server.
+
+**Reviewer package.** `evaluation/109B/`, with `manifest109b.json` (sha256 per file). It contains:
+- figures: `calibration.png`, `bias_bounds.png`, `equal_time.png`, `bias_maps.png`;
+- decision JSONs and the six timing records;
+- chain state, guard logs and the 10 s GPU-occupancy records.
+
+The figures come from `experiments/ecro_estimator109b/export109b.py`, which runs on CPU and reads only finished outputs.
