@@ -44,6 +44,11 @@ bv=$(jget "$out/metrics/bias109b.json" bias_verdict)
 [[ $(jget "$out/xcheck/xcheck109b.json" outcome) == PASS ]]
 state "resume after bias: BIAS verdict=$bv, XCHECK PASS"
 
+# host GPU-occupancy record for Amendment 7 (nvidia-smi queries only; no CUDA context): both GPUs every 10 s while the chain lives
+( chain=$$; while kill -0 "$chain" 2>/dev/null; do
+    nvidia-smi --query-gpu=timestamp,index,utilization.gpu,memory.used --format=csv,noheader >> "$out/gpu_util_lab70.csv" 2>/dev/null || true
+    sleep 10; done ) &
+
 stage=grid; state "RUNNING $stage"
 guard grid 10800 0 -- capture109b.py "$out/cap" grid > "$out/grid_stage.log" 2>&1
 stage=timing; state "RUNNING $stage"

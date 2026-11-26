@@ -683,5 +683,6 @@ All times are LabServer70's clock.
   on an idle host: PCIe/memory bandwidth, CPU and power/thermal.
 - R0 and C1 are measured in the same interleaved schedule, so such interference largely affects both, but not necessarily
   equally.
-- The guard log records the load at start and exit. Each timing unit's record states whether the 3080 Ti was busy during
-  it.
+- The guard log records the load at start and exit. The chain also writes both GPUs' utilization and memory every 10 s
+  (`evidence/gpu_util_lab70.csv`; `nvidia-smi` queries only), so each timing unit can be classified afterwards by whether
+  the 3080 Ti was busy during it.
