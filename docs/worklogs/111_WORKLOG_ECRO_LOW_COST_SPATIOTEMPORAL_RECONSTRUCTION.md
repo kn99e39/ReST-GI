@@ -343,3 +343,26 @@ These come from the diagnostics above. They will be carried into the final repor
     only the chain's stage lines.
   - The protocol's 4-CPU cap was stated for timing conditions. Sequence quality evidence does not depend on the CPU
     budget.
+
+## WL111 Amendment 1 — no container CPU cap, including timing (owner decision, 2026-11-26 21:05 KST)
+
+- **Decision.** The owner directed that the batch set no CPU cap of its own, because host conditions have changed since
+  the cap was chosen.
+- **Origin of the cap.**
+  - The 4-CPU cap was not an owner number. I carried it over from WL109B Amendment 5, where the owner asked for "a few"
+    LabServer70 threads while other work held the host CPU. I chose 4 there.
+  - I then froze it into this protocol's `host.cpu` text as a timing condition.
+  - The 8-CPU value used during the sequence stage was also my own number.
+- **Change.**
+  - `ctr_r111.sh` starts the container without `--cpus` unless `WL111_CPUS` is set.
+  - Every other timing condition is unchanged:
+    - exclusive GPU through the guard;
+    - a single process;
+    - the load average recorded per block, with load1 ≤ 16;
+    - arms interleaved in each block.
+- **State when applied.** The sequence stage had finished at 21:02 KST: 72 items, and `DONE eval_seq` was written. The
+  timing stage had started under the 4-CPU cap but had written no timing record. The chain was stopped and relaunched,
+  so the timing stage runs from the start without a cap. No timing measurement exists under both conditions.
+- **Scope.** This changes an execution condition of the timing measurement: Absolute latencies are labelled as measured
+  on a shared host without a CPU cap. No rule, threshold, seed, design, weight or quality evidence changed. The
+  protocol file stays as frozen; this entry records the deviation from its `host.cpu` text.

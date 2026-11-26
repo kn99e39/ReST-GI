@@ -10,7 +10,8 @@ IMAGE=sha256:6fd6ebbd05fc4cf5dc3a789c47e42f4d787cb9c90fe5d29835875a934680271d   
 GPU3090=GPU-ab3bc073-096c-6d0b-a304-13cef177a843
 L=/usr/lib/x86_64-linux-gnu
 R=/home/nd/rest_sss101a
-exec docker run --rm --init --name "$name" --hostname lab70-wl111 --cpus "${WL111_CPUS:-4}" \
+# WL111 Amendment 1 (owner, 2026-11-26): no CPU cap by default; WL111_CPUS=N sets one explicitly.
+exec docker run --rm --init --name "$name" --hostname lab70-wl111 ${WL111_CPUS:+--cpus "$WL111_CPUS"} \
   --gpus "\"device=$GPU3090\"" -e NVIDIA_DRIVER_CAPABILITIES=all \
   -u 1014:1014 -v /home/nd:/home/nd -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro \
   -v /usr/share/nvidia/nvoptix.bin:/usr/share/nvidia/nvoptix.bin:ro \
