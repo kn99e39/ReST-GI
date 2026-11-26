@@ -655,3 +655,33 @@ All times are LabServer70's clock.
   units are detected as complete. The bias analysis is a deterministic recomputation from the same paired units.
 - The cause of the GPU failure was not investigated by this batch (the host logs need root). No WL109B measurement was
   taken before or during it.
+
+### 2026-11-26 — WL109B Amendment 7 (owner decision): the guard watches only the RTX 3090 in every stage
+
+**Decision.** The owner directed that WL109B should run whenever the RTX 3090 is free, without regard to the RTX 3080 Ti.
+
+**What changes.**
+- Every guarded stage passes `--gpu-uuid` of the RTX 3090 (GPU-ab3bc073…) to `guard109c.py`. This now includes the
+  timing-bearing stages (timing, dynamic).
+- Only compute processes on the 3090 count as foreign. That applies both to the start condition (120 s free) and to
+  preemption.
+- Work on the 3080 Ti no longer delays or preempts WL109B.
+
+**What is unchanged.**
+- The load gate of the timing-bearing stages: 1-minute load average ≤ 2 at admission.
+- The container, frozen stack and Amendment 6.
+- The protocol, seeds, criteria and analysis.
+
+**Execution.**
+- New chain `run109b_amend7.sh`: `run109b_amend5.sh` with the guard flag added, resuming after the completed bias stage.
+- On 11-26 the relaunched Amendment 5 chain had recomputed the bias stage (`EQUIVALENT_ALL`, 18:56). It was then stopped by
+  PID while its grid guard was waiting for the 3080 Ti. No container was running, and nothing was written.
+- The order from there is unchanged: grid (complete units skipped) → timing → static → dynamic.
+
+**Interpretive consequence (to be reported with Stage F/G).**
+- Frame times measured while the 3080 Ti runs other users' work can include host-level interference that does not occur
+  on an idle host: PCIe/memory bandwidth, CPU and power/thermal.
+- R0 and C1 are measured in the same interleaved schedule, so such interference largely affects both, but not necessarily
+  equally.
+- The guard log records the load at start and exit. Each timing unit's record states whether the 3080 Ti was busy during
+  it.
