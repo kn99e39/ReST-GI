@@ -48,10 +48,10 @@ def main(root, split, start, stop):
         for li, ls in enumerate(cfg['lights']):
             light = PT.Lights(ls)
             seed = (SEED0[split] + C.SO) * 100 + i * 16 + li
-            acc, _ = ctx.construct_k(light, n, seed, 23, 16, pids=pids, b=C.dv(8, 1), keep_f2=True)
+            acc, _ = ctx.construct_k(light, n, seed, 23, 16, pids=pids, b=C.dv(4, 1), keep_f2=True)
             t = targets(acc)
             if split == 'val':
-                acc, _ = ctx.construct_k(light, n, seed + 8, 23, 16, pids=pids, b=C.dv(8, 1), keep_f2=True)
+                acc, _ = ctx.construct_k(light, n, seed + 8, 23, 16, pids=pids, b=C.dv(4, 1), keep_f2=True)
                 t.update({k + 'b': v for k, v in targets(acc).items()})
             per.append(t)
         data = {'config_hash': C.C114.digest(cfg), 'w': w, 'm': m, 'pids': pids, 'cdesc': cdesc.astype(np.float32)}
