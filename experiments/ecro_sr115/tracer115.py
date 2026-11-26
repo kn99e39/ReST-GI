@@ -88,7 +88,7 @@ class Ctx115(T114.Ctx114):
         return self.sub_k(a, b, Kk)
 
     # ------------------------------------------------------------------ deep K x K construction (U measure), optional patch subset
-    def construct_k(self, lights, n_sub, seed, kmax_probe, Kk, pids=None, b=2, verbose=False):
+    def construct_k(self, lights, n_sub, seed, kmax_probe, Kk, pids=None, b=2, verbose=False, keep_f2=False):
         """tracer114.construct_deep on a Kk x Kk grid of the patches `pids` (default all). Slot = (local patch, sub, bin).
         Returns per-cell float64 sums split by launch parity p in {0, 1}: w{p}, D6{p}{c} (f2 + fh), HF{p}{c} (f2 + fh + deep
         buckets to camera event 24), plus diagnostics."""
@@ -149,6 +149,8 @@ class Ctx115(T114.Ctx114):
                 hf = d6 + sum((out[f'{nm}{c}'] for nm in deep if f'{nm}{c}' in out), 0.)
                 acc[f'D6{par}{c}'] = acc.get(f'D6{par}{c}', 0.) + d6
                 acc[f'HF{par}{c}'] = acc.get(f'HF{par}{c}', 0.) + hf
+                if keep_f2:                                   # (WL115 Stage C, default off: probe f2 = camera event 3 alone)
+                    acc[f'F2{par}{c}'] = acc.get(f'F2{par}{c}', 0.) + out.get(f'f2{c}', 0.)
             for k_ in ('compactions', 'cap_alive', 'cap_throughput_lum', 'bad_origin', 'bad_floor'):
                 diag[k_] += d[k_]
             diag['counted'] += float(dr.sum(mi.Float64(wt))[0]); diag['launches'] += 1
