@@ -333,3 +333,13 @@ These come from the diagnostics above. They will be carried into the final repor
     level. Such differences are of the same kind as those between two runs of one process.
   - This is a non-scientific execution change. No rule, threshold, seed, design or weight changed.
 - **Restart.** The chain stopped at 414 of 720 static items and relaunched at `d6a6525`.
+- **CPU cap during the sequence stage** (owner approval, 2026-11-26 20:43 KST).
+  - With three shards, the sequence stage was CPU-bound at the 4-CPU cap: every CFS period was throttled, and 3090
+    utilization was about 25 % on 1 s samples.
+  - The running container's cap was raised to 8 CPUs with `docker update`, for the sequence stage only.
+  - A host watcher (`results/ecro_recon111/cpu_restore_r111.sh`) restores 4 CPUs when the chain writes `DONE eval_seq`,
+    `STOP` or `RUNNING eval_timing`. Timing is therefore measured under the protocol's 4-CPU cap.
+  - The first two watchers matched words in my own `chain.state` notes and restored 4 CPUs at once. The third matches
+    only the chain's stage lines.
+  - The protocol's 4-CPU cap was stated for timing conditions. Sequence quality evidence does not depend on the CPU
+    budget.
