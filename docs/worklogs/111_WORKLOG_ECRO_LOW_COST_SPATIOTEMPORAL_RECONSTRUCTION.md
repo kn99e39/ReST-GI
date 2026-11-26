@@ -404,3 +404,146 @@ These come from the diagnostics above. They will be carried into the final repor
   - The frozen Stage A design choices (sub, m, futility) were made at full settings and stay as made.
   - Absolute latencies from this timing stage carry the label "3090 at a 250 W power limit with owner clock reduction;
     thermal slowdown active".
+
+## Final report (chain completed 2026-11-26 21:22 KST, verdict fixed by the frozen mapping)
+
+The chain at `a89cfed` (evidence code `0c56218` + execution fix 4 `d6a6525` + Amendment 1) finished every stage. The
+guard logged `exit rc 0`. `analyze_r111.py` returned **NOT_SUPPORTED**.
+
+### Implementation fact
+
+- **Candidate CT-AK.** One compact network at m = 1.0, sub = 4 (Stage A design rule), 194,102 parameters, two training
+  realizations (r0, r1).
+  - Spatial S: per-component 5×5 softmax à-trous passes, dilations 1, 2, 4.
+  - Temporal ST: S plus one raw-LOW/HIGH history. The history uses nearest reprojection and per-step validity tests,
+    with up to 32 frames of accumulation. It is reset globally on any geometry or light revision.
+- **Execution.** All arms run under the same execution contract. S/ST run as CUDA graphs and R3 as one CUDA graph. Guide
+  cost is included in every E2E.
+- **Stage E.** All synthetic contracts E1–E13 pass, including graph == eager.
+
+### Measurement
+
+**References.** All sealed-view references qualify: SE / R3 RMSE ratio 0.039–0.092 against a limit of 0.10.
+- Q2 qualifies.
+- Q5 qualifies.
+- Q3 does not qualify, with either config: total change 4.28 % / 4.29 % against the 5 % rule. Under the protocol it is
+  skipped and reported.
+- Q4 does not qualify: per-step resolved fraction 0.34 against 0.50. A non-qualifying Q4 cannot support a continuous-edit
+  claim.
+
+**Routes at the primary anchor (R3, 4 spp).** Ratios are candidate / R3; the bracket is the 95 % interval.
+
+| Regime | R3 E2E | Route A | Route B | Result |
+|---|---|---|---|---|
+| static_warm (sealed) | 21.67 ms | 1 spp: RMSE 0.486 [0.41, 0.55], time 0.228 | 6 spp: D 0.71 (lower95 0.67) | PASS, both realizations |
+| static_warm_historical | 21.67 ms | 1 spp: 0.553 (r0) / 0.489 (r1), time 0.228 | PASS | PASS |
+| cold_reset (S, no history) | 21.67 ms | best: 8 spp, RMSE 0.936, time 1.05; ROI fail | D −0.04 | FAIL |
+| continuous_edit (Q4, non-qualifying) | 45.04 ms | 8 spp: 0.992, time 1.02 | D −0.06 | FAIL |
+| camera_motion (Q2) | 46.10 ms | no point with upper95 ≤ 1.05 | D −1.72 | FAIL |
+
+- **Static, the other anchors.** At anchor 16, Route A passes in both realizations; at anchor 32 it fails for r0. Route
+  B passes at both.
+- **Equal spp, sealed views.** Mean relative RMSE:
+
+  | spp | R3 | S0 / S1 | ST0 / ST1 after 64 frames | SVGF after 64 frames | R0 |
+  |---|---|---|---|---|---|
+  | 1 | 0.0259 | 0.0280 / 0.0262 | 0.0074 / 0.0071 | 0.0153 | 0.472 |
+  | 4 | 0.0151 | 0.0180 / 0.0164 | 0.0049 / 0.0047 | 0.0108 | — |
+
+**Dynamic safety.**
+
+| Rule | Result | Values |
+|---|---|---|
+| D1, no stale history after an edit | PASS | 6,144 frames, max rel L1 0.0 |
+| D2, disocclusion | PASS | 48 of 22,306,656 disoccluded pixels retained (2.2e-6) |
+| D3, no attenuation (Q2) | FAIL | ST / S temporal-change error 1.17 (r0) / 1.15 (r1), rule ≤ 1.05; slope 0.97 is in range |
+| D4, reset regression | FAIL | see the attribution below |
+| D5, continuous latency | PASS | |
+| D6, camera-motion quality (Q2) | FAIL | see below |
+
+- **D6 detail.** The ST / S RMSE ratio grows with spp, in both realizations:
+  - primary 1.59 → 2.66 (1 → 8 spp);
+  - silhouette 1.21 → 1.32;
+  - sss_interior 2.80 → 6.18.
+- **Absolute contract C.** It fails in every regime.
+  - static_warm: silhouette bias +1.07 % against ≤ 1 %, gradient ratio 0.87 / 0.93.
+  - cold_reset: silhouette bias +3.3 % (r0).
+  - continuous_edit: silhouette −1.2 to −1.4 %, material boundary −1.05 % (r0).
+
+**Timing.**
+- **Conditions.** Measured 21:07–21:16 KST, 2026-11-26:
+  - RTX 3090 at the owner's 250 W power limit and clock reduction;
+  - no CPU cap; load1 2–3.
+  - During busy 1 s samples, the median SM clock was 833 MHz (375–1455), the GPU sat at 84–85 °C, and SW Thermal
+    Slowdown was active in 58 of 60 busy samples.
+- **Static frame.** R0 / R3 / S0 / ST0 at 4 spp: 10.84 / 21.67 / 12.72 / 12.83 ms.
+- **Camera form.** Candidate: guide pack 2.71 + graph 2.26 ms. R3: 8×8 guides 5.78 + graph 12.01 ms.
+- The capped aborted block and the uncapped block agree within 1–3 %.
+
+### Observation
+
+- **D4 is a hardware-fault artifact.** Of the 1,440 forced-reset checks (720 static items × 2 realizations), 1,438 are
+  exactly 0.0. The other two are both 64.0, in the same item, `H5_spp24_r4`.
+  - That item is the last record written before the RTX 3090 failed: 17:57:44 KST on 2026-11-25. The process stalled
+    right after.
+  - Frames 1–64 of that item have metrics in the range of the other five replicates. Only frame 65, the forced reset,
+    is affected.
+  - **Post hoc recheck** (labelled, not evidence for the verdict). The item was recomputed alone on the rebooted 3090 in
+    a separate root. All 308 metric values are identical to the original, and both reset checks are 0.0. The file is
+    `evaluation/111/posthoc/recheck_H5_spp24_r4.json` (sha256 0734884…).
+  - D4 is therefore attributed to the GPU fault, not to the candidate. The evidence file stays as written, and the
+    verdict stays as computed.
+  - The recheck also shows that resumed and sharded execution reproduces a pre-failure item bitwise.
+- **The verdict does not depend on D4.** D3 and D6 fail on their own, so NOT_SUPPORTED holds either way.
+- **History under camera motion** (Q2, frame 48; `history_maps_Q2_4spp.png`).
+  - The history is accepted almost everywhere; only thin silhouette rims are rejected. The SSS sphere carries the full
+    32-frame age.
+  - The error grows with spp and is largest in sss_interior.
+- **The static frontier is strong.** With a warm history, ST at 1 spp is about half of R3's RMSE at 4 spp, at 23 % of its
+  E2E latency. ST after 64 frames is 3–4× more accurate than SVGF's 64-frame history.
+
+### Interpretation
+
+- **Static.** With a warm history, CT-AK moves the static quality–performance frontier well past R3. Both routes pass at
+  the primary anchor, for both realizations.
+- **Without history** (cold_reset), the spatial network alone does not match R3 at equal or lower cost.
+- **Camera motion.** The history mechanism, as specified, degrades quality: ST is worse than S, and 2.7–2.9× R3. The
+  dynamic-safety contract exists to catch exactly this.
+- **Likely cause** (an inference, not isolated by an experiment). The validity tests compare only consecutive frames.
+  They therefore never bound the drift a history accumulates over up to 32 steps:
+  - the angular drift of view-dependent SSS radiance (0.995 per step accepts the whole orbit);
+  - repeated nearest-pixel resampling.
+  Either effect would be hidden at low spp by noise and would dominate as noise falls, which matches the rising D6
+  ratios.
+
+### Unresolved
+
+- **Q2 attribution.** Which of the two mechanisms causes the Q2 degradation was not separated: stale view-dependent SSS,
+  or nearest-resampling drift on Lambert surfaces.
+  - The primary ROI is also 1.6–2.8× worse, so the Lambert part is not zero.
+  - This would need a controlled run with the history disabled per material, or with bilinear reprojection. Neither is
+    authorized here.
+- **Continuous edits.** Q3 and Q4 did not qualify, so continuous-edit quality is unmeasured as a claim.
+- **Timing comparability.** Timing ran on a power-limited, thermally throttled GPU. Absolute latencies are not comparable
+  to Stage A or WL108. GPU-bound and host-bound arms may scale differently under the clock reduction.
+- **ReST-GI performance observations.** The observations in the section "Observations relevant to ReST-GI performance
+  beyond this batch" stay open as recorded.
+
+### Architecture verdict
+
+**NOT_SUPPORTED** (frozen mapping: a D rule fails).
+- D3 and D6 fail on camera motion for both realizations. D4 fails only through the hardware-fault item.
+- Descriptively, the static warm-history frontier gain is real (Routes A and B pass) but does not carry into the dynamic
+  regimes.
+- The candidate is not adopted, and no successor is authorized.
+
+### Reproducibility
+
+- **Code and protocol.** Code `0c56218`, plus execution fix 4 `d6a6525` and Amendment 1 `a89cfed`. Protocol sha256
+  e160f91c…
+- **Evidence.** Under `~/rest_sss101a/results/ecro_recon111/evidence` on LabServer70, including 13 GB of ladder data.
+  The JSON and logs are mirrored to the gitignored `results/ecro_recon111/evidence/`.
+- **Analysis.** `analysis.json` sha256 dcf392d5…
+- **Reviewer package.** `evaluation/111/`, made by `package_r111.py` at `5bc399d`. `manifest111.json` hashes 801
+  evidence JSON files.
+- **GPU condition log.** `evidence/timing_gpu_conditions.csv`.

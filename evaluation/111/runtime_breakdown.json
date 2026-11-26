@@ -1,0 +1,46 @@
+{
+ "candidate_camera_form": {
+  "guide_pack": 2.7063679695129395,
+  "graph": 2.2558720111846924
+ },
+ "r3_graph_camera_form": {
+  "guides_8x8": 5.783552169799805,
+  "graph": 12.011520385742188
+ },
+ "r3_eager_stages": {
+  "features": 0.19910399615764618,
+  "net_low": 6.119424104690552,
+  "apply_low": 0.7680000066757202,
+  "net_high": 6.077951908111572,
+  "apply_high": 0.766975998878479,
+  "sum": 0.011264000087976456
+ },
+ "stageA_candidate_breakdown": {
+  "sub4_eager": {
+   "guide_pack": 2.5081920623779297,
+   "temporal": 1.3485119938850403,
+   "features": 0.3031200021505356,
+   "network": 3.1201279163360596,
+   "spatial_passes": 3.433471918106079,
+   "wall_total": 10.861684568226337
+  },
+  "sub4_graph": {
+   "guide_pack": 2.550607919692993,
+   "graph": 6.169584035873413,
+   "wall_total": 8.864267729222775
+  },
+  "sub8_eager": {
+   "guide_pack": 4.464895963668823,
+   "temporal": 1.0046080350875854,
+   "features": 0.3067999929189682,
+   "network": 3.1098880767822266,
+   "spatial_passes": 3.433471918106079,
+   "wall_total": 12.450904585421085
+  },
+  "sub8_graph": {
+   "guide_pack": 4.545536041259766,
+   "graph": 5.784496068954468,
+   "wall_total": 10.494101792573929
+  }
+ }
+}

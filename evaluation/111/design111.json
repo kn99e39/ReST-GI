@@ -1,0 +1,11 @@
+{
+ "sub": 4,
+ "m": 1.0,
+ "guide8_median_ms": 4.3916404247283936,
+ "candidate_m1_camera_form_ms": 8.899372071027756,
+ "r3_camera_form_ms": 15.254694037139416,
+ "futility_ratio": 0.5833858122202351,
+ "cost_futility_stop": false,
+ "rule": "Fixed before Stage A. sub = 8 (R3's guide resolution) if the measured 8 x 8 guide acquisition median <= 1.0 ms, otherwise sub = 4. Width m = the largest of {2.0, 1.5, 1.0} whose measured candidate subsystem median (guide pack with sub-pixel guides(sub) + centre guide + visibility query, then the CUDA graph of temporal step + features + network + three passes; camera-motion form) is <= 3.0 ms at 512 x 512; if none is, m = 1.0. The decision uses cost only (untrained weights), before any training or quality evidence.",
+ "futility_rule": "STOP (NOT_SUPPORTED by cost) before training if the candidate subsystem at m = 1.0 in the camera-motion form is >= 0.70 x the R3 subsystem in the same form (8 x 8 guide acquisition + R3 under the common execution contract)."
+}
