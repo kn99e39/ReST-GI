@@ -366,3 +366,41 @@ These come from the diagnostics above. They will be carried into the final repor
 - **Scope.** This changes an execution condition of the timing measurement: Absolute latencies are labelled as measured
   on a shared host without a CPU cap. No rule, threshold, seed, design, weight or quality evidence changed. The
   protocol file stays as frozen; this entry records the deviation from its `host.cpu` text.
+
+## Timing conditions — RTX 3090 power limit and clock reduction (owner, 2026-11-26)
+
+- **Owner report.** The owner suspects that power caused the 3090 failure on 2026-11-25. After the reboot they set a
+  power limit and a clock reduction on the 3090, and they expect it to compute noticeably slower.
+- **What `nvidia-smi` shows during the timing stage** (21:13–21:15 KST):
+  - Power limit 250 W; the default is 350 W. Draw is 200–223 W.
+  - SM clock 795–1470 MHz on 1 s samples; the maximum is 2130 MHz. Memory clock 9501 MHz.
+  - Active clock event reason: **SW Thermal Slowdown** (0x20), not SW Power Cap. The GPU is at 84–85 °C with the fan at
+    100 %.
+  - `nvidia-smi` does not report a locked clock range. The owner's exact clock setting is recorded only as the owner
+    states it.
+- **Reference point.** At Stage A (2026-11-24, before the failure) the environment snapshot read 1725 MHz at 71 °C.
+- **Condition log.**
+  - From 21:14:50 KST, a host `nvidia-smi` query samples the 3090 every second until the timing stage ends: SM and memory
+    clocks, power draw and limit, temperature, fan, utilization and clock event reasons. The output is
+    `evidence/timing_gpu_conditions.csv`.
+  - A query creates no compute context, so the guard does not count it as a foreign process.
+  - The timing blocks `static` (21:07–21:09) and `camera_Q2` (to 21:13) ran before this log started. They ran under the
+    same owner settings.
+- **Measured effect so far.** These are descriptive comparisons, not decisions. Stage A and the timing stage time
+  slightly different code paths.
+
+  | Quantity (V0) | Stage A, 2026-11-24 | Timing, 2026-11-26 (limited) |
+  |---|---|---|
+  | 4-spp ECRO frame | 11.45 ms | 10.84 ms (R0 E2E) |
+  | 8-spp ECRO frame | 21.24 ms | 20.69 ms (R0 E2E) |
+  | R3, 4 spp | 11.42 ms (static form, R3 only) | 21.67 ms (R3 E2E incl. frame, ≈ 10.8 ms above R0) |
+
+  So far no large slowdown is visible. The CPU-capped aborted block (21:02–21:04, same GPU settings) agrees with the
+  uncapped block within 1–3 %. The CPU cap therefore did not matter for these latencies either.
+- **Effect on interpretation.**
+  - Every arm in the timing stage is measured under the same limited GPU, interleaved within each block, and the routes
+    use ratios. A clock reduction still need not scale all arms equally: GPU-bound work slows while host-bound work does
+    not.
+  - The frozen Stage A design choices (sub, m, futility) were made at full settings and stay as made.
+  - Absolute latencies from this timing stage carry the label "3090 at a 250 W power limit with owner clock reduction;
+    thermal slowdown active".
