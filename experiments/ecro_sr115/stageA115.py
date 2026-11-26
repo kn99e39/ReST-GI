@@ -116,7 +116,7 @@ def capture(root, only=None):
         loc = -np.ones(N, np.int64); loc[pids] = np.arange(len(pids))
         t0 = time.perf_counter()
         img, cells = ctx.deep_capture(PT.Lights(l), dict(cam, res=C.RES), C.RES, SPP, SEED_CAP + 10 * vi + C.SO,
-                                      {'Q8': (8, None), 'Q32': (32, loc)}, b=48)
+                                      {'Q8': (8, None), 'Q32': (32, loc)}, b=16)
         arrays = {f'img_{k}': v.astype(np.float32) for k, v in img.items()}
         for nm, dd in cells.items():
             for k, v in dd.items():
