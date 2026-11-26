@@ -1,0 +1,17 @@
+{
+ "batch": "WL114A (suffix of WL114): LR3 learned full-depth stages with the ported adapter",
+ "date": "2026-11-26",
+ "branch": "ecro_lr3_adapter",
+ "machine": "local RTX 5080; Mitsuba 3.6.4 / Dr.Jit 1.0.5 / torch 2.8 cu128 (C:/Projects/TransGI_Reproduction/.venv) for data, oracle and evaluation; training in external/8dna26/.venv-cu128 (torch only, train102 recipe)",
+ "start_condition": "owner instruction 2026-11-26: start only after WL115 (experiments/ecro_sr115) has finished including its worklog; watcher condition: docs/worklogs/115_*WORKLOG*.md committed in HEAD with a final-report / architecture-verdict section, no python process of experiments/ecro_sr115, GPU utilisation < 10 % for 10 consecutive minutes",
+ "invariants": "WL102 LR3 layout (mesh102 Amendment-1 patch rule, N = 8,051), materials, scene area light, camera V0 640x360, ECRO v0 (735,664) unchanged, train102 recipe unchanged (no area floor), physical LOW e1 / e2, HIGH from camera event 3 read at event 2",
+ "target": "K* = 96 (WL114 rule applied to the WL114 Stage A LR3 ladder: paint misses 1.2-1.3e-3 at 48 events, <= 1.0e-4 at 96). D6 target f2 + fh; full target f2 + fh + deep buckets 7..96 from the SAME probe samples",
+ "data": "gen102 splits and seeds (train 128 x 4 point lights, 64 spp, seed 102100; val 16 x 4, 2 x 128 spp, 102200; test 1 x 2 control lights, 2 x 256 spp, 102300; control lights seed 102900), deep field to probe event 95; budget 3.0 h",
+ "arms": {"A": "D6 targets, seed 10202", "B": "full targets, seed 10202", "collapse_rule": "if either final val whole rel L1 >= 0.99, both arms are rerun once with seed 10203 (predeclared); still collapsed -> NOT EVALUABLE", "budget": "<= 2.5 h per training pair"},
+ "evaluation": "scene area light (never seen in training), source encoding SceneLights(64); oracle tables: 2 deep field replicas x 256 spp (seeds 114601 / 114602), B_D6 and B_F from the same samples; converged readouts 2 x 512 spp (seeds 5001 / 5002, paired across tables); 4-spp operating point (20 frames, seeds 4000 + i); references Ref-65 (qualified full depth) and Ref-7 (6 events); local physical D6 (2 x 1,024) and 96-event (2 x 1,024) renders from the port qualification",
+ "metrics": "metrics102 definitions (GI = e2 + hl vs reference GI; LDR RMSE / L1 / SSIM, HDR RMSE / bias / relMSE, rel RMSE / L1, linear PSNR), full frame and WL102 material-group regions (rug, cushions, sofa, floor, walls, paint; masks from WL114 Stage A, Mitsuba 3.6.4 first-hit ids); learned error = readout of the arm vs readout of its own-depth oracle table (paired); TransGI 0.0775 (WL102) and PT + denoiser (benchmark) as context only",
+ "verdict_H1_LR3": "SUPPORTED if B GI LDR RMSE vs Ref-65 <= 0.5 x A's, |B HDR bias vs Ref-65| <= 5 %, B learned error <= 1.5 x A learned error + 0.005, and no collapse; NOT SUPPORTED if B RMSE >= 0.9 x A's or |bias| >= 15 % or B learned error >= 2 x A's + 0.01; INCONCLUSIVE otherwise",
+ "known_platform_difference": "local vs server Mitsuba 3.6.4 renders differ in a 208-pixel direct-light wall patch (cols 317-326, rows 94-115); GI agrees within 1.2e-4; GI metrics are unaffected in the mean",
+ "not_run": "dynamic LR3 edits (WL102 stage 4 never authorised)",
+ "do_not": "change materials, layout, network, recipe, thresholds; use LabServer69"
+}

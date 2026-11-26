@@ -70,3 +70,28 @@ The ECRO model / training (`model86`, `train102`) are torch-only and unchanged.
 - The adapter port is complete and qualified.
 - LR3 Stages B–E of WL114 (full-depth oracle tables, matched D6 / full learned arms, evaluation vs Ref-65) have **not been started**. They need an owner decision; the owner expressed doubt about whether LR3 is needed.
 - Applying the WL114 K\* rule to LR3 Stage A's ladder gives **K\* = 96**: paint misses 1.2–1.3e-3 at 48 events. This would be fixed in the protocol before any LR3 learned evidence.
+
+## 5. LR3 learned stages: protocol frozen, start deferred (owner instruction)
+
+**Authorisation and start condition.** The owner authorised running the LR3 learned stages locally. They are to start **only after WL115 has finished, including its worklog**. A detached watcher (`watch114a.sh`) launches `chain114a.sh` once all of the following hold:
+- `docs/worklogs/115_*WORKLOG*.md` is committed with a final-report / architecture-verdict section;
+- no `ecro_sr115` python process is running;
+- the GPU has been below 10 % utilisation for 10 consecutive minutes.
+
+**Protocol.** `protocol/lr3_114a.json`.
+- **K\* = 96.**
+- WL102 data splits and seeds; a deep field to probe event 95.
+- Matched arms with the unchanged train102 recipe: A (D6) and B (full), seed 10202. One predeclared rerun of both arms with seed 10203 if either collapses.
+- Evaluation:
+  - scene area light;
+  - oracle tables from the same deep samples;
+  - paired converged readouts;
+  - a 4-spp operating point;
+  - metrics102 definitions vs Ref-65 / Ref-7.
+- The predeclared H1-LR3 verdict rule is in the protocol.
+
+**Development runs** (throwaway, `results/ecro_lr3_114a/dev`, tiny sizes):
+- The chain passed end to end.
+- Deep-field throughput: 2.7 s per light at 64 spp, to event 96.
+- Training: about 0.165 s per step with two arms in parallel.
+- A numpy-2 scalar conversion in the copied `encoder_rows` (Mitsuba 3.6 returns 1-element arrays) was fixed. It does not change semantics.
