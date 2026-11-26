@@ -637,3 +637,21 @@ Since then the guard waits: GPU work on the RTX 3080 Ti (the timing stage keeps 
   - The guard log for that attempt (start → exit with no preemption) is the exclusivity record.
   - The in-JSON `exclusivity` field is therefore always "clean" and is not used as evidence.
 - The load gate for timing-bearing stages (≤ 2) and the whole-host rule are unchanged.
+
+### 2026-11-25/26 — host GPU failure and reboot; chain relaunched (execution record, no protocol change)
+
+All times are LabServer70's clock.
+
+| Time | Event |
+|---|---|
+| 11-25 13:00–17:56 | Timing still waiting: other users' compute processes on the RTX 3090 (12510, 22343, 13489 …) |
+| 11-25 17:57 | `nvidia-smi` starts failing on the host (a GPU failure; the owner confirmed the GPU went down). The guard cannot see the GPUs and keeps waiting (48 logged waits) |
+| 11-26 17:53 | Host rebooted. The chain (PID 10041) and the timing guard (PID 10742) are killed at the timing wait. No `STOP` line: the processes were killed, not failed |
+| 11-26 18:51 | GPUs recovered (driver 550.54.15 loaded, both idle). The same chain `run109b_amend5.sh` is relaunched at commit d2e255e (code on the host verified identical to the commit) |
+
+- **No WL109B GPU work ran** between attempt 2 (preempted 11-25 03:46) and the reboot. No timing unit was written; only a
+  `.tmp_V0` from the preempted attempt remains, and the capture deletes it at the next unit start.
+- **On relaunch**, completed stages are verified and skipped: tests rerun, `xcheck109b.json` = PASS is reused, and paired / grid
+  units are detected as complete. The bias analysis is a deterministic recomputation from the same paired units.
+- The cause of the GPU failure was not investigated by this batch (the host logs need root). No WL109B measurement was
+  taken before or during it.
