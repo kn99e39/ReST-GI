@@ -22,6 +22,7 @@ import torch
 import common_r111a as A
 import common_r111 as C
 import recon_r111 as RC
+import recon_r111a as RA
 import train_r111 as T
 
 
@@ -51,7 +52,7 @@ class Data(T.Data):
         return torch.zeros_like(u) if self.cold else u
 
 
-def main(arm, age, sub, ri):
+def main(arm, age, sub, ri, net_kind="ctak"):
     data = A.WL111_EVID / "data"
     guide_dir = data / "ladder" if sub == 4 else A.OUT / "ladder8"
     seed_ = C.P["seeds"]["training_realizations"][ri]
@@ -59,7 +60,7 @@ def main(arm, age, sub, ri):
     device = "cuda"
     names = sorted(p.stem for p in (data / "ladder").glob("T*.npz") if not p.stem.endswith("_guides"))
     ds = Data(data, names, device, guide_dir, age == "cold")
-    net = RC.CompactNet(1.0).to(device)
+    net = RA.NETS[net_kind](1.0).to(device)
     init_sha = C.array_sha(torch.cat([p.detach().flatten().cpu() for p in net.parameters()]).numpy())
     iters = int(os.environ.get("RECON111A_ITERS", 20000))      # smoke only; evidence runs use 20000
     opt = torch.optim.Adam(net.parameters(), lr=2e-4)
@@ -68,7 +69,7 @@ def main(arm, age, sub, ri):
     gen = torch.Generator().manual_seed(seed_)
     out = A.OUT / "models"
     out.mkdir(parents=True, exist_ok=True)
-    logd = {"arm": arm, "age": age, "sub": sub, "realization": ri, "seed": seed_, "params": RC.n_params(net),
+    logd = {"arm": arm, "net": net_kind, "device": torch.cuda.get_device_name(0), "age": age, "sub": sub, "realization": ri, "seed": seed_, "params": RC.n_params(net),
             "init_sha256": init_sha, "iters": iters, "losses": [], "train_views": names, "guide_dir": str(guide_dir)}
     t0 = time.perf_counter()
     for it in range(iters):
@@ -99,5 +100,6 @@ if __name__ == "__main__":
     ap.add_argument("age", choices=("mixed", "cold"))
     ap.add_argument("sub", type=int, choices=(4, 8))
     ap.add_argument("ri", type=int, choices=(0, 1))
+    ap.add_argument("--net", default="ctak", choices=tuple(RA.NETS))
     a = ap.parse_args()
-    main(a.arm, a.age, a.sub, a.ri)
+    main(a.arm, a.age, a.sub, a.ri, a.net)

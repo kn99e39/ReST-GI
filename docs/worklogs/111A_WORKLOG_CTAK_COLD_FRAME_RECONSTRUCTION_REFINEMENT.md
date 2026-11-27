@@ -236,3 +236,26 @@ reduction. No CPU caps of my own. Primary timing is single-process and records c
   full-resolution 3×3 convolutions per component.
 - **Decision point (owner).** Either stop here as INCONCLUSIVE by the rule as written, or run one additional labelled
   Stage B control for H3 with a rule fixed before it runs.
+
+## Stage B addition: H3 matched control (owner approval 2026-11-27; added after the Stage B results, rule fixed now)
+
+The owner chose to run one additional Stage B control for H3 instead of stopping as INCONCLUSIVE. It is labelled as an
+addition made after the Stage B results were seen.
+
+- **Arm P4 (`recon_r111a.FullResNet`).**
+  - It is WL111's CompactNet with the full-resolution 1×1 fusion layer replaced by two 3×3 convolutions (48 → 32 → 32
+    channels). The predictor then has three full-resolution 3×3 layers instead of one.
+  - Trunk, head, inputs, the 150-logit output and the spatial operator are unchanged.
+  - About +21.5k parameters (CompactNet 194,102).
+- **Contract.** S111's own contract: mixed ages, sub-4 guides, same data stream, loss, schedule, steps, batch and seeds.
+  The initial weights necessarily differ from WL111's, because the module set changes.
+- **Execution.** RTX 3080 Ti only (owner), one process at a time under `guard_r111.py --gpu-uuid <3080 Ti>`, with CUDA OOM
+  retries. A smoke run (200 steps) gates the run.
+- **Evaluation.** The Stage A dev realization sets, paired: same seeds, label `devset_H3`.
+- **Rule, fixed before the run.**
+  - H3 is actionable if P4 reduces the dev cold-frame primary MSE at 4 spp, pooled over the 7 views, by ≥ 10 % relative
+    to S111 of the same seed, in both seeds.
+  - If H3 is actionable, it is the selected mechanism for Stage C. Stage C then still has to declare cost consequences
+    and futility before final training.
+  - If H3 is not actionable, the batch stops as INCONCLUSIVE.
+  - ROI and component effects are reported descriptively.
