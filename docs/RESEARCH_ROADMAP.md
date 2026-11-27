@@ -55,6 +55,10 @@ The sequence below defines **questions, dependencies, controls and exit decision
     - lifted-state (30–100 mm) dense-oracle over-brightness (+2.5 to +4.9 %);
     - a smaller learned excess at lifted / new positions (≤ about +2 %).
   - **Living Room 3:** the full-depth reference is qualified (Ref-65). The learned LR3 stages were not run (execution-stack constraint).
+- *Update 2026-11-27 (WL115; gate still NOT_RESOLVED; R3 and R9 not run):*
+  - **Spatial.** A geometry-adaptive refinement (CAR-16: 16×16 on about 5 % of cells near other objects) removes most of the localised near-contact error. This holds in the oracle and in learned ECRO on independent and fresh configurations: R1L windows −64 to −82 %, innermost ring and lifted bias about −40 %. Dynamic R7 tracking now passes.
+  - **Not resolved.** A broad +2–2.6 % near over-brightness remains under the uniform measure at any spatial resolution. It is the within-bin angular measure on the contact patches, so the approved 3 % contract still fails. The learned candidate's frozen H2 is INCONCLUSIVE.
+  - **Remaining blocker:** directional (bin) resolution on the contact patches. It is outside the spatial scope and needs an owner decision.
 
 Do not treat historical failures of the earlier intrinsic-K line as observed defects of the learned ER baseline. They are possible failure mechanisms and diagnostic controls. Do not convert the local ER success into a full-K, global-interreflection, dynamic-reuse or end-to-end superiority claim. GM2–GM4 are directional commitments, not automatically approved work.
 

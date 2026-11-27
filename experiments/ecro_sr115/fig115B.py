@@ -78,7 +78,7 @@ def main(root, out):
             e, se = AA.window_map(Mc[a], Rf, kap); loc, fail = AA.r1l_location(e, se, cen, g3, r)
             im = ax[1, i + 1].imshow(np.where(cen, e, np.nan)[sl], cmap='RdBu_r', norm=TwoSlopeNorm(0, -vmax, vmax))
             ax[1, i + 1].contour(fail[sl], levels=[0.5], colors='k', linewidths=0.6)
-            ax[1, i + 1].set_title(f'{a}: window error, R1L failing outlined ({int(fail.sum())})')
+            ax[1, i + 1].set_title(f'{a}: R1L failing {int(fail.sum())}')
         ax[1, 0].axis('off')
         for a_ in ax.ravel():
             a_.set_xticks([]); a_.set_yticks([])

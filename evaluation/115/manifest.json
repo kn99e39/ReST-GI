@@ -1,0 +1,231 @@
+{
+ "batch": "WL115",
+ "source_root": "results/ecro_sr115/primary",
+ "files": {
+  "blender/README.md": {
+   "sha256": "788c5f5920dab66e02ab0ea372a5b3e86e79b08939a4a825515844a040c2cbbf",
+   "bytes": 2676,
+   "producer": "blendspec115.py / blend115_build.py (owner request, not rendered)"
+  },
+  "blender/ReSTGI_reference_fulldepth_SEQ_A_gap50mm_H2.exr": {
+   "sha256": "5f45765247d1eef6b0a9a44ae7093a4a19ec9bdd20df51761b6a38feba1974eb",
+   "bytes": 4202928,
+   "producer": "blendspec115.py / blend115_build.py (owner request, not rendered)"
+  },
+  "blender/ReSTGI_reference_fulldepth_SEQ_A_gap50mm_V0.exr": {
+   "sha256": "aaf1c90ac00f170e749df191fffccc088809cd9d00bd362d8cd405fe1dc2b303",
+   "bytes": 4202928,
+   "producer": "blendspec115.py / blend115_build.py (owner request, not rendered)"
+  },
+  "blender/SEQ_A_gap50mm_ReSTGI_SSS_scene.blend": {
+   "sha256": "0a5fece04969ab7455dbf885fed91e7e01a628245573f61b217cfa743d8e9759",
+   "bytes": 4465584,
+   "producer": "blendspec115.py / blend115_build.py (owner request, not rendered)"
+  },
+  "blender/SEQ_A_gap50mm_spec.json": {
+   "sha256": "63a40036b8ab4e2aeb37eb4843f0fecafdbf60a16bf8116f6c2be98f7c2ff7ae",
+   "bytes": 4610,
+   "producer": "blendspec115.py / blend115_build.py (owner request, not rendered)"
+  },
+  "F0_contact_view_V0_R1L_window_error_by_representation_contact_crop.png": {
+   "sha256": "d8bd3c0341e8f128e69f1af154461a44b39cf451016ddbf823cd764ed014531c",
+   "bytes": 430073,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "F0_contact_view_V0_within_patch_HIGH_field_and_event2_query_distribution.png": {
+   "sha256": "56bfeaf29b58f7d4d7264a052aab963cfc64b5b76c783db40aebe1e34813be9b",
+   "bytes": 139829,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "F1_contact_view_W0_R1L_window_error_by_representation_contact_crop.png": {
+   "sha256": "97b7dda7e7568c83c11a1afadb47e28c619af531614e39bfdf9552ea45556bf3",
+   "bytes": 342428,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "F1_contact_view_W0_within_patch_HIGH_field_and_event2_query_distribution.png": {
+   "sha256": "08092ebf516a00a43628f31f02352a9170cc5996abfecfaf7f156a1b92dfbf4b",
+   "bytes": 136437,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "F2_1_cm_gap_view_W0_R1L_window_error_by_representation_contact_crop.png": {
+   "sha256": "7aad6d40f96ef906a638b49a2c988efc52f770e6cec984591697853e31c681bc",
+   "bytes": 443227,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "F2_1_cm_gap_view_W0_within_patch_HIGH_field_and_event2_query_distribution.png": {
+   "sha256": "c27a1af30973d90185b4108552dea4f705573cb0ba015841262bf68c4d2f4d5c",
+   "bytes": 139833,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "F3_contact_view_W0_R1L_window_error_by_representation_contact_crop.png": {
+   "sha256": "b31a973e395c46940ff64212f9838831eddbcbd79a20db2007e09f3c64a70f67",
+   "bytes": 474021,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "F3_contact_view_W0_within_patch_HIGH_field_and_event2_query_distribution.png": {
+   "sha256": "41bfd2d04e961ef9305cccfdc7a0d5757a304fdda8d4750d7a582d520d498bf0",
+   "bytes": 138167,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "F4_held-out_contact_view_W0_oracle_dense4x4_vs_CAR16_render_and_window_error.png": {
+   "sha256": "bb4f1d8e93eaa2da986ad755817e23fc25d6ee176ecfe68103cbe7f3ceca39b1",
+   "bytes": 214448,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "N4_held-out_gap_6_cm_view_W0_oracle_dense4x4_vs_CAR16_render_and_window_error.png": {
+   "sha256": "0e5ed164d8af7cee393d9e9bb4e592a5dc94e7964b57ab55c5b8acb595644342",
+   "bytes": 224005,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "N4_held-out_gap_6_cm_W0_learned_B1_vs_CAR1_vs_oracle_renders_and_residuals.png": {
+   "sha256": "bd009b6ea3a3cfae3320fa40cdfc1dbc454be1781a1713c1927908790a9b4114",
+   "bytes": 620733,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "N5_fresh_contact_floor-patch_corner_W0_learned_B1_vs_CAR1_vs_oracle_renders_and_residuals.png": {
+   "sha256": "525d8e576779a1adbd6dd087eac926367b480a9b9e3a6b28a3a8b6b094beab36",
+   "bytes": 595379,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "N5_fresh_contact_on_a_floor-patch_corner_view_W0_oracle_dense4x4_vs_CAR16_render_and_window_error.png": {
+   "sha256": "f32af885174326cc904403fd9b970e9dad0b39fab5d906747eb3871836608c5b",
+   "bytes": 223835,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "N6_fresh_contact_at_a_patch_centre_view_W0_oracle_dense4x4_vs_CAR16_render_and_window_error.png": {
+   "sha256": "5e3c03202913ce884a3a849793535cf4e6637c604c5e91e110e663b725993baa",
+   "bytes": 237170,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "N7_fresh_gap_8_mm_view_W0_oracle_dense4x4_vs_CAR16_render_and_window_error.png": {
+   "sha256": "22fb46de336927502d184e7a3b9935121bee8618dffe841677db7144dcf4c9fd",
+   "bytes": 245022,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "N8_fresh_gap_45_mm_view_W0_oracle_dense4x4_vs_CAR16_render_and_window_error.png": {
+   "sha256": "3925c728c5e98e4232ba8b92ab714389a87e1cd23000328e00ece8c700d584d4",
+   "bytes": 225578,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "N8_fresh_gap_45_mm_W0_learned_B1_vs_CAR1_vs_oracle_renders_and_residuals.png": {
+   "sha256": "773b787c0e75b8bda0203a792a92b01e0f733840cf3305dd5375da38b82b1e76",
+   "bytes": 605416,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "SEQ_A_gap_50_mm_view_V0_R1L_window_error_by_representation_contact_crop.png": {
+   "sha256": "feabceae0a088f8db8af6a4f268f8ace5fcba35ee9770bbbfd395da6005c9fbe",
+   "bytes": 416883,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "SEQ_A_gap_50_mm_view_V0_within_patch_HIGH_field_and_event2_query_distribution.png": {
+   "sha256": "d2be19aa07562a5278f6c3a54de0a42513a536c44b0492f1fc152ac61eb83dec",
+   "bytes": 145333,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "SEQ_A_lift_dynamic_near_bias_per_state_learned_CAR_vs_B_and_stale.png": {
+   "sha256": "0e0e865a7424866052d312d6993861c87b5f28a84554df9a958aee4568bedda0",
+   "bytes": 103446,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "SEQ_B_x_0.70_contact_view_V0_R1L_window_error_by_representation_contact_crop.png": {
+   "sha256": "2dd19f16625af4dc2a965067e3104d8211df1c2ca2fe3dde8da50c61168c6a7d",
+   "bytes": 433069,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "SEQ_B_x_0.70_contact_view_V0_within_patch_HIGH_field_and_event2_query_distribution.png": {
+   "sha256": "cdac0d5c6b2bcc30613b842769f427fe69b3f2804cee6efea5559c383da1e228",
+   "bytes": 140722,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "SEQ_C_gap_30_mm_view_W0_R1L_window_error_by_representation_contact_crop.png": {
+   "sha256": "02a4ab3a034d1e9cada858768e66096f3bce0ef3a1f13c000e2bc023bf01fecc",
+   "bytes": 339655,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "SEQ_C_gap_30_mm_view_W0_within_patch_HIGH_field_and_event2_query_distribution.png": {
+   "sha256": "32643a79e47aab2e04892ba934926e9b47d2fb5169a3ae7633e379de8b89c496",
+   "bytes": 137005,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "SEQ_C_gap_80_mm_view_W0_R1L_window_error_by_representation_contact_crop.png": {
+   "sha256": "152a2ad03ef4540ac71e73d26ba3485f3dd15ffedbe7e1725e66647e2859bf61",
+   "bytes": 320503,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "SEQ_C_gap_80_mm_view_W0_within_patch_HIGH_field_and_event2_query_distribution.png": {
+   "sha256": "f4e80f27e405ac1cb46a8267d418fc1c8a2b71a002c85748c45cbcad97a1d5ca",
+   "bytes": 142276,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "SEQ_C_independent_dynamic_near_bias_per_state_learned_CAR_vs_B_and_stale.png": {
+   "sha256": "c802542985adbc0c7fae5eacafcee0f430c2e1dab2743811692f0fae4a481051",
+   "bytes": 96157,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "SEQ_D_held-out_gap_100_mm_W0_learned_B1_vs_CAR1_vs_oracle_renders_and_residuals.png": {
+   "sha256": "459b2eb42cbbd25a0ce7fe90fdf57d18be9122525207d77d68ec623898f427de",
+   "bytes": 598727,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "SEQ_D_independent_dynamic_near_bias_per_state_learned_CAR_vs_B_and_stale.png": {
+   "sha256": "b017e8e08ef0333cbc90eb7a1055bb67bfb27e0d5c327b674b84b4d004bded38",
+   "bytes": 111045,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "SEQ_E_fresh_CAR16_support_activation_floor_and_sphere_by_gap.png": {
+   "sha256": "892c1dbe53cebd00a0953de7d62a693c7c640a3a92de9a8c933f8e72c1d1a15d",
+   "bytes": 134902,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "SEQ_E_fresh_contact_W0_learned_B1_vs_CAR1_vs_oracle_renders_and_residuals.png": {
+   "sha256": "fffa83f58082445b7843101d90fa58744e807eece82ccb9e00e1addcc2a53681",
+   "bytes": 625145,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "SEQ_E_fresh_dynamic_near_bias_per_state_learned_CAR_vs_B_and_stale.png": {
+   "sha256": "db869412859836dce134245b99de9ade2aa90829628091dd797e8011ce4751b5",
+   "bytes": 124304,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "SEQ_E_fresh_gap_70_mm_view_W0_oracle_dense4x4_vs_CAR16_render_and_window_error.png": {
+   "sha256": "3f8e79b85eaa86dae3ee82d8a8f05903382e21fadd51bfeed011b8c39bfab18a",
+   "bytes": 219917,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "SEQ_E_fresh_gap_70_mm_W0_learned_B1_vs_CAR1_vs_oracle_renders_and_residuals.png": {
+   "sha256": "8ffa2aed75828c1ca9a3175135aa65a7a5d63ce26e3bd95ce44b8b22c3d41494",
+   "bytes": 611378,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "stageA_selection_oracle_representations_summary_bars.png": {
+   "sha256": "d4c71cc2eeb3872981170ab8e2a7b0b77647ee55b0880d0d2e8969d869bf24e7",
+   "bytes": 70173,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "stageA_selection_radial_ring_profiles_by_representation.png": {
+   "sha256": "544b673949181383f21d175d1b2c0a4252dfe7d3a714c1857bf602a6817d0d15",
+   "bytes": 147636,
+   "producer": "fig115A.py (Stage A, SELECTION)"
+  },
+  "stageB_independent_oracle_CAR16_vs_dense4x4_summary_bars.png": {
+   "sha256": "6557855ea6de8b55f37c7b50829ae1c2d367bec9ebcb6e347a2d00e8f77cb452",
+   "bytes": 53649,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "stageB_independent_radial_ring_profiles_dense4x4_vs_CAR16.png": {
+   "sha256": "501daf95bff828416dfc465d399690775dbb87bd9127f05b2cdfd87ce212a415",
+   "bytes": 114454,
+   "producer": "fig115B.py (Stage B, HELD_SEEN + FRESH)"
+  },
+  "stageD_independent_learned_CAR_vs_dense_B_and_oracles_summary_bars.png": {
+   "sha256": "f669376291f21238e5e6ce5895a604b7aec2320cf6032786b9789e5dc14f356f",
+   "bytes": 63276,
+   "producer": "fig115D.py (Stage D / E / G)"
+  },
+  "stageG_cost_generator_storage_frame_edit_latency.png": {
+   "sha256": "3f4e6f5b33b59f3ca95db883ed4dee6e42058256dc4b89370955f581f1cec29b",
+   "bytes": 43359,
+   "producer": "fig115D.py (Stage D / E / G)"
+  }
+ }
+}
