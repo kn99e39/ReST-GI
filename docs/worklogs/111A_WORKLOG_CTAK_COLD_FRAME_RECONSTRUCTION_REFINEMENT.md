@@ -290,3 +290,49 @@ addition made after the Stage B results were seen.
   - Guide resolution and training distribution did not reduce it.
 - **Confound.** P4 adds capacity (+11 % parameters) and full-resolution receptive field at once. This control does not
   separate them.
+
+## Stage C — selected intervention (declared 2026-11-27, before final training)
+
+**Development cost check.**
+- `prof_r111a.py`, RTX 3080 Ti, 4 spp, 60 interleaved rounds, CUDA graphs, median synchronized wall time.
+- Results (static form = reconstruction only; camera form = with online guides):
+
+  | Arm | Static form | Camera form |
+  |---|---|---|
+  | R3 | 10.56 ms | 14.31 ms |
+  | S111 | 2.08 ms | 3.38 ms |
+  | P4 architecture | 2.35 ms | 3.65 ms |
+
+- P4 adds +0.27 ms static over S111; its camera form is 0.25× R3's. Peak allocated memory was 279 MB.
+
+**Declaration.**
+- **Selected hypothesis.** H3, predictor limitation: insufficient full-resolution processing depth to predict boundary
+  weights.
+- **Supporting evidence.** On development data only:
+  - The S111 deficit is systematic, boundary-localized and mostly in LOW (Stage A).
+  - The composed CT-AK operator can represent lower boundary bias than R3's (H2 witness).
+  - Neither 8×8 guides nor cold-only training closes the gap in both seeds (H1 / H4 factorial).
+  - The matched full-resolution predictor control reduces dev primary MSE to 0.79 / 0.69× S111 at 4 spp, mainly as bias.
+- **Remaining confounds.**
+  - Added capacity (+11 % parameters) and added full-resolution receptive field are not separated.
+  - Seed variance is large: up to 0.21 in the factorial.
+  - The evidence comes from 7 dev views of one scene.
+  - Mixed-age training is kept, because cold-only training was not supported.
+- **Candidate S111A, exactly the P4 architecture.**
+  - `recon_r111a.FullResNet(1.0)`, 215,638 parameters, the unchanged 3 × 5×5 à-trous operator, sub-4 online guides.
+  - Executed as WL111's S-mode CUDA graph (`GraphCandidate`) with no history (ESS = spp).
+- **Training contract.**
+  - WL111's in every respect: ladder data, mixed-age synthesis, spp distribution, loss, Adam 2e-4 with cosine schedule,
+    20,000 steps, batch 16 × 128².
+  - New seeds 17950021 / 17950022, used nowhere before. So the final checkpoints are not the dev runs that selected the
+    mechanism.
+  - Final weights only, no selection. Device: RTX 3080 Ti.
+- **Preserved control.** S111 r0 / r1: the identical contract with WL111's one-layer full-resolution fusion. The dev P4
+  runs are kept as a replication reference.
+- **Expected effect.**
+  - Primary MSE ≈ 0.7–0.8× S111 at equal spp.
+  - Still ≈ 1.1–1.2× R3 at equal spp, so any frontier gain over R3 must come from cost. A route is not assured.
+- **Expected cost.** ≈ +0.3 ms static over S111.
+- **Cost futility (fixed now).** The batch stops before final quality evidence if, on the final timing device, either:
+  - S111A's camera-form subsystem is ≥ 0.70× R3's camera form; or
+  - its static reconstruction overhead (E2E minus R0 E2E at equal spp) exceeds 4 ms.
