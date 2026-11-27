@@ -1,6 +1,6 @@
 {
   "batch": "WL111A",
-  "title": "CT-AK cold-frame reconstruction refinement: final evaluation protocol (frozen before any final evidence)",
+  "title": "CT-AK cold-frame reconstruction refinement: final evaluation protocol (frozen by commit before any final evidence)",
   "frozen": {
     "renderer": "WL111 frozen ECRO stack unchanged (engine_r111 admission G0; learned table d7e40954...; LOW = E1 + E2, HIGH = HL, TOTAL = LOW + HIGH)",
     "R3": "WL105 R3 checkpoint d51b6919... (8 x 8 online guides), executed as one CUDA graph (WL111 R3Graph)",
@@ -10,12 +10,27 @@
   "host": {
     "device": "LabServer70 RTX 3080 Ti (owner assignment 2026-11-27); quality and timing on this device unless the owner reassigns; every record states the device",
     "container": "WL111 frozen-stack container (lab70/ctr_r111a.sh), no CPU cap",
-    "guard": "guard_r111.py --gpu-uuid <3080 Ti>: 120 s idle before start; any foreign compute process on the device stops and later restarts the step"
+    "guard": "guard_r111a.py --gpu-uuid <3080 Ti> --idle-file results/ecro_recon111a/gpumon_ti.json: 120 s without a foreign compute process on the device before start (skipped when the host monitor gpumon_r111a already proves it); any foreign compute process stops and later restarts the step; CUDA OOM retried after 120 s up to 3 times (lab70/chainF_r111a.sh)"
   },
   "seeds": {
-    "families": {"devref": 30000000, "devset": 31000000, "eval_static": 32000000, "eval_edit": 33000000, "ref_new": 34000000, "timing": 35000000, "smoke": 39000000},
+    "families": {
+      "devref": 30000000,
+      "devset": 31000000,
+      "eval_static": 32000000,
+      "eval_edit": 33000000,
+      "ref_new": 34000000,
+      "timing": 35000000,
+      "smoke": 39000000
+    },
     "structure": "base + i0 * 100000 + i1 * 1000 + i2 (i0 < 10, i1 < 100, i2 < 1000), launched by WL111 launch_seed (splitmix64)",
-    "sealed_camera_seed": 1795001111
+    "sealed_camera_seed": 1795001111,
+    "index_layout": {
+      "eval_static": "(view group: 0 historical / 1 K / 2 N, view_index * 10 + spp_index, replicate)",
+      "eval_edit": "(0, state_index * 10 + spp_index, replicate)",
+      "ref_new": "(view_index, 0, block)",
+      "timing": "(regime: 0 static / 1 edit / 2 components, spp_index, round); arm-order shuffles random.Random(seed(timing, 9, 0|1|2, 0))",
+      "smoke": "smoke runs only (separate output tree final_smoke)"
+    }
   },
   "arms": {
     "R0": "native ECRO, no reconstruction",
@@ -25,11 +40,32 @@
     "excluded": "C1, every temporal-history arm, SVGF"
   },
   "views": {
-    "historical": ["V0", "H1", "H2", "H3", "H4", "H5"],
+    "historical": [
+      "V0",
+      "H1",
+      "H2",
+      "H3",
+      "H4",
+      "H5"
+    ],
     "historical_refs": "WL107 historical references (eval_r111._ref_for); historical-workload comparison, not untouched generalization",
-    "sealed_wl111": ["K1", "K2", "K3", "K4", "K5", "K6"],
+    "sealed_wl111": [
+      "K1",
+      "K2",
+      "K3",
+      "K4",
+      "K5",
+      "K6"
+    ],
     "sealed_wl111_refs": "WL111 references (32 x 8192 spp)",
-    "sealed_new": ["N1", "N2", "N3", "N4", "N5", "N6"],
+    "sealed_new": [
+      "N1",
+      "N2",
+      "N3",
+      "N4",
+      "N5",
+      "N6"
+    ],
     "sealed_new_rule": "cameras105.random_cameras(candidates 200, seed sealed_camera_seed, cfg0 geometry, forbidden = every WL105 camera and K1-K6); accepted in order with WL111's geometry-only rule (2 x 2 valid fraction >= 0.9 and >= 2000 full-sphere pixels at 8 x 8) until six are accepted; references 32 x 8192 spp (ref_new family)",
     "decision_set": "sealed = K1-K6 + N1-N6 (12 views); historical reported separately",
     "edited_states": {
@@ -51,27 +87,44 @@
   },
   "references": {
     "T_ECRO": "primary: qualified expectation of the frozen renderer (as above)",
-    "T_PHYSICAL": "descriptive only: WL110 REF_FULL (kmax 256, 2 x 32768 spp, halves h0 / h1) for V0 / H1 / H2 (cfg0), E_cfg1 (S1) and E_l1 (SL); transport-depth difference (T_PHYSICAL - T_ECRO) reported separately from reconstruction error",
-    "qualification_static": "per decision view: relative RGB RMS SE of the reference mean <= 0.10 x R3's debiased primary RMSE at 4 spp and <= 0.30 x the smallest debiased primary RMSE of any arm entering a decision at that view; otherwise the view's decisions are INCONCLUSIVE (reported)"
+    "T_PHYSICAL": "descriptive only: WL110 REF_FULL (kmax 256, 2 x 32768 spp, halves h0 / h1) for V0 / H1 / H2 (cfg0), E_cfg1 (S1) and E_l1 (SL); transport-depth difference (T_PHYSICAL - T_ECRO) reported separately from reconstruction error; mean of the two halves, per-pixel variance of the mean (h0 - h1)^2 / 4; ROI masks of the T_ECRO reference; mapping V0/H1/H2 -> S0_<view>, E_cfg1 -> S1_V0, E_l1 -> SL_V0",
+    "qualification_static": "per decision view: relative RGB RMS SE of the reference mean <= 0.10 x R3's debiased primary RMSE at 4 spp and <= 0.30 x the smallest debiased primary RMSE of any arm entering a decision at that view; otherwise the view's decisions are INCONCLUSIVE (reported)",
+    "decision_set_rule": "the decision set is qualified iff every one of its 12 views qualifies (qualification_static); otherwise the verdict is INCONCLUSIVE"
   },
   "quality_protocol": {
-    "spp_grid": [1, 2, 3, 4, 6, 8, 12],
+    "spp_grid": [
+      1,
+      2,
+      3,
+      4,
+      6,
+      8,
+      12
+    ],
     "replicates": 8,
     "frame": "one cold frame per replicate: arms receive the identical current-frame component means of that seed (paired)",
     "metrics": "WL111 frame_metrics (debiased relative HDR RMSE, signed luminance bias, silhouette / material-boundary gradient ratio and error) per ROI (primary, sss_interior, silhouette, material_boundary, control, contact separately), plus LOW and HIGH component debiased relative RMSE and per-pixel mean / variance over replicates (expectation-error and variance maps)",
-    "execution": "quality frames may be split over processes on the same device (correctness-preserving: each item is fully determined by its seed)"
+    "execution": "one process on the host device (owner: one process at a time on the 3080 Ti). Quality metrics come from the eager per-component executions (R3: frozen eager forward with its LOW / HIGH parts; CT-AK arms: Candidate.spatial, the S-mode graph body's fused operations); replicate 0 of every item also runs the timed CUDA-graph executions (R3Graph, GraphCandidate S-mode) and records rel. L1 between graph and eager TOTAL (integrity requires <= 1e-3). Items are fully determined by their seeds (sharding would be correctness-preserving).",
+    "component_reference_variance": "N1-N6 references store LOW / HIGH variance of the mean; WL107 historical, WL111 K and edited-state references store TOTAL variance only, so their LOW / HIGH errors are reported without debiasing (flagged per item)",
+    "maps": "per-pixel mean / variance of TOTAL over replicates and replicate-0 outputs at 1 and 4 spp for V0, H1, K1, K4, N1, N4, E_cfg1, E_l1, E_a24 (fp16)"
   },
   "timing": {
     "device": "the host device above, single process under the guard, no other WL111A process",
-    "static": "interleaved per spp: every arm (R0, R3, S111, S111A; one network per architecture) warms up, then each of 30 rounds times one complete current frame per arm in shuffled order: ECRO frame + online guide acquisition + reconstruction to resident HDR output, synchronized wall time",
-    "edit": "interleaved per spp: each timed frame first applies a geometry update alternating cfg0 <-> cfg1 (renderer set_state, timed inside E2E), then the frame, guides and reconstruction",
-    "components": "per arm: guide acquisition, reconstruction graph, ECRO frame, geometry update (medians)",
-    "conditions": "each block records load1, nvidia-smi clocks / power / temperature / throttle reasons before and after"
+    "static": "interleaved per spp: every arm (R0, R3, S111, S111A; one network per architecture) warms up, then each of 30 rounds times one complete current frame per arm in shuffled order: ECRO frame + online guide acquisition + reconstruction to resident HDR output, synchronized wall time (guides are acquired by the arm's own online path and cached while camera and transport revision are unchanged, as in WL111's static regime)",
+    "edit": "interleaved per spp: each timed frame first applies a geometry update alternating cfg0 <-> cfg1 (renderer set_state, timed inside E2E), then the frame, guides and reconstruction (the revision change invalidates the guide cache, so every timed frame includes guide acquisition)",
+    "components": "per arm: guide acquisition, reconstruction graph, ECRO frame, geometry update (medians) (4 spp, 30 interleaved shuffled rounds of synchronized spans: update, frame, guide acquisition, reconstruction; torch-allocator peak per arm)",
+    "conditions": "each block records load1, nvidia-smi clocks / power / temperature / throttle reasons before and after",
+    "warmup_rounds": 5,
+    "exclusivity": "engine_r111.timed_block (RECON111_GUARDED: median utilization <= 5 % and load1 <= 16 before and after each block; contaminated block repeated); the analysis requires a recorded clean exclusivity check for static and edit"
   },
   "decision": {
     "anchor": "R3 at 4 spp (primary); R3 at 1 / 2 spp out-of-distribution diagnostics",
     "routes": "WL111 analyze_r111.routes unchanged (route A: cheapest candidate point with primary RMSE ratio upper95 <= 1.05, E2E ratio <= 0.85 with upper95 < 1.0, decision ROIs silhouette / sss_interior / material_boundary ratio <= 1.05 and upper95 <= 1.10; route B: largest-spp candidate point within R3's E2E, D >= 0.10 with lower95 > 0 and ROIs noninferior); GM over views, two-level bootstrap",
-    "regimes": {"static": "decision set, static timing", "edited": "qualifying edited states, edit timing", "historical": "reported"},
+    "regimes": {
+      "static": "decision set, static timing",
+      "edited": "qualifying edited states as the view set, edit timing; requires >= 4 qualifying states for any claim",
+      "historical": "reported"
+    },
     "mechanism": "S111A vs S111 of the same index at 4 spp on the decision set: GM primary RMSE ratio with bootstrap 95 % interval",
     "absolute_contract_C": "at the routed operating point (else 4 spp), each realization: |signed luminance bias| <= 1 % in primary, sss_interior, silhouette, material_boundary, control; silhouette gradient ratio in [0.8, 1.2]; silhouette and material_boundary RMSE ratio vs R3 upper95 <= 1.05",
     "verdict": {
@@ -82,6 +135,16 @@
       "INCONCLUSIVE": "reference qualification fails for the decision set, a baseline identity fails, or timing exclusivity cannot be established",
       "edited_states": "reported separately with its own route result; no dynamic claim without >= 4 qualifying states"
     },
-    "stop": "cost futility (Stage C): S111A camera-form subsystem >= 0.70 x R3 camera form or static reconstruction overhead > 4 ms on the timing device -> stop before final quality evidence"
+    "stop": "cost futility (Stage C): S111A camera-form subsystem >= 0.70 x R3 camera form or static reconstruction overhead > 4 ms on the timing device -> stop before final quality evidence",
+    "bootstrap_seed": 17990111
+  },
+  "code": {
+    "quality": "evalF_r111a.py",
+    "timing": "timingF_r111a.py",
+    "analysis": "analyzeF_r111a.py (imports analyze_r111 unchanged)",
+    "sealed_views_and_references": "seal_r111a.py",
+    "chain": "lab70/chainF_r111a.sh",
+    "candidate": "recon_r111a.FullResNet",
+    "weights": "OUT/models/S111A_r0.pt, S111A_r1.pt (hashes in the Worklog)"
   }
 }

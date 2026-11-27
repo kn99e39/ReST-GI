@@ -1,7 +1,8 @@
 """WL111A final evaluation inputs: newly sealed views N1-N6 (protocol views.sealed_new_rule) and their T_ECRO references
 (32 x 8192 spp, per-component variance of the mean). Resumable per view.
 
-python seal_r111a.py      -> OUT/final/sealed_new.json, OUT/final/refs/N<k>.npz
+python seal_r111a.py [--smoke]     -> OUT/final/sealed_new.json, OUT/final/refs/N<k>.npz
+  --smoke: OUT/final_smoke, the first two views, 2 x 64 spp (pipeline check only; smoke seed family)
 """
 import sys
 import time
@@ -22,8 +23,9 @@ def log(*a):
     print(time.strftime("%H:%M:%S"), *a, flush=True)
 
 
-def main():
-    out = A.OUT / "final"
+def main(smoke=False):
+    out = A.OUT / ("final_smoke" if smoke else "final")
+    nblk, sppb = (2, 64) if smoke else (NBLK, SPPB)
     (out / "refs").mkdir(parents=True, exist_ok=True)
     eng, audit = SA.setup()
     sys.path.insert(0, str(C.EXP / "ecro_denoise105"))
@@ -43,9 +45,9 @@ def main():
             rec.append({"index": i, "camera": cam, "valid_fraction_2x2": vf, "sphere_full_pixels": sph, "accepted": ok})
             if ok:
                 acc.append(cam)
-            if len(acc) == len(names):
+            if len(acc) == (2 if smoke else len(names)):
                 break
-        assert len(acc) == len(names), "not enough sealed views"
+        assert len(acc) == (2 if smoke else len(names)), "not enough sealed views"
         C.write(f, {"views": dict(zip(names, acc)), "candidates_examined": rec, "admission": audit})
     views = C.read(f)["views"]
     for vi, (name, cam) in enumerate(views.items()):
@@ -56,23 +58,23 @@ def main():
         c = E.cam_dict(cam)
         sums = {k: [0.0, 0.0] for k in ("low", "high", "total")}
         mean = 0.0
-        for b in range(NBLK):
-            comp = eng.blocks(c, SPPB, A.seed("ref_new", vi, 0, b), b=32)
+        for b in range(nblk):
+            comp = eng.blocks(c, sppb, A.seed("smoke" if smoke else "ref_new", 8 if smoke else vi, vi if smoke else 0, b), b=32)
             parts = {"low": comp[0:3] + comp[3:6], "high": comp[6:9]}
             parts["total"] = parts["low"] + parts["high"]
             mean = mean + comp
             for k, x in parts.items():
                 sums[k][0] = sums[k][0] + x
                 sums[k][1] = sums[k][1] + x * x
-        mean = mean / NBLK
-        var = {k: np.maximum(s[1] / NBLK - (s[0] / NBLK) ** 2, 0.0) * NBLK / (NBLK - 1) / NBLK for k, s in sums.items()}
+        mean = mean / nblk
+        var = {k: np.maximum(s[1] / nblk - (s[0] / nblk) ** 2, 0.0) * nblk / (nblk - 1) / nblk for k, s in sums.items()}
         aux = eng.roi_aux(c)
         np.savez(p, mean=mean.astype(np.float32), var_total=var["total"].astype(np.float32),
                  **{f"var_{k}": v.astype(np.float32) for k, v in var.items() if k != "total"},
-                 blocks=NBLK, spp_block=SPPB, **{f"aux_{k}": x for k, x in aux.items()})
+                 blocks=nblk, spp_block=sppb, **{f"aux_{k}": x for k, x in aux.items()})
         log("ref", name, round(time.perf_counter() - t0, 1), "s")
     print("SEAL_COMPLETE", flush=True)
 
 
 if __name__ == "__main__":
-    main()
+    main("--smoke" in sys.argv[1:])

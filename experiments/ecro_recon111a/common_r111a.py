@@ -26,7 +26,8 @@ DEV_SPP = (1, 2, 4, 8)
 DEV_EMPTY = ("Q05",)
 DEV_USED = tuple(v for v in DEV_VIEWS if v not in DEV_EMPTY)
 
-FAMILIES = {"devref": 30_000_000, "devset": 31_000_000, "smoke": 39_000_000}
+FAMILIES = {"devref": 30_000_000, "devset": 31_000_000, "eval_static": 32_000_000, "eval_edit": 33_000_000,
+            "ref_new": 34_000_000, "timing": 35_000_000, "smoke": 39_000_000}
 
 
 def seed(family, i0, i1, i2):

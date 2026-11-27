@@ -355,3 +355,42 @@ addition made after the Stage B results were seen.
   Otherwise the unchanged 120 s wait applies. Preemption, retry and kill behaviour are unchanged.
 - **Scope.** Used by the chains launched from now on. The Stage D chain already running keeps `guard_r111.py`. This
   changes start latency only, not any evidence.
+
+## Stage D: final S111A training (completed 2026-11-27 14:29)
+
+- **Device.** RTX 3080 Ti on LabServer70, one process at a time, under `guard_r111.py`. The smoke run (200 steps)
+  passed first.
+- **Runs.** S111A r0 took 874 s and r1 took 882 s, each 20,000 steps.
+  - FullResNet has 215,638 parameters.
+  - Seeds 17950021 / 17950022. Init sha256 r0 `5340e815…`, r1 `9dbeb31b…`.
+- **Final weights**, with no checkpoint selection:
+  - `results/ecro_recon111a/models/S111A_r0.pt` sha256 `f4cf6b7f04db1d4ef7559d03732fd2c388f5694ec949b33fe2d38312f9511760`
+  - `results/ecro_recon111a/models/S111A_r1.pt` sha256 `be92b7e2b49c5e37635478e3fe5af6b99eb64367c4884c6039fc4e5c7f75ecfd`
+  - The training logs (`S111A_r*_log.json`) record the device, seed, init hash, step count, views and the code hashes.
+
+## Final evaluation protocol freeze (before any final evidence)
+
+- **What is frozen.** `experiments/ecro_recon111a/protocol/recon111a.json` is frozen by the commit that adds this
+  section, before the final chain runs. The 48ae90f draft was completed with:
+  - the guard and its fast start;
+  - the seed index layout;
+  - the decision-set qualification rule: all 12 sealed views must qualify, otherwise INCONCLUSIVE;
+  - the quality execution: eager per-component metrics plus a graph == eager integrity check on replicate 0 of every item,
+    with rel. L1 ≤ 1e-3;
+  - the component reference-variance caveat;
+  - the T_PHYSICAL estimator;
+  - the timing guide semantics and exclusivity.
+- **Code.**
+  - Quality: `evalF_r111a.py`.
+  - Timing and Stage C cost futility: `timingF_r111a.py`.
+  - Analysis: `analyzeF_r111a.py`, which uses WL111 `analyze_r111.routes` unchanged.
+  - Sealed views N1–N6 and their references: `seal_r111a.py`.
+  - Chain: `lab70/chainF_r111a.sh`.
+  - `common_r111a.FAMILIES` now carries the protocol families `eval_static`, `eval_edit`, `ref_new` and `timing`. Before
+    this, `seal_r111a.py` could not have run, so no evidence was produced with the old table.
+- **Chain** (RTX 3080 Ti, one process at a time, `guard_r111a --idle-file`, OOM retry):
+  1. Smoke in `final_smoke`.
+  2. Seal: N1–N6 and 32 × 8192-spp references.
+  3. Timing, followed by the cost-futility check. A stop here means no quality evidence is collected.
+  4. Quality: 26 keys × 7 spp × 8 replicates.
+  5. Analysis.
