@@ -29,7 +29,7 @@ def main():
         np.savez(f, **{k: v.cpu().numpy() for k, v in g.items()})
         # the sub-4 file's camera must be the same view: compare the ladder record's camera
         rec = C.read(lad / f"{n}.json")
-        assert rec["camera"] == cams[n], n
+        assert rec["camera"] == E.cam_dict(cams[n]), n          # the ladder record stores engine.cam_dict (with res)
         man["views"][n] = {"sha256": C.sha(f), "sub4_sha256": C.sha(lad / f"{n}_guides.npz")}
     C.write(d / "manifest.json", man)
     print("GUIDES8_COMPLETE", len(names), flush=True)
