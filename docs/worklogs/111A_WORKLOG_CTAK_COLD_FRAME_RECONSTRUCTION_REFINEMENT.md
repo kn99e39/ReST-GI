@@ -394,3 +394,17 @@ addition made after the Stage B results were seen.
   3. Timing, followed by the cost-futility check. A stop here means no quality evidence is collected.
   4. Quality: 26 keys × 7 spp × 8 replicates.
   5. Analysis.
+
+## Final chain: smoke passed (2026-11-27 16:53); evidence chain running
+
+- **Smoke run** (`final_smoke`). Every step completed: seal (2 views at 2 × 64 spp), timing (3 rounds), quality
+  (V0 and E_cfg1 at 1 / 4 spp × 2 replicates) and analysis. Its verdict was INCONCLUSIVE, as a smoke run must be:
+  there is no decision set and no exclusivity record.
+  - On every item, the graph and eager TOTAL had rel. L1 = 0.
+  - The guard fast start was used (`idle_fast`).
+- **Reviewer-artifact changes after the freeze commit 5b65297.** These were made before any quality evidence and enter
+  no decision.
+  - `evalF` also stores the geometry ROI masks in the map files, for the boundary crops.
+  - `figs_r111a.py` was added to make the figures, tables and the `evaluation/111A` package. It was tested on the smoke
+    output.
+- **Evidence chain** started at 16:53, beginning with the seal step.

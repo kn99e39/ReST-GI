@@ -293,6 +293,8 @@ def main(smoke, only):
             C.write(f, rec)
             if keep:
                 keep["ref"] = ref["total"].astype(np.float16)
+                for roi in ("primary", "silhouette", "material_boundary", "sss_interior", "contact"):
+                    keep[f"mask_{roi}"] = masks[roi]                  # geometry-only ROI masks (reviewer crops)
                 if phys is not None:
                     keep["phys"] = phys[0].astype(np.float16)
                 np.savez_compressed(out / "maps" / f"{key}_spp{spp:02d}.npz", **keep)
