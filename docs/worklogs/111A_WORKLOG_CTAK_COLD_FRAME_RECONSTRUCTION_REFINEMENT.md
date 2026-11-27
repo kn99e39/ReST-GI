@@ -336,3 +336,22 @@ addition made after the Stage B results were seen.
 - **Cost futility (fixed now).** The batch stops before final quality evidence if, on the final timing device, either:
   - S111A's camera-form subsystem is ≥ 0.70× R3's camera form; or
   - its static reconstruction overhead (E2E minus R0 E2E at equal spp) exceeds 4 ms.
+
+## Execution: guard fast start (owner request, 2026-11-27 ~13:55)
+
+- **Request.** The owner asked that a step not wait another 120 s when the GPU was just used by this batch, or had
+  already been idle for 120 s when the guard started.
+- **Monitor.** `gpumon_r111a.py` is a host process with no GPU library. Every 2 s it records, for the RTX 3080 Ti, the
+  last time a compute process outside this batch's `recon111a_*` containers was present.
+  - A foreign process counts only if seen in two consecutive polls and still in `/proc`, the same rule as WL111 fix 1.
+  - The monitor's own start time counts as foreign activity, because the history before it is unknown.
+  - It writes `results/ecro_recon111a/gpumon_ti.json`.
+- **Guard.** `guard_r111a.py` is `guard_r111.py` with `--idle-file`. It starts at once (event `idle_fast`) only if all
+  of these hold:
+  - the monitor is alive (state updated within 10 s);
+  - no foreign process is present;
+  - the last foreign activity is at least `--free` s old;
+  - no tmux session exists.
+  Otherwise the unchanged 120 s wait applies. Preemption, retry and kill behaviour are unchanged.
+- **Scope.** Used by the chains launched from now on. The Stage D chain already running keeps `guard_r111.py`. This
+  changes start latency only, not any evidence.
