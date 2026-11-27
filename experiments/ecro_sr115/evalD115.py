@@ -119,6 +119,8 @@ def streams(root, only=None):
         else:
             prev = {}
         tg = time.perf_counter() - t0
+        import torch, gc                       # execution fix (WL115): release the torch cache before the Dr.Jit readout (VRAM)
+        gc.collect(); torch.cuda.empty_cache()
         ctx = T.Ctx115(v0['g'], 'C'); light = PT.Lights(v0['l'])
         for tag in tags:
             v = V[tag]
@@ -146,6 +148,8 @@ def rebuild(root):
         z = np.load(f)
         Bt = learned_dense(A['B1'], v['g'], v['l']); Bref = np.load(d / f'table_{key}_B1.npy')
         rel = lambda a, b: float(np.abs(a - b).max() / max(np.abs(b).max(), 1e-30))
+        import torch, gc
+        gc.collect(); torch.cuda.empty_cache()
         res[key] = {'CAR1_T4_max_rel': rel(T4, z['T4']), 'CAR1_T16_max_rel': rel(T16, z['T16']) if T16.shape == z['T16'].shape else float('inf'),
                     'CAR1_w_max_abs': float(np.abs(w - z['w']).max()), 'CAR1_pids_equal': bool(np.array_equal(pids, z['pids'])), 'B1_max_rel': rel(Bt, Bref)}
         print('REBUILD', key, res[key], flush=True)
