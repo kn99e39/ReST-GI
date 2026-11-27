@@ -6,5 +6,5 @@ name=$1; shift
 R=$HOME/rest_sss101a
 py=$HOME/NeuralShaderDemo/external/8dna26/.venv/bin/python
 cd "$R/experiments/ecro_recon111a"
-exec "$R/experiments/ecro_recon111/lab70/ctr_r111.sh" "recon111a_$name" env RECON111A_OUT="${RECON111A_OUT:-$R/results/ecro_recon111a}" \
+exec "$R/experiments/ecro_recon111a/lab70/ctr_r111a.sh" "recon111a_$name" env RECON111A_OUT="${RECON111A_OUT:-$R/results/ecro_recon111a}" \
   RECON111A_SMOKE="${RECON111A_SMOKE:-0}" RECON111A_ITERS="${RECON111A_ITERS:-20000}" "$py" "$@"

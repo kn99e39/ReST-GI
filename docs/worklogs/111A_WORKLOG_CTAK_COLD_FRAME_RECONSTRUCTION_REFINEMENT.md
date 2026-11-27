@@ -129,3 +129,24 @@ reduction. No CPU caps of my own. Primary timing is single-process and records c
   - A zero-reference ROI now yields no relative metric instead of an error.
   - The devset step writes its results after every cell.
   - Dev views are therefore Q00–Q04 and Q06–Q07 (7 views). The devset rerun recomputes every cell with the same seeds.
+
+## Execution notes, 2026-11-27 (no evidence affected)
+
+- **Stage A rerun.** It completed at 11:00 KST. All seven dev views produced results; the values are reported in the
+  Stage A results section.
+- **Stage B smoke.** The first smoke stopped at the guide step. My consistency check compared a camera in
+  `engine.cam_dict` form (with `res`) against the manifest form (without it). The cameras are identical. The check was
+  fixed (`75c5274`), the smoke passed, and Stage B started at 11:03. The sub-8 guides were written at 11:03:49.
+- **Device move (owner request, 11:10).** The owner asked me to move to the RTX 3080 Ti once it is free, minding its
+  12 GB of VRAM. It is held by another project's container (`vism_wl119_train_B2`), so I wait.
+  - A host monitor (`tiwatch_r111a.sh`, no GPU use) writes `use_ti` after the 3080 Ti has had no compute process for
+    120 s.
+  - Chain v2 (`chainB2_r111a.sh`) replaced the v1 wrappers. The three running wave-1 training containers were kept, not
+    duplicated.
+  - Device choice per step:
+    - before `use_ti`: the RTX 3090, up to 3 concurrent trainings (6.6 GB each);
+    - after `use_ti`: the RTX 3080 Ti, one process at a time (two trainings would need 13.2 GB), each under
+      `guard_r111.py --gpu-uuid <3080 Ti>`, which yields to any other process.
+  - Each run's device is logged in `devices.txt`.
+  - Mixed devices change only floating-point details of development runs. Primary timing will be measured on one stated
+    device.
