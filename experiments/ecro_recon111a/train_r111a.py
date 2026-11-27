@@ -52,10 +52,10 @@ class Data(T.Data):
         return torch.zeros_like(u) if self.cold else u
 
 
-def main(arm, age, sub, ri, net_kind="ctak"):
+def main(arm, age, sub, ri, net_kind="ctak", seed_override=None):
     data = A.WL111_EVID / "data"
     guide_dir = data / "ladder" if sub == 4 else A.OUT / "ladder8"
-    seed_ = C.P["seeds"]["training_realizations"][ri]
+    seed_ = seed_override if seed_override is not None else C.P["seeds"]["training_realizations"][ri]
     torch.manual_seed(seed_)
     device = "cuda"
     names = sorted(p.stem for p in (data / "ladder").glob("T*.npz") if not p.stem.endswith("_guides"))
@@ -101,5 +101,6 @@ if __name__ == "__main__":
     ap.add_argument("sub", type=int, choices=(4, 8))
     ap.add_argument("ri", type=int, choices=(0, 1))
     ap.add_argument("--net", default="ctak", choices=tuple(RA.NETS))
+    ap.add_argument("--seed", type=int, default=None, help="Stage D: the declared final seed (default: WL111's seed of ri)")
     a = ap.parse_args()
-    main(a.arm, a.age, a.sub, a.ri, a.net)
+    main(a.arm, a.age, a.sub, a.ri, a.net, a.seed)
