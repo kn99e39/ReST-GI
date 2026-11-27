@@ -259,3 +259,34 @@ addition made after the Stage B results were seen.
     and futility before final training.
   - If H3 is not actionable, the batch stops as INCONCLUSIVE.
   - ROI and component effects are reported descriptively.
+
+### H3 control result (2026-11-27 13:41 KST; RTX 3080 Ti; 215,638 parameters; 889 s / 860 s per training)
+
+- **Primary MSE, P4 relative to S111 of the same seed:**
+
+  | spp | r0 | r1 | P4 / R3 |
+  |---|---|---|---|
+  | 1 | 0.858 | 0.756 | 0.94–0.96 |
+  | 2 | 0.819 | 0.724 | 1.04–1.07 |
+  | 4 | **0.792** | **0.690** | 1.10–1.17 |
+  | 8 | 0.767 | 0.671 | 1.14–1.24 |
+
+- **Rule.** At 4 spp both seeds are ≥ 10 % lower, so **H3 is actionable**, and it is the selected mechanism for
+  Stage C.
+- **What changed.**
+  - The reduction is systematic error: bias 1.20 / 1.22 % → 0.99 / 0.88 % at 4 spp.
+  - It comes mainly from LOW (P4 / S111 0.78 / 0.67); HIGH changes less (0.86 / 0.89).
+- **ROIs at 4 spp, P4 / S111.**
+  - Silhouette 0.73 / 0.74, now 1.01–1.07× R3.
+  - Material boundary 0.75 / 0.46, still 1.28–1.37× R3.
+  - Contact 0.45 / 0.78.
+  - Control 0.86 / 0.97.
+  - SSS interior 0.87 / 1.09, still better than R3.
+- **Not closed.** P4 does not close the gap to R3 at equal spp: 1.10–1.17× at 4 spp. Material-boundary bias stays
+  6.8–7.5 %.
+- **Interpretation.** Within this evidence, the cold-frame boundary bias of CT-AK is mainly a predictor limitation: the
+  depth of full-resolution processing.
+  - The operator witness had already shown that the same operator can represent lower boundary bias.
+  - Guide resolution and training distribution did not reduce it.
+- **Confound.** P4 adds capacity (+11 % parameters) and full-resolution receptive field at once. This control does not
+  separate them.
