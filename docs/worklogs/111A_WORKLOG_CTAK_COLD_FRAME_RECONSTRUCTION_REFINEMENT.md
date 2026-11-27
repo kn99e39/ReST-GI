@@ -158,3 +158,81 @@ reduction. No CPU caps of my own. Primary timing is single-process and records c
   - Inside `oracle_r111a.py`, a fit that runs out of memory restarts with chunked gradient accumulation over the fit
     frames (8 → 4 → 2 → 1). The objective is the same frame mean, so only floating-point summation order changes.
     The chunk used is recorded per cell.
+
+## Stage A results (development data; 7 dev views, 64 independent cold frames per view × spp)
+
+- **Identities and replay.** Renderer admission G0 passes. R3 and both S111 checkpoints match their hashes. The WL111
+  static-item replay is exact. Stage B's paired rerun reproduces Stage A's S111 cells bitwise (primary MSE identical).
+- **Bias / variance, pooled primary ROI, TOTAL.** "bias" is the root of the debiased squared expectation error, "share"
+  is bias² / MSE; all values are relative.
+
+  | spp | R3 RMSE / bias (share) | S111 r0 | S111 r1 | MSE S111 / R3 |
+  |---|---|---|---|---|
+  | 1 | 2.30 % / 1.02 % (0.20) | 2.43 / 1.57 (0.42) | 2.57 / 1.64 (0.41) | 1.11 / 1.24 |
+  | 2 | 1.72 / 0.86 (0.25) | 1.97 / 1.38 (0.49) | 2.06 / 1.42 (0.47) | 1.31 / 1.44 |
+  | 4 | 1.32 / 0.75 (0.32) | 1.61 / 1.20 (0.56) | 1.67 / 1.22 (0.54) | 1.48 / 1.60 |
+  | 8 | 1.04 / 0.66 (0.40) | 1.33 / 1.04 (0.62) | 1.36 / 1.04 (0.58) | 1.62 / 1.70 |
+
+- **The deficit is systematic.** At every spp the variance of S111 equals R3's (std ≈ 1.07–1.09 % at 4 spp), and the
+  whole MSE excess is squared expectation error. The ratio grows with spp as noise falls.
+- **Where it sits (4 spp).** MSE S111 / R3, with bias R3 → S111:
+
+  | ROI | MSE S111 / R3 | Bias R3 → S111 |
+  |---|---|---|
+  | Material boundary | 1.8–2.8 | 5.8 → 9.0–11.2 % |
+  | Contact | 2.0–2.7 | 3.8 → 7.7–9.5 % |
+  | Silhouette | 1.4–1.5 | |
+  | Control | 1.2–1.3 | 0.18 → 0.30–0.34 % |
+  | SSS interior | 0.8–0.9 | S111 better |
+
+- **By component.** The excess is mostly in LOW: bias share 0.59–0.63 against R3's 0.37. HIGH differs little.
+
+## Stage B results (development data, paired with Stage A seeds)
+
+**Matched H1 × H4 factorial.**
+- **Setup.**
+  - Same architecture, data stream, loss, schedule and seeds as WL111.
+  - Initial weights equal WL111's in all 6 runs (hash check).
+  - Training time 2,190–2,524 s each, 3 concurrent on the RTX 3090.
+- **Primary MSE at 4 spp, relative to S111 of the same seed:**
+
+  | Cell | r0 | r1 |
+  |---|---|---|
+  | C4 (cold-only, sub 4) | 1.000 | 0.790 |
+  | M8 (mixed, sub 8) | 1.015 | 1.103 |
+  | C8 (cold-only, sub 8) | 0.977 | 0.901 |
+  | R3 (reference) | 0.675 | — |
+
+- **Other spp.** The same pattern holds at 1, 2 and 8 spp: no cell improves both seeds by ≥ 10 %.
+- **Effect at the localized ROIs (4 spp).** Material boundary C4 0.91 / 0.58, C8 0.95 / 0.63. Contact C4 0.76 / 1.02,
+  C8 0.88 / 0.70. These are seed-dependent, and every cell stays 1.3–2.3× R3 on boundary ROIs.
+- **Seed effect.** The seed-to-seed difference within a cell (up to 0.21) is as large as any factor effect.
+
+**Operator capacity witnesses (H2).**
+- **Setup.** 7 dev views, 256² crops around the sphere, 8 fit + 8 held-out frames, 600 Adam steps. Both oracles stayed in
+  chunk 8: no OOM.
+- **Overfitting.** Both non-adaptive oracles overfit the fit frames (fit RMSE 0.0–0.9 %). Their held-out variance is
+  inflated, R3's 225-tap oracle most: held-out std 2.66 % vs CT-AK oracle 1.42 % at 4 spp primary.
+- **Held-out expectation error at 4 spp.** "Oracle" values are CT-AK / R3; "learned" values are S111 r0 / r1 / R3.
+
+  | ROI | Oracle bias | Learned bias |
+  |---|---|---|
+  | Primary | 0.59 / 0.75 % | 1.17 / 1.00 / 0.83 % |
+  | Silhouette | 2.12 / 2.12 % | 5.15 / 5.92 / 4.04 % |
+  | Material boundary | 1.76 / 1.87 % | 6.62 / 8.10 / 4.31 % |
+
+  At 1 spp the ordering is the same.
+- **Reading.** The composed CT-AK operator represents boundary expectations as well as R3's dense operator (bias equal
+  or lower in every ROI). Its held-out total error is also lower: primary 1.53 % vs 2.77 %. So H2 is not actionable by
+  the predeclared rule. The witnesses are not certificates, and their overfitting differs.
+
+**Status against the predeclared selection rule.**
+- No matched control reduces dev primary MSE at 4 spp by ≥ 10 % in both seeds: H1 no, H4 no. H2 is not actionable.
+- **H3 has no matched control yet.** My Stage B plan assessed it only through the oracle gap, which is large: S111's
+  boundary bias is 3–5× what the same operator family can represent. Neither guides nor training distribution closes
+  that gap.
+- **Observation, not yet evidence for a mechanism.** CT-AK's predictor has one full-resolution 3×3 convolution (the stem)
+  and reaches full resolution otherwise only through bilinear upsampling and 1×1 layers. R3's U-Nets have four
+  full-resolution 3×3 convolutions per component.
+- **Decision point (owner).** Either stop here as INCONCLUSIVE by the rule as written, or run one additional labelled
+  Stage B control for H3 with a rule fixed before it runs.
