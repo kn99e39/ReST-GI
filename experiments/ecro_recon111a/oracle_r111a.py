@@ -61,19 +61,42 @@ def rel_loss(y, t):
     return ((y - t) ** 2 / (t ** 2 + 0.01)).mean()
 
 
-def fit(params, forward, tgt, steps, lr):
-    params = params.detach().clone().requires_grad_(True)
-    opt = torch.optim.Adam([params], lr=lr)
-    trace = []
-    for s in range(steps):
-        lo, hi = forward(params)
-        loss = rel_loss(lo, tgt["low"]) + rel_loss(hi, tgt["high"])
-        opt.zero_grad(set_to_none=True)
-        loss.backward()
-        opt.step()
-        if s % 50 == 0 or s == steps - 1:
-            trace.append([s, float(loss)])
-    return params.detach(), trace
+def fit(params, forward, tgt, steps, lr, nframes):
+    """Adam on the mean over the fit frames of the relative component loss. The frames are processed in chunks with
+    gradient accumulation; on CUDA out-of-memory the fit restarts from the same start with half the chunk size
+    (8 -> 4 -> 2 -> 1). The objective is the same in every case (a frame mean), so the chunk size changes only
+    floating-point summation order. -> (params, trace, chunk used)."""
+    chunk = nframes
+    while True:
+        p = opt = None
+        try:
+            p = params.detach().clone().requires_grad_(True)
+            opt = torch.optim.Adam([p], lr=lr)
+            trace = []
+            for s in range(steps):
+                opt.zero_grad(set_to_none=True)
+                tot = 0.0
+                for a in range(0, nframes, chunk):
+                    lo, hi = forward(p, a, a + chunk)
+                    loss = (rel_loss(lo, tgt["low"]) + rel_loss(hi, tgt["high"])) * (lo.shape[0] / nframes)
+                    loss.backward()
+                    tot += float(loss)
+                opt.step()
+                if s % 50 == 0 or s == steps - 1:
+                    trace.append([s, tot])
+            return p.detach(), trace, chunk
+        except torch.cuda.OutOfMemoryError:
+            if chunk == 1:
+                raise
+        p = opt = lo = hi = loss = None        # outside the except block, so the traceback's frame references are gone
+        torch.cuda.empty_cache()
+        chunk //= 2
+        log("CUDA OOM in oracle fit: retrying with chunk", chunk)
+
+
+def chunked(forward, p, n, chunk):
+    outs = [forward(p, a, a + chunk) for a in range(0, n, chunk)]
+    return torch.cat([o[0] for o in outs]), torch.cat([o[1] for o in outs])
 
 
 def score(outs, ref, var_ref, masks, n):
@@ -135,24 +158,27 @@ def main(views, steps):
             fitL = torch.stack(lows[:K_FIT]).float()
             fitH = torch.stack(highs[:K_FIT]).float()
 
-            def ctak_fwd(p, L=fitL, Hh=fitH):
-                pe = p.expand(L.shape[0], -1, -1, -1)
-                return RC.spatial_ref(L, Hh, pe)
+            def ctak_fwd(p, a, b, L=fitL, Hh=fitH):
+                l, h = L[a:b], Hh[a:b]
+                return RC.spatial_ref(l, h, p.expand(l.shape[0], -1, -1, -1))
 
-            def r3_fwd(p, L=fitL, Hh=fitH):
-                return (dense_apply(L, p[0:1].expand(L.shape[0], -1, -1, -1)),
-                        dense_apply(Hh, p[1:2].expand(Hh.shape[0], -1, -1, -1)))
+            def r3_fwd(p, a, b, L=fitL, Hh=fitH):
+                l, h = L[a:b], Hh[a:b]
+                return (dense_apply(l, p[0:1].expand(l.shape[0], -1, -1, -1)),
+                        dense_apply(h, p[1:2].expand(h.shape[0], -1, -1, -1)))
 
-            pc, tr_c = fit(lg_c, ctak_fwd, tgt, steps, 0.05)
-            pr, tr_r = fit(lg_r, r3_fwd, tgt, steps, 0.05)
-            cell = {"traces": {"CTAK_oracle": tr_c, "R3_oracle": tr_r}}
+            pc, tr_c, ch_c = fit(lg_c, ctak_fwd, tgt, steps, 0.05, K_FIT)
+            pr, tr_r, ch_r = fit(lg_r, r3_fwd, tgt, steps, 0.05, K_FIT)
+            cell = {"traces": {"CTAK_oracle": tr_c, "R3_oracle": tr_r}, "chunks": {"CTAK_oracle": ch_c, "R3_oracle": ch_r}}
             with torch.no_grad():
                 tl = torch.stack(lows[K_FIT:]).float()
                 th = torch.stack(highs[K_FIT:]).float()
-                oc = ctak_fwd(pc, tl, th)
-                orr = r3_fwd(pr, tl, th)
-                fc = ctak_fwd(pc)
-                fr_ = r3_fwd(pr)
+                test_c = lambda p, a, b: ctak_fwd(p, a, b, tl, th)
+                test_r = lambda p, a, b: r3_fwd(p, a, b, tl, th)
+                oc = chunked(test_c, pc, K_TEST, ch_c)
+                orr = chunked(test_r, pr, K_TEST, ch_r)
+                fc = chunked(ctak_fwd, pc, K_FIT, ch_c)
+                fr_ = chunked(r3_fwd, pr, K_FIT, ch_r)
             to_np = lambda t: [(t[0][i].double().cpu().numpy(), t[1][i].double().cpu().numpy()) for i in range(t[0].shape[0])]
             cell["test"] = {"CTAK_oracle": score(to_np(oc), ref, var_ref, masks, K_TEST),
                             "R3_oracle": score(to_np(orr), ref, var_ref, masks, K_TEST),

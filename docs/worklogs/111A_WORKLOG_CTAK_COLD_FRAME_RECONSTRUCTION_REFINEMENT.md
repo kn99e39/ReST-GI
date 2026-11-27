@@ -150,3 +150,11 @@ reduction. No CPU caps of my own. Primary timing is single-process and records c
   - Each run's device is logged in `devices.txt`.
   - Mixed devices change only floating-point details of development runs. Primary timing will be measured on one stated
     device.
+- **CUDA out-of-memory handling (owner request, 11:22).** Chain v3 (`chainB3_r111a.sh`) replaced the v2 wrapper. No v2
+  launch was in flight, and the wave-1 containers were kept.
+  - Any step whose log shows a CUDA OOM is retried after 120 s, up to 3 times. OOM retries do not count as failures.
+    The OOM log is kept as `<step>_oom<k>.log`.
+  - Training batch sizes are WL111's and never change.
+  - Inside `oracle_r111a.py`, a fit that runs out of memory restarts with chunked gradient accumulation over the fit
+    frames (8 → 4 → 2 → 1). The objective is the same frame mean, so only floating-point summation order changes.
+    The chunk used is recorded per cell.
