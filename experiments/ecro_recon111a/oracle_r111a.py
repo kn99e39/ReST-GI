@@ -161,7 +161,7 @@ def main(views, steps):
                            "R3_oracle": score(to_np(fr_), ref, var_ref, masks, K_FIT)}
             res["views"][v][str(spp)] = cell
             log("oracle", v, spp, round(time.perf_counter() - t0, 1), "s",
-                {a: round(cell["test"][a]["total"]["primary"]["rel_rmse"], 4) for a in cell["test"]})
+                {a: round(cell["test"][a]["total"]["primary"]["rel_rmse"] or 0.0, 4) for a in cell["test"]})
             del frames
             torch.cuda.empty_cache()
         C.write(out / "oracle.json", res)
@@ -170,7 +170,7 @@ def main(views, steps):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser()
-    ap.add_argument("--views", default=",".join(A.DEV_VIEWS))
+    ap.add_argument("--views", default=",".join(A.DEV_USED))
     ap.add_argument("--steps", type=int, default=600)
     a = ap.parse_args()
     main(a.views.split(","), a.steps)

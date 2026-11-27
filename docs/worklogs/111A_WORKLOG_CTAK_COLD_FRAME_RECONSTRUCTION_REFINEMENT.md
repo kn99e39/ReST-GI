@@ -112,3 +112,20 @@ reduction. No CPU caps of my own. Primary timing is single-process and records c
 - Among actionable hypotheses, the one with the largest pooled reduction is selected, subject to its predeclared cost
   consequence. Cost futility is declared in Stage C.
 - If none is actionable, the batch stops as INCONCLUSIVE.
+
+## Stage A, first run: stopped by a zero-reference view (2026-11-26 22:19 KST)
+
+- **Completed before the stop.** Identities passed: renderer admission G0, R3 and S111 hashes, S111 hashes equal to
+  their WL111 training logs. The WL111 static-item replay (V0, 4 spp, replicate 0, frame 1) is exact for R3, S0 and S1
+  in every ROI. All 8 dev references were built.
+- **The stop.** The devset step stopped at Q05 with a division by zero in the relative metrics.
+- **Cause.**
+  - Q05 renders an empty image. Its WL105 4,096-spp target is all zero as well, so the camera sees no geometry. This is a
+    pre-existing property of the WL105 validation set, not a renderer or GPU fault.
+  - A fresh 4-spp frame confirms it: the mean is 0.0 for Q05, against 1.036 for Q04 and 0.772 for Q06, both equal to their
+    WL105 targets.
+- **Correction (a code defect, before any attribution evidence).**
+  - Q05 is excluded from the dev set (`DEV_EMPTY`). It keeps its index, so the other views' seeds do not move.
+  - A zero-reference ROI now yields no relative metric instead of an error.
+  - The devset step writes its results after every cell.
+  - Dev views are therefore Q00–Q04 and Q06–Q07 (7 views). The devset rerun recomputes every cell with the same seeds.

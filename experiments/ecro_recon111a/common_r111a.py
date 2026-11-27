@@ -21,6 +21,10 @@ OUT = Path(os.environ.get("RECON111A_OUT", str(Path.home() / "rest_sss101a" / "r
 WL111_EVID = C.ROOT / "evidence"
 DEV_VIEWS = tuple(f"Q{i:02d}" for i in range(8))
 DEV_SPP = (1, 2, 4, 8)
+# Q05 renders empty (its WL105 4096-spp target is all zero: the camera sees no geometry); it is skipped everywhere and keeps
+# its index so that the seeds of the other views do not move.
+DEV_EMPTY = ("Q05",)
+DEV_USED = tuple(v for v in DEV_VIEWS if v not in DEV_EMPTY)
 
 FAMILIES = {"devref": 30_000_000, "devset": 31_000_000, "smoke": 39_000_000}
 
@@ -63,6 +67,7 @@ def decompose(mean, var, n, ref, var_ref, mask):
     vr = float(var_ref[:, mask].mean())
     r2 = float((ref[:, mask] ** 2).mean())
     bias2 = d2 - v / n - vr
+    rel = (lambda x: math.sqrt(max(x, 0.0) / r2)) if r2 > 0 else (lambda x: None)      # an all-zero reference ROI has no relative error
     return {"bias2": bias2, "var": v, "mse": bias2 + v, "ref2": r2, "var_ref": vr,
-            "rel_rmse": math.sqrt(max(bias2 + v, 0.0) / r2), "rel_bias_rms": math.sqrt(max(bias2, 0.0) / r2),
-            "rel_std": math.sqrt(v / r2), "bias_share": bias2 / (bias2 + v) if bias2 + v > 0 else None, "n_pix": int(mask.sum())}
+            "rel_rmse": rel(bias2 + v), "rel_bias_rms": rel(bias2), "rel_std": rel(v),
+            "bias_share": bias2 / (bias2 + v) if bias2 + v > 0 else None, "n_pix": int(mask.sum())}

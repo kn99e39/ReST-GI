@@ -154,8 +154,9 @@ def devset(eng, cams, out, n, smoke, rec=None, label="devset", only=None):
     """Bias / variance over n independent cold frames per (view, spp). rec: a Recons; only: restrict to these arms."""
     rec = rec or Recons()
     res = {}
-    views = A.DEV_VIEWS[:2] if smoke else A.DEV_VIEWS
-    for vi, v in enumerate(views):
+    views = A.DEV_USED[:2] if smoke else A.DEV_USED
+    for v in views:
+        vi = A.DEV_VIEWS.index(v)
         ref, var_ref, aux = load_devref(v)
         masks = C.rois(aux)
         cam = cams[v]
@@ -191,8 +192,9 @@ def devset(eng, cams, out, n, smoke, rec=None, label="devset", only=None):
                     np.savez_compressed(out / f"maps_{v}_spp{spp}_{arm}.npz", mean=m.astype(np.float16), var=s2.astype(np.float16),
                                         ref=ref["total"].astype(np.float16))
             res.setdefault(v, {})[str(spp)] = cell
+            C.write(out / f"{label}.partial.json", {"n": n, "cells": res})
             log(label, v, spp, round(time.perf_counter() - t0, 1), "s",
-                {a: round(cell[a]["total"]["primary"]["rel_rmse"], 4) for a in cell})
+                {a: round(cell[a]["total"]["primary"]["rel_rmse"] or 0.0, 4) for a in cell})
     C.write(out / f"{label}.json", {"n": n, "views": list(views), "spp": list(A.DEV_SPP), "cells": res})
     return res
 
